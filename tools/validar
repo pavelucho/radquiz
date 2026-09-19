@@ -1,0 +1,590 @@
+#!/usr/bin/env python3
+"""Validador de paquetes de RadQuiz.
+
+Uso:
+    tools/validar                      valida todos los paquetes de temas/
+    tools/validar temas/torax/mi-tema  valida solo esa carpeta
+    tools/validar --estricto           los avisos también cuentan como errores
+    tools/validar --indice             si no hay errores, escribe temas/indice.json para la app
+
+No necesita instalar nada: usa solo la biblioteca estándar de Python 3.9 o superior.
+Los esquemas de schema/ son JSON Schema estándar (draft 2020-12); aquí se aplica el
+subconjunto de palabras clave que usan, y el validador se niega a correr si un esquema
+usa una palabra clave que no sabe aplicar.
+
+Qué es error y qué es aviso:
+- Error: algo roto o prohibido (formato, imagen que falta o pesa demasiado, respuesta
+  fuera de rango, HTML en los textos, fuente bloqueada, figura ND modificada...).
+- Aviso: algo pendiente o sospechoso. En un caso «borrador» lo pendiente es aviso;
+  en «revisado» o «publicado» pasa a ser error.
+"""
+
+import argparse
+import datetime
+import json
+import re
+import sys
+from pathlib import Path
+from urllib.parse import urlparse
+
+RAIZ = Path(__file__).resolve().parent.parent
+CARPETA_ESQUEMAS = RAIZ / "schema"
+CARPETA_TEMAS = RAIZ / "temas"
+CONFIG = json.loads((RAIZ / "tools" / "config.json").read_text(encoding="utf-8"))
+LETRAS = "ABCDE"
+
+
+# ---------------------------------------------------------------------------
+# Subconjunto de JSON Schema (draft 2020-12)
+# ---------------------------------------------------------------------------
+
+ANOTACIONES = {"$schema", "$id", "$defs", "title", "description", "default", "examples", "$comment"}
+PALABRAS_SOPORTADAS = ANOTACIONES | {
+    "type", "enum", "const", "properties", "required", "additionalProperties", "propertyNames",
+    "minProperties", "items", "minItems", "maxItems", "uniqueItems", "minLength", "maxLength",
+    "pattern", "minimum", "maximum", "$ref", "anyOf", "format",
+}
+NOMBRE_TIPO = {
+    "string": "texto", "integer": "número entero", "number": "número", "boolean": "true/false",
+    "object": "objeto", "array": "lista", "null": "null",
+}
+
+
+def es_tipo(valor, tipo):
+    if tipo == "string":
+        return isinstance(valor, str)
+    if tipo == "integer":
+        return isinstance(valor, int) and not isinstance(valor, bool)
+    if tipo == "number":
+        return isinstance(valor, (int, float)) and not isinstance(valor, bool)
+    if tipo == "boolean":
+        return isinstance(valor, bool)
+    if tipo == "object":
+        return isinstance(valor, dict)
+    if tipo == "array":
+        return isinstance(valor, list)
+    if tipo == "null":
+        return valor is None
+    raise ValueError("tipo desconocido en el esquema: " + tipo)
+
+
+def fecha_valida(texto):
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", texto):
+        return False
+    try:
+        datetime.date.fromisoformat(texto)
+        return True
+    except ValueError:
+        return False
+
+
+def canonico(valor):
+    return json.dumps(valor, sort_keys=True, ensure_ascii=False)
+
+
+class Esquemas:
+    def __init__(self, carpeta):
+        self.docs = {}
+        for ruta in sorted(carpeta.glob("*.schema.json")):
+            self.docs[ruta.name] = json.loads(ruta.read_text(encoding="utf-8"))
+        for nombre, doc in self.docs.items():
+            self._revisar_palabras(doc, nombre)
+
+    def _revisar_palabras(self, nodo, donde):
+        if not isinstance(nodo, dict):
+            return
+        desconocidas = set(nodo) - PALABRAS_SOPORTADAS
+        if desconocidas:
+            raise SystemExit(
+                "El esquema %s usa palabras clave que este validador no aplica: %s"
+                % (donde, ", ".join(sorted(desconocidas)))
+            )
+        for clave in ("properties", "$defs"):
+            for sub in nodo.get(clave, {}).values():
+                self._revisar_palabras(sub, donde)
+        for clave in ("additionalProperties", "propertyNames", "items"):
+            if isinstance(nodo.get(clave), dict):
+                self._revisar_palabras(nodo[clave], donde)
+        for sub in nodo.get("anyOf", []):
+            self._revisar_palabras(sub, donde)
+
+    def resolver(self, ref, doc_actual):
+        archivo, _, fragmento = ref.partition("#")
+        doc = self.docs[archivo] if archivo else doc_actual
+        nodo = doc
+        for parte in [p for p in fragmento.split("/") if p]:
+            nodo = nodo[parte]
+        return nodo, doc
+
+    def validar(self, valor, nombre_esquema):
+        doc = self.docs[nombre_esquema]
+        errores = []
+        self._validar(valor, doc, doc, "", errores)
+        return errores
+
+    def _validar(self, valor, esq, doc, ruta, errores):
+        if "$ref" in esq:
+            sub, sub_doc = self.resolver(esq["$ref"], doc)
+            self._validar(valor, sub, sub_doc, ruta, errores)
+
+        if "type" in esq:
+            tipos = esq["type"] if isinstance(esq["type"], list) else [esq["type"]]
+            if not any(es_tipo(valor, t) for t in tipos):
+                errores.append((ruta, "se esperaba " + " o ".join(NOMBRE_TIPO[t] for t in tipos)))
+                return
+
+        if "enum" in esq and valor not in esq["enum"]:
+            permitidos = ", ".join("null" if v is None else str(v) for v in esq["enum"])
+            errores.append((ruta, "«%s» no es un valor permitido (%s)" % (valor, permitidos)))
+        if "const" in esq and valor != esq["const"]:
+            errores.append((ruta, "debe ser «%s»" % esq["const"]))
+
+        if "anyOf" in esq:
+            if not any(not self._subvalidar(valor, sub, doc, ruta) for sub in esq["anyOf"]):
+                errores.append((ruta, "no coincide con ninguna de las formas permitidas"))
+
+        if isinstance(valor, str):
+            if "minLength" in esq and len(valor) < esq["minLength"]:
+                errores.append((ruta, "texto demasiado corto (mínimo %d caracteres)" % esq["minLength"]))
+            if "maxLength" in esq and len(valor) > esq["maxLength"]:
+                errores.append((ruta, "texto demasiado largo (%d de %d caracteres)" % (len(valor), esq["maxLength"])))
+            if "pattern" in esq and not re.search(esq["pattern"], valor):
+                errores.append((ruta, "«%s» no tiene el formato esperado" % valor))
+            if esq.get("format") == "date" and not fecha_valida(valor):
+                errores.append((ruta, "«%s» no es una fecha AAAA-MM-DD válida" % valor))
+
+        if es_tipo(valor, "number"):
+            if "minimum" in esq and valor < esq["minimum"]:
+                errores.append((ruta, "debe ser ≥ %s" % esq["minimum"]))
+            if "maximum" in esq and valor > esq["maximum"]:
+                errores.append((ruta, "debe ser ≤ %s" % esq["maximum"]))
+
+        if isinstance(valor, list):
+            if "minItems" in esq and len(valor) < esq["minItems"]:
+                errores.append((ruta, "necesita al menos %d elementos" % esq["minItems"]))
+            if "maxItems" in esq and len(valor) > esq["maxItems"]:
+                errores.append((ruta, "admite como máximo %d elementos" % esq["maxItems"]))
+            if esq.get("uniqueItems"):
+                vistos = set()
+                for elem in valor:
+                    c = canonico(elem)
+                    if c in vistos:
+                        errores.append((ruta, "elemento repetido: %s" % c))
+                    vistos.add(c)
+            if isinstance(esq.get("items"), dict):
+                for i, elem in enumerate(valor):
+                    self._validar(elem, esq["items"], doc, "%s[%d]" % (ruta, i), errores)
+
+        if isinstance(valor, dict):
+            for campo in esq.get("required", []):
+                if campo not in valor:
+                    errores.append((ruta, "falta el campo obligatorio «%s»" % campo))
+            if "minProperties" in esq and len(valor) < esq["minProperties"]:
+                errores.append((ruta, "necesita al menos %d entradas" % esq["minProperties"]))
+            props = esq.get("properties", {})
+            for clave, sub_valor in valor.items():
+                sub_ruta = "%s.%s" % (ruta, clave) if ruta else clave
+                if "propertyNames" in esq and self._subvalidar(clave, esq["propertyNames"], doc, sub_ruta):
+                    errores.append((sub_ruta, "nombre de clave no permitido"))
+                if clave in props:
+                    self._validar(sub_valor, props[clave], doc, sub_ruta, errores)
+                elif "additionalProperties" in esq:
+                    extra = esq["additionalProperties"]
+                    if extra is False:
+                        errores.append((sub_ruta, "campo no permitido"))
+                    elif isinstance(extra, dict):
+                        self._validar(sub_valor, extra, doc, sub_ruta, errores)
+
+    def _subvalidar(self, valor, esq, doc, ruta):
+        errores = []
+        self._validar(valor, esq, doc, ruta, errores)
+        return errores
+
+
+# ---------------------------------------------------------------------------
+# Imágenes JPEG (sin bibliotecas externas)
+# ---------------------------------------------------------------------------
+
+MARCADORES_SOF = {0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF}
+
+
+def leer_jpeg(ruta):
+    """Devuelve (ancho, alto, tiene_exif) o None si no es un JPEG legible."""
+    datos = ruta.read_bytes()
+    if not datos.startswith(b"\xff\xd8"):
+        return None
+    i, ancho, alto, exif = 2, None, None, False
+    while i + 4 <= len(datos):
+        if datos[i] != 0xFF:
+            return None
+        marcador = datos[i + 1]
+        if marcador == 0xFF:
+            i += 1
+            continue
+        if marcador == 0x01 or 0xD0 <= marcador <= 0xD7:
+            i += 2
+            continue
+        largo = int.from_bytes(datos[i + 2:i + 4], "big")
+        if marcador in MARCADORES_SOF:
+            alto = int.from_bytes(datos[i + 5:i + 7], "big")
+            ancho = int.from_bytes(datos[i + 7:i + 9], "big")
+        if marcador == 0xE1 and datos[i + 4:i + 8] in (b"Exif", b"http"):
+            exif = True
+        if marcador == 0xDA:
+            break
+        i += 2 + largo
+    if ancho is None:
+        return None
+    return ancho, alto, exif
+
+
+# ---------------------------------------------------------------------------
+# Reporte
+# ---------------------------------------------------------------------------
+
+class Reporte:
+    def __init__(self):
+        self.lineas = []
+        self.errores = 0
+        self.avisos = 0
+
+    def error(self, donde, mensaje):
+        self.errores += 1
+        self.lineas.append(("ERROR", donde, mensaje))
+
+    def aviso(self, donde, mensaje):
+        self.avisos += 1
+        self.lineas.append(("AVISO", donde, mensaje))
+
+    def pendiente(self, estricto, donde, mensaje):
+        """Pendiente: aviso en borrador, error en revisado/publicado."""
+        (self.error if estricto else self.aviso)(donde, mensaje)
+
+    def imprimir(self, titulo):
+        print(titulo)
+        if not self.lineas:
+            print("  sin observaciones")
+        for nivel, donde, mensaje in self.lineas:
+            print("  %-5s  %-18s %s" % (nivel, donde, mensaje))
+
+
+# ---------------------------------------------------------------------------
+# Reglas de contenido
+# ---------------------------------------------------------------------------
+
+HTML = re.compile(r"</?[a-zA-Z][^>]*>|&[a-zA-Z]+;|&#[0-9]+;")
+CAMPOS_TEXTO = ("enunciado", "explicacion", "perla")
+CAMPOS_PANEL = ("plano", "secuencia", "condicion")
+CAMPOS_IMAGEN = ("leyenda_original", "modalidad", "paneles", "marcas")
+URL_LICENCIA = {
+    "CC0 1.0": "/publicdomain/zero/1.0",
+    "CC BY 4.0": "/licenses/by/4.0", "CC BY-SA 4.0": "/licenses/by-sa/4.0",
+    "CC BY-NC 4.0": "/licenses/by-nc/4.0", "CC BY-NC-SA 4.0": "/licenses/by-nc-sa/4.0",
+    "CC BY-NC-ND 4.0": "/licenses/by-nc-nd/4.0",
+    "CC BY 3.0": "/licenses/by/3.0", "CC BY-SA 3.0": "/licenses/by-sa/3.0",
+    "CC BY-NC 3.0": "/licenses/by-nc/3.0", "CC BY-NC-SA 3.0": "/licenses/by-nc-sa/3.0",
+    "CC BY-NC-ND 3.0": "/licenses/by-nc-nd/3.0",
+}
+
+
+def cargar_json(ruta, rep):
+    try:
+        return json.loads(ruta.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        rep.error(ruta.name, "no existe")
+    except json.JSONDecodeError as e:
+        rep.error(ruta.name, "JSON inválido en la línea %d, columna %d: %s" % (e.lineno, e.colno, e.msg))
+    return None
+
+
+def dominio(url):
+    return (urlparse(url).hostname or "").lower()
+
+
+def pertenece(host, dominios):
+    return any(host == d or host.endswith("." + d) for d in dominios)
+
+
+def donde_esquema(ruta, casos):
+    """Traduce «casos[8].opciones» a «atm-09 · opciones» para leer mejor el reporte."""
+    m = re.match(r"casos\[(\d+)\]\.?(.*)", ruta)
+    if m and casos and int(m.group(1)) < len(casos) and isinstance(casos[int(m.group(1))], dict):
+        caso_id = casos[int(m.group(1))].get("id", "caso %s" % m.group(1))
+        return caso_id, m.group(2)
+    return "paquete", ruta
+
+
+def pendientes_imagen(img):
+    faltan = [c for c in CAMPOS_IMAGEN if c not in img]
+    for p in img.get("paneles", []) or []:
+        faltan += ["panel %s: %s" % (p.get("id", "?"), c) for c in CAMPOS_PANEL if c not in p]
+    return faltan
+
+
+def pendientes_fuente(f):
+    faltan = []
+    if f.get("licencia") == "Por confirmar":
+        faltan.append("licencia por confirmar")
+    if not f.get("licencia_url"):
+        faltan.append("licencia_url")
+    if not f.get("verificacion"):
+        faltan.append("verificación de la licencia")
+    return faltan
+
+
+def validar_fuentes(fuentes, citadas, rep):
+    for fid, f in fuentes.items():
+        if fid == "$schema" or not isinstance(f, dict):
+            continue
+        if fid not in citadas:
+            rep.aviso(fid, "ninguna imagen ni evidencia cita esta fuente")
+        host = dominio(f.get("url", ""))
+        if pertenece(host, CONFIG["dominios_bloqueados"]):
+            rep.error(fid, "la fuente %s es de un sitio no permitido (contenido con copyright)" % host)
+        elif host and not pertenece(host, CONFIG["dominios_conocidos"]):
+            rep.aviso(fid, "sitio %s no está en la lista de fuentes conocidas: confirmar licencia a mano" % host)
+        if f.get("tipo") == "articulo" and not f.get("doi"):
+            rep.error(fid, "un artículo debe tener DOI")
+        licencia = f.get("licencia", "")
+        if "ND" in licencia and f.get("modificaciones_permitidas"):
+            rep.error(fid, "licencia %s: modificaciones_permitidas debe ser false" % licencia)
+        esperado = URL_LICENCIA.get(licencia)
+        if esperado and f.get("licencia_url") and esperado not in f["licencia_url"]:
+            rep.aviso(fid, "licencia_url no corresponde a %s" % licencia)
+        faltan = pendientes_fuente(f)
+        if faltan:
+            rep.aviso(fid, "pendiente: " + ", ".join(faltan))
+
+
+def validar_imagenes(carpeta, imagenes, fuentes, usadas, rep):
+    carpeta_img = carpeta / "img"
+    limite_px = CONFIG["imagen"]["lado_mayor_max_px"]
+    limite_kb = CONFIG["imagen"]["peso_max_kb"]
+    tecnicas = set(CONFIG["modificaciones_tecnicas"])
+    archivos_catalogo = set()
+    for iid, img in imagenes.items():
+        if not isinstance(img, dict):
+            continue
+        archivo = img.get("archivo", "")
+        archivos_catalogo.add(archivo)
+        fuente = fuentes.get(img.get("fuente"))
+        if fuente is None:
+            rep.error(iid, "la fuente «%s» no está en fuentes.json" % img.get("fuente"))
+        elif not fuente.get("modificaciones_permitidas", False):
+            prohibidas = set(img.get("modificaciones", [])) - tecnicas
+            if prohibidas:
+                rep.error(iid, "la licencia no permite modificar la figura (%s)" % ", ".join(sorted(prohibidas)))
+        ruta = carpeta_img / archivo
+        if not ruta.is_file():
+            rep.error(iid, "no existe img/%s" % archivo)
+        else:
+            info = leer_jpeg(ruta)
+            peso_kb = ruta.stat().st_size / 1024
+            if info is None:
+                rep.error(iid, "img/%s no es un JPEG válido" % archivo)
+            else:
+                ancho, alto, exif = info
+                if max(ancho, alto) > limite_px:
+                    rep.error(iid, "%s mide %d×%d px; el lado mayor debe ser ≤ %d" % (archivo, ancho, alto, limite_px))
+                if exif:
+                    rep.aviso(iid, "%s trae metadatos EXIF/XMP: quitarlos antes de publicar" % archivo)
+            if peso_kb > limite_kb:
+                rep.error(iid, "%s pesa %.0f KB; máximo %d KB" % (archivo, peso_kb, limite_kb))
+        faltan = pendientes_imagen(img)
+        if faltan:
+            rep.aviso(iid, "ficha técnica pendiente: " + ", ".join(faltan))
+        if iid not in usadas:
+            rep.aviso(iid, "ningún caso usa esta imagen")
+    if carpeta_img.is_dir():
+        for ruta in sorted(carpeta_img.iterdir()):
+            if ruta.is_file() and not ruta.name.startswith(".") and ruta.name not in archivos_catalogo:
+                rep.aviso("img/", "%s no está en el catálogo de imágenes" % ruta.name)
+
+
+def validar_caso(caso, paquete_id, imagenes, fuentes, ids_globales, rep):
+    cid = caso.get("id", "?")
+    estado = caso.get("estado")
+    exigente = estado in ("revisado", "publicado")
+
+    id_global = "%s/%s" % (paquete_id, cid)
+    if id_global in ids_globales:
+        rep.error(cid, "id repetido (%s ya existe)" % id_global)
+    ids_globales.add(id_global)
+
+    opciones = caso.get("opciones", [])
+    correcta = caso.get("correcta")
+    if isinstance(correcta, int) and opciones and correcta >= len(opciones):
+        rep.error(cid, "«correcta» = %d pero solo hay %d opciones" % (correcta, len(opciones)))
+    normalizadas = [o.strip().lower() for o in opciones if isinstance(o, str)]
+    if len(set(normalizadas)) != len(normalizadas):
+        rep.error(cid, "hay opciones repetidas")
+    if len(opciones) == 4:
+        rep.aviso(cid, "tiene 4 opciones; la guía de estilo pide 5")
+
+    textos = [(c, caso.get(c)) for c in CAMPOS_TEXTO] + [("opción %s" % LETRAS[i], o) for i, o in enumerate(opciones)]
+    for campo, texto in textos:
+        if isinstance(texto, str) and HTML.search(texto):
+            rep.error(cid, "%s contiene HTML («%s»); usar Markdown" % (campo, HTML.search(texto).group(0)))
+
+    refs = caso.get("imagenes", [])
+    en_pregunta = [r for r in refs if r.get("mostrar_en") == "pregunta"]
+    for r in refs:
+        if r.get("ref") not in imagenes:
+            rep.error(cid, "la imagen «%s» no está en el catálogo" % r.get("ref"))
+    if caso.get("tipo") == "imagen" and not en_pregunta:
+        rep.error(cid, "tipo «imagen» sin ninguna imagen en la pregunta")
+    if caso.get("tipo") == "concepto" and en_pregunta:
+        rep.aviso(cid, "tipo «concepto» con imagen en la pregunta: ¿es decorativa?")
+
+    evidencia = caso.get("evidencia", [])
+    for ev in evidencia:
+        if ev.get("fuente") not in fuentes:
+            rep.error(cid, "evidencia cita la fuente «%s», que no está en fuentes.json" % ev.get("fuente"))
+
+    autor, revisor = caso.get("autor"), caso.get("revisor")
+    if revisor and revisor == autor:
+        rep.error(cid, "el revisor no puede ser el mismo autor")
+
+    faltan = []
+    if caso.get("nivel") is None:
+        faltan.append("nivel")
+    if not evidencia:
+        faltan.append("evidencia")
+    if exigente:
+        if not revisor:
+            faltan.append("revisor")
+        if not caso.get("fecha_revision"):
+            faltan.append("fecha_revision")
+        for r in refs:
+            img = imagenes.get(r.get("ref"))
+            if isinstance(img, dict):
+                faltan += ["%s → %s" % (r["ref"], x) for x in pendientes_imagen(img)]
+        ids_fuentes = {imagenes[r["ref"]].get("fuente") for r in refs if r.get("ref") in imagenes}
+        ids_fuentes |= {ev.get("fuente") for ev in evidencia}
+        for fid in sorted(f for f in ids_fuentes if f in fuentes):
+            faltan += ["%s → %s" % (fid, x) for x in pendientes_fuente(fuentes[fid])]
+    if faltan:
+        rep.pendiente(exigente, cid, "pendiente (%s): %s" % (estado, ", ".join(faltan)))
+
+
+def estadisticas(casos, rep):
+    validos = [c for c in casos if isinstance(c.get("correcta"), int) and c.get("opciones")
+               and c["correcta"] < len(c["opciones"])]
+    n = len(validos)
+    if n < CONFIG["casos_minimos_para_estadisticas"]:
+        return
+    conteo = [0] * 5
+    for c in validos:
+        conteo[c["correcta"]] += 1
+    reparto = " ".join("%s %d" % (LETRAS[i], conteo[i]) for i in range(5))
+    if max(conteo) / n > CONFIG["umbral_letra"]:
+        rep.aviso("paquete", "respuestas correctas concentradas en una letra (%s)" % reparto)
+
+    mas_larga = []
+    for c in validos:
+        largos = [len(o) for o in c["opciones"]]
+        la_correcta = largos[c["correcta"]]
+        otras = [l for i, l in enumerate(largos) if i != c["correcta"]]
+        if la_correcta > max(otras):
+            mas_larga.append(c.get("id", "?"))
+            if la_correcta >= 1.3 * max(otras):
+                rep.aviso(c.get("id", "?"), "la opción correcta es mucho más larga que las demás (%d vs %d caracteres)"
+                          % (la_correcta, max(otras)))
+    if len(mas_larga) / n > CONFIG["umbral_opcion_mas_larga"]:
+        rep.aviso("paquete", "la correcta es la opción más larga en %d de %d casos (%s)"
+                  % (len(mas_larga), n, ", ".join(mas_larga)))
+
+
+def validar_paquete(carpeta, esquemas, ids_globales):
+    rep = Reporte()
+    paquete = cargar_json(carpeta / "paquete.json", rep)
+    fuentes = cargar_json(carpeta / "fuentes.json", rep)
+    if paquete is None or fuentes is None:
+        return rep, None
+
+    casos = paquete.get("casos", []) if isinstance(paquete.get("casos"), list) else []
+    for ruta, mensaje in esquemas.validar(paquete, "paquete.schema.json"):
+        donde, campo = donde_esquema(ruta, casos)
+        rep.error(donde, "%s: %s" % (campo, mensaje) if campo else mensaje)
+    for ruta, mensaje in esquemas.validar(fuentes, "fuentes.schema.json"):
+        rep.error("fuentes.json", "%s: %s" % (ruta, mensaje) if ruta else mensaje)
+
+    if paquete.get("id") != carpeta.name:
+        rep.error("paquete", "el id «%s» debe ser igual al nombre de la carpeta «%s»" % (paquete.get("id"), carpeta.name))
+    if paquete.get("segmento") != carpeta.parent.name:
+        rep.error("paquete", "el segmento «%s» no coincide con la carpeta «%s»" % (paquete.get("segmento"), carpeta.parent.name))
+
+    fuentes_ok = {k: v for k, v in fuentes.items() if k != "$schema" and isinstance(v, dict)}
+    imagenes = paquete.get("imagenes", {}) if isinstance(paquete.get("imagenes"), dict) else {}
+    casos = [c for c in casos if isinstance(c, dict)]
+    usadas = {r.get("ref") for c in casos for r in c.get("imagenes", []) if isinstance(r, dict)}
+
+    citadas = {img.get("fuente") for img in imagenes.values() if isinstance(img, dict)}
+    citadas |= {ev.get("fuente") for c in casos for ev in c.get("evidencia", []) if isinstance(ev, dict)}
+    validar_fuentes(fuentes_ok, citadas, rep)
+    validar_imagenes(carpeta, imagenes, fuentes_ok, usadas, rep)
+    for caso in casos:
+        validar_caso(caso, paquete.get("id", carpeta.name), imagenes, fuentes_ok, ids_globales, rep)
+    estadisticas(casos, rep)
+
+    por_estado = {e: sum(1 for c in casos if c.get("estado") == e) for e in ("borrador", "revisado", "publicado")}
+    resumen = {
+        "ruta": "%s/%s" % (carpeta.parent.name, carpeta.name),
+        "id": paquete.get("id"),
+        "titulo": paquete.get("titulo"),
+        "segmento": paquete.get("segmento"),
+        "modalidades": paquete.get("modalidades", []),
+        "version": paquete.get("version"),
+        "casos": por_estado,
+    }
+    return rep, resumen
+
+
+def carpetas_de_paquetes(rutas):
+    if rutas:
+        return [Path(r).resolve() for r in rutas]
+    return sorted(p.parent for p in CARPETA_TEMAS.glob("*/*/paquete.json"))
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Valida los paquetes de RadQuiz.")
+    parser.add_argument("rutas", nargs="*", help="carpetas de paquetes (por defecto, todas las de temas/)")
+    parser.add_argument("--estricto", action="store_true", help="los avisos también cuentan como errores")
+    parser.add_argument("--indice", action="store_true", help="si no hay errores, escribe temas/indice.json")
+    args = parser.parse_args()
+
+    esquemas = Esquemas(CARPETA_ESQUEMAS)
+    carpetas = carpetas_de_paquetes(args.rutas)
+    if not carpetas:
+        print("No encontré paquetes en temas/.")
+        return 1
+
+    ids_globales, total_err, total_av, resumenes = set(), 0, 0, []
+    for carpeta in carpetas:
+        rep, resumen = validar_paquete(carpeta, esquemas, ids_globales)
+        rep.imprimir(carpeta.relative_to(RAIZ).as_posix() if carpeta.is_relative_to(RAIZ) else str(carpeta))
+        if resumen:
+            c = resumen["casos"]
+            print("  casos: %d borrador · %d revisado · %d publicado"
+                  % (c["borrador"], c["revisado"], c["publicado"]))
+            resumenes.append(resumen)
+        print()
+        total_err += rep.errores
+        total_av += rep.avisos
+
+    print("Resultado: %d errores, %d avisos en %d paquete(s)." % (total_err, total_av, len(carpetas)))
+    fallo = total_err > 0 or (args.estricto and total_av > 0)
+
+    if args.indice:
+        if fallo:
+            print("No escribí temas/indice.json porque hay errores.")
+        else:
+            indice = {"paquetes": sorted(resumenes, key=lambda r: r["ruta"])}
+            destino = CARPETA_TEMAS / "indice.json"
+            destino.write_text(json.dumps(indice, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            print("Escribí %s." % destino.relative_to(RAIZ).as_posix())
+    return 1 if fallo else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

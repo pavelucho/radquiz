@@ -1,0 +1,1848 @@
+{
+  "$schema": "../../../schema/paquete.schema.json",
+  "id": "atm-rm-lopezramirez2024",
+  "titulo": "Resonancia magnética de la ATM",
+  "descripcion": "Anatomía, técnica y patología de la articulación temporomandibular por RM, a partir de la revisión de López-Ramírez et al. (2024).",
+  "segmento": "cabeza-cuello",
+  "modalidades": [
+    "RM"
+  ],
+  "idioma": "es",
+  "version": "0.2.0",
+  "imagenes": {
+    "tabla1": {
+      "archivo": "tabla1.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Tabla 1",
+      "leyenda_original": "Protocolo de estudio ATM por RM",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "a",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "b",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "c",
+          "plano": "axial y coronal",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "líneas punteadas",
+          "panel": "c",
+          "senala": "planos de corte coronal y sagital oblicuos orientados según el eje del cóndilo"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Tabla completa (texto de protocolo, fotos de la bobina y del folio graduado, localizadores). Extraída entera del PDF en español: no se recortan sus columnas. Los números del folio graduado también aparecen cortados en el original. Contiene respuestas de atm-01 a atm-03: mostrar solo en la respuesta."
+    },
+    "fig01": {
+      "archivo": "fig01.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 1",
+      "leyenda_original": "Anatomía por resonancia magnética de la articulación temporomandibular. Coronal oblicuo en boca cerrada (A) y sagitales oblicuos (B y C) en boca cerrada (B) y boca abierta (C). Nótese la morfología bicóncava del disco, su posición y traslación-rotación que ocurre con la apertura bucal. 1: banda posterior del disco; 2: zona intermedia del disco; 3: banda anterior del disco; 4: zona retrodiscal superior; 5: tejido neurovascular; 6: capa retrodiscal inferior; 7: eminencia articular; 8: tendón del músculo pterigoideo lateral; 9: cóndilo mandibular.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal oblicuo",
+          "secuencia": null,
+          "condicion": "boca cerrada"
+        },
+        {
+          "id": "B",
+          "plano": "sagital oblicuo",
+          "secuencia": null,
+          "condicion": "boca cerrada"
+        },
+        {
+          "id": "C",
+          "plano": "sagital oblicuo",
+          "secuencia": null,
+          "condicion": "boca abierta"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "1",
+          "panel": "A y B",
+          "senala": "banda posterior del disco"
+        },
+        {
+          "marca": "2",
+          "panel": "B",
+          "senala": "zona intermedia del disco"
+        },
+        {
+          "marca": "3",
+          "panel": "B",
+          "senala": "banda anterior del disco"
+        },
+        {
+          "marca": "4",
+          "panel": "C",
+          "senala": "zona retrodiscal superior"
+        },
+        {
+          "marca": "5",
+          "panel": "C",
+          "senala": "tejido neurovascular"
+        },
+        {
+          "marca": "6",
+          "panel": "C",
+          "senala": "capa retrodiscal inferior"
+        },
+        {
+          "marca": "7",
+          "panel": "B y C",
+          "senala": "eminencia articular"
+        },
+        {
+          "marca": "8",
+          "panel": "B y C",
+          "senala": "tendón del músculo pterigoideo lateral"
+        },
+        {
+          "marca": "9",
+          "panel": "A y C",
+          "senala": "cóndilo mandibular"
+        }
+      ],
+      "modificaciones": [],
+      "notas": "Bajo cada panel hay un esquema dibujado con los mismos números. La leyenda no indica secuencias."
+    },
+    "fig02": {
+      "archivo": "fig02.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 2",
+      "leyenda_original": "Desplazamiento discal anterior completo. Cortes sagitales oblicuos en máxima intercuspidación en la articulación temporomandibular derecha que demuestran desplazamiento discal anterior, tanto en cortes laterales (A) como mediales (B) (flecha blanca).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "lado": "derecho",
+          "plano": "sagital oblicuo, corte lateral",
+          "secuencia": null,
+          "condicion": "máxima intercuspidación"
+        },
+        {
+          "id": "B",
+          "lado": "derecho",
+          "plano": "sagital oblicuo, corte medial",
+          "secuencia": null,
+          "condicion": "máxima intercuspidación"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A y B",
+          "senala": "disco desplazado hacia anterior"
+        }
+      ],
+      "modificaciones": [],
+      "notas": "Cada panel trae un recuadro con el localizador."
+    },
+    "fig03": {
+      "archivo": "fig03.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 3",
+      "leyenda_original": "Desplazamiento discal anterior parcial. Cortes sagitales oblicuos en máxima intercuspidación en la articulación temporomandibular izquierda que demuestran desplazamiento discal anterior en cortes laterales (A), con normal posición en cortes mediales (B) (flecha blanca).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "lado": "izquierdo",
+          "plano": "sagital oblicuo, corte lateral",
+          "secuencia": null,
+          "condicion": "máxima intercuspidación"
+        },
+        {
+          "id": "B",
+          "lado": "izquierdo",
+          "plano": "sagital oblicuo, corte medial",
+          "secuencia": null,
+          "condicion": "máxima intercuspidación"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A y B",
+          "senala": "disco: desplazado hacia anterior en A, en posición normal en B"
+        }
+      ],
+      "modificaciones": []
+    },
+    "fig04": {
+      "archivo": "fig04.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 4",
+      "leyenda_original": "Desplazamiento discal medial. Corte coronal (A) y sagital oblicuo (B) de la articulación temporomandibular derecha medial a la cabeza condilar, que demuestran desplazamiento discal medial (flecha blanca).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "lado": "derecho",
+          "plano": "coronal",
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "lado": "derecho",
+          "plano": "sagital oblicuo, medial a la cabeza condilar",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A y B",
+          "senala": "disco desplazado hacia medial"
+        }
+      ],
+      "modificaciones": []
+    },
+    "fig05": {
+      "archivo": "fig05.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 5",
+      "leyenda_original": "Desplazamiento discal lateral. Corte coronal (A) y sagital oblicuo (B) de la articulación temporomandibular izquierda, lateral a la cabeza condilar, en máxima intercuspidación que demuestran desplazamiento discal lateral (flecha negra y blanca respectivamente).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "lado": "izquierdo",
+          "plano": "coronal",
+          "secuencia": null,
+          "condicion": "máxima intercuspidación"
+        },
+        {
+          "id": "B",
+          "lado": "izquierdo",
+          "plano": "sagital oblicuo, lateral a la cabeza condilar",
+          "secuencia": null,
+          "condicion": "máxima intercuspidación"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha negra",
+          "panel": "A",
+          "senala": "disco desplazado hacia lateral"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "B",
+          "senala": "disco desplazado hacia lateral"
+        }
+      ],
+      "modificaciones": []
+    },
+    "fig06": {
+      "archivo": "fig06.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 6",
+      "leyenda_original": "Desplazamiento discal con reducción. Cortes sagitales oblicuos en máxima intercuspidación (A) y en boca abierta (B). En máxima intercuspidación hay desplazamiento discal anterior, el que se reduce a su posición normal con la apertura bucal (flecha blanca).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital oblicuo",
+          "secuencia": null,
+          "condicion": "máxima intercuspidación"
+        },
+        {
+          "id": "B",
+          "plano": "sagital oblicuo",
+          "secuencia": null,
+          "condicion": "boca abierta"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A y B",
+          "senala": "disco: anterior en A, reducido a su posición normal en B"
+        }
+      ],
+      "modificaciones": []
+    },
+    "fig07": {
+      "archivo": "fig07.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 7",
+      "leyenda_original": "Desplazamiento discal sin reducción. Cortes sagitales oblicuos en máxima intercuspidación (A) y en boca abierta (B). Tanto en máxima intercuspidación como en boca abierta hay desplazamiento discal anterior, sin reducción (flecha blanca).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital oblicuo",
+          "secuencia": null,
+          "condicion": "máxima intercuspidación"
+        },
+        {
+          "id": "B",
+          "plano": "sagital oblicuo",
+          "secuencia": null,
+          "condicion": "boca abierta"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A y B",
+          "senala": "disco desplazado hacia anterior en ambas posiciones"
+        }
+      ],
+      "modificaciones": []
+    },
+    "fig08": {
+      "archivo": "fig08.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 8",
+      "leyenda_original": "Alteración morfológica discal y derrame articular. Corte sagital oblicuo en máxima intercuspidación demuestra disco aplanado (asterisco) y derrame articular (flecha blanca).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "único",
+          "plano": "sagital oblicuo",
+          "secuencia": null,
+          "condicion": "máxima intercuspidación"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "asterisco",
+          "panel": null,
+          "senala": "disco aplanado"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": null,
+          "senala": "derrame articular"
+        }
+      ],
+      "modificaciones": [],
+      "notas": "La leyenda no indica la secuencia. El piloto decía «T2 con saturación grasa»: confirmar mirando la imagen."
+    },
+    "fig09": {
+      "archivo": "fig09.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 9",
+      "leyenda_original": "Artrosis de articulación temporomandibular. Corte coronal (A) y sagital (B) oblicuos en máxima intercuspidación que demuestran remodelación e irregularidad de la superficie articular, con disminución del espacio articular y osteofitos marginales (círculo blanco).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal oblicuo",
+          "secuencia": null,
+          "condicion": "máxima intercuspidación"
+        },
+        {
+          "id": "B",
+          "plano": "sagital oblicuo",
+          "secuencia": null,
+          "condicion": "máxima intercuspidación"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "círculo blanco",
+          "panel": "A y B",
+          "senala": "remodelación e irregularidad articular, disminución del espacio articular y osteofitos marginales"
+        }
+      ],
+      "modificaciones": []
+    },
+    "fig10": {
+      "archivo": "fig10.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 10",
+      "leyenda_original": "Hipermotilidad condilar. Sagital oblicuo en boca abierta con traslación condilar por delante de la eminencia articular (flecha blanca).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "único",
+          "plano": "sagital oblicuo",
+          "secuencia": null,
+          "condicion": "boca abierta"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": null,
+          "senala": "cóndilo trasladado por delante de la eminencia articular"
+        }
+      ],
+      "modificaciones": []
+    },
+    "fig11": {
+      "archivo": "fig11.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 11",
+      "leyenda_original": "Atascamiento discal con hipomotilidad: corte sagital en oclusión (A) y apertura máxima 20 mm (B) que demuestra desplazamiento anterior con deformación discal y metaplasia fibrosa de zona retro discal (flecha blanca), asociado a atascamiento del disco, limitando la traslación condilar (círculo blanco).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": null,
+          "condicion": "oclusión"
+        },
+        {
+          "id": "B",
+          "plano": "sagital",
+          "secuencia": null,
+          "condicion": "apertura máxima de 20 mm"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "B",
+          "senala": "metaplasia fibrosa de la zona retrodiscal"
+        },
+        {
+          "marca": "círculo blanco",
+          "panel": "A y B",
+          "senala": "cóndilo con traslación limitada"
+        }
+      ],
+      "modificaciones": []
+    },
+    "fig12": {
+      "archivo": "fig12.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 12",
+      "leyenda_original": "Hipoplasia condilar. Menor desarrollo del cóndilo derecho y fenómenos degenerativos (círculo blanco).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "único",
+          "lado": "derecho",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "círculo blanco",
+          "panel": null,
+          "senala": "cóndilo derecho hipoplásico con fenómenos degenerativos"
+        }
+      ],
+      "modificaciones": [],
+      "notas": "La leyenda no indica el plano; el localizador del recuadro sugiere sagital oblicuo. Confirmar."
+    },
+    "fig13": {
+      "archivo": "fig13.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 13",
+      "leyenda_original": "Cóndilo bífido. Morfología bífida de la cabeza condilar (flecha blanca).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "único",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": null,
+          "senala": "cabeza condilar de morfología bífida"
+        }
+      ],
+      "modificaciones": [],
+      "notas": "La leyenda no indica el plano. El piloto decía «corte sagital», pero la imagen parece coronal. Confirmar."
+    },
+    "fig14": {
+      "archivo": "fig14.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 14",
+      "leyenda_original": "Condromatosis sinovial. Expansión del espacio articular con múltiples cuerpos libres de baja señal (círculo blanco).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "único",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "círculo blanco",
+          "panel": null,
+          "senala": "espacio articular expandido con múltiples cuerpos libres de baja señal"
+        }
+      ],
+      "modificaciones": [],
+      "notas": "La leyenda no indica plano ni secuencia."
+    },
+    "fig15": {
+      "archivo": "fig15.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 15",
+      "leyenda_original": "Deformación discal. Corte sagital en PD (A) y T2 FS (B) que demuestra disco articular redondeado (flecha blanca) además de osteoartritis degenerativa con marcada irregularidad de la cabeza condilar, edema subcondral (círculo blanco) y edema retrodiscal (flecha punteada).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "sagital",
+          "secuencia": "T2 FS",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca continua",
+          "panel": "A y B",
+          "senala": "disco articular redondeado"
+        },
+        {
+          "marca": "círculo blanco",
+          "panel": "A y B",
+          "senala": "edema subcondral"
+        },
+        {
+          "marca": "flecha punteada",
+          "panel": "A y B",
+          "senala": "edema retrodiscal"
+        }
+      ],
+      "modificaciones": []
+    },
+    "fig16": {
+      "archivo": "fig16.jpg",
+      "fuente": "lopezramirez2024",
+      "figura": "Figura 16",
+      "leyenda_original": "Patología inflamatoria de la articulación temporomandibular. Paciente de 13 años de edad con sospecha de artritis idiopática juvenil. Corte sagital en T1 FS con gadolinio donde se observa osteítis (compare hiperseñal de la medula ósea del cóndilo en relación con el ángulo mandibular), erosión de la cabeza condilar (flecha blanca), junto con realce y engrosamiento sinovial de la articulación temporomandibular (asterisco).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "único",
+          "plano": "sagital",
+          "secuencia": "T1 FS con gadolinio",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": null,
+          "senala": "erosión de la cabeza condilar"
+        },
+        {
+          "marca": "asteriscos",
+          "panel": null,
+          "senala": "realce y engrosamiento sinovial"
+        }
+      ],
+      "modificaciones": [],
+      "notas": "La leyenda dice «asterisco», pero la imagen muestra dos."
+    }
+  },
+  "casos": [
+    {
+      "id": "atm-01",
+      "tema": "Técnica · Protocolo",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "técnica"
+      ],
+      "tipo": "concepto",
+      "enunciado": "En el protocolo de RM de ATM que propone la revisión, ¿para qué se coloca un dispositivo de mordida al paciente?",
+      "imagenes": [
+        {
+          "ref": "tabla1",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Inmovilizar la cabeza para reducir artefactos de movimiento",
+        "Marcar la línea media para planificar los cortes coronales",
+        "Mantener la máxima intercuspidación durante el T1 coronal",
+        "Lograr aperturas bucales graduadas de 10, 20, 30 y 40 mm",
+        "Separar los incisivos para reducir artefactos de metal dental"
+      ],
+      "correcta": 3,
+      "explicacion": "- El estudio dinámico se hace con **DP sagital oblicuo bilateral** en máxima intercuspidación (MIC) y con apertura interincisal de **10, 20, 30 y 40 mm**.\n- Esas aperturas se obtienen de forma incremental con un dispositivo de mordida (folio graduado de la Tabla 1).\n- Ambas ATM se adquieren a la vez con bobinas de superficie, con planos individualizados para cada lado.",
+      "perla": "La apertura se mide desde el borde incisal maxilar hasta el borde incisal mandibular.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138",
+          "cita": "en diferentes grados de apertura bucal interincisal de 10, 20, 30 y 40 mm. Estas distancias se miden desde el borde incisal maxilar hasta el borde incisal mandibular, y se obtienen incrementalmente al colocar un dispositivo de mordida en el paciente."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 139, Tabla 1",
+          "cita": "Bobina de superficie en ATM y folio graduado para apertura bucal 10-20-30-40 mm"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 137",
+          "cita": "Ambas ATM se registran simultáneamente mediante el uso de bobinas de superficie"
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-02",
+      "tema": "Técnica · Planificación",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "técnica"
+      ],
+      "tipo": "concepto",
+      "enunciado": "En la RM de ATM, ¿cómo se orientan los cortes sagitales oblicuos?",
+      "imagenes": [
+        {
+          "ref": "tabla1",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Paralelos al plano horizontal de Frankfort",
+        "Perpendiculares al eje mayor del cóndilo",
+        "Paralelos al eje mayor del cóndilo",
+        "Paralelos a la rama mandibular",
+        "Perpendiculares al plano sagital medio"
+      ],
+      "correcta": 1,
+      "explicacion": "- **Sagital oblicuo:** perpendicular al eje mayor axial del cóndilo mandibular, planificado por separado para cada lado.\n- **Coronal oblicuo:** paralelo al eje mayor del cóndilo; se adquiere en T1 con la boca cerrada.\n- El coronal oblicuo es importante para evaluar los desplazamientos discales mediales o laterales.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138",
+          "cita": "cortes sagitales oblicuos (que son perpendiculares al eje mayor axial del cóndilo mandibular)"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138",
+          "cita": "cortes coronales oblicuos paralelos al eje mayor del cóndilo en secuencia T1, ambos en boca cerrada"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138",
+          "cita": "Este plano coronal oblicuo es importante para evaluar el desplazamiento discal en sentido medial o lateral."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-03",
+      "tema": "Técnica · Secuencias",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "técnica",
+        "contraste"
+      ],
+      "tipo": "concepto",
+      "enunciado": "Según el protocolo de la revisión, ¿cuándo está indicado el gadolinio en la RM de ATM?",
+      "imagenes": [
+        {
+          "ref": "tabla1",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Nunca; el gadolinio no aporta información en la ATM",
+        "De rutina, en todo paciente con dolor articular",
+        "Si se sospecha patología inflamatoria, infecciosa o tumoral",
+        "Solo para confirmar un desplazamiento discal sin reducción",
+        "Para diferenciar mejor la banda posterior de la zona retrodiscal"
+      ],
+      "correcta": 2,
+      "explicacion": "- El estudio habitual **no requiere contraste**.\n- El gadolinio (T1 TSE post-Gd con supresión grasa) se reserva para la sospecha de patología inflamatoria de causa reumatológica, infecciosa o neoplásica.\n- En la patología inflamatoria, el contraste es fundamental para **diferenciar derrame de sinovitis**.",
+      "perla": "Secuencias base del protocolo: T1 SE coronal oblicuo en MIC, T2 sagital oblicuo con supresión grasa, DP sagital oblicuo con supresión grasa y DP dinámico en MIC y apertura.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138",
+          "cita": "No se requiere el uso de medio de contraste en el estudio habitual."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138",
+          "cita": "El uso de medio de contraste con gadolinio se reserva para aquellos casos en que se sospeche patología inflamatoria de causa reumatológica, infecciosa o neoplásica."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 139, Tabla 1",
+          "cita": "Contraste (solo en caso necesario): T1 TSE post-Gd con supresión de grasa"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 146",
+          "cita": "es fundamental el uso de medio de contraste para diferenciar el derrame sinovial de la sinovitis"
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-04",
+      "tema": "Anatomía · Disco",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "anatomía",
+        "disco articular"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de ATM normal: coronal oblicuo en boca cerrada (A) y sagitales oblicuos en boca cerrada (B) y en boca abierta (C). ¿Qué estructura señala el número **1**?",
+      "imagenes": [
+        {
+          "ref": "fig01",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Banda posterior del disco",
+        "Banda anterior del disco",
+        "Zona intermedia del disco",
+        "Eminencia articular",
+        "Zona retrodiscal superior"
+      ],
+      "correcta": 0,
+      "explicacion": "- El disco tiene una **banda anterior** (3), una **zona intermedia** más delgada (2) y una **banda posterior** (1); por eso en sagital se ve bicóncavo.\n- La banda posterior es triangular y está centrada en el ápex del cóndilo.\n- Con la boca cerrada, la banda posterior debe cubrir la porción más superior del cóndilo, **a las 12 horas** en sagital (Fig. 1B).",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138, leyenda de la Figura 1",
+          "cita": "Anatomía por resonancia magnética de la articulación temporomandibular. Coronal oblicuo en boca cerrada (A) y sagitales oblicuos (B y C) en boca cerrada (B) y boca abierta (C). Nótese la morfología bicóncava del disco, su posición y traslación-rotación que ocurre con la apertura bucal. 1: banda posterior del disco; 2: zona intermedia del disco; 3: banda anterior del disco; 4: zona retrodiscal superior; 5: tejido neurovascular; 6: capa retrodiscal inferior; 7: eminencia articular; 8: tendón del músculo pterigoideo lateral; 9: cóndilo mandibular."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138",
+          "cita": "El disco posee una banda anterior y otra posterior, con una zona intermedia más delgada, lo que en cortes sagitales le da el aspecto bicóncavo."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 140",
+          "cita": "La banda posterior tiene forma triangular y se encuentra centrada en el ápex del cóndilo."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 142",
+          "cita": "la banda posterior, la cual debe cubrir la porción más superior del cóndilo a las “12 horas” en una proyección sagital (Fig. 1B)."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-05",
+      "tema": "Anatomía · Retrodisco",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "anatomía",
+        "zona retrodiscal"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Misma figura, panel C (boca abierta). ¿Qué representan los números **4, 5 y 6**, en ese orden?",
+      "imagenes": [
+        {
+          "ref": "fig01",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Cabeza superior, cabeza inferior y tendón del pterigoideo lateral",
+        "Capa retrodiscal superior, tejido neurovascular y capa inferior",
+        "Banda posterior, zona intermedia y banda anterior del disco",
+        "Cápsula articular, membrana sinovial y periostio del cóndilo",
+        "Eminencia articular, fosa glenoidea y conducto auditivo externo"
+      ],
+      "correcta": 1,
+      "explicacion": "- Por detrás de la banda posterior está la **zona retrodiscal**, con un componente superior (4) y otro inferior (6), y tejido conectivo laxo con vasos y nervios entre ambos (5).\n- Estas estructuras se mezclan con la cápsula articular y el hueso temporal.\n- La **rotura de las capas retrodiscales** es uno de los signos que pueden sugerir un trastorno temporomandibular (TTM).",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138, leyenda de la Figura 1",
+          "cita": "Anatomía por resonancia magnética de la articulación temporomandibular. Coronal oblicuo en boca cerrada (A) y sagitales oblicuos (B y C) en boca cerrada (B) y boca abierta (C). Nótese la morfología bicóncava del disco, su posición y traslación-rotación que ocurre con la apertura bucal. 1: banda posterior del disco; 2: zona intermedia del disco; 3: banda anterior del disco; 4: zona retrodiscal superior; 5: tejido neurovascular; 6: capa retrodiscal inferior; 7: eminencia articular; 8: tendón del músculo pterigoideo lateral; 9: cóndilo mandibular."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 140",
+          "cita": "El margen posterior de la banda posterior se denomina zona retrodiscal, con un componente superior e inferior, además de tejido conectivo"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 141",
+          "cita": "laxo con estructuras vasculares y nerviosas, las que se mezclan con la cápsula articular y el hueso temporal."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 143",
+          "cita": "otros signos que pueden sugerir TTM, tales como derrame articular, rotura de capas retrodiscales"
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-06",
+      "tema": "Anatomía · Músculo",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "anatomía",
+        "pterigoideo lateral"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la misma figura de anatomía normal, ¿qué estructura es el número **8** y qué función cumple?",
+      "imagenes": [
+        {
+          "ref": "fig01",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Tendón del pterigoideo lateral; apertura bucal",
+        "Tendón del masetero; elevación de la mandíbula",
+        "Músculo pterigoideo medial; cierre bucal",
+        "Ligamento esfenomandibular; limita la apertura",
+        "Tendón del temporal; retrusión mandibular"
+      ],
+      "correcta": 0,
+      "explicacion": "- El número 8 es el **tendón del músculo pterigoideo lateral**.\n- La banda anterior del disco se continúa con la cápsula articular y con el pterigoideo lateral, que forman las uniones anteriores del disco.\n- El pterigoideo lateral contribuye a la **apertura** bucal; el pterigoideo medial, el masetero y el temporal, a la oclusión.\n- El aumento del grosor de la inserción del pterigoideo lateral es uno de los signos que pueden sugerir TTM.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138, leyenda de la Figura 1",
+          "cita": "Anatomía por resonancia magnética de la articulación temporomandibular. Coronal oblicuo en boca cerrada (A) y sagitales oblicuos (B y C) en boca cerrada (B) y boca abierta (C). Nótese la morfología bicóncava del disco, su posición y traslación-rotación que ocurre con la apertura bucal. 1: banda posterior del disco; 2: zona intermedia del disco; 3: banda anterior del disco; 4: zona retrodiscal superior; 5: tejido neurovascular; 6: capa retrodiscal inferior; 7: eminencia articular; 8: tendón del músculo pterigoideo lateral; 9: cóndilo mandibular."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138",
+          "cita": "La banda anterior se ubica inmediatamente por delante del cóndilo mandibular y se continúa con la cápsula articular y el músculo"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 140",
+          "cita": "pterigoideo lateral, generando las uniones anteriores del disco."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 142",
+          "cita": "El músculo pterigoideo lateral contribuye a la apertura bucal, mientras que el músculo pterigoideo medial, masetero y temporal, a la oclusión"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 143",
+          "cita": "aumento del grosor de la inserción del musculo pterigoideo lateral"
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-07",
+      "tema": "Anatomía · Señal",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "anatomía",
+        "disco articular"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la RM normal de ATM, ¿cómo se ve el disco articular en DP sagital oblicuo y en coronal?",
+      "imagenes": [
+        {
+          "ref": "fig01",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Heterogéneo con focos calcificados en sagital; bicóncavo en coronal",
+        "Hipointenso y redondeado en sagital; triangular en el plano coronal",
+        "Hipointenso homogéneo y bicóncavo en sagital; semiluna en coronal",
+        "Isointenso al músculo y plano en sagital; bicóncavo en coronal",
+        "Hiperintenso homogéneo y biconvexo en sagital; lineal en coronal"
+      ],
+      "correcta": 2,
+      "explicacion": "- En DP sagital oblicuo el disco es **bicóncavo y de baja señal homogénea**; por detrás, la zona retrodiscal tiene señal intermedia.\n- En ocasiones la banda posterior puede ser levemente hiperintensa.\n- En coronal el disco tiene forma de **semiluna** y no debe sobrepasar los límites de la cápsula articular (Fig. 1A).",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 142",
+          "cita": "En imágenes sagitales oblicuas potenciadas en DP se observa el menisco de forma bicóncava, con una baja intensidad de señal homogénea, relacionado posteriormente con la zona retrodiscal, la cual muestra una intensidad de señal intermedia."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 142",
+          "cita": "En ocasiones, la banda posterior puede ser levemente hiperintensa."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 142",
+          "cita": "En cortes coronales el disco tiene forma de semiluna y no debe sobrepasar los límites de la cápsula articular (Fig. 1A)."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-08",
+      "tema": "Anatomía · Dinámica",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "anatomía",
+        "biomecánica"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Durante la apertura bucal normal (panel C), ¿qué hace el cóndilo y dónde queda el disco?",
+      "imagenes": [
+        {
+          "ref": "fig01",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Se traslada y después rota; la banda anterior queda sobre el cóndilo",
+        "Solo rota en la fosa glenoidea; el disco queda detrás del cóndilo",
+        "Rota y luego se traslada; la zona intermedia queda bajo la eminencia",
+        "Se traslada hacia atrás; la banda posterior contacta la eminencia",
+        "No se traslada; el disco avanza y el cóndilo sigue en la fosa"
+      ],
+      "correcta": 2,
+      "explicacion": "- La apertura tiene dos componentes: primero el cóndilo **rota** y luego se **traslada hacia anterior**.\n- Durante la traslación, el disco queda entre el cóndilo y la eminencia articular, en contacto completo con la **zona intermedia** (Fig. 1C).\n- Con la boca cerrada, la zona intermedia está entre la convexidad posterior del tubérculo articular y la convexidad anterosuperior del cóndilo.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 142",
+          "cita": "El movimiento de apertura bucal tiene dos componentes. Primero el cóndilo rota, y luego se traslada anteriormente mientras se realiza la apertura."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 143",
+          "cita": "entre el cóndilo y la eminencia articular, contactando completamente con la zona intermedia (Fig. 1C)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 142",
+          "cita": "La zona intermedia del disco se ubica entre la convexidad posterior del tubérculo articular del hueso temporal y la convexidad anterosuperior del cóndilo."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-09",
+      "tema": "Desplazamiento discal · Anterior",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "desplazamiento discal"
+      ],
+      "tipo": "imagen",
+      "enunciado": "ATM derecha. Cortes sagitales oblicuos en máxima intercuspidación, lateral (A) y medial (B). ¿Qué muestra la flecha blanca?",
+      "imagenes": [
+        {
+          "ref": "fig02",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Desplazamiento discal anterior parcial",
+        "Desplazamiento discal posterior completo",
+        "ATM normal",
+        "Hipermovilidad condilar",
+        "Desplazamiento discal anterior completo"
+      ],
+      "correcta": 4,
+      "explicacion": "- La flecha muestra el disco **por delante del cóndilo en los cortes laterales y mediales**: desplazamiento anterior completo.\n- En el desplazamiento parcial, solo un segmento del disco está por delante del cóndilo.\n- Los desplazamientos más frecuentes son el anterior completo y el anterolateral, parcial o completo.",
+      "perla": "El desplazamiento discal se evalúa con la boca cerrada, en cortes sagitales y coronales oblicuos.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 139, leyenda de la Figura 2",
+          "cita": "Desplazamiento discal anterior completo. Cortes sagitales oblicuos en máxima intercuspidación en la articulación temporomandibular derecha que demuestran desplazamiento discal anterior, tanto en cortes laterales (A) como mediales (B) (flecha blanca)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "en el desplazamiento anterior completo todo el disco se encuentra delante del cóndilo mandibular, en los desplazamientos parciales solo un segmento es anterior al cóndilo"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "corresponden al anterior completo y anterolateral parcial o completo (Fig. 2-5)"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 144",
+          "cita": "se evalúan con la boca cerrada, tanto en cortes sagitales como coronales oblicuos"
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-10",
+      "tema": "Desplazamiento discal · Parcial",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "desplazamiento discal"
+      ],
+      "tipo": "imagen",
+      "enunciado": "ATM izquierda. Cortes sagitales oblicuos en máxima intercuspidación, lateral (A) y medial (B). ¿Diagnóstico?",
+      "imagenes": [
+        {
+          "ref": "fig03",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Desplazamiento discal medial",
+        "Desplazamiento discal anterior completo",
+        "Desplazamiento discal posterior",
+        "Desplazamiento discal anterior parcial",
+        "ATM normal"
+      ],
+      "correcta": 3,
+      "explicacion": "- En el corte lateral (A) el disco está por delante del cóndilo; en el medial (B) está en posición normal.\n- Si solo un segmento del disco está por delante del cóndilo, el desplazamiento es **parcial**.\n- Se reconoce comparando los cortes laterales con los mediales.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 140, leyenda de la Figura 3",
+          "cita": "Desplazamiento discal anterior parcial. Cortes sagitales oblicuos en máxima intercuspidación en la articulación temporomandibular izquierda que demuestran desplazamiento discal anterior en cortes laterales (A), con normal posición en cortes mediales (B) (flecha blanca)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "en el desplazamiento anterior completo todo el disco se encuentra delante del cóndilo mandibular, en los desplazamientos parciales solo un segmento es anterior al cóndilo"
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-11",
+      "tema": "Desplazamiento discal · Medial",
+      "nivel": "R2",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "desplazamiento discal"
+      ],
+      "tipo": "imagen",
+      "enunciado": "ATM derecha. Corte coronal (A) y sagital oblicuo (B). ¿Qué muestra la flecha blanca?",
+      "imagenes": [
+        {
+          "ref": "fig04",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Cuerpo libre intraarticular",
+        "Desplazamiento discal medial",
+        "Tendón normal del pterigoideo lateral",
+        "Desplazamiento discal lateral",
+        "Osteofito medial del cóndilo"
+      ],
+      "correcta": 1,
+      "explicacion": "- En coronal (A) el disco está **medial a la cabeza del cóndilo**, y aparece en el corte sagital adquirido medial al cóndilo (B).\n- El coronal oblicuo, paralelo al eje mayor del cóndilo, es importante para evaluar los desplazamientos discales mediales o laterales.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 140, leyenda de la Figura 4",
+          "cita": "Desplazamiento discal medial. Corte coronal (A) y sagital oblicuo (B) de la articulación temporomandibular derecha medial a la cabeza condilar, que demuestran desplazamiento discal medial (flecha blanca)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 138",
+          "cita": "Este plano coronal oblicuo es importante para evaluar el desplazamiento discal en sentido medial o lateral."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-12",
+      "tema": "Desplazamiento discal · Lateral",
+      "nivel": "R2",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "desplazamiento discal"
+      ],
+      "tipo": "imagen",
+      "enunciado": "ATM izquierda en máxima intercuspidación. Corte coronal (A, flecha negra) y sagital oblicuo (B, flecha blanca). ¿Diagnóstico?",
+      "imagenes": [
+        {
+          "ref": "fig05",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Derrame en el receso articular lateral",
+        "Condromatosis sinovial",
+        "Desplazamiento discal lateral",
+        "Hipoplasia condilar",
+        "Desplazamiento discal medial"
+      ],
+      "correcta": 2,
+      "explicacion": "- En coronal (A) el disco sobresale **lateral** al cóndilo, y aparece en el corte sagital adquirido lateral a la cabeza condilar (B).\n- En coronal, el disco normal tiene forma de semiluna y no debe sobrepasar los límites de la cápsula articular.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 141, leyenda de la Figura 5",
+          "cita": "Desplazamiento discal lateral. Corte coronal (A) y sagital oblicuo (B) de la articulación temporomandibular izquierda, lateral a la cabeza condilar, en máxima intercuspidación que demuestran desplazamiento discal lateral (flecha negra y blanca respectivamente)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 142",
+          "cita": "En cortes coronales el disco tiene forma de semiluna y no debe sobrepasar los límites de la cápsula articular (Fig. 1A)."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-13",
+      "tema": "Desplazamiento discal · Con reducción",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "desplazamiento discal"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Cortes sagitales oblicuos en máxima intercuspidación (A) y en boca abierta (B). ¿Diagnóstico?",
+      "imagenes": [
+        {
+          "ref": "fig06",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Desplazamiento discal anterior con reducción",
+        "Hipermovilidad condilar",
+        "Desplazamiento discal anterior sin reducción",
+        "Atascamiento discal con hipomovilidad",
+        "ATM normal"
+      ],
+      "correcta": 0,
+      "explicacion": "- En máxima intercuspidación el disco está por delante del cóndilo; con la apertura vuelve a quedar entre las superficies articulares: **con reducción**.\n- La clasificación con o sin reducción depende del comportamiento del disco durante la **apertura bucal**.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 141, leyenda de la Figura 6",
+          "cita": "Desplazamiento discal con reducción. Cortes sagitales oblicuos en máxima intercuspidación (A) y en boca abierta (B). En máxima intercuspidación hay desplazamiento discal anterior, el que se reduce a su posición normal con la apertura bucal (flecha blanca)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "Los desplazamientos discales se clasifican en dos subgrupos de acuerdo con su comportamiento con la apertura bucal: con y sin reducción. En aquellos con reducción, el disco regresa y queda entre las superficies articulares durante la apertura bucal (Fig. 6)."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-14",
+      "tema": "Desplazamiento discal · Sin reducción",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "desplazamiento discal"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Cortes sagitales oblicuos en máxima intercuspidación (A) y en boca abierta (B). ¿Diagnóstico?",
+      "imagenes": [
+        {
+          "ref": "fig07",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Desplazamiento discal anterior con reducción",
+        "Desplazamiento discal posterior",
+        "ATM normal",
+        "Desplazamiento discal anterior sin reducción",
+        "Luxación condilar anterior"
+      ],
+      "correcta": 3,
+      "explicacion": "- El disco sigue **por delante del cóndilo en máxima intercuspidación y en boca abierta**; la relación cóndilo-disco no se restablece.\n- En el desplazamiento con reducción, en cambio, el disco vuelve a su posición con la apertura.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 142, leyenda de la Figura 7",
+          "cita": "Desplazamiento discal sin reducción. Cortes sagitales oblicuos en máxima intercuspidación (A) y en boca abierta (B). Tanto en máxima intercuspidación como en boca abierta hay desplazamiento discal anterior, sin reducción (flecha blanca)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "En el desplazamiento discal sin reducción, el disco articular se mantiene anterior al cóndilo mandibular durante todos los movimientos mandibulares, y la relación cóndilo-disco articular no se restablece (Fig. 7)."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-15",
+      "tema": "Desplazamiento discal · Relevancia clínica",
+      "nivel": "R2",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "desplazamiento discal",
+        "epidemiología"
+      ],
+      "tipo": "concepto",
+      "enunciado": "Una RM de ATM muestra un desplazamiento discal anterior. Según la revisión, ¿qué afirmación es correcta?",
+      "imagenes": [],
+      "opciones": [
+        "Se evalúa mejor con TC que con resonancia magnética",
+        "Es raro: menos del 5 % de los pacientes con TTM tiene lesión discal",
+        "Solo tiene relevancia si coexiste con artrosis de la ATM",
+        "Siempre es patológico y explica los síntomas del paciente",
+        "Puede verse en asintomáticos; hay que buscar otros signos de TTM"
+      ],
+      "correcta": 4,
+      "explicacion": "- Las lesiones del disco son la causa más frecuente de TTM y el hallazgo más común en RM: hasta un **70 %** de los pacientes.\n- Sin embargo, hasta un **34 % de la población asintomática** tiene un disco desplazado.\n- Por eso hay que buscar otros signos de TTM: **derrame articular, rotura de las capas retrodiscales o aumento del grosor de la inserción del pterigoideo lateral**.\n- Los TTM afectan al 5-12 % de la población, con mayor prevalencia en mujeres.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 143",
+          "cita": "se ha reportado que hasta un 34% de la población asintomática poseen como hallazgo imagenológico un desplazamiento del disco articular."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 143",
+          "cita": "se debe prestar especial atención a otros signos que pueden sugerir TTM, tales como derrame articular, rotura de capas retrodiscales o aumento del grosor de la inserción del musculo pterigoideo lateral."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 143",
+          "cita": "Las lesiones del disco articular son la causa más frecuente de los TTM, siendo el hallazgo más común en la RM, encontrándose en hasta un 70% de los pacientes."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 143",
+          "cita": "Se estima que afectan entre un 5-12% de la población, con una prevalencia mayor en mujeres."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-16",
+      "tema": "Derrame · Morfología discal",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "derrame articular",
+        "disco articular"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Corte sagital oblicuo en máxima intercuspidación. ¿Qué señalan el asterisco y la flecha blanca, en ese orden?",
+      "imagenes": [
+        {
+          "ref": "fig08",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Disco aplanado y derrame articular",
+        "Disco normal y capa retrodiscal inferior",
+        "Banda posterior engrosada y tendón del pterigoideo",
+        "Cuerpo libre y sinovitis",
+        "Osteofito y quiste subcondral"
+      ],
+      "correcta": 0,
+      "explicacion": "- Asterisco: **disco aplanado** (alteración morfológica). Flecha: **derrame articular**.\n- El derrame es una acumulación patológica de líquido en los espacios articulares, asociada a un proceso inflamatorio; se evalúa mejor en **T2 con supresión grasa**.\n- Es frecuente en pacientes con dolor articular.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 142, leyenda de la Figura 8",
+          "cita": "Alteración morfológica discal y derrame articular. Corte sagital oblicuo en máxima intercuspidación demuestra disco aplanado (asterisco) y derrame articular (flecha blanca)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "Corresponde a una acumulación patológica de líquido articular en espacios articulares, asociado a un proceso inflamatorio (Fig. 8). El líquido es mejor evaluado en imágenes T2 con supresión grasa."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "Es una condición frecuentemente encontrada en pacientes que presentan dolor articular."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null,
+      "notas_revision": "La leyenda de la Figura 8 no indica la secuencia; el piloto decía «T2 con saturación grasa» en el enunciado. Se quitó hasta confirmarlo con la imagen."
+    },
+    {
+      "id": "atm-17",
+      "tema": "Morfología discal · Deformación",
+      "nivel": "R2",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "disco articular",
+        "artrosis"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Cortes sagitales en DP (A) y T2 FS (B). Además de la marcada irregularidad de la cabeza condilar, ¿qué señalan la flecha continua, el círculo y la flecha punteada?",
+      "imagenes": [
+        {
+          "ref": "fig15",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Disco desplazado medial, quiste óseo y fibrosis retrodiscal",
+        "Cuerpo libre, fractura subcondral y sinovitis anterior",
+        "Disco redondeado, edema subcondral y edema retrodiscal",
+        "Disco bicóncavo normal, erosión cortical y derrame articular",
+        "Disco plegado, osteofito y tendón del pterigoideo engrosado"
+      ],
+      "correcta": 2,
+      "explicacion": "- Flecha continua: **disco redondeado**. Círculo: **edema subcondral**. Flecha punteada: **edema retrodiscal**. Además hay osteoartritis degenerativa con marcada irregularidad de la cabeza condilar.\n- La morfología discal se evalúa con la boca cerrada, en el plano sagital; el disco normal es bicóncavo.\n- Deformaciones posibles: aplanamiento uniforme, banda posterior aplanada, plegamiento, engrosamiento de la banda posterior y forma biconvexa o redondeada.\n- El tipo de deformación se relaciona con el grado de desplazamiento del disco y con la evolución.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 146, leyenda de la Figura 15",
+          "cita": "Deformación discal. Corte sagital en PD (A) y T2 FS (B) que demuestra disco articular redondeado (flecha blanca) además de osteoartritis degenerativa con marcada irregularidad de la cabeza condilar, edema subcondral (círculo blanco) y edema retrodiscal (flecha punteada)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 146",
+          "cita": "La morfología discal es evaluada con la boca cerrada, en plano sagital"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 146",
+          "cita": "Estas alteraciones pueden ser: aplanamiento uniforme, banda posterior aplanada, plegamiento, engrosamiento de la banda posterior y forma biconvexa o redondeada (Fig. 15)"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 146",
+          "cita": "El tipo de deformación se relaciona con el grado de desplazamiento que posee el disco y la evolución de la patología."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-18",
+      "tema": "Artrosis",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "artrosis"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Cortes coronal (A) y sagital (B) oblicuos en máxima intercuspidación. ¿Diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig09",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Artrosis de la ATM",
+        "Artritis idiopática juvenil",
+        "Condromatosis sinovial",
+        "Cóndilo bífido",
+        "Hipoplasia condilar"
+      ],
+      "correcta": 0,
+      "explicacion": "- Remodelación e irregularidad de la superficie articular, **disminución del espacio articular** y **osteofitos marginales** (círculo).\n- Otros hallazgos de artrosis: aplanamiento, erosiones, quistes y esclerosis subcondral.\n- Es la vía final común de cualquier lesión de la ATM; los desplazamientos discales pueden ser precursores.",
+      "perla": "Si hay compromiso erosivo del disco, descartar la enfermedad por depósito de pirofosfato de calcio dihidrato, que produce una artrosis desmesurada para la edad.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 143, leyenda de la Figura 9",
+          "cita": "Artrosis de articulación temporomandibular. Corte coronal (A) y sagital (B) oblicuos en máxima intercuspidación que demuestran remodelación e irregularidad de la superficie articular, con disminución del espacio articular y osteofitos marginales (círculo blanco)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "Imagenológicamente, se caracteriza por aplanamiento e irregularidad de la superficie articular, además de osteofitos, erosiones, quistes y esclerosis subcondral, habitualmente asociado a disminución del espacio articular (Fig. 9)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "Corresponde a la vía final común de cualquier lesión sobre la articulación ATM."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "Los desplazamientos discales pueden ser precursores de esta condición"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "cuando hay compromiso erosivo del disco se debe descartar el depósito de pirofosfato de calcio dihidrato, que genera una artrosis desmesurada para la edad del paciente."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-19",
+      "tema": "Artrosis · Diferencial",
+      "nivel": "R3",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "artrosis",
+        "CPPD"
+      ],
+      "tipo": "concepto",
+      "enunciado": "Según la revisión, ante una artrosis de ATM desmesurada para la edad y con compromiso erosivo del disco, ¿qué entidad debe descartarse?",
+      "imagenes": [],
+      "opciones": [
+        "Depósito de pirofosfato cálcico (CPPD)",
+        "Displasia fibrosa del cóndilo mandibular",
+        "Osteonecrosis mandibular por bifosfonatos",
+        "Gota tofácea de la ATM",
+        "Hiperparatiroidismo con resorción subcondral"
+      ],
+      "correcta": 0,
+      "explicacion": "- La revisión indica descartar la **enfermedad por depósito de pirofosfato de calcio dihidrato** cuando hay compromiso erosivo del disco, porque genera una artrosis desmesurada para la edad del paciente.\n- La artrosis de ATM predomina en personas mayores, pero también puede verse en jóvenes, que suelen tener una clínica más sintomática.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "cuando hay compromiso erosivo del disco se debe descartar el depósito de pirofosfato de calcio dihidrato, que genera una artrosis desmesurada para la edad del paciente."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "está presente en una gran proporción de individuos de mayor edad, aunque también puede verse en pacientes jóvenes, quienes presentan una clínica más sintomática."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-20",
+      "tema": "Técnica · TC frente a RM",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "técnica",
+        "TC"
+      ],
+      "tipo": "concepto",
+      "enunciado": "Según la revisión, ¿cuándo es la TC el estudio de elección en la ATM?",
+      "imagenes": [],
+      "opciones": [
+        "Para evaluar la posición y la morfología del disco",
+        "Ante patología ósea: erosiones, anquilosis o trauma",
+        "Para diferenciar el derrame articular de la sinovitis",
+        "Para el estudio dinámico de la apertura bucal",
+        "Para detectar derrame articular en pacientes con dolor"
+      ],
+      "correcta": 1,
+      "explicacion": "- La **TC** es de elección para la patología ósea: cambios degenerativos (erosiones, osteofitos), puentes óseos que anquilosan la articulación, remodelamiento y esclerosis subcortical, sospecha de trauma o dudas del componente óseo en la RM.\n- La **RM** es el examen de mayor rendimiento en los TTM: da información anatómica y funcional del hueso y las partes blandas, principalmente del disco.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 137",
+          "cita": "La TC es el estudio de elección cuando se quieren evaluar patologías que afecten la estructura ósea de la articulación, como cambios degenerativos, en búsqueda de erosiones, osteofitos y puentes óseos que anquilosen la articulación, además de remodelamiento y esclerosis subcortical, así como también en cuando se sospecha patología traumática y cuando queden dudas del componente óseo en la RM."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 137",
+          "cita": "La RM es el examen con mayor rendimiento en los TTM"
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-21",
+      "tema": "Movilidad · Hipermovilidad",
+      "nivel": "R2",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "movilidad"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Sagital oblicuo en boca abierta. ¿Qué muestra la flecha blanca y qué riesgo implica?",
+      "imagenes": [
+        {
+          "ref": "fig10",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Posición normal del cóndilo en la apertura máxima",
+        "Desplazamiento discal posterior; riesgo de artrosis precoz",
+        "Hipermovilidad condilar; riesgo de bloqueo mandibular",
+        "Hipomovilidad condilar; riesgo de anquilosis ósea",
+        "Fractura del cuello condilar; riesgo de maloclusión"
+      ],
+      "correcta": 2,
+      "explicacion": "- **Hipermovilidad:** en la apertura, el cóndilo se traslada más allá de la inserción anterior de la cápsula y queda **por delante del tubérculo articular**.\n- Si sobrepasa ese límite, puede quedar atrapado por delante de la eminencia y producir un **bloqueo mandibular**, sin poder volver a su posición normal.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 143, leyenda de la Figura 10",
+          "cita": "Hipermotilidad condilar. Sagital oblicuo en boca abierta con traslación condilar por delante de la eminencia articular (flecha blanca)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "pueden trasladar el cóndilo mandibular más allá de la inserción anterior de la cápsula articular, quedando por delante del tubérculo articular. Al sobrepasar este límite, el cóndilo puede quedar atrapado en zona anterior de la eminencia articular (Fig. 10), produciéndose un bloqueo mandibular, con la consiguiente incapacidad de trasladar el cóndilo a su posición normal."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-22",
+      "tema": "Movilidad · Hipomovilidad",
+      "nivel": "R3",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "movilidad"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Corte sagital en oclusión (A) y en apertura máxima de 20 mm (B). La flecha señala la zona retrodiscal y el círculo, el cóndilo. ¿Diagnóstico?",
+      "imagenes": [
+        {
+          "ref": "fig11",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Desplazamiento discal anterior con reducción",
+        "Atascamiento discal con hipomovilidad",
+        "Hipermovilidad con luxación anterior",
+        "Artrosis avanzada con anquilosis ósea",
+        "Condromatosis sinovial con cuerpos libres"
+      ],
+      "correcta": 1,
+      "explicacion": "- Hay desplazamiento anterior con deformación discal y **metaplasia fibrosa de la zona retrodiscal** (flecha), con atascamiento del disco que **limita la traslación condilar** (círculo).\n- **Hipomovilidad:** el cóndilo no alcanza el ápice del tubérculo articular.\n- Causas: atascamiento del disco por fibrosis retrodiscal, fractura del cóndilo, procesos infecciosos o inflamatorios, infiltración neoplásica de la musculatura masticatoria y degeneración avanzada.\n- El dolor articular también favorece la hipomovilidad.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 144, leyenda de la Figura 11",
+          "cita": "Atascamiento discal con hipomotilidad: corte sagital en oclusión (A) y apertura máxima 20 mm (B) que demuestra desplazamiento anterior con deformación discal y metaplasia fibrosa de zona retro discal (flecha blanca), asociado a atascamiento del disco, limitando la traslación condilar (círculo blanco)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "La hipomotilidad corresponde a la incapacidad del cóndilo de alcanzar el ápice del tubérculo articular."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "Dentro de sus principales causas se encuentra el atascamiento del disco por fibrosis retrodiscal, fracturas del cóndilo, procesos infecciosos/inflamatorios, infiltración neoplásica de la musculatura masticatoria y fenómenos degenerativos avanzados, entre otros."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "se debe considerar que el dolor articular también favorece a la hipomotilidad de la ATM."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-23",
+      "tema": "Desarrollo · Hipoplasia",
+      "nivel": "R2",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "desarrollo"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de la ATM derecha (círculo blanco). ¿Diagnóstico?",
+      "imagenes": [
+        {
+          "ref": "fig12",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Hiperplasia condilar unilateral",
+        "Cóndilo bífido con artrosis",
+        "Hipoplasia del cóndilo derecho",
+        "Condromatosis sinovial",
+        "Artritis séptica con erosión"
+      ],
+      "correcta": 2,
+      "explicacion": "- El cóndilo derecho tiene **menor desarrollo**, con fenómenos degenerativos (círculo).\n- Las alteraciones del desarrollo (aplasia, hipoplasia, hiperplasia y cóndilo bífido) se sospechan ante alteraciones de la simetría facial, que pueden ser progresivas.\n- Pueden asociarse a anomalías del conducto auditivo externo o del oído medio.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 144, leyenda de la Figura 12",
+          "cita": "Hipoplasia condilar. Menor desarrollo del cóndilo derecho y fenómenos degenerativos (círculo blanco)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "Estas condiciones se sospechan cuando existen alteraciones de la simetría facial, la cual puede ser progresiva. Además, pueden asociarse a anomalías del conducto auditivo externo y/o en el oído medio. En estos casos deben buscarse aplasia condilar, hipoplasia condilar (Fig. 12), hiperplasia y cóndilo bífido (Fig. 13)."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null,
+      "notas_revision": "Se quitó «asimetría facial progresiva» del enunciado: la revisión la describe en general, no para este paciente. Con una sola ATM visible, confirmar que la imagen basta para el diagnóstico."
+    },
+    {
+      "id": "atm-24",
+      "tema": "Desarrollo · Cóndilo bífido",
+      "nivel": "R2",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "desarrollo"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de ATM. ¿Qué muestra la flecha blanca?",
+      "imagenes": [
+        {
+          "ref": "fig13",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Cuerpo libre intraarticular",
+        "Fractura condilar",
+        "Osteofito anterior",
+        "Hipoplasia condilar",
+        "Cóndilo bífido"
+      ],
+      "correcta": 4,
+      "explicacion": "- **Cóndilo bífido:** morfología bífida de la cabeza condilar (flecha).\n- Es una de las alteraciones del desarrollo de la ATM, junto con la aplasia, la hipoplasia y la hiperplasia condilar; se sospechan ante alteraciones de la simetría facial.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 144, leyenda de la Figura 13",
+          "cita": "Cóndilo bífido. Morfología bífida de la cabeza condilar (flecha blanca)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "Estas condiciones se sospechan cuando existen alteraciones de la simetría facial, la cual puede ser progresiva. Además, pueden asociarse a anomalías del conducto auditivo externo y/o en el oído medio. En estos casos deben buscarse aplasia condilar, hipoplasia condilar (Fig. 12), hiperplasia y cóndilo bífido (Fig. 13)."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null,
+      "notas_revision": "El piloto decía «corte sagital»; la leyenda no indica el plano y la imagen parece coronal. Se dejó sin plano hasta confirmarlo."
+    },
+    {
+      "id": "atm-25",
+      "tema": "Sinovial · Condromatosis",
+      "nivel": "R2",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "sinovial"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de ATM (círculo blanco). ¿Diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig14",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Artritis reumatoide",
+        "Desplazamiento discal sin reducción",
+        "Derrame articular simple",
+        "Artrosis de la ATM",
+        "Condromatosis sinovial"
+      ],
+      "correcta": 4,
+      "explicacion": "- **Expansión del espacio articular** con **múltiples cuerpos libres de baja señal** (círculo).\n- Trastorno poco frecuente: un proceso condrometaplásico de remanentes mesenquimales de la sinovial forma cuerpos cartilaginosos dentro del espacio articular.\n- Suele ser unilateral y con síntomas inespecíficos, parecidos a los de otros TTM.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145, leyenda de la Figura 14",
+          "cita": "Condromatosis sinovial. Expansión del espacio articular con múltiples cuerpos libres de baja señal (círculo blanco)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "Se trata de un trastorno poco frecuente, en el cual hay un proceso condrometaplásico de remanentes mesenquimales de la membrana sinovial, donde se puede encontrar la presencia de cuerpos cartilaginosos al interior del espacio articular."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 145",
+          "cita": "Generalmente se presenta unilateralmente con sintomatología inespecífica, similar a otros TTM (Fig. 14)."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null,
+      "notas_revision": "Se quitó «dolor unilateral inespecífico» del enunciado: la revisión lo describe en general, no para este paciente."
+    },
+    {
+      "id": "atm-26",
+      "tema": "Inflamatoria · Artritis idiopática juvenil",
+      "nivel": "R3",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "inflamatoria",
+        "pediatría"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Paciente de 13 años con sospecha de artritis idiopática juvenil. Corte sagital T1 FS con gadolinio. ¿Qué hallazgos se señalan?",
+      "imagenes": [
+        {
+          "ref": "fig16",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Hipoplasia condilar congénita sin inflamación",
+        "Osteítis, erosión condilar y sinovitis",
+        "Desplazamiento discal anterior con reducción",
+        "Derrame simple sin realce, con cóndilo normal",
+        "Cuerpos libres calcificados en el receso anterior"
+      ],
+      "correcta": 1,
+      "explicacion": "- **Osteítis:** hiperseñal de la médula ósea del cóndilo (comparar con el ángulo mandibular).\n- **Erosión** de la cabeza condilar (flecha) y **engrosamiento y realce sinovial** (asteriscos).\n- La patología inflamatoria más común de la ATM es la artritis reumatoide; le siguen la artritis idiopática juvenil, el depósito de pirofosfato de calcio, la artritis séptica, la espondilitis anquilosante y la artritis psoriásica.\n- El contraste es fundamental para diferenciar el derrame sinovial de la sinovitis.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 146, leyenda de la Figura 16",
+          "cita": "Patología inflamatoria de la articulación temporomandibular. Paciente de 13 años de edad con sospecha de artritis idiopática juvenil. Corte sagital en T1 FS con gadolinio donde se observa osteítis (compare hiperseñal de la medula ósea del cóndilo en relación con el ángulo mandibular), erosión de la cabeza condilar (flecha blanca), junto con realce y engrosamiento sinovial de la articulación temporomandibular (asterisco)."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 146",
+          "cita": "La patología inflamatoria más común es la artritis reumatoide. Le sigue la artritis idiopática juvenil, enfermedad por depósito de pirofosfato de calcio, artritis séptica, espondilitis anquilosante, artritis psoriásica y otras enfermedades reumatológicas."
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 146",
+          "cita": "es fundamental el uso de medio de contraste para diferenciar el derrame sinovial de la sinovitis"
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "atm-27",
+      "tema": "Sistemática de lectura",
+      "nivel": "R1",
+      "etiquetas": [
+        "ATM",
+        "RM",
+        "sistemática"
+      ],
+      "tipo": "concepto",
+      "enunciado": "La revisión propone leer la RM de ATM en cuatro etapas. ¿En qué orden?",
+      "imagenes": [],
+      "opciones": [
+        "Disco y uniones → espacio articular → hueso → espacio masticatorio",
+        "Disco y uniones → hueso → espacio masticatorio → espacio articular",
+        "Espacio masticatorio → disco y uniones → hueso → espacio articular",
+        "Espacio articular → hueso → disco y uniones → espacio masticatorio",
+        "Hueso → espacio articular → disco y uniones → espacio masticatorio"
+      ],
+      "correcta": 0,
+      "explicacion": "1. **Disco y sus uniones:** localización, morfología y desplazamiento; zona retrodiscal.\n2. **Espacio articular:** amplitud, derrame, anormalidades sinoviales y capsulares, cuerpos libres.\n3. **Hueso:** morfología condilar y temporal, señal de la médula ósea, lesiones traumáticas o tumorales.\n4. **Espacio masticatorio:** morfología, señal y grosor del músculo pterigoideo lateral.",
+      "evidencia": [
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 146",
+          "cita": "Se sugiere abordar el estudio en cuatro etapas, iniciando por la evaluación del disco"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 147",
+          "cita": "Luego, continuar con el espacio articular buscando cambios en su amplitud, derrame articular, anormalidades sinoviales, capsulares y presencia de cuerpos libres. En una tercera etapa, se sugiere evaluar el componente óseo de la ATM"
+        },
+        {
+          "fuente": "lopezramirez2024",
+          "ubicacion": "p. 147",
+          "cita": "Finalmente se debe evaluar el espacio masticatorio, principalmente las alteraciones en la morfología, señal y grosor del músculo pterigoideo lateral (Tabla 2)."
+        }
+      ],
+      "estado": "borrador",
+      "autor": "pluna",
+      "revisor": null
+    }
+  ]
+}

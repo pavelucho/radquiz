@@ -1,0 +1,104 @@
+# RadQuiz
+
+Casos radiológicos para residentes, en vivo (tipo Kahoot) y en práctica individual. Gratis, sin cuentas y en español.
+El plan completo está en el documento del proyecto; este archivo explica el repositorio.
+
+## Estructura
+
+```
+schema/                     JSON Schema del formato (paquete, caso, fuentes)
+tools/validar               validador; no necesita instalar nada
+tools/config.json           límites de imagen, sitios bloqueados y umbrales
+docs/guia-estilo-ia.md      cómo escribir casos (para personas y para la IA)
+temas/<segmento>/<tema>/    un paquete por tema:
+    paquete.json              metadatos, catálogo de imágenes y casos
+    fuentes.json              artículos o casos citados, con licencia verificada
+    img/                      imágenes JPG (lado mayor ≤ 1600 px, ≤ 250 KB)
+    REVISION.md               cambios y pendientes para el revisor (opcional)
+index.html, practica.html   app estática: lista de temas y práctica individual
+sala.html                   sala en vivo (presentador y jugadores)
+app/                        código de la app; app/firebase-config.js apunta al proyecto de Firebase
+database.rules.json         reglas de seguridad de la sala en vivo (Firebase Realtime Database)
+firebase.json, .firebaserc  despliegue de reglas y acceso anónimo con la CLI de Firebase
+tools/construir_sitio       arma _site/ con solo los casos publicados
+```
+
+`referencia/` (prototipo y respaldo del piloto) queda solo en la computadora del autor: no se sube.
+
+## En línea
+
+- Web: https://pavelucho.github.io/radquiz/ (GitHub Pages, gratis, siempre disponible).
+- Cada `git push` a `main` valida los temas, arma el sitio y lo publica (`.github/workflows/publicar.yml`).
+- **A la web solo salen los casos en estado `publicado`.** Los borradores quedan en el repositorio, pero no en el sitio.
+- La sala en vivo usa Firebase Realtime Database (plan Spark gratis, proyecto `radquiz-shpn2`, us-central1) solo para
+  el estado de cada sala. Si se cambian las reglas: `firebase deploy --only database,auth`.
+
+## Sala en vivo
+
+1. El presentador abre `sala.html`, pulsa «Crear sala», elige tema, nivel y tiempo, y proyecta el código de 4 letras.
+2. Los residentes abren la web en el celular, escriben el código y su nombre. No hay cuentas: cada navegador recibe
+   una identidad anónima de Firebase.
+3. Puntaje: 500 por acierto + hasta 500 por rapidez, con la hora del servidor. Una respuesta por pregunta.
+4. Al cerrar la sala se borran nombres, respuestas y puntajes. Las salas abandonadas se borran solas después de 24 h,
+   cuando alguien crea una sala nueva.
+
+Las reglas (`database.rules.json`) impiden que un jugador cambie el estado, toque puntajes, escriba por otro, responda
+dos veces, responda fuera de tiempo o lea las respuestas ajenas antes de revelarlas.
+
+Para ensayar con casos sin publicar: correr el sitio en la computadora y marcar «Incluir casos sin publicar» al crear
+la sala. Los jugadores tienen que abrir esa misma dirección (misma red Wi-Fi: `python3 -m http.server 8000 --bind 0.0.0.0`
+y la IP de la computadora).
+
+## Validar
+
+```bash
+tools/validar
+```
+
+Con Python 3.9 o superior basta (viene en macOS). Otras opciones:
+
+- `tools/validar temas/torax/mi-tema`: solo esa carpeta.
+- `tools/validar --estricto`: los avisos también cuentan como errores.
+- `tools/validar --indice`: si no hay errores, escribe `temas/indice.json`, que la app usa para listar los temas.
+
+**Error** es algo roto o prohibido: formato, imagen que falta o pesa demasiado, respuesta fuera de rango, HTML en los
+textos, fuente de un sitio bloqueado, figura ND modificada, revisor igual al autor. **Aviso** es algo pendiente o
+sospechoso: en un borrador lo pendiente es aviso, y en un caso revisado o publicado pasa a ser error.
+
+También avisa si la correcta es la opción más larga en más de un tercio de los casos, si las respuestas se concentran en
+una letra, si una imagen trae metadatos EXIF o si un caso de concepto tiene una imagen decorativa en la pregunta.
+
+## Decisiones de formato
+
+1. **Markdown limitado, no HTML**, en enunciados, opciones, explicaciones y perlas: `**negrita**`, `*cursiva*` y listas.
+   Es seguro de mostrar y se lee bien al revisar cambios en GitHub.
+2. **Catálogo de imágenes por paquete.** Cada imagen tiene una ficha (leyenda textual, paneles, marcas,
+   modificaciones) y los casos la citan por su id. En la ficha, una clave ausente significa «pendiente» y `null`
+   significa «la fuente no lo indica».
+3. **`evidencia` en cada caso:** página y frase textual de la fuente. Hace que revisar tome segundos y evita que la IA
+   invente.
+4. **La validación depende del estado.** En borrador se permite lo pendiente. En revisado o publicado se exigen ficha
+   completa, nivel, evidencia, licencia verificada y un revisor distinto del autor.
+5. **La app baraja las opciones** (`"barajar": false` si el orden importa). Por eso el reparto de letras pesa menos
+   que el largo de las opciones.
+6. **Id único en todo el repositorio:** `<paquete>/<caso>`.
+
+## Agregar un tema
+
+1. Crear `temas/<segmento>/<id>/` con `paquete.json`, `fuentes.json` e `img/`, siguiendo `docs/guia-estilo-ia.md`.
+2. Correr `tools/validar` hasta que no haya errores.
+3. Proponer el cambio en GitHub. Un revisor del segmento aprueba cada caso (`estado`, `revisor`, `fecha_revision`).
+
+## Probar la app en la computadora
+
+```bash
+python3 -m http.server 8000
+```
+
+Luego abrir `http://localhost:8000`. Para ver los borradores, como en la revisión:
+`http://localhost:8000/practica.html?tema=cabeza-cuello/atm-rm-lopezramirez2024&revision=1`.
+
+## Licencias
+
+Cada imagen conserva la licencia de su fuente, indicada en `fuentes.json` y en el crédito que muestra la app. Las
+figuras con licencia ND no se recortan ni se anotan. La licencia del código y la de los textos propios aún no se decide.

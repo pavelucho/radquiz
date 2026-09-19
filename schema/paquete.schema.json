@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "paquete.schema.json",
+  "title": "Paquete de RadQuiz",
+  "description": "Un tema: metadatos, catálogo de imágenes y casos. Vive en temas/<segmento>/<id>/paquete.json.",
+  "type": "object",
+  "required": ["id", "titulo", "segmento", "modalidades", "idioma", "version", "imagenes", "casos"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": {
+      "description": "Igual al nombre de la carpeta del paquete.",
+      "$ref": "#/$defs/slug"
+    },
+    "titulo": { "type": "string", "minLength": 3, "maxLength": 120 },
+    "descripcion": { "type": "string" },
+    "segmento": { "$ref": "#/$defs/segmento" },
+    "modalidades": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/modalidad" },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "idioma": { "enum": ["es"] },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "imagenes": {
+      "description": "Catálogo de imágenes del paquete. La clave es el id que usan los casos.",
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/slug" },
+      "additionalProperties": { "$ref": "#/$defs/imagen" }
+    },
+    "casos": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "caso.schema.json" }
+    }
+  },
+  "$defs": {
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "segmento": {
+      "enum": [
+        "neurorradiologia", "cabeza-cuello", "torax", "cardiovascular", "abdomen", "genitourinario",
+        "musculoesqueletico", "mama", "pediatria", "intervencionismo", "fisica-tecnica"
+      ]
+    },
+    "modalidad": {
+      "enum": ["Rx", "US", "TC", "RM", "MN", "PET-TC", "Mamografía", "Fluoroscopía", "Angiografía"]
+    },
+    "dato_ficha": {
+      "description": "Texto, o null si la fuente no lo indica. Una clave ausente significa «pendiente de completar».",
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "imagen": {
+      "type": "object",
+      "required": ["archivo", "fuente", "figura", "modificaciones"],
+      "additionalProperties": false,
+      "properties": {
+        "archivo": { "type": "string", "pattern": "^[a-z0-9]+([-_][a-z0-9]+)*\\.jpg$" },
+        "fuente": { "$ref": "#/$defs/slug" },
+        "figura": { "type": "string", "minLength": 1, "description": "Como la nombra la fuente: «Figura 2», «Tabla 1»." },
+        "leyenda_original": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Leyenda tal cual en la fuente, sin traducir (traducir es adaptar)."
+        },
+        "modalidad": {
+          "anyOf": [{ "$ref": "#/$defs/modalidad" }, { "type": "null" }]
+        },
+        "paneles": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/panel" }
+        },
+        "marcas": {
+          "description": "Qué señala cada flecha, círculo, asterisco o número. Lista vacía si la imagen no tiene marcas.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/marca" }
+        },
+        "modificaciones": {
+          "description": "Cambios hechos a la figura original. Con licencias ND solo se admiten los técnicos.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["redimensionada", "comprimida", "recortada", "anotada", "anonimizada"] }
+        },
+        "notas": { "type": "string", "description": "Observaciones para el revisor; no se muestran al residente." }
+      }
+    },
+    "panel": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 12, "description": "Letra del panel («A») o «único»." },
+        "lado": { "enum": ["derecho", "izquierdo", "bilateral", null] },
+        "plano": { "$ref": "#/$defs/dato_ficha" },
+        "secuencia": { "$ref": "#/$defs/dato_ficha" },
+        "condicion": { "$ref": "#/$defs/dato_ficha" }
+      }
+    },
+    "marca": {
+      "type": "object",
+      "required": ["marca", "senala"],
+      "additionalProperties": false,
+      "properties": {
+        "marca": { "type": "string", "minLength": 1 },
+        "panel": { "type": ["string", "null"] },
+        "senala": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

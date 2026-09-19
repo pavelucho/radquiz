@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+"""Arma _site/, la versión pública de RadQuiz que se publica en GitHub Pages.
+
+Uso:
+    tools/construir_sitio            escribe _site/
+
+Solo entran los casos en estado «publicado»: los borradores y los revisados no salen a la web.
+De cada paquete se copian solo las imágenes y las fuentes que usan esos casos. Un tema sin casos
+publicados aparece en la lista como «En revisión».
+"""
+
+import json
+import shutil
+import sys
+from pathlib import Path
+
+RAIZ = Path(__file__).resolve().parent.parent
+DESTINO = RAIZ / "_site"
+ARCHIVOS_APP = ["index.html", "practica.html", "sala.html"]
+
+
+def construir():
+    if DESTINO.exists():
+        shutil.rmtree(DESTINO)
+    DESTINO.mkdir()
+    for nombre in ARCHIVOS_APP:
+        shutil.copy2(RAIZ / nombre, DESTINO / nombre)
+    shutil.copytree(RAIZ / "app", DESTINO / "app")
+    (DESTINO / ".nojekyll").write_text("")
+
+    indice = []
+    for ruta_paquete in sorted((RAIZ / "temas").glob("*/*/paquete.json")):
+        carpeta = ruta_paquete.parent
+        paquete = json.loads(ruta_paquete.read_text(encoding="utf-8"))
+        fuentes = json.loads((carpeta / "fuentes.json").read_text(encoding="utf-8"))
+
+        casos = [c for c in paquete["casos"] if c.get("estado") == "publicado"]
+        refs = {r["ref"] for c in casos for r in c.get("imagenes", [])}
+        imagenes = {k: v for k, v in paquete["imagenes"].items() if k in refs}
+        citadas = {v["fuente"] for v in imagenes.values()}
+        citadas |= {e["fuente"] for c in casos for e in c.get("evidencia", [])}
+
+        publico = {k: v for k, v in paquete.items() if k not in ("$schema", "imagenes", "casos")}
+        publico["imagenes"] = imagenes
+        publico["casos"] = casos
+        fuentes_publicas = {k: v for k, v in fuentes.items() if k in citadas}
+
+        salida = DESTINO / "temas" / carpeta.parent.name / carpeta.name
+        (salida / "img").mkdir(parents=True)
+        (salida / "paquete.json").write_text(json.dumps(publico, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        (salida / "fuentes.json").write_text(json.dumps(fuentes_publicas, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        for imagen in imagenes.values():
+            shutil.copy2(carpeta / "img" / imagen["archivo"], salida / "img" / imagen["archivo"])
+
+        indice.append({
+            "ruta": "%s/%s" % (carpeta.parent.name, carpeta.name),
+            "id": paquete["id"],
+            "titulo": paquete["titulo"],
+            "segmento": paquete["segmento"],
+            "modalidades": paquete.get("modalidades", []),
+            "version": paquete.get("version"),
+            "casos": {"borrador": 0, "revisado": 0, "publicado": len(casos)},
+        })
+        print("%-50s %3d publicados de %3d, %2d imágenes"
+              % (indice[-1]["ruta"], len(casos), len(paquete["casos"]), len(imagenes)))
+
+    (DESTINO / "temas" / "indice.json").write_text(
+        json.dumps({"paquetes": indice}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print("Sitio listo en %s" % DESTINO.relative_to(RAIZ))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(construir())

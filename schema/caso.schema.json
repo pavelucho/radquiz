@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "caso.schema.json",
+  "title": "Caso de RadQuiz",
+  "description": "Una pregunta de opción múltiple. Los textos van en Markdown limitado: **negrita**, *cursiva*, listas con «- » o «1. » y párrafos. Sin HTML.",
+  "type": "object",
+  "required": [
+    "id", "tema", "nivel", "tipo", "enunciado", "imagenes", "opciones", "correcta",
+    "explicacion", "evidencia", "estado", "autor", "revisor"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "description": "Único dentro del repositorio al combinarse con el paquete: <paquete>/<id>.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "tema": { "type": "string", "minLength": 2, "maxLength": 80 },
+    "nivel": {
+      "description": "null solo en borrador.",
+      "enum": ["R1", "R2", "R3", null]
+    },
+    "etiquetas": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 40 }
+    },
+    "tipo": {
+      "description": "imagen: la respuesta depende de mirar la imagen. concepto: se responde sin imagen.",
+      "enum": ["imagen", "concepto"]
+    },
+    "enunciado": { "$ref": "#/$defs/texto" },
+    "imagenes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ref", "mostrar_en"],
+        "additionalProperties": false,
+        "properties": {
+          "ref": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "Id en el catálogo de imágenes del paquete." },
+          "mostrar_en": { "enum": ["pregunta", "respuesta"] }
+        }
+      }
+    },
+    "opciones": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 160 }
+    },
+    "correcta": {
+      "description": "Posición de la opción correcta, contando desde 0 (0 = A).",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4
+    },
+    "barajar": {
+      "description": "false si el orden de las opciones importa. Por defecto la app las baraja.",
+      "type": "boolean"
+    },
+    "explicacion": { "$ref": "#/$defs/texto" },
+    "perla": { "$ref": "#/$defs/texto" },
+    "evidencia": {
+      "description": "De dónde sale la respuesta: ubicación y frase textual de la fuente. Obligatoria para revisar.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fuente", "ubicacion", "cita"],
+        "additionalProperties": false,
+        "properties": {
+          "fuente": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+          "ubicacion": { "type": "string", "minLength": 2, "description": "Página, figura o tabla: «p. 139, Figura 2»." },
+          "cita": { "type": "string", "minLength": 10, "maxLength": 600 }
+        }
+      }
+    },
+    "estado": { "enum": ["borrador", "revisado", "publicado"] },
+    "autor": { "type": "string", "pattern": "^[a-z0-9._-]+$" },
+    "revisor": { "type": ["string", "null"], "pattern": "^[a-z0-9._-]+$" },
+    "fecha_revision": { "type": ["string", "null"], "format": "date" },
+    "notas_revision": { "type": "string" }
+  },
+  "$defs": {
+    "texto": { "type": "string", "minLength": 1, "maxLength": 2000 }
+  }
+}

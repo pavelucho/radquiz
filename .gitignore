@@ -1,0 +1,18 @@
+# Sitio generado por tools/construir_sitio
+_site/
+
+# Solo en esta computadora: prototipo, respaldo del piloto antes de migrarlo
+# (incluye recortes de figuras ND y casos con datos no sustentados) y notas personales
+referencia/
+PROMPT_INICIO.md
+
+# Firebase CLI
+.firebase/
+*-debug.log
+
+# Sistema
+.DS_Store
+__pycache__/
+
+# Generado por tools/validar --indice (el sitio público arma el suyo)
+temas/indice.json

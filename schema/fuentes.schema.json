@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fuentes.schema.json",
+  "title": "Fuentes de un paquete de RadQuiz",
+  "description": "Artículos y casos citados. La clave es el id que usan las imágenes y la evidencia de los casos.",
+  "type": "object",
+  "minProperties": 1,
+  "propertyNames": { "type": "string", "pattern": "^(\\$schema|[a-z0-9]+(-[a-z0-9]+)*)$" },
+  "additionalProperties": { "$ref": "#/$defs/fuente" },
+  "properties": {
+    "$schema": { "type": "string" }
+  },
+  "$defs": {
+    "fuente": {
+      "type": "object",
+      "required": ["tipo", "cita", "doi", "url", "titular", "licencia", "licencia_url", "modificaciones_permitidas", "verificacion"],
+      "additionalProperties": false,
+      "properties": {
+        "tipo": { "enum": ["articulo", "caso", "libro", "banco"] },
+        "cita": { "type": "string", "minLength": 20, "description": "Estilo Vancouver." },
+        "credito": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 80,
+          "description": "Atribución corta que la app muestra bajo cada imagen: «López-Ramírez M, et al. Austral J Imaging. 2024»."
+        },
+        "doi": {
+          "description": "Obligatorio en artículos. null solo si la fuente no tiene DOI.",
+          "type": ["string", "null"],
+          "pattern": "^10\\.[0-9]{4,9}/\\S+$"
+        },
+        "url": { "type": "string", "pattern": "^https://\\S+$" },
+        "version_usada": { "type": "string", "description": "Idioma, formato o páginas de la versión de donde salen imágenes y citas." },
+        "autor_caso": { "type": "string", "description": "Autor del caso en bancos que exigen nombrarlo (Radiopaedia)." },
+        "titular": { "type": "string", "minLength": 3, "description": "Titular de los derechos, como figura en la fuente." },
+        "licencia": {
+          "enum": [
+            "CC0 1.0", "CC BY 4.0", "CC BY-SA 4.0", "CC BY-NC 4.0", "CC BY-NC-SA 4.0", "CC BY-NC-ND 4.0",
+            "CC BY 3.0", "CC BY-SA 3.0", "CC BY-NC 3.0", "CC BY-NC-SA 3.0", "CC BY-NC-ND 3.0",
+            "Dominio público", "Por confirmar"
+          ]
+        },
+        "licencia_url": { "type": ["string", "null"], "pattern": "^https://\\S+$" },
+        "modificaciones_permitidas": { "type": "boolean" },
+        "verificacion": {
+          "description": "Quién confirmó la licencia en la fuente original, cuándo y dónde. null = sin verificar.",
+          "anyOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["fecha", "por", "donde"],
+              "additionalProperties": false,
+              "properties": {
+                "fecha": { "type": "string", "format": "date" },
+                "por": { "type": "string", "minLength": 2 },
+                "donde": { "type": "string", "minLength": 3 }
+              }
+            }
+          ]
+        },
+        "notas": { "type": "string" }
+      }
+    }
+  }
+}

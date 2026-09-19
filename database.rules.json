@@ -1,0 +1,66 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "indice_salas": {
+      ".read": "auth != null",
+      "$codigo": {
+        ".write": "auth != null && ((!data.exists() && root.child('salas').child($codigo).child('info/host').val() == auth.uid) || (data.exists() && !newData.exists() && (root.child('salas').child($codigo).child('info/host').val() == auth.uid || data.val() < now - 86400000)))",
+        ".validate": "newData.val() == now"
+      }
+    },
+    "salas": {
+      "$codigo": {
+        ".write": "auth != null && ((!data.exists() && newData.child('info/host').val() == auth.uid && $codigo.matches(/^[A-Z]{4}$/)) || data.child('info/host').val() == auth.uid || (data.exists() && !newData.exists() && data.child('info/creada').val() < now - 86400000))",
+        "info": {
+          ".read": "auth != null",
+          ".validate": "newData.hasChildren(['host', 'creada', 'tema', 'titulo', 'casos', 'orden', 'duracion'])",
+          "host": { ".validate": "newData.val() == auth.uid" },
+          "creada": { ".validate": "newData.isNumber() && (newData.val() == data.val() || newData.val() == now)" },
+          "tema": { ".validate": "newData.isString() && newData.val().matches(/^[a-z0-9-]+\\/[a-z0-9-]+$/)" },
+          "titulo": { ".validate": "newData.isString() && newData.val().length <= 120" },
+          "duracion": { ".validate": "newData.isNumber() && newData.val() >= 10 && newData.val() <= 180" },
+          "casos": { "$i": { ".validate": "newData.isString() && newData.val().length <= 60" } },
+          "orden": { "$caso": { "$i": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 4" } } },
+          "$otro": { ".validate": false }
+        },
+        "estado": {
+          ".read": "auth != null",
+          ".validate": "newData.hasChildren(['fase', 'indice'])",
+          "fase": { ".validate": "newData.isString() && newData.val().matches(/^(lobby|pregunta|revelar|ranking|fin)$/)" },
+          "indice": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
+          "inicio": { ".validate": "newData.isNumber() && (newData.val() == data.val() || newData.val() == now)" },
+          "$otro": { ".validate": false }
+        },
+        "jugadores": {
+          ".read": "auth != null",
+          "$uid": {
+            ".write": "auth != null && auth.uid == $uid && root.child('salas').child($codigo).child('info').exists()",
+            ".validate": "newData.hasChildren(['nombre', 'unido'])",
+            "nombre": { ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 24" },
+            "unido": { ".validate": "newData.isNumber() && (newData.val() == data.val() || newData.val() == now)" },
+            "$otro": { ".validate": false }
+          }
+        },
+        "respuestas": {
+          ".read": "auth != null && root.child('salas').child($codigo).child('info/host').val() == auth.uid",
+          "$indice": {
+            ".read": "auth != null && (root.child('salas').child($codigo).child('estado/fase').val() != 'pregunta' || root.child('salas').child($codigo).child('estado/indice').val() + '' != $indice)",
+            "$uid": {
+              ".write": "auth != null && auth.uid == $uid && !data.exists() && root.child('salas').child($codigo).child('jugadores').child($uid).exists() && root.child('salas').child($codigo).child('estado/fase').val() == 'pregunta' && root.child('salas').child($codigo).child('estado/indice').val() + '' == $indice && now <= root.child('salas').child($codigo).child('estado/inicio').val() + root.child('salas').child($codigo).child('info/duracion').val() * 1000 + 3000",
+              ".validate": "newData.hasChildren(['opcion', 't'])",
+              "opcion": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 4" },
+              "t": { ".validate": "newData.val() == now" },
+              "$otro": { ".validate": false }
+            }
+          }
+        },
+        "puntajes": {
+          ".read": "auth != null",
+          "$uid": { ".validate": "newData.isNumber() && newData.val() >= 0" }
+        },
+        "$otro": { ".validate": false }
+      }
+    }
+  }
+}

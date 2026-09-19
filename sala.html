@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sala en vivo · RadQuiz</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230c1015%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%229%22 fill=%22none%22 stroke=%22%23f0c24b%22 stroke-width=%223%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="app/estilos.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <a class="brand" href="./">RadQuiz <small id="subtitulo">Sala en vivo</small></a>
+    <span class="spacer"></span>
+    <span class="chip" id="rol">Conectando…</span>
+    <span class="chip" id="conteo" hidden></span>
+  </header>
+  <main id="app" aria-live="polite"><p class="muted">Conectando…</p></main>
+</div>
+<div class="zoom" id="zoom" hidden><img id="zoomImg" alt=""></div>
+<script type="module" src="app/sala.js"></script>
+</body>
+</html>

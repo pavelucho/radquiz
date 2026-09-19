@@ -1,0 +1,37 @@
+{
+  "imagen": {
+    "lado_mayor_max_px": 1600,
+    "peso_max_kb": 250
+  },
+  "modificaciones_tecnicas": ["redimensionada", "comprimida"],
+  "umbral_opcion_mas_larga": 0.35,
+  "umbral_letra": 0.4,
+  "casos_minimos_para_estadisticas": 10,
+  "dominios_bloqueados": [
+    "statdx.com",
+    "radprimer.com",
+    "imaios.com",
+    "e-anatomy.org"
+  ],
+  "dominios_conocidos": [
+    "doi.org",
+    "scielo.cl",
+    "scielo.br",
+    "scielo.org",
+    "scielo.org.pe",
+    "radiopaedia.org",
+    "ncbi.nlm.nih.gov",
+    "pmc.ncbi.nlm.nih.gov",
+    "medpix.nlm.nih.gov",
+    "openi.nlm.nih.gov",
+    "eurorad.org",
+    "resochradi.com",
+    "springeropen.com",
+    "insightsimaging.springeropen.com",
+    "biomedcentral.com",
+    "mdpi.com",
+    "frontiersin.org",
+    "plos.org",
+    "journals.plos.org"
+  ]
+}
