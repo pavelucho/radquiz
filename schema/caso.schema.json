@@ -5,7 +5,7 @@
   "description": "Una pregunta de opción múltiple. Los textos van en Markdown limitado: **negrita**, *cursiva*, listas con «- » o «1. » y párrafos. Sin HTML.",
   "type": "object",
   "required": [
-    "id", "tema", "nivel", "tipo", "enunciado", "imagenes", "opciones", "correcta",
+    "id", "tema", "tipo", "enunciado", "imagenes", "opciones", "correcta",
     "explicacion", "evidencia", "estado", "autor", "revisor"
   ],
   "additionalProperties": false,
@@ -16,10 +16,6 @@
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
     },
     "tema": { "type": "string", "minLength": 2, "maxLength": 80 },
-    "nivel": {
-      "description": "null solo en borrador.",
-      "enum": ["R1", "R2", "R3", null]
-    },
     "etiquetas": {
       "type": "array",
       "uniqueItems": true,

@@ -61,17 +61,7 @@ Formato exacto: `schema/paquete.schema.json`, `schema/caso.schema.json` y `schem
 - **Perla** (opcional): una frase práctica, también sacada de la fuente.
 - Nunca se inventan citas, cifras ni referencias.
 
-## 6. Nivel
-
-| Nivel | Para quién | Ejemplos |
-| --- | --- | --- |
-| R1 | Anatomía, técnica y hallazgos típicos | Partes del disco, protocolo, desplazamiento anterior |
-| R2 | Variantes, clasificación y diferenciales frecuentes | Desplazamiento medial o lateral, hipermovilidad, hipoplasia |
-| R3 | Diferenciales finos, entidades raras o conducta | CPPD, artritis idiopática juvenil, atascamiento discal |
-
-El autor propone el nivel y el revisor lo confirma.
-
-## 7. Ficha de cada imagen
+## 6. Ficha de cada imagen
 
 Va una sola vez, en el catálogo `imagenes` del paquete, y los casos la citan por su id.
 
@@ -84,7 +74,7 @@ Va una sola vez, en el catálogo `imagenes` del paquete, y los casos la citan po
 - `modificaciones`: lista de cambios hechos a la figura (`redimensionada`, `comprimida`…). Con licencias ND solo se
   admiten esos dos.
 
-## 8. Antiejemplos (errores reales del piloto ATM)
+## 7. Antiejemplos (errores reales del piloto ATM)
 
 | Error | Cómo estaba | Cómo quedó |
 | --- | --- | --- |
@@ -96,7 +86,7 @@ Va una sola vez, en el catálogo `imagenes` del paquete, y los casos la citan po
 | Figura ND modificada | Tabla 1 recortada en dos imágenes | Tabla 1 entera, mostrada en la respuesta |
 | HTML en los textos | `<b>1</b>`, `&lt;5%` | `**1**`, `< 5 %` |
 
-## 9. Casos modelo
+## 8. Casos modelo
 
 ### Caso de imagen
 
@@ -107,7 +97,6 @@ evidencia es la leyenda y la frase del texto que define «parcial».
 {
   "id": "atm-10",
   "tema": "Desplazamiento discal · Parcial",
-  "nivel": "R1",
   "etiquetas": ["ATM", "RM", "desplazamiento discal"],
   "tipo": "imagen",
   "enunciado": "ATM izquierda. Cortes sagitales oblicuos en máxima intercuspidación, lateral (A) y medial (B). ¿Diagnóstico?",
@@ -167,7 +156,6 @@ Sin imagen; opciones de largo parecido y con la misma forma; cada cifra de la ex
 {
   "id": "atm-15",
   "tema": "Desplazamiento discal · Relevancia clínica",
-  "nivel": "R2",
   "etiquetas": ["ATM", "RM", "desplazamiento discal", "epidemiología"],
   "tipo": "concepto",
   "enunciado": "Una RM de ATM muestra un desplazamiento discal anterior. Según la revisión, ¿qué afirmación es correcta?",
@@ -193,14 +181,14 @@ Sin imagen; opciones de largo parecido y con la misma forma; cada cifra de la ex
 }
 ```
 
-## 10. Cómo pedírselo a la IA
+## 9. Cómo pedírselo a la IA
 
 > Con la guía de estilo de RadQuiz cargada y el PDF adjunto, arma el paquete `temas/<segmento>/<id>/`:
 > `fuentes.json` con licencia verificada en el PDF (cita la frase de la licencia), catálogo de imágenes con la leyenda
 > textual de cada figura, y entre 15 y 30 casos en estado borrador. Cada caso con su evidencia textual.
 > Si una figura tiene licencia ND, no la recortes. Al terminar corre `tools/validar` y corrige todo lo que marque.
 
-## 11. Antes de entregar
+## 10. Antes de entregar
 
 - [ ] `tools/validar` sin errores; los avisos, leídos uno por uno.
 - [ ] Ningún dato clínico que no esté en la leyenda.

@@ -39,7 +39,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - Fase 0 terminada: `schema/`, `tools/validar` (sin dependencias), `docs/guia-estilo-ia.md`, skill
   `.claude/skills/crear-casos-radquiz`, CI en `.github/workflows/validar.yml`.
 - `temas/cabeza-cuello/atm-rm-lopezramirez2024/`: 27 casos y 17 imágenes, pasa el validador sin errores ni avisos.
-  Todos en borrador. `REVISION.md` lista los cambios y lo que el revisor debe confirmar (Fig. 8, 12, 13, 14; niveles).
+  Todos en borrador. `REVISION.md` lista los cambios y lo que el revisor debe confirmar (Fig. 8, 12, 13, 14).
   Licencia verificada: CC BY-NC-ND 4.0 (PDF en español, p. 136). Respaldo del original en `referencia/piloto-original/`.
 - App estática de práctica: `index.html` + `practica.html` (+ `?revision=1` = previsualizador para revisores).
   Probar con `python3 -m http.server`. Necesita `temas/indice.json` (`tools/validar --indice`).

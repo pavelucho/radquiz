@@ -264,8 +264,8 @@ class Reporte:
         print(titulo)
         if not self.lineas:
             print("  sin observaciones")
-        for nivel, donde, mensaje in self.lineas:
-            print("  %-5s  %-18s %s" % (nivel, donde, mensaje))
+        for gravedad, donde, mensaje in self.lineas:
+            print("  %-5s  %-18s %s" % (gravedad, donde, mensaje))
 
 
 # ---------------------------------------------------------------------------
@@ -446,8 +446,6 @@ def validar_caso(caso, paquete_id, imagenes, fuentes, ids_globales, rep):
         rep.error(cid, "el revisor no puede ser el mismo autor")
 
     faltan = []
-    if caso.get("nivel") is None:
-        faltan.append("nivel")
     if not evidencia:
         faltan.append("evidencia")
     if exigente:

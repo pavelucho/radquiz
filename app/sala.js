@@ -174,7 +174,6 @@ async function pantallaCrear() {
     <h2>Crear sala</h2>
     <label class="grid-label">Tema <select id="tema">${opciones}</select></label>
     <div class="row">
-      <label class="row" style="gap:6px">Nivel <select id="nivel"><option value="">Todos</option><option>R1</option><option>R2</option><option>R3</option></select></label>
       <label class="row" style="gap:6px">Tiempo por caso <select id="duracion">${DURACIONES.map((s) => `<option value="${s}" ${s === 45 ? "selected" : ""}>${s} s</option>`).join("")}</select></label>
     </div>
     <label class="row" style="gap:8px"><input type="checkbox" id="mezclar"> Mezclar el orden de los casos</label>
@@ -185,7 +184,6 @@ async function pantallaCrear() {
     e.preventDefault();
     crearSala({
       tema: $("#tema").value,
-      nivel: $("#nivel").value,
       duracion: Number($("#duracion").value),
       mezclar: $("#mezclar").checked,
       borradores: Boolean($("#borradores") && $("#borradores").checked),
@@ -211,13 +209,12 @@ async function limpiarSalasViejas() {
   } catch { /* la limpieza es un extra: si falla, se intenta en la próxima sala */ }
 }
 
-async function crearSala({ tema, nivel, duracion, mezclar, borradores }) {
+async function crearSala({ tema, duracion, mezclar, borradores }) {
   const pkg = await cargarJSON(`temas/${tema}/paquete.json`);
   let casos = pkg.casos.filter((c) => c.estado === "publicado" || borradores);
-  if (nivel) casos = casos.filter((c) => c.nivel === nivel);
   if (mezclar) casos = barajar(casos);
   if (!casos.length) {
-    aviso("No hay casos con esos filtros.");
+    aviso("Este tema no tiene casos para usar.");
     return;
   }
   const orden = {};

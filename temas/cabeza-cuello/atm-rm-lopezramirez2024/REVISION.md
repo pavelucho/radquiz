@@ -17,7 +17,6 @@ automáticamente contra el texto del PDF.
 - **`evidencia` en cada caso:** página y frase textual del artículo.
 - **Markdown en vez de HTML** en enunciados, explicaciones y perlas.
 - **Opciones reequilibradas:** la correcta era la opción más larga en 18 de 27 casos; ahora en ninguno.
-- **Nivel propuesto** (R1 a R3) para cada caso: confirmar.
 
 ## Cambios por caso
 
@@ -58,9 +57,8 @@ automáticamente contra el texto del PDF.
 - [ ] **Fig. 12:** ¿el plano es sagital oblicuo? ¿Se puede diagnosticar hipoplasia viendo una sola ATM (atm-23)?
 - [ ] **Fig. 13:** ¿es coronal o sagital? Completar `plano`.
 - [ ] **Fig. 14 y Fig. 1:** plano o secuencia si se pueden afirmar con seguridad.
-- [ ] **Nivel** de cada caso (propuesto por la IA).
 - [ ] La lista mínima del plan en cada caso: imagen y marcas coinciden, distractores plausibles, explicación sin
       afirmar más que la fuente, atribución completa.
 
 Para aprobar un caso: poner `"estado": "revisado"`, `"revisor": "<usuario>"` y `"fecha_revision": "AAAA-MM-DD"`, y
-correr `tools/validar`. Con estado revisado, el validador exige ficha completa, nivel, evidencia y licencia verificada.
+correr `tools/validar`. Con estado revisado, el validador exige ficha completa, evidencia y licencia verificada.

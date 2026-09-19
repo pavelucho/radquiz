@@ -573,7 +573,6 @@
     {
       "id": "atm-01",
       "tema": "Técnica · Protocolo",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -621,7 +620,6 @@
     {
       "id": "atm-02",
       "tema": "Técnica · Planificación",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -668,7 +666,6 @@
     {
       "id": "atm-03",
       "tema": "Técnica · Secuencias",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -722,7 +719,6 @@
     {
       "id": "atm-04",
       "tema": "Anatomía · Disco",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -775,7 +771,6 @@
     {
       "id": "atm-05",
       "tema": "Anatomía · Retrodisco",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -828,7 +823,6 @@
     {
       "id": "atm-06",
       "tema": "Anatomía · Músculo",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -886,7 +880,6 @@
     {
       "id": "atm-07",
       "tema": "Anatomía · Señal",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -934,7 +927,6 @@
     {
       "id": "atm-08",
       "tema": "Anatomía · Dinámica",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -982,7 +974,6 @@
     {
       "id": "atm-09",
       "tema": "Desplazamiento discal · Anterior",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1035,7 +1026,6 @@
     {
       "id": "atm-10",
       "tema": "Desplazamiento discal · Parcial",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1077,7 +1067,6 @@
     {
       "id": "atm-11",
       "tema": "Desplazamiento discal · Medial",
-      "nivel": "R2",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1119,7 +1108,6 @@
     {
       "id": "atm-12",
       "tema": "Desplazamiento discal · Lateral",
-      "nivel": "R2",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1161,7 +1149,6 @@
     {
       "id": "atm-13",
       "tema": "Desplazamiento discal · Con reducción",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1203,7 +1190,6 @@
     {
       "id": "atm-14",
       "tema": "Desplazamiento discal · Sin reducción",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1245,7 +1231,6 @@
     {
       "id": "atm-15",
       "tema": "Desplazamiento discal · Relevancia clínica",
-      "nivel": "R2",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1293,7 +1278,6 @@
     {
       "id": "atm-16",
       "tema": "Derrame · Morfología discal",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1342,7 +1326,6 @@
     {
       "id": "atm-17",
       "tema": "Morfología discal · Deformación",
-      "nivel": "R2",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1395,7 +1378,6 @@
     {
       "id": "atm-18",
       "tema": "Artrosis",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1453,7 +1435,6 @@
     {
       "id": "atm-19",
       "tema": "Artrosis · Diferencial",
-      "nivel": "R3",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1491,7 +1472,6 @@
     {
       "id": "atm-20",
       "tema": "Técnica · TC frente a RM",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1529,7 +1509,6 @@
     {
       "id": "atm-21",
       "tema": "Movilidad · Hipermovilidad",
-      "nivel": "R2",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1571,7 +1550,6 @@
     {
       "id": "atm-22",
       "tema": "Movilidad · Hipomovilidad",
-      "nivel": "R3",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1623,7 +1601,6 @@
     {
       "id": "atm-23",
       "tema": "Desarrollo · Hipoplasia",
-      "nivel": "R2",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1666,7 +1643,6 @@
     {
       "id": "atm-24",
       "tema": "Desarrollo · Cóndilo bífido",
-      "nivel": "R2",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1709,7 +1685,6 @@
     {
       "id": "atm-25",
       "tema": "Sinovial · Condromatosis",
-      "nivel": "R2",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1757,7 +1732,6 @@
     {
       "id": "atm-26",
       "tema": "Inflamatoria · Artritis idiopática juvenil",
-      "nivel": "R3",
       "etiquetas": [
         "ATM",
         "RM",
@@ -1805,7 +1779,6 @@
     {
       "id": "atm-27",
       "tema": "Sistemática de lectura",
-      "nivel": "R1",
       "etiquetas": [
         "ATM",
         "RM",

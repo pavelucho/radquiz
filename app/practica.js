@@ -72,7 +72,7 @@ function panelRevision(caso) {
   const clave = `${enPantalla} en pantalla (${LETRAS[caso.correcta]} en el archivo)`;
   return `<section class="revision">
     <h3>Para el revisor</h3>
-    <p class="src">${esc(tema)}/${esc(caso.id)} · estado ${esc(caso.estado)} · nivel ${esc(caso.nivel ?? "sin nivel")} ·
+    <p class="src">${esc(tema)}/${esc(caso.id)} · estado ${esc(caso.estado)} ·
       tipo ${esc(caso.tipo)} · clave ${clave} · autor ${esc(caso.autor)}${caso.revisor ? ` · revisor ${esc(caso.revisor)}` : ""}</p>
     ${caso.notas_revision ? `<p class="nota">Nota: ${esc(caso.notas_revision)}</p>` : ""}
     <details open><summary>Evidencia (${(caso.evidencia || []).length})</summary><div style="display:grid;gap:8px">${evidencia}</div></details>
@@ -112,7 +112,6 @@ function vistaCaso() {
     <div class="qhead">
       <span class="qnum">${actual + 1}/${casos.length}</span>
       <span class="tema">${esc(caso.tema)}</span>
-      ${caso.nivel ? `<span class="badge">${esc(caso.nivel)}</span>` : ""}
       ${caso.estado !== "publicado" ? `<span class="badge borrador">${esc(caso.estado)}</span>` : ""}
     </div>
     <section class="stage ${refs.length ? "" : "sin-imagen"}">
@@ -173,7 +172,7 @@ function resultado() {
       ${falladas.length ? `<button id="falladas">Repasar las ${falladas.length} falladas</button>` : ""}
     </div>
   </section>`;
-  $("#repetir").onclick = () => { respuestas.clear(); orden.clear(); casos = [...base]; filtrar(); };
+  $("#repetir").onclick = () => { respuestas.clear(); orden.clear(); empezar(); };
   const boton = $("#falladas");
   if (boton) boton.onclick = () => {
     casos = falladas;
@@ -183,15 +182,9 @@ function resultado() {
   };
 }
 
-function filtrar() {
-  const nivel = $("#nivel").value;
-  casos = base.filter((c) => !nivel || c.nivel === nivel);
+function empezar() {
+  casos = [...base];
   actual = 0;
-  if (!casos.length) {
-    app.innerHTML = `<section class="panel"><p>No hay casos de nivel ${esc(nivel)} en este tema.</p></section>`;
-    marcador();
-    return;
-  }
   vistaCaso();
 }
 
@@ -224,8 +217,7 @@ async function iniciar() {
   if (revision) $("#modo").classList.add("live");
   base = paquete.casos.filter((c) => revision || c.estado === "publicado");
   if (!base.length) return sinCasos();
-  $("#nivel").onchange = filtrar;
-  filtrar();
+  empezar();
 }
 
 document.addEventListener("click", (e) => {

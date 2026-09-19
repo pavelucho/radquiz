@@ -41,7 +41,7 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
 
 ## Sala en vivo
 
-1. El presentador abre `sala.html`, pulsa «Crear sala», elige tema, nivel y tiempo, y proyecta el código de 4 letras.
+1. El presentador abre `sala.html`, pulsa «Crear sala», elige tema y tiempo, y proyecta el código de 4 letras.
 2. Los residentes abren la web en el celular, escriben el código y su nombre. No hay cuentas: cada navegador recibe
    una identidad anónima de Firebase.
 3. Puntaje: 500 por acierto + hasta 500 por rapidez, con la hora del servidor. Una respuesta por pregunta.
@@ -84,7 +84,7 @@ una letra, si una imagen trae metadatos EXIF o si un caso de concepto tiene una 
 3. **`evidencia` en cada caso:** página y frase textual de la fuente. Hace que revisar tome segundos y evita que la IA
    invente.
 4. **La validación depende del estado.** En borrador se permite lo pendiente. En revisado o publicado se exigen ficha
-   completa, nivel, evidencia, licencia verificada y un revisor distinto del autor.
+   completa, evidencia, licencia verificada y un revisor distinto del autor.
 5. **La app baraja las opciones** (`"barajar": false` si el orden importa). Por eso el reparto de letras pesa menos
    que el largo de las opciones.
 6. **Id único en todo el repositorio:** `<paquete>/<caso>`.
