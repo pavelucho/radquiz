@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+"""Marca casos como revisados o publicados sin editar el JSON a mano.
+
+Uso:
+    tools/aprobar temas/cabeza-cuello/atm-rm-lopezramirez2024 --revisor jperez --casos atm-01,atm-02
+    tools/aprobar temas/cabeza-cuello/atm-rm-lopezramirez2024 --revisor jperez --todos --estado publicado
+
+Por defecto deja los casos en «revisado». Con --estado publicado salen a la web en la próxima publicación.
+Anota el revisor y la fecha de hoy, se niega si el revisor es el mismo autor, y al final corre el validador.
+"""
+
+import argparse
+import datetime
+import json
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+RAIZ = Path(__file__).resolve().parent.parent
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Marca casos como revisados o publicados.")
+    parser.add_argument("carpeta", help="carpeta del paquete, por ejemplo temas/torax/mi-tema")
+    parser.add_argument("--revisor", required=True, help="usuario del revisor (minúsculas, sin espacios)")
+    grupo = parser.add_mutually_exclusive_group(required=True)
+    grupo.add_argument("--casos", help="ids separados por comas: atm-01,atm-02")
+    grupo.add_argument("--todos", action="store_true", help="todos los casos del paquete")
+    parser.add_argument("--estado", choices=["revisado", "publicado"], default="revisado")
+    parser.add_argument("--fecha", default=datetime.date.today().isoformat(), help="AAAA-MM-DD (por defecto, hoy)")
+    args = parser.parse_args()
+
+    if not re.fullmatch(r"[a-z0-9._-]+", args.revisor):
+        sys.exit("El revisor va en minúsculas y sin espacios, por ejemplo: jperez")
+    ruta = (Path(args.carpeta).resolve() / "paquete.json")
+    if not ruta.is_file():
+        sys.exit("No encontré %s" % ruta)
+
+    paquete = json.loads(ruta.read_text(encoding="utf-8"))
+    casos = paquete["casos"]
+    pedidos = [c["id"] for c in casos] if args.todos else [x.strip() for x in args.casos.split(",") if x.strip()]
+    por_id = {c["id"]: c for c in casos}
+    faltan = [x for x in pedidos if x not in por_id]
+    if faltan:
+        sys.exit("Estos casos no existen en el paquete: %s" % ", ".join(faltan))
+    propios = [x for x in pedidos if por_id[x].get("autor") == args.revisor]
+    if propios:
+        sys.exit("No puedes aprobar tus propios casos: %s" % ", ".join(propios))
+
+    for caso_id in pedidos:
+        caso = por_id[caso_id]
+        caso["estado"] = args.estado
+        caso["revisor"] = args.revisor
+        caso["fecha_revision"] = args.fecha
+    ruta.write_text(json.dumps(paquete, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print("%d casos quedaron en «%s» (revisor %s, %s)." % (len(pedidos), args.estado, args.revisor, args.fecha), flush=True)
+
+    print("Validando…", flush=True)
+    resultado = subprocess.run([sys.executable, str(RAIZ / "tools" / "validar"), str(ruta.parent)])
+    if resultado.returncode != 0:
+        print("El validador encontró errores: corrígelos antes de subir el cambio.")
+    return resultado.returncode
+
+
+if __name__ == "__main__":
+    sys.exit(main())

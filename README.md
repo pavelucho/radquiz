@@ -1,6 +1,10 @@
 # RadQuiz
 
 Casos radiológicos para residentes, en vivo (tipo Kahoot) y en práctica individual. Gratis, sin cuentas y en español.
+
+**Manual de uso** (residentes, presentadores, autores, revisores y coordinador): [manual.html](manual.html), en línea en
+https://pavelucho.github.io/radquiz/manual.html
+
 El plan completo está en el documento del proyecto; este archivo explica el repositorio.
 
 ## Estructura
@@ -8,6 +12,7 @@ El plan completo está en el documento del proyecto; este archivo explica el rep
 ```
 schema/                     JSON Schema del formato (paquete, caso, fuentes)
 tools/validar               validador; no necesita instalar nada
+tools/aprobar               marca casos como revisados o publicados (anota revisor y fecha)
 tools/config.json           límites de imagen, sitios bloqueados y umbrales
 docs/guia-estilo-ia.md      cómo escribir casos (para personas y para la IA)
 temas/<segmento>/<tema>/    un paquete por tema:
@@ -16,6 +21,7 @@ temas/<segmento>/<tema>/    un paquete por tema:
     img/                      imágenes JPG (lado mayor ≤ 1600 px, ≤ 250 KB)
     REVISION.md               cambios y pendientes para el revisor (opcional)
 index.html, practica.html   app estática: lista de temas y práctica individual
+manual.html                 manual de uso para cada papel
 sala.html                   sala en vivo (presentador y jugadores)
 app/                        código de la app; app/firebase-config.js apunta al proyecto de Firebase
 database.rules.json         reglas de seguridad de la sala en vivo (Firebase Realtime Database)
@@ -87,7 +93,9 @@ una letra, si una imagen trae metadatos EXIF o si un caso de concepto tiene una 
 
 1. Crear `temas/<segmento>/<id>/` con `paquete.json`, `fuentes.json` e `img/`, siguiendo `docs/guia-estilo-ia.md`.
 2. Correr `tools/validar` hasta que no haya errores.
-3. Proponer el cambio en GitHub. Un revisor del segmento aprueba cada caso (`estado`, `revisor`, `fecha_revision`).
+3. Proponer el cambio en GitHub. Un revisor del segmento aprueba los casos con
+   `tools/aprobar <carpeta> --revisor <usuario> --todos --estado publicado` (o `--casos id1,id2`).
+4. Al aceptar la propuesta en `main`, la web se actualiza sola. Paso a paso en el manual.
 
 ## Probar la app en la computadora
 

@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual · RadQuiz</title>
+<meta name="description" content="Cómo jugar, presentar, crear y revisar cuestionarios en RadQuiz.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230c1015%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%229%22 fill=%22none%22 stroke=%22%23f0c24b%22 stroke-width=%223%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="app/estilos.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <a class="brand" href="./">RadQuiz <small>Manual de uso</small></a>
+    <span class="spacer"></span>
+    <a class="boton" href="./">Temas</a>
+    <a class="boton primary" href="sala.html">Sala en vivo</a>
+  </header>
+
+  <main class="manual">
+    <h1>Manual de RadQuiz</h1>
+    <p class="lead">RadQuiz sirve para practicar casos radiológicos solo o en clase, como un Kahoot: el presentador
+      proyecta y los residentes responden desde el celular con un código de 4 letras. No hace falta crear cuentas ni
+      instalar nada. Busca tu papel en el índice.</p>
+
+    <nav class="toc" aria-label="Índice">
+      <div><p class="tema">Residentes</p><ul>
+        <li><a href="#jugar">Jugar en una sala en vivo</a></li>
+        <li><a href="#puntos">Cómo se cuentan los puntos</a></li>
+        <li><a href="#practicar">Practicar por tu cuenta</a></li></ul></div>
+      <div><p class="tema">Presentadores</p><ul>
+        <li><a href="#antes">Antes de la clase</a></li>
+        <li><a href="#crear-sala">Crear una sala</a></li>
+        <li><a href="#conducir">Conducir la sesión</a></li>
+        <li><a href="#cerrar">Cerrar la sala</a></li></ul></div>
+      <div><p class="tema">Autores</p><ul>
+        <li><a href="#fuente">1. Elegir la fuente</a></li>
+        <li><a href="#equipo">2. Preparar la computadora</a></li>
+        <li><a href="#generar">3. Armar el cuestionario</a></li>
+        <li><a href="#validar">4. Validar y previsualizar</a></li>
+        <li><a href="#subir">5. Subir la propuesta</a></li></ul></div>
+      <div><p class="tema">Revisores y coordinador</p><ul>
+        <li><a href="#revisar">Revisar y publicar</a></li>
+        <li><a href="#coordinador">Mantenimiento</a></li>
+        <li><a href="#problemas">Problemas frecuentes</a></li>
+        <li><a href="#privacidad">Privacidad y licencias</a></li></ul></div>
+    </nav>
+
+    <!-- ============================================================ RESIDENTES -->
+    <section id="residentes">
+      <h2>Para residentes</h2>
+
+      <h3 id="jugar">Jugar en una sala en vivo</h3>
+      <ol class="pasos">
+        <li>Abre <b>pavelucho.github.io/radquiz</b> en el celular y toca <b>Sala en vivo</b>. Si el presentador comparte
+          el enlace directo de la sala, el código ya viene escrito.</li>
+        <li>Escribe el <b>código de 4 letras</b> que está en el proyector y tu nombre o un apodo. Toca <b>Entrar</b>.</li>
+        <li>Espera en la pantalla «Conectado como…» hasta que el presentador empiece.</li>
+        <li>En cada caso mira la imagen (tócala para ampliarla), lee la pregunta y toca una opción. <b>Solo vale la primera
+          respuesta</b>: no se puede cambiar.</li>
+        <li>Cuando el presentador revela, ves si acertaste, cuántos puntos ganaste y la explicación.</li>
+        <li>Entre casos puede aparecer el ranking. Al final ves tu puesto.</li>
+      </ol>
+      <p class="caja">Si se corta la conexión o cierras el navegador, vuelve a abrir la misma página en el mismo celular:
+        RadQuiz te devuelve a la sala. Si respondes cuando el tiempo ya terminó, la respuesta no se cuenta.</p>
+
+      <h3 id="puntos">Cómo se cuentan los puntos</h3>
+      <ul>
+        <li>Respuesta correcta: <b>500 puntos</b>, más <b>hasta 500</b> según la rapidez. Si respondes al instante, sumas
+          cerca de 1000; al final del tiempo, cerca de 500.</li>
+        <li>Respuesta incorrecta o sin responder: 0 puntos. No se restan puntos.</li>
+        <li>El tiempo lo mide el servidor, no tu celular, así que da lo mismo qué celular uses.</li>
+      </ul>
+
+      <h3 id="practicar">Practicar por tu cuenta</h3>
+      <ol class="pasos">
+        <li>En la página de inicio elige un tema y toca <b>Practicar</b>. Si un tema dice «En revisión», todavía no tiene
+          casos aprobados.</li>
+        <li>Si quieres, filtra por nivel (R1, R2, R3) arriba a la derecha.</li>
+        <li>Responde tocando una opción. En la computadora puedes usar las teclas <kbd>A</kbd>–<kbd>E</kbd> para responder
+          y <kbd>→</kbd> para pasar al siguiente caso.</li>
+        <li>Después de responder ves la explicación, la perla y la leyenda original de la figura.</li>
+        <li>Al final ves tu puntaje y puedes <b>repasar solo las falladas</b>.</li>
+      </ol>
+      <p class="muted">La práctica no guarda nada: tu progreso se pierde al cerrar la página.</p>
+    </section>
+
+    <!-- ============================================================ PRESENTADORES -->
+    <section id="presentadores">
+      <h2>Para presentadores</h2>
+
+      <h3 id="antes">Antes de la clase</h3>
+      <ul>
+        <li>Una laptop conectada al proyector con Chrome, Edge, Safari o Firefox actualizado.</li>
+        <li>Comprueba que la red del lugar deje entrar a la sala: abre <b>Sala en vivo</b> desde el Wi-Fi que usarán los
+          residentes. Si falla, pueden usar sus datos móviles.</li>
+        <li>La sala en vivo usa solo casos <b>publicados</b>. Si un tema no aparece al crear la sala, todavía no tiene casos
+          aprobados.</li>
+      </ul>
+
+      <h3 id="crear-sala">Crear una sala</h3>
+      <ol class="pasos">
+        <li>Entra a <b>Sala en vivo</b> y toca <b>Crear sala</b>.</li>
+        <li>Elige el <b>tema</b>, el <b>nivel</b> (o todos), el <b>tiempo por caso</b> (20 a 90 s) y, si quieres, marca
+          <b>Mezclar el orden de los casos</b>.</li>
+        <li>Toca <b>Crear sala</b>. Aparece el código grande, la dirección para entrar y la lista de quienes van llegando.</li>
+      </ol>
+
+      <h3 id="conducir">Conducir la sesión</h3>
+      <ol class="pasos">
+        <li>Cuando estén todos, toca <b>Empezar</b>. Corre el reloj y ves cuántos respondieron.</li>
+        <li>La respuesta se revela sola cuando se acaba el tiempo o cuando todos respondieron. Para revelar antes, toca
+          <b>Revelar respuesta</b>.</li>
+        <li>Al revelar aparecen la correcta, cuántos eligieron cada opción y la explicación: es el momento de discutir el caso.
+          Toca la imagen para ampliarla.</li>
+        <li>Sigue con <b>Siguiente caso</b>, o toca antes <b>Ver ranking</b> para mostrar los 5 primeros.</li>
+        <li>En el último caso toca <b>Terminar</b> para ver el resultado final (los 10 primeros).</li>
+      </ol>
+      <p class="caja">La sala queda ligada al navegador que la creó. Si recargas la página vuelves a la sala como
+        presentador, pero no cambies de computadora ni de navegador a mitad de la sesión. Sin celulares, puedes usar la
+        misma pantalla y que respondan a mano alzada: el reloj y las preguntas avanzan igual. Si la sala en vivo no conecta,
+        proyecta el tema en <b>Practicar</b>: son los mismos casos y no depende de la sala.</p>
+
+      <h3 id="cerrar">Cerrar la sala</h3>
+      <p>Al terminar toca <b>Cerrar sala</b> y confirma. Se borran los nombres, las respuestas y los puntajes, y los
+        celulares vuelven a la pantalla de inicio. Si olvidas cerrarla, se borra sola pasadas 24 horas, en cuanto alguien
+        crea otra sala.</p>
+    </section>
+
+    <!-- ============================================================ AUTORES -->
+    <section id="autores">
+      <h2>Para autores: subir un cuestionario nuevo</h2>
+      <p>Cada cuestionario es un <b>tema</b>: una carpeta con los casos, las imágenes y las fuentes. Tú preparas la carpeta
+        en tu computadora con ayuda de Claude, la validas y la propones en GitHub. Un radiólogo la revisa y, cuando la
+        aprueba, aparece sola en la web. Las reglas de redacción están en la
+        <a href="https://github.com/pavelucho/radquiz/blob/main/docs/guia-estilo-ia.md">guía de estilo</a>.</p>
+
+      <h3 id="fuente">1. Elegir la fuente y confirmar la licencia</h3>
+      <div class="tabla"><table>
+        <thead><tr><th>Fuente</th><th>¿Se puede?</th><th>Condición</th></tr></thead>
+        <tbody>
+          <tr><td>Artículo open access CC BY</td><td>Sí</td><td>Citar autores, DOI y licencia</td></tr>
+          <tr><td>Artículo open access CC BY-NC-ND (muchos de SciELO)</td><td>Sí</td><td>Uso sin fines de lucro; <b>no recortar ni dibujar sobre las figuras</b></td></tr>
+          <tr><td>Radiopaedia (CC BY-NC-SA 3.0)</td><td>Sí</td><td>Nombrar al autor del caso, enlazar el caso y la licencia</td></tr>
+          <tr><td>StatDx, RadPrimer, IMAIOS, libros con copyright</td><td>No</td><td>El validador los bloquea</td></tr>
+          <tr><td>Imágenes del PACS del hospital</td><td>No, en esta versión</td><td>Aunque estén anonimizadas</td></tr>
+        </tbody>
+      </table></div>
+      <p>La licencia se confirma en la fuente original (casi siempre en la primera página del PDF), nunca se supone.
+        Guarda el PDF: lo vas a necesitar en el paso 3.</p>
+
+      <h3 id="equipo">2. Preparar la computadora (una sola vez)</h3>
+      <ol class="pasos">
+        <li>Pide al coordinador que te agregue como colaborador del repositorio en GitHub. Si no tienes cuenta en GitHub,
+          créala primero en github.com.</li>
+        <li>Instala <a href="https://claude.com/claude-code">Claude Code</a>. Git y Python ya vienen en las Mac; en Windows,
+          instala <a href="https://git-scm.com">Git</a> y <a href="https://www.python.org">Python 3</a>.</li>
+        <li>Descarga el repositorio: en la terminal escribe
+          <pre><code>git clone https://github.com/pavelucho/radquiz.git
+cd radquiz</code></pre></li>
+      </ol>
+
+      <h3 id="generar">3. Armar el cuestionario con Claude</h3>
+      <ol class="pasos">
+        <li>Crea una rama para tu tema (una rama es tu copia de trabajo):
+          <pre><code>git switch -c tema/torax-nodulos</code></pre></li>
+        <li>Abre Claude Code en la carpeta <code>radquiz</code>, adjunta el PDF y pídele algo así:
+          <blockquote>Usa la skill crear-casos-radquiz. Con este PDF arma el tema
+            <code>temas/torax/nodulos-fleischner2017</code>: fuentes con la licencia verificada, el catálogo de imágenes
+            con la leyenda textual de cada figura y 20 casos en borrador, cada uno con su evidencia. Mi usuario de autor
+            es <code>jperez</code>.</blockquote></li>
+        <li>Claude sigue la guía de estilo: no recorta las figuras, copia las leyendas tal cual, escribe los casos y corre el
+          validador. Revisa tú mismo cada caso: <b>el autor responde por su contenido</b>.</li>
+      </ol>
+      <p>Cómo queda la carpeta:</p>
+      <pre><code>temas/torax/nodulos-fleischner2017/
+  paquete.json   ← datos del tema, fichas de las imágenes y casos
+  fuentes.json   ← artículo o caso citado, con DOI y licencia
+  img/           ← imágenes JPG (lado mayor ≤ 1600 px, ≤ 250 KB)
+  REVISION.md    ← notas para el revisor (opcional)</code></pre>
+      <p class="muted">Los segmentos (la carpeta intermedia) son: neurorradiologia, cabeza-cuello, torax, cardiovascular,
+        abdomen, genitourinario, musculoesqueletico, mama, pediatria, intervencionismo y fisica-tecnica.</p>
+
+      <h3 id="validar">4. Validar y previsualizar</h3>
+      <ol class="pasos">
+        <li>Valida tu carpeta. Tiene que decir <b>0 errores</b>; lee también cada aviso.
+          <pre><code>tools/validar temas/torax/nodulos-fleischner2017</code></pre>
+          En Windows, antepón <code>python</code>: <code>python tools/validar …</code>.</li>
+        <li>Mira los casos como los verán los residentes, incluidos los borradores:
+          <pre><code>tools/validar --indice
+python3 -m http.server 8000</code></pre>
+          y abre en el navegador
+          <code>http://localhost:8000/practica.html?tema=torax/nodulos-fleischner2017&amp;revision=1</code>.
+          Con <code>revision=1</code> se ven también la evidencia y la ficha técnica. Para detener el servidor:
+          <kbd>Ctrl</kbd>+<kbd>C</kbd>.</li>
+      </ol>
+
+      <h3 id="subir">5. Subir la propuesta a GitHub</h3>
+      <p><b>Desde la terminal</b> (recomendado):</p>
+      <pre><code>git add temas/torax/nodulos-fleischner2017
+git commit -m "Tema nuevo: nódulos pulmonares (Fleischner 2017)"
+git push -u origin tema/torax-nodulos</code></pre>
+      <p>La terminal muestra un enlace: ábrelo y toca <b>Create pull request</b> (propuesta de cambio). Si tienes la
+        herramienta <code>gh</code>, basta con <code>gh pr create --fill</code>.</p>
+      <p><b>Desde la página de GitHub</b>, sin terminal:</p>
+      <ol class="pasos">
+        <li>Entra a <a href="https://github.com/pavelucho/radquiz">github.com/pavelucho/radquiz</a> y abre la carpeta
+          <code>temas</code> y luego la de tu segmento.</li>
+        <li>Toca <b>Add file → Upload files</b> y arrastra la carpeta completa de tu tema.</li>
+        <li>Abajo, elige <b>Create a new branch for this commit and start a pull request</b> y toca <b>Propose changes</b>
+          y después <b>Create pull request</b>.</li>
+      </ol>
+      <p class="caja">En la propuesta aparece la revisión automática «Validar paquetes». Con ✓ verde, avisa a tu revisor.
+        Con ✗ roja, toca <b>Details</b> para ver qué falla, corrige y vuelve a subir: la propuesta se actualiza sola.</p>
+    </section>
+
+    <!-- ============================================================ REVISORES -->
+    <section id="revisar">
+      <h2>Para revisores: revisar y publicar</h2>
+      <div class="tabla"><table>
+        <thead><tr><th>Estado del caso</th><th>Qué significa</th><th>¿Sale en la web?</th></tr></thead>
+        <tbody>
+          <tr><td><code>borrador</code></td><td>Lo escribió el autor; nadie lo revisó</td><td>No</td></tr>
+          <tr><td><code>revisado</code></td><td>Un radiólogo lo aprobó, pero aún se reserva</td><td>No</td></tr>
+          <tr><td><code>publicado</code></td><td>Aprobado y listo para residentes</td><td>Sí, cuando se acepta la propuesta</td></tr>
+        </tbody>
+      </table></div>
+      <ol class="pasos">
+        <li>Descarga la propuesta del autor a tu computadora (el número está en GitHub, en la pestaña Pull requests):
+          <pre><code>gh pr checkout 12</code></pre>
+          Sin la herramienta <code>gh</code>: <code>git fetch origin</code> y <code>git switch tema/torax-nodulos</code>
+          (el nombre de la rama figura en la propuesta).</li>
+        <li>Ábrela en el previsualizador (paso 4 de autores) y revisa caso por caso, con la evidencia y la ficha a la vista:
+          <ul>
+            <li>La imagen muestra lo que dice la pregunta y las marcas coinciden.</li>
+            <li>La respuesta es correcta y los distractores son plausibles pero erróneos.</li>
+            <li>El enunciado no delata la respuesta ni trae datos clínicos que no estén en la leyenda.</li>
+            <li>La explicación no afirma más de lo que dice la fuente.</li>
+            <li>El nivel (R1–R3) es adecuado.</li>
+            <li>La licencia permite este uso y la atribución está completa.</li>
+          </ul></li>
+        <li>Pide cambios en la propuesta (pestaña <b>Files changed</b>, comentando línea por línea) o apruébalos con tu usuario:
+          <pre><code>tools/aprobar temas/torax/nodulos-fleischner2017 --revisor mrojas --todos --estado publicado</code></pre>
+          También puedes aprobar solo algunos: <code>--casos nod-01,nod-02</code>. Sin <code>--estado publicado</code>, quedan
+          en «revisado». El comando anota tu usuario y la fecha, se niega si eres el autor y corre el validador.</li>
+        <li>Sube tu revisión a la misma propuesta:
+          <pre><code>git commit -am "Revisión: nódulos pulmonares"
+git push</code></pre></li>
+        <li>Cuando el coordinador acepta la propuesta (<b>Merge pull request</b>), la web se actualiza sola en 1 o 2 minutos.</li>
+      </ol>
+    </section>
+
+    <!-- ============================================================ COORDINADOR -->
+    <section id="coordinador">
+      <h2>Para el coordinador: mantenimiento</h2>
+      <div class="tabla"><table>
+        <thead><tr><th>Pieza</th><th>Dónde está</th><th>Para qué</th></tr></thead>
+        <tbody>
+          <tr><td>Código y temas</td><td><a href="https://github.com/pavelucho/radquiz">github.com/pavelucho/radquiz</a></td><td>Todo el contenido; cada cambio queda registrado</td></tr>
+          <tr><td>Web</td><td><a href="https://pavelucho.github.io/radquiz/">pavelucho.github.io/radquiz</a></td><td>GitHub Pages: gratis y siempre en línea</td></tr>
+          <tr><td>Publicación</td><td>Pestaña <b>Actions</b> del repositorio</td><td>Cada cambio en <code>main</code> valida, arma y publica el sitio</td></tr>
+          <tr><td>Salas en vivo</td><td><a href="https://console.firebase.google.com/project/radquiz-shpn2/database">Consola de Firebase</a></td><td>Base de datos en tiempo real, plan gratis Spark</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><b>Sumar autores o revisores:</b> en GitHub, <b>Settings → Collaborators → Add people</b>.</li>
+        <li><b>Aceptar un tema:</b> en la propuesta, con la revisión automática en ✓ y los casos aprobados, toca
+          <b>Merge pull request</b>. Nada llega a la web sin ese paso.</li>
+        <li><b>Si la web no se actualiza:</b> revisa la pestaña Actions. Una ✗ roja casi siempre es un error del validador;
+          el detalle aparece en el paso «Validar temas».</li>
+        <li><b>Si cambias las reglas de Firebase</b> (<code>database.rules.json</code>): <code>firebase deploy --only database,auth</code>.</li>
+        <li><b>Límites del plan gratis:</b> 100 personas conectadas a la vez en las salas; sitio de hasta 1 GB y unos 100 GB
+          de tráfico al mes. Con imágenes de ~100 KB alcanza para miles de casos.</li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ PROBLEMAS -->
+    <section id="problemas">
+      <h2>Problemas frecuentes</h2>
+      <div class="tabla"><table>
+        <thead><tr><th>Problema</th><th>Qué hacer</th></tr></thead>
+        <tbody>
+          <tr><td>«No hay una sala con ese código»</td><td>Revisa las 4 letras. Si el presentador cerró la sala, pide el código nuevo.</td></tr>
+          <tr><td>«No se registró la respuesta»</td><td>El tiempo ya había terminado o ya habías respondido esa pregunta.</td></tr>
+          <tr><td>El celular no entra o se queda en «Conectando…»</td><td>La red puede estar bloqueando la conexión: cambia a datos móviles.</td></tr>
+          <tr><td>La sala en vivo no conecta en la laptop</td><td>Proyecta el tema en <b>Practicar</b> y que respondan a mano alzada.</td></tr>
+          <tr><td>La imagen tarda en aparecer</td><td>Red lenta. Espera unos segundos; la siguiente se descarga de antemano.</td></tr>
+          <tr><td>Un tema dice «En revisión»</td><td>Todavía no tiene casos publicados. Aparecerá cuando un revisor los apruebe.</td></tr>
+          <tr><td>El presentador perdió el control de la sala</td><td>Pasa si cambió de computadora o de navegador. Crear una sala nueva y compartir el código.</td></tr>
+          <tr><td>El validador marca errores</td><td>Cada línea dice el caso y el problema. La <a href="https://github.com/pavelucho/radquiz/blob/main/docs/guia-estilo-ia.md">guía de estilo</a> explica cada regla.</td></tr>
+          <tr><td>Hay un error en un caso publicado</td><td>Avisa al coordinador o abre un <em>issue</em> en GitHub indicando el tema y el caso.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ============================================================ PRIVACIDAD -->
+    <section id="privacidad">
+      <h2>Privacidad y licencias</h2>
+      <ul>
+        <li>No hay cuentas. En una sala solo se guardan el nombre o apodo, las respuestas y los puntajes, y se borran al
+          cerrarla (o, si nadie la cierra, pasadas 24 horas). La práctica individual no guarda nada.</li>
+        <li>No se usan imágenes de pacientes del hospital. Todas las imágenes vienen de publicaciones open access o de bancos
+          públicos, y cada una muestra su fuente, sus autores y su licencia con enlace.</li>
+        <li>Las figuras con licencia «sin derivadas» (ND) se muestran completas, sin recortes ni marcas agregadas.</li>
+        <li>Ningún caso se publica sin la revisión de un radiólogo distinto del autor.</li>
+      </ul>
+    </section>
+  </main>
+</div>
+</body>
+</html>

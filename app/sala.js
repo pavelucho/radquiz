@@ -137,6 +137,7 @@ function pantallaInicio(codigoInicial = "", mensaje = "") {
         <h2>Soy presentador</h2>
         <p class="muted">Crea una sala, proyecta esta pantalla y comparte el código.</p>
         <div class="row"><button id="crear">Crear sala</button></div>
+        <p class="src">¿Primera vez? <a href="manual.html#crear-sala">Cómo presentar</a> · <a href="manual.html#jugar">Cómo jugar</a></p>
       </div>
     </section>`;
   $("#unirse").onsubmit = (e) => { e.preventDefault(); unirse($("#codigo").value, $("#nombre").value); };
