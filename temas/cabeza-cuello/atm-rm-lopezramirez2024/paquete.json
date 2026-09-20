@@ -618,7 +618,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-02",
@@ -664,7 +665,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-03",
@@ -717,7 +719,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-04",
@@ -769,7 +772,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-05",
@@ -821,7 +825,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-06",
@@ -878,7 +883,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-07",
@@ -925,7 +931,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-08",
@@ -972,7 +979,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-09",
@@ -1024,7 +1032,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-10",
@@ -1065,7 +1074,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-11",
@@ -1106,7 +1116,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-12",
@@ -1147,7 +1158,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-13",
@@ -1188,7 +1200,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-14",
@@ -1229,7 +1242,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-15",
@@ -1276,7 +1290,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-16",
@@ -1323,8 +1338,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null,
-      "notas_revision": "La leyenda de la Figura 8 no indica la secuencia; el piloto decía «T2 con saturación grasa» en el enunciado. Se quitó hasta confirmarlo con la imagen."
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-17",
@@ -1376,7 +1391,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-18",
@@ -1433,7 +1449,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-19",
@@ -1470,7 +1487,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-20",
@@ -1507,7 +1525,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-21",
@@ -1548,7 +1567,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-22",
@@ -1599,7 +1619,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-23",
@@ -1640,8 +1661,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null,
-      "notas_revision": "Se quitó «asimetría facial progresiva» del enunciado: la revisión la describe en general, no para este paciente. Con una sola ATM visible, confirmar que la imagen basta para el diagnóstico."
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-24",
@@ -1682,8 +1703,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null,
-      "notas_revision": "El piloto decía «corte sagital»; la leyenda no indica el plano y la imagen parece coronal. Se dejó sin plano hasta confirmarlo."
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-25",
@@ -1729,8 +1750,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null,
-      "notas_revision": "Se quitó «dolor unilateral inespecífico» del enunciado: la revisión lo describe en general, no para este paciente."
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-26",
@@ -1777,7 +1798,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     },
     {
       "id": "atm-27",
@@ -1818,7 +1840,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-09-20"
     }
   ]
 }

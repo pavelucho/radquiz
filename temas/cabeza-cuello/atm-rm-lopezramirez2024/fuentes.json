@@ -1,21 +1,21 @@
 {
   "$schema": "../../../schema/fuentes.schema.json",
   "lopezramirez2024": {
-    "tipo": "articulo",
     "cita": "López-Ramírez M, Espinoza I, Sierra F, Grass B, Núñez R, Miranda G. Resonancia magnética de la articulación temporomandibular: es el momento de informar. Austral J Imaging. 2024;30(3):136-48. doi:10.24875/AJI.23000069",
     "credito": "López-Ramírez M, et al. Austral J Imaging. 2024",
     "doi": "10.24875/AJI.23000069",
-    "url": "https://www.scielo.cl/scielo.php?script=sci_arttext&pid=S2810-708X2024000300135",
-    "version_usada": "PDF en español (paginación impresa 136-148). Las páginas de «evidencia» y las leyendas vienen de esta versión.",
-    "titular": "© 2024 Sociedad Chilena de Radiología. Publicado por Permanyer.",
     "licencia": "CC BY-NC-ND 4.0",
     "licencia_url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
     "modificaciones_permitidas": false,
+    "notas": "La edición en inglés («Temporomandibular joint study by magnetic resonance imaging: it is time to inform») figura en la página del DOI con pp. 135-146; el PDF en español imprime 136-148. Crossref no registra páginas.",
+    "tipo": "articulo",
+    "titular": "© 2024 Sociedad Chilena de Radiología. Publicado por Permanyer.",
+    "url": "https://www.scielo.cl/scielo.php?script=sci_arttext&pid=S2810-708X2024000300135",
     "verificacion": {
+      "donde": "PDF en español, p. 136: «Este es un artículo open access bajo la licencia CC BY-NC-ND (https://creativecommons.org/licenses/by-nc-nd/4.0/)»",
       "fecha": "2026-09-19",
-      "por": "Claude (IA), a pedido de pluna; falta que el autor la confirme",
-      "donde": "PDF en español, p. 136: «Este es un artículo open access bajo la licencia CC BY-NC-ND (https://creativecommons.org/licenses/by-nc-nd/4.0/)»"
+      "por": "Claude (IA), a pedido de pluna; falta que el autor la confirme"
     },
-    "notas": "La edición en inglés («Temporomandibular joint study by magnetic resonance imaging: it is time to inform») figura en la página del DOI con pp. 135-146; el PDF en español imprime 136-148. Crossref no registra páginas."
+    "version_usada": "PDF en español (paginación impresa 136-148). Las páginas de «evidencia» y las leyendas vienen de esta versión."
   }
 }
