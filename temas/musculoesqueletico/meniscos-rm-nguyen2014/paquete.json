@@ -1,0 +1,1388 @@
+{
+  "$schema": "../../../schema/paquete.schema.json",
+  "id": "meniscos-rm-nguyen2014",
+  "titulo": "Diagnóstico y clasificación de roturas meniscales por resonancia magnética",
+  "descripcion": "Cuestionario de evaluación para residentes de radiología sobre anatomía, variantes, patrones de rotura y signos indirectos meniscales en RM según Nguyen et al.",
+  "segmento": "musculoesqueletico",
+  "modalidades": [
+    "RM",
+    "Rx"
+  ],
+  "idioma": "es",
+  "version": "0.1.0",
+  "personas": {
+    "pluna": "Pavel Luna"
+  },
+  "imagenes": {
+    "fig02": {
+      "archivo": "fig02.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 2",
+      "leyenda_original": "Figure 2.  Normal MR imaging appearance of the menisci. (a) Sagittal PD-weighted MR images show the typical bow-tie configuration of the meniscal body (left) and the opposing triangles of the horns (center and right). The posterior horn of the MM (arrow) is larger than the anterior horn, whereas the horns of the LM are similar in size and shape. (b) Coronal PD-weighted MR images demonstrate the triangular morphology of the meniscal body (left) and the elongated wedge shape of the posterior horn (right), which is continuous with the crescentic posterior meniscal root.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "lado": "bilateral",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "lado": "bilateral",
+          "plano": "coronal",
+          "secuencia": "DP",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "posterior horn of the MM"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig03": {
+      "archivo": "fig03.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 3",
+      "leyenda_original": "Figure 3.  Surrounding anatomy. (a) Sagittal PD-weighted MR image (left) shows an apparent anterior root tear (black arrow), which, when followed on multiple imaging sections and better depicted on the axial fluid-sensitive reconstructed MR image (right), is shown to be the normal transverse meniscal ligament (white arrow). (b) Sagittal PD-weighted MR image shows the Humphry (white arrow) and Wrisberg (black arrow) ligaments, which are located anterior and posterior to the PCL, respectively. (c) Sagittal T2-weighted MR image shows the posterosuperior (arrow) and anteroinferior (arrowhead) fascicles, which form the roof and floor of the popliteal hiatus, respectively. (d) Sagittal T2-weighted MR image obtained at a more medial level than c depicts the posteroinferior fascicle (arrow). Note the adjacent MFL (arrowhead). (e) Sagittal T2-weighted MR image shows a torn posterosuperior fascicle (arrow), which was found to be associated with an arthroscopically proved peripheral longitudinal LM tear. Note the “kissing” bone contusions from an ACL tear.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital y axial",
+          "secuencia": "DP y sensible a liquido",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": "sagital",
+          "secuencia": "T2",
+          "condicion": null
+        },
+        {
+          "id": "D",
+          "plano": "sagital",
+          "secuencia": "T2",
+          "condicion": null
+        },
+        {
+          "id": "E",
+          "plano": "sagital",
+          "secuencia": "T2",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha negra",
+          "panel": "A",
+          "senala": "apparent anterior root tear"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "normal transverse meniscal ligament"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "B",
+          "senala": "Humphry ligament"
+        },
+        {
+          "marca": "flecha negra",
+          "panel": "B",
+          "senala": "Wrisberg ligament"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "C",
+          "senala": "posterosuperior fascicle"
+        },
+        {
+          "marca": "punta de flecha",
+          "panel": "C",
+          "senala": "anteroinferior fascicle"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "D",
+          "senala": "posteroinferior fascicle"
+        },
+        {
+          "marca": "punta de flecha",
+          "panel": "D",
+          "senala": "adjacent MFL"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "E",
+          "senala": "torn posterosuperior fascicle"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig06": {
+      "archivo": "fig06.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 6",
+      "leyenda_original": "Figure 6.  Expected MR imaging appearance of a horizontal tear. (a) Three-dimensional model (center) shows a horizontal tear (arrow), and diagrams show the expected appearance of the tear on sagittal (left) and coronal (right) MR images. Dashed lines = orientation of imaging planes. (b) Sagittal T2-weighted MR image shows a tear of the posterior horn (arrow) and an associated multiloculated parameniscal cyst (arrowhead). (c) Coronal PD-weighted MR image shows a horizontal tear of the meniscal body (arrow) that contacts the superior articular surface.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital y coronal",
+          "secuencia": "modelo 3D y diagramas",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "sagital",
+          "secuencia": "T2",
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": "coronal",
+          "secuencia": "DP",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "horizontal tear"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "B",
+          "senala": "tear of the posterior horn"
+        },
+        {
+          "marca": "punta de flecha",
+          "panel": "B",
+          "senala": "multiloculated parameniscal cyst"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "C",
+          "senala": "horizontal tear of the meniscal body"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig08": {
+      "archivo": "fig08.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 8",
+      "leyenda_original": "Figure 8.  Expected MR imaging appearance of a longitudinal tear. (a) Three-dimensional model (center) shows a typical longitudinal tear (arrow) that divides the meniscus into inner and outer halves, and diagrams show the expected appearance of the tear on sagittal (left) and coronal (right) MR images. Dashed lines = orientation of imaging planes. (b) Axial fluid-sensitive reformatted MR image shows a peripheral longitudinal tear involving the posterior body and posterior horn that extends into the posterior root (arrows). (c) Sagittal PD-weighted MR image shows a peripheral longitudinal tear with increased intrasubstance signal intensity that unequivocally contacts the articular surface in a vertical orientation (arrow). This type of tear should not extend to the free edge.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital y coronal",
+          "secuencia": "modelo 3D y diagramas",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "axial",
+          "secuencia": "sensible a liquido reformateado",
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "typical longitudinal tear"
+        },
+        {
+          "marca": "flechas blancas",
+          "panel": "B",
+          "senala": "peripheral longitudinal tear involving posterior body and horn extending into posterior root"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "C",
+          "senala": "peripheral longitudinal tear unequivocally contacting articular surface in vertical orientation"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig11": {
+      "archivo": "fig11.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 11",
+      "leyenda_original": "Figure 11.  MR imaging signs of a radial tear. Sagittal PD-weighted MR images demonstrate the cleft sign (arrowhead in a), the truncated triangle sign of a partial-thickness tear (arrowhead in b), and the ghost meniscus sign associated with a full-thickness tear (arrow in c). Each tear involves the free edge of the meniscus.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "punta de flecha",
+          "panel": "A",
+          "senala": "cleft sign"
+        },
+        {
+          "marca": "punta de flecha",
+          "panel": "B",
+          "senala": "truncated triangle sign of a partial-thickness tear"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "C",
+          "senala": "ghost meniscus sign associated with a full-thickness tear"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig12": {
+      "archivo": "fig12.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 12",
+      "leyenda_original": "Figure 12.  Marching cleft sign of a radial tear. (a) Sagittal PD-weighted contiguous MR images show a vertically oriented cleft (arrows) “marching” from the free edge into the substance of the meniscus at the junction of the body and anterior horn. (b) Axial fluid-sensitive reconstructed MR image shows the oblique course of a radial tear (arrow) with respect to the sagittal plane, which accounts for the MR imaging appearance of a tear propagating out of plane.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "axial",
+          "secuencia": "sensible a liquido reconstruido",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas blancas",
+          "panel": "A",
+          "senala": "vertically oriented cleft marching from free edge into meniscus substance"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "B",
+          "senala": "oblique course of radial tear with respect to sagittal plane"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig13": {
+      "archivo": "fig13.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 13",
+      "leyenda_original": "Figure 13.  Cleft sign of longitudinal and radial tears. Three-dimensional models show tears (brown outlines) and the orientation of the imaging planes (dashed white lines). If the imaging plane is perpendicular to the course of the tear, the tear will appear as a vertically oriented cleft through the meniscus. Radial tears, however, extend to and involve the free edge.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital y coronal",
+          "secuencia": "modelos 3D y tabla esquematica",
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig14": {
+      "archivo": "fig14.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 14",
+      "leyenda_original": "Figure 14.  Complete root tear. (a, b) Coronal PD-weighted (a) and axial fluid-sensitive reconstructed (b) MR images show a complete posterior root tear (arrow). (c) Arthroscopic image from Movie 3 shows a torn posterior root. Inset shows the arthroscopic field of view.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "axial",
+          "secuencia": "sensible a liquido reconstruido",
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": null,
+          "secuencia": "imagen artroscopica",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "complete posterior root tear"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "B",
+          "senala": "complete posterior root tear"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig15": {
+      "archivo": "fig15.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 15",
+      "leyenda_original": "Figure 15.  Complex tear. Sagittal PD-weighted MR image shows both vertical (arrowhead) and horizontal (arrow) components. Complex tears typically appear fragmented.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "punta de flecha",
+          "panel": "A",
+          "senala": "vertical component of complex tear"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "horizontal component of complex tear"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig16": {
+      "archivo": "fig16.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 16",
+      "leyenda_original": "Figure 16.  Displaced tear. (a) Coronal T2-weighted MR image shows a flipped fragment within the intercondylar notch (arrow) from a complex tear of the MM. (b) Sagittal PD-weighted MR image shows a large flipped fragment (arrow) in the popliteal recess from a torn LM. (c) Coronal PD-weighted MR image (left) and corresponding anteroposterior radiograph (right) show a laterally displaced meniscal fragment (arrowheads) extending into the superior recess, with central areas of chondrocalcinosis. (d) Arthroscopic image from Movie 4 shows a meniscal flap. Inset shows the arthroscopic field of view.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T2",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": "coronal y AP",
+          "secuencia": "DP y radiografia",
+          "condicion": null
+        },
+        {
+          "id": "D",
+          "plano": null,
+          "secuencia": "imagen artroscopica",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "flipped fragment within intercondylar notch from complex tear of MM"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "B",
+          "senala": "large flipped fragment in popliteal recess from torn LM"
+        },
+        {
+          "marca": "puntas de flecha",
+          "panel": "C",
+          "senala": "laterally displaced meniscal fragment extending into superior recess"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig17": {
+      "archivo": "fig17.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 17",
+      "leyenda_original": "Figure 17.  Bucket-handle tear. (a) Diagram shows a longitudinal tear (white arrow), with central displacement (red arrows) of the inner segment or “handle.” (b) Axial fluid-sensitive reconstructed MR image shows a rare bucket-handle tear that involves only about one-third of the meniscus (arrow). Typically this type of tear involves the majority of the meniscus. (c) Arthroscopic image from Movie 5 shows a centrally displaced torn meniscal fragment from a bucket-handle tear. Inset shows the arthroscopic field of view.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "diagrama",
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "axial",
+          "secuencia": "sensible a liquido reconstruido",
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": null,
+          "secuencia": "imagen artroscopica",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "longitudinal tear"
+        },
+        {
+          "marca": "flechas rojas",
+          "panel": "A",
+          "senala": "central displacement of inner segment or handle"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "B",
+          "senala": "bucket-handle tear involving about one-third of meniscus"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig18": {
+      "archivo": "fig18.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 18",
+      "leyenda_original": "Figure 18.  MR imaging signs of a bucket-handle tear. (a) Sagittal PD-weighted MR image shows the absent bow-tie sign, with nonvisualization of the meniscal body (arrows). (b) Sagittal PD-weighted MR image shows the fragment within the intercondylar notch sign, with a centrally displaced meniscal fragment (arrow) eccentric to the PCL. This finding is commonly seen with lateral tears because an intact ACL impedes the fragment from reaching the level of the PCL. (c) Sagittal PD-weighted MR image shows the double PCL sign, with a displaced fragment from the MM anterior and parallel to the PCL (arrow). (d) Sagittal PD-weighted MR image shows the double anterior horn sign, with a meniscal fragment (white arrow) posterior to and displacing the native anterior horn (black arrow) and a markedly diminutive posterior horn (arrowhead).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "D",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas blancas",
+          "panel": "A",
+          "senala": "absent bow-tie sign with nonvisualization of meniscal body"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "B",
+          "senala": "centrally displaced meniscal fragment eccentric to PCL"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "C",
+          "senala": "double PCL sign with displaced fragment from MM anterior and parallel to PCL"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "D",
+          "senala": "meniscal fragment posterior to native anterior horn"
+        },
+        {
+          "marca": "flecha negra",
+          "panel": "D",
+          "senala": "displaced native anterior horn"
+        },
+        {
+          "marca": "punta de flecha",
+          "panel": "D",
+          "senala": "markedly diminutive posterior horn"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig19": {
+      "archivo": "fig19.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 19",
+      "leyenda_original": "Figure 19.  Meniscal fraying. (a) Coronal fat-suppressed PD-weighted MR image shows amorphous high signal intensity of the posterior root contacting the inferior articular surface (arrow), without a discrete cleft or distortion. (b) Arthroscopic image from Movie 6 shows free-edge surface irregularity. Inset shows the arthroscopic field of view.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "DP con saturacion grasa",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": null,
+          "secuencia": "imagen artroscopica",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "amorphous high signal intensity of posterior root contacting inferior articular surface"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig20": {
+      "archivo": "fig20.jpg",
+      "fuente": "nguyen2014",
+      "figura": "Figure 20",
+      "leyenda_original": "Figure 20.  Indirect signs of meniscal tear. (a) Coronal PD-weighted MR image shows extrusion of the meniscal body (arrow) secondary to an underlying complex tear. (b) Sagittal T2-weighted MR image shows linear subchondral edema (arrow) associated with an adjacent meniscal tear.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "sagital",
+          "secuencia": "T2",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "extrusion of meniscal body"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "B",
+          "senala": "linear subchondral edema associated with adjacent meniscal tear"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    }
+  },
+  "casos": [
+    {
+      "id": "caso-01",
+      "tema": "Anatomía meniscal normal en RM",
+      "etiquetas": [
+        "anatomia",
+        "menisco medial",
+        "menisco lateral",
+        "corte sagital"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En las secuencias ponderadas en densidad protónica (DP) en plano sagital de la rodilla, ¿cuál es la característica morfológica normal que diferencia al menisco medial del menisco lateral respecto al tamaño relativo de sus cuernos?",
+      "imagenes": [
+        {
+          "ref": "fig02",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "El cuerno posterior del menisco medial es mayor que el anterior, mientras que en el menisco lateral ambos cuernos tienen un tamaño y forma similares.",
+        "El cuerno anterior del menisco medial es mayor que el posterior, mientras que en el menisco lateral el cuerno posterior predomina marcadamente.",
+        "Ambos cuernos del menisco medial presentan dimensiones idénticas, mientras que en el menisco lateral el cuerno anterior duplica en volumen al posterior.",
+        "El cuerno posterior del menisco lateral es significativamente mayor que el anterior, mientras que en el menisco medial ambos cuernos son equivalentes.",
+        "Los cuernos anteriores de ambos meniscos son sistemáticamente más voluminosos que sus respectivos cuernos posteriores en todos los cortes sagitales."
+      ],
+      "correcta": 0,
+      "explicacion": "- En los cortes sagitales de RM ponderados en DP, los meniscos normales adoptan configuración en corbatín periféricamente y triángulos opuestos centralmente.\n- El cuerno posterior del menisco medial es de mayor tamaño que su cuerno anterior.\n- En el menisco lateral, tanto el cuerno anterior como el posterior presentan un tamaño y una morfología semejantes.",
+      "perla": "Un cuerno posterior del menisco lateral notablemente mayor que el anterior debe hacer sospechar variante discoide o patología.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 984, leyenda de la Figura 2",
+          "cita": "The posterior horn of the MM (arrow) is larger than the anterior horn, whereas the horns of the LM are similar in size and shape."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-02",
+      "tema": "Variantes anatómicas y pseudoroturas",
+      "etiquetas": [
+        "ligamento meniscal transverso",
+        "pseudorotura",
+        "raiz anterior"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la imagen sagital ponderada en DP (panel izquierdo), una banda hipointensa simula una rotura de la raíz anterior meniscal (flecha negra), pero al seguirse en múltiples cortes y en la reconstrucción axial sensible a líquido (panel derecho, flecha blanca) se identifica una estructura anatómica normal. ¿De qué estructura se trata?",
+      "imagenes": [
+        {
+          "ref": "fig03",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Ligamento meniscofemoral anterior de Humphry",
+        "Ligamento meniscal transverso (o geniculado)",
+        "Fascículo popliteomeniscal posterosuperior",
+        "Ligamento meniscomeniscal oblicuo accesorio",
+        "Tendón del músculo poplíteo intraarticular"
+      ],
+      "correcta": 1,
+      "explicacion": "- El ligamento meniscal transverso (geniculado) es una delgada banda fibrosa presente en el 83% de las RM y el 90% de las disecciones.\n- Conecta y estabiliza los cuernos anteriores de ambos meniscos.\n- En cortes sagitales puede simular una rotura de la raíz anterior meniscal, pero el seguimiento en cortes axiales confirma su curso anatómico normal.",
+      "perla": "Seguir la banda hipointensa a través de cortes axiales y sagitales contiguos previene confundir el ligamento transverso con una rotura de raíz.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 984-985, texto y leyenda de la Figura 3a",
+          "cita": "The transverse meniscal (geniculate) ligament is a thin fibrous band that is present in 90% of dissection specimens and 83% of MR imaging studies. It connects and stabilizes the anterior horns of the menisci (21). On sagittal images, this ligament can simulate an anterior root tear"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-03",
+      "tema": "Fascículos popliteomeniscales y lesiones asociadas",
+      "etiquetas": [
+        "fasciculo popliteomeniscal",
+        "menisco lateral",
+        "LCA"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la imagen sagital de RM ponderada en T2 (panel e), se observa una alteración señalada con la flecha, acompañada de contusiones óseas por mecanismo de beso (\"kissing\") secundarias a rotura del ligamento cruzado anterior (LCA). ¿Qué hallazgo específico se demuestra?",
+      "imagenes": [
+        {
+          "ref": "fig03",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura del ligamento meniscofemoral de Wrisberg",
+        "Rotura del ligamento colateral medial profundo",
+        "Rotura aislada del tendón del músculo poplíteo",
+        "Rotura del fascículo popliteomeniscal anteroinferior",
+        "Rotura del fascículo popliteomeniscal posterosuperior"
+      ],
+      "correcta": 4,
+      "explicacion": "- El panel e muestra la rotura del fascículo popliteomeniscal posterosuperior (flecha).\n- Esta rotura se asocia fuertemente con una rotura meniscal longitudinal periférica del cuerno posterior del menisco lateral comprobada por artroscopia.\n- La lesión del fascículo posterosuperior tiene una sensibilidad del 89%, especificidad del 96% y valor predictivo positivo del 79% para rotura del menisco lateral.",
+      "perla": "La interrupción del fascículo popliteomeniscal posterosuperior es un marcador altamente específico de rotura oculta del menisco lateral.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 985, Teaching Point y leyenda de la Figura 3e",
+          "cita": "A tear of the posterosuperior fascicle is highly associated with, but not specific for, a tear of the LM, with a sensitivity, specificity, and positive predictive value (PPV) of 89%, 96%, and 79%, respectively."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-04",
+      "tema": "Rotura horizontal y quiste parameniscal",
+      "etiquetas": [
+        "rotura horizontal",
+        "quiste parameniscal",
+        "cuerno posterior"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la imagen de RM sagital ponderada en T2 (panel b), se observa una alteración en el cuerno posterior del menisco (flecha) asociada a una colección de líquido bien delimitada (punta de flecha). ¿Cuál es la interpretación diagnóstica de estos hallazgos?",
+      "imagenes": [
+        {
+          "ref": "fig06",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura radial del cuerpo asociada a una bursitis del ligamento colateral",
+        "Rotura horizontal del menisco asociada a un quiste parameniscal multiloculado",
+        "Rotura longitudinal del menisco asociada a una lesión ganglionar del cruzado",
+        "Degeneración mucinosa intrameniscal asociada a una bursa del músculo poplíteo",
+        "Avulsión de la raíz posterior asociada a un quiste subcondral intraóseo tibial"
+      ],
+      "correcta": 1,
+      "explicacion": "- La imagen sagital T2 muestra una rotura horizontal en el cuerno posterior del menisco (flecha).\n- La punta de flecha identifica un quiste parameniscal multiloculado secundario.\n- La formación de quistes parameniscales se asocia típicamente con roturas horizontales completas que se extienden a la periferia, permitiendo el escape de líquido articular.",
+      "perla": "La presencia de un quiste parameniscal tiene un valor predictivo positivo superior al 90% para una rotura meniscal subyacente.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 987 y 989, texto y leyenda de la Figura 6b",
+          "cita": "Sagittal T2-weighted MR image shows a tear of the posterior horn (arrow) and an associated multiloculated parameniscal cyst (arrowhead)."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-05",
+      "tema": "Rotura horizontal del cuerpo meniscal",
+      "etiquetas": [
+        "rotura horizontal",
+        "cuerpo meniscal",
+        "superficie articular"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la imagen coronal ponderada en DP (panel c), se observa una línea hiperintensa en el cuerpo meniscal señalada por la flecha. ¿Cuál es la orientación y el compromiso articular de esta rotura?",
+      "imagenes": [
+        {
+          "ref": "fig06",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura vertical perpendicular que alcanza la superficie articular inferior",
+        "Rotura oblicua marginal que no llega a contactar la superficie articular",
+        "Rotura compleja trirradiada que fragmenta el borde libre del cuerpo meniscal",
+        "Rotura radial transversal que divide al menisco en mitades anterior y posterior",
+        "Rotura horizontal que divide al menisco y contacta la superficie articular superior"
+      ],
+      "correcta": 4,
+      "explicacion": "- El panel c muestra una rotura de orientación horizontal en el cuerpo meniscal (flecha).\n- La hiperintensidad lineal contacta directamente con la superficie articular superior.\n- Las roturas horizontales discurren paralelas al platillo tibial, dividiendo al menisco en hojas superior e inferior sin seccionar los haces circunferenciales de colágeno.",
+      "perla": "Las roturas horizontales son más comunes en mayores de 40 años sin antecedente de traumatismo agudo, sobre terreno degenerativo.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 989, leyenda de la Figura 6c",
+          "cita": "Coronal PD-weighted MR image shows a horizontal tear of the meniscal body (arrow) that contacts the superior articular surface."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-06",
+      "tema": "Rotura longitudinal periférica",
+      "etiquetas": [
+        "rotura longitudinal",
+        "periferica",
+        "raiz posterior"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la reconstrucción axial sensible a líquido (panel b) y en el corte sagital ponderado en DP (panel c), se observa una lesión meniscal periférica (flechas). ¿Qué característica define la orientación y extensión de este tipo de rotura?",
+      "imagenes": [
+        {
+          "ref": "fig08",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Línea hiperintensa vertical que no contacta superficies y secciona el borde libre",
+        "Hendidura transversal en el margen interno que amputa el vértice meniscal libre",
+        "Línea hiperintensa horizontal paralela al platillo que divide el cuerpo en dos hojas",
+        "Línea hiperintensa vertical que contacta la superficie articular sin afectar el borde libre",
+        "Degeneración globular intrameniscal que respeta la periferia y la superficie articular"
+      ],
+      "correcta": 3,
+      "explicacion": "- La rotura longitudinal discurre perpendicular al platillo tibial y paralela al eje largo del menisco, dividiéndolo en mitades central y periférica.\n- En RM se manifiesta como una línea vertical hiperintensa que contacta con una o ambas superficies articulares (panel c).\n- A diferencia de las roturas radiales u horizontales, las roturas longitudinales puras no se extienden al borde libre central.",
+      "perla": "Las roturas longitudinales periféricas en la zona roja tienen potencial de cicatrización o reparación quirúrgica.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 988 y 990, texto y leyenda de la Figura 8c",
+          "cita": "Sagittal PD-weighted MR image shows a peripheral longitudinal tear with increased intrasubstance signal intensity that unequivocally contacts the articular surface in a vertical orientation (arrow). This type of tear should not extend to the free edge."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-07",
+      "tema": "Signos en RM de rotura radial",
+      "etiquetas": [
+        "rotura radial",
+        "cleft sign",
+        "ghost meniscus",
+        "triangulo truncado"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En las imágenes sagitales ponderadas en DP (paneles a, b y c), se aprecian tres signos clásicos en RM de una rotura radial que compromete el borde libre. ¿Cuáles son estos tres signos señalados con las marcas en a, b y c, respectivamente?",
+      "imagenes": [
+        {
+          "ref": "fig11",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Signo del corbatín ausente, signo del fragmento desplazado y signo del doble LCP",
+        "Signo de hendidura (cleft), signo del triángulo truncado y signo del menisco fantasma",
+        "Signo de la hendidura progresiva, signo del doble cuerno y signo de extrusión meniscal",
+        "Signo de deshilachamiento libre, signo del receso poplíteo y signo del ligamento invertido",
+        "Signo del asa de cubo, signo de interrupción fascicular y signo de edema subcondral"
+      ],
+      "correcta": 1,
+      "explicacion": "- El panel a demuestra el signo de la hendidura o cleft sign (punta de flecha) producido al cortar la rotura perpendicularmente.\n- El panel b demuestra el signo del triángulo truncado (punta de flecha), típico de una rotura radial de espesor parcial.\n- El panel c demuestra el signo del menisco fantasma (flecha), característico de una rotura radial de espesor completo donde no queda menisco normal en ese corte.",
+      "perla": "El reconocimiento de estos signos morfológicos eleva la sensibilidad para detectar roturas radiales hasta un 89%.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 991, leyenda de la Figura 11",
+          "cita": "Sagittal PD-weighted MR images demonstrate the cleft sign (arrowhead in a), the truncated triangle sign of a partial-thickness tear (arrowhead in b), and the ghost meniscus sign associated with a full-thickness tear (arrow in c)."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-08",
+      "tema": "Signo de la hendidura progresiva (marching cleft)",
+      "etiquetas": [
+        "marching cleft",
+        "rotura radial",
+        "plano sagital"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En los cortes sagitales contiguos ponderados en DP (panel a) se observa una hendidura vertical (flechas) que progresa alejándose del borde libre en la unión del cuerpo y cuerno anterior, confirmada en el corte axial (panel b). ¿A qué signo corresponde este hallazgo?",
+      "imagenes": [
+        {
+          "ref": "fig12",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Signo del asa de cubo invertida por fragmentación oblicua",
+        "Signo del menisco flotante por desinserción capsulomeniscal",
+        "Signo del doble cuerno anterior por desgarro longitudinal",
+        "Signo del ligamento meniscofemoral supernumerario de Humphry",
+        "Signo de la hendidura progresiva o en marcha (\"marching cleft\")"
+      ],
+      "correcta": 4,
+      "explicacion": "- El signo de la hendidura progresiva (\"marching cleft sign\") ocurre cuando una rotura radial se ubica en la unión entre el cuerpo y un cuerno meniscal.\n- Debido a su orientación oblicua respecto a los planos ortogonales sagital y coronal, la hendidura parece desplazarse corte a corte alejándose del borde libre.\n- El plano axial reformateado demuestra con claridad el trayecto oblicuo de la rotura que explica su propagación fuera de plano.",
+      "perla": "El corte axial reconstruido es determinante para confirmar la continuidad oblicua de una rotura radial en la unión cuerno-cuerpo.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 991 y 992, texto y leyenda de la Figura 12",
+          "cita": "If a tear is located at the junction of the horn and body (obliquely oriented relative to both coronal and sagittal planes), it would appear as a “marching cleft” that progresses away from the free edge on contiguous MR imaging sections (Fig 12)."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-09",
+      "tema": "Rotura de la raíz meniscal",
+      "etiquetas": [
+        "rotura de raiz",
+        "raiz posterior",
+        "plano coronal"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la imagen coronal ponderada en DP (panel a) y en la reconstrucción axial sensible a líquido (panel b), se observa una alteración señalada por las flechas adyacente a la inserción tibial central. ¿Qué diagnóstico describe esta lesión?",
+      "imagenes": [
+        {
+          "ref": "fig14",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Avulsión ósea de la espina tibial por tracción del ligamento cruzado posterior",
+        "Desinserción capsulomeniscal periférica a nivel de la unión condilar medial",
+        "Rotura radial completa de la raíz meniscal posterior con pérdida de fijación",
+        "Degeneración intrasustancia aislada sin compromiso de la superficie articular",
+        "Variante de inserción anómala del ligamento meniscomeniscal transverso anterior"
+      ],
+      "correcta": 2,
+      "explicacion": "- Las imágenes muestran una rotura completa de la raíz meniscal posterior (flechas en paneles a y b).\n- Las roturas de raíz son típicamente roturas de patrón radial que comprometen la fijación del menisco al platillo tibial.\n- Se asocian fuertemente con extrusión meniscal por pérdida de la fuerza de tensión circunferencial (\"hoop strength\").",
+      "perla": "En cortes coronales el menisco debe verse cruzando sobre el platillo tibial en al menos un corte; su ausencia sugiere rotura de raíz.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 992 y 993, texto y leyenda de la Figura 14",
+          "cita": "Coronal PD-weighted (a) and axial fluid-sensitive reconstructed (b) MR images show a complete posterior root tear (arrow)."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-10",
+      "tema": "Rotura meniscal compleja",
+      "etiquetas": [
+        "rotura compleja",
+        "componente vertical",
+        "componente horizontal"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la imagen sagital ponderada en DP, se identifican simultáneamente un trazo vertical (punta de flecha) y un trazo horizontal (flecha) en el menisco. ¿Cómo se clasifica este patrón lesional?",
+      "imagenes": [
+        {
+          "ref": "fig15",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura radial pura con amputación del borde libre",
+        "Rotura meniscal compleja con aspecto fragmentado",
+        "Rotura en asa de cubo simple con asa desplazada",
+        "Rotura longitudinal periférica aislada reducible",
+        "Deshilachamiento superficial de la punta meniscal"
+      ],
+      "correcta": 1,
+      "explicacion": "- Una rotura compleja incluye una combinación de componentes radiales, horizontales y longitudinales (al menos dos o los tres).\n- Típicamente el menisco luce fragmentado, con el desgarro extendiéndose en más de un plano anatómico.\n- La imagen muestra componentes vertical (punta de flecha) y horizontal (flecha) coexistiendo en el mismo segmento.",
+      "perla": "Las roturas complejas con múltiples planos de corte suelen requerir desbridamiento quirúrgico o meniscectomía parcial.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 992 y 994, texto y leyenda de la Figura 15",
+          "cita": "A complex tear includes a combination of radial, horizontal, and longitudinal components (any two or all three) (Fig 15). Often the meniscus appears fragmented, with the tear extending in more than one plane."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-11",
+      "tema": "Rotura con fragmento desplazado",
+      "etiquetas": [
+        "fragmento desplazado",
+        "escotadura intercondilea",
+        "receso popliteo"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En las imágenes coronales y sagitales (paneles a y b), se observan fragmentos meniscales invertidos o migrados (flechas), uno ubicado en la escotadura intercondílea procedente del menisco medial y otro en el receso poplíteo procedente del menisco lateral. ¿A qué categoría general de desgarro corresponden?",
+      "imagenes": [
+        {
+          "ref": "fig16",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura radial simple no desplazada de borde libre",
+        "Degeneración mucinosa quística intraarticular difusa",
+        "Rotura meniscal con fragmento libre o desplazado (flap)",
+        "Deshilachamiento superficial del margen meniscal interno",
+        "Variante congénita anatómica del menisco en anillo plano"
+      ],
+      "correcta": 2,
+      "explicacion": "- Las roturas desplazadas engloban fragmentos libres, desgarros en colgajo (flap) desplazados y roturas en asa de cubo.\n- En el menisco medial, dos tercios de los colgajos se desplazan posteriormente (cerca o posterior al LCP), y el tercio restante migra a la escotadura intercondílea o al receso superior.\n- En el menisco lateral, los fragmentos se distribuyen con igual frecuencia a lo largo de la línea articular posterior y el receso poplíteo/lateral.",
+      "perla": "Un menisco acortado sin cirugía previa obliga al radiólogo a buscar un fragmento desplazado en escotadura o recesos articulares.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 992 y 994, texto y leyenda de la Figura 16",
+          "cita": "Flap tears occur six to seven times more frequently in the MM, where in two-thirds of cases, fragments are displaced posteriorly (near or posterior to the PCL); in the remaining cases, fragments course into either the intercondylar notch or superior recess (Fig 16a) (63). In the LM, fragments are equally distributed along the posterior joint line and lateral recess (Fig 16b, 16c)"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-12",
+      "tema": "Rotura en asa de cubo",
+      "etiquetas": [
+        "asa de cubo",
+        "fragmento asa",
+        "plano axial"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la reconstrucción axial de RM sensible a líquido (panel b), se evidencia una rotura que involucra aproximadamente un tercio del menisco, con un fragmento central migrado que simula la empuñadura de un cubo (flecha). ¿Qué tipo de rotura representa?",
+      "imagenes": [
+        {
+          "ref": "fig17",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura radial oblicua de espesor parcial del cuerno anterior",
+        "Rotura horizontal del cuerpo con quiste parameniscal gigante",
+        "Rotura completa de la raíz anterior con extrusión femorotibial",
+        "Rotura en asa de cubo con migración central del fragmento interno",
+        "Desinserción meniscocapsular periférica pura sin asa móvil libre"
+      ],
+      "correcta": 3,
+      "explicacion": "- Una rotura en asa de cubo es una rotura longitudinal con migración central del fragmento interno (\"el asa\").\n- Aunque habitualmente compromete la mayor parte del menisco, de forma infrecuente puede involucrar solo un tercio de la circunferencia (como en el panel b).\n- Ocurre con una frecuencia siete veces mayor en el menisco medial que en el lateral.",
+      "perla": "La rotura en asa de cubo es causa típica de bloqueo articular de rodilla y requiere tratamiento quirúrgico oportuno.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 993 y 995, texto y leyenda de la Figura 17",
+          "cita": "A bucket-handle tear is a longitudinal tear with central migration of the inner “handle” fragment (Fig 17, Movie 5). This tear pattern occurs seven times more frequently in the MM (65)"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-13",
+      "tema": "Signos en RM de rotura en asa de cubo",
+      "etiquetas": [
+        "doble LCP",
+        "asa de cubo",
+        "menisco medial"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la imagen sagital ponderada en DP (panel c), se observa una banda hipointensa elongada (flecha) que discurre anterior y paralela al ligamento cruzado posterior intacto. ¿Cuál es el nombre semiológico de este signo clásico en RM?",
+      "imagenes": [
+        {
+          "ref": "fig18",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Signo del menisco fantasma por ausencia de tejido",
+        "Signo de la hendidura en marcha por corte oblicuo",
+        "Signo del doble ligamento cruzado posterior (LCP)",
+        "Signo del corbatín meniscal ausente en la periferia",
+        "Signo del ligamento meniscofemoral hipertrófico fijo"
+      ],
+      "correcta": 2,
+      "explicacion": "- El signo del doble LCP (double PCL sign) consiste en un fragmento meniscal desplazado del menisco medial ubicado anterior y paralelo al LCP (flecha en panel c).\n- Es uno de los signos directos característicos de una rotura en asa de cubo del menisco medial.\n- Sus posibles falsos positivos incluyen un ligamento de Humphry prominente, un ligamento meniscomeniscal o cuerpos libres óseos intercondíleos.",
+      "perla": "Para que se forme el signo del doble LCP, el LCA debe estar íntegro para impedir que el fragmento cruce más allá de la línea media.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 993 y 996, texto y leyenda de la Figura 18c",
+          "cita": "Sagittal PD-weighted MR image shows the double PCL sign, with a displaced fragment from the MM anterior and parallel to the PCL (arrow)."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-14",
+      "tema": "Deshilachamiento meniscal (fraying)",
+      "etiquetas": [
+        "fraying",
+        "deshilachamiento",
+        "raiz posterior"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la imagen coronal ponderada en DP con saturación grasa (panel a), se aprecia una señal hiperintensa amorfa en la raíz meniscal posterior que contacta la superficie articular inferior (flecha), sin observarse una hendidura definida ni deformidad estructural franca. ¿Cuál es el diagnóstico más congruente?",
+      "imagenes": [
+        {
+          "ref": "fig19",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura radial de espesor completo con signo de menisco fantasma",
+        "Deshilachamiento meniscal (\"fraying\") de la raíz meniscal posterior",
+        "Rotura longitudinal periférica desplazada hacia el surco poplíteo",
+        "Rotura horizontal degenerativa completa con quiste multiloculado",
+        "Avulsión ósea osteocondral del platillo tibial central con edema"
+      ],
+      "correcta": 1,
+      "explicacion": "- El deshilachamiento (fraying) se define artroscópicamente como irregularidad superficial a lo largo del borde libre sin una rotura discreta franca.\n- En RM puede manifestarse como pérdida del borde afilado o como señal hiperintensa sutil, amorfa y mal delimitada en las raíces que contacta la superficie articular (panel a).\n- En pacientes mayores de 40 años sin traumatismo agudo, este hallazgo suele plantear diagnóstico diferencial entre deshilachamiento, rotura parcial superficial o sinovitis circundante.",
+      "perla": "En adultos mayores sin trauma, una hiperintensidad mal delimitada en la raíz debe sugerir deshilachamiento antes que rotura quirúrgica.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 995 y 997, texto y leyenda de la Figura 19a",
+          "cita": "Coronal fat-suppressed PD-weighted MR image shows amorphous high signal intensity of the posterior root contacting the inferior articular surface (arrow), without a discrete cleft or distortion."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-15",
+      "tema": "Signos indirectos de rotura meniscal",
+      "etiquetas": [
+        "signos indirectos",
+        "extrusion meniscal",
+        "edema subcondral"
+      ],
+      "tipo": "imagen",
+      "enunciado": "En la imagen coronal ponderada en DP (panel a, flecha) y en la imagen sagital ponderada en T2 (panel b, flecha), se muestran dos signos indirectos de gran valor para sospechar una rotura subyacente. ¿Qué hallazgos se ilustran en los paneles a y b, respectivamente?",
+      "imagenes": [
+        {
+          "ref": "fig20",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Quiste parameniscal multilobulado y derrame sinovial articular a tensión",
+        "Desgarro del ligamento meniscofemoral y condromalacia rotuliana focal",
+        "Subluxación femorotibial anterior e infarto óseo metafisodiafisario",
+        "Extrusión meniscal patológica y edema de médula ósea subcondral lineal",
+        "Menisco discoide completo y osteocondritis disecante de cóndilo femoral"
+      ],
+      "correcta": 3,
+      "explicacion": "- El panel a ilustra la extrusión del cuerpo meniscal (flecha), definida cuando el margen periférico sobrepasa 3 mm o más el borde del platillo tibial.\n- El panel b muestra edema lineal de médula ósea subcondral (flecha), caracterizado por ser superficial (<5 mm de profundidad), paralelo a la superficie articular y adyacente a la inserción meniscal.\n- Ambos son signos secundarios de baja sensibilidad pero con elevada especificidad y alto valor predictivo positivo para rotura subyacente.",
+      "perla": "Al medir la extrusión meniscal deben excluirse los osteofitos marginales hipertróficos para definir el verdadero borde tibial.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 996 y 997, texto y leyenda de la Figura 20",
+          "cita": "Coronal PD-weighted MR image shows extrusion of the meniscal body (arrow) secondary to an underlying complex tear. (b) Sagittal T2-weighted MR image shows linear subchondral edema (arrow) associated with an adjacent meniscal tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-16",
+      "tema": "Signo de la hendidura (cleft sign) según el plano de corte",
+      "etiquetas": [
+        "cleft sign",
+        "plano coronal",
+        "plano sagital",
+        "rotura radial",
+        "rotura longitudinal"
+      ],
+      "tipo": "concepto",
+      "enunciado": "¿En qué situación una rotura meniscal se manifiesta como una hendidura orientada verticalmente (cleft sign) en el plano coronal y en el plano sagital, respectivamente?",
+      "imagenes": [
+        {
+          "ref": "fig13",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "En el cuerpo, longitudinal en sagital y radial en coronal; en cuernos, al revés",
+        "En el cuerpo, longitudinal en coronal y radial en sagital; en cuernos, a la inversa",
+        "En el cuerpo y en cuernos se comporta siempre como rotura longitudinal en coronal",
+        "En el cuerpo y en cuernos se comporta exclusivamente como rotura radial en sagital",
+        "Tanto en el cuerpo como en cuernos, la hendidura sólo la originan roturas complejas"
+      ],
+      "correcta": 1,
+      "explicacion": "- El signo de la hendidura no es específico y puede observarse tanto en roturas longitudinales como radiales según el plano de corte respecto al eje del menisco.\n- En cortes coronales, si la hendidura está en el cuerpo corresponde a rotura longitudinal; si está en el cuerno, corresponde a rotura radial.\n- En cortes sagitales se aplica la regla inversa: hendidura en el cuerpo indica rotura radial y en el cuerno indica rotura longitudinal.",
+      "perla": "La orientación ortogonal del plano de adquisición respecto al trazo de la rotura determina la presencia de una hendidura vertical.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 991-992, Teaching Point y leyenda de la Figura 13",
+          "cita": "The cleft sign is not specific and can be seen with both longitudinal and radial tears, depending on the location of the tear relative to the imaging plane (Fig 13). On coronal MR images, if the cleft is within the body, it is the result of a longitudinal tear. If the cleft is within the horn, it is the result of a radial tear. The opposite combination holds true on sagittal MR images."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-17",
+      "tema": "Criterios diagnósticos: regla de los dos cortes",
+      "etiquetas": [
+        "criterios RM",
+        "two-slice-touch rule",
+        "valor predictivo positivo"
+      ],
+      "tipo": "concepto",
+      "enunciado": "De acuerdo con los criterios validados de RM para el diagnóstico de rotura meniscal (\"two-slice-touch rule\"), ¿qué condición debe cumplirse y cuál es su valor predictivo positivo (VPP) asociado?",
+      "imagenes": [],
+      "opciones": [
+        "Hiperintensidad que contacta la superficie en un solo corte de RM, alcanzando un VPP de 85% en ambos meniscos",
+        "Hiperintensidad intrameniscal globular sin contacto articular en dos cortes, alcanzando un VPP mayor al 95%",
+        "Deformidad meniscal o hiperintensidad en contacto con la superficie en dos cortes, con VPP de 94% en MM y 96% en LM",
+        "Presencia obligada de un quiste parameniscal o extrusión en al menos tres cortes contiguos con un VPP de 90%",
+        "Visualización simultánea de rotura en planos sagital, coronal y axial en al menos tres secuencias con VPP del 99%"
+      ],
+      "correcta": 2,
+      "explicacion": "- Los criterios de RM para diagnosticar rotura incluyen distorsión meniscal en ausencia de cirugía previa o aumento de señal intrasustancia que contacte inequívocamente la superficie articular.\n- Si estos criterios se identifican en la misma área en dos cortes consecutivos cualesquiera (dos coronales, dos sagitales o uno coronal y uno sagital), el VPP es del 94% en el menisco medial y 96% en el lateral.\n- Si los criterios se aprecian en una sola imagen, el VPP cae a 43% en MM y 18% en LM, debiendo informarse como posible rotura.",
+      "perla": "La regla de contacto en dos cortes reduce notablemente los falsos positivos por volumen parcial o artefactos.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 987, Teaching Point",
+          "cita": "MR imaging criteria for diagnosing a tear include meniscal distortion in the absence of prior surgery or increased intrasubstance signal intensity unequivocally contacting the articular surface. If these criteria are seen on two or more images, fulfilling the “two-slice-touch” rule, then the PPV for a tear is 94% in the MM and 96% in the LM, and the imaging findings should be reported as a meniscal tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-18",
+      "tema": "Roturas longitudinales y asociación con rotura de LCA",
+      "etiquetas": [
+        "LCA",
+        "rotura longitudinal periférica",
+        "asociacion lesional"
+      ],
+      "tipo": "concepto",
+      "enunciado": "¿Cuál es la frecuencia de asociación entre las roturas meniscales longitudinales periféricas y las roturas del ligamento cruzado anterior (LCA) descrita en el documento?",
+      "imagenes": [],
+      "opciones": [
+        "Se asocian con rotura del LCA en el 50% de las roturas del menisco medial y en el 40% del lateral",
+        "Se asocian con rotura del LCA en el 90% de las roturas del menisco medial y en el 83% del lateral",
+        "Se asocian con rotura del LCA en el 30% de las roturas del menisco medial y en el 70% del lateral",
+        "Se asocian con rotura del LCA en el 75% de las roturas del menisco medial y en el 25% del lateral",
+        "Se asocian con rotura del LCA en el 98% de las roturas del menisco medial y en el 98% del lateral"
+      ],
+      "correcta": 1,
+      "explicacion": "- Existe una estrecha asociación entre las roturas longitudinales periféricas y las lesiones del ligamento cruzado anterior (LCA).\n- Específicamente, el 90% de las roturas longitudinales periféricas del menisco medial y el 83% de las del menisco lateral presentan una rotura asociada del LCA.\n- En presencia de rotura del LCA, disminuye la sensibilidad de la RM para detectar roturas del menisco lateral (del 94% al 69%), requiriendo atención especial en la periferia.",
+      "perla": "Ante una rotura aguda del LCA, es imperativo buscar minuciosamente roturas longitudinales periféricas en ambos meniscos.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 988, Teaching Point",
+          "cita": "There is a close association between peripheral longitudinal tears and ACL tears. Specifically, 90% of MM and 83% of LM peripheral longitudinal tears have an associated ACL tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-19",
+      "tema": "Criterios diagnósticos de menisco discoide",
+      "etiquetas": [
+        "menisco discoide",
+        "clasificacion de Watanabe",
+        "criterios en RM"
+      ],
+      "tipo": "concepto",
+      "enunciado": "¿Cuáles son los criterios cuantitativos en RM descritos para establecer el diagnóstico de menisco discoide?",
+      "imagenes": [],
+      "opciones": [
+        "Ancho del cuerpo meniscal >= 10 mm en coronal o visualización de 2 o más corbatines en cortes sagitales de 5 mm",
+        "Ancho del cuerpo meniscal >= 12 mm en coronal o visualización de 4 o más corbatines en cortes sagitales de 3 mm",
+        "Ancho del cuerpo meniscal >= 15 mm en coronal o visualización de 3 o más corbatines en cortes sagitales de 4 mm",
+        "Ancho del cuerpo meniscal >= 20 mm en coronal o visualización de 5 o más corbatines en cortes sagitales de 2 mm",
+        "Extrusión periférica >= 3 mm en plano coronal o contacto con la espina tibial en al menos dos planos ortogonales"
+      ],
+      "correcta": 2,
+      "explicacion": "- El menisco discoide se diagnostica en RM cuando el cuerpo meniscal mide 15 mm o más en un corte coronal medio.\n- En el plano sagital, se establece el diagnóstico cuando se identifican tres o más configuraciones en corbatín en imágenes contiguas de 4 mm de espesor.\n- Es de 10 a 20 veces más frecuente en el menisco lateral que en el medial, y está presente en el 1% al 5% de las rodillas.",
+      "perla": "El menisco discoide completo cubre la totalidad del platillo tibial, mientras que la variante incompleta cubre el 80% o menos.",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 985-986, sección Discoid Meniscus",
+          "cita": "Discoid meniscus is diagnosed when the body of the meniscus measures 15 mm or more on a midline coronal image (Fig 4a) or when three or more bow-tie shapes are identified on contiguous sagittal (4-mm-thick) images (33)."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-20",
+      "tema": "Artefactos diagnósticos: efecto de ángulo mágico",
+      "etiquetas": [
+        "angulo magico",
+        "55 grados",
+        "cuerno posterior menisco lateral"
+      ],
+      "tipo": "concepto",
+      "enunciado": "¿En qué localización y bajo qué condiciones físicas se produce típicamente el fenómeno de «ángulo mágico» que puede simular una rotura meniscal en RM?",
+      "imagenes": [],
+      "opciones": [
+        "Fibras a 45° en el cuerno anterior del menisco medial, con hiperintensidad que contacta la superficie articular",
+        "Fibras a 55° en el cuerno posterior del menisco lateral, con señal aumentada que no contacta la superficie articular",
+        "Fibras a 90° en el cuerpo meniscal lateral, condicionando una señal lineal con distorsión capsulomeniscal franca",
+        "Fibras a 30° en la raíz anterior del menisco medial, originando un vacío de señal falso positivo en secuencias T2",
+        "Fibras a 60° a nivel del ligamento cruzado posterior, proyectando artefactos de pulsación arterial sobre el cuerno"
+      ],
+      "correcta": 1,
+      "explicacion": "- El efecto de ángulo mágico ocurre cuando las fibras de colágeno se orientan a 55° con respecto al campo magnético principal.\n- Se observa con frecuencia en el segmento medial ascendente del cuerno posterior del menisco lateral.\n- Se manifiesta como un aumento de señal amorfo que NO se extiende a la superficie articular, especialmente en secuencias DP no sensibles a líquido.",
+      "perla": "El aumento de señal por ángulo mágico desaparece en secuencias con tiempos de eco prolongados (T2 o sensibles a líquido).",
+      "evidencia": [
+        {
+          "fuente": "nguyen2014",
+          "ubicacion": "p. 997, sección Diagnostic Errors",
+          "cita": "The magic-angle effect occurs when collagen fibers are oriented 55° relative to the magnetic field, which is often seen in the upslope medial segment of the LM posterior horn at imaging. This effect commonly occurs within the posterior horn and appears as amorphous increased signal intensity that does not extend to the articular surface, particularly on non–fluid-sensitive PD-weighted MR images (78)."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    }
+  ]
+}

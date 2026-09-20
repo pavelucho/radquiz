@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "nguyen2014": {
+    "cita": "Nguyen JC, De Smet AA, Graf BK, Rosas HG. MR imaging-based diagnosis and classification of meniscal tears. RadioGraphics. 2014;34(4):981-999. doi:10.1148/rg.344125202",
+    "credito": "Nguyen JC, et al. RadioGraphics. 2014",
+    "doi": "10.1148/rg.344125202",
+    "licencia": "CC BY-NC-ND 4.0",
+    "licencia_url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "modificaciones_permitidas": false,
+    "tipo": "articulo",
+    "titular": "©RSNA, 2014 • radiographics.rsna.org",
+    "url": "https://doi.org/10.1148/rg.344125202",
+    "verificacion": {
+      "donde": "p. 981: «Note: This copy is for your personal non-commercial use only. To order presentation-ready copies for distribution to your colleagues or clients, contact us at www.rsna.org/rsnarights.»",
+      "fecha": "2026-09-20",
+      "por": "Pavel Luna"
+    }
+  }
+}
