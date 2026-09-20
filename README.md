@@ -78,7 +78,8 @@ carpeta; ese nivel se ignora, igual que la basura de `__MACOSX`.
   límite de 1600 px y 250 KB lo pone el estudio y no quien armó el archivo.
 - **Descargar .zip** (paso 4): lo mismo que se publica, listo para volver a subirlo, mandarlo a `temas/` por Git o
   guardarlo antes de borrar el tema.
-- En «Nuevo cuestionario», **Copiar instrucciones para el .zip** da el texto para una IA que sepa ejecutar código:
+- **Instrucciones para la IA**, en la portada junto a «Subir un .zip» (y también en «Nuevo cuestionario»), da el
+  texto para una IA que sepa ejecutar código:
   saca las figuras del PDF y devuelve el `.zip` armado. El prompt (`instruccionesPaquete()`) repite las reglas del
   esquema —enums de segmento, modalidad y licencia, patrones de id, límites de imagen— y termina con un
   **comprobador en Python que la IA tiene que correr antes de entregar**: abre su propio `.zip` y no da el visto

@@ -273,7 +273,8 @@ function inicio() {
     <section class="segmento">
       <div class="row" style="justify-content:space-between"><h2>Mis temas</h2>
         <span class="row"><a class="boton primary" href="#/nuevo">Nuevo cuestionario</a>
-          <button id="subir-zip">Subir un .zip</button>
+          <button id="copiar-ia-zip" title="El texto para que tu IA saque las figuras del PDF y te devuelva el cuestionario entero en un .zip">Instrucciones para la IA</button>
+          <button id="subir-zip" title="Sube el .zip que te devolvió tu IA: aquí lo revisas antes de crear nada">Subir un .zip</button>
           <input type="file" id="archivo-zip" accept=".zip,application/zip" hidden></span></div>
       ${mios.length ? `<div class="temas">${mios.map(tarjetaTema).join("")}</div>` : `<p class="muted">Todavía no creaste ninguno. Cualquiera puede publicar; los radiólogos ponen el sello de verificado.</p>`}
     </section>
@@ -283,6 +284,7 @@ function inicio() {
   const boton = $("#pedir-revisor");
   if (boton) boton.onclick = pedirSerRevisor;
   const entrada = $("#archivo-zip");
+  $("#copiar-ia-zip").onclick = () => copiar(instruccionesPaquete(), "Copiado. Pégalo en tu IA junto al PDF.");
   $("#subir-zip").onclick = () => entrada.click();
   entrada.onchange = async () => {
     const archivo = entrada.files[0];
@@ -371,7 +373,8 @@ function temaNuevo() {
     <p class="muted">Si tu IA sabe ejecutar código (ChatGPT con análisis de datos, Claude, Gemini…), puede sacar las
       figuras del PDF y devolverte el cuestionario completo en un solo <b>.zip</b>. Lo subes con
       <b>Subir un .zip</b> y aquí lo revisas antes de crear nada.</p>
-    <div class="row"><button id="copiar-zip">Copiar instrucciones para el .zip</button></div>
+    <div class="row"><button id="copiar-zip">Instrucciones para la IA</button>
+      <span class="src">También están en la portada, junto a «Subir un .zip».</span></div>
   </div>`;
   $("#copiar-zip").onclick = () => copiar(instruccionesPaquete(), "Copiado. Pégalo en tu IA junto al PDF.");
   $("#nuevo").onsubmit = async (e) => {
