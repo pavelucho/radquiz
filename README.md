@@ -65,8 +65,13 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
 Los borradores viven en Firebase (`estudio/`, `estudio_img/`); lo publicado queda además en el repositorio, que es el
 historial. Las reglas de `database.rules.json` definen qué puede hacer cada papel.
 
-**Las reglas hay que desplegarlas** (`firebase deploy --only database`) para que el estudio pueda escribir
-`indice_publicado`. Si no están, publicar sigue funcionando: el tema aparece cuando el workflow lo baje.
+**Las reglas hay que desplegarlas** para que el estudio pueda escribir `indice_publicado`. Si no están,
+publicar sigue funcionando: el tema aparece cuando el workflow lo baje.
+
+`.github/workflows/reglas.yml` las despliega solo cuando cambia `database.rules.json`, si el repositorio tiene el
+secreto `FIREBASE_SERVICE_ACCOUNT` (JSON de una cuenta de servicio con el papel «Firebase Rules Admin», que es lo
+recomendado) o `FIREBASE_TOKEN` (lo que imprime `firebase login:ci`, más rápido pero vale por toda la cuenta).
+Sin secreto el workflow avisa y no falla, y queda el camino de siempre: `firebase deploy --only database`.
 
 ## Sala en vivo
 
