@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+"""Despliega database.rules.json en la base del estudio, sin sesión interactiva de Firebase.
+
+Uso:
+    tools/desplegar_reglas            despliega
+    tools/desplegar_reglas --ver      solo comprueba que todo esté listo
+
+Lo usan el workflow «Desplegar reglas» y las sesiones de Claude Code en la web, así que el camino
+es uno solo y está probado. Toma la credencial de una de estas variables de entorno:
+
+    FIREBASE_SERVICE_ACCOUNT   el JSON de una cuenta de servicio con el papel «Firebase Realtime
+                               Database Admin» (roles/firebasedatabase.admin). Admite el JSON tal
+                               cual o en base64, que viaja mejor en una variable de entorno.
+                               Es la recomendada: solo llega a la base.
+    FIREBASE_TOKEN             lo que imprime «firebase login:ci». Más rápido de conseguir, pero
+                               vale por toda la cuenta de Google en Firebase.
+
+Ojo con la red: las reglas se escriben en <instancia>.firebaseio.com, no en googleapis.com. Un
+entorno que bloquee ese dominio no puede desplegarlas por mucha credencial que tenga.
+"""
+
+import base64
+import json
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+RAIZ = Path(__file__).resolve().parent.parent
+PROYECTO = json.loads((RAIZ / ".firebaserc").read_text(encoding="utf-8"))["projects"]["default"]
+INSTANCIA = "%s-default-rtdb.firebaseio.com" % PROYECTO
+
+
+def credencial(tmp):
+    """Deja la credencial lista y devuelve el entorno para la CLI, o None si no hay ninguna."""
+    entorno = dict(os.environ)
+    bruto = os.environ.get("FIREBASE_SERVICE_ACCOUNT", "").strip()
+    if bruto:
+        if not bruto.startswith("{"):
+            try:
+                bruto = base64.b64decode(bruto).decode("utf-8")
+            except Exception:
+                sys.exit("FIREBASE_SERVICE_ACCOUNT no es JSON ni base64 de un JSON.")
+        try:
+            cuenta = json.loads(bruto)
+        except json.JSONDecodeError as e:
+            sys.exit("FIREBASE_SERVICE_ACCOUNT no es un JSON válido: %s" % e)
+        if cuenta.get("type") != "service_account":
+            sys.exit("FIREBASE_SERVICE_ACCOUNT no parece una cuenta de servicio (falta type).")
+        ruta = Path(tmp) / "cuenta.json"
+        ruta.write_text(bruto, encoding="utf-8")
+        ruta.chmod(0o600)
+        entorno["GOOGLE_APPLICATION_CREDENTIALS"] = str(ruta)
+        print("Credencial: cuenta de servicio %s" % cuenta.get("client_email", "?"))
+        return entorno
+    if os.environ.get("FIREBASE_TOKEN", "").strip():
+        print("Credencial: FIREBASE_TOKEN")
+        return entorno
+    return None
+
+
+def hay_red():
+    """Las reglas van a la instancia, no a googleapis. Sin ese dominio no hay despliegue."""
+    try:
+        urllib.request.urlopen("https://%s/.json?shallow=true" % INSTANCIA, timeout=20)
+        return True
+    except urllib.error.HTTPError:
+        return True  # responde el servidor: la red llega, el código da igual
+    except Exception as e:
+        print("No llego a %s: %s" % (INSTANCIA, e))
+        return False
+
+
+def cli():
+    if shutil.which("firebase"):
+        return True
+    print("Instalando firebase-tools…")
+    hecho = subprocess.run(["npm", "install", "-g", "firebase-tools", "--no-fund", "--no-audit"],
+                           stdout=subprocess.DEVNULL)
+    return hecho.returncode == 0 and shutil.which("firebase") is not None
+
+
+def main():
+    solo_ver = "--ver" in sys.argv[1:]
+    json.loads((RAIZ / "database.rules.json").read_text(encoding="utf-8"))
+    print("database.rules.json es JSON válido")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        entorno = credencial(tmp)
+        if entorno is None:
+            print("\nFalta la credencial. Pon FIREBASE_SERVICE_ACCOUNT (recomendada) o FIREBASE_TOKEN\n"
+                  "en las variables de entorno, y vuelve a intentarlo.")
+            return 1
+        red = hay_red()
+        if not red:
+            print("\nLa red de este entorno no llega a la base. Hay que permitir *.firebaseio.com\n"
+                  "en la política de red; la credencial por sí sola no alcanza.")
+            return 1
+        if solo_ver:
+            print("\nTodo listo: credencial, red y reglas válidas.")
+            return 0
+        if not cli():
+            print("\nNo pude instalar firebase-tools.")
+            return 1
+        hecho = subprocess.run(
+            ["firebase", "deploy", "--only", "database", "--project", PROYECTO, "--non-interactive"],
+            cwd=RAIZ, env=entorno)
+        return hecho.returncode
+
+
+if __name__ == "__main__":
+    sys.exit(main())
