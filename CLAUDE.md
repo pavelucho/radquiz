@@ -36,12 +36,13 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - La validación depende del estado: en borrador lo pendiente es aviso; en publicado es error.
 - La app baraja las opciones; id global = `<paquete>/<caso>`.
 
-## Estado actual (2026-09-19)
+## Estado actual (2026-09-20)
 - Fase 0 terminada: `schema/`, `tools/validar` (sin dependencias), `docs/guia-estilo-ia.md`, skill
   `.claude/skills/crear-casos-radquiz`, CI en `.github/workflows/validar.yml`.
-- `temas/cabeza-cuello/atm-rm-lopezramirez2024/`: 27 casos y 17 imágenes, pasa el validador sin errores ni avisos.
-  Publicados el 2026-09-20 (sin sello de verificado). `REVISION.md` lista los cambios y lo que el revisor debe
-  confirmar antes del sello (Fig. 8, 12, 13, 14).
+- `temas/cabeza-cuello/atm-rm-lopezramirez2024/`: 27 casos y 17 imágenes, versión 0.2.0, pasa el validador sin
+  errores ni avisos. Publicado y **verificado el 2026-09-20**: los 27 casos llevan el sello de `pluna` (Pavel Luna),
+  que es además el autor —el modelo lo permite, y el manual recomienda que un segundo radiólogo lo mire—. Es el
+  único tema del repositorio. `REVISION.md` guarda qué cambió al pasar al formato nuevo.
   Licencia verificada: CC BY-NC-ND 4.0 (PDF en español, p. 136). Respaldo del original en `referencia/piloto-original/`.
 - App estática de práctica: `index.html` + `practica.html` (+ `?revision=1` = previsualizador para revisores).
   Probar con `python3 -m http.server`. Necesita `temas/indice.json` (`tools/validar --indice`).
@@ -70,6 +71,11 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   aviso que dice qué se pierde. El orden de borrado importa: `publicacion`, `publicacion_img`, `verificacion`,
   `reportes`, `estudio_img` y por último `estudio`, porque las reglas dan permiso mirando
   `estudio/<tema>/meta/autor_uid`. Deja `indice_publicado/<tema>` como `retirado`.
+- **Probado de punta a punta en producción el 2026-09-20** con el tema `sindrome-psicoticos`: se publicó desde el
+  estudio y se retiró desde el estudio. Con las reglas ya desplegadas, `indice_publicado` se escribió por primera
+  vez (antes estaba vacío, y por eso los temas tardaban en salir), la web ocultó el tema al instante por la marca
+  `retirado`, y `tools/traer_publicaciones` borró su carpeta de `temas/` en el workflow siguiente. Desde fuera no
+  se distingue «Borrar» de «Quitar de la web»: dejan el mismo rastro público.
 - Publicar es instantáneo: `app/publicado.js` lee por REST los nodos públicos `indice_publicado`, `publicacion`,
   `publicacion_img` y `verificacion`, y la portada, la práctica y la sala los fusionan con `temas/indice.json`.
   Gana el estudio cuando su versión no coincide con la del sitio; si coinciden, se usan los archivos del sitio
@@ -102,9 +108,11 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
      **la política de red tiene que permitir `*.firebaseio.com`**. Las reglas se escriben en
      `<instancia>.firebaseio.com/.settings/rules.json`, no en `googleapis.com`, así que sin ese dominio
      no hay despliegue por mucha credencial que haya. `tools/desplegar_reglas --ver` lo diagnostica.
-2. Ponerle el sello de verificado al tema ATM: confirmar Fig. 8, 12, 13 y 14 contra el PDF y correr
-   `tools/aprobar temas/cabeza-cuello/atm-rm-lopezramirez2024 --revisor <usuario> --nombre "<nombre>" --todos`.
-   Mientras tanto los 27 casos se practican en la web y salen como «Sin verificar».
+2. Que un segundo radiólogo mire el tema ATM. Ya está verificado, pero por su propio autor, y el sello dice quién
+   lo puso. De paso quedan cuatro fichas con `plano`/`secuencia` en `null` porque la leyenda no lo dice, y sus
+   `notas` piden confirmarlo mirando la imagen: Fig. 8 (¿T2 con supresión grasa?), Fig. 12 (¿sagital oblicuo?),
+   Fig. 13 (¿coronal o sagital?) y Fig. 14. Dejarlas en `null` es correcto mientras nadie las confirme: el
+   validador no se queja.
 3. Probar la red de HNERM (WebSocket a Firebase) antes del ensayo con 3 colegas.
 4. Decidir la licencia del código y la de los textos propios.
 

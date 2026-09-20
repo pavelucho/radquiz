@@ -1,10 +1,12 @@
 # Revisión del paquete ATM (versión 0.2.0)
 
-Este paquete pasó al formato nuevo el 2026-09-19 y se publicó el 2026-09-20: los 27 casos están en **publicado**,
-todavía **sin el sello de verificado**. El original quedó en `referencia/piloto-original/` para comparar.
+Este paquete pasó al formato nuevo el 2026-09-19 y se publicó el 2026-09-20. **Los 27 casos están verificados**
+desde ese mismo día, con el sello de `pluna` (Pavel Luna), que es también su autor: el modelo lo permite y el sello
+siempre dice quién lo puso, pero conviene que un segundo radiólogo lo mire. El original quedó en
+`referencia/piloto-original/` para comparar.
 
-Publicar y verificar son pasos distintos: los casos ya se practican en la web y sirven para la sala en vivo, y aparecen
-como «Sin verificar» hasta que un radiólogo confirme la lista de abajo y les ponga el sello.
+Publicar y verificar son pasos distintos. Si alguien edita un caso y lo vuelve a publicar, su sello se retira solo y
+vuelve a la cola de revisión.
 
 Cada respuesta correcta se contrastó con el PDF en español del artículo. Las 27 claves eran correctas; los cambios son
 de redacción, de datos no sustentados y de formato. Cada frase de `evidencia` y cada `leyenda_original` se comprobó
@@ -53,15 +55,20 @@ automáticamente contra el texto del PDF.
 | atm-26 | Opciones reequilibradas (la correcta tenía 102 caracteres) | La correcta era evidente por su largo |
 | atm-27 | Tipo concepto, sin imágenes; opciones con las mismas cuatro etapas | Las imágenes eran decorativas; la correcta era la más larga |
 
-## Qué tiene que confirmar el revisor antes del sello
+## Lo que sigue abierto
 
-- [ ] **Licencia:** abrir el PDF y confirmar la frase de la p. 136 (el campo `verificacion` lo llenó la IA).
-- [ ] **Fig. 8:** ¿es T2 con supresión grasa? Si sí, completar `secuencia` en la ficha y, si sirve, en el enunciado de atm-16.
-- [ ] **Fig. 12:** ¿el plano es sagital oblicuo? ¿Se puede diagnosticar hipoplasia viendo una sola ATM (atm-23)?
-- [ ] **Fig. 13:** ¿es coronal o sagital? Completar `plano`.
-- [ ] **Fig. 14 y Fig. 1:** plano o secuencia si se pueden afirmar con seguridad.
-- [ ] La lista mínima del plan en cada caso: imagen y marcas coinciden, distractores plausibles, explicación sin
-      afirmar más que la fuente, atribución completa.
+El sello ya está puesto, pero estas fichas siguen con `plano` o `secuencia` en `null` porque la leyenda del artículo
+no lo dice. Dejarlas así es correcto —el validador no se queja— y sus `notas` guardan la duda; solo se completan si
+un radiólogo lo puede afirmar mirando la imagen:
 
-Para aprobar un caso: poner `"estado": "revisado"`, `"revisor": "<usuario>"` y `"fecha_revision": "AAAA-MM-DD"`, y
-correr `tools/validar`. Con estado revisado, el validador exige ficha completa, evidencia y licencia verificada.
+- **Fig. 8:** ¿es T2 con supresión grasa? Si sí, completar `secuencia` en la ficha y, si sirve, en el enunciado de atm-16.
+- **Fig. 12:** ¿el plano es sagital oblicuo? ¿Se puede diagnosticar hipoplasia viendo una sola ATM (atm-23)?
+- **Fig. 13:** ¿es coronal o sagital? Completar `plano`.
+- **Fig. 14 y Fig. 1:** plano o secuencia si se pueden afirmar con seguridad.
+
+Y lo que conviene que mire ese segundo radiólogo, caso por caso: que la imagen y las marcas coincidan con lo que
+dice la pregunta, que los distractores sean plausibles, que la explicación no afirme más que la fuente y que la
+atribución esté completa.
+
+El sello se pone desde el estudio, con el botón **Verificar casos**. Por el camino de Git es
+`tools/aprobar <carpeta> --revisor <usuario> --nombre "<nombre>" --todos`.
