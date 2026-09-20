@@ -81,11 +81,15 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - Herramientas: `gh` está en `~/.local/bin/gh` (no en el PATH); `firebase` global vía npm.
 
 ## Pendiente
-1. Desplegar las reglas. Sin eso el estudio no puede escribir `indice_publicado` y los temas nuevos tardan
-   en salir (publicar sigue funcionando; el estudio lo avisa). **Además, desde el 2026-09-20 hace falta para
-   borrar un tema publicado**: las reglas nuevas permiten al autor borrar lo suyo aunque esté publicado y quitar
-   de una vez `estudio_img/<tema>`, `verificacion/<tema>` y `reportes/<tema>`. Con las reglas viejas el estudio
-   avisa «permission-denied». `tools/desplegar_reglas` lo hace sin sesión
+1. **Poner el secreto de Firebase en GitHub.** Las reglas están desplegadas: el 2026-09-20 se corrió
+   `firebase deploy --only database` a mano desde la máquina del autor, con la sesión de la CLI ya iniciada, e
+   incluyen ya lo que hace falta para borrar un tema publicado. Pero el workflow `reglas.yml` sigue **sin
+   credencial**: termina en verde y solo avisa, así que el próximo cambio de `database.rules.json` tampoco se
+   desplegará solo y habrá que repetir el comando a mano.
+   Comprobado tras el despliegue: `indice_publicado`, `publicacion` y `verificacion` se leen sin sesión (HTTP
+   200) y `estudio` sigue cerrado (401). `indice_publicado` está vacío porque el estudio nunca pudo escribirlo;
+   se llenará en la próxima publicación, y hasta entonces la web se apaña con `temas/indice.json`.
+   `tools/desplegar_reglas` lo hace sin sesión
    interactiva, y es el mismo comando que corre el workflow. Necesita, en variables de entorno o en secretos:
    `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con el papel «Firebase
    Realtime Database Admin»; **no** «Firebase Rules Admin», que es de Firestore y Storage) o `FIREBASE_TOKEN`
