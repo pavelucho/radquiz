@@ -9,6 +9,9 @@
   ],
   "idioma": "es",
   "version": "0.2.0",
+  "personas": {
+    "pluna": "Pavel Luna"
+  },
   "imagenes": {
     "tabla1": {
       "archivo": "tabla1.jpg",
@@ -613,7 +616,7 @@
           "cita": "Ambas ATM se registran simultáneamente mediante el uso de bobinas de superficie"
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -659,7 +662,7 @@
           "cita": "Este plano coronal oblicuo es importante para evaluar el desplazamiento discal en sentido medial o lateral."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -712,7 +715,7 @@
           "cita": "es fundamental el uso de medio de contraste para diferenciar el derrame sinovial de la sinovitis"
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -764,7 +767,7 @@
           "cita": "la banda posterior, la cual debe cubrir la porción más superior del cóndilo a las “12 horas” en una proyección sagital (Fig. 1B)."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -816,7 +819,7 @@
           "cita": "otros signos que pueden sugerir TTM, tales como derrame articular, rotura de capas retrodiscales"
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -873,7 +876,7 @@
           "cita": "aumento del grosor de la inserción del musculo pterigoideo lateral"
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -920,7 +923,7 @@
           "cita": "En cortes coronales el disco tiene forma de semiluna y no debe sobrepasar los límites de la cápsula articular (Fig. 1A)."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -967,7 +970,7 @@
           "cita": "La zona intermedia del disco se ubica entre la convexidad posterior del tubérculo articular del hueso temporal y la convexidad anterosuperior del cóndilo."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1019,7 +1022,7 @@
           "cita": "se evalúan con la boca cerrada, tanto en cortes sagitales como coronales oblicuos"
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1060,7 +1063,7 @@
           "cita": "en el desplazamiento anterior completo todo el disco se encuentra delante del cóndilo mandibular, en los desplazamientos parciales solo un segmento es anterior al cóndilo"
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1101,7 +1104,7 @@
           "cita": "Este plano coronal oblicuo es importante para evaluar el desplazamiento discal en sentido medial o lateral."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1142,7 +1145,7 @@
           "cita": "En cortes coronales el disco tiene forma de semiluna y no debe sobrepasar los límites de la cápsula articular (Fig. 1A)."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1183,7 +1186,7 @@
           "cita": "Los desplazamientos discales se clasifican en dos subgrupos de acuerdo con su comportamiento con la apertura bucal: con y sin reducción. En aquellos con reducción, el disco regresa y queda entre las superficies articulares durante la apertura bucal (Fig. 6)."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1224,7 +1227,7 @@
           "cita": "En el desplazamiento discal sin reducción, el disco articular se mantiene anterior al cóndilo mandibular durante todos los movimientos mandibulares, y la relación cóndilo-disco articular no se restablece (Fig. 7)."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1271,7 +1274,7 @@
           "cita": "Se estima que afectan entre un 5-12% de la población, con una prevalencia mayor en mujeres."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1318,7 +1321,7 @@
           "cita": "Es una condición frecuentemente encontrada en pacientes que presentan dolor articular."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null,
       "notas_revision": "La leyenda de la Figura 8 no indica la secuencia; el piloto decía «T2 con saturación grasa» en el enunciado. Se quitó hasta confirmarlo con la imagen."
@@ -1371,7 +1374,7 @@
           "cita": "El tipo de deformación se relaciona con el grado de desplazamiento que posee el disco y la evolución de la patología."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1428,7 +1431,7 @@
           "cita": "cuando hay compromiso erosivo del disco se debe descartar el depósito de pirofosfato de calcio dihidrato, que genera una artrosis desmesurada para la edad del paciente."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1465,7 +1468,7 @@
           "cita": "está presente en una gran proporción de individuos de mayor edad, aunque también puede verse en pacientes jóvenes, quienes presentan una clínica más sintomática."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1502,7 +1505,7 @@
           "cita": "La RM es el examen con mayor rendimiento en los TTM"
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1543,7 +1546,7 @@
           "cita": "pueden trasladar el cóndilo mandibular más allá de la inserción anterior de la cápsula articular, quedando por delante del tubérculo articular. Al sobrepasar este límite, el cóndilo puede quedar atrapado en zona anterior de la eminencia articular (Fig. 10), produciéndose un bloqueo mandibular, con la consiguiente incapacidad de trasladar el cóndilo a su posición normal."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1594,7 +1597,7 @@
           "cita": "se debe considerar que el dolor articular también favorece a la hipomotilidad de la ATM."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1635,7 +1638,7 @@
           "cita": "Estas condiciones se sospechan cuando existen alteraciones de la simetría facial, la cual puede ser progresiva. Además, pueden asociarse a anomalías del conducto auditivo externo y/o en el oído medio. En estos casos deben buscarse aplasia condilar, hipoplasia condilar (Fig. 12), hiperplasia y cóndilo bífido (Fig. 13)."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null,
       "notas_revision": "Se quitó «asimetría facial progresiva» del enunciado: la revisión la describe en general, no para este paciente. Con una sola ATM visible, confirmar que la imagen basta para el diagnóstico."
@@ -1677,7 +1680,7 @@
           "cita": "Estas condiciones se sospechan cuando existen alteraciones de la simetría facial, la cual puede ser progresiva. Además, pueden asociarse a anomalías del conducto auditivo externo y/o en el oído medio. En estos casos deben buscarse aplasia condilar, hipoplasia condilar (Fig. 12), hiperplasia y cóndilo bífido (Fig. 13)."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null,
       "notas_revision": "El piloto decía «corte sagital»; la leyenda no indica el plano y la imagen parece coronal. Se dejó sin plano hasta confirmarlo."
@@ -1724,7 +1727,7 @@
           "cita": "Generalmente se presenta unilateralmente con sintomatología inespecífica, similar a otros TTM (Fig. 14)."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null,
       "notas_revision": "Se quitó «dolor unilateral inespecífico» del enunciado: la revisión lo describe en general, no para este paciente."
@@ -1772,7 +1775,7 @@
           "cita": "es fundamental el uso de medio de contraste para diferenciar el derrame sinovial de la sinovitis"
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     },
@@ -1813,7 +1816,7 @@
           "cita": "Finalmente se debe evaluar el espacio masticatorio, principalmente las alteraciones en la morfología, señal y grosor del músculo pterigoideo lateral (Tabla 2)."
         }
       ],
-      "estado": "borrador",
+      "estado": "publicado",
       "autor": "pluna",
       "revisor": null
     }

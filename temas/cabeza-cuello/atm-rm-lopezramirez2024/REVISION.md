@@ -1,7 +1,10 @@
 # Revisión del paquete ATM (versión 0.2.0)
 
-Este paquete pasó al formato nuevo el 2026-09-19. Los 27 casos siguen en **borrador**: falta un radiólogo revisor
-distinto del autor. El original quedó en `referencia/piloto-original/` para comparar.
+Este paquete pasó al formato nuevo el 2026-09-19 y se publicó el 2026-09-20: los 27 casos están en **publicado**,
+todavía **sin el sello de verificado**. El original quedó en `referencia/piloto-original/` para comparar.
+
+Publicar y verificar son pasos distintos: los casos ya se practican en la web y sirven para la sala en vivo, y aparecen
+como «Sin verificar» hasta que un radiólogo confirme la lista de abajo y les ponga el sello.
 
 Cada respuesta correcta se contrastó con el PDF en español del artículo. Las 27 claves eran correctas; los cambios son
 de redacción, de datos no sustentados y de formato. Cada frase de `evidencia` y cada `leyenda_original` se comprobó
@@ -50,7 +53,7 @@ automáticamente contra el texto del PDF.
 | atm-26 | Opciones reequilibradas (la correcta tenía 102 caracteres) | La correcta era evidente por su largo |
 | atm-27 | Tipo concepto, sin imágenes; opciones con las mismas cuatro etapas | Las imágenes eran decorativas; la correcta era la más larga |
 
-## Qué tiene que confirmar el revisor
+## Qué tiene que confirmar el revisor antes del sello
 
 - [ ] **Licencia:** abrir el PDF y confirmar la frase de la p. 136 (el campo `verificacion` lo llenó la IA).
 - [ ] **Fig. 8:** ¿es T2 con supresión grasa? Si sí, completar `secuencia` en la ficha y, si sirve, en el enunciado de atm-16.

@@ -203,8 +203,8 @@ function sinCasos() {
   const enlace = `practica.html?tema=${encodeURIComponent(tema).replace("%2F", "/")}&amp;revision=1`;
   app.innerHTML = `<section class="panel" style="display:grid;gap:10px;max-width:680px">
     <h2>${esc(paquete.titulo)}</h2>
-    <p>Este tema todavía no tiene casos publicados: están en revisión por un radiólogo.</p>
-    ${paquete.casos.length ? `<p class="src">¿Eres revisor? <a href="${enlace}">Ver los borradores</a>.</p>` : ""}
+    <p>Este tema todavía no tiene casos publicados: siguen en borrador. Quien los escribió los publica desde el estudio.</p>
+    ${paquete.casos.length ? `<p class="src">¿Eres el autor o revisor? <a href="${enlace}">Ver los borradores</a>.</p>` : ""}
   </section>`;
 }
 
