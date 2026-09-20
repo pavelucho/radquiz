@@ -6,7 +6,9 @@ name: Desplegar reglas
 #
 # Hace falta una credencial en Settings → Secrets and variables → Actions. Cualquiera de las dos:
 #   FIREBASE_SERVICE_ACCOUNT  el JSON de una cuenta de servicio del proyecto con el papel
-#                             «Firebase Rules Admin». Es la recomendada: solo puede tocar reglas.
+#                             «Firebase Realtime Database Admin» (roles/firebasedatabase.admin).
+#                             Es la recomendada: solo llega a la base. Ojo, no es «Firebase Rules
+#                             Admin»: ese papel es de Firestore y Storage, y aquí no sirve.
 #   FIREBASE_TOKEN            lo que imprime «firebase login:ci». Más rápido de obtener, pero vale
 #                             por toda la cuenta de Google en Firebase.
 # Sin credencial el workflow no falla: avisa y las reglas se quedan sin desplegar.
@@ -46,7 +48,7 @@ jobs:
             echo "modo=token" >> "$GITHUB_OUTPUT"
           else
             echo "modo=ninguno" >> "$GITHUB_OUTPUT"
-            echo "::warning::Sin credencial de Firebase: las reglas no se despliegan solas. Añade el secreto FIREBASE_SERVICE_ACCOUNT o FIREBASE_TOKEN, o corre «firebase deploy --only database» a mano."
+            echo "::warning::Sin credencial de Firebase: las reglas no se despliegan solas. Añade el secreto FIREBASE_SERVICE_ACCOUNT (cuenta de servicio con el papel Firebase Realtime Database Admin) o FIREBASE_TOKEN, o corre «firebase deploy --only database» a mano."
           fi
 
       - name: Desplegar las reglas

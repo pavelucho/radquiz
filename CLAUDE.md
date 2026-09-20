@@ -72,7 +72,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
    en salir (publicar sigue funcionando; el estudio lo avisa). Dos caminos, y conviene hacer los dos:
    - Ahora, a mano: `firebase deploy --only database`.
    - Para no repetirlo: poner el secreto `FIREBASE_SERVICE_ACCOUNT` (JSON de una cuenta de servicio con el
-     papel «Firebase Rules Admin») o `FIREBASE_TOKEN` (de `firebase login:ci`) en Settings → Secrets and
+     papel «Firebase Realtime Database Admin», no «Firebase Rules Admin», que es de Firestore y Storage)
+     o `FIREBASE_TOKEN` (de `firebase login:ci`) en Settings → Secrets and
      variables → Actions. `.github/workflows/reglas.yml` las despliega en cada cambio de `database.rules.json`;
      sin secreto solo avisa, no falla.
 2. Ponerle el sello de verificado al tema ATM: confirmar Fig. 8, 12, 13 y 14 contra el PDF y correr
