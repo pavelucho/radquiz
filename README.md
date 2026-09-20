@@ -54,12 +54,19 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
 4. Cualquier radiólogo con papel de revisor verifica los casos que quiera, incluidos los suyos (en su tema, botón
    «Verificar casos»); el sello lleva su nombre y su fecha, y se retira solo si el autor cambia ese caso y vuelve a
    publicarlo.
-5. Cada 15 minutos, `.github/workflows/publicar.yml` ejecuta `tools/traer_publicaciones`, que baja lo publicado y los
-   sellos, valida y publica la web. En práctica hay filtro «solo verificados»; la sala en vivo usa verificados por
-   defecto. Cualquiera puede reportar un error desde la web (`reportes/`), y eso pone el caso al principio de la cola.
+5. El tema aparece en la web al instante: `app/publicado.js` lee de la base los nodos públicos `indice_publicado`,
+   `publicacion` y `verificacion`, y la portada, la práctica y la sala los usan sin esperar a ningún proceso.
+6. Por su cuenta, `.github/workflows/publicar.yml` ejecuta `tools/traer_publicaciones`, que baja lo mismo al
+   repositorio, lo valida y arma el sitio. Desde ahí las imágenes van por CDN y no por la base, así que cuando el
+   sitio alcanza a la versión publicada, la web vuelve a usar sus archivos. En práctica hay filtro «solo
+   verificados»; la sala en vivo usa verificados por defecto. Cualquiera puede reportar un error desde la web
+   (`reportes/`), y eso pone el caso al principio de la cola.
 
-Los borradores viven en Firebase (`estudio/`, `estudio_img/`); lo publicado queda en el repositorio, que es el
+Los borradores viven en Firebase (`estudio/`, `estudio_img/`); lo publicado queda además en el repositorio, que es el
 historial. Las reglas de `database.rules.json` definen qué puede hacer cada papel.
+
+**Las reglas hay que desplegarlas** (`firebase deploy --only database`) para que el estudio pueda escribir
+`indice_publicado`. Si no están, publicar sigue funcionando: el tema aparece cuando el workflow lo baje.
 
 ## Sala en vivo
 

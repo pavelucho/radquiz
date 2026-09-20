@@ -8,6 +8,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 import { firebaseConfig } from "./firebase-config.js";
 import { $, esc, md, cargarJSON, credito, barajar, sello } from "./comun.js";
+import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
 import { reportar } from "./reportar.js";
 
 const LETRAS = "ABCDE";
@@ -28,6 +29,7 @@ let puntajes = {};
 let respuestasActual = {};     // solo el presentador: respuestas de la pregunta en curso
 let paquete = null;
 let fuentes = null;
+let srcImagen = () => "";
 let casoPorId = new Map();
 let suscripciones = [];
 let suscripcionRespuestas = null;
@@ -81,7 +83,7 @@ function visor(caso, conRespuesta) {
   return `<div class="viewer">${refs.map((r) => {
     const imagen = paquete.imagenes[r.ref];
     if (!imagen) return "";
-    const src = `temas/${info.tema}/img/${encodeURIComponent(imagen.archivo)}`;
+    const src = srcImagen(r.ref);
     return `<figure><img src="${src}" alt="${esc(imagen.figura)}" data-zoom>
       <figcaption class="cap"><span>${credito(imagen, fuentes[imagen.fuente])}</span><span>Toca para ampliar</span></figcaption></figure>`;
   }).join("")}</div>`;
@@ -148,14 +150,16 @@ function pantallaInicio(codigoInicial = "", mensaje = "") {
 
 async function pantallaCrear() {
   app.innerHTML = `<p class="muted">Cargando temas…</p>`;
-  let indice;
-  try {
-    indice = await cargarJSON("temas/indice.json");
-  } catch (e) {
-    app.innerHTML = panel("No encontré la lista de temas", e.message);
+  const [indice, vivo] = await Promise.all([
+    cargarJSON("temas/indice.json").catch(() => null),
+    indiceEnVivo(),
+  ]);
+  if (!indice && !vivo.length) {
+    app.innerHTML = panel("No encontré la lista de temas",
+      "No pude leer la lista del sitio ni la del estudio. Revisa la conexión y vuelve a intentarlo.");
     return;
   }
-  const disponibles = (indice.paquetes || []).map((p) => ({
+  const disponibles = fusionarIndice(indice?.paquetes || [], vivo).map((p) => ({
     ...p,
     publicados: p.casos.publicado || 0,
     verificados: p.casos.verificado || 0,
@@ -214,7 +218,7 @@ async function limpiarSalasViejas() {
 }
 
 async function crearSala({ tema, duracion, mezclar, borradores, sinVerificar }) {
-  const pkg = await cargarJSON(`temas/${tema}/paquete.json`);
+  const { paquete: pkg } = await cargarPaquete(tema);
   let casos = pkg.casos.filter((c) => c.estado === "publicado" || borradores);
   if (!sinVerificar && !borradores) casos = casos.filter((c) => c.revisor);
   if (mezclar) casos = barajar(casos);
@@ -277,10 +281,7 @@ async function entrar(c, rol) {
     if (!yo || !yo.exists()) return pantallaInicio(c);
   }
   try {
-    [paquete, fuentes] = await Promise.all([
-      cargarJSON(`temas/${info.tema}/paquete.json`),
-      cargarJSON(`temas/${info.tema}/fuentes.json`),
-    ]);
+    ({ paquete, fuentes, imagen: srcImagen } = await cargarPaquete(info.tema));
   } catch (e) {
     app.innerHTML = panel("No se pudo cargar el tema", e.message);
     return;

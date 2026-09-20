@@ -55,19 +55,26 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   (`verificacion/`), lo hace cualquier revisor sobre cualquier caso publicado —incluidos los suyos, con el botón
   «Verificar casos»— y se retira solo si el autor edita y vuelve a publicar. Los reportes de error de la web (`reportes/`) ponen el caso primero en la cola. Los casos se generan con **cualquier IA** (el estudio arma el
   texto para copiar y lee la respuesta JSON); no depende de Claude ni de ningún proveedor.
-  Publicar = el coordinador escribe en `publicacion/`; `tools/traer_publicaciones` lo baja al repositorio cada 15
-  minutos desde el workflow. Validación en el navegador: `app/validacion.js` (espejo de `tools/validar`).
+  Publicar escribe `publicacion/`, `publicacion_img/` e `indice_publicado/`. Validación en el navegador:
+  `app/validacion.js` (espejo de `tools/validar`).
+- Publicar es instantáneo: `app/publicado.js` lee por REST los nodos públicos `indice_publicado`, `publicacion`,
+  `publicacion_img` y `verificacion`, y la portada, la práctica y la sala los fusionan con `temas/indice.json`.
+  Gana el estudio cuando su versión no coincide con la del sitio; si coinciden, se usan los archivos del sitio
+  (CDN, más ligeros que las imágenes en base64). Si la base no responde, la web sigue con lo del sitio.
+  `tools/traer_publicaciones` baja lo mismo al repositorio por su cuenta, desde el workflow.
 - Manual de uso por papel: `manual.html`, en línea. Camino con Git (alternativo):
   `tools/aprobar <carpeta> --revisor <usuario> --todos|--casos a,b [--estado publicado]`.
 - `referencia/` y `PROMPT_INICIO.md` están en `.gitignore`: solo locales (el respaldo del piloto tiene recortes ND).
 - Herramientas: `gh` está en `~/.local/bin/gh` (no en el PATH); `firebase` global vía npm.
 
 ## Pendiente
-1. Ponerle el sello de verificado al tema ATM: confirmar Fig. 8, 12, 13 y 14 contra el PDF y correr
+1. Desplegar las reglas: `firebase deploy --only database`. Sin eso el estudio no puede escribir
+   `indice_publicado` y los temas nuevos tardan en salir (publicar sigue funcionando; el estudio lo avisa).
+2. Ponerle el sello de verificado al tema ATM: confirmar Fig. 8, 12, 13 y 14 contra el PDF y correr
    `tools/aprobar temas/cabeza-cuello/atm-rm-lopezramirez2024 --revisor <usuario> --nombre "<nombre>" --todos`.
    Mientras tanto los 27 casos se practican en la web y salen como «Sin verificar».
-2. Probar la red de HNERM (WebSocket a Firebase) antes del ensayo con 3 colegas.
-3. Decidir la licencia del código y la de los textos propios.
+3. Probar la red de HNERM (WebSocket a Firebase) antes del ensayo con 3 colegas.
+4. Decidir la licencia del código y la de los textos propios.
 
 ## Preferencias del autor (Pavel, residente de radiología)
 - Interfaz y contenido en español.

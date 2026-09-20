@@ -238,6 +238,44 @@
         ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null)"
       }
     },
+    "indice_publicado": {
+      ".read": true,
+      "$tema": {
+        ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null)",
+        ".validate": "newData.hasChildren(['titulo', 'segmento'])",
+        "titulo": {
+          ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 120"
+        },
+        "segmento": {
+          ".validate": "newData.isString() && newData.val().matches(/^[a-z-]+$/)"
+        },
+        "version": {
+          ".validate": "newData.isString() && newData.val().length <= 20"
+        },
+        "casos": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 500"
+        },
+        "retirado": {
+          ".validate": "newData.isBoolean()"
+        },
+        "fecha": {
+          ".validate": "newData.isNumber()"
+        },
+        "modalidades": {
+          "$i": {
+            ".validate": "newData.isString() && newData.val().length <= 40"
+          }
+        },
+        "actualizados": {
+          "$caso": {
+            ".validate": "newData.isNumber()"
+          }
+        },
+        "$otro": {
+          ".validate": false
+        }
+      }
+    },
     "verificacion": {
       ".read": true,
       "$tema": {

@@ -1,5 +1,7 @@
 // RadQuiz — estudio: crear temas, revisarlos y publicarlos desde la web, sin programas ni Git.
-// El contenido en preparación vive en Firebase; al publicar pasa al repositorio y de ahí a la web.
+// El contenido en preparación vive en Firebase. Al publicar se escribe «publicacion», que la web lee
+// al instante, y «indice_publicado», la lista corta que la portada consulta de una sola vez.
+// El repositorio se pone al día después, por su cuenta: nadie espera a que lo haga.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import {
   getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously, signOut, onAuthStateChanged,
@@ -602,7 +604,7 @@ function pasoPublicar(t, v) {
       ${publicado && esCoord() ? `<button id="despublicar">Quitar de la web</button>` : ""}
       <button id="borrar-tema">Borrar este tema</button>
     </div>
-    ${publicado ? `<p class="src">Publicado el ${new Date(t.meta.publicado_en || Date.now()).toLocaleDateString("es-PE")}. La web se actualiza sola en unos 15 minutos.</p>` : ""}
+    ${publicado ? `<p class="src">Publicado el ${new Date(t.meta.publicado_en || Date.now()).toLocaleDateString("es-PE")}. Ya se puede practicar en la web.</p>` : ""}
   </section>`;
 }
 
@@ -726,17 +728,34 @@ function enlazarEditor(t) {
       if (!confirm("¿Quitar este tema de la web? Los casos siguen guardados en el estudio.")) return;
       await remove(ref(db, `publicacion/${id}`)).catch(() => {});
       await remove(ref(db, `publicacion_img/${id}`)).catch(() => {});
+      const delIndice = await anotarEnIndice(id, {
+        titulo: t.meta.titulo, segmento: t.meta.segmento, retirado: true,
+      });
       await guardarMeta(id, { estado: "borrador" });
-      aviso("Quitado de la web. Tarda unos 15 minutos en desaparecer.");
+      aviso(delIndice ? "Quitado de la web." : "Quitado. Tarda unos minutos en desaparecer de la web.");
     };
     $("#borrar-tema").onclick = async () => {
       if (!confirm("¿Borrar el tema completo? No se puede deshacer.")) return;
+      if (t.meta.estado === "publicado") {
+        await anotarEnIndice(id, { titulo: t.meta.titulo, segmento: t.meta.segmento, retirado: true });
+      }
       await remove(ref(db, `publicacion/${id}`)).catch(() => {});
       await remove(ref(db, `publicacion_img/${id}`)).catch(() => {});
       await remove(ref(db, `estudio_img/${id}`)).catch(() => {});
       await remove(ref(db, `estudio/${id}`));
       location.hash = "#/";
     };
+
+// Escribe la entrada del tema en «indice_publicado», la lista corta que lee la portada.
+// Devuelve si lo consiguió: no es motivo para dar la publicación por fallida.
+async function anotarEnIndice(id, entrada) {
+  try {
+    await set(ref(db, `indice_publicado/${id}`), { ...entrada, fecha: serverTimestamp() });
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 async function publicar(t) {
   const partes = (t.meta.version || "0.1.0").split(".").map(Number);
@@ -760,10 +779,21 @@ async function publicar(t) {
       [`estudio/${t.id}/meta/version`]: version,
       [`estudio/${t.id}/meta/publicado_en`]: serverTimestamp(),
     });
-    aviso("Publicado. Aparece en la web en unos 15 minutos.");
   } catch (e) {
     aviso("No se pudo publicar: " + (e.code || e.message), true);
+    return;
   }
+  // La lista de la portada va aparte: si fallara (reglas sin desplegar), el tema queda publicado
+  // igual y aparece cuando el repositorio se ponga al día.
+  const alIndice = await anotarEnIndice(t.id, {
+    titulo: paquete.titulo,
+    segmento: paquete.segmento,
+    modalidades: paquete.modalidades || [],
+    version,
+    casos: paquete.casos.length,
+    actualizados,
+  });
+  aviso(alIndice ? "Publicado. Ya está en la web." : "Publicado. Tarda unos minutos en aparecer en la web.");
 }
   }
 }

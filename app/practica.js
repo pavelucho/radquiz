@@ -1,6 +1,7 @@
 // RadQuiz — práctica individual. Con ?revision=1 muestra también los borradores y la información para el revisor
 // (evidencia, ficha técnica, notas): es el previsualizador de la fase de revisión.
-import { $, esc, md, cargarJSON, credito, barajar, sello } from "./comun.js";
+import { $, esc, md, credito, barajar, sello } from "./comun.js";
+import { cargarPaquete } from "./publicado.js";
 import { reportar } from "./reportar.js";
 
 const LETRAS = "ABCDE";
@@ -10,14 +11,11 @@ const revision = params.get("revision") === "1";
 const app = $("#app");
 
 let paquete, fuentes, base;
+let srcImagen = () => "";
 let casos = [];
 let actual = 0;
 const orden = new Map();       // id del caso → índices originales en el orden mostrado
 const respuestas = new Map();  // id del caso → índice original elegido
-
-function carpeta() {
-  return `temas/${tema}`;
-}
 
 function ordenDe(caso) {
   if (!orden.has(caso.id)) {
@@ -32,7 +30,7 @@ function visor(refs) {
   return `<div class="viewer">${refs.map((ref) => {
     const imagen = paquete.imagenes[ref.ref];
     if (!imagen) return `<p class="cap">Falta la imagen ${esc(ref.ref)}</p>`;
-    const src = `${carpeta()}/img/${encodeURIComponent(imagen.archivo)}`;
+    const src = srcImagen(ref.ref);
     return `<figure>
       <img src="${src}" alt="${esc(imagen.figura)}" data-zoom>
       <figcaption class="cap"><span>${credito(imagen, fuentes[imagen.fuente])}</span><span>Toca para ampliar</span></figcaption>
@@ -146,8 +144,8 @@ function vistaCaso() {
 // Descarga de antemano las imágenes del caso siguiente, para que la red lenta no frene la clase.
 function precargar(caso) {
   for (const ref of caso?.imagenes || []) {
-    const imagen = paquete.imagenes[ref.ref];
-    if (imagen) new Image().src = `${carpeta()}/img/${encodeURIComponent(imagen.archivo)}`;
+    const src = srcImagen(ref.ref);
+    if (src) new Image().src = src;
   }
 }
 
@@ -214,10 +212,7 @@ async function iniciar() {
     return;
   }
   try {
-    [paquete, fuentes] = await Promise.all([
-      cargarJSON(`${carpeta()}/paquete.json`),
-      cargarJSON(`${carpeta()}/fuentes.json`),
-    ]);
+    ({ paquete, fuentes, imagen: srcImagen } = await cargarPaquete(tema));
   } catch (e) {
     app.innerHTML = `<section class="panel"><p>No se pudo cargar el tema: ${esc(e.message)}</p></section>`;
     return;
