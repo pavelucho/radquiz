@@ -111,7 +111,7 @@ function vistaCaso() {
   app.innerHTML = `
     <div class="qhead">
       <span class="qnum">${actual + 1}/${casos.length}</span>
-      <span class="tema">${esc(caso.tema)}</span>
+      ${respondido ? `<span class="tema">${esc(caso.tema)}</span>` : ""}
       ${caso.estado !== "publicado" ? `<span class="badge borrador">${esc(caso.estado)}</span>` : sello(caso, paquete.personas)}
     </div>
     <section class="stage ${refs.length ? "" : "sin-imagen"}">

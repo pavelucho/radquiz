@@ -438,7 +438,7 @@ function hostCaso() {
   const letra = LETRAS[orden.indexOf(caso.correcta)];
   const imagenes = visor(caso, revelado);
   app.innerHTML = `
-    <div class="qhead"><span class="qnum">${estado.indice + 1}/${info.casos.length}</span><span class="tema">${esc(caso.tema)}</span></div>
+    <div class="qhead"><span class="qnum">${estado.indice + 1}/${info.casos.length}</span>${revelado ? `<span class="tema">${esc(caso.tema)}</span>` : ""}</div>
     <section class="stage ${imagenes ? "" : "sin-imagen"}">
       ${imagenes}
       <div style="display:grid;gap:12px">
@@ -587,7 +587,7 @@ function jugadorCaso() {
   }).join("");
   const imagenes = visor(caso, revelado);
   app.innerHTML = `
-    <div class="qhead"><span class="qnum">${indice + 1}/${info.casos.length}</span><span class="tema">${esc(caso.tema)}</span></div>
+    <div class="qhead"><span class="qnum">${indice + 1}/${info.casos.length}</span>${revelado ? `<span class="tema">${esc(caso.tema)}</span>` : ""}</div>
     <section class="stage ${imagenes ? "" : "sin-imagen"}">
       ${imagenes}
       <div style="display:grid;gap:12px">
