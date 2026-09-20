@@ -10,6 +10,7 @@ import { firebaseConfig } from "./firebase-config.js";
 import { $, esc, md, cargarJSON, credito, barajar, sello } from "./comun.js";
 import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
 import { reportar } from "./reportar.js";
+import { qrDataURI } from "./qr.js";
 
 const LETRAS = "ABCDE";
 const LETRAS_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -370,14 +371,35 @@ function vistaHost() {
   return hostRanking(fase === "fin");
 }
 
+// El QR lleva al enlace con el código puesto: quien lo escanea solo escribe su nombre.
+// Se dibuja aquí mismo (app/qr.js) para no depender de un servicio externo en la red del hospital.
+function bloqueQR(enlace) {
+  if (!/^https?:$/.test(location.protocol)) return "";  // desde file:// el enlace no le sirve a nadie
+  let fuente;
+  try {
+    fuente = qrDataURI(enlace);
+  } catch {
+    return "";  // un enlace larguísimo: mejor sin QR que con uno ilegible
+  }
+  return `<figure class="qr">
+    <img src="${fuente}" alt="Código QR con el enlace a la sala ${esc(codigo)}" data-zoom>
+    <figcaption>Escanea con la cámara<br>y entras directo · Toca para ampliar</figcaption>
+  </figure>`;
+}
+
 function hostLobby() {
   const enlace = `${location.origin}${location.pathname}?c=${codigo}`;
   const nombres = Object.values(jugadores).map((j) => `<span class="pl">${esc(j.nombre)}</span>`).join("");
   app.innerHTML = `<section class="lobby">
     <div class="panel" style="display:grid;gap:12px">
       <p class="tema">Código de la sala</p>
-      <div class="codigo">${esc(codigo)}</div>
-      <p>Entren a <b>${esc(location.host + location.pathname)}</b> y escriban el código.</p>
+      <div class="entrada">
+        <div>
+          <div class="codigo">${esc(codigo)}</div>
+          <p>Entren a <b>${esc(location.host + location.pathname)}</b> y escriban el código.</p>
+        </div>
+        ${bloqueQR(enlace)}
+      </div>
       <p class="src">Enlace directo: ${esc(enlace)}</p>
       <p class="muted">${esc(info.titulo)} · ${info.casos.length} casos · ${info.duracion} s por caso</p>
       <div class="row"><button class="primary" id="empezar">Empezar</button><button id="cerrar">Cerrar sala</button></div>
