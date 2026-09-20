@@ -27,6 +27,7 @@ h2 { font-size: clamp(22px, 3vw, 32px); line-height: 1.1; }
 h3 { font-size: 20px; line-height: 1.15; }
 p { margin: 0; }
 .muted { color: var(--mute); }
+.caja { margin: 0; padding: 10px 14px; border-left: 3px solid var(--c); background: rgba(63, 184, 166, .08); border-radius: 0 6px 6px 0; }
 button, .boton { font: 600 16px/1.2 var(--body); color: var(--ink); background: var(--panel2); border: 1px solid var(--line); border-radius: 6px; padding: 11px 16px; cursor: pointer; text-decoration: none; display: inline-block; }
 button:hover, .boton:hover { border-color: #44546a; }
 button:focus-visible, .boton:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid var(--overlay); outline-offset: 2px; }
@@ -138,7 +139,6 @@ input:focus-visible { outline: 2px solid var(--overlay); outline-offset: 2px; }
 .manual pre code { background: none; border: 0; padding: 0; overflow-wrap: normal; white-space: pre; }
 .manual blockquote { margin: 8px 0; padding: 8px 12px; border-left: 3px solid var(--overlay); background: rgba(240, 194, 75, .06); border-radius: 0 6px 6px 0; }
 .manual kbd { font: 600 .85em var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: var(--panel2); }
-.manual .caja { border-left: 3px solid var(--c); background: rgba(63, 184, 166, .08); padding: 10px 14px; border-radius: 0 6px 6px 0; }
 .toc { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
 .toc ul { list-style: none; padding: 0; margin-top: 6px; gap: 4px; }
 .tabla { overflow-x: auto; }
@@ -185,3 +185,8 @@ blockquote { margin: 4px 0; padding: 6px 12px; border-left: 3px solid var(--line
 .sello.sin { color: var(--mute); border-color: var(--line); }
 .sello.malo { color: var(--bad); border-color: #5a2a31; }
 button.reportar { font: 500 13px var(--body); padding: 6px 10px; color: var(--mute); }
+button.peligrosa { color: var(--bad); border-color: #5a2a31; }
+button.peligrosa:hover:not(:disabled) { border-color: var(--bad); }
+button.peligrosa:disabled { color: var(--mute); border-color: var(--line); }
+.panel.peligro { display: grid; gap: 12px; max-width: 560px; width: 100%; cursor: auto; text-align: left; max-height: 86vh; overflow: auto; border-color: #5a2a31; }
+.panel.peligro h3 { color: var(--bad); }

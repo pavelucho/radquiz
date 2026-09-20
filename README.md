@@ -26,6 +26,8 @@ manual.html                 manual de uso para cada papel
 sala.html                   sala en vivo (presentador y jugadores)
 estudio.html                estudio web: crear, revisar, aprobar y publicar cuestionarios
 app/                        código de la app; app/firebase-config.js apunta al proyecto de Firebase
+app/zip.js                  leer y armar .zip en el navegador, sin librerías
+app/importar.js             comprimir figuras y abrir un cuestionario entero venido en un .zip
 database.rules.json         reglas de seguridad de la sala en vivo (Firebase Realtime Database)
 firebase.json, .firebaserc  despliegue de reglas y acceso anónimo con la CLI de Firebase
 tools/construir_sitio       arma _site/ con solo los casos publicados
@@ -64,6 +66,34 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
 
 Los borradores viven en Firebase (`estudio/`, `estudio_img/`); lo publicado queda además en el repositorio, que es el
 historial. Las reglas de `database.rules.json` definen qué puede hacer cada papel.
+
+### Un cuestionario entero en un `.zip`
+
+El estudio sube y baja un tema completo —texto e imágenes— en un solo archivo, con la misma forma que una carpeta de
+`temas/`: `paquete.json`, `fuentes.json` e `img/`. Un `.zip` hecho en el Finder o en Windows lleva todo dentro de una
+carpeta; ese nivel se ignora, igual que la basura de `__MACOSX`.
+
+- **Subir un .zip** (portada del estudio): lo lee, lo valida y enseña las figuras antes de crear nada. El tema se
+  crea siempre **en preparación** y a nombre de quien lo sube; las imágenes se vuelven a comprimir aquí, así que el
+  límite de 1600 px y 250 KB lo pone el estudio y no quien armó el archivo.
+- **Descargar .zip** (paso 4): lo mismo que se publica, listo para volver a subirlo, mandarlo a `temas/` por Git o
+  guardarlo antes de borrar el tema.
+- En «Nuevo cuestionario», **Copiar instrucciones para el .zip** da el texto para una IA que sepa ejecutar código:
+  saca las figuras del PDF y devuelve el `.zip` armado. Hay que mirar las figuras una por una antes de crearlo: una
+  IA puede partir una figura en paneles sueltos, y las licencias ND no permiten obras derivadas.
+- Leer y escribir `.zip` es `app/zip.js`: usa `DecompressionStream` del navegador, sin dependencias. Al escribir
+  guarda sin comprimir (un JPEG ya está comprimido), y el archivo lo abren `unzip`, el Finder y `zipfile` de Python.
+
+### Borrar
+
+El autor borra sus cuestionarios desde el estudio (botón **Borrar** de cada tarjeta, o el paso 4) y el coordinador
+puede borrar cualquiera. Hay que escribir `BORRAR` en el aviso, que dice antes cuántos casos, imágenes, sellos y
+reportes se pierden. El borrado quita `publicacion/`, `publicacion_img/`, `verificacion/`, `reportes/`,
+`estudio_img/` y `estudio/` en ese orden —las reglas dan permiso mirando `estudio/<tema>/meta/autor_uid`, así que el
+tema se quita al final— y deja `indice_publicado/<tema>` marcado como `retirado`, que es lo que hace que desaparezca
+de la web al instante y que `tools/traer_publicaciones` borre su carpeta de `temas/`.
+
+Para que deje de verse en la web sin perder nada está **Quitar de la web** (coordinador, paso 4): eso sí se deshace.
 
 **Las reglas hay que desplegarlas** para que el estudio pueda escribir `indice_publicado`. Si no están,
 publicar sigue funcionando: el tema aparece cuando el workflow lo baje.

@@ -211,3 +211,87 @@ export function aPaquete(tema, version) {
   const fuentes = { $schema: "../../../schema/fuentes.schema.json", [clave]: { ...resto, modificaciones_permitidas: !LICENCIAS.find((l) => l.valor === f.licencia)?.nd } };
   return { paquete, fuentes, imagenesUsadas: [...usadas], actualizados };
 }
+
+// Lo contrario de aPaquete(): de paquete.json + fuentes.json a la forma que usa el estudio.
+// El formato es el mismo que el del repositorio, así que un .zip vale igual venga de donde venga:
+// de otra copia de RadQuiz, de una carpeta de temas/ o de una IA que lo armó desde el PDF.
+// Lo que la fuente no dice viaja como null y aquí vuelve a ser «vacío», que es lo que espera el editor.
+export function dePaquete(paquete, fuentes) {
+  const texto = (v) => (v === null || v === undefined ? "" : String(v));
+  const claves = Object.keys(fuentes || {}).filter((k) => k !== "$schema");
+  const clave = claves[0] || "fuente";
+  const f = (fuentes || {})[clave] || {};
+  const fuente = {
+    clave,
+    tipo: f.tipo === "caso" ? "caso" : "articulo",
+    cita: texto(f.cita),
+    credito: texto(f.credito),
+    doi: texto(f.doi).replace(/^https?:\/\/(dx\.)?doi\.org\//, ""),
+    url: texto(f.url),
+    titular: texto(f.titular),
+    licencia: texto(f.licencia),
+    licencia_url: texto(f.licencia_url) || LICENCIAS.find((l) => l.valor === f.licencia)?.url || "",
+    modificaciones_permitidas: !LICENCIAS.find((l) => l.valor === f.licencia)?.nd,
+    verificacion: {
+      fecha: texto(f.verificacion?.fecha),
+      por: texto(f.verificacion?.por),
+      donde: texto(f.verificacion?.donde),
+    },
+  };
+
+  const imagenes = {};
+  let orden = 0;
+  for (const [id, img] of Object.entries(paquete.imagenes || {})) {
+    orden += 1;
+    imagenes[id] = {
+      archivo: texto(img.archivo) || `${id}.jpg`,
+      figura: texto(img.figura),
+      leyenda_original: texto(img.leyenda_original),
+      modalidad: texto(img.modalidad),
+      paneles: lista(img.paneles).map((p) => ({
+        id: texto(p.id) || "único", lado: texto(p.lado), plano: texto(p.plano),
+        secuencia: texto(p.secuencia), condicion: texto(p.condicion),
+      })),
+      marcas: lista(img.marcas).map((m) => ({ marca: texto(m.marca), panel: texto(m.panel), senala: texto(m.senala) })),
+      modificaciones: lista(img.modificaciones).map(texto),
+      ...(img.notas ? { notas: texto(img.notas) } : {}),
+      orden,
+    };
+    if (!imagenes[id].paneles.length) imagenes[id].paneles = [{ id: "único", lado: "", plano: "", secuencia: "", condicion: "" }];
+  }
+
+  const casos = {};
+  let n = 0;
+  for (const c of lista(paquete.casos)) {
+    n += 1;
+    let id = /^[a-z0-9]+(-[a-z0-9]+)*$/.test(c.id || "") ? c.id : `caso-${String(n).padStart(2, "0")}`;
+    while (casos[id]) id = `${id}b`;
+    casos[id] = {
+      tema: texto(c.tema),
+      tipo: c.tipo === "concepto" ? "concepto" : "imagen",
+      enunciado: texto(c.enunciado),
+      imagenes: lista(c.imagenes)
+        .filter((r) => imagenes[r.ref])
+        .map((r) => ({ ref: r.ref, mostrar_en: r.mostrar_en === "respuesta" ? "respuesta" : "pregunta" })),
+      opciones: lista(c.opciones).map(texto),
+      correcta: Number.isInteger(c.correcta) ? c.correcta : -1,
+      ...(c.barajar === false ? { barajar: false } : {}),
+      explicacion: texto(c.explicacion),
+      perla: texto(c.perla),
+      // «fuente» se cae: en el estudio hay una sola por tema y se guarda aparte.
+      evidencia: lista(c.evidencia).map((e) => ({ ubicacion: texto(e.ubicacion), cita: texto(e.cita) })),
+      etiquetas: lista(c.etiquetas).map(texto).filter(Boolean),
+      orden: n,
+    };
+  }
+
+  const meta = {
+    id: texto(paquete.id),
+    titulo: texto(paquete.titulo),
+    descripcion: texto(paquete.descripcion),
+    segmento: texto(paquete.segmento),
+    modalidades: lista(paquete.modalidades).map(texto).filter(Boolean),
+    version: texto(paquete.version) || "0.1.0",
+  };
+  return { meta, fuente, imagenes, casos };
+}

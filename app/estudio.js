@@ -15,7 +15,9 @@ import {
   LICENCIAS, MODALIDADES, lista, slug, idImagen, validarTema, validarCaso, casosOrdenados,
   imagenesOrdenadas, estadoVerificacion, aPaquete,
 } from "./validacion.js";
-import { instruccionesIA, instruccionesCorreccion, leerRespuestaIA } from "./instrucciones-ia.js";
+import { instruccionesIA, instruccionesCorreccion, instruccionesPaquete, leerRespuestaIA } from "./instrucciones-ia.js";
+import { crearZip, descargarArchivo, bytesDeDataURL } from "./zip.js";
+import { comprimir, abrirZip } from "./importar.js";
 
 const LETRAS = "ABCDE";
 const ESTADOS = {
@@ -35,6 +37,8 @@ let editando = null;        // id del caso que se está editando (bloquea el red
 let cargandoImagenes = false;
 let ordenVerificacion = null;   // el orden se fija al abrir el tema para que no salte al decidir
 let modoVerificar = false;      // un revisor puede sellar también sus propios temas
+let importado = null;           // el .zip ya leído, esperando que el autor confirme que lo crea
+let creando = false;            // mientras suben las imágenes del .zip no se redibuja: se perdería el avance
 
 const hoy = () => new Date().toISOString().slice(0, 10);
 const esCoord = () => perfil?.rol === "coordinador";
@@ -87,6 +91,40 @@ function mostrarParaCopiar(texto) {
   caja.select();
 }
 
+// Última oportunidad para lo que no se puede deshacer: además de decir qué desaparece, hay que
+// escribir la palabra. Un «¿estás seguro?» a secas se acepta sin leerlo.
+function confirmarPeligro({ titulo, cuerpo, palabra = "BORRAR", boton = "Borrar" }) {
+  return new Promise((resolver) => {
+    const fondo = document.createElement("div");
+    fondo.className = "zoom";
+    fondo.innerHTML = `<div class="panel peligro" role="alertdialog" aria-modal="true" aria-labelledby="p-titulo">
+      <h3 id="p-titulo"></h3>
+      ${cuerpo}
+      <label class="grid-label"><span>Escribe <b>${esc(palabra)}</b> para confirmar</span>
+        <input type="text" id="p-palabra" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+      <div class="row"><button id="p-no">Cancelar</button>
+        <button class="peligrosa" id="p-si" disabled>${esc(boton)}</button></div>
+    </div>`;
+    fondo.querySelector("#p-titulo").textContent = titulo;
+    const caja = fondo.querySelector("#p-palabra");
+    const si = fondo.querySelector("#p-si");
+    const tecla = (e) => { if (e.key === "Escape") cerrar(false); };
+    const cerrar = (valor) => {
+      document.removeEventListener("keydown", tecla);
+      fondo.remove();
+      resolver(valor);
+    };
+    caja.oninput = () => { si.disabled = caja.value.trim().toUpperCase() !== palabra; };
+    caja.onkeydown = (e) => { if (e.key === "Enter" && !si.disabled) { e.preventDefault(); cerrar(true); } };
+    fondo.querySelector("#p-no").onclick = () => cerrar(false);
+    si.onclick = () => cerrar(true);
+    fondo.onclick = (e) => { if (e.target === fondo) cerrar(false); };
+    document.addEventListener("keydown", tecla);
+    document.body.append(fondo);
+    caja.focus();
+  });
+}
+
 function chipEstado(estado) {
   const e = ESTADOS[estado] || ESTADOS.borrador;
   return `<span class="badge ${e.clase}">${e.texto}</span>`;
@@ -128,30 +166,6 @@ async function guardarMeta(id, cambios) {
 }
 
 // ------------------------------------------------------------------ imágenes
-async function comprimir(archivo) {
-  const bitmap = await createImageBitmap(archivo);
-  let escala = Math.min(1, 1600 / Math.max(bitmap.width, bitmap.height));
-  let calidad = 0.88;
-  for (let intento = 0; intento < 10; intento++) {
-    const ancho = Math.round(bitmap.width * escala);
-    const alto = Math.round(bitmap.height * escala);
-    const lienzo = document.createElement("canvas");
-    lienzo.width = ancho;
-    lienzo.height = alto;
-    const ctx = lienzo.getContext("2d");
-    ctx.fillStyle = "#000";
-    ctx.fillRect(0, 0, ancho, alto);
-    ctx.drawImage(bitmap, 0, 0, ancho, alto);
-    const datos = lienzo.toDataURL("image/jpeg", calidad);
-    if (datos.length < 330000) {
-      return { datos, modificaciones: ["comprimida", ...(escala < 1 ? ["redimensionada"] : [])] };
-    }
-    if (calidad > 0.6) calidad -= 0.08;
-    else escala *= 0.85;
-  }
-  throw new Error("No pude comprimir esta imagen por debajo de 250 KB.");
-}
-
 async function cargarImagenes(id) {
   cargandoImagenes = true;
   const snap = await get(ref(db, `estudio_img/${id}`)).catch(() => null);
@@ -231,7 +245,8 @@ function tarjetaTema(t) {
     <div class="row" style="justify-content:space-between"><h3>${esc(t.meta.titulo || t.id)}</h3>${chipEstado(t.meta.estado)}</div>
     <p class="meta">${esc(SEGMENTOS[t.meta.segmento] || t.meta.segmento || "")} · ${n.casos} casos · ${esc(t.meta.autor_nombre || "")}${mio ? " (tú)" : ""}</p>
     <p class="meta">${n.verificados} ${n.verificados === 1 ? "verificado" : "verificados"}${n.problemas ? ` · ${n.problemas} con problema` : ""}${n.reportados ? ` · ${n.reportados} reportados` : ""}${sinPublicar(t) ? " · cambios sin publicar" : ""}</p>
-    <div class="row"><a class="boton" href="#/tema/${esc(t.id)}">${puedeEditar(t) ? "Abrir" : puedeVerificar ? "Verificar" : "Ver"}</a></div>
+    <div class="row"><a class="boton" href="#/tema/${esc(t.id)}">${puedeEditar(t) ? "Abrir" : puedeVerificar ? "Verificar" : "Ver"}</a>
+      ${puedeEditar(t) ? `<button class="peligrosa" data-borrar-tema="${esc(t.id)}">Borrar</button>` : ""}</div>
   </article>`;
 }
 
@@ -257,7 +272,9 @@ function inicio() {
         "Todo verificado. Los temas con casos reportados o sin verificar aparecen aquí primero.") : ""}
     <section class="segmento">
       <div class="row" style="justify-content:space-between"><h2>Mis temas</h2>
-        <a class="boton primary" href="#/nuevo">Nuevo cuestionario</a></div>
+        <span class="row"><a class="boton primary" href="#/nuevo">Nuevo cuestionario</a>
+          <button id="subir-zip">Subir un .zip</button>
+          <input type="file" id="archivo-zip" accept=".zip,application/zip" hidden></span></div>
       ${mios.length ? `<div class="temas">${mios.map(tarjetaTema).join("")}</div>` : `<p class="muted">Todavía no creaste ninguno. Cualquiera puede publicar; los radiólogos ponen el sello de verificado.</p>`}
     </section>
     ${otros.length ? bloque("Otros temas", otros, "") : ""}
@@ -265,6 +282,29 @@ function inicio() {
   </div>`;
   const boton = $("#pedir-revisor");
   if (boton) boton.onclick = pedirSerRevisor;
+  const entrada = $("#archivo-zip");
+  $("#subir-zip").onclick = () => entrada.click();
+  entrada.onchange = async () => {
+    const archivo = entrada.files[0];
+    entrada.value = "";
+    if (!archivo) return;
+    $("#subir-zip").disabled = true;
+    $("#subir-zip").textContent = "Leyendo…";
+    try {
+      importado = await abrirZip(archivo);
+    } catch (e) {
+      $("#subir-zip").disabled = false;
+      $("#subir-zip").textContent = "Subir un .zip";
+      return aviso(e.message, true);
+    }
+    location.hash = "#/importar";
+  };
+  app.querySelectorAll("[data-borrar-tema]").forEach((b) => {
+    b.onclick = () => {
+      const t = temas[b.dataset.borrarTema];
+      if (t) borrarTema(normalizarTema(b.dataset.borrarTema, t));
+    };
+  });
 }
 
 // ------------------------------------------------------------------ equipo (coordinador)
@@ -325,7 +365,15 @@ function temaNuevo() {
       <span class="row">${MODALIDADES.map((m) => `<label class="row" style="gap:4px"><input type="checkbox" value="${m}" class="mod" ${m === "RM" ? "" : ""}> ${m}</label>`).join("")}</span></label>
     <label class="grid-label">Descripción corta (opcional)<input type="text" id="descripcion" maxlength="200"></label>
     <div class="row"><button class="primary" type="submit">Crear</button><a class="boton" href="#/">Cancelar</a></div>
-  </form>`;
+  </form>
+  <div class="ia" style="max-width:680px;margin-top:18px">
+    <h3>O que tu IA lo arme entero</h3>
+    <p class="muted">Si tu IA sabe ejecutar código (ChatGPT con análisis de datos, Claude, Gemini…), puede sacar las
+      figuras del PDF y devolverte el cuestionario completo en un solo <b>.zip</b>. Lo subes con
+      <b>Subir un .zip</b> y aquí lo revisas antes de crear nada.</p>
+    <div class="row"><button id="copiar-zip">Copiar instrucciones para el .zip</button></div>
+  </div>`;
+  $("#copiar-zip").onclick = () => copiar(instruccionesPaquete(), "Copiado. Pégalo en tu IA junto al PDF.");
   $("#nuevo").onsubmit = async (e) => {
     e.preventDefault();
     const titulo = $("#titulo").value.trim();
@@ -347,6 +395,115 @@ function temaNuevo() {
       aviso("No se pudo crear: " + (err.code || err.message), true);
     }
   };
+}
+
+// ------------------------------------------------------------------ cuestionario entero en un .zip
+// Leerlo y escribirlo está en app/importar.js y app/zip.js; aquí solo la pantalla.
+
+// El tema tal como quedaría, para validarlo y enseñarlo antes de crear nada.
+function temaImportado() {
+  const d = importado;
+  return { id: slug(d.meta.id || d.meta.titulo), meta: d.meta, fuente: d.fuente, imagenes: d.imagenes, casos: d.casos };
+}
+
+function vistaImportar() {
+  if (creando) return;
+  if (!importado) { location.hash = "#/"; return; }
+  const d = importado;
+  const t = temaImportado();
+  const v = validarTema(t);
+  const imagenes = imagenesOrdenadas(t);
+  const casos = casosOrdenados(t);
+  app.innerHTML = `<div style="display:grid;gap:18px">
+    <div><a class="src" href="#/">← Todos los temas</a><h1>${esc(d.meta.titulo)}</h1>
+      <p class="muted">${esc(SEGMENTOS[d.meta.segmento] || d.meta.segmento || "sin segmento")} ·
+        ${casos.length} casos · ${imagenes.length} imágenes · de ${esc(d.nombre)}</p></div>
+    ${d.faltan.length ? `<p class="caja">El .zip no traía ${d.faltan.length} imagen(es): ${esc(d.faltan.slice(0, 6).join(", "))}${d.faltan.length > 6 ? "…" : ""}.
+      Puedes crearlo igual y subirlas después en el paso 2.</p>` : ""}
+    <section class="panel" style="display:grid;gap:12px">
+      <h2>Mira las imágenes antes de crearlo</h2>
+      <p class="muted">Cada una tiene que ser la figura <b>completa</b>, tal como salió publicada: con todos sus
+        paneles y sin flechas ni recortes añadidos. Si una IA las sacó del PDF puede haber partido una figura en
+        trozos, y casi ninguna de estas licencias lo permite.</p>
+      <div class="galeria chica">${imagenes.map((img) => `<div class="panel" style="display:grid;gap:6px">
+        ${d.datos[img.id]
+          ? `<img class="miniatura chica" src="${d.datos[img.id]}" alt="${esc(img.figura)}" data-zoom>`
+          : `<p class="src">sin archivo</p>`}
+        <span class="src">${esc(img.figura || img.id)}</span></div>`).join("") || `<p class="muted">El .zip no traía imágenes.</p>`}</div>
+    </section>
+    <section class="panel" style="display:grid;gap:10px">
+      <h2>Qué encontró el validador</h2>
+      ${v.errores || v.avisos
+        ? `<p class="${v.errores ? "caja" : "muted"}">${v.errores} error(es) y ${v.avisos} aviso(s).
+            Se crea igual, en preparación: los corriges en los pasos 1 a 3 antes de publicar.</p>`
+        : `<p class="muted">Sin errores ni avisos: se puede publicar tal cual.</p>`}
+      ${problemasHTML(v.fuente)}
+      ${problemasHTML(casos.flatMap((c) => v.casos[c.id].map((p) => ({ ...p, texto: `${c.tema || c.id}: ${p.texto}` }))).slice(0, 12))}
+    </section>
+    <div class="row">
+      <button class="primary" id="crear-importado">Crear el cuestionario</button>
+      <button id="cancelar-importado">Cancelar</button>
+    </div>
+    <p class="src">Se crea a tu nombre y <b>en preparación</b>: nada sale a la web hasta que tú lo publiques.</p>
+  </div>`;
+  $("#cancelar-importado").onclick = () => { importado = null; location.hash = "#/"; };
+  $("#crear-importado").onclick = () => crearImportado();
+}
+
+async function crearImportado() {
+  const d = importado;
+  const boton = $("#crear-importado");
+  boton.disabled = true;
+  creando = true;
+  let id = slug(d.meta.id || d.meta.titulo) || "cuestionario";
+  while (temas[id]) id = `${id}-2`;
+  try {
+    // De una sola vez: las reglas dan permiso para crear el tema mirando meta/autor_uid, y solo
+    // conocen el tema después de escribirlo. Por eso las imágenes van detrás, una por una.
+    await set(ref(db, `estudio/${id}`), {
+      meta: {
+        id, titulo: d.meta.titulo, segmento: d.meta.segmento, descripcion: d.meta.descripcion,
+        modalidades: d.meta.modalidades.length ? d.meta.modalidades : ["RM"],
+        autor_uid: usuario.uid, autor_nombre: perfil.nombre, autor_usuario: perfil.usuario,
+        estado: "borrador", version: d.meta.version,
+        creado: serverTimestamp(), actualizado: serverTimestamp(),
+      },
+      fuente: d.fuente,
+      imagenes: d.imagenes,
+      casos: Object.fromEntries(Object.entries(d.casos).map(([k, c]) => [k, { ...c, actualizado: serverTimestamp() }])),
+    });
+    let n = 0;
+    for (const [imgId, url] of Object.entries(d.datos)) {
+      await set(ref(db, `estudio_img/${id}/${imgId}`), url);
+      n += 1;
+      boton.textContent = `Subiendo imágenes… ${n} de ${Object.keys(d.datos).length}`;
+    }
+  } catch (e) {
+    creando = false;
+    boton.disabled = false;
+    boton.textContent = "Crear el cuestionario";
+    return aviso("No se pudo crear: " + (e.code || e.message), true);
+  }
+  creando = false;
+  importado = null;
+  location.hash = `#/tema/${id}`;
+  aviso("Listo. Revisa los pasos 1 a 3 y publícalo cuando esté.");
+}
+
+// Lo contrario: el tema tal como se publica, en un .zip que se puede volver a subir aquí o a Git.
+function descargarZip(t) {
+  const { paquete, fuentes, imagenesUsadas } = aPaquete(t, t.meta.version || "0.1.0");
+  const archivos = [
+    { nombre: "paquete.json", datos: JSON.stringify(paquete, null, 2) + "\n" },
+    { nombre: "fuentes.json", datos: JSON.stringify(fuentes, null, 2) + "\n" },
+  ];
+  let faltan = 0;
+  for (const id of imagenesUsadas) {
+    if (!imagenesTema[id]) { faltan += 1; continue; }
+    archivos.push({ nombre: `img/${paquete.imagenes[id].archivo}`, datos: bytesDeDataURL(imagenesTema[id]) });
+  }
+  descargarArchivo(crearZip(archivos), `${t.id}.zip`);
+  aviso(faltan ? `Descargado, pero faltaron ${faltan} imagen(es) sin cargar.` : "Descargado.", faltan > 0);
 }
 
 // ------------------------------------------------------------------ vista de un tema
@@ -601,9 +758,12 @@ function pasoPublicar(t, v) {
     <div class="row">
       <button class="primary" id="publicar" ${v.errores ? "disabled" : ""}>
         ${publicado ? (sinPublicar(t) ? "Publicar cambios" : "Volver a publicar") : "Publicar"}</button>
+      <button id="descargar-zip">Descargar .zip</button>
       ${publicado && esCoord() ? `<button id="despublicar">Quitar de la web</button>` : ""}
-      <button id="borrar-tema">Borrar este tema</button>
+      <button class="peligrosa" id="borrar-tema">Borrar este cuestionario</button>
     </div>
+    <p class="src">El .zip lleva lo mismo que se publica —paquete.json, fuentes.json e img/— y se puede volver a
+      subir aquí o mandar al repositorio. Descarga uno antes de borrar si quieres conservarlo.</p>
     ${publicado ? `<p class="src">Publicado el ${new Date(t.meta.publicado_en || Date.now()).toLocaleDateString("es-PE")}. Ya se puede practicar en la web.</p>` : ""}
   </section>`;
 }
@@ -704,7 +864,12 @@ function enlazarEditor(t) {
     };
     app.querySelectorAll("[data-editar]").forEach((b) => { b.onclick = () => { editando = b.dataset.editar; dibujar(); }; });
     app.querySelectorAll("[data-borrar-caso]").forEach((b) => {
-      b.onclick = () => confirm("¿Borrar este caso?") && remove(ref(db, `estudio/${id}/casos/${b.dataset.borrarCaso}`));
+      b.onclick = () => {
+        const caso = t.casos[b.dataset.borrarCaso] || {};
+        const nombre = caso.tema || caso.enunciado || b.dataset.borrarCaso;
+        if (!confirm(`¿Borrar el caso «${nombre.slice(0, 80)}»? No se puede deshacer.`)) return;
+        remove(ref(db, `estudio/${id}/casos/${b.dataset.borrarCaso}`)).catch((e) => aviso("No se pudo borrar: " + (e.code || e.message), true));
+      };
     });
     app.querySelectorAll("[data-subir]").forEach((b) => { b.onclick = () => mover(t, b.dataset.subir, -1); });
     app.querySelectorAll("[data-bajar]").forEach((b) => { b.onclick = () => mover(t, b.dataset.bajar, 1); });
@@ -723,6 +888,7 @@ function enlazarEditor(t) {
   }
   if (paso === "publicar") {
     $("#publicar").onclick = () => publicar(t);
+    $("#descargar-zip").onclick = () => descargarZip(t);
     const quitar = $("#despublicar");
     if (quitar) quitar.onclick = async () => {
       if (!confirm("¿Quitar este tema de la web? Los casos siguen guardados en el estudio.")) return;
@@ -734,17 +900,9 @@ function enlazarEditor(t) {
       await guardarMeta(id, { estado: "borrador" });
       aviso(delIndice ? "Quitado de la web." : "Quitado. Tarda unos minutos en desaparecer de la web.");
     };
-    $("#borrar-tema").onclick = async () => {
-      if (!confirm("¿Borrar el tema completo? No se puede deshacer.")) return;
-      if (t.meta.estado === "publicado") {
-        await anotarEnIndice(id, { titulo: t.meta.titulo, segmento: t.meta.segmento, retirado: true });
-      }
-      await remove(ref(db, `publicacion/${id}`)).catch(() => {});
-      await remove(ref(db, `publicacion_img/${id}`)).catch(() => {});
-      await remove(ref(db, `estudio_img/${id}`)).catch(() => {});
-      await remove(ref(db, `estudio/${id}`));
-      location.hash = "#/";
-    };
+    $("#borrar-tema").onclick = () => borrarTema(t);
+  }
+}
 
 // Escribe la entrada del tema en «indice_publicado», la lista corta que lee la portada.
 // Devuelve si lo consiguió: no es motivo para dar la publicación por fallida.
@@ -795,7 +953,46 @@ async function publicar(t) {
   });
   aviso(alIndice ? "Publicado. Ya está en la web." : "Publicado. Tarda unos minutos en aparecer en la web.");
 }
+
+// Borrar no se puede deshacer, así que además de avisar qué desaparece hay que escribir «BORRAR».
+// El orden importa: las reglas de la base dan permiso mirando «estudio/<tema>/meta/autor_uid», así
+// que el tema se quita al final, cuando ya salió todo lo demás. Los sellos y los reportes solo se
+// pueden limpiar después de quitar «publicacion», y eso es exactamente lo que pasa aquí.
+async function borrarTema(t) {
+  const id = t.id;
+  const n = cuentas(t);
+  const imagenes = imagenesOrdenadas(t).length;
+  const publicado = t.meta.estado === "publicado";
+  const plural = (cuantos, uno, muchos) => `${cuantos} ${cuantos === 1 ? uno : muchos}`;
+  const ok = await confirmarPeligro({
+    titulo: `Borrar «${t.meta.titulo}»`,
+    cuerpo: `<p>Se va a borrar del estudio, con todo lo que tiene dentro:</p>
+      <ul class="problemas">
+        <li>${plural(n.casos, "caso", "casos")} y ${plural(imagenes, "imagen", "imágenes")}</li>
+        ${n.verificados ? `<li>${plural(n.verificados, "sello de verificado", "sellos de verificado")} puestos por un radiólogo</li>` : ""}
+        ${n.reportados ? `<li>${plural(n.reportados, "caso reportado", "casos reportados")} por gente que practicó</li>` : ""}
+        ${publicado ? `<li class="error">Está publicado: desaparece de la web y nadie podrá practicarlo</li>` : ""}
+      </ul>
+      <p>No se puede deshacer y nadie del equipo lo puede recuperar.</p>`,
+    boton: "Borrar para siempre",
+  });
+  if (!ok) return;
+  try {
+    if (publicado) await anotarEnIndice(id, { titulo: t.meta.titulo, segmento: t.meta.segmento, retirado: true });
+    await remove(ref(db, `publicacion/${id}`));
+    await remove(ref(db, `publicacion_img/${id}`));
+    // Sellos y reportes: si las reglas todavía no están desplegadas no se dejan borrar, y eso no es
+    // motivo para dejar el tema a medio borrar. Quedan huérfanos, sin efecto sobre ningún tema vivo.
+    await remove(ref(db, `verificacion/${id}`)).catch(() => {});
+    await remove(ref(db, `reportes/${id}`)).catch(() => {});
+    await remove(ref(db, `estudio_img/${id}`));
+    await remove(ref(db, `estudio/${id}`));
+  } catch (e) {
+    return aviso(`No se pudo borrar: ${e.code || e.message}. Si dice «permission-denied», falta desplegar las reglas.`, true);
   }
+  if (location.hash.startsWith("#/tema/")) location.hash = "#/";
+  else dibujar();
+  aviso(publicado ? "Borrado. Tarda unos minutos en desaparecer de la web." : "Borrado.");
 }
 
 async function buscarDoi(id) {
@@ -898,9 +1095,18 @@ async function guardarImagen(id, imgId) {
 }
 
 async function borrarImagen(id, imgId) {
-  if (!confirm("¿Quitar esta imagen?")) return;
-  await remove(ref(db, `estudio/${id}/imagenes/${imgId}`));
-  await remove(ref(db, `estudio_img/${id}/${imgId}`));
+  const t = temaActual();
+  const usada = t ? casosOrdenados(t).filter((c) => lista(c.imagenes).some((r) => r.ref === imgId)).length : 0;
+  const texto = usada
+    ? `Esta imagen la usan ${usada} caso(s); se quedarán sin ella. ¿Quitarla igual?`
+    : "¿Quitar esta imagen?";
+  if (!confirm(texto)) return;
+  try {
+    await remove(ref(db, `estudio/${id}/imagenes/${imgId}`));
+    await remove(ref(db, `estudio_img/${id}/${imgId}`));
+  } catch (e) {
+    return aviso("No se pudo quitar: " + (e.code || e.message), true);
+  }
   delete imagenesTema[imgId];
   dibujar();
 }
@@ -1045,6 +1251,7 @@ function dibujar() {
   const ruta = location.hash.replace(/^#\/?/, "").split("/");
   if (ruta[0] === "equipo" && esCoord()) return equipo();
   if (ruta[0] === "nuevo") return temaNuevo();
+  if (ruta[0] === "importar") { temaAbierto = null; return vistaImportar(); }
   if (ruta[0] === "tema" && ruta[1]) {
     if (temaAbierto !== ruta[1]) {
       temaAbierto = ruta[1];

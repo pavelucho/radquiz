@@ -60,6 +60,16 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   texto para copiar y lee la respuesta JSON); no depende de Claude ni de ningún proveedor.
   Publicar escribe `publicacion/`, `publicacion_img/` e `indice_publicado/`. Validación en el navegador:
   `app/validacion.js` (espejo de `tools/validar`).
+- Un cuestionario entero cabe en un `.zip` con la forma de una carpeta de `temas/` (`paquete.json`, `fuentes.json`,
+  `img/`): «Subir un .zip» en la portada del estudio y «Descargar .zip» en el paso 4. `app/zip.js` lo lee y lo arma
+  sin librerías (`DecompressionStream`; al escribir, guardado sin comprimir), `app/importar.js` lo convierte con
+  `dePaquete()` —el inverso de `aPaquete()`— y `instruccionesPaquete()` da el texto para que una IA con ejecución
+  de código lo arme desde el PDF. Lo importado entra siempre como borrador y se enseñan las figuras antes de crear
+  nada: una IA puede partir una figura en paneles, y las licencias ND no lo permiten.
+- Borrar un cuestionario se hace desde el estudio (botón en la tarjeta y en el paso 4), escribiendo `BORRAR` en un
+  aviso que dice qué se pierde. El orden de borrado importa: `publicacion`, `publicacion_img`, `verificacion`,
+  `reportes`, `estudio_img` y por último `estudio`, porque las reglas dan permiso mirando
+  `estudio/<tema>/meta/autor_uid`. Deja `indice_publicado/<tema>` como `retirado`.
 - Publicar es instantáneo: `app/publicado.js` lee por REST los nodos públicos `indice_publicado`, `publicacion`,
   `publicacion_img` y `verificacion`, y la portada, la práctica y la sala los fusionan con `temas/indice.json`.
   Gana el estudio cuando su versión no coincide con la del sitio; si coinciden, se usan los archivos del sitio
@@ -72,7 +82,10 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 
 ## Pendiente
 1. Desplegar las reglas. Sin eso el estudio no puede escribir `indice_publicado` y los temas nuevos tardan
-   en salir (publicar sigue funcionando; el estudio lo avisa). `tools/desplegar_reglas` lo hace sin sesión
+   en salir (publicar sigue funcionando; el estudio lo avisa). **Además, desde el 2026-09-20 hace falta para
+   borrar un tema publicado**: las reglas nuevas permiten al autor borrar lo suyo aunque esté publicado y quitar
+   de una vez `estudio_img/<tema>`, `verificacion/<tema>` y `reportes/<tema>`. Con las reglas viejas el estudio
+   avisa «permission-denied». `tools/desplegar_reglas` lo hace sin sesión
    interactiva, y es el mismo comando que corre el workflow. Necesita, en variables de entorno o en secretos:
    `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con el papel «Firebase
    Realtime Database Admin»; **no** «Firebase Rules Admin», que es de Firestore y Storage) o `FIREBASE_TOKEN`

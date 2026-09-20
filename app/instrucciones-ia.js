@@ -1,6 +1,7 @@
 // RadQuiz — instrucciones para cualquier IA (ChatGPT, Gemini, Copilot, Claude, DeepSeek…) y lectura de su respuesta.
 // No depende de ningún proveedor: el autor copia un texto, lo pega en su IA con el PDF y pega la respuesta de vuelta.
-import { imagenesOrdenadas, casosOrdenados, lista, idImagen } from "./validacion.js";
+import { imagenesOrdenadas, casosOrdenados, lista, idImagen, LICENCIAS } from "./validacion.js";
+import { SEGMENTOS } from "./comun.js";
 
 const EJEMPLO = `{
   "imagenes": [
@@ -73,6 +74,88 @@ QUÉ TIENES QUE DEVOLVER
 
 FORMATO EXACTO DE LA RESPUESTA
 ${EJEMPLO}`;
+}
+
+// Para una IA que además de escribir puede ejecutar código (ChatGPT con análisis de datos, Claude
+// con su herramienta de análisis, Gemini con ejecución): que devuelva el cuestionario entero —texto
+// e imágenes— en un solo .zip, con la misma forma que una carpeta de temas/ en el repositorio.
+export function instruccionesPaquete(cantidad = 20) {
+  return `Eres un radiólogo docente. Con el documento de acceso abierto que te adjunto tienes que armar
+un cuestionario de opción múltiple para residentes de radiología y devolvérmelo en UN SOLO archivo .zip.
+
+QUÉ TIENE QUE LLEVAR EL .ZIP (exactamente estos nombres, sin carpeta de más arriba)
+  paquete.json
+  fuentes.json
+  img/fig02.jpg, img/fig03.jpg, …   una por figura usada
+
+LAS IMÁGENES
+- Sácalas del PDF con código (PyMuPDF, pdfimages o similar), en JPG.
+- Cada archivo es UNA FIGURA COMPLETA tal como se publicó, con todos sus paneles y su composición.
+  Nunca un panel suelto, nunca recortada, nunca con flechas, círculos o texto añadidos por ti:
+  la licencia de la mayoría de estas fuentes no permite obras derivadas.
+- Lado mayor de 1600 px como máximo y menos de 250 KB por archivo. Redimensionar y comprimir sí se puede.
+- Nombra el archivo con el id de la figura: "Figura 2" → fig02.jpg, "Figura 3B" → fig03b.jpg, "Tabla 1" → tabla1.jpg.
+- Si no puedes extraer las imágenes, dímelo y devuelve el .zip solo con los dos .json: las subo yo.
+
+REGLAS DE LOS CASOS
+${REGLAS.map((r, i) => `${i + 1}. ${r}`).join("\n")}
+
+paquete.json
+{
+  "id": "minusculas-con-guiones",
+  "titulo": "Título del cuestionario",
+  "descripcion": "Una línea (opcional)",
+  "segmento": "uno de: ${Object.keys(SEGMENTOS).join(", ")}",
+  "modalidades": ["RM"],
+  "idioma": "es",
+  "version": "0.1.0",
+  "imagenes": {
+    "fig02": {
+      "archivo": "fig02.jpg",
+      "figura": "Figura 2",
+      "leyenda_original": "La leyenda copiada tal cual del documento, sin traducir.",
+      "modalidad": "RM",
+      "paneles": [{ "id": "A", "lado": "derecho", "plano": "sagital oblicuo", "secuencia": "DP", "condicion": "boca cerrada" }],
+      "marcas": [{ "marca": "flecha blanca", "panel": "A", "senala": "qué señala, según la leyenda" }],
+      "modificaciones": ["redimensionada", "comprimida"]
+    }
+  },
+  "casos": [
+    {
+      "id": "caso-01",
+      "tema": "Subtema corto",
+      "etiquetas": ["palabra clave"],
+      "tipo": "imagen",
+      "enunciado": "Descripción técnica de la imagen y la pregunta.",
+      "imagenes": [{ "ref": "fig02", "mostrar_en": "pregunta" }],
+      "opciones": ["Opción A", "Opción B", "Opción C", "Opción D", "Opción E"],
+      "correcta": 2,
+      "explicacion": "- Primera idea.\\n- Segunda idea.",
+      "perla": "Frase práctica (opcional).",
+      "evidencia": [{ "ubicacion": "p. 5, leyenda de la Figura 2", "cita": "Frase copiada textual del documento." }]
+    }
+  ]
+}
+
+fuentes.json  (una sola fuente, con la clave que quieras: apellido del primer autor + año)
+{
+  "lopezramirez2024": {
+    "tipo": "articulo",
+    "cita": "Cita completa con volumen, páginas y doi:",
+    "credito": "López-Ramírez M, et al. Austral J Imaging. 2024",
+    "doi": "10.24875/AJI.23000069",
+    "url": "https://doi.org/10.24875/AJI.23000069",
+    "titular": "© 2024 Sociedad …  (lo que diga el «©» del documento)",
+    "licencia": "una de: ${LICENCIAS.map((l) => l.valor).join(", ")}",
+    "verificacion": { "donde": "p. 136: «frase del documento donde dice la licencia»" }
+  }
+}
+
+- Escribe alrededor de ${cantidad} casos, al menos el 70 % de tipo "imagen".
+- "correcta" es la posición contando desde 0: 0 es la primera opción y 4 la quinta.
+- Comprueba antes de dármelo: que el .zip abra, que los dos .json sean JSON válido, que cada "ref"
+  de un caso exista en "imagenes" y que cada "archivo" exista dentro de img/.
+- Dame el .zip para descargar y, aparte, dime en una línea qué figuras no pudiste extraer.`;
 }
 
 export function instruccionesCorreccion(tema, problemas) {

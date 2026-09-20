@@ -163,7 +163,7 @@
     "estudio": {
       ".read": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() != null",
       "$tema": {
-        ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (!data.exists() && newData.child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null) || (auth != null && data.child('meta/autor_uid').val() == auth.uid && !newData.exists() && data.child('meta/estado').val() == 'borrador')",
+        ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (!data.exists() && newData.child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null) || (auth != null && data.child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && !newData.exists())",
         ".validate": "$tema.matches(/^[a-z0-9]+(-[a-z0-9]+)*$/) && newData.hasChild('meta')",
         "meta": {
           ".write": "auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && root.child('estudio').child($tema).child('meta/estado').val().matches(/^(borrador|publicado)$/) && newData.child('estado').val().matches(/^(borrador|publicado)$/)",
@@ -219,7 +219,7 @@
     "estudio_img": {
       ".read": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() != null",
       "$tema": {
-        ".write": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador'",
+        ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (auth != null && !newData.exists() && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid)",
         "$img": {
           ".write": "auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && root.child('estudio').child($tema).child('meta/estado').val().matches(/^(borrador|cambios|publicado)$/)",
           ".validate": "newData.isString() && newData.val().beginsWith('data:image/jpeg;base64,') && newData.val().length < 400000"
@@ -279,6 +279,7 @@
     "verificacion": {
       ".read": true,
       "$tema": {
+        ".write": "auth != null && !newData.exists() && (root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador' || (root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && !root.child('publicacion').child($tema).exists()))",
         "$caso": {
           ".write": "auth != null && (root.child('usuarios').child(auth.uid).child('rol').val() == 'revisor' || root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador')",
           ".validate": "newData.hasChildren(['decision', 'usuario', 'nombre', 'fecha'])",
@@ -309,6 +310,7 @@
     "reportes": {
       ".read": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() != null",
       "$tema": {
+        ".write": "auth != null && !newData.exists() && (root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador' || (root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && !root.child('publicacion').child($tema).exists()))",
         "$caso": {
           ".read": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() != null",
           "$uid": {

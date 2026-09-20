@@ -38,10 +38,12 @@
         <li><a href="#cerrar">Cerrar la sala</a></li></ul></div>
       <div><p class="tema">Autores</p><ul>
         <li><a href="#entrar">Entrar al estudio</a></li>
+        <li><a href="#zip">Subir un .zip ya hecho</a></li>
         <li><a href="#fuente">1. La fuente</a></li>
         <li><a href="#imagenes">2. Las imágenes</a></li>
         <li><a href="#generar">3. Los casos, con tu IA</a></li>
-        <li><a href="#enviar">4. Publicar</a></li></ul></div>
+        <li><a href="#enviar">4. Publicar</a></li>
+        <li><a href="#borrar">Borrar un cuestionario</a></li></ul></div>
       <div><p class="tema">Revisores y coordinador</p><ul>
         <li><a href="#revisar">Revisar y publicar</a></li>
         <li><a href="#coordinador">Mantenimiento</a></li>
@@ -153,6 +155,25 @@
       </ol>
       <p class="caja">Antes de empezar, ten a mano el <b>PDF</b> del artículo y las figuras que vas a usar.</p>
 
+      <h3 id="zip">Dos caminos: paso a paso, o un .zip ya hecho</h3>
+      <p>Lo normal es seguir los cuatro pasos de abajo. Pero si tu IA sabe <b>ejecutar código</b> (ChatGPT con
+        análisis de datos, Claude, Gemini…), puede sacar las figuras del PDF y devolverte el cuestionario entero
+        —texto e imágenes— en un solo archivo <b>.zip</b>, y entonces solo lo revisas.</p>
+      <ol class="pasos">
+        <li>En <b>Nuevo cuestionario</b>, toca <b>Copiar instrucciones para el .zip</b> y pégaselas a tu IA junto
+          con el PDF.</li>
+        <li>Descarga el .zip que te devuelva y súbelo con <b>Subir un .zip</b>, en la portada del estudio.</li>
+        <li>El estudio te enseña las figuras y lo que encontró el validador <b>antes</b> de crear nada. Si está
+          bien, toca <b>Crear el cuestionario</b>: queda en preparación y a tu nombre.</li>
+        <li>Corrige lo que haga falta en los pasos 1 a 3 y publícalo como cualquier otro.</li>
+      </ol>
+      <p class="caja">Mira las figuras una por una antes de crearlo. Una IA que saca imágenes de un PDF puede partir
+        una figura en paneles sueltos o recortarla, y casi ninguna de estas licencias permite modificarlas: cada
+        archivo tiene que ser la figura <b>completa</b>, tal como salió publicada.</p>
+      <p class="src">El mismo .zip se descarga desde el paso 4 de cualquier tema: sirve para guardarte una copia,
+        para pasarle el cuestionario a otra persona o para mandarlo al repositorio por Git. Dentro lleva
+        <code>paquete.json</code>, <code>fuentes.json</code> y la carpeta <code>img/</code>.</p>
+
       <h3 id="fuente">Paso 1: la fuente</h3>
       <ol class="pasos">
         <li>Toca <b>Nuevo cuestionario</b>, ponle título y elige el segmento.</li>
@@ -203,6 +224,13 @@
         corregir y tocar <b>Publicar cambios</b>.</p>
       <p class="caja">Si corriges un caso que ya estaba verificado, el sello se retira solo y el radiólogo tendrá que
         mirarlo otra vez: es la única forma de que el sello signifique algo.</p>
+      <h3 id="borrar">Borrar un cuestionario</h3>
+      <p>Tus cuestionarios los borras tú, sin pedírselo a nadie: en <b>Mis temas</b>, botón <b>Borrar</b> de la tarjeta,
+        o dentro del tema en el paso 4. Antes de hacer nada se te dice qué desaparece —casos, imágenes, sellos y
+        reportes— y hay que escribir <b>BORRAR</b> para confirmarlo.</p>
+      <p class="caja">Borrar no se deshace y nadie del equipo puede recuperarlo, ni siquiera el coordinador. Si solo
+        quieres que deje de verse en la web, pide a tu coordinador <b>Quitar de la web</b>: eso sí se deshace, porque
+        el contenido sigue guardado en el estudio.</p>
       <p class="src">¿Prefieres trabajar con archivos y Git? También se puede: mira el
         <a href="https://github.com/pavelucho/radquiz/blob/main/README.md">README</a> del repositorio.</p>
     </section>
@@ -252,7 +280,11 @@
           ahí aparecen los pedidos de quienes quieren verificar casos. También puedes cambiar el papel de alguien o
           quitarlo.</li>
         <li><b>Quitar algo de la web:</b> abre el tema, paso 4, <b>Quitar de la web</b>. El contenido sigue guardado en
-          el estudio, pero desaparece del sitio en la próxima actualización.</li>
+          el estudio, pero desaparece del sitio en la próxima actualización. Es lo que conviene usar casi siempre,
+          porque se deshace volviendo a publicar.</li>
+        <li><b>Borrar de verdad:</b> el botón <b>Borrar</b> de cualquier tarjeta. Cada autor puede borrar lo suyo; tú
+          puedes borrar el de cualquiera. Hay que escribir BORRAR y no se deshace: se van los casos, las imágenes,
+          los sellos y los reportes.</li>
         <li><b>Si algo no aparece:</b> mira la pestaña <b>Actions</b> del repositorio en GitHub. Una ✗ roja significa
           que el control automático encontró un problema; el detalle está en el paso «Validar temas».</li>
       </ol>
@@ -291,6 +323,10 @@
           <tr><td>La IA citó una figura que no reconozco</td><td>Revisa que el nombre de la imagen en el paso 2 sea igual al de la fuente («Figura 2»).</td></tr>
           <tr><td>Publiqué y no aparece en la web</td><td>Recarga la página. Si sigue igual, el estudio te lo habría dicho al publicar: vuelve a tocar <b>Publicar</b>.</td></tr>
           <tr><td>Hay un error en un caso publicado</td><td>Avisa al coordinador o abre un <em>issue</em> en GitHub indicando el tema y el caso.</td></tr>
+          <tr><td>Quiero borrar un cuestionario mío</td><td>En «Mis temas», botón <b>Borrar</b>, o dentro del tema en el paso 4. Hay que escribir BORRAR: no se deshace.</td></tr>
+          <tr><td>«El .zip no trae paquete.json»</td><td>El archivo tiene que llevar paquete.json, fuentes.json y la carpeta img/. Pídele a tu IA que lo arme con esos nombres.</td></tr>
+          <tr><td>El .zip entró sin algunas figuras</td><td>El estudio te dice cuáles faltan. Créalo igual y súbelas a mano en el paso 2.</td></tr>
+          <tr><td>Borré algo sin querer</td><td>No se puede recuperar. Hay que volver a armarlo; por eso el estudio pide escribir BORRAR antes.</td></tr>
         </tbody>
       </table></div>
     </section>
