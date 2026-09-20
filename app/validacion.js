@@ -140,19 +140,21 @@ export function validarTema(tema) {
   return r;
 }
 
-// Un caso está aprobado si el revisor lo aprobó y el autor no lo cambió después.
-export function estadoRevision(caso, revision) {
-  if (!revision) return "pendiente";
-  if (caso.actualizado && revision.fecha && caso.actualizado > revision.fecha) return "cambiado";
-  return revision.decision;
+// Un caso está verificado si un radiólogo lo marcó y el autor no lo cambió después.
+export function estadoVerificacion(caso, verificacion) {
+  if (!verificacion) return "sin verificar";
+  const base = verificacion.base || verificacion.fecha || 0;
+  if (caso.actualizado && caso.actualizado > base) return "cambiado";
+  return verificacion.decision === "problema" ? "problema" : "verificado";
 }
 
-// Arma paquete.json y fuentes.json con los casos aprobados, listos para el repositorio.
+// Arma paquete.json y fuentes.json con todos los casos del tema, listos para el repositorio.
+// La verificación se añade al publicar en la web: aquí los casos salen sin revisor.
 export function aPaquete(tema, version) {
   const meta = tema.meta;
   const f = tema.fuente;
-  const aprobados = casosOrdenados(tema).filter((c) => estadoRevision(c, tema.revision?.[c.id]) === "aprobado");
-  const usadas = new Set(aprobados.flatMap((c) => lista(c.imagenes).map((r) => r.ref)));
+  const casos = casosOrdenados(tema);
+  const usadas = new Set(casos.flatMap((c) => lista(c.imagenes).map((r) => r.ref)));
   const imagenes = {};
   for (const img of imagenesOrdenadas(tema)) {
     if (!usadas.has(img.id)) continue;
@@ -171,8 +173,9 @@ export function aPaquete(tema, version) {
       ...(img.notas ? { notas: img.notas } : {}),
     };
   }
-  const casos = aprobados.map((c) => {
-    const rev = tema.revision[c.id];
+  const actualizados = {};
+  const casosPaquete = casos.map((c) => {
+    actualizados[c.id] = c.actualizado || 0;
     return {
       id: c.id,
       tema: c.tema,
@@ -188,8 +191,7 @@ export function aPaquete(tema, version) {
       evidencia: lista(c.evidencia).map((e) => ({ fuente: f.clave, ubicacion: e.ubicacion, cita: e.cita })),
       estado: "publicado",
       autor: meta.autor_usuario,
-      revisor: rev.usuario,
-      fecha_revision: new Date(rev.fecha).toISOString().slice(0, 10),
+      revisor: null,
     };
   });
   const paquete = {
@@ -201,10 +203,11 @@ export function aPaquete(tema, version) {
     modalidades: lista(meta.modalidades).length ? lista(meta.modalidades) : ["RM"],
     idioma: "es",
     version,
+    personas: { [meta.autor_usuario]: meta.autor_nombre },
     imagenes,
-    casos,
+    casos: casosPaquete,
   };
   const { clave, ...resto } = f;
   const fuentes = { $schema: "../../../schema/fuentes.schema.json", [clave]: { ...resto, modificaciones_permitidas: !LICENCIAS.find((l) => l.valor === f.licencia)?.nd } };
-  return { paquete, fuentes, imagenesUsadas: [...usadas] };
+  return { paquete, fuentes, imagenesUsadas: [...usadas], actualizados };
 }

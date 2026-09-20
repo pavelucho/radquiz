@@ -92,6 +92,15 @@ export function credito(imagen, fuente) {
   ].join(" · ");
 }
 
+// Sello de verificación de un caso publicado.
+export function sello(caso, personas = {}) {
+  if (caso.revisor) {
+    const nombre = personas[caso.revisor] || caso.revisor;
+    return `<span class="sello" title="Un radiólogo revisó este caso">✓ Verificado por ${esc(nombre)}</span>`;
+  }
+  return `<span class="sello sin" title="Todavía ningún radiólogo lo revisó">Sin verificar</span>`;
+}
+
 export function barajar(lista) {
   const copia = [...lista];
   for (let i = copia.length - 1; i > 0; i--) {

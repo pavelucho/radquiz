@@ -12,7 +12,7 @@ El plan completo está en el documento del proyecto; este archivo explica el rep
 ```
 schema/                     JSON Schema del formato (paquete, caso, fuentes)
 tools/validar               validador; no necesita instalar nada
-tools/aprobar               marca casos como revisados o publicados (flujo con Git)
+tools/aprobar               publica y sella casos desde archivos (flujo con Git)
 tools/traer_publicaciones   baja a temas/ lo que el coordinador publicó en el estudio
 tools/config.json           límites de imagen, sitios bloqueados y umbrales
 docs/guia-estilo-ia.md      cómo escribir casos (para personas y para la IA)
@@ -45,13 +45,17 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
 
 `estudio.html` permite crear, revisar y publicar cuestionarios sin Git y sin terminal:
 
-1. Cada persona entra con su cuenta de Google y pide acceso; el coordinador la acepta como autora o revisora.
+1. Cada persona entra con su cuenta de Google y queda de alta como autora. Ser **revisor** (poner el sello) lo
+   concede el coordinador.
 2. El autor completa fuente (con búsqueda por DOI), sube las imágenes (se comprimen en el navegador) y genera los
    casos **con la IA que prefiera**: el estudio arma un texto para copiar y pegar, y lee la respuesta en JSON.
    No se conecta a ningún proveedor de IA.
-3. El revisor aprueba caso por caso o pide cambios con un comentario.
-4. El coordinador publica. Cada 15 minutos, `.github/workflows/publicar.yml` ejecuta `tools/traer_publicaciones`,
-   que escribe los temas aprobados en `temas/`, los valida y los publica en la web.
+3. El autor publica cuando el validador no marca errores. Los casos salen **sin verificar**.
+4. Cualquier radiólogo con papel de revisor verifica los casos que quiera; el sello lleva su nombre y su fecha, y se
+   retira solo si el autor cambia ese caso y vuelve a publicarlo.
+5. Cada 15 minutos, `.github/workflows/publicar.yml` ejecuta `tools/traer_publicaciones`, que baja lo publicado y los
+   sellos, valida y publica la web. En práctica hay filtro «solo verificados»; la sala en vivo usa verificados por
+   defecto. Cualquiera puede reportar un error desde la web (`reportes/`), y eso pone el caso al principio de la cola.
 
 Los borradores viven en Firebase (`estudio/`, `estudio_img/`); lo publicado queda en el repositorio, que es el
 historial. Las reglas de `database.rules.json` definen qué puede hacer cada papel.
@@ -86,7 +90,8 @@ Con Python 3.9 o superior basta (viene en macOS). Otras opciones:
 
 **Error** es algo roto o prohibido: formato, imagen que falta o pesa demasiado, respuesta fuera de rango, HTML en los
 textos, fuente de un sitio bloqueado, figura ND modificada, revisor igual al autor. **Aviso** es algo pendiente o
-sospechoso: en un borrador lo pendiente es aviso, y en un caso revisado o publicado pasa a ser error.
+sospechoso: en un borrador lo pendiente es aviso, y en un caso publicado pasa a ser error. El sello de verificación no
+es obligatorio para publicar: un caso publicado sin `revisor` sale como «sin verificar».
 
 También avisa si la correcta es la opción más larga en más de un tercio de los casos, si las respuestas se concentran en
 una letra, si una imagen trae metadatos EXIF o si un caso de concepto tiene una imagen decorativa en la pregunta.
@@ -100,8 +105,8 @@ una letra, si una imagen trae metadatos EXIF o si un caso de concepto tiene una 
    significa «la fuente no lo indica».
 3. **`evidencia` en cada caso:** página y frase textual de la fuente. Hace que revisar tome segundos y evita que la IA
    invente.
-4. **La validación depende del estado.** En borrador se permite lo pendiente. En revisado o publicado se exigen ficha
-   completa, evidencia, licencia verificada y un revisor distinto del autor.
+4. **La validación depende del estado.** En borrador se permite lo pendiente. En publicado se exigen ficha completa,
+   evidencia y licencia verificada. El `revisor` es opcional (es el sello) y debe ser distinto del autor.
 5. **La app baraja las opciones** (`"barajar": false` si el orden importa). Por eso el reparto de letras pesa menos
    que el largo de las opciones.
 6. **Id único en todo el repositorio:** `<paquete>/<caso>`.
@@ -112,8 +117,8 @@ Para quien prefiera archivos; el camino normal es el estudio web.
 
 1. Crear `temas/<segmento>/<id>/` con `paquete.json`, `fuentes.json` e `img/`, siguiendo `docs/guia-estilo-ia.md`.
 2. Correr `tools/validar` hasta que no haya errores.
-3. Proponer el cambio en GitHub. Un revisor del segmento aprueba los casos con
-   `tools/aprobar <carpeta> --revisor <usuario> --todos --estado publicado` (o `--casos id1,id2`).
+3. Proponer el cambio en GitHub. Para publicarlos y sellarlos:
+   `tools/aprobar <carpeta> --revisor <usuario> --nombre "Dra. X" --todos` (o `--casos id1,id2`).
 4. Al aceptar la propuesta en `main`, la web se actualiza sola. Paso a paso en el manual.
 
 ## Probar la app en la computadora

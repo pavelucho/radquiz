@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
-"""Trae a temas/ los cuestionarios que el coordinador publicó desde el estudio web.
+"""Trae a temas/ los cuestionarios publicados en el estudio web y sus sellos de verificación.
 
 Uso:
     tools/traer_publicaciones          escribe los temas nuevos o actualizados
     tools/traer_publicaciones --ver    solo dice qué cambiaría
 
-Lee el nodo público «publicacion» de la base de datos del estudio. Solo entran casos ya aprobados,
-y después el validador vuelve a revisarlos: si algo falla, el tema no se publica.
+Lee dos nodos públicos de la base del estudio:
+- «publicacion»: el contenido que el autor publicó (todos sus casos, sin sello).
+- «verificacion»: qué caso marcó cada radiólogo y cuándo. Un sello vale solo si el autor no
+  tocó el caso después; si lo cambió, el caso vuelve a quedar sin verificar.
+
+Los temas que el estudio dejó de publicar se quitan de temas/ (solo los que trajo este comando:
+llevan la marca .origen-estudio).
 """
 
 import argparse
@@ -23,6 +28,8 @@ BASE = os.environ.get("RADQUIZ_DB", "https://radquiz-shpn2-default-rtdb.firebase
 SEGMENTOS = json.loads((RAIZ / "schema" / "paquete.schema.json").read_text(encoding="utf-8"))["$defs"]["segmento"]["enum"]
 NOMBRE = re.compile(r"^[a-z0-9]+([-_][a-z0-9]+)*\.jpg$")
 ID = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+USUARIO = re.compile(r"^[a-z0-9._-]+$")
+MARCA = ".origen-estudio"
 
 
 def traer(ruta):
@@ -30,7 +37,37 @@ def traer(ruta):
         return json.loads(r.read().decode("utf-8"))
 
 
-def escribir_tema(clave, publicacion, solo_ver):
+def fecha(ms):
+    import datetime
+    return datetime.datetime.fromtimestamp(ms / 1000, datetime.timezone.utc).date().isoformat()
+
+
+def sellar(paquete, actualizados, verificacion):
+    """Pone revisor y fecha en los casos verificados cuyo contenido no cambió después."""
+    personas = dict(paquete.get("personas") or {})
+    sellados = 0
+    for caso in paquete["casos"]:
+        v = (verificacion or {}).get(caso["id"])
+        caso["revisor"] = None
+        caso.pop("fecha_revision", None)
+        if not v or v.get("decision") != "verificado":
+            continue
+        usuario = v.get("usuario", "")
+        base = v.get("base", 0)
+        if not USUARIO.match(usuario) or usuario == caso.get("autor"):
+            continue
+        if (actualizados or {}).get(caso["id"], 0) > base:
+            continue  # el autor lo cambió después de verificarlo
+        caso["revisor"] = usuario
+        caso["fecha_revision"] = fecha(v.get("fecha", 0))
+        personas.setdefault(usuario, v.get("nombre", usuario))
+        sellados += 1
+    if personas:
+        paquete["personas"] = personas
+    return sellados
+
+
+def escribir_tema(clave, publicacion, verificacion, solo_ver):
     paquete = json.loads(publicacion["paquete_json"])
     fuentes = json.loads(publicacion["fuentes_json"])
     version = publicacion.get("version", paquete.get("version"))
@@ -39,12 +76,15 @@ def escribir_tema(clave, publicacion, solo_ver):
         print("  ⚠ %s: id o segmento inválidos; lo salto" % clave)
         return False
 
+    paquete["version"] = version
+    sellados = sellar(paquete, publicacion.get("actualizados"), verificacion)
     carpeta = RAIZ / "temas" / segmento / tema_id
+    nuevo = json.dumps(paquete, ensure_ascii=False, indent=2) + "\n"
     actual = carpeta / "paquete.json"
-    if actual.is_file() and json.loads(actual.read_text(encoding="utf-8")).get("version") == version:
+    if actual.is_file() and actual.read_text(encoding="utf-8") == nuevo:
         return False
     if solo_ver:
-        print("  · %s/%s pasaría a la versión %s (%d casos)" % (segmento, tema_id, version, len(paquete["casos"])))
+        print("  · %s/%s cambiaría (%d casos, %d verificados)" % (segmento, tema_id, len(paquete["casos"]), sellados))
         return True
 
     imagenes = traer(f"publicacion_img/{clave}.json") or {}
@@ -62,27 +102,46 @@ def escribir_tema(clave, publicacion, solo_ver):
         if sobrante.is_file() and sobrante.name not in esperados:
             sobrante.unlink()
 
-    paquete["version"] = version
-    actual.write_text(json.dumps(paquete, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    actual.write_text(nuevo, encoding="utf-8")
     (carpeta / "fuentes.json").write_text(json.dumps(fuentes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print("  ✓ %s/%s versión %s: %d casos, %d imágenes"
-          % (segmento, tema_id, version, len(paquete["casos"]), len(esperados)))
+    (carpeta / MARCA).write_text("Este tema lo mantiene el estudio web; no lo edites a mano.\n", encoding="utf-8")
+    print("  ✓ %s/%s versión %s: %d casos (%d verificados), %d imágenes"
+          % (segmento, tema_id, version, len(paquete["casos"]), sellados, len(esperados)))
     return True
 
 
+def quitar_retirados(publicados, solo_ver):
+    """Borra de temas/ lo que el estudio ya no publica (solo lo que trajo este comando)."""
+    cambios = False
+    for marca in sorted((RAIZ / "temas").glob("*/*/" + MARCA)):
+        carpeta = marca.parent
+        if carpeta.name in publicados:
+            continue
+        print("  · %s/%s se quitaría de la web" % (carpeta.parent.name, carpeta.name)
+              if solo_ver else "  ✗ %s/%s: quitado de la web" % (carpeta.parent.name, carpeta.name))
+        if not solo_ver:
+            import shutil
+            shutil.rmtree(carpeta)
+            if not any(carpeta.parent.iterdir()):
+                carpeta.parent.rmdir()
+        cambios = True
+    return cambios
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Trae los temas publicados desde el estudio web.")
+    parser = argparse.ArgumentParser(description="Trae los temas publicados en el estudio web.")
     parser.add_argument("--ver", action="store_true", help="no escribe nada; solo informa")
     args = parser.parse_args()
 
     try:
         claves = traer("publicacion.json?shallow=true") or {}
-    except Exception as e:  # sin red o base vacía: no es un fallo del sitio
-        print("No pude leer las publicaciones del estudio: %s" % e)
+        verificaciones = traer("verificacion.json") or {}
+    except Exception as e:  # sin red: el sitio se publica igual con lo que ya está en el repositorio
+        print("No pude leer el estudio: %s" % e)
         return 0
 
     cambios = False
-    print("Publicaciones en el estudio: %d" % len(claves))
+    print("Temas publicados en el estudio: %d" % len(claves))
     for clave in sorted(claves):
         if not ID.match(clave):
             continue
@@ -90,9 +149,10 @@ def main():
         if not publicacion or "paquete_json" not in publicacion:
             continue
         try:
-            cambios = escribir_tema(clave, publicacion, args.ver) or cambios
+            cambios = escribir_tema(clave, publicacion, verificaciones.get(clave), args.ver) or cambios
         except Exception as e:
             print("  ⚠ %s: %s" % (clave, e))
+    cambios = quitar_retirados(set(claves), args.ver) or cambios
     if not cambios:
         print("Nada nuevo que traer.")
     salida = os.environ.get("GITHUB_OUTPUT")

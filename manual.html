@@ -41,7 +41,7 @@
         <li><a href="#fuente">1. La fuente</a></li>
         <li><a href="#imagenes">2. Las imágenes</a></li>
         <li><a href="#generar">3. Los casos, con tu IA</a></li>
-        <li><a href="#enviar">4. Enviar a revisión</a></li></ul></div>
+        <li><a href="#enviar">4. Publicar</a></li></ul></div>
       <div><p class="tema">Revisores y coordinador</p><ul>
         <li><a href="#revisar">Revisar y publicar</a></li>
         <li><a href="#coordinador">Mantenimiento</a></li>
@@ -61,7 +61,8 @@
         <li>Espera en la pantalla «Conectado como…» hasta que el presentador empiece.</li>
         <li>En cada caso mira la imagen (tócala para ampliarla), lee la pregunta y toca una opción. <b>Solo vale la primera
           respuesta</b>: no se puede cambiar.</li>
-        <li>Cuando el presentador revela, ves si acertaste, cuántos puntos ganaste y la explicación.</li>
+        <li>Cuando el presentador revela, ves si acertaste, cuántos puntos ganaste y la explicación. Ahí también
+          aparece el sello: <b>✓ Verificado por</b> el radiólogo que lo revisó, o <b>Sin verificar</b>.</li>
         <li>Entre casos puede aparecer el ranking. Al final ves tu puesto.</li>
       </ol>
       <p class="caja">Si se corta la conexión o cierras el navegador, vuelve a abrir la misma página en el mismo celular:
@@ -84,6 +85,10 @@
         <li>Después de responder ves la explicación, la perla y la leyenda original de la figura.</li>
         <li>Al final ves tu puntaje y puedes <b>repasar solo las falladas</b>.</li>
       </ol>
+      <p class="caja"><b>El sello.</b> Cualquier residente puede publicar cuestionarios, así que cada caso dice si un
+        radiólogo lo revisó. Arriba a la derecha tienes la casilla <b>Solo verificados</b> si quieres practicar
+        únicamente con esos. Y si algo está mal, usa <b>Reportar un error</b> debajo de la explicación: el caso pasa al
+        principio de la lista de revisión.</p>
       <p class="muted">La práctica no guarda nada: tu progreso se pierde al cerrar la página.</p>
     </section>
 
@@ -96,15 +101,16 @@
         <li>Una laptop conectada al proyector con Chrome, Edge, Safari o Firefox actualizado.</li>
         <li>Comprueba que la red del lugar deje entrar a la sala: abre <b>Sala en vivo</b> desde el Wi-Fi que usarán los
           residentes. Si falla, pueden usar sus datos móviles.</li>
-        <li>La sala en vivo usa solo casos <b>publicados</b>. Si un tema no aparece al crear la sala, todavía no tiene casos
-          aprobados.</li>
+        <li>La sala en vivo usa por defecto solo los casos <b>verificados</b> por un radiólogo. El selector de temas te
+          dice cuántos verificados tiene cada uno.</li>
       </ul>
 
       <h3 id="crear-sala">Crear una sala</h3>
       <ol class="pasos">
         <li>Entra a <b>Sala en vivo</b> y toca <b>Crear sala</b>.</li>
-        <li>Elige el <b>tema</b>, el <b>tiempo por caso</b> (20 a 90 s) y, si quieres, marca
-          <b>Mezclar el orden de los casos</b>.</li>
+        <li>Elige el <b>tema</b> y el <b>tiempo por caso</b> (20 a 90 s). La sala usa solo casos <b>verificados</b>;
+          si quieres incluir los demás, marca <b>Incluir casos sin verificar</b>.</li>
+        <li>Si quieres, marca <b>Mezclar el orden de los casos</b>.</li>
         <li>Toca <b>Crear sala</b>. Aparece el código grande, la dirección para entrar y la lista de quienes van llegando.</li>
       </ol>
 
@@ -133,14 +139,14 @@
     <section id="autores">
       <h2>Para autores: subir un cuestionario nuevo</h2>
       <p>Todo se hace desde la web, en el <a href="estudio.html">Estudio</a>: no hace falta instalar nada, ni saber
-        programar, ni usar ninguna IA en particular. Tú preparas el tema, un radiólogo lo revisa y el coordinador lo
-        publica.</p>
+        programar, ni usar ninguna IA en particular. <b>Publicas tú mismo</b> cuando el tema está completo; después un
+        radiólogo le pone el sello de verificado, caso por caso.</p>
 
       <h3 id="entrar">Entrar al estudio</h3>
       <ol class="pasos">
         <li>Abre el <a href="estudio.html">Estudio</a> y toca <b>Entrar con Google</b>.</li>
-        <li>La primera vez, pide acceso: tu nombre y si vas a <b>preparar</b> cuestionarios o a <b>revisarlos</b>.</li>
-        <li>El coordinador te acepta y ya puedes trabajar. Tus temas quedan guardados aunque cierres el navegador.</li>
+        <li>Listo: ya puedes crear cuestionarios. No hay que esperar a que nadie te apruebe.</li>
+        <li>Tus temas quedan guardados aunque cierres el navegador.</li>
       </ol>
       <p class="caja">Antes de empezar, ten a mano el <b>PDF</b> del artículo y las figuras que vas a usar.</p>
 
@@ -187,28 +193,33 @@
       <p class="muted">Si tu IA responde con texto alrededor del JSON, no importa: el estudio lo reconoce igual. Si algo
         sale mal, te dice qué pedirle.</p>
 
-      <h3 id="enviar">Paso 4: enviar a revisión</h3>
-      <p>El paso 4 muestra un resumen. Cuando no queden problemas, toca <b>Enviar a revisión</b>: le llega a los
-        revisores y tú puedes seguir con otro tema. Si te piden cambios, verás el comentario sobre cada caso, lo
-        corriges y lo envías de nuevo.</p>
+      <h3 id="enviar">Paso 4: publicar</h3>
+      <p>El paso 4 muestra un resumen. Cuando no queden problemas en rojo, toca <b>Publicar</b>: en unos 15 minutos tus
+        casos están en la web, marcados como <b>sin verificar</b>. A partir de ahí, cualquier radiólogo del equipo puede
+        ponerles el sello; también verás si alguien señala un problema o si un usuario reporta un error, y podrás
+        corregir y tocar <b>Publicar cambios</b>.</p>
+      <p class="caja">Si corriges un caso que ya estaba verificado, el sello se retira solo y el radiólogo tendrá que
+        mirarlo otra vez: es la única forma de que el sello signifique algo.</p>
       <p class="src">¿Prefieres trabajar con archivos y Git? También se puede: mira el
         <a href="https://github.com/pavelucho/radquiz/blob/main/README.md">README</a> del repositorio.</p>
     </section>
 
     <!-- ============================================================ REVISORES -->
     <section id="revisar">
-      <h2>Para revisores: revisar y aprobar</h2>
-      <p>Revisar es leer cada caso como lo verá el residente y decidir. No hay que instalar nada.</p>
+      <h2>Para radiólogos: verificar casos</h2>
+      <p>Cualquiera puede publicar cuestionarios; tú decides cuáles llevan el sello de <b>verificado</b>, que es lo que
+        los residentes miran y lo que usan las salas en vivo. Verificas lo que puedas, cuando puedas: no bloqueas a nadie.</p>
       <ol class="pasos">
-        <li>Entra al <a href="estudio.html">Estudio</a>. En <b>Para revisar</b> están los temas que esperan.</li>
-        <li>Cada caso muestra la imagen, la pregunta, las opciones con la correcta marcada, la explicación y, al
-          desplegar <b>Evidencia y ficha</b>, la frase textual de la fuente y la leyenda original.</li>
-        <li>Toca <b>Aprobar</b> si está bien, o <b>Pedir cambio</b> y escribe qué corregir.</li>
-        <li>Cuando ya decidiste en todos, toca <b>Terminar revisión</b>. Si prefieres que el autor corrija primero,
-          toca <b>Devolver al autor</b>.</li>
+        <li>Pide el papel de revisor: en el Estudio, botón <b>Pídelo al coordinador</b>. Él lo concede.</li>
+        <li>En <b>Para verificar</b> están los temas con casos por mirar. Aparecen primero los que tienen reportes de
+          usuarios y los que nadie ha revisado.</li>
+        <li>Cada caso se ve como lo verá el residente, y al desplegar <b>Evidencia y ficha</b> tienes la frase textual de
+          la fuente y la leyenda original.</li>
+        <li>Toca <b>Verificar</b> si está bien, o <b>Señalar problema</b> y escribe qué corregir: el autor lo verá.</li>
+        <li>Si un tema está bien en bloque, <b>Verificar todos los que faltan</b> lo hace de una vez.</li>
       </ol>
-      <p class="caja">Solo se publican los casos que apruebes. Si el autor cambia un caso después de tu visto bueno,
-        aparece marcado como «cambió tras tu revisión» y vuelve a esperar tu decisión.</p>
+      <p class="caja">El sello lleva tu nombre y la fecha, y se muestra en la web: «✓ Verificado por…». Si el autor
+        cambia ese caso y lo vuelve a publicar, el sello se retira y vuelve a tu lista.</p>
       <p>Qué mirar en cada caso:</p>
       <ul>
         <li>La imagen muestra lo que dice la pregunta y las marcas coinciden.</li>
@@ -218,13 +229,12 @@
         <li>La licencia permite este uso y la atribución está completa.</li>
       </ul>
       <div class="tabla"><table>
-        <thead><tr><th>Estado</th><th>Qué significa</th><th>¿Sale en la web?</th></tr></thead>
+        <thead><tr><th>Estado</th><th>Qué significa</th><th>Dónde se usa</th></tr></thead>
         <tbody>
-          <tr><td>En preparación</td><td>El autor lo está escribiendo</td><td>No</td></tr>
-          <tr><td>En revisión</td><td>Espera a un radiólogo</td><td>No</td></tr>
-          <tr><td>Cambios pedidos</td><td>Volvió al autor</td><td>No</td></tr>
-          <tr><td>Aprobado</td><td>Revisado; falta que el coordinador publique</td><td>No</td></tr>
-          <tr><td>Publicado</td><td>En práctica y en salas en vivo</td><td>Sí</td></tr>
+          <tr><td>En preparación</td><td>El autor lo está escribiendo</td><td>Solo en el estudio</td></tr>
+          <tr><td>Publicado, sin verificar</td><td>Nadie lo ha revisado todavía</td><td>Práctica (se puede filtrar); en salas, solo si el presentador lo pide</td></tr>
+          <tr><td>Publicado y verificado</td><td>Un radiólogo lo revisó</td><td>Práctica y salas en vivo</td></tr>
+          <tr><td>Con problema señalado</td><td>Un radiólogo pidió corregirlo</td><td>Sigue visible sin sello hasta que el autor lo arregle</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -233,10 +243,11 @@
     <section id="coordinador">
       <h2>Para el coordinador</h2>
       <ol class="pasos">
-        <li><b>Dar acceso:</b> en el estudio, botón <b>Equipo</b>. Ahí aparecen las solicitudes; acepta a cada persona
-          como autor o revisor. También puedes cambiar el papel de alguien o quitarlo.</li>
-        <li><b>Publicar:</b> los temas aprobados aparecen en <b>Listos para publicar</b>. Toca <b>Publicar en la web</b>
-          y en unos 15 minutos el tema está en línea.</li>
+        <li><b>Dar el papel de revisor:</b> en el estudio, botón <b>Equipo</b>. Quien entra con Google ya es autor;
+          ahí aparecen los pedidos de quienes quieren verificar casos. También puedes cambiar el papel de alguien o
+          quitarlo.</li>
+        <li><b>Quitar algo de la web:</b> abre el tema, paso 4, <b>Quitar de la web</b>. El contenido sigue guardado en
+          el estudio, pero desaparece del sitio en la próxima actualización.</li>
         <li><b>Si algo no aparece:</b> mira la pestaña <b>Actions</b> del repositorio en GitHub. Una ✗ roja significa
           que el control automático encontró un problema; el detalle está en el paso «Validar temas».</li>
       </ol>
@@ -264,7 +275,10 @@
           <tr><td>El celular no entra o se queda en «Conectando…»</td><td>La red puede estar bloqueando la conexión: cambia a datos móviles.</td></tr>
           <tr><td>La sala en vivo no conecta en la laptop</td><td>Proyecta el tema en <b>Practicar</b> y que respondan a mano alzada.</td></tr>
           <tr><td>La imagen tarda en aparecer</td><td>Red lenta. Espera unos segundos; la siguiente se descarga de antemano.</td></tr>
-          <tr><td>Un tema dice «En revisión»</td><td>Todavía no tiene casos publicados. Aparecerá cuando un revisor los apruebe.</td></tr>
+          <tr><td>Un tema dice «En revisión»</td><td>Todavía no tiene casos publicados en la web.</td></tr>
+          <tr><td>Mi caso aparece «Sin verificar»</td><td>Está publicado y se puede practicar; falta que un radiólogo le ponga el sello.</td></tr>
+          <tr><td>No veo el botón «Equipo»</td><td>Solo lo ve el coordinador.</td></tr>
+          <tr><td>No puedo verificar casos</td><td>Pide el papel de revisor desde el Estudio; el coordinador lo concede. Nadie verifica sus propios casos.</td></tr>
           <tr><td>El presentador perdió el control de la sala</td><td>Pasa si cambió de computadora o de navegador. Crear una sala nueva y compartir el código.</td></tr>
           <tr><td>El estudio marca problemas en rojo</td><td>Cada línea dice qué falta en ese caso. Puedes corregirlo a mano o tocar «Pedir a la IA que corrija».</td></tr>
           <tr><td>«No encontré ningún JSON en la respuesta»</td><td>Tu IA contestó con texto. Pídele: «devuelve solo el JSON, sin explicaciones».</td></tr>

@@ -16,7 +16,10 @@ Qué es error y qué es aviso:
 - Error: algo roto o prohibido (formato, imagen que falta o pesa demasiado, respuesta
   fuera de rango, HTML en los textos, fuente bloqueada, figura ND modificada...).
 - Aviso: algo pendiente o sospechoso. En un caso «borrador» lo pendiente es aviso;
-  en «revisado» o «publicado» pasa a ser error.
+  en «publicado» pasa a ser error.
+
+Un caso publicado con «revisor» es un caso verificado por un radiólogo; sin «revisor»
+se publica igual, y la web lo muestra como «sin verificar».
 """
 
 import argparse
@@ -404,7 +407,7 @@ def validar_imagenes(carpeta, imagenes, fuentes, usadas, rep):
 def validar_caso(caso, paquete_id, imagenes, fuentes, ids_globales, rep):
     cid = caso.get("id", "?")
     estado = caso.get("estado")
-    exigente = estado in ("revisado", "publicado")
+    exigente = estado == "publicado"
 
     id_global = "%s/%s" % (paquete_id, cid)
     if id_global in ids_globales:
@@ -448,11 +451,9 @@ def validar_caso(caso, paquete_id, imagenes, fuentes, ids_globales, rep):
     faltan = []
     if not evidencia:
         faltan.append("evidencia")
+    if revisor and not caso.get("fecha_revision"):
+        faltan.append("fecha_revision")
     if exigente:
-        if not revisor:
-            faltan.append("revisor")
-        if not caso.get("fecha_revision"):
-            faltan.append("fecha_revision")
         for r in refs:
             img = imagenes.get(r.get("ref"))
             if isinstance(img, dict):
@@ -517,6 +518,11 @@ def validar_paquete(carpeta, esquemas, ids_globales):
     casos = [c for c in casos if isinstance(c, dict)]
     usadas = {r.get("ref") for c in casos for r in c.get("imagenes", []) if isinstance(r, dict)}
 
+    personas = paquete.get("personas", {}) if isinstance(paquete.get("personas"), dict) else {}
+    for caso in (c for c in casos if c.get("estado") == "publicado"):
+        for quien in (caso.get("autor"), caso.get("revisor")):
+            if quien and quien not in personas:
+                rep.aviso(caso.get("id", "?"), "falta el nombre visible de «%s» en «personas»" % quien)
     citadas = {img.get("fuente") for img in imagenes.values() if isinstance(img, dict)}
     citadas |= {ev.get("fuente") for c in casos for ev in c.get("evidencia", []) if isinstance(ev, dict)}
     validar_fuentes(fuentes_ok, citadas, rep)
@@ -525,7 +531,8 @@ def validar_paquete(carpeta, esquemas, ids_globales):
         validar_caso(caso, paquete.get("id", carpeta.name), imagenes, fuentes_ok, ids_globales, rep)
     estadisticas(casos, rep)
 
-    por_estado = {e: sum(1 for c in casos if c.get("estado") == e) for e in ("borrador", "revisado", "publicado")}
+    por_estado = {e: sum(1 for c in casos if c.get("estado") == e) for e in ("borrador", "publicado")}
+    por_estado["verificado"] = sum(1 for c in casos if c.get("estado") == "publicado" and c.get("revisor"))
     resumen = {
         "ruta": "%s/%s" % (carpeta.parent.name, carpeta.name),
         "id": paquete.get("id"),
@@ -563,8 +570,8 @@ def main():
         rep.imprimir(carpeta.relative_to(RAIZ).as_posix() if carpeta.is_relative_to(RAIZ) else str(carpeta))
         if resumen:
             c = resumen["casos"]
-            print("  casos: %d borrador · %d revisado · %d publicado"
-                  % (c["borrador"], c["revisado"], c["publicado"]))
+            print("  casos: %d borrador · %d publicado (%d verificados)"
+                  % (c["borrador"], c["publicado"], c["verificado"]))
             resumenes.append(resumen)
         print()
         total_err += rep.errores

@@ -11,35 +11,36 @@ import { firebaseConfig } from "./firebase-config.js";
 import { $, esc, md, SEGMENTOS, credito } from "./comun.js";
 import {
   LICENCIAS, MODALIDADES, lista, slug, idImagen, validarTema, validarCaso, casosOrdenados,
-  imagenesOrdenadas, estadoRevision, aPaquete,
+  imagenesOrdenadas, estadoVerificacion, aPaquete,
 } from "./validacion.js";
 import { instruccionesIA, instruccionesCorreccion, leerRespuestaIA } from "./instrucciones-ia.js";
 
 const LETRAS = "ABCDE";
 const ESTADOS = {
   borrador: { texto: "En preparación", clase: "borrador" },
-  en_revision: { texto: "En revisión", clase: "revision" },
-  cambios: { texto: "Cambios pedidos", clase: "cambios" },
-  aprobado: { texto: "Aprobado, falta publicar", clase: "aprobado" },
   publicado: { texto: "Publicado", clase: "publicado" },
 };
 const app = $("#app");
 // La sala en vivo deja una sesión anónima en el navegador; en el estudio siempre se entra con Google.
-const modoPrueba = location.hostname === "localhost" && new URLSearchParams(location.search).has("prueba");
+const modoPrueba = ["localhost", "127.0.0.1"].includes(location.hostname) && new URLSearchParams(location.search).has("prueba");
 
 let db, auth, usuario = null, perfil = null;
-let temas = {}, solicitudes = {}, miembros = {};
+let temas = {}, solicitudes = {}, miembros = {}, verificaciones = {}, reportes = {};
 let imagenesTema = {};      // dataURL por id de imagen del tema abierto
 let temaAbierto = null;
 let paso = "fuente";
 let editando = null;        // id del caso que se está editando (bloquea el redibujado)
 let cargandoImagenes = false;
+let ordenVerificacion = null;   // el orden se fija al abrir el tema para que no salte al decidir
 
 const hoy = () => new Date().toISOString().slice(0, 10);
 const esCoord = () => perfil?.rol === "coordinador";
 const esRevisor = () => perfil?.rol === "revisor" || esCoord();
 const soyAutor = (t) => t?.meta?.autor_uid === usuario?.uid;
-const puedeEditar = (t) => t && (esCoord() || (soyAutor(t) && ["borrador", "cambios", "publicado"].includes(t.meta.estado)));
+const puedeEditar = (t) => t && (esCoord() || soyAutor(t));
+const vercaso = (temaId, casoId) => (verificaciones[temaId] || {})[casoId];
+const reportesDe = (temaId, casoId) => Object.values((reportes[temaId] || {})[casoId] || {});
+const sinPublicar = (t) => t.meta.estado === "publicado" && (t.meta.actualizado || 0) > (t.meta.publicado_en || 0);
 
 // ------------------------------------------------------------------ utilidades
 function aviso(texto, malo = false) {
@@ -120,9 +121,7 @@ function temaActual() {
 }
 
 async function guardarMeta(id, cambios) {
-  const t = normalizarTema(id, temas[id]);
-  const estado = t.meta.estado === "publicado" && !cambios.estado ? "borrador" : cambios.estado || t.meta.estado;
-  await update(ref(db, `estudio/${id}/meta`), { ...cambios, estado, actualizado: serverTimestamp() });
+  await update(ref(db, `estudio/${id}/meta`), { ...cambios, actualizado: serverTimestamp() });
 }
 
 // ------------------------------------------------------------------ imágenes
@@ -183,76 +182,86 @@ function entrar() {
   }
 }
 
-function solicitarAcceso() {
-  const pedido = solicitudes[usuario.uid];
-  if (pedido) {
-    app.innerHTML = `<section class="panel" style="display:grid;gap:10px;max-width:620px">
-      <h2>Solicitud enviada</h2>
-      <p>Pediste acceso como <b>${esc(pedido.rol)}</b>. El coordinador la revisará. Vuelve a entrar más tarde.</p>
-      <div class="row"><button id="salir">Salir</button></div></section>`;
-    $("#salir").onclick = () => signOut(auth);
-    return;
+async function altaAutomatica() {
+  const correo = usuario.email || "";
+  const base = slug(correo.split("@")[0]).replace(/-/g, "") || "autor";
+  const nombre = usuario.displayName || correo.split("@")[0] || "Autor";
+  try {
+    await set(ref(db, `usuarios/${usuario.uid}`), {
+      nombre, usuario: `${base}-${usuario.uid.slice(0, 4).toLowerCase()}`, email: correo, rol: "autor", alta: serverTimestamp(),
+    });
+  } catch (e) {
+    app.innerHTML = panel("No se pudo crear tu acceso", e.code || e.message);
   }
-  app.innerHTML = `<form class="panel" id="pedir" style="display:grid;gap:12px;max-width:620px">
-    <h2>Pedir acceso</h2>
-    <p class="muted">Entraste como ${esc(usuario.email || "")}. Dinos quién eres para darte acceso.</p>
-    <label class="grid-label">Tu nombre completo<input type="text" id="nombre" maxlength="60" value="${esc(usuario.displayName || "")}" required></label>
-    <label class="grid-label">¿Qué vas a hacer?
-      <select id="rol">
-        <option value="autor">Preparar cuestionarios (autor)</option>
-        <option value="revisor">Revisar y aprobar casos (radiólogo revisor)</option>
-      </select></label>
-    <label class="grid-label">Mensaje para el coordinador (opcional)<input type="text" id="mensaje" maxlength="200" placeholder="R2 de radiología, HNERM"></label>
-    <div class="row"><button class="primary" type="submit">Enviar solicitud</button><button type="button" id="salir">Salir</button></div>
-  </form>`;
-  $("#salir").onclick = () => signOut(auth);
-  $("#pedir").onsubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await set(ref(db, `solicitudes/${usuario.uid}`), {
-        nombre: $("#nombre").value.trim(), email: usuario.email, rol: $("#rol").value,
-        mensaje: $("#mensaje").value.trim(), fecha: serverTimestamp(),
-      });
-      aviso("Solicitud enviada.");
-    } catch (err) {
-      aviso("No se pudo enviar: " + (err.code || err.message), true);
-    }
-  };
+}
+
+async function pedirSerRevisor() {
+  const mensaje = prompt("¿Quién eres? (se lo mostramos al coordinador)", perfil.nombre) || "";
+  try {
+    await set(ref(db, `solicitudes/${usuario.uid}`), {
+      nombre: perfil.nombre, email: usuario.email, rol: "revisor", mensaje: mensaje.slice(0, 200), fecha: serverTimestamp(),
+    });
+    aviso("Pedido enviado al coordinador.");
+  } catch (e) {
+    aviso("No se pudo enviar: " + (e.code || e.message), true);
+  }
 }
 
 // ------------------------------------------------------------------ inicio
+function cuentas(t) {
+  const casos = casosOrdenados(t);
+  let verificados = 0, problemas = 0, reportados = 0;
+  for (const c of casos) {
+    const estado = estadoVerificacion(c, vercaso(t.id, c.id));
+    if (estado === "verificado") verificados += 1;
+    if (estado === "problema") problemas += 1;
+    if (reportesDe(t.id, c.id).length) reportados += 1;
+  }
+  return { casos: casos.length, verificados, problemas, reportados };
+}
+
 function tarjetaTema(t) {
-  const casos = casosOrdenados(t).length;
+  const n = cuentas(t);
   const mio = soyAutor(t);
+  const puedeVerificar = esRevisor() && !mio && t.meta.estado === "publicado";
   return `<article class="panel tema-card">
     <div class="row" style="justify-content:space-between"><h3>${esc(t.meta.titulo || t.id)}</h3>${chipEstado(t.meta.estado)}</div>
-    <p class="meta">${esc(SEGMENTOS[t.meta.segmento] || t.meta.segmento || "")} · ${casos} casos · ${esc(t.meta.autor_nombre || "")}${mio ? " (tú)" : ""}</p>
-    <div class="row"><a class="boton" href="#/tema/${esc(t.id)}">${puedeEditar(t) ? "Abrir" : esRevisor() && t.meta.estado === "en_revision" && !mio ? "Revisar" : "Ver"}</a></div>
+    <p class="meta">${esc(SEGMENTOS[t.meta.segmento] || t.meta.segmento || "")} · ${n.casos} casos · ${esc(t.meta.autor_nombre || "")}${mio ? " (tú)" : ""}</p>
+    <p class="meta">${n.verificados} ${n.verificados === 1 ? "verificado" : "verificados"}${n.problemas ? ` · ${n.problemas} con problema` : ""}${n.reportados ? ` · ${n.reportados} reportados` : ""}${sinPublicar(t) ? " · cambios sin publicar" : ""}</p>
+    <div class="row"><a class="boton" href="#/tema/${esc(t.id)}">${puedeEditar(t) ? "Abrir" : puedeVerificar ? "Verificar" : "Ver"}</a></div>
   </article>`;
 }
 
 function inicio() {
   const todos = Object.entries(temas).map(([id, t]) => normalizarTema(id, t));
   const mios = todos.filter((t) => soyAutor(t));
-  const paraRevisar = todos.filter((t) => t.meta.estado === "en_revision" && !soyAutor(t) && esRevisor());
-  const paraPublicar = todos.filter((t) => t.meta.estado === "aprobado" && esCoord());
-  const otros = todos.filter((t) => !mios.includes(t) && !paraRevisar.includes(t) && !paraPublicar.includes(t));
+  const porVerificar = esRevisor()
+    ? todos.filter((t) => t.meta.estado === "publicado" && !soyAutor(t))
+        .map((t) => ({ t, n: cuentas(t) }))
+        .filter(({ n }) => n.reportados || n.verificados < n.casos)
+        .sort((a, b) => (b.n.reportados - a.n.reportados) || ((b.n.casos - b.n.verificados) - (a.n.casos - a.n.verificados)))
+        .map(({ t }) => t)
+    : [];
+  const otros = todos.filter((t) => !mios.includes(t) && !porVerificar.includes(t));
   const pendientes = Object.keys(solicitudes).length;
   const bloque = (titulo, lista_, vacio) => `<section class="segmento">
     <h2>${titulo}</h2>
     ${lista_.length ? `<div class="temas">${lista_.map(tarjetaTema).join("")}</div>` : `<p class="muted">${vacio}</p>`}</section>`;
 
   app.innerHTML = `<div style="display:grid;gap:22px">
-    ${esCoord() && pendientes ? `<p class="caja">Hay ${pendientes} solicitud(es) de acceso. <a href="#/equipo">Revisar</a></p>` : ""}
-    ${esRevisor() ? bloque("Para revisar", paraRevisar, "Nada pendiente de revisión.") : ""}
-    ${esCoord() ? bloque("Listos para publicar", paraPublicar, "Nada listo para publicar.") : ""}
+    ${esCoord() && pendientes ? `<p class="caja">Hay ${pendientes} pedido(s) para verificar casos. <a href="#/equipo">Ver</a></p>` : ""}
+    ${esRevisor() ? bloque("Para verificar", porVerificar,
+        "Todo verificado. Los temas con casos reportados o sin verificar aparecen aquí primero.") : ""}
     <section class="segmento">
       <div class="row" style="justify-content:space-between"><h2>Mis temas</h2>
         <a class="boton primary" href="#/nuevo">Nuevo cuestionario</a></div>
-      ${mios.length ? `<div class="temas">${mios.map(tarjetaTema).join("")}</div>` : `<p class="muted">Todavía no creaste ninguno.</p>`}
+      ${mios.length ? `<div class="temas">${mios.map(tarjetaTema).join("")}</div>` : `<p class="muted">Todavía no creaste ninguno. Cualquiera puede publicar; los radiólogos ponen el sello de verificado.</p>`}
     </section>
-    ${otros.length ? bloque("Otros temas del equipo", otros, "") : ""}
+    ${otros.length ? bloque("Otros temas", otros, "") : ""}
+    ${perfil.rol === "autor" ? `<p class="src">¿Eres radiólogo y quieres verificar casos? <button id="pedir-revisor">Pídelo al coordinador</button></p>` : ""}
   </div>`;
+  const boton = $("#pedir-revisor");
+  if (boton) boton.onclick = pedirSerRevisor;
 }
 
 // ------------------------------------------------------------------ equipo (coordinador)
@@ -261,14 +270,14 @@ function equipo() {
   const gente = Object.entries(miembros);
   app.innerHTML = `<div style="display:grid;gap:20px">
     <div class="row"><a class="boton" href="#/">Volver</a></div>
-    <section class="segmento"><h2>Solicitudes de acceso</h2>
+    <section class="segmento"><h2>Pedidos para verificar casos</h2>
       ${pedidos.length ? pedidos.map(([uid, s]) => `<div class="panel" style="display:grid;gap:8px">
         <b>${esc(s.nombre)}</b><p class="src">${esc(s.email)} · pide ser ${esc(s.rol)}${s.mensaje ? ` · «${esc(s.mensaje)}»` : ""}</p>
         <div class="row">
-          <button class="primary" data-alta="${esc(uid)}" data-rol="autor">Aceptar como autor</button>
-          <button data-alta="${esc(uid)}" data-rol="revisor">Aceptar como revisor</button>
+          <button class="primary" data-alta="${esc(uid)}" data-rol="revisor">Aceptar como revisor</button>
+          <button data-alta="${esc(uid)}" data-rol="coordinador">Hacer coordinador</button>
           <button data-rechazar="${esc(uid)}">Rechazar</button>
-        </div></div>`).join("") : `<p class="muted">No hay solicitudes.</p>`}
+        </div></div>`).join("") : `<p class="muted">No hay pedidos.</p>`}
     </section>
     <section class="segmento"><h2>Equipo</h2>
       ${gente.length ? `<div class="tabla"><table><thead><tr><th>Nombre</th><th>Usuario</th><th>Papel</th><th></th></tr></thead><tbody>
@@ -295,13 +304,11 @@ function equipo() {
 async function aceptar(uid, rol) {
   const s = solicitudes[uid];
   if (!s) return;
-  let usuarioSlug = slug(s.email.split("@")[0]).replace(/-/g, "") || "usuario";
-  const usados = new Set(Object.values(miembros).map((m) => m.usuario));
-  let n = 2;
-  while (usados.has(usuarioSlug)) usuarioSlug = `${usuarioSlug}${n++}`;
-  await set(ref(db, `usuarios/${uid}`), { nombre: s.nombre, usuario: usuarioSlug, email: s.email, rol, alta: serverTimestamp() });
+  const actual = miembros[uid];
+  const usuarioSlug = actual?.usuario || `${slug(s.email.split("@")[0]).replace(/-/g, "")}-${uid.slice(0, 4).toLowerCase()}`;
+  await set(ref(db, `usuarios/${uid}`), { nombre: s.nombre, usuario: usuarioSlug, email: s.email, rol, alta: actual?.alta || serverTimestamp() });
   await remove(ref(db, `solicitudes/${uid}`));
-  aviso(`${s.nombre} entró como ${rol}.`);
+  aviso(`${s.nombre} ahora es ${rol}.`);
 }
 
 // ------------------------------------------------------------------ tema nuevo
@@ -343,29 +350,24 @@ function temaNuevo() {
 function vistaTema() {
   const t = temaActual();
   if (!t) return (app.innerHTML = `<p class="muted">Cargando…</p>`);
-  const revisando = esRevisor() && !soyAutor(t) && ["en_revision", "aprobado"].includes(t.meta.estado);
-  const publicando = esCoord() && t.meta.estado === "aprobado";
+  const revisando = esRevisor() && !soyAutor(t) && t.meta.estado === "publicado" && !puedeEditar(t);
   const cabecera = `<div class="row" style="justify-content:space-between;align-items:baseline">
       <div><a class="src" href="#/">← Todos los temas</a><h1>${esc(t.meta.titulo)}</h1>
         <p class="muted">${esc(SEGMENTOS[t.meta.segmento] || "")} · ${esc(t.meta.autor_nombre || "")} · ${chipEstado(t.meta.estado)}</p></div>
     </div>`;
-  if (publicando) return (app.innerHTML = cabecera + panelPublicar(t)), enlazarPublicar(t);
-  if (revisando) return (app.innerHTML = cabecera + panelRevision(t)), enlazarRevision(t);
+  if (revisando) return (app.innerHTML = cabecera + panelVerificacion(t)), enlazarVerificacion(t);
   if (!puedeEditar(t)) return (app.innerHTML = cabecera + panelSoloLectura(t)), null;
   app.innerHTML = cabecera + editor(t);
   enlazarEditor(t);
 }
 
 function panelSoloLectura(t) {
-  const v = validarTema(t);
+  const n = cuentas(t);
   return `<section class="panel" style="display:grid;gap:10px">
     <h2>${ESTADOS[t.meta.estado].texto}</h2>
-    <p class="muted">${t.meta.estado === "en_revision"
-      ? "Un revisor lo está mirando. Puedes retirarlo para seguir editando."
-      : "Solo el autor o el coordinador pueden editarlo."}</p>
-    <p class="src">${casosOrdenados(t).length} casos · ${v.errores} errores · ${v.avisos} avisos</p>
-    ${soyAutor(t) && t.meta.estado === "en_revision" ? `<div class="row"><button id="retirar">Retirar de revisión</button></div>` : ""}
-    </section>` + (soyAutor(t) && t.meta.estado === "en_revision" ? "<script></script>" : "");
+    <p class="muted">Solo su autor o el coordinador pueden editarlo.</p>
+    <p class="src">${n.casos} casos · ${n.verificados} verificados</p>
+  </section>`;
 }
 
 // ---------- editor del autor
@@ -375,7 +377,7 @@ function pasos(t, v) {
     ["fuente", `${marca(!v.fuente.some((p) => p.tipo === "error"))} 1. Fuente`],
     ["imagenes", `${marca(imagenesOrdenadas(t).length && !Object.values(v.imagenes).flat().some((p) => p.tipo === "error"))} 2. Imágenes`],
     ["casos", `${marca(casosOrdenados(t).length && !Object.values(v.casos).flat().some((p) => p.tipo === "error"))} 3. Casos`],
-    ["enviar", `${marca(v.errores === 0)} 4. Enviar`],
+    ["publicar", `${marca(v.errores === 0)} 4. Publicar`],
   ];
   return `<nav class="pasos-nav">${items.map(([id, texto]) =>
     `<button class="paso ${paso === id ? "activo" : ""}" data-paso="${id}">${texto}</button>`).join("")}</nav>`;
@@ -383,9 +385,12 @@ function pasos(t, v) {
 
 function editor(t) {
   const v = validarTema(t);
-  const cuerpo = { fuente: pasoFuente, imagenes: pasoImagenes, casos: pasoCasos, enviar: pasoEnviar }[paso](t, v);
-  const comentarios = t.meta.estado === "cambios" ? `<p class="caja">El revisor pidió cambios. Cada caso con pedido aparece marcado en el paso 3.</p>` : "";
-  return pasos(t, v) + comentarios + cuerpo;
+  const cuerpo = { fuente: pasoFuente, imagenes: pasoImagenes, casos: pasoCasos, publicar: pasoPublicar }[paso](t, v);
+  const n = cuentas(t);
+  const aviso_ = t.meta.estado === "publicado" && (n.problemas || n.reportados)
+    ? `<p class="caja">Hay ${n.problemas ? `${n.problemas} caso(s) marcados con problema por un radiólogo` : ""}${n.problemas && n.reportados ? " y " : ""}${n.reportados ? `${n.reportados} con reportes de usuarios` : ""}. Están marcados en el paso 3.</p>`
+    : "";
+  return pasos(t, v) + aviso_ + cuerpo;
 }
 
 function pasoFuente(t, v) {
@@ -450,17 +455,27 @@ function pasoImagenes(t, v) {
   </section>`;
 }
 
+function selloCaso(temaId, caso) {
+  const ver = vercaso(temaId, caso.id);
+  const estado = estadoVerificacion(caso, ver);
+  if (estado === "verificado") return `<span class="sello">✓ Verificado por ${esc(ver.nombre)}</span>`;
+  if (estado === "problema") return `<span class="sello malo">Problema señalado por ${esc(ver.nombre)}</span>`;
+  if (estado === "cambiado") return `<span class="sello">Cambió tras la verificación</span>`;
+  return `<span class="sello sin">Sin verificar</span>`;
+}
+
 function tarjetaCaso(t, caso, v) {
   const orden = lista(caso.imagenes).filter((r) => r.mostrar_en === "pregunta");
-  const rev = t.revision[caso.id];
-  const estado = estadoRevision(caso, rev);
-  const pedido = rev && rev.decision === "cambios";
-  return `<div class="panel caso-card ${pedido ? "con-cambios" : ""}" style="display:grid;gap:8px">
+  const ver = vercaso(t.id, caso.id);
+  const estado = estadoVerificacion(caso, ver);
+  const reportados = reportesDe(t.id, caso.id);
+  return `<div class="panel caso-card ${estado === "problema" || reportados.length ? "con-cambios" : ""}" style="display:grid;gap:8px">
     <div class="row" style="justify-content:space-between">
       <span class="tema">${esc(caso.tema || "sin subtema")}</span>
-      <span class="src">${caso.tipo === "concepto" ? "concepto" : "imagen"}${rev ? ` · ${estado === "aprobado" ? "aprobado" : estado === "cambiado" ? "cambió tras la revisión" : "cambios pedidos"}` : ""}</span>
+      <span class="src">${caso.tipo === "concepto" ? "concepto" : "imagen"} · ${selloCaso(t.id, caso)}</span>
     </div>
-    ${pedido && rev.comentario ? `<p class="caja">Revisor: «${esc(rev.comentario)}»</p>` : ""}
+    ${estado === "problema" && ver.comentario ? `<p class="caja">${esc(ver.nombre)}: «${esc(ver.comentario)}»</p>` : ""}
+    ${reportados.map((r) => `<p class="caja">Reporte de un usuario: «${esc(r.texto)}»</p>`).join("")}
     <div class="md">${md(caso.enunciado || "")}</div>
     ${orden.length ? `<div class="row">${orden.map((r) => `<img class="miniatura chica" src="${imagenesTema[r.ref] || ""}" alt="" data-zoom>`).join("")}</div>` : ""}
     <ol class="opciones-lista">${lista(caso.opciones).map((o, i) => `<li class="${i === caso.correcta ? "correcta" : ""}">${esc(o)}</li>`).join("")}</ol>
@@ -547,51 +562,68 @@ function formularioCaso(t, id) {
   </section>`;
 }
 
-function pasoEnviar(t, v) {
+function pasoPublicar(t, v) {
   const casos = casosOrdenados(t);
   const conError = casos.filter((c) => v.casos[c.id].some((p) => p.tipo === "error")).length;
+  const n = cuentas(t);
+  const publicado = t.meta.estado === "publicado";
   return `<section class="panel" style="display:grid;gap:12px">
-    <h2>4. Enviar a revisión</h2>
+    <h2>4. Publicar</h2>
     <div class="tabla"><table><tbody>
       <tr><td>Fuente y licencia</td><td>${v.fuente.some((p) => p.tipo === "error") ? "Falta completar" : "Lista"}</td></tr>
       <tr><td>Imágenes</td><td>${imagenesOrdenadas(t).length}</td></tr>
       <tr><td>Casos</td><td>${casos.length}${conError ? ` · ${conError} con problemas` : ""}</td></tr>
       <tr><td>Avisos</td><td>${v.avisos}</td></tr>
+      ${publicado ? `<tr><td>Verificados</td><td>${n.verificados} de ${n.casos}</td></tr>` : ""}
     </tbody></table></div>
-    ${v.errores ? `<p class="caja">Faltan ${v.errores} cosas por corregir. Revisa los pasos marcados con •.</p>`
-      : `<p class="caja">Todo listo. Al enviarlo, un radiólogo revisará caso por caso.</p>`}
+    ${v.errores
+      ? `<p class="caja">Faltan ${v.errores} cosas por corregir. Revisa los pasos marcados con •.</p>`
+      : `<p class="caja">Al publicar, los casos quedan disponibles en la web como <b>sin verificar</b>. Cualquier radiólogo
+          del equipo puede ponerles el sello de verificado; mientras tanto, las salas en vivo no los usan salvo que el
+          presentador lo pida.</p>`}
     <div class="row">
-      <button class="primary" id="enviar" ${v.errores ? "disabled" : ""}>Enviar a revisión</button>
+      <button class="primary" id="publicar" ${v.errores ? "disabled" : ""}>
+        ${publicado ? (sinPublicar(t) ? "Publicar cambios" : "Volver a publicar") : "Publicar"}</button>
+      ${publicado && esCoord() ? `<button id="despublicar">Quitar de la web</button>` : ""}
       <button id="borrar-tema">Borrar este tema</button>
     </div>
+    ${publicado ? `<p class="src">Publicado el ${new Date(t.meta.publicado_en || Date.now()).toLocaleDateString("es-PE")}. La web se actualiza sola en unos 15 minutos.</p>` : ""}
   </section>`;
 }
 
 // ---------- revisión
-function panelRevision(t) {
+function panelVerificacion(t) {
   const casos = casosOrdenados(t);
-  const cuenta = { aprobado: 0, cambios: 0, pendiente: 0, cambiado: 0 };
-  casos.forEach((c) => { cuenta[estadoRevision(c, t.revision[c.id])] += 1; });
+  if (!ordenVerificacion) {
+    const peso = { problema: 0, "sin verificar": 1, cambiado: 2, verificado: 3 };
+    ordenVerificacion = casos
+      .map((c) => ({ id: c.id, estado: estadoVerificacion(c, vercaso(t.id, c.id)), reportes: reportesDe(t.id, c.id).length }))
+      .sort((a, b) => (b.reportes - a.reportes) || (peso[a.estado] - peso[b.estado]))
+      .map((x) => x.id);
+  }
+  const porId = new Map(casos.map((c) => [c.id, c]));
+  const conPrioridad = ordenVerificacion.filter((id) => porId.has(id)).map((id) => ({ c: porId.get(id) }));
+  const n = cuentas(t);
   return `<section style="display:grid;gap:14px">
-    <p class="caja">Revisa cada caso como lo verá el residente. Aprueba los que estén bien y pide cambios en los demás.
-      Solo se publican los aprobados.</p>
-    <div class="row"><span class="chip">${cuenta.aprobado} aprobados</span><span class="chip">${cuenta.cambios} con cambios</span>
-      <span class="chip">${cuenta.pendiente + cuenta.cambiado} sin revisar</span></div>
-    ${casos.map((c) => casoRevisable(t, c)).join("")}
-    <div class="ctrl">
-      <button class="primary" id="aprobar-tema" ${cuenta.pendiente + cuenta.cambiado ? "disabled" : ""}>Terminar revisión</button>
-      <button id="devolver">Devolver al autor</button>
-    </div></section>`;
+    <p class="caja">Verifica lo que puedas: cada caso que apruebes queda con tu nombre y se marca como verificado en la
+      web. Arriba aparecen primero los casos reportados y los que nadie ha mirado.</p>
+    <div class="row"><span class="chip">${n.verificados} ${n.verificados === 1 ? "verificado" : "verificados"} de ${n.casos}</span>
+      ${n.reportados ? `<span class="chip">${n.reportados} con reportes</span>` : ""}
+      <button id="verificar-todo">Verificar todos los que faltan</button></div>
+    ${conPrioridad.map(({ c }) => casoVerificable(t, c)).join("")}
+  </section>`;
 }
 
-function casoRevisable(t, caso) {
-  const rev = t.revision[caso.id];
-  const estado = estadoRevision(caso, rev);
+function casoVerificable(t, caso) {
+  const ver = vercaso(t.id, caso.id);
+  const estado = estadoVerificacion(caso, ver);
   const refs = lista(caso.imagenes);
   const v = validarCaso(caso, t.imagenes);
-  return `<section class="panel caso-revision ${estado}" style="display:grid;gap:10px">
+  const reportados = reportesDe(t.id, caso.id);
+  return `<section class="panel caso-revision ${estado === "verificado" ? "aprobado" : estado === "problema" ? "cambios" : estado === "cambiado" ? "cambiado" : ""}" style="display:grid;gap:10px">
     <div class="row" style="justify-content:space-between"><span class="tema">${esc(caso.tema || "")}</span>
-      <span class="src">${estado === "aprobado" ? "✓ aprobado" : estado === "cambios" ? "cambios pedidos" : estado === "cambiado" ? "cambió tras tu revisión" : "sin revisar"}</span></div>
+      <span class="src">${selloCaso(t.id, caso)}</span></div>
+    ${reportados.map((r) => `<p class="caja">Reporte de un usuario: «${esc(r.texto)}»</p>`).join("")}
     <div class="stage ${refs.length ? "" : "sin-imagen"}">
       ${refs.length ? `<div class="viewer">${refs.map((r) => `<figure><img src="${imagenesTema[r.ref] || ""}" alt="" data-zoom>
         <figcaption class="cap"><span>${esc((t.imagenes[r.ref] || {}).figura || "")} · ${r.mostrar_en === "respuesta" ? "solo en la respuesta" : "en la pregunta"}</span></figcaption></figure>`).join("")}</div>` : ""}
@@ -608,24 +640,11 @@ function casoRevisable(t, caso) {
       ${refs.map((r) => `<p class="src">${esc((t.imagenes[r.ref] || {}).figura || "")}: ${esc((t.imagenes[r.ref] || {}).leyenda_original || "sin leyenda")}</p>`).join("")}
     </details>
     ${problemasHTML(v)}
-    ${rev?.comentario ? `<p class="src">Tu comentario: «${esc(rev.comentario)}»</p>` : ""}
+    ${ver?.comentario ? `<p class="src">Comentario: «${esc(ver.comentario)}»</p>` : ""}
     <div class="row">
-      <button class="primary" data-aprobar="${esc(caso.id)}">Aprobar</button>
-      <button data-cambios="${esc(caso.id)}">Pedir cambio</button>
+      <button class="primary" data-verificar="${esc(caso.id)}">Verificar</button>
+      <button data-problema="${esc(caso.id)}">Señalar problema</button>
     </div>
-  </section>`;
-}
-
-function panelPublicar(t) {
-  const { paquete } = aPaquete(t, t.meta.version || "0.1.0");
-  const casos = casosOrdenados(t);
-  const aprobados = paquete.casos.length;
-  return `<section class="panel" style="display:grid;gap:12px">
-    <h2>Publicar</h2>
-    <p>Se ${aprobados === 1 ? "publicará <b>1</b> caso aprobado" : `publicarán <b>${aprobados}</b> casos aprobados`} de ${casos.length}. Los demás quedan guardados sin publicar.</p>
-    <p class="muted">La web se actualiza sola en unos 15 minutos.</p>
-    <div class="row"><button class="primary" id="publicar" ${aprobados ? "" : "disabled"}>Publicar en la web</button>
-      <button id="devolver-revision">Devolver a revisión</button></div>
   </section>`;
 }
 
@@ -684,17 +703,52 @@ function enlazarEditor(t) {
       $("#evidencias").append(fila);
     };
   }
-  if (paso === "enviar") {
-    $("#enviar").onclick = async () => {
-      await guardarMeta(id, { estado: "en_revision" });
-      aviso("Enviado a revisión.");
+  if (paso === "publicar") {
+    $("#publicar").onclick = () => publicar(t);
+    const quitar = $("#despublicar");
+    if (quitar) quitar.onclick = async () => {
+      if (!confirm("¿Quitar este tema de la web? Los casos siguen guardados en el estudio.")) return;
+      await remove(ref(db, `publicacion/${id}`)).catch(() => {});
+      await remove(ref(db, `publicacion_img/${id}`)).catch(() => {});
+      await guardarMeta(id, { estado: "borrador" });
+      aviso("Quitado de la web. Tarda unos 15 minutos en desaparecer.");
     };
     $("#borrar-tema").onclick = async () => {
       if (!confirm("¿Borrar el tema completo? No se puede deshacer.")) return;
+      await remove(ref(db, `publicacion/${id}`)).catch(() => {});
+      await remove(ref(db, `publicacion_img/${id}`)).catch(() => {});
       await remove(ref(db, `estudio_img/${id}`)).catch(() => {});
       await remove(ref(db, `estudio/${id}`));
       location.hash = "#/";
     };
+
+async function publicar(t) {
+  const partes = (t.meta.version || "0.1.0").split(".").map(Number);
+  const version = t.meta.estado === "publicado" ? `${partes[0]}.${partes[1] + 1}.0` : t.meta.version || "0.1.0";
+  const { paquete, fuentes, imagenesUsadas, actualizados } = aPaquete(t, version);
+  const imagenes = {};
+  for (const id of imagenesUsadas) imagenes[id] = imagenesTema[id];
+  try {
+    await update(ref(db), {
+      [`publicacion/${t.id}`]: {
+        paquete_json: JSON.stringify(paquete),
+        fuentes_json: JSON.stringify(fuentes),
+        actualizados,
+        segmento: paquete.segmento,
+        version,
+        fecha: serverTimestamp(),
+        por: perfil.nombre,
+      },
+      [`publicacion_img/${t.id}`]: imagenes,
+      [`estudio/${t.id}/meta/estado`]: "publicado",
+      [`estudio/${t.id}/meta/version`]: version,
+      [`estudio/${t.id}/meta/publicado_en`]: serverTimestamp(),
+    });
+    aviso("Publicado. Aparece en la web en unos 15 minutos.");
+  } catch (e) {
+    aviso("No se pudo publicar: " + (e.code || e.message), true);
+  }
+}
   }
 }
 
@@ -894,66 +948,38 @@ async function cargarRespuesta(t) {
 }
 
 // ------------------------------------------------------------------ acciones de revisión y publicación
-function enlazarRevision(t) {
-  app.querySelectorAll("[data-aprobar]").forEach((b) => {
-    b.onclick = () => decidir(t, b.dataset.aprobar, "aprobado", "");
+function enlazarVerificacion(t) {
+  app.querySelectorAll("[data-verificar]").forEach((b) => {
+    b.onclick = () => verificar(t, b.dataset.verificar, "verificado", "");
   });
-  app.querySelectorAll("[data-cambios]").forEach((b) => {
+  app.querySelectorAll("[data-problema]").forEach((b) => {
     b.onclick = () => {
-      const comentario = prompt("¿Qué hay que corregir?");
+      const comentario = prompt("¿Qué está mal en este caso?");
       if (comentario === null) return;
-      decidir(t, b.dataset.cambios, "cambios", comentario.slice(0, 1000));
+      verificar(t, b.dataset.problema, "problema", comentario.slice(0, 1000));
     };
   });
-  $("#aprobar-tema") && ($("#aprobar-tema").onclick = async () => {
-    await set(ref(db, `estudio/${t.id}/meta/estado`), "aprobado");
-    aviso("Revisión terminada. El coordinador puede publicar.");
-  });
-  $("#devolver") && ($("#devolver").onclick = async () => {
-    await set(ref(db, `estudio/${t.id}/meta/estado`), "cambios");
-    aviso("Devuelto al autor.");
-  });
-}
-
-async function decidir(t, casoId, decision, comentario) {
-  try {
-    await set(ref(db, `estudio/${t.id}/revision/${casoId}`), {
-      decision, uid: usuario.uid, nombre: perfil.nombre, usuario: perfil.usuario,
-      comentario, fecha: serverTimestamp(),
-    });
-  } catch (e) {
-    aviso("No se pudo guardar la revisión: " + (e.code || e.message), true);
-  }
-}
-
-function enlazarPublicar(t) {
-  $("#devolver-revision") && ($("#devolver-revision").onclick = () => set(ref(db, `estudio/${t.id}/meta/estado`), "en_revision"));
-  $("#publicar").onclick = async () => {
-    const partes = (t.meta.version || "0.1.0").split(".").map(Number);
-    const version = `${partes[0]}.${partes[1] + 1}.0`;
-    const { paquete, fuentes, imagenesUsadas } = aPaquete(t, version);
-    const imagenes = {};
-    for (const id of imagenesUsadas) imagenes[id] = imagenesTema[id];
-    try {
-      await update(ref(db), {
-        [`publicacion/${t.id}`]: {
-          paquete_json: JSON.stringify(paquete),
-          fuentes_json: JSON.stringify(fuentes),
-          segmento: paquete.segmento,
-          version,
-          fecha: serverTimestamp(),
-          por: perfil.nombre,
-        },
-        [`publicacion_img/${t.id}`]: imagenes,
-        [`estudio/${t.id}/meta/estado`]: "publicado",
-        [`estudio/${t.id}/meta/version`]: version,
-        [`estudio/${t.id}/meta/publicado_en`]: serverTimestamp(),
-      });
-      aviso("Publicado. La web se actualiza en unos 15 minutos.");
-    } catch (e) {
-      aviso("No se pudo publicar: " + (e.code || e.message), true);
-    }
+  const todo = $("#verificar-todo");
+  if (todo) todo.onclick = async () => {
+    const faltan = casosOrdenados(t).filter((c) => estadoVerificacion(c, vercaso(t.id, c.id)) !== "verificado");
+    if (!faltan.length) return aviso("No queda ninguno por verificar.");
+    if (!confirm(`¿Verificar ${faltan.length} casos de una vez? Quedarán con tu nombre.`)) return;
+    for (const c of faltan) await verificar(t, c.id, "verificado", "", true);
+    aviso(`${faltan.length} casos verificados.`);
   };
+}
+
+async function verificar(t, casoId, decision, comentario, callado = false) {
+  const caso = t.casos[casoId] || {};
+  try {
+    await set(ref(db, `verificacion/${t.id}/${casoId}`), {
+      decision, usuario: perfil.usuario, nombre: perfil.nombre, comentario,
+      base: caso.actualizado || 0, fecha: serverTimestamp(),
+    });
+    if (!callado) aviso(decision === "verificado" ? "Caso verificado." : "Problema señalado; el autor lo verá.");
+  } catch (e) {
+    aviso("No se pudo guardar: " + (e.code || e.message), true);
+  }
 }
 
 // ------------------------------------------------------------------ dibujo y rutas
@@ -969,13 +995,14 @@ function cabecera() {
 function dibujar() {
   cabecera();
   if (!usuario) return entrar();
-  if (!perfil) return solicitarAcceso();
+  if (!perfil) return (app.innerHTML = `<p class="muted">Preparando tu acceso…</p>`);
   const ruta = location.hash.replace(/^#\/?/, "").split("/");
   if (ruta[0] === "equipo" && esCoord()) return equipo();
   if (ruta[0] === "nuevo") return temaNuevo();
   if (ruta[0] === "tema" && ruta[1]) {
     if (temaAbierto !== ruta[1]) {
       temaAbierto = ruta[1];
+      ordenVerificacion = null;
       paso = "fuente";
       editando = null;
       imagenesTema = {};
@@ -996,7 +1023,10 @@ window.addEventListener("hashchange", () => dibujar());
 
 function escuchar() {
   onValue(ref(db, "estudio"), (s) => { temas = s.val() || {}; if (!editando) dibujar(); });
+  onValue(ref(db, "verificacion"), (s) => { verificaciones = s.val() || {}; if (!editando) dibujar(); });
+  onValue(ref(db, "reportes"), (s) => { reportes = s.val() || {}; if (!editando) dibujar(); }, () => {});
   onValue(ref(db, `usuarios/${usuario.uid}`), (s) => { perfil = s.val(); dibujar(); });
+  onValue(ref(db, `usuarios/${usuario.uid}`), (s) => { if (s.exists()) perfil = s.val(); dibujar(); });
   if (esCoord()) {
     onValue(ref(db, "solicitudes"), (s) => { solicitudes = s.val() || {}; dibujar(); });
     onValue(ref(db, "usuarios"), (s) => { miembros = s.val() || {}; dibujar(); });
@@ -1017,14 +1047,14 @@ async function iniciar() {
     perfil = null;
     temas = {};
     if (!u) return dibujar();
-    const snap = await get(ref(db, `usuarios/${u.uid}`)).catch(() => null);
-    perfil = snap && snap.exists() ? snap.val() : null;
-    if (!perfil) {
-      const pedido = await get(ref(db, `solicitudes/${u.uid}`)).catch(() => null);
-      solicitudes = pedido && pedido.exists() ? { [u.uid]: pedido.val() } : {};
-      onValue(ref(db, `usuarios/${u.uid}`), (s) => { if (s.exists()) { perfil = s.val(); escuchar(); } dibujar(); });
-      return dibujar();
+    let snap = await get(ref(db, `usuarios/${u.uid}`)).catch(() => null);
+    if (!snap || !snap.exists()) {
+      dibujar();
+      await altaAutomatica();
+      snap = await get(ref(db, `usuarios/${u.uid}`)).catch(() => null);
     }
+    perfil = snap && snap.exists() ? snap.val() : null;
+    if (!perfil) return dibujar();
     escuchar();
     dibujar();
   });

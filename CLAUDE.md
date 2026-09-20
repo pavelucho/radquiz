@@ -16,7 +16,8 @@ Modos v1: sesión en vivo y práctica individual. Todos los segmentos de la radi
 1. La imagen es el caso: cada imagen lleva modalidad, secuencia, plano, condición, paneles y `marcas` (qué señalan flechas/círculos).
 2. Contenido separado del código: un tema nuevo = una carpeta en `temas/<segmento>/<tema>/` con `paquete.json`, `fuentes.json`, `img/`.
 3. Formato pensado para IA: JSON con JSON Schema; validador automático antes de la revisión humana.
-4. Nada se publica sin revisión de un radiólogo. Estados: borrador → revisado → publicado. La app solo muestra publicados.
+4. Cualquier miembro publica lo suyo si pasa el validador; un radiólogo le pone el sello «verificado» después.
+   Estados del caso: borrador → publicado; `revisor` presente = verificado. La sala en vivo usa verificados por defecto.
 5. Toda imagen con fuente, licencia y DOI/enlace. Figuras CC BY-NC-ND: se permite comprimir/redimensionar, NO recortar ni anotar.
 
 ## Segmentos (carpetas)
@@ -32,7 +33,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - Catálogo `imagenes` por paquete con ficha (leyenda textual, paneles, marcas, modificaciones); los casos la citan por id.
   Clave ausente = pendiente; `null` = la fuente no lo indica.
 - Cada caso lleva `evidencia` (ubicación + frase textual de la fuente). Nada de datos clínicos que no estén en la leyenda.
-- La validación depende del estado: en borrador lo pendiente es aviso; en revisado/publicado es error.
+- La validación depende del estado: en borrador lo pendiente es aviso; en publicado es error.
 - La app baraja las opciones; id global = `<paquete>/<caso>`.
 
 ## Estado actual (2026-09-19)
@@ -48,8 +49,10 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - En línea: repositorio público `pavelucho/radquiz`, web en https://pavelucho.github.io/radquiz/ (GitHub Pages).
   `tools/construir_sitio` + `.github/workflows/publicar.yml`: solo los casos `publicado` salen a la web (decisión del
   autor: nunca borradores en la web).
-- Estudio web (`estudio.html` + `app/estudio.js`): autores, revisores y coordinador trabajan desde el navegador,
-  con cuenta de Google y papeles en `usuarios/`. Los casos se generan con **cualquier IA** (el estudio arma el
+- Estudio web (`estudio.html` + `app/estudio.js`): quien entra con Google queda de alta como autor solo
+  (`usuarios/`); «revisor» y «coordinador» los da el coordinador. Publicar es directo; verificar es posterior
+  (`verificacion/`), lo hace cualquier revisor sobre cualquier caso publicado de otro, y se retira solo si el autor
+  edita y vuelve a publicar. Los reportes de error de la web (`reportes/`) ponen el caso primero en la cola. Los casos se generan con **cualquier IA** (el estudio arma el
   texto para copiar y lee la respuesta JSON); no depende de Claude ni de ningún proveedor.
   Publicar = el coordinador escribe en `publicacion/`; `tools/traer_publicaciones` lo baja al repositorio cada 15
   minutos desde el workflow. Validación en el navegador: `app/validacion.js` (espejo de `tools/validar`).

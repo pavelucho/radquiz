@@ -1,6 +1,7 @@
 // RadQuiz — práctica individual. Con ?revision=1 muestra también los borradores y la información para el revisor
 // (evidencia, ficha técnica, notas): es el previsualizador de la fase de revisión.
-import { $, esc, md, cargarJSON, credito, barajar } from "./comun.js";
+import { $, esc, md, cargarJSON, credito, barajar, sello } from "./comun.js";
+import { reportar } from "./reportar.js";
 
 const LETRAS = "ABCDE";
 const params = new URLSearchParams(location.search);
@@ -104,7 +105,8 @@ function vistaCaso() {
       <div class="verdict ${acierto ? "ok" : "no"}">${acierto ? "Correcto" : "Incorrecto"}</div>
       <div class="exp md"><div class="ans">Respuesta: ${letra}. ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>
       ${caso.perla ? `<div class="pearl md"><b>Perla:</b> ${md(caso.perla)}</div>` : ""}
-      ${leyendas.map((i) => `<details><summary>Leyenda original · ${esc(i.figura)}</summary><p>${esc(i.leyenda_original)}</p></details>`).join("")}`;
+      ${leyendas.map((i) => `<details><summary>Leyenda original · ${esc(i.figura)}</summary><p>${esc(i.leyenda_original)}</p></details>`).join("")}
+      <div class="row"><button id="reportar" class="reportar">Reportar un error en este caso</button></div>`;
   }
 
   const ultima = actual === casos.length - 1;
@@ -112,7 +114,7 @@ function vistaCaso() {
     <div class="qhead">
       <span class="qnum">${actual + 1}/${casos.length}</span>
       <span class="tema">${esc(caso.tema)}</span>
-      ${caso.estado !== "publicado" ? `<span class="badge borrador">${esc(caso.estado)}</span>` : ""}
+      ${caso.estado !== "publicado" ? `<span class="badge borrador">${esc(caso.estado)}</span>` : sello(caso, paquete.personas)}
     </div>
     <section class="stage ${refs.length ? "" : "sin-imagen"}">
       ${visor(refs)}
@@ -133,6 +135,8 @@ function vistaCaso() {
   app.querySelectorAll("button.opt").forEach((boton) => {
     boton.onclick = () => responder(Number(boton.dataset.original));
   });
+  const botonReporte = $("#reportar");
+  if (botonReporte) botonReporte.onclick = () => reportar(tema, caso.id, botonReporte);
   $("#anterior").onclick = () => ir(actual - 1);
   $("#siguiente").onclick = () => (ultima ? resultado() : ir(actual + 1));
   marcador();
@@ -183,8 +187,15 @@ function resultado() {
 }
 
 function empezar() {
-  casos = [...base];
+  const soloVerificados = $("#solo-verificados").checked;
+  casos = base.filter((c) => !soloVerificados || c.revisor);
   actual = 0;
+  if (!casos.length) {
+    app.innerHTML = `<section class="panel"><p>Este tema todavía no tiene casos verificados por un radiólogo.
+      Quita el filtro «Solo verificados» para practicar con los demás.</p></section>`;
+    marcador();
+    return;
+  }
   vistaCaso();
 }
 
@@ -217,6 +228,7 @@ async function iniciar() {
   if (revision) $("#modo").classList.add("live");
   base = paquete.casos.filter((c) => revision || c.estado === "publicado");
   if (!base.length) return sinCasos();
+  $("#solo-verificados").onchange = () => { respuestas.clear(); orden.clear(); empezar(); };
   empezar();
 }
 

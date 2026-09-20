@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Marca casos como revisados o publicados sin editar el JSON a mano.
+"""Publica casos y les pone el sello de verificado, sin editar el JSON a mano.
 
 Uso:
-    tools/aprobar temas/cabeza-cuello/atm-rm-lopezramirez2024 --revisor jperez --casos atm-01,atm-02
-    tools/aprobar temas/cabeza-cuello/atm-rm-lopezramirez2024 --revisor jperez --todos --estado publicado
+    tools/aprobar temas/torax/mi-tema --revisor jperez --nombre "Dra. J. Pérez" --casos c-01,c-02
+    tools/aprobar temas/torax/mi-tema --revisor jperez --todos
+    tools/aprobar temas/torax/mi-tema --publicar --todos      (publica sin sello)
 
-Por defecto deja los casos en «revisado». Con --estado publicado salen a la web en la próxima publicación.
-Anota el revisor y la fecha de hoy, se niega si el revisor es el mismo autor, y al final corre el validador.
+Es el camino con Git: en el estudio web todo esto se hace con botones. Anota el revisor y la fecha de hoy,
+se niega si el revisor es el mismo autor, y al final corre el validador.
 """
 
 import argparse
@@ -23,15 +24,19 @@ RAIZ = Path(__file__).resolve().parent.parent
 def main():
     parser = argparse.ArgumentParser(description="Marca casos como revisados o publicados.")
     parser.add_argument("carpeta", help="carpeta del paquete, por ejemplo temas/torax/mi-tema")
-    parser.add_argument("--revisor", required=True, help="usuario del revisor (minúsculas, sin espacios)")
+    parser.add_argument("--revisor", help="usuario del radiólogo que verifica (minúsculas, sin espacios)")
+    parser.add_argument("--nombre", help="nombre visible del revisor, para el sello")
+    parser.add_argument("--publicar", action="store_true", help="publica sin sello de verificación")
     grupo = parser.add_mutually_exclusive_group(required=True)
     grupo.add_argument("--casos", help="ids separados por comas: atm-01,atm-02")
     grupo.add_argument("--todos", action="store_true", help="todos los casos del paquete")
-    parser.add_argument("--estado", choices=["revisado", "publicado"], default="revisado")
+
     parser.add_argument("--fecha", default=datetime.date.today().isoformat(), help="AAAA-MM-DD (por defecto, hoy)")
     args = parser.parse_args()
 
-    if not re.fullmatch(r"[a-z0-9._-]+", args.revisor):
+    if not args.revisor and not args.publicar:
+        sys.exit("Indica --revisor <usuario> para sellar, o --publicar para publicar sin sello.")
+    if args.revisor and not re.fullmatch(r"[a-z0-9._-]+", args.revisor):
         sys.exit("El revisor va en minúsculas y sin espacios, por ejemplo: jperez")
     ruta = (Path(args.carpeta).resolve() / "paquete.json")
     if not ruta.is_file():
@@ -46,15 +51,21 @@ def main():
         sys.exit("Estos casos no existen en el paquete: %s" % ", ".join(faltan))
     propios = [x for x in pedidos if por_id[x].get("autor") == args.revisor]
     if propios:
-        sys.exit("No puedes aprobar tus propios casos: %s" % ", ".join(propios))
+        sys.exit("No puedes verificar tus propios casos: %s" % ", ".join(propios))
 
     for caso_id in pedidos:
         caso = por_id[caso_id]
-        caso["estado"] = args.estado
-        caso["revisor"] = args.revisor
-        caso["fecha_revision"] = args.fecha
+        caso["estado"] = "publicado"
+        caso["revisor"] = args.revisor or None
+        if args.revisor:
+            caso["fecha_revision"] = args.fecha
+        else:
+            caso.pop("fecha_revision", None)
+    if args.revisor:
+        personas = paquete.setdefault("personas", {})
+        personas[args.revisor] = args.nombre or personas.get(args.revisor, args.revisor)
     ruta.write_text(json.dumps(paquete, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print("%d casos quedaron en «%s» (revisor %s, %s)." % (len(pedidos), args.estado, args.revisor, args.fecha), flush=True)
+    print("%d casos publicados%s." % (len(pedidos), " y verificados por %s" % args.revisor if args.revisor else " sin sello"), flush=True)
 
     print("Validando…", flush=True)
     resultado = subprocess.run([sys.executable, str(RAIZ / "tools" / "validar"), str(ruta.parent)])

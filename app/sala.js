@@ -7,7 +7,8 @@ import {
   getDatabase, ref, set, get, update, remove, onValue, serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 import { firebaseConfig } from "./firebase-config.js";
-import { $, esc, md, cargarJSON, credito, barajar } from "./comun.js";
+import { $, esc, md, cargarJSON, credito, barajar, sello } from "./comun.js";
+import { reportar } from "./reportar.js";
 
 const LETRAS = "ABCDE";
 const LETRAS_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -157,12 +158,13 @@ async function pantallaCrear() {
   const disponibles = (indice.paquetes || []).map((p) => ({
     ...p,
     publicados: p.casos.publicado || 0,
+    verificados: p.casos.verificado || 0,
     sinPublicar: (p.casos.borrador || 0) + (p.casos.revisado || 0),
   }));
   const hayBorradores = disponibles.some((p) => p.sinPublicar);
   const opciones = disponibles
     .filter((p) => p.publicados || hayBorradores)
-    .map((p) => `<option value="${esc(p.ruta)}">${esc(p.titulo)} · ${p.publicados} publicados${p.sinPublicar ? ` · ${p.sinPublicar} sin publicar` : ""}</option>`)
+    .map((p) => `<option value="${esc(p.ruta)}">${esc(p.titulo)} · ${p.verificados} verificados de ${p.publicados}${p.sinPublicar ? ` · ${p.sinPublicar} sin publicar` : ""}</option>`)
     .join("");
   if (!opciones) {
     app.innerHTML = panel("Todavía no hay casos publicados",
@@ -176,6 +178,7 @@ async function pantallaCrear() {
     <div class="row">
       <label class="row" style="gap:6px">Tiempo por caso <select id="duracion">${DURACIONES.map((s) => `<option value="${s}" ${s === 45 ? "selected" : ""}>${s} s</option>`).join("")}</select></label>
     </div>
+    <label class="row" style="gap:8px"><input type="checkbox" id="sin-verificar"> Incluir casos sin verificar</label>
     <label class="row" style="gap:8px"><input type="checkbox" id="mezclar"> Mezclar el orden de los casos</label>
     ${hayBorradores ? `<label class="row" style="gap:8px"><input type="checkbox" id="borradores"> Incluir casos sin publicar (ensayo en esta computadora)</label>` : ""}
     <div class="row"><button class="primary" type="submit">Crear sala</button><a class="boton" href="sala.html">Cancelar</a></div>
@@ -186,6 +189,7 @@ async function pantallaCrear() {
       tema: $("#tema").value,
       duracion: Number($("#duracion").value),
       mezclar: $("#mezclar").checked,
+      sinVerificar: $("#sin-verificar").checked,
       borradores: Boolean($("#borradores") && $("#borradores").checked),
     }).catch((err) => aviso("No se pudo crear la sala: " + err.message));
   };
@@ -209,12 +213,13 @@ async function limpiarSalasViejas() {
   } catch { /* la limpieza es un extra: si falla, se intenta en la próxima sala */ }
 }
 
-async function crearSala({ tema, duracion, mezclar, borradores }) {
+async function crearSala({ tema, duracion, mezclar, borradores, sinVerificar }) {
   const pkg = await cargarJSON(`temas/${tema}/paquete.json`);
   let casos = pkg.casos.filter((c) => c.estado === "publicado" || borradores);
+  if (!sinVerificar && !borradores) casos = casos.filter((c) => c.revisor);
   if (mezclar) casos = barajar(casos);
   if (!casos.length) {
-    aviso("Este tema no tiene casos para usar.");
+    aviso("No hay casos que cumplan el filtro. Prueba marcando «Incluir casos sin verificar».", true);
     return;
   }
   const orden = {};
@@ -419,7 +424,9 @@ function hostCaso() {
           <span class="chip" id="respondieron">${total}/${Object.keys(jugadores).length} respondieron</span></div><div class="timer"><i id="bar"></i></div>`}
         <div class="opts">${opciones}</div>
         ${revelado ? `<div class="exp md"><div class="ans">Respuesta: ${letra}. ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>
-          ${caso.perla ? `<div class="pearl md"><b>Perla:</b> ${md(caso.perla)}</div>` : ""}` : ""}
+          ${caso.perla ? `<div class="pearl md"><b>Perla:</b> ${md(caso.perla)}</div>` : ""}
+          <div class="row">${sello(caso, paquete.personas)}<span class="spacer"></span>
+            <button id="reportar" class="reportar">Reportar un error</button></div>` : ""}
       </div>
     </section>
     <div class="ctrl">
@@ -437,6 +444,8 @@ function hostCaso() {
     else $("#siguiente").onclick = () => irA(estado.indice + 1);
   }
   $("#cerrar").onclick = cerrarSala;
+  const botonReporte = $("#reportar");
+  if (botonReporte) botonReporte.onclick = () => reportar(info.tema, caso.id, botonReporte);
 }
 
 function actualizarPregunta() {
@@ -563,7 +572,8 @@ function jugadorCaso() {
         <div class="stem md">${md(caso.enunciado)}</div>
         ${revelado ? "" : `<div class="timer"><i id="bar"></i></div>`}
         <div class="opts">${opciones}</div>
-        ${revelado ? `<div class="exp md"><div class="ans">Respuesta: ${LETRAS[orden.indexOf(caso.correcta)]}. ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>` : ""}
+        ${revelado ? `<div class="exp md"><div class="ans">Respuesta: ${LETRAS[orden.indexOf(caso.correcta)]}. ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>
+          <div class="row">${sello(caso, paquete.personas)}</div>` : ""}
       </div>
     </section>`;
   app.querySelectorAll("button.opt").forEach((boton) => {

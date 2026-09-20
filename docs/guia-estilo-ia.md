@@ -3,8 +3,10 @@
 Esta guía es la referencia completa de cómo se escriben los casos. Sirve para cualquier segmento y con **cualquier
 IA** (ChatGPT, Gemini, Copilot, Claude, DeepSeek…). El estudio web (`estudio.html`) arma solo el texto de
 instrucciones a partir de estas reglas, así que un autor normal no necesita leer este documento: lo copia y lo pega
-en la IA que use. El resultado siempre sale como **borrador** y pasa por el
-validador (`tools/validar`) y por un radiólogo revisor antes de publicarse.
+en la IA que use. El resultado pasa por el validador (`tools/validar`) antes de publicarse.
+
+Publicar no exige revisión previa: el caso sale como «sin verificar» y un radiólogo le pone después el sello
+«verificado». Cuanto mejor sigas estas reglas, antes lo consigue.
 
 Formato exacto: `schema/paquete.schema.json`, `schema/caso.schema.json` y `schema/fuentes.schema.json`.
 

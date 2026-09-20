@@ -112,7 +112,7 @@
       ".read": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador'",
       "$uid": {
         ".read": "auth != null && auth.uid == $uid",
-        ".write": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador'",
+        ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (auth != null && auth.uid == $uid && !data.exists() && newData.child('rol').val() == 'autor' && auth.token.firebase.sign_in_provider == 'google.com')",
         ".validate": "newData.hasChildren(['nombre', 'usuario', 'rol'])",
         "nombre": {
           ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 60"
@@ -166,14 +166,14 @@
         ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (!data.exists() && newData.child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null) || (auth != null && data.child('meta/autor_uid').val() == auth.uid && !newData.exists() && data.child('meta/estado').val() == 'borrador')",
         ".validate": "$tema.matches(/^[a-z0-9]+(-[a-z0-9]+)*$/) && newData.hasChild('meta')",
         "meta": {
-          ".write": "auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && root.child('estudio').child($tema).child('meta/estado').val().matches(/^(borrador|cambios|publicado)$/) && newData.child('estado').val().matches(/^(borrador|en_revision|cambios)$/)",
+          ".write": "auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && root.child('estudio').child($tema).child('meta/estado').val().matches(/^(borrador|publicado)$/) && newData.child('estado').val().matches(/^(borrador|publicado)$/)",
           ".validate": "newData.hasChildren(['titulo', 'segmento', 'autor_uid', 'autor_nombre', 'estado'])",
           "autor_uid": {
             ".validate": "newData.val() == data.val() || (!data.exists() && newData.val() == auth.uid) || (auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador')"
           },
           "estado": {
-            ".write": "(auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && data.val() == 'en_revision' && newData.val() == 'borrador') || (auth != null && (root.child('usuarios').child(auth.uid).child('rol').val() == 'revisor' || root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') && root.child('estudio').child($tema).child('meta/autor_uid').val() != auth.uid && root.child('estudio').child($tema).child('meta/estado').val() == 'en_revision' && newData.val().matches(/^(cambios|aprobado)$/))",
-            ".validate": "newData.isString() && newData.val().matches(/^(borrador|en_revision|cambios|aprobado|publicado)$/)"
+            ".write": "auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && root.child('estudio').child($tema).child('meta/estado').val().matches(/^(borrador|publicado)$/)",
+            ".validate": "newData.isString() && newData.val().matches(/^(borrador|publicado)$/)"
           },
           "titulo": {
             ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 120"
@@ -183,40 +183,13 @@
           }
         },
         "fuente": {
-          ".write": "auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && root.child('estudio').child($tema).child('meta/estado').val().matches(/^(borrador|cambios|publicado)$/)"
+          ".write": "auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && root.child('estudio').child($tema).child('meta/estado').val().matches(/^(borrador|publicado)$/)"
         },
         "imagenes": {
-          ".write": "auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && root.child('estudio').child($tema).child('meta/estado').val().matches(/^(borrador|cambios|publicado)$/)"
+          ".write": "auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && root.child('estudio').child($tema).child('meta/estado').val().matches(/^(borrador|publicado)$/)"
         },
         "casos": {
-          ".write": "auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && root.child('estudio').child($tema).child('meta/estado').val().matches(/^(borrador|cambios|publicado)$/)"
-        },
-        "revision": {
-          "$caso": {
-            ".write": "auth != null && (root.child('usuarios').child(auth.uid).child('rol').val() == 'revisor' || root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') && root.child('estudio').child($tema).child('meta/autor_uid').val() != auth.uid && root.child('estudio').child($tema).child('meta/estado').val() == 'en_revision'",
-            ".validate": "newData.hasChildren(['decision', 'uid', 'nombre', 'fecha']) && newData.child('uid').val() == auth.uid",
-            "decision": {
-              ".validate": "newData.isString() && newData.val().matches(/^(aprobado|cambios)$/)"
-            },
-            "nombre": {
-              ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 60"
-            },
-            "comentario": {
-              ".validate": "newData.isString() && newData.val().length >= 0 && newData.val().length <= 1000"
-            },
-            "fecha": {
-              ".validate": "newData.val() == now"
-            },
-            "uid": {
-              ".validate": "newData.isString()"
-            },
-            "$otro": {
-              ".validate": false
-            },
-            "usuario": {
-              ".validate": "newData.isString() && newData.val().matches(/^[a-z0-9._-]{2,30}$/)"
-            }
-          }
+          ".write": "auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null && root.child('estudio').child($tema).child('meta/estado').val().matches(/^(borrador|publicado)$/)"
         },
         "comentarios": {
           "$caso": {
@@ -256,13 +229,64 @@
     "publicacion": {
       ".read": true,
       "$tema": {
-        ".write": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador'"
+        ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null)"
       }
     },
     "publicacion_img": {
       ".read": true,
       "$tema": {
-        ".write": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador'"
+        ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null)"
+      }
+    },
+    "verificacion": {
+      ".read": true,
+      "$tema": {
+        "$caso": {
+          ".write": "(auth != null && (root.child('usuarios').child(auth.uid).child('rol').val() == 'revisor' || root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') && root.child('estudio').child($tema).child('meta/autor_uid').val() != auth.uid) || (auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador')",
+          ".validate": "newData.hasChildren(['decision', 'usuario', 'nombre', 'fecha'])",
+          "decision": {
+            ".validate": "newData.isString() && newData.val().matches(/^(verificado|problema)$/)"
+          },
+          "usuario": {
+            ".validate": "newData.isString() && newData.val() == root.child('usuarios').child(auth.uid).child('usuario').val()"
+          },
+          "nombre": {
+            ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 60"
+          },
+          "comentario": {
+            ".validate": "newData.isString() && newData.val().length >= 0 && newData.val().length <= 1000"
+          },
+          "base": {
+            ".validate": "newData.isNumber()"
+          },
+          "fecha": {
+            ".validate": "newData.val() == now"
+          },
+          "$otro": {
+            ".validate": false
+          }
+        }
+      }
+    },
+    "reportes": {
+      ".read": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() != null",
+      "$tema": {
+        "$caso": {
+          ".read": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() != null",
+          "$uid": {
+            ".write": "(auth != null && auth.uid == $uid && !data.exists()) || (auth != null && (root.child('usuarios').child(auth.uid).child('rol').val() == 'revisor' || root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador'))",
+            ".validate": "newData.hasChildren(['texto', 'fecha'])",
+            "texto": {
+              ".validate": "newData.isString() && newData.val().length >= 5 && newData.val().length <= 500"
+            },
+            "fecha": {
+              ".validate": "newData.val() == now"
+            },
+            "$otro": {
+              ".validate": false
+            }
+          }
+        }
       }
     }
   }

@@ -59,7 +59,8 @@ def construir():
             "segmento": paquete["segmento"],
             "modalidades": paquete.get("modalidades", []),
             "version": paquete.get("version"),
-            "casos": {"borrador": 0, "revisado": 0, "publicado": len(casos)},
+            "casos": {"borrador": 0, "publicado": len(casos),
+                      "verificado": sum(1 for c in casos if c.get("revisor"))},
         })
         print("%-50s %3d publicados de %3d, %2d imágenes"
               % (indice[-1]["ruta"], len(casos), len(paquete["casos"]), len(imagenes)))
