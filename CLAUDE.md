@@ -40,7 +40,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - Fase 0 terminada: `schema/`, `tools/validar` (sin dependencias), `docs/guia-estilo-ia.md`, skill
   `.claude/skills/crear-casos-radquiz`, CI en `.github/workflows/validar.yml`.
 - `temas/cabeza-cuello/atm-rm-lopezramirez2024/`: 27 casos y 17 imágenes, pasa el validador sin errores ni avisos.
-  Todos en borrador. `REVISION.md` lista los cambios y lo que el revisor debe confirmar (Fig. 8, 12, 13, 14).
+  Publicados el 2026-09-20 (sin sello de verificado). `REVISION.md` lista los cambios y lo que el revisor debe
+  confirmar antes del sello (Fig. 8, 12, 13, 14).
   Licencia verificada: CC BY-NC-ND 4.0 (PDF en español, p. 136). Respaldo del original en `referencia/piloto-original/`.
 - App estática de práctica: `index.html` + `practica.html` (+ `?revision=1` = previsualizador para revisores).
   Probar con `python3 -m http.server`. Necesita `temas/indice.json` (`tools/validar --indice`).
@@ -62,8 +63,9 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - Herramientas: `gh` está en `~/.local/bin/gh` (no en el PATH); `firebase` global vía npm.
 
 ## Pendiente
-1. Nombrar al radiólogo revisor del tema ATM. Hasta que publique casos, la web muestra el tema «En revisión» y la
-   sala en vivo no tiene casos en línea.
+1. Ponerle el sello de verificado al tema ATM: confirmar Fig. 8, 12, 13 y 14 contra el PDF y correr
+   `tools/aprobar temas/cabeza-cuello/atm-rm-lopezramirez2024 --revisor <usuario> --nombre "<nombre>" --todos`.
+   Mientras tanto los 27 casos se practican en la web y salen como «Sin verificar».
 2. Probar la red de HNERM (WebSocket a Firebase) antes del ensayo con 3 colegas.
 3. Decidir la licencia del código y la de los textos propios.
 

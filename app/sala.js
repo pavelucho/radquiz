@@ -168,7 +168,7 @@ async function pantallaCrear() {
     .join("");
   if (!opciones) {
     app.innerHTML = panel("Todavía no hay casos publicados",
-      "La sala en vivo usa solo casos revisados y publicados. Cuando un revisor apruebe el primer tema, aparecerá aquí.",
+      "La sala en vivo usa los casos publicados. Cuando se publique el primer tema, aparecerá aquí.",
       `<div class="row"><a class="boton" href="sala.html">Volver</a></div>`);
     return;
   }

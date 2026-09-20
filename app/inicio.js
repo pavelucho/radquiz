@@ -8,7 +8,7 @@ function tarjeta(paquete) {
   const ruta = encodeURIComponent(paquete.ruta).replace("%2F", "/");
   const practicar = publicado
     ? `<a class="boton primary" href="practica.html?tema=${ruta}">Practicar · ${publicado} casos</a>`
-    : `<button disabled>En revisión</button>`;
+    : `<button disabled>Sin publicar</button>`;
   const pendientes = borrador + revisado;
   const revisar = pendientes
     ? `<a class="src" href="practica.html?tema=${ruta}&amp;revision=1">Ver ${pendientes} casos sin publicar (revisores)</a>`
