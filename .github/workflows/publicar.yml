@@ -4,7 +4,9 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "*/15 * * * *"
+    # Minutos desplazados a propósito: GitHub encola y descarta los crones en el
+    # filo de la hora, y "*/15" cae justo en :00. Sigue siendo cada 15 minutos.
+    - cron: "7,22,37,52 * * * *"
   workflow_dispatch:
 
 permissions:
