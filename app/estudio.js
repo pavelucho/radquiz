@@ -24,6 +24,8 @@ const ESTADOS = {
   publicado: { texto: "Publicado", clase: "publicado" },
 };
 const app = $("#app");
+// La sala en vivo deja una sesión anónima en el navegador; en el estudio siempre se entra con Google.
+const modoPrueba = location.hostname === "localhost" && new URLSearchParams(location.search).has("prueba");
 
 let db, auth, usuario = null, perfil = null;
 let temas = {}, solicitudes = {}, miembros = {};
@@ -173,7 +175,7 @@ function entrar() {
       aviso("No se pudo entrar: " + (e.code || e.message), true);
     }
   };
-  if (location.hostname === "localhost" && new URLSearchParams(location.search).has("prueba")) {
+  if (modoPrueba) {
     const b = document.createElement("button");
     b.textContent = "Entrar en modo prueba";
     b.onclick = () => signInAnonymously(auth);
@@ -1010,7 +1012,8 @@ async function iniciar() {
   db = getDatabase(fb);
   auth = getAuth(fb);
   onAuthStateChanged(auth, async (u) => {
-    usuario = u;
+    usuario = u && (!u.isAnonymous || modoPrueba) ? u : null;
+    u = usuario;
     perfil = null;
     temas = {};
     if (!u) return dibujar();
