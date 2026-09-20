@@ -69,13 +69,19 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 
 ## Pendiente
 1. Desplegar las reglas. Sin eso el estudio no puede escribir `indice_publicado` y los temas nuevos tardan
-   en salir (publicar sigue funcionando; el estudio lo avisa). Dos caminos, y conviene hacer los dos:
-   - Ahora, a mano: `firebase deploy --only database`.
-   - Para no repetirlo: poner el secreto `FIREBASE_SERVICE_ACCOUNT` (JSON de una cuenta de servicio con el
-     papel «Firebase Realtime Database Admin», no «Firebase Rules Admin», que es de Firestore y Storage)
-     o `FIREBASE_TOKEN` (de `firebase login:ci`) en Settings → Secrets and
-     variables → Actions. `.github/workflows/reglas.yml` las despliega en cada cambio de `database.rules.json`;
-     sin secreto solo avisa, no falla.
+   en salir (publicar sigue funcionando; el estudio lo avisa). `tools/desplegar_reglas` lo hace sin sesión
+   interactiva, y es el mismo comando que corre el workflow. Necesita, en variables de entorno o en secretos:
+   `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con el papel «Firebase
+   Realtime Database Admin»; **no** «Firebase Rules Admin», que es de Firestore y Storage) o `FIREBASE_TOKEN`
+   (de `firebase login:ci`). Caminos:
+   - Sin nada de eso: pegar `database.rules.json` en la consola de Firebase y publicar; o
+     `firebase deploy --only database` en una terminal con sesión iniciada.
+   - En GitHub: el secreto en Settings → Secrets and variables → Actions. `.github/workflows/reglas.yml`
+     despliega en cada cambio de `database.rules.json`; sin secreto solo avisa, no falla.
+   - Desde una sesión de Claude Code en la web: además del secreto como variable de entorno del entorno,
+     **la política de red tiene que permitir `*.firebaseio.com`**. Las reglas se escriben en
+     `<instancia>.firebaseio.com/.settings/rules.json`, no en `googleapis.com`, así que sin ese dominio
+     no hay despliegue por mucha credencial que haya. `tools/desplegar_reglas --ver` lo diagnostica.
 2. Ponerle el sello de verificado al tema ATM: confirmar Fig. 8, 12, 13 y 14 contra el PDF y correr
    `tools/aprobar temas/cabeza-cuello/atm-rm-lopezramirez2024 --revisor <usuario> --nombre "<nombre>" --todos`.
    Mientras tanto los 27 casos se practican en la web y salen como «Sin verificar».

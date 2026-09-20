@@ -2,7 +2,8 @@ name: Desplegar reglas
 
 # Las reglas de database.rules.json deciden quién puede escribir qué en la base, y no sirven de
 # nada hasta que se despliegan. Hacerlo a mano se olvida, así que lo hace este workflow cada vez
-# que el archivo cambia en main.
+# que el archivo cambia en main. El trabajo lo hace tools/desplegar_reglas, el mismo comando que
+# se usa desde una sesión de Claude Code, para que el camino sea uno solo y esté probado.
 #
 # Hace falta una credencial en Settings → Secrets and variables → Actions. Cualquiera de las dos:
 #   FIREBASE_SERVICE_ACCOUNT  el JSON de una cuenta de servicio del proyecto con el papel
@@ -19,6 +20,7 @@ on:
     paths:
       - database.rules.json
       - firebase.json
+      - tools/desplegar_reglas
       - .github/workflows/reglas.yml
   workflow_dispatch:
 
@@ -42,30 +44,16 @@ jobs:
           CUENTA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
-          if [ -n "$CUENTA" ]; then
-            echo "modo=cuenta" >> "$GITHUB_OUTPUT"
-          elif [ -n "$TOKEN" ]; then
-            echo "modo=token" >> "$GITHUB_OUTPUT"
+          if [ -n "$CUENTA" ] || [ -n "$TOKEN" ]; then
+            echo "hay=si" >> "$GITHUB_OUTPUT"
           else
-            echo "modo=ninguno" >> "$GITHUB_OUTPUT"
+            echo "hay=no" >> "$GITHUB_OUTPUT"
             echo "::warning::Sin credencial de Firebase: las reglas no se despliegan solas. Añade el secreto FIREBASE_SERVICE_ACCOUNT (cuenta de servicio con el papel Firebase Realtime Database Admin) o FIREBASE_TOKEN, o corre «firebase deploy --only database» a mano."
           fi
 
       - name: Desplegar las reglas
-        if: steps.credencial.outputs.modo != 'ninguno'
+        if: steps.credencial.outputs.hay == 'si'
         env:
-          CUENTA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          MODO: ${{ steps.credencial.outputs.modo }}
-        run: |
-          npm install -g firebase-tools --no-fund --no-audit
-          if [ "$MODO" = "cuenta" ]; then
-            umask 077
-            printf '%s' "$CUENTA" > "$RUNNER_TEMP/cuenta.json"
-            export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/cuenta.json"
-          fi
-          firebase deploy --only database --project radquiz-shpn2 --non-interactive
-
-      - name: Borrar la credencial del disco
-        if: always()
-        run: rm -f "$RUNNER_TEMP/cuenta.json"
+        run: python3 tools/desplegar_reglas
