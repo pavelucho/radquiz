@@ -1,0 +1,69 @@
+name: Desplegar reglas
+
+# Las reglas de database.rules.json deciden quién puede escribir qué en la base, y no sirven de
+# nada hasta que se despliegan. Hacerlo a mano se olvida, así que lo hace este workflow cada vez
+# que el archivo cambia en main.
+#
+# Hace falta una credencial en Settings → Secrets and variables → Actions. Cualquiera de las dos:
+#   FIREBASE_SERVICE_ACCOUNT  el JSON de una cuenta de servicio del proyecto con el papel
+#                             «Firebase Rules Admin». Es la recomendada: solo puede tocar reglas.
+#   FIREBASE_TOKEN            lo que imprime «firebase login:ci». Más rápido de obtener, pero vale
+#                             por toda la cuenta de Google en Firebase.
+# Sin credencial el workflow no falla: avisa y las reglas se quedan sin desplegar.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - database.rules.json
+      - firebase.json
+      - .github/workflows/reglas.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Comprobar que las reglas son JSON válido
+        run: |
+          python3 -c "import json; json.load(open('database.rules.json'))"
+          echo "database.rules.json es JSON válido"
+
+      - name: ¿Hay credencial?
+        id: credencial
+        env:
+          CUENTA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          if [ -n "$CUENTA" ]; then
+            echo "modo=cuenta" >> "$GITHUB_OUTPUT"
+          elif [ -n "$TOKEN" ]; then
+            echo "modo=token" >> "$GITHUB_OUTPUT"
+          else
+            echo "modo=ninguno" >> "$GITHUB_OUTPUT"
+            echo "::warning::Sin credencial de Firebase: las reglas no se despliegan solas. Añade el secreto FIREBASE_SERVICE_ACCOUNT o FIREBASE_TOKEN, o corre «firebase deploy --only database» a mano."
+          fi
+
+      - name: Desplegar las reglas
+        if: steps.credencial.outputs.modo != 'ninguno'
+        env:
+          CUENTA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          MODO: ${{ steps.credencial.outputs.modo }}
+        run: |
+          npm install -g firebase-tools --no-fund --no-audit
+          if [ "$MODO" = "cuenta" ]; then
+            umask 077
+            printf '%s' "$CUENTA" > "$RUNNER_TEMP/cuenta.json"
+            export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/cuenta.json"
+          fi
+          firebase deploy --only database --project radquiz-shpn2 --non-interactive
+
+      - name: Borrar la credencial del disco
+        if: always()
+        run: rm -f "$RUNNER_TEMP/cuenta.json"

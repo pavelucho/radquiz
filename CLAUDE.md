@@ -68,8 +68,13 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - Herramientas: `gh` está en `~/.local/bin/gh` (no en el PATH); `firebase` global vía npm.
 
 ## Pendiente
-1. Desplegar las reglas: `firebase deploy --only database`. Sin eso el estudio no puede escribir
-   `indice_publicado` y los temas nuevos tardan en salir (publicar sigue funcionando; el estudio lo avisa).
+1. Desplegar las reglas. Sin eso el estudio no puede escribir `indice_publicado` y los temas nuevos tardan
+   en salir (publicar sigue funcionando; el estudio lo avisa). Dos caminos, y conviene hacer los dos:
+   - Ahora, a mano: `firebase deploy --only database`.
+   - Para no repetirlo: poner el secreto `FIREBASE_SERVICE_ACCOUNT` (JSON de una cuenta de servicio con el
+     papel «Firebase Rules Admin») o `FIREBASE_TOKEN` (de `firebase login:ci`) en Settings → Secrets and
+     variables → Actions. `.github/workflows/reglas.yml` las despliega en cada cambio de `database.rules.json`;
+     sin secreto solo avisa, no falla.
 2. Ponerle el sello de verificado al tema ATM: confirmar Fig. 8, 12, 13 y 14 contra el PDF y correr
    `tools/aprobar temas/cabeza-cuello/atm-rm-lopezramirez2024 --revisor <usuario> --nombre "<nombre>" --todos`.
    Mientras tanto los 27 casos se practican en la web y salen como «Sin verificar».
