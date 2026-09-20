@@ -47,6 +47,9 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   Probar con `python3 -m http.server`. Necesita `temas/indice.json` (`tools/validar --indice`).
 - Sala en vivo: `sala.html` + `app/sala.js`, Firebase Realtime Database (proyecto `radquiz-shpn2`, plan Spark,
   us-central1) con auth anónima y reglas en `database.rules.json`. Probada de punta a punta el 2026-09-19.
+  El lobby del presentador muestra, junto al código, un QR del enlace `sala.html?c=<código>` (se escanea y se
+  entra con el código puesto). Lo dibuja `app/qr.js`, generador propio sin dependencias ni CDN —la red del
+  hospital puede no dejar salir— modo byte, corrección M, versiones 1 a 10.
 - En línea: repositorio público `pavelucho/radquiz`, web en https://pavelucho.github.io/radquiz/ (GitHub Pages).
   `tools/construir_sitio` + `.github/workflows/publicar.yml`: solo los casos `publicado` salen a la web (decisión del
   autor: nunca borradores en la web).

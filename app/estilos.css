@@ -104,6 +104,11 @@ input:focus-visible { outline: 2px solid var(--overlay); outline-offset: 2px; }
 .grid-label { display: grid; gap: 6px; color: var(--mute); }
 .lobby { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 18px; align-items: start; }
 .codigo { font: 700 clamp(64px, 14vw, 140px)/1 var(--disp); letter-spacing: .12em; color: var(--overlay); }
+.entrada { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between; }
+.entrada > div { flex: 1 1 240px; display: grid; gap: 8px; }
+.qr { flex: 0 0 auto; margin: 0; display: grid; gap: 6px; justify-items: center; }
+.qr img { display: block; width: clamp(130px, 16vw, 190px); height: auto; background: #fff; border: 5px solid #fff; border-radius: 6px; cursor: zoom-in; }
+.qr figcaption { font: 500 11px/1.45 var(--mono); color: var(--mute); text-align: center; }
 .players { display: flex; flex-wrap: wrap; gap: 8px; }
 .pl { font: 600 15px var(--body); padding: 6px 10px; border-radius: 4px; background: var(--panel2); border: 1px solid var(--line); }
 .opt .fill { position: absolute; inset: 0 auto 0 0; background: rgba(255, 255, 255, .06); width: 0; transition: width .5s; }
