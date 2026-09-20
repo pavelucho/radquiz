@@ -16,7 +16,7 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 DESTINO = RAIZ / "_site"
-ARCHIVOS_APP = ["index.html", "practica.html", "sala.html", "manual.html"]
+ARCHIVOS_APP = ["index.html", "practica.html", "sala.html", "manual.html", "estudio.html"]
 
 
 def construir():

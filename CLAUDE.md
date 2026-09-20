@@ -48,8 +48,13 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - En línea: repositorio público `pavelucho/radquiz`, web en https://pavelucho.github.io/radquiz/ (GitHub Pages).
   `tools/construir_sitio` + `.github/workflows/publicar.yml`: solo los casos `publicado` salen a la web (decisión del
   autor: nunca borradores en la web).
-- Manual de uso por papel (residente, presentador, autor, revisor, coordinador): `manual.html`, en línea.
-  Aprobar casos: `tools/aprobar <carpeta> --revisor <usuario> --todos|--casos a,b [--estado publicado]`.
+- Estudio web (`estudio.html` + `app/estudio.js`): autores, revisores y coordinador trabajan desde el navegador,
+  con cuenta de Google y papeles en `usuarios/`. Los casos se generan con **cualquier IA** (el estudio arma el
+  texto para copiar y lee la respuesta JSON); no depende de Claude ni de ningún proveedor.
+  Publicar = el coordinador escribe en `publicacion/`; `tools/traer_publicaciones` lo baja al repositorio cada 15
+  minutos desde el workflow. Validación en el navegador: `app/validacion.js` (espejo de `tools/validar`).
+- Manual de uso por papel: `manual.html`, en línea. Camino con Git (alternativo):
+  `tools/aprobar <carpeta> --revisor <usuario> --todos|--casos a,b [--estado publicado]`.
 - `referencia/` y `PROMPT_INICIO.md` están en `.gitignore`: solo locales (el respaldo del piloto tiene recortes ND).
 - Herramientas: `gh` está en `~/.local/bin/gh` (no en el PATH); `firebase` global vía npm.
 

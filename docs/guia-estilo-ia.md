@@ -1,7 +1,9 @@
 # Guía de estilo para generar casos con IA
 
-Esta guía se carga junto con la fuente (el PDF del artículo o el caso) cuando se le pide a una IA que arme un paquete
-de RadQuiz. Sirve igual para cualquier segmento. El resultado siempre sale como **borrador** y pasa por el
+Esta guía es la referencia completa de cómo se escriben los casos. Sirve para cualquier segmento y con **cualquier
+IA** (ChatGPT, Gemini, Copilot, Claude, DeepSeek…). El estudio web (`estudio.html`) arma solo el texto de
+instrucciones a partir de estas reglas, así que un autor normal no necesita leer este documento: lo copia y lo pega
+en la IA que use. El resultado siempre sale como **borrador** y pasa por el
 validador (`tools/validar`) y por un radiólogo revisor antes de publicarse.
 
 Formato exacto: `schema/paquete.schema.json`, `schema/caso.schema.json` y `schema/fuentes.schema.json`.

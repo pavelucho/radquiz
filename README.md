@@ -12,7 +12,8 @@ El plan completo está en el documento del proyecto; este archivo explica el rep
 ```
 schema/                     JSON Schema del formato (paquete, caso, fuentes)
 tools/validar               validador; no necesita instalar nada
-tools/aprobar               marca casos como revisados o publicados (anota revisor y fecha)
+tools/aprobar               marca casos como revisados o publicados (flujo con Git)
+tools/traer_publicaciones   baja a temas/ lo que el coordinador publicó en el estudio
 tools/config.json           límites de imagen, sitios bloqueados y umbrales
 docs/guia-estilo-ia.md      cómo escribir casos (para personas y para la IA)
 temas/<segmento>/<tema>/    un paquete por tema:
@@ -23,6 +24,7 @@ temas/<segmento>/<tema>/    un paquete por tema:
 index.html, practica.html   app estática: lista de temas y práctica individual
 manual.html                 manual de uso para cada papel
 sala.html                   sala en vivo (presentador y jugadores)
+estudio.html                estudio web: crear, revisar, aprobar y publicar cuestionarios
 app/                        código de la app; app/firebase-config.js apunta al proyecto de Firebase
 database.rules.json         reglas de seguridad de la sala en vivo (Firebase Realtime Database)
 firebase.json, .firebaserc  despliegue de reglas y acceso anónimo con la CLI de Firebase
@@ -38,6 +40,21 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
 - **A la web solo salen los casos en estado `publicado`.** Los borradores quedan en el repositorio, pero no en el sitio.
 - La sala en vivo usa Firebase Realtime Database (plan Spark gratis, proyecto `radquiz-shpn2`, us-central1) solo para
   el estado de cada sala. Si se cambian las reglas: `firebase deploy --only database,auth`.
+
+## Estudio web (camino normal)
+
+`estudio.html` permite crear, revisar y publicar cuestionarios sin Git y sin terminal:
+
+1. Cada persona entra con su cuenta de Google y pide acceso; el coordinador la acepta como autora o revisora.
+2. El autor completa fuente (con búsqueda por DOI), sube las imágenes (se comprimen en el navegador) y genera los
+   casos **con la IA que prefiera**: el estudio arma un texto para copiar y pegar, y lee la respuesta en JSON.
+   No se conecta a ningún proveedor de IA.
+3. El revisor aprueba caso por caso o pide cambios con un comentario.
+4. El coordinador publica. Cada 15 minutos, `.github/workflows/publicar.yml` ejecuta `tools/traer_publicaciones`,
+   que escribe los temas aprobados en `temas/`, los valida y los publica en la web.
+
+Los borradores viven en Firebase (`estudio/`, `estudio_img/`); lo publicado queda en el repositorio, que es el
+historial. Las reglas de `database.rules.json` definen qué puede hacer cada papel.
 
 ## Sala en vivo
 
@@ -89,7 +106,9 @@ una letra, si una imagen trae metadatos EXIF o si un caso de concepto tiene una 
    que el largo de las opciones.
 6. **Id único en todo el repositorio:** `<paquete>/<caso>`.
 
-## Agregar un tema
+## Agregar un tema con Git (camino alternativo)
+
+Para quien prefiera archivos; el camino normal es el estudio web.
 
 1. Crear `temas/<segmento>/<id>/` con `paquete.json`, `fuentes.json` e `img/`, siguiendo `docs/guia-estilo-ia.md`.
 2. Correr `tools/validar` hasta que no haya errores.

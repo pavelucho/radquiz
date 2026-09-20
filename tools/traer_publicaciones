@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+"""Trae a temas/ los cuestionarios que el coordinador publicó desde el estudio web.
+
+Uso:
+    tools/traer_publicaciones          escribe los temas nuevos o actualizados
+    tools/traer_publicaciones --ver    solo dice qué cambiaría
+
+Lee el nodo público «publicacion» de la base de datos del estudio. Solo entran casos ya aprobados,
+y después el validador vuelve a revisarlos: si algo falla, el tema no se publica.
+"""
+
+import argparse
+import base64
+import json
+import os
+import re
+import sys
+import urllib.request
+from pathlib import Path
+
+RAIZ = Path(__file__).resolve().parent.parent
+BASE = os.environ.get("RADQUIZ_DB", "https://radquiz-shpn2-default-rtdb.firebaseio.com")
+SEGMENTOS = json.loads((RAIZ / "schema" / "paquete.schema.json").read_text(encoding="utf-8"))["$defs"]["segmento"]["enum"]
+NOMBRE = re.compile(r"^[a-z0-9]+([-_][a-z0-9]+)*\.jpg$")
+ID = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+
+
+def traer(ruta):
+    with urllib.request.urlopen(f"{BASE}/{ruta}", timeout=60) as r:
+        return json.loads(r.read().decode("utf-8"))
+
+
+def escribir_tema(clave, publicacion, solo_ver):
+    paquete = json.loads(publicacion["paquete_json"])
+    fuentes = json.loads(publicacion["fuentes_json"])
+    version = publicacion.get("version", paquete.get("version"))
+    tema_id, segmento = paquete.get("id", ""), paquete.get("segmento", "")
+    if not ID.match(tema_id) or tema_id != clave or segmento not in SEGMENTOS:
+        print("  ⚠ %s: id o segmento inválidos; lo salto" % clave)
+        return False
+
+    carpeta = RAIZ / "temas" / segmento / tema_id
+    actual = carpeta / "paquete.json"
+    if actual.is_file() and json.loads(actual.read_text(encoding="utf-8")).get("version") == version:
+        return False
+    if solo_ver:
+        print("  · %s/%s pasaría a la versión %s (%d casos)" % (segmento, tema_id, version, len(paquete["casos"])))
+        return True
+
+    imagenes = traer(f"publicacion_img/{clave}.json") or {}
+    (carpeta / "img").mkdir(parents=True, exist_ok=True)
+    esperados = set()
+    for img_id, ficha in paquete.get("imagenes", {}).items():
+        archivo = ficha.get("archivo", "")
+        datos = imagenes.get(img_id, "")
+        if not NOMBRE.match(archivo) or not datos.startswith("data:image/jpeg;base64,"):
+            print("  ⚠ %s: imagen %s inválida; salto el tema" % (clave, img_id))
+            return False
+        (carpeta / "img" / archivo).write_bytes(base64.b64decode(datos.split(",", 1)[1]))
+        esperados.add(archivo)
+    for sobrante in (carpeta / "img").iterdir():
+        if sobrante.is_file() and sobrante.name not in esperados:
+            sobrante.unlink()
+
+    paquete["version"] = version
+    actual.write_text(json.dumps(paquete, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (carpeta / "fuentes.json").write_text(json.dumps(fuentes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print("  ✓ %s/%s versión %s: %d casos, %d imágenes"
+          % (segmento, tema_id, version, len(paquete["casos"]), len(esperados)))
+    return True
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Trae los temas publicados desde el estudio web.")
+    parser.add_argument("--ver", action="store_true", help="no escribe nada; solo informa")
+    args = parser.parse_args()
+
+    try:
+        claves = traer("publicacion.json?shallow=true") or {}
+    except Exception as e:  # sin red o base vacía: no es un fallo del sitio
+        print("No pude leer las publicaciones del estudio: %s" % e)
+        return 0
+
+    cambios = False
+    print("Publicaciones en el estudio: %d" % len(claves))
+    for clave in sorted(claves):
+        if not ID.match(clave):
+            continue
+        publicacion = traer(f"publicacion/{clave}.json")
+        if not publicacion or "paquete_json" not in publicacion:
+            continue
+        try:
+            cambios = escribir_tema(clave, publicacion, args.ver) or cambios
+        except Exception as e:
+            print("  ⚠ %s: %s" % (clave, e))
+    if not cambios:
+        print("Nada nuevo que traer.")
+    salida = os.environ.get("GITHUB_OUTPUT")
+    if salida:
+        with open(salida, "a", encoding="utf-8") as f:
+            f.write("cambios=%s\n" % ("true" if cambios else "false"))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

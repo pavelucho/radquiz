@@ -4,7 +4,12 @@
   },
   "auth": {
     "providers": {
-      "anonymous": true
+      "anonymous": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "RadQuiz",
+        "supportEmail": "pavelucho666@gmail.com",
+        "authorizedRedirectUris": []
+      }
     }
   }
 }

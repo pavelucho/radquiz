@@ -16,6 +16,7 @@
     <a class="brand" href="./">RadQuiz <small>Manual de uso</small></a>
     <span class="spacer"></span>
     <a class="boton" href="./">Temas</a>
+    <a class="boton" href="estudio.html">Estudio</a>
     <a class="boton primary" href="sala.html">Sala en vivo</a>
   </header>
 
@@ -36,11 +37,11 @@
         <li><a href="#conducir">Conducir la sesión</a></li>
         <li><a href="#cerrar">Cerrar la sala</a></li></ul></div>
       <div><p class="tema">Autores</p><ul>
-        <li><a href="#fuente">1. Elegir la fuente</a></li>
-        <li><a href="#equipo">2. Preparar la computadora</a></li>
-        <li><a href="#generar">3. Armar el cuestionario</a></li>
-        <li><a href="#validar">4. Validar y previsualizar</a></li>
-        <li><a href="#subir">5. Subir la propuesta</a></li></ul></div>
+        <li><a href="#entrar">Entrar al estudio</a></li>
+        <li><a href="#fuente">1. La fuente</a></li>
+        <li><a href="#imagenes">2. Las imágenes</a></li>
+        <li><a href="#generar">3. Los casos, con tu IA</a></li>
+        <li><a href="#enviar">4. Enviar a revisión</a></li></ul></div>
       <div><p class="tema">Revisores y coordinador</p><ul>
         <li><a href="#revisar">Revisar y publicar</a></li>
         <li><a href="#coordinador">Mantenimiento</a></li>
@@ -131,147 +132,125 @@
     <!-- ============================================================ AUTORES -->
     <section id="autores">
       <h2>Para autores: subir un cuestionario nuevo</h2>
-      <p>Cada cuestionario es un <b>tema</b>: una carpeta con los casos, las imágenes y las fuentes. Tú preparas la carpeta
-        en tu computadora con ayuda de Claude, la validas y la propones en GitHub. Un radiólogo la revisa y, cuando la
-        aprueba, aparece sola en la web. Las reglas de redacción están en la
-        <a href="https://github.com/pavelucho/radquiz/blob/main/docs/guia-estilo-ia.md">guía de estilo</a>.</p>
+      <p>Todo se hace desde la web, en el <a href="estudio.html">Estudio</a>: no hace falta instalar nada, ni saber
+        programar, ni usar ninguna IA en particular. Tú preparas el tema, un radiólogo lo revisa y el coordinador lo
+        publica.</p>
 
-      <h3 id="fuente">1. Elegir la fuente y confirmar la licencia</h3>
+      <h3 id="entrar">Entrar al estudio</h3>
+      <ol class="pasos">
+        <li>Abre el <a href="estudio.html">Estudio</a> y toca <b>Entrar con Google</b>.</li>
+        <li>La primera vez, pide acceso: tu nombre y si vas a <b>preparar</b> cuestionarios o a <b>revisarlos</b>.</li>
+        <li>El coordinador te acepta y ya puedes trabajar. Tus temas quedan guardados aunque cierres el navegador.</li>
+      </ol>
+      <p class="caja">Antes de empezar, ten a mano el <b>PDF</b> del artículo y las figuras que vas a usar.</p>
+
+      <h3 id="fuente">Paso 1: la fuente</h3>
+      <ol class="pasos">
+        <li>Toca <b>Nuevo cuestionario</b>, ponle título y elige el segmento.</li>
+        <li>Escribe el <b>DOI</b> del artículo y toca <b>Completar con el DOI</b>: la cita, el enlace y el titular se
+          llenan solos.</li>
+        <li>Elige la <b>licencia</b> (está en la primera página del PDF) y copia la frase donde la fuente lo dice.
+          Así queda constancia de que la leíste.</li>
+      </ol>
       <div class="tabla"><table>
         <thead><tr><th>Fuente</th><th>¿Se puede?</th><th>Condición</th></tr></thead>
         <tbody>
           <tr><td>Artículo open access CC BY</td><td>Sí</td><td>Citar autores, DOI y licencia</td></tr>
           <tr><td>Artículo open access CC BY-NC-ND (muchos de SciELO)</td><td>Sí</td><td>Uso sin fines de lucro; <b>no recortar ni dibujar sobre las figuras</b></td></tr>
           <tr><td>Radiopaedia (CC BY-NC-SA 3.0)</td><td>Sí</td><td>Nombrar al autor del caso, enlazar el caso y la licencia</td></tr>
-          <tr><td>StatDx, RadPrimer, IMAIOS, libros con copyright</td><td>No</td><td>El validador los bloquea</td></tr>
+          <tr><td>StatDx, RadPrimer, IMAIOS, libros con copyright</td><td>No</td><td>El estudio los rechaza</td></tr>
           <tr><td>Imágenes del PACS del hospital</td><td>No, en esta versión</td><td>Aunque estén anonimizadas</td></tr>
         </tbody>
       </table></div>
-      <p>La licencia se confirma en la fuente original (casi siempre en la primera página del PDF), nunca se supone.
-        Guarda el PDF: lo vas a necesitar en el paso 3.</p>
 
-      <h3 id="equipo">2. Preparar la computadora (una sola vez)</h3>
+      <h3 id="imagenes">Paso 2: las imágenes</h3>
       <ol class="pasos">
-        <li>Pide al coordinador que te agregue como colaborador del repositorio en GitHub. Si no tienes cuenta en GitHub,
-          créala primero en github.com.</li>
-        <li>Instala <a href="https://claude.com/claude-code">Claude Code</a>. Git y Python ya vienen en las Mac; en Windows,
-          instala <a href="https://git-scm.com">Git</a> y <a href="https://www.python.org">Python 3</a>.</li>
-        <li>Descarga el repositorio: en la terminal escribe
-          <pre><code>git clone https://github.com/pavelucho/radquiz.git
-cd radquiz</code></pre></li>
+        <li>Arrastra las figuras (JPG o PNG). Se achican y comprimen solas para que carguen rápido en el celular.</li>
+        <li>Revisa el nombre de cada una («Figura 2», «Tabla 1»): así las va a citar tu IA.</li>
+        <li>La leyenda la puede completar tu IA en el paso siguiente; también puedes escribirla tú.</li>
       </ol>
+      <p class="caja">Sube la figura <b>completa</b>, tal como sale en la fuente. No la recortes ni le dibujes flechas:
+        muchas licencias lo prohíben.</p>
 
-      <h3 id="generar">3. Armar el cuestionario con Claude</h3>
+      <h3 id="generar">Paso 3: los casos, con la IA que uses</h3>
+      <p>Sirve cualquiera: ChatGPT, Gemini, Copilot, Claude, DeepSeek, la que tengas. El estudio no se conecta a ninguna:
+        solo te da un texto para pegar.</p>
       <ol class="pasos">
-        <li>Crea una rama para tu tema (una rama es tu copia de trabajo):
-          <pre><code>git switch -c tema/torax-nodulos</code></pre></li>
-        <li>Abre Claude Code en la carpeta <code>radquiz</code>, adjunta el PDF y pídele algo así:
-          <blockquote>Usa la skill crear-casos-radquiz. Con este PDF arma el tema
-            <code>temas/torax/nodulos-fleischner2017</code>: fuentes con la licencia verificada, el catálogo de imágenes
-            con la leyenda textual de cada figura y 20 casos en borrador, cada uno con su evidencia. Mi usuario de autor
-            es <code>jperez</code>.</blockquote></li>
-        <li>Claude sigue la guía de estilo: no recorta las figuras, copia las leyendas tal cual, escribe los casos y corre el
-          validador. Revisa tú mismo cada caso: <b>el autor responde por su contenido</b>.</li>
+        <li>Toca <b>Copiar instrucciones</b>. Incluyen las reglas de redacción y los nombres de tus figuras.</li>
+        <li>Abre tu IA, <b>adjunta el PDF</b> y pega las instrucciones.</li>
+        <li>Copia su respuesta completa y pégala en <b>Pega aquí la respuesta de tu IA</b>. Toca <b>Cargar respuesta</b>.</li>
+        <li>Los casos aparecen como los verá el residente. Debajo de cada uno salen los problemas en rojo (hay que
+          corregirlos) y los avisos en amarillo (conviene mirarlos).</li>
+        <li>Puedes corregir a mano con <b>Editar</b>, agregar casos con <b>Agregar caso a mano</b>, o tocar
+          <b>Pedir a la IA que corrija</b> para que ella misma los arregle.</li>
       </ol>
-      <p>Cómo queda la carpeta:</p>
-      <pre><code>temas/torax/nodulos-fleischner2017/
-  paquete.json   ← datos del tema, fichas de las imágenes y casos
-  fuentes.json   ← artículo o caso citado, con DOI y licencia
-  img/           ← imágenes JPG (lado mayor ≤ 1600 px, ≤ 250 KB)
-  REVISION.md    ← notas para el revisor (opcional)</code></pre>
-      <p class="muted">Los segmentos (la carpeta intermedia) son: neurorradiologia, cabeza-cuello, torax, cardiovascular,
-        abdomen, genitourinario, musculoesqueletico, mama, pediatria, intervencionismo y fisica-tecnica.</p>
+      <p class="muted">Si tu IA responde con texto alrededor del JSON, no importa: el estudio lo reconoce igual. Si algo
+        sale mal, te dice qué pedirle.</p>
 
-      <h3 id="validar">4. Validar y previsualizar</h3>
-      <ol class="pasos">
-        <li>Valida tu carpeta. Tiene que decir <b>0 errores</b>; lee también cada aviso.
-          <pre><code>tools/validar temas/torax/nodulos-fleischner2017</code></pre>
-          En Windows, antepón <code>python</code>: <code>python tools/validar …</code>.</li>
-        <li>Mira los casos como los verán los residentes, incluidos los borradores:
-          <pre><code>tools/validar --indice
-python3 -m http.server 8000</code></pre>
-          y abre en el navegador
-          <code>http://localhost:8000/practica.html?tema=torax/nodulos-fleischner2017&amp;revision=1</code>.
-          Con <code>revision=1</code> se ven también la evidencia y la ficha técnica. Para detener el servidor:
-          <kbd>Ctrl</kbd>+<kbd>C</kbd>.</li>
-      </ol>
-
-      <h3 id="subir">5. Subir la propuesta a GitHub</h3>
-      <p><b>Desde la terminal</b> (recomendado):</p>
-      <pre><code>git add temas/torax/nodulos-fleischner2017
-git commit -m "Tema nuevo: nódulos pulmonares (Fleischner 2017)"
-git push -u origin tema/torax-nodulos</code></pre>
-      <p>La terminal muestra un enlace: ábrelo y toca <b>Create pull request</b> (propuesta de cambio). Si tienes la
-        herramienta <code>gh</code>, basta con <code>gh pr create --fill</code>.</p>
-      <p><b>Desde la página de GitHub</b>, sin terminal:</p>
-      <ol class="pasos">
-        <li>Entra a <a href="https://github.com/pavelucho/radquiz">github.com/pavelucho/radquiz</a> y abre la carpeta
-          <code>temas</code> y luego la de tu segmento.</li>
-        <li>Toca <b>Add file → Upload files</b> y arrastra la carpeta completa de tu tema.</li>
-        <li>Abajo, elige <b>Create a new branch for this commit and start a pull request</b> y toca <b>Propose changes</b>
-          y después <b>Create pull request</b>.</li>
-      </ol>
-      <p class="caja">En la propuesta aparece la revisión automática «Validar paquetes». Con ✓ verde, avisa a tu revisor.
-        Con ✗ roja, toca <b>Details</b> para ver qué falla, corrige y vuelve a subir: la propuesta se actualiza sola.</p>
+      <h3 id="enviar">Paso 4: enviar a revisión</h3>
+      <p>El paso 4 muestra un resumen. Cuando no queden problemas, toca <b>Enviar a revisión</b>: le llega a los
+        revisores y tú puedes seguir con otro tema. Si te piden cambios, verás el comentario sobre cada caso, lo
+        corriges y lo envías de nuevo.</p>
+      <p class="src">¿Prefieres trabajar con archivos y Git? También se puede: mira el
+        <a href="https://github.com/pavelucho/radquiz/blob/main/README.md">README</a> del repositorio.</p>
     </section>
 
     <!-- ============================================================ REVISORES -->
     <section id="revisar">
-      <h2>Para revisores: revisar y publicar</h2>
+      <h2>Para revisores: revisar y aprobar</h2>
+      <p>Revisar es leer cada caso como lo verá el residente y decidir. No hay que instalar nada.</p>
+      <ol class="pasos">
+        <li>Entra al <a href="estudio.html">Estudio</a>. En <b>Para revisar</b> están los temas que esperan.</li>
+        <li>Cada caso muestra la imagen, la pregunta, las opciones con la correcta marcada, la explicación y, al
+          desplegar <b>Evidencia y ficha</b>, la frase textual de la fuente y la leyenda original.</li>
+        <li>Toca <b>Aprobar</b> si está bien, o <b>Pedir cambio</b> y escribe qué corregir.</li>
+        <li>Cuando ya decidiste en todos, toca <b>Terminar revisión</b>. Si prefieres que el autor corrija primero,
+          toca <b>Devolver al autor</b>.</li>
+      </ol>
+      <p class="caja">Solo se publican los casos que apruebes. Si el autor cambia un caso después de tu visto bueno,
+        aparece marcado como «cambió tras tu revisión» y vuelve a esperar tu decisión.</p>
+      <p>Qué mirar en cada caso:</p>
+      <ul>
+        <li>La imagen muestra lo que dice la pregunta y las marcas coinciden.</li>
+        <li>La respuesta es correcta y los distractores son plausibles pero erróneos.</li>
+        <li>El enunciado no delata la respuesta ni trae datos clínicos que no estén en la leyenda.</li>
+        <li>La explicación no afirma más de lo que dice la fuente.</li>
+        <li>La licencia permite este uso y la atribución está completa.</li>
+      </ul>
       <div class="tabla"><table>
-        <thead><tr><th>Estado del caso</th><th>Qué significa</th><th>¿Sale en la web?</th></tr></thead>
+        <thead><tr><th>Estado</th><th>Qué significa</th><th>¿Sale en la web?</th></tr></thead>
         <tbody>
-          <tr><td><code>borrador</code></td><td>Lo escribió el autor; nadie lo revisó</td><td>No</td></tr>
-          <tr><td><code>revisado</code></td><td>Un radiólogo lo aprobó, pero aún se reserva</td><td>No</td></tr>
-          <tr><td><code>publicado</code></td><td>Aprobado y listo para residentes</td><td>Sí, cuando se acepta la propuesta</td></tr>
+          <tr><td>En preparación</td><td>El autor lo está escribiendo</td><td>No</td></tr>
+          <tr><td>En revisión</td><td>Espera a un radiólogo</td><td>No</td></tr>
+          <tr><td>Cambios pedidos</td><td>Volvió al autor</td><td>No</td></tr>
+          <tr><td>Aprobado</td><td>Revisado; falta que el coordinador publique</td><td>No</td></tr>
+          <tr><td>Publicado</td><td>En práctica y en salas en vivo</td><td>Sí</td></tr>
         </tbody>
       </table></div>
-      <ol class="pasos">
-        <li>Descarga la propuesta del autor a tu computadora (el número está en GitHub, en la pestaña Pull requests):
-          <pre><code>gh pr checkout 12</code></pre>
-          Sin la herramienta <code>gh</code>: <code>git fetch origin</code> y <code>git switch tema/torax-nodulos</code>
-          (el nombre de la rama figura en la propuesta).</li>
-        <li>Ábrela en el previsualizador (paso 4 de autores) y revisa caso por caso, con la evidencia y la ficha a la vista:
-          <ul>
-            <li>La imagen muestra lo que dice la pregunta y las marcas coinciden.</li>
-            <li>La respuesta es correcta y los distractores son plausibles pero erróneos.</li>
-            <li>El enunciado no delata la respuesta ni trae datos clínicos que no estén en la leyenda.</li>
-            <li>La explicación no afirma más de lo que dice la fuente.</li>
-            <li>La licencia permite este uso y la atribución está completa.</li>
-          </ul></li>
-        <li>Pide cambios en la propuesta (pestaña <b>Files changed</b>, comentando línea por línea) o apruébalos con tu usuario:
-          <pre><code>tools/aprobar temas/torax/nodulos-fleischner2017 --revisor mrojas --todos --estado publicado</code></pre>
-          También puedes aprobar solo algunos: <code>--casos nod-01,nod-02</code>. Sin <code>--estado publicado</code>, quedan
-          en «revisado». El comando anota tu usuario y la fecha, se niega si eres el autor y corre el validador.</li>
-        <li>Sube tu revisión a la misma propuesta:
-          <pre><code>git commit -am "Revisión: nódulos pulmonares"
-git push</code></pre></li>
-        <li>Cuando el coordinador acepta la propuesta (<b>Merge pull request</b>), la web se actualiza sola en 1 o 2 minutos.</li>
-      </ol>
     </section>
 
     <!-- ============================================================ COORDINADOR -->
     <section id="coordinador">
-      <h2>Para el coordinador: mantenimiento</h2>
+      <h2>Para el coordinador</h2>
+      <ol class="pasos">
+        <li><b>Dar acceso:</b> en el estudio, botón <b>Equipo</b>. Ahí aparecen las solicitudes; acepta a cada persona
+          como autor o revisor. También puedes cambiar el papel de alguien o quitarlo.</li>
+        <li><b>Publicar:</b> los temas aprobados aparecen en <b>Listos para publicar</b>. Toca <b>Publicar en la web</b>
+          y en unos 15 minutos el tema está en línea.</li>
+        <li><b>Si algo no aparece:</b> mira la pestaña <b>Actions</b> del repositorio en GitHub. Una ✗ roja significa
+          que el control automático encontró un problema; el detalle está en el paso «Validar temas».</li>
+      </ol>
       <div class="tabla"><table>
         <thead><tr><th>Pieza</th><th>Dónde está</th><th>Para qué</th></tr></thead>
         <tbody>
-          <tr><td>Código y temas</td><td><a href="https://github.com/pavelucho/radquiz">github.com/pavelucho/radquiz</a></td><td>Todo el contenido; cada cambio queda registrado</td></tr>
-          <tr><td>Web</td><td><a href="https://pavelucho.github.io/radquiz/">pavelucho.github.io/radquiz</a></td><td>GitHub Pages: gratis y siempre en línea</td></tr>
-          <tr><td>Publicación</td><td>Pestaña <b>Actions</b> del repositorio</td><td>Cada cambio en <code>main</code> valida, arma y publica el sitio</td></tr>
-          <tr><td>Salas en vivo</td><td><a href="https://console.firebase.google.com/project/radquiz-shpn2/database">Consola de Firebase</a></td><td>Base de datos en tiempo real, plan gratis Spark</td></tr>
+          <tr><td>Estudio</td><td><a href="estudio.html">estudio</a></td><td>Preparar, revisar, aprobar y publicar</td></tr>
+          <tr><td>Web</td><td><a href="https://pavelucho.github.io/radquiz/">pavelucho.github.io/radquiz</a></td><td>Lo que ven los residentes</td></tr>
+          <tr><td>Código y temas publicados</td><td><a href="https://github.com/pavelucho/radquiz">github.com/pavelucho/radquiz</a></td><td>Historial de todo lo publicado</td></tr>
+          <tr><td>Salas y borradores</td><td><a href="https://console.firebase.google.com/project/radquiz-shpn2/database">Firebase</a></td><td>Base de datos gratuita del estudio y de las salas</td></tr>
         </tbody>
       </table></div>
-      <ul>
-        <li><b>Sumar autores o revisores:</b> en GitHub, <b>Settings → Collaborators → Add people</b>.</li>
-        <li><b>Aceptar un tema:</b> en la propuesta, con la revisión automática en ✓ y los casos aprobados, toca
-          <b>Merge pull request</b>. Nada llega a la web sin ese paso.</li>
-        <li><b>Si la web no se actualiza:</b> revisa la pestaña Actions. Una ✗ roja casi siempre es un error del validador;
-          el detalle aparece en el paso «Validar temas».</li>
-        <li><b>Si cambias las reglas de Firebase</b> (<code>database.rules.json</code>): <code>firebase deploy --only database,auth</code>.</li>
-        <li><b>Límites del plan gratis:</b> 100 personas conectadas a la vez en las salas; sitio de hasta 1 GB y unos 100 GB
-          de tráfico al mes. Con imágenes de ~100 KB alcanza para miles de casos.</li>
-      </ul>
+      <p class="muted">Límites del plan gratis: 100 personas conectadas a la vez en las salas; sitio de hasta 1 GB y unos
+        100 GB de tráfico al mes.</p>
     </section>
 
     <!-- ============================================================ PROBLEMAS -->
@@ -287,7 +266,10 @@ git push</code></pre></li>
           <tr><td>La imagen tarda en aparecer</td><td>Red lenta. Espera unos segundos; la siguiente se descarga de antemano.</td></tr>
           <tr><td>Un tema dice «En revisión»</td><td>Todavía no tiene casos publicados. Aparecerá cuando un revisor los apruebe.</td></tr>
           <tr><td>El presentador perdió el control de la sala</td><td>Pasa si cambió de computadora o de navegador. Crear una sala nueva y compartir el código.</td></tr>
-          <tr><td>El validador marca errores</td><td>Cada línea dice el caso y el problema. La <a href="https://github.com/pavelucho/radquiz/blob/main/docs/guia-estilo-ia.md">guía de estilo</a> explica cada regla.</td></tr>
+          <tr><td>El estudio marca problemas en rojo</td><td>Cada línea dice qué falta en ese caso. Puedes corregirlo a mano o tocar «Pedir a la IA que corrija».</td></tr>
+          <tr><td>«No encontré ningún JSON en la respuesta»</td><td>Tu IA contestó con texto. Pídele: «devuelve solo el JSON, sin explicaciones».</td></tr>
+          <tr><td>La IA citó una figura que no reconozco</td><td>Revisa que el nombre de la imagen en el paso 2 sea igual al de la fuente («Figura 2»).</td></tr>
+          <tr><td>Publiqué y no aparece en la web</td><td>Espera 15 minutos. Si sigue igual, revisa Actions en GitHub.</td></tr>
           <tr><td>Hay un error en un caso publicado</td><td>Avisa al coordinador o abre un <em>issue</em> en GitHub indicando el tema y el caso.</td></tr>
         </tbody>
       </table></div>

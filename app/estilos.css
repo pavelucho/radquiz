@@ -143,3 +143,36 @@ input:focus-visible { outline: 2px solid var(--overlay); outline-offset: 2px; }
 .manual, .manual section, .manual li, .manual .tabla, .toc > div { min-width: 0; }
 .manual pre { max-width: 100%; }
 .tabla code { white-space: nowrap; overflow-wrap: normal; }
+
+/* estudio */
+.pasos-nav { display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.paso { font: 600 15px var(--body); background: none; border: 1px solid transparent; }
+.paso.activo { background: var(--panel2); border-color: var(--line); }
+.badge.revision { color: var(--c); border-color: #23514c; }
+.badge.cambios { color: var(--bad); border-color: #5a2a31; }
+.badge.aprobado { color: var(--ok); border-color: #1f4d38; }
+.badge.publicado { color: var(--overlay); border-color: #5a4a1e; }
+.problemas { margin: 0; padding-left: 18px; display: grid; gap: 3px; font-size: 14px; }
+.problemas .error { color: var(--bad); }
+.problemas .aviso { color: var(--overlay); }
+.soltar { display: grid; gap: 4px; place-items: center; padding: 26px; border: 2px dashed var(--line); border-radius: 8px; cursor: pointer; text-align: center; }
+.soltar.encima { border-color: var(--overlay); background: rgba(240, 194, 75, .06); }
+.galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 12px; }
+.galeria.chica { grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
+.miniatura { width: 100%; max-height: 220px; object-fit: contain; background: #000; border-radius: 6px; cursor: zoom-in; }
+.miniatura.chica { max-height: 90px; }
+.caso-card.con-cambios { border-color: #5a2a31; }
+.caso-revision.aprobado { border-left: 3px solid var(--ok); }
+.caso-revision.cambios { border-left: 3px solid var(--bad); }
+.caso-revision.cambiado { border-left: 3px solid var(--overlay); }
+.opciones-lista { margin: 0; padding-left: 20px; display: grid; gap: 2px; font-size: 15px; }
+.opciones-lista .correcta { color: var(--ok); font-weight: 600; }
+.ia { display: grid; gap: 10px; border: 1px solid #23514c; background: rgba(63, 184, 166, .06); border-radius: 8px; padding: 14px; }
+.pasos-ia { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+.instrucciones { white-space: pre-wrap; max-height: 320px; overflow: auto; font: 500 12.5px/1.5 var(--mono); background: #07090c; border: 1px solid var(--line); border-radius: 6px; padding: 10px; }
+textarea { font: 400 15px/1.5 var(--body); color: var(--ink); background: var(--panel2); border: 1px solid var(--line); border-radius: 6px; padding: 10px; width: 100%; resize: vertical; }
+.k.chica { width: 26px; height: 26px; font-size: 15px; background: var(--panel2); color: var(--ink); display: grid; place-items: center; border-radius: 4px; }
+.casos { display: grid; gap: 12px; }
+.toast.malo { border-color: var(--bad); color: var(--bad); }
+.ubic { font: 500 12px var(--mono); color: var(--mute); }
+blockquote { margin: 4px 0; padding: 6px 12px; border-left: 3px solid var(--line); font-size: 15px; }
