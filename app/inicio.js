@@ -1,5 +1,7 @@
-// RadQuiz — pantalla de inicio: lista los temas de temas/indice.json por segmento.
+// RadQuiz — pantalla de inicio: lista los temas por segmento. La lista sale de temas/indice.json,
+// que arma el sitio, más lo que se acaba de publicar en el estudio y el sitio todavía no trae.
 import { $, esc, cargarJSON, SEGMENTOS } from "./comun.js";
+import { indiceEnVivo, fusionarIndice } from "./publicado.js";
 
 const app = $("#app");
 
@@ -22,16 +24,17 @@ function tarjeta(paquete) {
 }
 
 async function iniciar() {
-  let indice;
-  try {
-    indice = await cargarJSON("temas/indice.json");
-  } catch (e) {
+  const [indice, vivo] = await Promise.all([
+    cargarJSON("temas/indice.json").catch(() => null),
+    indiceEnVivo(),
+  ]);
+  if (!indice && !vivo.length) {
     app.innerHTML = `<section class="panel"><h2>No encontré la lista de temas</h2>
       <p class="muted" style="margin-top:8px">Falta <code>temas/indice.json</code>. Se genera con <code>tools/validar --indice</code>.</p></section>`;
     return;
   }
   const porSegmento = new Map();
-  for (const paquete of indice.paquetes || []) {
+  for (const paquete of fusionarIndice(indice?.paquetes || [], vivo)) {
     if (!porSegmento.has(paquete.segmento)) porSegmento.set(paquete.segmento, []);
     porSegmento.get(paquete.segmento).push(paquete);
   }
