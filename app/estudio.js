@@ -688,7 +688,7 @@ function pasoCasos(t, v) {
     <div class="row" style="justify-content:space-between"><h3>${casos.length} casos</h3>
       <button id="nuevo-caso">Agregar caso a mano</button></div>
     <div class="casos">${casos.map((c) => tarjetaCaso(t, c, v)).join("") || `<p class="muted">Todavía no hay casos.</p>`}</div>
-    <div class="row"><button id="ir-enviar">Siguiente: enviar</button></div>
+    <div class="row"><button id="ir-publicar">Siguiente: publicar</button></div>
   </section>`;
 }
 
@@ -837,7 +837,7 @@ function enlazarEditor(t) {
   });
   $("#ir-imagenes") && ($("#ir-imagenes").onclick = () => { paso = "imagenes"; dibujar(); });
   $("#ir-casos") && ($("#ir-casos").onclick = () => { paso = "casos"; dibujar(); });
-  $("#ir-enviar") && ($("#ir-enviar").onclick = () => { paso = "enviar"; dibujar(); });
+  $("#ir-publicar") && ($("#ir-publicar").onclick = () => { paso = "publicar"; dibujar(); });
 
   if (paso === "fuente") {
     $("#buscar").onclick = () => buscarDoi(id);
