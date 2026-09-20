@@ -1,6 +1,6 @@
 // RadQuiz — instrucciones para cualquier IA (ChatGPT, Gemini, Copilot, Claude, DeepSeek…) y lectura de su respuesta.
 // No depende de ningún proveedor: el autor copia un texto, lo pega en su IA con el PDF y pega la respuesta de vuelta.
-import { imagenesOrdenadas, casosOrdenados, lista, idImagen, LICENCIAS } from "./validacion.js";
+import { imagenesOrdenadas, casosOrdenados, lista, idImagen, LICENCIAS, MODALIDADES } from "./validacion.js";
 import { SEGMENTOS } from "./comun.js";
 
 const EJEMPLO = `{
@@ -79,44 +79,74 @@ ${EJEMPLO}`;
 // Para una IA que además de escribir puede ejecutar código (ChatGPT con análisis de datos, Claude
 // con su herramienta de análisis, Gemini con ejecución): que devuelva el cuestionario entero —texto
 // e imágenes— en un solo .zip, con la misma forma que una carpeta de temas/ en el repositorio.
+//
+// El prompt lleva dentro un comprobador en Python que la IA tiene que correr antes de entregar.
+// Repite las reglas del esquema (schema/*.schema.json) porque ahí es donde se equivocan: el .zip
+// llega bien formado o no llega, y un aviso del estudio a toro pasado no sirve de nada.
 export function instruccionesPaquete(cantidad = 20) {
-  return `Eres un radiólogo docente. Con el documento de acceso abierto que te adjunto tienes que armar
-un cuestionario de opción múltiple para residentes de radiología y devolvérmelo en UN SOLO archivo .zip.
+  const segmentos = Object.keys(SEGMENTOS).join(" · ");
+  const modalidades = MODALIDADES.join(" · ");
+  const licencias = LICENCIAS.map((l) => l.valor).join(" · ");
+  const nd = LICENCIAS.filter((l) => l.nd).map((l) => l.valor).join(" y ");
+  return `Eres un radiólogo docente. Con el documento de acceso abierto que te adjunto vas a armar un
+cuestionario de opción múltiple para residentes de radiología y devolvérmelo en UN SOLO archivo .zip.
 
-QUÉ TIENE QUE LLEVAR EL .ZIP (exactamente estos nombres, sin carpeta de más arriba)
-  paquete.json
-  fuentes.json
-  img/fig02.jpg, img/fig03.jpg, …   una por figura usada
+Necesito que ejecutes código: hay que sacar las figuras del PDF y comprobar el resultado antes de
+entregarlo. Si no puedes ejecutar código, dímelo ahora y lo hacemos de otra manera.
 
-LAS IMÁGENES
-- Sácalas del PDF con código (PyMuPDF, pdfimages o similar), en JPG.
-- Cada archivo es UNA FIGURA COMPLETA tal como se publicó, con todos sus paneles y su composición.
-  Nunca un panel suelto, nunca recortada, nunca con flechas, círculos o texto añadidos por ti:
-  la licencia de la mayoría de estas fuentes no permite obras derivadas.
-- Lado mayor de 1600 px como máximo y menos de 250 KB por archivo. Redimensionar y comprimir sí se puede.
-- Nombra el archivo con el id de la figura: "Figura 2" → fig02.jpg, "Figura 3B" → fig03b.jpg, "Tabla 1" → tabla1.jpg.
-- Si no puedes extraer las imágenes, dímelo y devuelve el .zip solo con los dos .json: las subo yo.
+──────────────────────────────── 1. QUÉ LLEVA EL .ZIP
+Exactamente estos nombres, SIN una carpeta por encima:
 
-REGLAS DE LOS CASOS
+    paquete.json
+    fuentes.json
+    img/fig02.jpg
+    img/fig03.jpg   … una por figura usada
+
+Los nombres de img/ van en minúsculas y terminan en .jpg (ni .jpeg ni .png), y se forman con el id
+de la figura: "Figura 2" → fig02.jpg · "Figura 3B" → fig03b.jpg · "Tabla 1" → tabla1.jpg.
+
+──────────────────────────────── 2. LAS FIGURAS
+- Con PyMuPDF (fitz): localiza el rectángulo que contiene la figura ENTERA —todos sus paneles, sin
+  el texto de la leyenda— y renderiza esa zona:
+      pagina.get_pixmap(clip=rect, dpi=200).save(...)
+  Luego a JPG, lado mayor 1600 px como máximo y por debajo de 250 KB. Sin metadatos EXIF.
+- NO uses page.get_images() ni extract_image() para sacar los objetos incrustados uno a uno. Una
+  figura de varios paneles suele estar guardada como varias imágenes sueltas, y entregarlas por
+  separado es partir la figura.
+  Las licencias sin derivadas (${nd}) solo permiten redimensionar y comprimir:
+  nada de recortar, partir ni anotar.
+- Comprobación mental: el número de archivos de img/ tiene que ser el número de FIGURAS que usas,
+  no el de paneles.
+- Si no consigues extraer alguna figura, déjala fuera del .zip y dímelo: se sube luego a mano.
+
+──────────────────────────────── 3. REGLAS DE LOS CASOS
 ${REGLAS.map((r, i) => `${i + 1}. ${r}`).join("\n")}
+${REGLAS.length + 1}. Escribe los casos en español aunque el documento esté en otro idioma. Las leyendas, no:
+    esas van copiadas tal cual, en el idioma original.
 
-paquete.json
+──────────────────────────────── 4. paquete.json
+Lo que va detrás de // son notas para ti: JSON no admite comentarios, así que no los copies.
 {
-  "id": "minusculas-con-guiones",
+  "id": "minusculas-con-guiones",            // descriptivo + primer autor + año: "atm-rm-lopezramirez2024"
   "titulo": "Título del cuestionario",
   "descripcion": "Una línea (opcional)",
-  "segmento": "uno de: ${Object.keys(SEGMENTOS).join(", ")}",
-  "modalidades": ["RM"],
+  "segmento": "uno de: ${segmentos}",
+  "modalidades": ["RM"],                     // una o más de: ${modalidades}
   "idioma": "es",
   "version": "0.1.0",
   "imagenes": {
-    "fig02": {
+    "fig02": {                               // la clave es el id: minúsculas, números y guiones
       "archivo": "fig02.jpg",
-      "figura": "Figura 2",
-      "leyenda_original": "La leyenda copiada tal cual del documento, sin traducir.",
-      "modalidad": "RM",
-      "paneles": [{ "id": "A", "lado": "derecho", "plano": "sagital oblicuo", "secuencia": "DP", "condicion": "boca cerrada" }],
-      "marcas": [{ "marca": "flecha blanca", "panel": "A", "senala": "qué señala, según la leyenda" }],
+      "fuente": "lopezramirez2024",          // la clave que uses en fuentes.json
+      "figura": "Figura 2",                  // como la nombra el documento
+      "leyenda_original": "La leyenda copiada tal cual, sin traducir ni resumir.",
+      "modalidad": "RM",                     // o null si la leyenda no lo dice
+      "paneles": [
+        { "id": "A", "lado": "derecho", "plano": "sagital oblicuo", "secuencia": "DP", "condicion": "boca cerrada" }
+      ],                                     // "lado": derecho · izquierdo · bilateral · null
+      "marcas": [                            // [] si la figura no tiene flechas ni círculos
+        { "marca": "flecha blanca", "panel": "A", "senala": "qué señala, según la leyenda" }
+      ],
       "modificaciones": ["redimensionada", "comprimida"]
     }
   },
@@ -125,37 +155,143 @@ paquete.json
       "id": "caso-01",
       "tema": "Subtema corto",
       "etiquetas": ["palabra clave"],
-      "tipo": "imagen",
-      "enunciado": "Descripción técnica de la imagen y la pregunta.",
-      "imagenes": [{ "ref": "fig02", "mostrar_en": "pregunta" }],
-      "opciones": ["Opción A", "Opción B", "Opción C", "Opción D", "Opción E"],
-      "correcta": 2,
+      "tipo": "imagen",                      // "imagen" o "concepto"
+      "enunciado": "Descripción técnica de la imagen y, al final, la pregunta terminada en ?",
+      "imagenes": [{ "ref": "fig02", "mostrar_en": "pregunta" }],   // "pregunta" o "respuesta"
+      "opciones": ["Primera opción", "Segunda opción", "Tercera opción", "Cuarta opción", "Quinta opción"],
+      "correcta": 2,                         // posición desde 0: aquí, "Tercera opción". 0 la primera, 4 la quinta
       "explicacion": "- Primera idea.\\n- Segunda idea.",
       "perla": "Frase práctica (opcional).",
-      "evidencia": [{ "ubicacion": "p. 5, leyenda de la Figura 2", "cita": "Frase copiada textual del documento." }]
+      "evidencia": [
+        { "ubicacion": "p. 5, leyenda de la Figura 2", "cita": "Frase copiada textual, 10 caracteres como mínimo." }
+      ]
     }
   ]
 }
 
-fuentes.json  (una sola fuente, con la clave que quieras: apellido del primer autor + año)
+Los campos que no aparecen arriba no van: el catálogo no admite claves de más. Todo "ref" de un
+caso tiene que existir como clave de "imagenes"; si la figura no está, el caso no la cita.
+
+──────────────────────────────── 5. fuentes.json
+Una sola fuente. La clave: apellido del primer autor + año, en minúsculas.
 {
   "lopezramirez2024": {
-    "tipo": "articulo",
-    "cita": "Cita completa con volumen, páginas y doi:",
-    "credito": "López-Ramírez M, et al. Austral J Imaging. 2024",
-    "doi": "10.24875/AJI.23000069",
+    "tipo": "articulo",                      // articulo · caso · libro · banco
+    "cita": "Cita Vancouver completa, con volumen, páginas y doi:",
+    "credito": "López-Ramírez M, et al. Austral J Imaging. 2024",   // corto, va bajo cada imagen
+    "doi": "10.24875/AJI.23000069",          // sin https://doi.org/ delante
     "url": "https://doi.org/10.24875/AJI.23000069",
-    "titular": "© 2024 Sociedad …  (lo que diga el «©» del documento)",
-    "licencia": "una de: ${LICENCIAS.map((l) => l.valor).join(", ")}",
+    "titular": "© 2024 Sociedad …",          // copiado del «©» del documento
+    "licencia": "una de: ${licencias}",
     "verificacion": { "donde": "p. 136: «frase del documento donde dice la licencia»" }
   }
 }
 
-- Escribe alrededor de ${cantidad} casos, al menos el 70 % de tipo "imagen".
-- "correcta" es la posición contando desde 0: 0 es la primera opción y 4 la quinta.
-- Comprueba antes de dármelo: que el .zip abra, que los dos .json sean JSON válido, que cada "ref"
-  de un caso exista en "imagenes" y que cada "archivo" exista dentro de img/.
-- Dame el .zip para descargar y, aparte, dime en una línea qué figuras no pudiste extraer.`;
+La licencia se copia EXACTA de esa lista: el estudio saca de ahí la URL y si permite o no modificar
+la figura. Si el documento no dice claramente su licencia, dímelo en vez de adivinarla.
+
+──────────────────────────────── 6. COMPRUÉBALO ANTES DE DÁRMELO
+Corre esto sobre tu .zip y arregla lo que salga. No me lo entregues hasta que imprima «todo bien».
+
+import json, re, zipfile
+from PIL import Image
+import io
+
+RUTA = "cuestionario.zip"
+SEG = "${Object.keys(SEGMENTOS).join(" ")}".split()
+MOD = ${JSON.stringify(MODALIDADES)}
+ND  = ${JSON.stringify(LICENCIAS.filter((l) => l.nd).map((l) => l.valor))}
+LIC = ${JSON.stringify(LICENCIAS.map((l) => l.valor))}
+
+z = zipfile.ZipFile(RUTA)
+hay = set(z.namelist())
+malo = []
+def mal(m): malo.append(m)
+
+for n in ("paquete.json", "fuentes.json"):
+    if n not in hay: mal("falta " + n)
+if malo: raise SystemExit("\\n".join(malo))
+
+p = json.loads(z.read("paquete.json"))
+f = json.loads(z.read("fuentes.json"))
+clave = [k for k in f if k != "$schema"]
+if len(clave) != 1: mal("fuentes.json debe tener una sola fuente")
+src = f[clave[0]] if clave else {}
+
+if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", p.get("id", "")): mal("id del paquete inválido")
+if p.get("segmento") not in SEG: mal("segmento inválido: %r" % p.get("segmento"))
+if p.get("idioma") != "es": mal("idioma debe ser es")
+if not re.fullmatch(r"\\d+\\.\\d+\\.\\d+", str(p.get("version", ""))): mal("version debe ser como 0.1.0")
+if not p.get("modalidades"): mal("faltan modalidades")
+for m in p.get("modalidades") or []:
+    if m not in MOD: mal("modalidad inválida: %r" % m)
+for campo in ("tipo", "cita", "url", "titular", "licencia"):
+    if not src.get(campo): mal("falta fuentes.json → " + campo)
+if src.get("licencia") not in LIC: mal("licencia inválida: %r" % src.get("licencia"))
+if len(src.get("cita", "")) < 20: mal("la cita es demasiado corta")
+if src.get("tipo") == "articulo" and not re.fullmatch(r"10\\.\\d{4,9}/\\S+", src.get("doi") or ""):
+    mal("un artículo necesita DOI, empezando por 10.")
+if len((src.get("verificacion") or {}).get("donde", "")) < 3:
+    mal("falta la frase del documento donde dice la licencia")
+
+for iid, img in (p.get("imagenes") or {}).items():
+    if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", iid): mal("id de imagen inválido: %r" % iid)
+    arch = img.get("archivo", "")
+    if not re.fullmatch(r"[a-z0-9]+([-_][a-z0-9]+)*\\.jpg", arch): mal("nombre inválido: %r" % arch)
+    if not img.get("figura"): mal(iid + ": falta figura")
+    if not img.get("leyenda_original"): mal(iid + ": falta leyenda_original")
+    if img.get("fuente") != (clave[0] if clave else None): mal(iid + ": fuente no coincide")
+    if not img.get("paneles"): mal(iid + ": paneles no puede estar vacío")
+    if src.get("licencia") in ND and set(img.get("modificaciones") or []) - {"redimensionada", "comprimida"}:
+        mal(iid + ": esa licencia no permite recortar, partir ni anotar la figura")
+    ruta = "img/" + arch
+    if ruta not in hay:
+        mal("falta " + ruta); continue
+    datos = z.read(ruta)
+    if len(datos) > 250 * 1024: mal("%s pesa %d KB, máximo 250" % (arch, len(datos) // 1024))
+    im = Image.open(io.BytesIO(datos))
+    if im.format != "JPEG": mal(arch + " no es JPEG")
+    if max(im.size) > 1600: mal("%s mide %dx%d, lado mayor máximo 1600" % (arch, *im.size))
+
+vistos = set()
+if not p.get("casos"): mal("no hay casos")
+for c in p.get("casos") or []:
+    cid = c.get("id", "?")
+    if cid in vistos: mal("id de caso repetido: " + cid)
+    vistos.add(cid)
+    if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", cid): mal("id de caso inválido: %r" % cid)
+    if not c.get("tema"): mal(cid + ": falta tema")
+    if not c.get("enunciado"): mal(cid + ": falta enunciado")
+    if c.get("tipo") not in ("imagen", "concepto"): mal(cid + ": tipo inválido")
+    op = c.get("opciones") or []
+    if len(op) != 5: mal("%s: tiene %d opciones, deben ser 5" % (cid, len(op)))
+    if any(not str(o).strip() for o in op): mal(cid + ": hay una opción vacía")
+    if len({str(o).strip().lower() for o in op}) != len(op): mal(cid + ": hay opciones repetidas")
+    if not isinstance(c.get("correcta"), int) or not 0 <= c["correcta"] < len(op):
+        mal(cid + ": correcta fuera de rango")
+    elif len(op) > 1 and len(str(op[c["correcta"]])) >= 1.3 * max(len(str(o)) for i, o in enumerate(op) if i != c["correcta"]):
+        mal(cid + ": la correcta es mucho más larga que las demás; iguala los largos")
+    if not c.get("explicacion"): mal(cid + ": falta explicacion")
+    ev = c.get("evidencia") or []
+    if not ev or any(len(e.get("cita", "")) < 10 or not e.get("ubicacion") for e in ev):
+        mal(cid + ": falta evidencia con ubicación y frase textual")
+    refs = c.get("imagenes") or []
+    for r in refs:
+        if r.get("ref") not in (p.get("imagenes") or {}): mal("%s: usa una imagen que no existe: %r" % (cid, r.get("ref")))
+        if r.get("mostrar_en") not in ("pregunta", "respuesta"): mal(cid + ": mostrar_en inválido")
+    if c.get("tipo") == "imagen" and not [r for r in refs if r.get("mostrar_en") == "pregunta"]:
+        mal(cid + ": es de tipo imagen pero no muestra ninguna en la pregunta")
+
+esperadas = {"img/" + i.get("archivo", "") for i in (p.get("imagenes") or {}).values()}
+for n in hay:
+    if n.startswith("img/") and n not in esperadas: mal("sobra " + n)
+
+print("\\n".join("✗ " + m for m in malo) if malo else "todo bien: %d casos, %d imágenes" % (len(p["casos"]), len(p["imagenes"])))
+
+──────────────────────────────── 7. ENTREGA
+- Alrededor de ${cantidad} casos, al menos el 70 % de tipo "imagen".
+- Dame el .zip para descargar.
+- Y en una línea aparte: qué figuras no pudiste extraer y qué dudas te quedaron sobre la licencia.`;
 }
 
 export function instruccionesCorreccion(tema, problemas) {

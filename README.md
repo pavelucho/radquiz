@@ -79,8 +79,13 @@ carpeta; ese nivel se ignora, igual que la basura de `__MACOSX`.
 - **Descargar .zip** (paso 4): lo mismo que se publica, listo para volver a subirlo, mandarlo a `temas/` por Git o
   guardarlo antes de borrar el tema.
 - En «Nuevo cuestionario», **Copiar instrucciones para el .zip** da el texto para una IA que sepa ejecutar código:
-  saca las figuras del PDF y devuelve el `.zip` armado. Hay que mirar las figuras una por una antes de crearlo: una
-  IA puede partir una figura en paneles sueltos, y las licencias ND no permiten obras derivadas.
+  saca las figuras del PDF y devuelve el `.zip` armado. El prompt (`instruccionesPaquete()`) repite las reglas del
+  esquema —enums de segmento, modalidad y licencia, patrones de id, límites de imagen— y termina con un
+  **comprobador en Python que la IA tiene que correr antes de entregar**: abre su propio `.zip` y no da el visto
+  bueno hasta que todo cuadra. Los enums salen de `SEGMENTOS`, `MODALIDADES` y `LICENCIAS`, así que el prompt no se
+  desincroniza del formato.
+- Aun así hay que mirar las figuras una por una antes de crearlo: una IA puede partir una figura en paneles
+  sueltos, y las licencias ND no permiten obras derivadas. Eso el comprobador no lo puede ver.
 - Leer y escribir `.zip` es `app/zip.js`: usa `DecompressionStream` del navegador, sin dependencias. Al escribir
   guarda sin comprimir (un JPEG ya está comprimido), y el archivo lo abren `unzip`, el Finder y `zipfile` de Python.
 
