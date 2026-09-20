@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "feller2021": {
+    "cita": "Feller C, Ilen L, Eliez S, Schneider M. Psychotic experiences in daily-life in adolescents and young adults with 22q11.2 deletion syndrome: An Ecological Momentary Assessment study. Schizophrenia Research. 2021;238:54-61. doi:10.1016/j.schres.2021.09.024",
+    "credito": "Feller C, et al. Schizophrenia Research. 2021",
+    "doi": "10.1016/j.schres.2021.09.024",
+    "licencia": "CC BY-NC-ND 4.0",
+    "licencia_url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "modificaciones_permitidas": false,
+    "tipo": "articulo",
+    "titular": "© 2021 Elsevier BV",
+    "url": "https://doi.org/10.1016/j.schres.2021.09.024",
+    "verificacion": {
+      "donde": "CC BY-NC-ND 4.0",
+      "fecha": "2026-09-20",
+      "por": "Sharon Vargas"
+    }
+  }
+}
