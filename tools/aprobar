@@ -7,7 +7,7 @@ Uso:
     tools/aprobar temas/torax/mi-tema --publicar --todos      (publica sin sello)
 
 Es el camino con Git: en el estudio web todo esto se hace con botones. Anota el revisor y la fecha de hoy,
-se niega si el revisor es el mismo autor, y al final corre el validador.
+y al final corre el validador.
 """
 
 import argparse
@@ -49,10 +49,6 @@ def main():
     faltan = [x for x in pedidos if x not in por_id]
     if faltan:
         sys.exit("Estos casos no existen en el paquete: %s" % ", ".join(faltan))
-    propios = [x for x in pedidos if por_id[x].get("autor") == args.revisor]
-    if propios:
-        sys.exit("No puedes verificar tus propios casos: %s" % ", ".join(propios))
-
     for caso_id in pedidos:
         caso = por_id[caso_id]
         caso["estado"] = "publicado"

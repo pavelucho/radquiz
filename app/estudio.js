@@ -32,6 +32,7 @@ let paso = "fuente";
 let editando = null;        // id del caso que se está editando (bloquea el redibujado)
 let cargandoImagenes = false;
 let ordenVerificacion = null;   // el orden se fija al abrir el tema para que no salte al decidir
+let modoVerificar = false;      // un revisor puede sellar también sus propios temas
 
 const hoy = () => new Date().toISOString().slice(0, 10);
 const esCoord = () => perfil?.rol === "coordinador";
@@ -350,15 +351,29 @@ function temaNuevo() {
 function vistaTema() {
   const t = temaActual();
   if (!t) return (app.innerHTML = `<p class="muted">Cargando…</p>`);
-  const revisando = esRevisor() && !soyAutor(t) && t.meta.estado === "publicado" && !puedeEditar(t);
+  const publicado = t.meta.estado === "publicado";
+  const revisando = esRevisor() && publicado && (modoVerificar || !puedeEditar(t));
+  const alternar = esRevisor() && publicado && puedeEditar(t)
+    ? `<button id="alternar">${modoVerificar ? "Volver a editar" : "Verificar casos"}</button>` : "";
   const cabecera = `<div class="row" style="justify-content:space-between;align-items:baseline">
       <div><a class="src" href="#/">← Todos los temas</a><h1>${esc(t.meta.titulo)}</h1>
         <p class="muted">${esc(SEGMENTOS[t.meta.segmento] || "")} · ${esc(t.meta.autor_nombre || "")} · ${chipEstado(t.meta.estado)}</p></div>
+      ${alternar}
     </div>`;
-  if (revisando) return (app.innerHTML = cabecera + panelVerificacion(t)), enlazarVerificacion(t);
+  if (revisando) {
+    app.innerHTML = cabecera + panelVerificacion(t);
+    enlazarVerificacion(t);
+    return enlazarAlternar();
+  }
   if (!puedeEditar(t)) return (app.innerHTML = cabecera + panelSoloLectura(t)), null;
   app.innerHTML = cabecera + editor(t);
   enlazarEditor(t);
+  enlazarAlternar();
+}
+
+function enlazarAlternar() {
+  const boton = $("#alternar");
+  if (boton) boton.onclick = () => { modoVerificar = !modoVerificar; ordenVerificacion = null; dibujar(); };
 }
 
 function panelSoloLectura(t) {
@@ -606,7 +621,8 @@ function panelVerificacion(t) {
   const n = cuentas(t);
   return `<section style="display:grid;gap:14px">
     <p class="caja">Verifica lo que puedas: cada caso que apruebes queda con tu nombre y se marca como verificado en la
-      web. Arriba aparecen primero los casos reportados y los que nadie ha mirado.</p>
+      web. Arriba aparecen primero los casos reportados y los que nadie ha mirado.${soyAutor(t)
+        ? " Este tema es tuyo: el sello dirá que lo verificaste tú, así que conviene que otro radiólogo lo mire también." : ""}</p>
     <div class="row"><span class="chip">${n.verificados} ${n.verificados === 1 ? "verificado" : "verificados"} de ${n.casos}</span>
       ${n.reportados ? `<span class="chip">${n.reportados} con reportes</span>` : ""}
       <button id="verificar-todo">Verificar todos los que faltan</button></div>
@@ -1003,6 +1019,7 @@ function dibujar() {
     if (temaAbierto !== ruta[1]) {
       temaAbierto = ruta[1];
       ordenVerificacion = null;
+      modoVerificar = false;
       paso = "fuente";
       editando = null;
       imagenesTema = {};

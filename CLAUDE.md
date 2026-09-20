@@ -51,8 +51,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   autor: nunca borradores en la web).
 - Estudio web (`estudio.html` + `app/estudio.js`): quien entra con Google queda de alta como autor solo
   (`usuarios/`); «revisor» y «coordinador» los da el coordinador. Publicar es directo; verificar es posterior
-  (`verificacion/`), lo hace cualquier revisor sobre cualquier caso publicado de otro, y se retira solo si el autor
-  edita y vuelve a publicar. Los reportes de error de la web (`reportes/`) ponen el caso primero en la cola. Los casos se generan con **cualquier IA** (el estudio arma el
+  (`verificacion/`), lo hace cualquier revisor sobre cualquier caso publicado —incluidos los suyos, con el botón
+  «Verificar casos»— y se retira solo si el autor edita y vuelve a publicar. Los reportes de error de la web (`reportes/`) ponen el caso primero en la cola. Los casos se generan con **cualquier IA** (el estudio arma el
   texto para copiar y lee la respuesta JSON); no depende de Claude ni de ningún proveedor.
   Publicar = el coordinador escribe en `publicacion/`; `tools/traer_publicaciones` lo baja al repositorio cada 15
   minutos desde el workflow. Validación en el navegador: `app/validacion.js` (espejo de `tools/validar`).

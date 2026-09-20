@@ -242,7 +242,7 @@
       ".read": true,
       "$tema": {
         "$caso": {
-          ".write": "(auth != null && (root.child('usuarios').child(auth.uid).child('rol').val() == 'revisor' || root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') && root.child('estudio').child($tema).child('meta/autor_uid').val() != auth.uid) || (auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador')",
+          ".write": "auth != null && (root.child('usuarios').child(auth.uid).child('rol').val() == 'revisor' || root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador')",
           ".validate": "newData.hasChildren(['decision', 'usuario', 'nombre', 'fecha'])",
           "decision": {
             ".validate": "newData.isString() && newData.val().matches(/^(verificado|problema)$/)"

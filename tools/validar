@@ -19,7 +19,8 @@ Qué es error y qué es aviso:
   en «publicado» pasa a ser error.
 
 Un caso publicado con «revisor» es un caso verificado por un radiólogo; sin «revisor»
-se publica igual, y la web lo muestra como «sin verificar».
+se publica igual, y la web lo muestra como «sin verificar». El revisor puede ser el propio
+autor cuando también es radiólogo: el sello siempre dice quién lo puso.
 """
 
 import argparse
@@ -444,9 +445,7 @@ def validar_caso(caso, paquete_id, imagenes, fuentes, ids_globales, rep):
         if ev.get("fuente") not in fuentes:
             rep.error(cid, "evidencia cita la fuente «%s», que no está en fuentes.json" % ev.get("fuente"))
 
-    autor, revisor = caso.get("autor"), caso.get("revisor")
-    if revisor and revisor == autor:
-        rep.error(cid, "el revisor no puede ser el mismo autor")
+    revisor = caso.get("revisor")
 
     faltan = []
     if not evidencia:

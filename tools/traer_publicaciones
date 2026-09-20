@@ -54,7 +54,7 @@ def sellar(paquete, actualizados, verificacion):
             continue
         usuario = v.get("usuario", "")
         base = v.get("base", 0)
-        if not USUARIO.match(usuario) or usuario == caso.get("autor"):
+        if not USUARIO.match(usuario):
             continue
         if (actualizados or {}).get(caso["id"], 0) > base:
             continue  # el autor lo cambió después de verificarlo

@@ -51,8 +51,9 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
    casos **con la IA que prefiera**: el estudio arma un texto para copiar y pegar, y lee la respuesta en JSON.
    No se conecta a ningún proveedor de IA.
 3. El autor publica cuando el validador no marca errores. Los casos salen **sin verificar**.
-4. Cualquier radiólogo con papel de revisor verifica los casos que quiera; el sello lleva su nombre y su fecha, y se
-   retira solo si el autor cambia ese caso y vuelve a publicarlo.
+4. Cualquier radiólogo con papel de revisor verifica los casos que quiera, incluidos los suyos (en su tema, botón
+   «Verificar casos»); el sello lleva su nombre y su fecha, y se retira solo si el autor cambia ese caso y vuelve a
+   publicarlo.
 5. Cada 15 minutos, `.github/workflows/publicar.yml` ejecuta `tools/traer_publicaciones`, que baja lo publicado y los
    sellos, valida y publica la web. En práctica hay filtro «solo verificados»; la sala en vivo usa verificados por
    defecto. Cualquiera puede reportar un error desde la web (`reportes/`), y eso pone el caso al principio de la cola.
@@ -89,7 +90,7 @@ Con Python 3.9 o superior basta (viene en macOS). Otras opciones:
 - `tools/validar --indice`: si no hay errores, escribe `temas/indice.json`, que la app usa para listar los temas.
 
 **Error** es algo roto o prohibido: formato, imagen que falta o pesa demasiado, respuesta fuera de rango, HTML en los
-textos, fuente de un sitio bloqueado, figura ND modificada, revisor igual al autor. **Aviso** es algo pendiente o
+textos, fuente de un sitio bloqueado, figura ND modificada. **Aviso** es algo pendiente o
 sospechoso: en un borrador lo pendiente es aviso, y en un caso publicado pasa a ser error. El sello de verificación no
 es obligatorio para publicar: un caso publicado sin `revisor` sale como «sin verificar».
 
@@ -106,7 +107,8 @@ una letra, si una imagen trae metadatos EXIF o si un caso de concepto tiene una 
 3. **`evidencia` en cada caso:** página y frase textual de la fuente. Hace que revisar tome segundos y evita que la IA
    invente.
 4. **La validación depende del estado.** En borrador se permite lo pendiente. En publicado se exigen ficha completa,
-   evidencia y licencia verificada. El `revisor` es opcional (es el sello) y debe ser distinto del autor.
+   evidencia y licencia verificada. El `revisor` es opcional: es el sello, y siempre queda registrado quién lo puso
+   (puede ser el propio autor si también es radiólogo).
 5. **La app baraja las opciones** (`"barajar": false` si el orden importa). Por eso el reparto de letras pesa menos
    que el largo de las opciones.
 6. **Id único en todo el repositorio:** `<paquete>/<caso>`.
