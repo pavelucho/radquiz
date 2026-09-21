@@ -34,22 +34,48 @@ const EJEMPLO = `{
 const REGLAS = [
   "Usa SOLO el documento adjunto. Si algo no está ahí, no lo escribas, aunque sepas que es cierto.",
   "No inventes datos clínicos. La edad, el sexo o los síntomas van en la pregunta solo si la leyenda de esa figura los dice.",
-  "La pregunta describe la imagen como la leyenda (lado, plano, secuencia, condición) pero no nombra el diagnóstico ni la palabra que lo delata.",
-  "Cinco opciones, una sola correcta, todas del mismo tipo y de largo parecido. La correcta NO debe ser la más larga.",
-  "Distractores plausibles: diagnósticos diferenciales reales de esa región y modalidad, o errores típicos de un residente.",
+  "La pregunta describe la imagen como la leyenda (lado, plano, secuencia, condición) pero no nombra el diagnóstico, ni la palabra que lo delata, ni su descripción literal: si el enunciado dice «contacto entre las apófisis espinosas», la respuesta no puede ser «kissing spines». Una palabra del enunciado que solo aparezca en la opción correcta es una pista: úsala también en algún distractor o reescríbela.",
+  "Cinco opciones, una sola correcta. Las cinco del mismo tipo (todas diagnósticos, o todas estructuras, o todas porcentajes), del mismo largo y con el mismo nivel de detalle. La correcta no puede ser la más larga ni la más matizada.",
+  "Los cuatro distractores son respuestas que un residente daría de verdad ante ESA imagen: los diagnósticos diferenciales de la misma familia que la correcta, o el error de quien confunde una entidad con la de al lado. Escríbelos con el vocabulario del documento.",
+  "Prohibido el distractor-comodín. En un cuestionario de patología degenerativa, un tumor, una infección, una fractura aguda o una anomalía congénita no son distractores: se descartan sin mirar la imagen. Nada absurdo, catastrófico ni de otro capítulo para rellenar.",
+  "Los calificadores extremos (masivo, severo, completo, exacto, puro, siempre, nunca, solamente) delatan al distractor. Si los usas, que aparezcan también en la correcta; mejor, que no aparezcan en ninguna.",
+  "PRUEBA DE LA TAPADERA, en cada caso antes de darlo por bueno: tapa la imagen y el enunciado y lee solo las cinco opciones. Si desde ahí ya se ve cuál es la correcta —porque es la única sensata, la única de su familia, la más larga o la más precisa—, el caso está mal: reescribe los distractores, no la pregunta.",
   "La explicación son 2 a 4 viñetas que empiezan con «- », con el vocabulario del documento y sin afirmar más que él.",
   "Cada caso lleva «evidencia»: dónde está en el documento y la frase copiada textual que sostiene la respuesta.",
   "Tipo «imagen» si hay que mirar la figura para responder; tipo «concepto» si no hace falta (y entonces sin figura en la pregunta).",
   "Si una figura o tabla contiene la respuesta escrita, úsala con \"mostrar_en\": \"respuesta\".",
   "Copia cada leyenda tal cual está en el documento, en su idioma, sin traducirla ni resumirla.",
   "Texto simple: nada de HTML. Para resaltar usa **negrita**.",
-  "«correcta» es la posición de la opción correcta contando desde 0: 0 es la primera opción y 4 la quinta.",
+  "«correcta» es la posición de la opción correcta contando desde 0: 0 es la primera opción y 4 la quinta. La app baraja las opciones al presentarlas: nada de «todas las anteriores» ni de opciones que se refieran a otras.",
 ];
 
 // El número de casos lo manda el documento, no una cifra fija: un artículo con quince figuras da
 // para mucho más que uno con tres, y quedarse corto es desaprovechar material bueno.
 const POR_FIGURA = 2;
 const MINIMO_CASOS = 10;
+
+// Familias que suelen colarse como relleno: si una aparece siempre entre los distractores y nunca
+// como respuesta, el residente aprende a tacharla y responde sin mirar la imagen. Se comparan por
+// el principio de la palabra, sobre texto en minúsculas y sin tildes.
+const COMODINES = {
+  "tumor o metástasis": ["tumor", "neoplas", "metastas", "linfoma", "sarcoma", "mieloma", "malign"],
+  "infección": ["infeccion", "infeccios", "absceso", "osteomielitis", "discitis", "purulent", "tuberculos", "septic"],
+  "fractura aguda": ["fractura", "estallido"],
+  "anomalía congénita": ["congenit", "malformacion", "agenesia", "disrafismo"],
+};
+const EXTREMOS = ["masiv", "sever", "complet", "exactament", "solament", "unicament", "siempre", "nunca",
+  "absolut", "extrem", "gigant", "totalment", "imposible", "extensa", "extenso", "puro", "pura"];
+
+// Sacado de un cuestionario ya publicado: las cuatro opciones malas eran de otro capítulo, así que la
+// correcta se veía sin abrir la imagen. Un ejemplo concreto corrige esto mucho mejor que una regla más.
+const EJEMPLO_OPCIONES = `EL ERROR QUE MÁS SE REPITE (de un cuestionario real, no lo copies)
+  Pregunta: «En el panel B (axial STIR), ¿qué representa el hallazgo hiperintenso de la faceta?»
+    Tumor neurogénico de la raíz · Edema de la médula espinal · Rotura del ligamento amarillo ·
+    Grasa epidural hipertrofiada pura · LÍQUIDO ARTICULAR EN LA FACETA (la correcta)
+  La imagen sobra: las otras cuatro son de otro capítulo y un residente las tacha de memoria.
+  Así sí, todas de la misma familia y todas posibles ante esa imagen:
+    Líquido articular · Quiste sinovial facetario · Edema óseo subcondral · Hipertrofia sinovial sin
+    líquido · Grasa periarticular`;
 
 function objetivoCasos(nFiguras) {
   return Math.max(MINIMO_CASOS, POR_FIGURA * (nFiguras || 0));
@@ -96,6 +122,8 @@ ${listaFiguras(tema)}
 
 REGLAS OBLIGATORIAS
 ${REGLAS.map((r, i) => `${i + 1}. ${r}`).join("\n")}
+
+${EJEMPLO_OPCIONES}
 
 CUÁNTOS CASOS
 ${repartoCasos(figuras.length)}
@@ -159,6 +187,8 @@ ${repartoCasos(0)}
 ${REGLAS.map((r, i) => `${i + 1}. ${r}`).join("\n")}
 ${REGLAS.length + 1}. Escribe los casos en español aunque el documento esté en otro idioma. Las leyendas, no:
     esas van copiadas tal cual, en el idioma original.
+
+${EJEMPLO_OPCIONES}
 
 ──────────────────────────────── 5. paquete.json
 Lo que va detrás de // son notas para ti: JSON no admite comentarios, así que no los copies.
@@ -229,7 +259,7 @@ la figura. Si el documento no dice claramente su licencia, dímelo en vez de adi
 ──────────────────────────────── 7. COMPRUÉBALO ANTES DE DÁRMELO
 Corre esto sobre tu .zip y arregla lo que salga. No me lo entregues hasta que imprima «todo bien».
 
-import json, re, zipfile
+import json, re, unicodedata, zipfile
 from PIL import Image
 import io
 
@@ -325,6 +355,43 @@ minimo = max(${MINIMO_CASOS}, ${POR_FIGURA} * len(p.get("imagenes") or {}))
 if len(p.get("casos") or []) < minimo:
     mal("%d casos para %d figuras: son pocos, el mínimo son %d" % (len(p.get("casos") or []), len(p.get("imagenes") or {}), minimo))
 
+# ¿Se adivina la correcta sin mirar la imagen, solo comparando las opciones?
+COMODIN = ${JSON.stringify(COMODINES)}
+EXTREMO = ${JSON.stringify(EXTREMOS)}
+VACIAS = set("""panel paneles imagen imagenes figura figuras secuencia muestra muestran observa aprecia
+identifica corresponde siguiente cuales segun sagital axial coronal paciente estudio senala senalada
+senalado senalan presenta aparece derecho izquierdo""".split())
+
+def limpia(t):
+    t = unicodedata.normalize("NFD", str(t).lower())
+    return "".join(ch for ch in t if unicodedata.category(ch) != "Mn")
+def palabras(t): return set(re.findall(r"[a-z]+", limpia(t)))
+def tiene(t, raices): return any(w.startswith(r) for w in palabras(t) for r in raices)
+def clave(t): return {w for w in palabras(t) if len(w) >= 6} - VACIAS
+
+validos = [c for c in p.get("casos") or []
+           if isinstance(c.get("correcta"), int) and 2 <= len(c.get("opciones") or []) > c["correcta"] >= 0]
+mas_larga = []
+for c in validos:
+    op, k, cid = c["opciones"], c["correcta"], c.get("id", "?")
+    otras = [o for i, o in enumerate(op) if i != k]
+    if len(str(op[k])) > max(len(str(o)) for o in otras): mas_larga.append(cid)
+    if sum(1 for o in otras if tiene(o, EXTREMO)) >= 2 and not tiene(op[k], EXTREMO):
+        mal(cid + ": los calificadores extremos están solo en los distractores; se tachan sin mirar la imagen")
+    pista = (clave(c.get("enunciado", "")) & clave(op[k])) - set().union(*[clave(o) for o in otras])
+    if pista:
+        mal("%s: «%s» está en la pregunta y solo en la respuesta correcta; úsala también en un distractor o cámbiala"
+            % (cid, ", ".join(sorted(pista))))
+if len(validos) >= 10 and len(mas_larga) > 0.3 * len(validos):
+    mal("la correcta es la opción más larga en %d de %d casos (%s): alarga los distractores o acorta la correcta"
+        % (len(mas_larga), len(validos), ", ".join(mas_larga[:8])))
+for fam, raices in COMODIN.items():
+    como_mal = [c.get("id", "?") for c in validos
+                if any(tiene(o, raices) for i, o in enumerate(c["opciones"]) if i != c["correcta"])]
+    if len(como_mal) >= 3 and not any(tiene(c["opciones"][c["correcta"]], raices) for c in validos):
+        mal("«%s» sale en los distractores de %d casos y en ninguna respuesta correcta (%s): es un comodín, "
+            "cámbialo por un diferencial de verdad" % (fam, len(como_mal), ", ".join(como_mal[:8])))
+
 esperadas = {"img/" + i.get("archivo", "") for i in (p.get("imagenes") or {}).values()}
 for n in hay:
     if n.startswith("img/") and n not in esperadas: mal("sobra " + n)
@@ -358,7 +425,7 @@ PROBLEMAS POR CASO
 ${problemas.map((p) => `- ${p.caso}: ${p.textos.join(" | ")}`).join("\n")}
 
 RECUERDA
-${REGLAS.slice(0, 7).map((r, i) => `${i + 1}. ${r}`).join("\n")}
+${REGLAS.slice(0, 8).map((r, i) => `${i + 1}. ${r}`).join("\n")}
 
 CASOS ACTUALES
 ${JSON.stringify({ casos }, null, 1)}
