@@ -46,16 +46,46 @@ const REGLAS = [
   "«correcta» es la posición de la opción correcta contando desde 0: 0 es la primera opción y 4 la quinta.",
 ];
 
+// El número de casos lo manda el documento, no una cifra fija: un artículo con quince figuras da
+// para mucho más que uno con tres, y quedarse corto es desaprovechar material bueno.
+const POR_FIGURA = 2;
+const MINIMO_CASOS = 10;
+
+function objetivoCasos(nFiguras) {
+  return Math.max(MINIMO_CASOS, POR_FIGURA * (nFiguras || 0));
+}
+
+// El mismo reparto para los dos prompts. Con las figuras ya cargadas se da la cifra exacta; en el
+// del .zip todavía no se sabe cuántas saldrán del PDF, así que se da la regla.
+function repartoCasos(nFiguras) {
+  const cuantos = nFiguras
+    ? `Tienes ${nFiguras} ${nFiguras === 1 ? "figura" : "figuras"}: escribe ${objetivoCasos(nFiguras)} casos o más.`
+    : `Cuenta las figuras que conseguiste extraer: ${POR_FIGURA} casos por figura como mínimo, y nunca menos de ${MINIMO_CASOS} en total.`;
+  return `- ${cuantos}
+- De cada figura salen al menos dos preguntas distintas: una de reconocimiento (qué se ve, qué
+  hallazgo es) y otra que vaya más allá con la misma imagen —diagnóstico diferencial, plano o
+  secuencia, signo, medida, qué implica en la clínica—. Si la figura tiene varios paneles o varias
+  marcas, salen tres o cuatro sin repetirse.
+- Suma los casos de tipo "concepto" que dé el texto: definiciones, indicaciones, criterios, errores
+  frecuentes. Esos van aparte de la cuenta por figura.
+- No hay máximo. Un documento con muchas figuras da para un cuestionario largo: aprovéchalo entero
+  en vez de parar en una cifra redonda.
+- Ninguna figura puede quedarse sin pregunta.
+- Nada de relleno: dos preguntas que piden lo mismo con otras palabras cuentan como una. Antes que
+  repetir, deja esa figura con menos casos.`;
+}
+
 function listaFiguras(tema) {
   const imagenes = imagenesOrdenadas(tema);
   if (!imagenes.length) return "No hay figuras cargadas: escribe solo casos de tipo «concepto», sin imágenes.";
   return imagenes.map((i) => `- "${i.figura}"${i.leyenda_original ? ` (leyenda ya cargada)` : ""}`).join("\n");
 }
 
-export function instruccionesIA(tema, cantidad = 20) {
+export function instruccionesIA(tema) {
   const meta = tema.meta || {};
   const fuente = tema.fuente || {};
-  const faltanLeyendas = imagenesOrdenadas(tema).some((i) => !i.leyenda_original);
+  const figuras = imagenesOrdenadas(tema);
+  const faltanLeyendas = figuras.some((i) => !i.leyenda_original);
   return `Eres un radiólogo docente que prepara preguntas de opción múltiple para residentes de radiología, a partir del documento que te adjunto.
 
 TEMA: ${meta.titulo || "(sin título)"} — segmento ${meta.segmento || "(sin segmento)"}.
@@ -67,9 +97,12 @@ ${listaFiguras(tema)}
 REGLAS OBLIGATORIAS
 ${REGLAS.map((r, i) => `${i + 1}. ${r}`).join("\n")}
 
+CUÁNTOS CASOS
+${repartoCasos(figuras.length)}
+
 QUÉ TIENES QUE DEVOLVER
 - ${faltanLeyendas ? 'La lista "imagenes": la ficha de cada figura de arriba, con su leyenda textual, los paneles (A, B…) y qué señala cada flecha, círculo o número.' : 'La lista "imagenes" puede ir vacía: las leyendas ya están cargadas.'}
-- La lista "casos": alrededor de ${cantidad} casos, con al menos 70 % de tipo "imagen".
+- La lista "casos": los que salgan de la cuenta de arriba, con al menos 70 % de tipo "imagen".
 - Responde SOLO con un JSON válido, sin texto antes ni después, sin explicaciones y sin bloques de código.
 
 FORMATO EXACTO DE LA RESPUESTA
@@ -83,7 +116,7 @@ ${EJEMPLO}`;
 // El prompt lleva dentro un comprobador en Python que la IA tiene que correr antes de entregar.
 // Repite las reglas del esquema (schema/*.schema.json) porque ahí es donde se equivocan: el .zip
 // llega bien formado o no llega, y un aviso del estudio a toro pasado no sirve de nada.
-export function instruccionesPaquete(cantidad = 20) {
+export function instruccionesPaquete() {
   const segmentos = Object.keys(SEGMENTOS).join(" · ");
   const modalidades = MODALIDADES.join(" · ");
   const licencias = LICENCIAS.map((l) => l.valor).join(" · ");
@@ -119,12 +152,15 @@ de la figura: "Figura 2" → fig02.jpg · "Figura 3B" → fig03b.jpg · "Tabla 1
   no el de paneles.
 - Si no consigues extraer alguna figura, déjala fuera del .zip y dímelo: se sube luego a mano.
 
-──────────────────────────────── 3. REGLAS DE LOS CASOS
+──────────────────────────────── 3. CUÁNTAS PREGUNTAS
+${repartoCasos(0)}
+
+──────────────────────────────── 4. REGLAS DE LOS CASOS
 ${REGLAS.map((r, i) => `${i + 1}. ${r}`).join("\n")}
 ${REGLAS.length + 1}. Escribe los casos en español aunque el documento esté en otro idioma. Las leyendas, no:
     esas van copiadas tal cual, en el idioma original.
 
-──────────────────────────────── 4. paquete.json
+──────────────────────────────── 5. paquete.json
 Lo que va detrás de // son notas para ti: JSON no admite comentarios, así que no los copies.
 {
   "id": "minusculas-con-guiones",            // descriptivo + primer autor + año: "atm-rm-lopezramirez2024"
@@ -172,7 +208,7 @@ Lo que va detrás de // son notas para ti: JSON no admite comentarios, así que 
 Los campos que no aparecen arriba no van: el catálogo no admite claves de más. Todo "ref" de un
 caso tiene que existir como clave de "imagenes"; si la figura no está, el caso no la cita.
 
-──────────────────────────────── 5. fuentes.json
+──────────────────────────────── 6. fuentes.json
 Una sola fuente. La clave: apellido del primer autor + año, en minúsculas.
 {
   "lopezramirez2024": {
@@ -190,7 +226,7 @@ Una sola fuente. La clave: apellido del primer autor + año, en minúsculas.
 La licencia se copia EXACTA de esa lista: el estudio saca de ahí la URL y si permite o no modificar
 la figura. Si el documento no dice claramente su licencia, dímelo en vez de adivinarla.
 
-──────────────────────────────── 6. COMPRUÉBALO ANTES DE DÁRMELO
+──────────────────────────────── 7. COMPRUÉBALO ANTES DE DÁRMELO
 Corre esto sobre tu .zip y arregla lo que salga. No me lo entregues hasta que imprima «todo bien».
 
 import json, re, zipfile
@@ -282,14 +318,22 @@ for c in p.get("casos") or []:
     if c.get("tipo") == "imagen" and not [r for r in refs if r.get("mostrar_en") == "pregunta"]:
         mal(cid + ": es de tipo imagen pero no muestra ninguna en la pregunta")
 
+usadas = {r.get("ref") for c in p.get("casos") or [] for r in (c.get("imagenes") or [])}
+for iid in p.get("imagenes") or {}:
+    if iid not in usadas: mal(iid + ": ninguna pregunta usa esta figura; escríbele una o quítala del catálogo")
+minimo = max(${MINIMO_CASOS}, ${POR_FIGURA} * len(p.get("imagenes") or {}))
+if len(p.get("casos") or []) < minimo:
+    mal("%d casos para %d figuras: son pocos, el mínimo son %d" % (len(p.get("casos") or []), len(p.get("imagenes") or {}), minimo))
+
 esperadas = {"img/" + i.get("archivo", "") for i in (p.get("imagenes") or {}).values()}
 for n in hay:
     if n.startswith("img/") and n not in esperadas: mal("sobra " + n)
 
 print("\\n".join("✗ " + m for m in malo) if malo else "todo bien: %d casos, %d imágenes" % (len(p["casos"]), len(p["imagenes"])))
 
-──────────────────────────────── 7. ENTREGA
-- Alrededor de ${cantidad} casos, al menos el 70 % de tipo "imagen".
+──────────────────────────────── 8. ENTREGA
+- Tantos casos como dé el documento (apartado 3): ${POR_FIGURA} por figura como mínimo y nunca
+  menos de ${MINIMO_CASOS}, con al menos el 70 % de tipo "imagen".
 - Dame el .zip para descargar.
 - Y en una línea aparte: qué figuras no pudiste extraer y qué dudas te quedaron sobre la licencia.`;
 }
