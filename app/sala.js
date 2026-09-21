@@ -7,7 +7,7 @@ import {
   getDatabase, ref, set, get, update, remove, onValue, serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 import { firebaseConfig } from "./firebase-config.js";
-import { $, esc, md, cargarJSON, credito, barajar, sello } from "./comun.js";
+import { $, esc, md, cargarJSON, credito, barajar, sello, opcionesTanda } from "./comun.js";
 import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
 import { reportar } from "./reportar.js";
 import { qrDataURI } from "./qr.js";
@@ -167,6 +167,7 @@ async function pantallaCrear() {
     sinPublicar: (p.casos.borrador || 0) + (p.casos.revisado || 0),
   }));
   const hayBorradores = disponibles.some((p) => p.sinPublicar);
+  const porRuta = new Map(disponibles.map((p) => [p.ruta, p]));
   const opciones = disponibles
     .filter((p) => p.publicados || hayBorradores)
     .map((p) => `<option value="${esc(p.ruta)}">${esc(p.titulo)} · ${p.verificados} verificados de ${p.publicados}${p.sinPublicar ? ` · ${p.sinPublicar} sin publicar` : ""}</option>`)
@@ -182,17 +183,48 @@ async function pantallaCrear() {
     <label class="grid-label">Tema <select id="tema">${opciones}</select></label>
     <div class="row">
       <label class="row" style="gap:6px">Tiempo por caso <select id="duracion">${DURACIONES.map((s) => `<option value="${s}" ${s === 45 ? "selected" : ""}>${s} s</option>`).join("")}</select></label>
+      <label class="row" style="gap:6px">Cuántos casos <select id="cuantos"></select></label>
     </div>
+    <p class="src" id="nota-tanda"></p>
     <label class="row" style="gap:8px"><input type="checkbox" id="sin-verificar"> Incluir casos sin verificar</label>
     <label class="row" style="gap:8px"><input type="checkbox" id="mezclar"> Mezclar el orden de los casos</label>
     ${hayBorradores ? `<label class="row" style="gap:8px"><input type="checkbox" id="borradores"> Incluir casos sin publicar (ensayo en esta computadora)</label>` : ""}
     <div class="row"><button class="primary" type="submit">Crear sala</button><a class="boton" href="sala.html">Cancelar</a></div>
   </form>`;
+
+  // Cuántos casos hay depende del tema y de los dos filtros, así que el desplegable se rehace
+  // cuando cambian. Solo se rehace si cambió el total: si no, se perdería la tanda elegida.
+  let totalPrevio = -1;
+  function refrescar() {
+    const tema = porRuta.get($("#tema").value);
+    const borradores = Boolean($("#borradores") && $("#borradores").checked);
+    const total = borradores
+      ? tema.publicados + tema.sinPublicar
+      : $("#sin-verificar").checked ? tema.publicados : tema.verificados;
+    const select = $("#cuantos");
+    if (total !== totalPrevio) {
+      totalPrevio = total;
+      select.innerHTML = opcionesTanda(total, Number(select.value) || 0);
+    }
+    const cuantos = Number(select.value) || 0;
+    $("#nota-tanda").textContent = !total
+      ? "Ningún caso cumple el filtro: marca «Incluir casos sin verificar»."
+      : !cuantos ? `La sesión usa los ${total} casos.`
+      : $("#mezclar").checked ? `${cuantos} casos al azar entre los ${total}.`
+      : `Los primeros ${cuantos} casos del tema; con «Mezclar» salen al azar.`;
+  }
+  ["#tema", "#cuantos", "#mezclar", "#sin-verificar", "#borradores"].forEach((sel) => {
+    const control = $(sel);
+    if (control) control.onchange = refrescar;
+  });
+  refrescar();
+
   $("#config").onsubmit = (e) => {
     e.preventDefault();
     crearSala({
       tema: $("#tema").value,
       duracion: Number($("#duracion").value),
+      cuantos: Number($("#cuantos").value) || 0,
       mezclar: $("#mezclar").checked,
       sinVerificar: $("#sin-verificar").checked,
       borradores: Boolean($("#borradores") && $("#borradores").checked),
@@ -218,11 +250,12 @@ async function limpiarSalasViejas() {
   } catch { /* la limpieza es un extra: si falla, se intenta en la próxima sala */ }
 }
 
-async function crearSala({ tema, duracion, mezclar, borradores, sinVerificar }) {
+async function crearSala({ tema, duracion, cuantos, mezclar, borradores, sinVerificar }) {
   const { paquete: pkg } = await cargarPaquete(tema);
   let casos = pkg.casos.filter((c) => c.estado === "publicado" || borradores);
   if (!sinVerificar && !borradores) casos = casos.filter((c) => c.revisor);
   if (mezclar) casos = barajar(casos);
+  if (cuantos) casos = casos.slice(0, cuantos);   // mezclados = al azar; sin mezclar = los primeros
   if (!casos.length) {
     aviso("No hay casos que cumplan el filtro. Prueba marcando «Incluir casos sin verificar».", true);
     return;

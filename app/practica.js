@@ -1,6 +1,6 @@
 // RadQuiz — práctica individual. Con ?revision=1 muestra también los borradores y la información para el revisor
 // (evidencia, ficha técnica, notas): es el previsualizador de la fase de revisión.
-import { $, esc, md, credito, barajar, sello } from "./comun.js";
+import { $, esc, md, credito, barajar, sello, TANDAS, opcionesTanda } from "./comun.js";
 import { cargarPaquete } from "./publicado.js";
 import { reportar } from "./reportar.js";
 
@@ -12,7 +12,9 @@ const app = $("#app");
 
 let paquete, fuentes, base;
 let srcImagen = () => "";
-let casos = [];
+let disponibles = [];   // los casos del tema que pasan el filtro «Solo verificados»
+let casos = [];         // la tanda que se está practicando
+let totalOpciones = -1;
 let actual = 0;
 const orden = new Map();       // id del caso → índices originales en el orden mostrado
 const respuestas = new Map();  // id del caso → índice original elegido
@@ -168,13 +170,15 @@ function resultado() {
   app.innerHTML = `<section class="panel" style="display:grid;gap:14px;max-width:640px">
     <span class="tema">${esc(paquete.titulo)}</span>
     <div class="big">${hechas.length - falladas.length}/${hechas.length}</div>
-    <p class="muted">correctas de ${hechas.length} respondidas (${casos.length} casos en total).</p>
+    <p class="muted">correctas de ${hechas.length} respondidas (${casos.length} en esta tanda).</p>
+    ${casos.length < disponibles.length
+      ? `<p class="src">El tema tiene ${disponibles.length} casos. «Empezar de nuevo» arma otra tanda al azar.</p>` : ""}
     <div class="row">
       <button class="primary" id="repetir">Empezar de nuevo</button>
       ${falladas.length ? `<button id="falladas">Repasar las ${falladas.length} falladas</button>` : ""}
     </div>
   </section>`;
-  $("#repetir").onclick = () => { respuestas.clear(); orden.clear(); empezar(); };
+  $("#repetir").onclick = reiniciar;
   const boton = $("#falladas");
   if (boton) boton.onclick = () => {
     casos = falladas;
@@ -184,9 +188,34 @@ function resultado() {
   };
 }
 
+// Elige «cuantos» casos al azar, pero los deja en el orden del tema.
+function tanda(lista, cuantos) {
+  if (!cuantos || cuantos >= lista.length) return lista;
+  const elegidos = new Set(barajar(lista.map((_, i) => i)).slice(0, cuantos));
+  return lista.filter((_, i) => elegidos.has(i));
+}
+
+// El desplegable solo se rehace cuando cambia cuántos casos hay (al tocar «Solo verificados»):
+// así, al elegir una tanda, la elección no se pierde mientras se rehacen las opciones.
+function ponerOpciones(total) {
+  if (total === totalOpciones) return;
+  totalOpciones = total;
+  const select = $("#cuantos");
+  select.innerHTML = opcionesTanda(total, Number(select.value) || 0, "al azar");
+  $("#tanda").hidden = total <= TANDAS[0];   // con tan pocos casos no hay nada que elegir
+}
+
+function reiniciar() {
+  respuestas.clear();
+  orden.clear();
+  empezar();
+}
+
 function empezar() {
   const soloVerificados = $("#solo-verificados").checked;
-  casos = base.filter((c) => !soloVerificados || c.revisor);
+  disponibles = base.filter((c) => !soloVerificados || c.revisor);
+  ponerOpciones(disponibles.length);
+  casos = tanda(disponibles, Number($("#cuantos").value) || 0);
   actual = 0;
   if (!casos.length) {
     app.innerHTML = `<section class="panel"><p>Este tema todavía no tiene casos verificados por un radiólogo.
@@ -223,7 +252,8 @@ async function iniciar() {
   if (revision) $("#modo").classList.add("live");
   base = paquete.casos.filter((c) => revision || c.estado === "publicado");
   if (!base.length) return sinCasos();
-  $("#solo-verificados").onchange = () => { respuestas.clear(); orden.clear(); empezar(); };
+  $("#solo-verificados").onchange = reiniciar;
+  $("#cuantos").onchange = reiniciar;
   empezar();
 }
 

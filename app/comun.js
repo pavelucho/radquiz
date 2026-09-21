@@ -101,6 +101,18 @@ export function sello(caso, personas = {}) {
   return `<span class="sello sin" title="Todavía ningún radiólogo lo revisó">Sin verificar</span>`;
 }
 
+// Tandas: cuántos casos puede pedir quien practica o quien crea una sala.
+export const TANDAS = [5, 10, 15, 20, 30, 50];
+
+// Opciones del desplegable «cuántos casos». 0 = todos; solo caben las tandas menores que el total.
+export function opcionesTanda(total, elegido = 0, sufijo = "casos") {
+  return [
+    `<option value="0">Todos (${total})</option>`,
+    ...TANDAS.filter((n) => n < total).map((n) =>
+      `<option value="${n}"${n === elegido ? " selected" : ""}>${n} ${sufijo}</option>`),
+  ].join("");
+}
+
 export function barajar(lista) {
   const copia = [...lista];
   for (let i = copia.length - 1; i > 0; i--) {
