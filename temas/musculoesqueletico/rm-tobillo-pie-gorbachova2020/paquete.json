@@ -1,0 +1,1276 @@
+{
+  "$schema": "../../../schema/paquete.schema.json",
+  "id": "rm-tobillo-pie-gorbachova2020",
+  "titulo": "Resonancia Magnética de Tobillo y Pie",
+  "descripcion": "Revisión de anatomía y patología común en RM de tobillo y pie.",
+  "segmento": "musculoesqueletico",
+  "modalidades": [
+    "RM"
+  ],
+  "idioma": "es",
+  "version": "0.1.0",
+  "personas": {
+    "pluna": "Pavel Luna"
+  },
+  "imagenes": {
+    "fig01": {
+      "archivo": "fig01.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 1",
+      "leyenda_original": "Subchondral insufficiency fracture of the talar head in a 64-year-old woman presenting with foot pain for several weeks without history of trauma. Sagittal T1-weighted (A) and short TI inversion recovery (B) magnetic resonance images demonstrate a prominent bone marrow edema-like signal at the talar head and neck (asterisk in b) that extends from the articular surface and an irregular hypointense fracture line (arrowhead A,B) that runs parallel and in close proximity to the subchondral bone plate",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": "T1",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "sagital",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "asterisco",
+          "panel": "B",
+          "senala": "bone marrow edema-like signal at the talar head and neck"
+        },
+        {
+          "marca": "cabeza de flecha",
+          "panel": "A",
+          "senala": "irregular hypointense fracture line"
+        },
+        {
+          "marca": "cabeza de flecha",
+          "panel": "B",
+          "senala": "irregular hypointense fracture line"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig02": {
+      "archivo": "fig02.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 2",
+      "leyenda_original": "Navicular stress fracture in an 18-year-old female athlete lacrosse player. Coronal fat-suppressed proton density weighted magnetic resonance image demonstrates an incomplete fracture line (arrow) that extends in the sagittal oblique plane through the midportion of the tarsal navicular bone dorsally amid an extensive bone marrow edema-like signal. This characteristic location often makes such fractures difficult to detect radiographically",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "DP con supresión de grasa",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "incomplete fracture line"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig04": {
+      "archivo": "fig04.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 4",
+      "leyenda_original": "Chronic osteochondral lesion of the talus in a 46-year-old woman with chronic ankle pain and no history of trauma. Coronal fat-suppressed proton-density-weighted magnetic resonance image depicts an irregularity of the articular cartilage and subchondral bone plate at the medial talar dome (arrow) with prominent underlying subchondral cyst-like changes. No osteochondral fragment in situ is visualized",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "DP con supresión de grasa",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "irregularity of the articular cartilage and subchondral bone plate"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig05": {
+      "archivo": "fig05.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 5",
+      "leyenda_original": "Osteochondritis dissecans (OCD) of the medial talar dome in a 43-year-old woman. Coronal fat-suppressed proton-density-weighted magnetic resonance image demonstrates an osteochondral fragment in situ (arrow) at the medial talar dome. Note high signal intensity rim (white arrowhead) and small cyst-like changes (black arrowhead) at the interface between the fragment and parent bone; both these findings indicate instability in adult OCD",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "DP con supresión de grasa",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "osteochondral fragment in situ"
+        },
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "A",
+          "senala": "high signal intensity rim"
+        },
+        {
+          "marca": "cabeza de flecha negra",
+          "panel": "A",
+          "senala": "small cyst-like changes"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig07": {
+      "archivo": "fig07.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 7",
+      "leyenda_original": "Syndesmotic injury, aka “high ankle sprain”, in a 44-year-old woman who fell down the steps one month ago. Sequential axial fat-suppressed T2-weighted magnetic resonance images of the ankle demonstrate a tear of the inferior interosseous ligament (white arrow, A), complete tear of the anterior tibiofibular ligament (white curved arrow, B), sprain of the posterior tibiofibular ligament (black curved arrow, B) and sprain of the inferior transverse tibiofibular ligament (black arrow, C)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "axial",
+          "secuencia": "T2 con supresión de grasa",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "axial",
+          "secuencia": "T2 con supresión de grasa",
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": "axial",
+          "secuencia": "T2 con supresión de grasa",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "tear of the inferior interosseous ligament"
+        },
+        {
+          "marca": "flecha curva blanca",
+          "panel": "B",
+          "senala": "complete tear of the anterior tibiofibular ligament"
+        },
+        {
+          "marca": "flecha curva negra",
+          "panel": "B",
+          "senala": "sprain of the posterior tibiofibular ligament"
+        },
+        {
+          "marca": "flecha negra",
+          "panel": "C",
+          "senala": "sprain of the inferior transverse tibiofibular ligament"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig08": {
+      "archivo": "fig08.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 8",
+      "leyenda_original": "Medial and lateral ligamentous injury in a 15-year-old boy injured playing basketball one day ago. Axial proton density weighted magnetic resonance images of the ankle demonstrate complete disruption of the anterior talofibular ligament (arrow, A). The calcaneofibular ligament is indistinct and edematous (arrow, B), consistent with a high-grade sprain. Note lax appearance of the torn superficial component of deltoid ligament (arrowhead in A)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "axial",
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "axial",
+          "secuencia": "DP",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "complete disruption of the anterior talofibular ligament"
+        },
+        {
+          "marca": "flecha",
+          "panel": "B",
+          "senala": "calcaneofibular ligament is indistinct and edematous"
+        },
+        {
+          "marca": "cabeza de flecha",
+          "panel": "A",
+          "senala": "lax appearance of the torn superficial component of deltoid ligament"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig10": {
+      "archivo": "fig10.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 10",
+      "leyenda_original": "Spectrum of Achilles tendon pathology. A) Sagittal short TI inversion recovery (STIR) magnetic resonance (MR) images of the ankle in a 68-year-old man, who heard and felt a pop in posterior ankle while playing tennis, demonstrates full-thickness Achilles tendon rupture with a fluid-filled gap (arrow) located 7 cm proximally to its calcaneal insertion. B) Sagittal STIR MR image in a 40-year-old woman with posterior heel pain for several months shows thickened Achilles tendon, consistent with tendinosis, and superimposed partial-thickness tear (arrow) at calcaneal insertion, associated with retrocalcaneal bursitis (black arrowhead), Achilles paratendinitis depicted as edema in the Kager’s fat pad (asterisk) and reactive osteitis of calcaneal tuberosity (white arrowhead)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": "STIR",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "sagital",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "fluid-filled gap"
+        },
+        {
+          "marca": "flecha",
+          "panel": "B",
+          "senala": "superimposed partial-thickness tear"
+        },
+        {
+          "marca": "cabeza de flecha negra",
+          "panel": "B",
+          "senala": "retrocalcaneal bursitis"
+        },
+        {
+          "marca": "asterisco",
+          "panel": "B",
+          "senala": "edema in the Kager’s fat pad"
+        },
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "B",
+          "senala": "reactive osteitis of calcaneal tuberosity"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig11": {
+      "archivo": "fig11.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 11",
+      "leyenda_original": "Avulsion of the medial head of the gastrocnemius from gastrocnemius soleus aponeurosis in a 40-year-old male who felt a pop and presented with calf pain and swelling after diving into a pool. Axial T2-weighted fat-suppressed magnetic resonance image of the calf demonstrates hematoma (asterisk) between the soleus muscle (Sol) and medial head of the gastrocnemius (G-med) as well as disruption at the myotendinous junction of the medial head of the gastrocnemius (black arrow); G-lat – lateral head of the gastroenemius. A low-grade strain of the soleus muscle is also present (arrowheads). Note intact plantaris tendon (white arrow) coursing through the hematoma",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "axial",
+          "secuencia": "T2 con supresión de grasa",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "asterisco",
+          "panel": "A",
+          "senala": "hematoma"
+        },
+        {
+          "marca": "flecha negra",
+          "panel": "A",
+          "senala": "disruption at the myotendinous junction"
+        },
+        {
+          "marca": "cabezas de flecha",
+          "panel": "A",
+          "senala": "low-grade strain of the soleus muscle"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "intact plantaris tendon"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig12": {
+      "archivo": "fig12.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 12",
+      "leyenda_original": "Abnormalities of the posterior tibialis tendon (PTT) in a 64-year-old woman with adult acquired flat foot deformity. Axial fat-suppressed T2-weighted magnetic resonance images of the ankle demonstrate abnormally enlarged PTT (arrow, A) with increased intrasubstance signal (arrow, B), indicative of tendon degeneration and intrasubstance tearing; prominent tenosynovitis with fluid distending PTT tendon sheath (B); osseous hypertrophy and a bone marrow edema like signal (asterisk in A) in the medial malleolus representing reactive osteitis. Note intact superomedial bundle of spring ligament (arrowheads in B) coursing between the talar head and PTT. In b, note incomplete bone coverage of the talar head by the navicular in keeping with pes planus",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "axial",
+          "secuencia": "T2 con supresión de grasa",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "axial",
+          "secuencia": "T2 con supresión de grasa",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "abnormally enlarged PTT"
+        },
+        {
+          "marca": "flecha",
+          "panel": "B",
+          "senala": "increased intrasubstance signal"
+        },
+        {
+          "marca": "asterisco",
+          "panel": "A",
+          "senala": "bone marrow edema like signal in the medial malleolus"
+        },
+        {
+          "marca": "cabezas de flecha",
+          "panel": "B",
+          "senala": "intact superomedial bundle of spring ligament"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig15": {
+      "archivo": "fig15.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 15",
+      "leyenda_original": "Injury of the superior peroneal retinaculum (SPR) in a 46-year-old woman presenting with pain and snapping sensation over the lateral malleolus 3 months after injury. Axial fat-suppressed T2-weighted magnetic resonance image of the ankle demonstrates stripping of SPR (white arrowheads) and anterolateral subluxation of peroneus longus tendon. Note a fibrous ridge at the expected fibular attachment of SPR (black arrowhead). Peroneus brevis tendon is located at the lateral aspect of the retromalleolar groove",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "axial",
+          "secuencia": "T2 con supresión de grasa",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "cabezas de flecha blancas",
+          "panel": "A",
+          "senala": "stripping of SPR"
+        },
+        {
+          "marca": "cabeza de flecha negra",
+          "panel": "A",
+          "senala": "fibrous ridge"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig17": {
+      "archivo": "fig17.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 17",
+      "leyenda_original": "Painful os peroneum syndrome with traumatic diastasis of bipartite os peroneum in a 56-year-old woman after a fall. Sagittal short TI inversion recovery magnetic resonance (MR) image demonstrates distraction and edema of the proximal and distal ossicles of bipartite os peroneum (arrowheads), equivalent to a complete peroneus longus tendon tear. The ossicles may be difficult to identify on fluid sensitive sequences due to bone contusions and surrounding soft tissue swelling. Correlation with T1-weighted MR images and radiographs is essential. The proximal stump of the torn PL tendon is retracted into the inframalleolar region",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "cabezas de flecha",
+          "panel": "A",
+          "senala": "distraction and edema of the proximal and distal ossicles of bipartite os peroneum"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig20": {
+      "archivo": "fig20.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 20",
+      "leyenda_original": "Tarsal tunnel syndrome in a 48-year-old woman. Axial proton density weighted magnetic resonance image of the ankle shows a lobulated soft tissue ganglion (asterisk) splaying the contents of the tarsal tunnel: medial plantar nerve (white arrowhead, MPN), lateral plantar nerve (white arrowhead, LPN), medial calcaneal nerve (black arrowhead, MCN) and posterior tibial artery (arrow)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "axial",
+          "secuencia": "DP",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "asterisco",
+          "panel": "A",
+          "senala": "lobulated soft tissue ganglion"
+        },
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "A",
+          "senala": "medial plantar nerve"
+        },
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "A",
+          "senala": "lateral plantar nerve"
+        },
+        {
+          "marca": "cabeza de flecha negra",
+          "panel": "A",
+          "senala": "medial calcaneal nerve"
+        },
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "posterior tibial artery"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig23": {
+      "archivo": "fig23.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 23",
+      "leyenda_original": "Lisfranc injury in a 17-year-old boy who sustained injury playing football. Fat-suppressed coronal proton-density-weighted (A) and axial T2-weighted (B) magnetic resonance images demonstrate complete disruption of the dorsal (black arrow in A), interosseous (white arrow in A and B), and plantar (white arrowhead in A) components of the Lisfranc ligament complex. Multiple bone contusions are present in the midfoot, most prominent at the base of second metatarsal bone (asterisk in B). Characteristic soft tissue edema is seen between the first and second metatarsals (wavy arrow in B). Intact peroneus longus tendon (black arrowhead in A) is seen near its insertion to the medial cuneiform. Note subtle lateral step-off along the medial margin of second metatarsal and middle cuneiform bones (B)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "DP con supresión de grasa",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "axial",
+          "secuencia": "T2",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha negra",
+          "panel": "A",
+          "senala": "complete disruption of the dorsal component of the Lisfranc ligament complex"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "A",
+          "senala": "complete disruption of the interosseous component of the Lisfranc ligament complex"
+        },
+        {
+          "marca": "flecha blanca",
+          "panel": "B",
+          "senala": "complete disruption of the interosseous component of the Lisfranc ligament complex"
+        },
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "A",
+          "senala": "complete disruption of the plantar component of the Lisfranc ligament complex"
+        },
+        {
+          "marca": "asterisco",
+          "panel": "B",
+          "senala": "bone contusions most prominent at the base of second metatarsal bone"
+        },
+        {
+          "marca": "flecha ondulada",
+          "panel": "B",
+          "senala": "soft tissue edema"
+        },
+        {
+          "marca": "cabeza de flecha negra",
+          "panel": "A",
+          "senala": "intact peroneus longus tendon"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    },
+    "fig27": {
+      "archivo": "fig27.jpg",
+      "fuente": "gorbachova2020",
+      "figura": "Figure 27",
+      "leyenda_original": "Osteomyelitis in a 42-year-old diabetic man who previously underwent transmetatarsal amputation and currently presented with sepsis and soft tissue ulcer over the lateral aspect of the midfoot. There is replacement of a normal fatty marrow signal at the bases of the third and fourth metatarsals on coronal T1-weighted magnetic resonance (MR) image (asterisks in A) and bone marrow edema-like signal on short TI inversion recovery MR image (asterisks in B), indicative of osteomyelitis. Loss of a normal subcutaneous fat signal is observed deep near the ulcer (black arrowhead in A) in continuity with bone marrow abnormality; compared to the area of preserved subcutaneous fat (white arrowhead). Coronal gadolinium contrast enhanced fat-suppressed T1-weighted MR image (C) demonstrates intense bone marrow enhancement (asterisks in C) and depicts non-enhancing sinus tract (curved arrows) extending from the ulcer to infected bone",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T1",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "coronal",
+          "secuencia": "STIR",
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": "coronal",
+          "secuencia": "T1 con contraste y supresión de grasa",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "asteriscos",
+          "panel": "A",
+          "senala": "replacement of normal fatty marrow signal"
+        },
+        {
+          "marca": "asteriscos",
+          "panel": "B",
+          "senala": "bone marrow edema-like signal"
+        },
+        {
+          "marca": "cabeza de flecha negra",
+          "panel": "A",
+          "senala": "loss of normal subcutaneous fat signal"
+        },
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "A",
+          "senala": "preserved subcutaneous fat"
+        },
+        {
+          "marca": "asteriscos",
+          "panel": "C",
+          "senala": "intense bone marrow enhancement"
+        },
+        {
+          "marca": "flechas curvas",
+          "panel": "C",
+          "senala": "non-enhancing sinus tract"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ]
+    }
+  },
+  "casos": [
+    {
+      "id": "caso-01",
+      "tema": "Fractura de insuficiencia subcondral",
+      "etiquetas": [
+        "talo",
+        "cabeza"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 64 años que se presenta con dolor en el pie de varias semanas de evolución sin antecedente de trauma. En estas imágenes de RM en plano sagital en secuencias T1 (A) y STIR (B), ¿cuál es el diagnóstico más probable para el hallazgo señalado por las cabezas de flecha?",
+      "imagenes": [
+        {
+          "ref": "fig01",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Fractura de estrés navicular",
+        "Artritis reumatoide",
+        "Fractura de insuficiencia subcondral",
+        "Lesión osteocondral crónica",
+        "Osteocondritis disecante"
+      ],
+      "correcta": 2,
+      "explicacion": "- Las imágenes muestran una señal tipo edema de médula ósea prominente en la cabeza y cuello del talo (asterisco) que se extiende desde la superficie articular.\n- La línea de fractura hipointensa irregular (cabezas de flecha) discurre paralela y en estrecha proximidad a la placa ósea subcondral, característico de una fractura de insuficiencia subcondral.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e534, leyenda de la Figura 1",
+          "cita": "Subchondral insufficiency fracture of the talar head in a 64-year-old woman presenting with foot pain for several weeks without history of trauma."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-02",
+      "tema": "Fractura de estrés",
+      "etiquetas": [
+        "navicular",
+        "deporte"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Atleta de lacrosse femenina de 18 años. En esta imagen coronal de densidad protónica con supresión de grasa, ¿qué tipo de lesión señala la flecha en medio de una extensa señal tipo edema óseo?",
+      "imagenes": [
+        {
+          "ref": "fig02",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Fractura por avulsión de la base del segundo metatarsiano",
+        "Osteocondritis disecante de la cúpula talar medial",
+        "Fractura de insuficiencia de la cabeza talar",
+        "Fractura de estrés del hueso navicular tarsiano",
+        "Coalición tarsiana astrágalo-escafoidea"
+      ],
+      "correcta": 3,
+      "explicacion": "- La imagen demuestra una línea de fractura incompleta que se extiende en el plano sagital oblicuo a través de la porción media del hueso navicular tarsiano dorsalmente.\n- Esta localización característica a menudo hace que dichas fracturas de estrés sean difíciles de detectar radiográficamente.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e534, leyenda de la Figura 2",
+          "cita": "Navicular stress fracture in an 18-year-old female athlete lacrosse player."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-03",
+      "tema": "Lesiones osteocondrales",
+      "etiquetas": [
+        "talo",
+        "cúpula"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 46 años con dolor crónico de tobillo y sin antecedentes de trauma. En la imagen de densidad protónica coronal con supresión de grasa, se observa una irregularidad en el cartílago articular y placa ósea subcondral señalada por la flecha. Teniendo en cuenta la ausencia de un fragmento osteocondral in situ, ¿cuál es la mejor caracterización de esta lesión?",
+      "imagenes": [
+        {
+          "ref": "fig04",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Osteocondritis disecante (OCD) inestable",
+        "Lesión osteocondral crónica",
+        "Fractura de estrés aguda",
+        "Contusión ósea",
+        "Artritis séptica"
+      ],
+      "correcta": 1,
+      "explicacion": "- Existe una irregularidad del cartílago articular y la placa ósea subcondral en la cúpula talar medial con prominentes cambios subcondrales de tipo quístico subyacentes.\n- Se clasifica como una lesión osteocondral crónica, que es un término general apropiado cuando no se visualiza un fragmento osteocondral in situ o falta especificidad.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e535, leyenda de la Figura 4",
+          "cita": "Chronic osteochondral lesion of the talus in a 46-year-old woman with chronic ankle pain and no history of trauma."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-04",
+      "tema": "Osteocondritis disecante",
+      "etiquetas": [
+        "talo",
+        "inestabilidad"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 43 años. En esta imagen de densidad protónica coronal con supresión de grasa de la cúpula talar medial, ¿qué hallazgos sugieren inestabilidad del fragmento osteocondral in situ (señalado por la flecha)?",
+      "imagenes": [
+        {
+          "ref": "fig05",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Ausencia de edema medular en el hueso subyacente",
+        "Esclerosis severa reactiva en el hueso parental",
+        "Un halo de baja intensidad que rodea el fragmento",
+        "Un borde de alta intensidad y microquistes subyacentes",
+        "Fusión parcial del fragmento con el cartílago vecino"
+      ],
+      "correcta": 3,
+      "explicacion": "- En la imagen de RM se observa un borde de alta intensidad de señal y pequeños cambios de tipo quístico en la interfaz entre el fragmento y el hueso parental.\n- Ambos hallazgos son indicativos de inestabilidad en una OCD en pacientes adultos.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e535, leyenda de la Figura 5",
+          "cita": "Note high signal intensity rim (white arrowhead) and small cyst-like changes (black arrowhead) at the interface between the fragment and parent bone; both these findings indicate instability in adult OCD"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-05",
+      "tema": "Ligamentos del tobillo",
+      "etiquetas": [
+        "sindesmosis"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 44 años que cayó por las escaleras hace un mes. En estas imágenes secuenciales axiales de RM potenciadas en T2 con supresión de grasa, ¿cuál de los siguientes patrones de lesión describe mejor los hallazgos en la sindesmosis?",
+      "imagenes": [
+        {
+          "ref": "fig07",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Desgarro completo del ligamento tibioperoneo anterior y posterior",
+        "Desgarro completo tibioperoneo anterior, con esguince posterior y transverso",
+        "Desgarro interóseo, completo tibioperoneo anterior, esguince posterior y transverso",
+        "Esguince aislado del ligamento tibioperoneo anterior sin afectación interósea",
+        "Esguince de grado bajo de todos los componentes sindesmóticos sin disrupción"
+      ],
+      "correcta": 2,
+      "explicacion": "- Las imágenes muestran una lesión compleja de la sindesmosis (esguince de tobillo alto).\n- Hay un desgarro del ligamento interóseo inferior (flecha blanca, A), desgarro completo del ligamento tibioperoneo anterior (flecha curva blanca, B), y esguince del ligamento tibioperoneo posterior (flecha curva negra, B) y del ligamento tibioperoneo transverso inferior (flecha negra, C).",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e536, leyenda de la Figura 7",
+          "cita": "demonstrate a tear of the inferior interosseous ligament (white arrow, A), complete tear of the anterior tibiofibular ligament (white curved arrow, B), sprain of the posterior tibiofibular ligament (black curved arrow, B) and sprain of the inferior transverse tibiofibular ligament (black arrow, C)"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-06",
+      "tema": "Esguince de tobillo",
+      "etiquetas": [
+        "ligamento",
+        "lateral"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Niño de 15 años que se lesionó jugando al baloncesto hace un día. En estas imágenes de RM axiales de densidad protónica, ¿qué ligamentos del complejo lateral presentan hallazgos de lesión aguda?",
+      "imagenes": [
+        {
+          "ref": "fig08",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Desgarro completo del ligamento talofibular posterior",
+        "Esguince de grado bajo del ligamento talofibular anterior únicamente",
+        "Desgarro completo del ligamento talofibular anterior (A) y esguince de alto grado del ligamento calcaneofibular (B)",
+        "Esguince de alto grado del ligamento calcaneofibular con indemnidad del ligamento talofibular anterior",
+        "Desgarro completo aislado del componente superficial del ligamento deltoideo"
+      ],
+      "correcta": 2,
+      "explicacion": "- La imagen A muestra disrupción completa del ligamento talofibular anterior (flecha).\n- La imagen B revela un ligamento calcaneofibular indistinto y edematoso (flecha), lo cual es consistente con un esguince de alto grado.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e536, leyenda de la Figura 8",
+          "cita": "demonstrate complete disruption of the anterior talofibular ligament (arrow, A). The calcaneofibular ligament is indistinct and edematous (arrow, B), consistent with a high-grade sprain."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-07",
+      "tema": "Patología del tendón de Aquiles",
+      "etiquetas": [
+        "Aquiles",
+        "rotura"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presentan imágenes sagitales STIR de dos pacientes diferentes. El paciente A (hombre de 68 años) sintió un chasquido jugando al tenis. La paciente B (mujer de 40 años) tiene dolor posterior de talón desde hace meses. ¿Cuál es el diagnóstico en la imagen A (flecha)?",
+      "imagenes": [
+        {
+          "ref": "fig10",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Tendinosis engrosada sin signos de rotura focal evidente",
+        "Desgarro parcial intersticial en la inserción calcánea",
+        "Paratendinitis aislada del tercio medio del tendón de Aquiles",
+        "Rotura de espesor total del tendón de Aquiles con defecto",
+        "Bursitis retrocalcánea severa simulando una rotura aguda"
+      ],
+      "correcta": 3,
+      "explicacion": "- La imagen A muestra un desgarro de espesor total del tendón de Aquiles.\n- Se observa una brecha o defecto lleno de líquido (flecha) localizado a unos 7 cm proximales a su inserción en el calcáneo.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e538, leyenda de la Figura 10",
+          "cita": "demonstrates full-thickness Achilles tendon rupture with a fluid-filled gap (arrow) located 7 cm proximally to its calcaneal insertion."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-08",
+      "tema": "Lesiones musculares de la pantorrilla",
+      "etiquetas": [
+        "gastrocnemio"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Hombre de 40 años que sintió un chasquido seguido de dolor e hinchazón en la pantorrilla tras zambullirse en una piscina. En esta imagen de RM axial de pantorrilla potenciada en T2 con supresión de grasa, ¿qué hallazgo anatómico clave se observa en relación a la flecha negra y el asterisco?",
+      "imagenes": [
+        {
+          "ref": "fig11",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura completa del tendón plantar con retracción proximal",
+        "Hematoma interfase por avulsión de la cabeza medial del gastrocnemio",
+        "Desgarro de la cabeza lateral del gastrocnemio con hematoma",
+        "Desgarro completo del músculo sóleo con preservación gastrocnemio",
+        "Trombosis venosa profunda aguda simulando una lesión muscular"
+      ],
+      "correcta": 1,
+      "explicacion": "- Se observa un hematoma (asterisco) entre el músculo sóleo y la cabeza medial del gastrocnemio.\n- Hay una disrupción en la unión miotendinosa de la cabeza medial del gastrocnemio (flecha negra), característico de la lesión conocida como \"tennis leg\".",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e539, leyenda de la Figura 11",
+          "cita": "demonstrates hematoma (asterisk) between the soleus muscle (Sol) and medial head of the gastrocnemius (G-med) as well as disruption at the myotendinous junction of the medial head of the gastrocnemius (black arrow)"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-09",
+      "tema": "Disfunción del tendón tibial posterior",
+      "etiquetas": [
+        "tibial posterior",
+        "pie plano"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 64 años con deformidad adquirida de pie plano en el adulto. En estas imágenes de RM de tobillo, axiales potenciadas en T2 con supresión de grasa, ¿qué signo de degeneración tendinosa se observa en el tendón tibial posterior (PTT) en A y B?",
+      "imagenes": [
+        {
+          "ref": "fig12",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura de espesor total con retracción del muñón",
+        "Desgarro longitudinal aislado sin engrosamiento tendinoso",
+        "Enlargamiento anormal del PTT con aumento de señal intrasustancia indicativo de desgarro",
+        "Subluxación anterior del PTT fuera de la corredera retromaleolar",
+        "Adherencias fibrosas severas indicativas de tenosinovitis estenosante"
+      ],
+      "correcta": 2,
+      "explicacion": "- Existe un engrosamiento anormal del tendón tibial posterior (flecha en A).\n- Se aprecia un aumento de señal intrasustancia (flecha en B), que es indicativo de degeneración del tendón y desgarro intrasustancia.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e539, leyenda de la Figura 12",
+          "cita": "demonstrate abnormally enlarged PTT (arrow, A) with increased intrasubstance signal (arrow, B), indicative of tendon degeneration and intrasubstance tearing"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-10",
+      "tema": "Retináculo peroneo superior",
+      "etiquetas": [
+        "peroneo",
+        "retináculo"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 46 años con dolor y sensación de resalte sobre el maléolo lateral 3 meses después de una lesión. En esta imagen axial potenciada en T2 con supresión de grasa, ¿cuál es el diagnóstico principal mostrado por las cabezas de flecha blancas y la posición del tendón peroneo largo?",
+      "imagenes": [
+        {
+          "ref": "fig15",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Desgarro de espesor total del tendón peroneo corto distal",
+        "Despegamiento del retináculo peroneo superior y subluxación",
+        "Luxación medial completa de los dos tendones peroneos",
+        "Os peroneum doloroso con retracción tendinosa proximal",
+        "Tenosinovitis peronea simple sin desgarro retinacular"
+      ],
+      "correcta": 1,
+      "explicacion": "- La imagen demuestra un despegamiento (stripping) del retináculo peroneo superior (cabezas de flecha blancas).\n- Esto se asocia con una subluxación anterolateral del tendón peroneo largo. También se nota una cresta fibrosa en la inserción fibular esperada del retináculo.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e540, leyenda de la Figura 15",
+          "cita": "demonstrates stripping of SPR (white arrowheads) and anterolateral subluxation of peroneus longus tendon."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-11",
+      "tema": "Síndrome de os peroneum doloroso",
+      "etiquetas": [
+        "os peroneum"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 56 años tras una caída. En esta imagen sagital STIR, las cabezas de flecha señalan los osículos proximal y distal de un os peroneum bipartito. ¿Qué hallazgo asociado es equivalente a una rotura completa del tendón peroneo largo en este contexto?",
+      "imagenes": [
+        {
+          "ref": "fig17",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Engrosamiento nodular severo de la aponeurosis plantar",
+        "Despegamiento traumático del retináculo peroneo superior",
+        "Distracción y edema de los osículos del os peroneum",
+        "Edema inflamatorio difuso focalizado en el seno del tarso",
+        "Subluxación aguda y degeneración del tendón tibial posterior"
+      ],
+      "correcta": 2,
+      "explicacion": "- La distracción mayor de 6 mm (diástasis) de un os peroneum multipartito se asocia con un desgarro de espesor total del tendón peroneo largo.\n- En la imagen se aprecia la distracción y edema de los osículos proximal y distal del os peroneum bipartito (cabezas de flecha).",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e541, leyenda de la Figura 17",
+          "cita": "demonstrates distraction and edema of the proximal and distal ossicles of bipartite os peroneum (arrowheads), equivalent to a complete peroneus longus tendon tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-12",
+      "tema": "Síndrome del túnel tarsiano",
+      "etiquetas": [
+        "túnel tarsiano",
+        "ganglión"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 48 años. En la imagen axial de RM potenciada en densidad protónica del tobillo, ¿cuál es la causa de compresión extrínseca en el túnel tarsiano señalada por el asterisco?",
+      "imagenes": [
+        {
+          "ref": "fig20",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Un músculo accesorio sóleo",
+        "Varicosidades venosas",
+        "Un ganglión de partes blandas lobulado",
+        "Un tumor de vaina nerviosa periférica",
+        "Hipertrofia del músculo abductor del dedo gordo"
+      ],
+      "correcta": 2,
+      "explicacion": "- El síndrome del túnel tarsiano puede deberse a lesiones ocupantes de espacio como gangliones, que comprimen el nervio tibial posterior.\n- En este caso se observa un ganglión de tejido blando lobulado (asterisco) que separa los contenidos del túnel tarsiano.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e543, leyenda de la Figura 20",
+          "cita": "shows a lobulated soft tissue ganglion (asterisk) splaying the contents of the tarsal tunnel"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-13",
+      "tema": "Lesiones del complejo de Lisfranc",
+      "etiquetas": [
+        "Lisfranc"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Adolescente de 17 años que sufrió lesión jugando al fútbol. En estas imágenes coronal DP con supresión de grasa (A) y axial T2 (B), ¿qué componentes del complejo del ligamento de Lisfranc muestran disrupción completa?",
+      "imagenes": [
+        {
+          "ref": "fig23",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura completa exclusiva del componente interóseo",
+        "Desgarro de los componentes dorsal e interóseo, plantar intacto",
+        "Rotura completa de los componentes dorsal, interóseo y plantar",
+        "Desgarro completo aislado de la porción del ligamento plantar",
+        "Ausencia de desgarro, hallazgos compatibles con variante normal"
+      ],
+      "correcta": 2,
+      "explicacion": "- El caso ilustra una lesión severa de la articulación de Lisfranc con disrupción completa de múltiples estabilizadores.\n- Se evidencia el desgarro completo de los componentes dorsal (flecha negra en A), interóseo (flecha blanca en A y B) y plantar (cabeza de flecha blanca en A) del complejo ligamentoso de Lisfranc.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e545, leyenda de la Figura 23",
+          "cita": "demonstrate complete disruption of the dorsal (black arrow in A), interosseous (white arrow in A and B), and plantar (white arrowhead in A) components of the Lisfranc ligament complex."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-14",
+      "tema": "Osteomielitis diabética",
+      "etiquetas": [
+        "osteomielitis",
+        "pie diabético"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Hombre diabético de 42 años con antecedente de amputación transmetatarsiana. Presenta úlcera de partes blandas y sepsis. En las imágenes A (T1 coronal), B (STIR coronal) y C (T1 con contraste y supresión de grasa), ¿qué hallazgo primario en T1 (asteriscos en A) indica osteomielitis en este contexto?",
+      "imagenes": [
+        {
+          "ref": "fig27",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Conservación de la señal normal de la grasa subcutánea",
+        "Reemplazo de la señal de la grasa medular en la base de metatarsianos",
+        "Presencia de un trayecto fistuloso que no capta contraste",
+        "Aparición de quistes subcondrales sin pérdida de la grasa",
+        "Desarrollo de edema perilesional difuso en los músculos"
+      ],
+      "correcta": 1,
+      "explicacion": "- La pérdida o reemplazo de la señal de la médula grasa normal en imágenes potenciadas en T1 es un signo más específico que el edema, indicando invasión directa por la infección.\n- La imagen T1 coronal muestra el reemplazo de la señal de la médula grasa normal en las bases del tercer y cuarto metatarsiano (asteriscos en A).",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e546, leyenda de la Figura 27",
+          "cita": "There is replacement of a normal fatty marrow signal at the bases of the third and fourth metatarsals on coronal T1-weighted magnetic resonance (MR) image (asterisks in A)"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-15",
+      "tema": "Clasificación de lesiones de Lisfranc",
+      "etiquetas": [
+        "Lisfranc",
+        "ligamento"
+      ],
+      "tipo": "concepto",
+      "enunciado": "Acerca del complejo ligamentoso de Lisfranc, ¿qué componente es considerado el más fuerte y biomecánicamente más importante?",
+      "imagenes": [],
+      "opciones": [
+        "El componente dorsal del complejo",
+        "El componente plantar del complejo",
+        "El ligamento de Lisfranc interóseo",
+        "El ligamento bifurcado de Chopart",
+        "El ligamento talonavicular medial"
+      ],
+      "correcta": 2,
+      "explicacion": "- La anatomía ligamentosa de la articulación tarsometatarsiana es compleja.\n- El componente interóseo, o ligamento de Lisfranc propiamente dicho, cursa desde la cuña medial (C1) a la base del segundo metatarsiano (M2) y se considera el más fuerte y biomecánicamente más importante.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e544",
+          "cita": "The interosseous component, or a Lisfranc ligament proper, is considered the strongest and most important biomechanically"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-16",
+      "tema": "Evaluación del Neuroma de Morton",
+      "etiquetas": [
+        "Neuroma de Morton"
+      ],
+      "tipo": "concepto",
+      "enunciado": "Cuando se evalúa por RM un posible Neuroma de Morton (neuroma interdigital), ¿qué secuencia de resonancia permite una mayor conspicuidad y una identificación más confiable de esta lesión?",
+      "imagenes": [],
+      "opciones": [
+        "Secuencias sensibles al líquido (como STIR o T2 fat-sat)",
+        "Secuencias ponderadas en T1 (T1-weighted)",
+        "Secuencias ponderadas en densidad protónica sin supresión de grasa",
+        "Imágenes de difusión (DWI)",
+        "Secuencias T2* gradiente de eco"
+      ],
+      "correcta": 1,
+      "explicacion": "- La apariencia del neuroma de Morton en secuencias sensibles a líquidos y el grado de realce son altamente variables.\n- La secuencia T1 permite una mayor conspicuidad frente a la grasa normal del espacio intermetatarsiano plantar, identificando el neuroma como una masa isointensa al músculo.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e545",
+          "cita": "Compared to fluid sensitive sequences, T1-weighted sequence allows greater conspicuity and thus more reliable identification of this lesion"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-17",
+      "tema": "Diferenciación entre osteomielitis y osteoartropatía neuropática",
+      "etiquetas": [
+        "osteomielitis",
+        "Charcot"
+      ],
+      "tipo": "concepto",
+      "enunciado": "En la evaluación por RM del pie diabético, ¿qué principio clave guía el análisis para diferenciar la osteoartropatía neuropática de una infección superpuesta (osteomielitis)?",
+      "imagenes": [],
+      "opciones": [
+        "La neuropatía afecta la diáfisis y la infección las articulaciones",
+        "La neuropatía afecta la articulación y la infección viene de la piel",
+        "La osteoartropatía capta gadolinio y la osteomielitis no capta",
+        "La osteomielitis preserva la grasa y el pie de Charcot la destruye",
+        "El pie neuropático siempre muestra restricción severa en difusión"
+      ],
+      "correcta": 1,
+      "explicacion": "- El diagnóstico de osteomielitis en el contexto de artropatía neuropática es un desafío.\n- El análisis se basa en el principio de que las anomalías medulares en el pie neuropático se centran en la articulación (articular-centered), mientras que la infección entra por diseminación directa desde una úlcera cutánea adyacente.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e547",
+          "cita": "The analysis in such cases is based on the principle that marrow abnormalities in neuropathic foot are articular-centered, while infection is introduced to the bone by a direct spread from a soft tissue ulcer"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-18",
+      "tema": "Patología del músculo gastrocnemio",
+      "etiquetas": [
+        "tennis leg"
+      ],
+      "tipo": "concepto",
+      "enunciado": "En la condición clínica comúnmente conocida como \"tennis leg\" (pierna de tenista) que presenta dolor agudo en la pantorrilla, ¿qué estructura es la que se lesiona con mucha mayor frecuencia?",
+      "imagenes": [],
+      "opciones": [
+        "El tendón del músculo plantar",
+        "El tendón de Aquiles en su inserción calcánea",
+        "La cabeza medial del músculo gastrocnemio",
+        "La fascia plantar central",
+        "El músculo poplíteo"
+      ],
+      "correcta": 2,
+      "explicacion": "- Históricamente se atribuía a la lesión del tendón del músculo plantar.\n- Estudios recientes han demostrado que las lesiones del músculo gastrocnemio, en particular de su cabeza medial, son la causa mucho más común del \"tennis leg\".",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e538",
+          "cita": "Although originally attributed to injury to the plantaris tendon, injuries of the gastrocnemius muscle, in particular its medial head, are much more common"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-19",
+      "tema": "Evaluación del complejo de Chopart",
+      "etiquetas": [
+        "Chopart",
+        "ligamento bifurcado"
+      ],
+      "tipo": "concepto",
+      "enunciado": "¿Qué ligamento se conoce también como la \"llave de la articulación de Chopart\" y debe ser rutinariamente examinado tras esguinces laterales de tobillo?",
+      "imagenes": [],
+      "opciones": [
+        "Ligamento talonavicular dorsal",
+        "Ligamento calcaneocuboideo inferior",
+        "Ligamento bifurcado",
+        "Ligamento en resorte (spring ligament)",
+        "Ligamento talocalcáneo interóseo"
+      ],
+      "correcta": 2,
+      "explicacion": "- La articulación tarsal transversa incluye el complejo articular calcaneocuboideo y talocalcaneonavicular.\n- El ligamento bifurcado, compuesto por los ligamentos calcaneonavicular lateral y calcaneocuboideo medial, es conocido como la \"llave de la articulación de Chopart\".",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e544",
+          "cita": "bifurcate ligament (also known as “the key to Chopart joint”, composed of lateral calcaneonavicular and medial calcaneocuboid ligaments)"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-20",
+      "tema": "Turf toe",
+      "etiquetas": [
+        "turf toe",
+        "pie"
+      ],
+      "tipo": "concepto",
+      "enunciado": "El término \"turf toe\" describe a un espectro de lesiones traumáticas en el pie. ¿A qué estructura y mecanismo lesional hace referencia primariamente?",
+      "imagenes": [],
+      "opciones": [
+        "Degeneración crónica de la placa plantar de los dedos menores",
+        "Traumatismo por hiperextensión en la primera articulación MTP",
+        "Desgarro agudo de la fascia plantar medial por uso de césped",
+        "Fractura de estrés compresiva en el hueso sesamoideo medial",
+        "Rotura del ligamento intersesamoideo por hiperflexión severa"
+      ],
+      "correcta": 1,
+      "explicacion": "- La anatomía capsular de la primera articulación metatarsofalángica es compleja e incluye el complejo de la placa plantar.\n- El término \"turf toe\" se refiere a un espectro de lesiones traumáticas de las estructuras capsuloligamentosas de la primera articulación metatarsofalángica (MTP), que típicamente resultan de una lesión por hiperextensión.",
+      "evidencia": [
+        {
+          "fuente": "gorbachova2020",
+          "ubicacion": "p. e544",
+          "cita": "The term “turf toe” refers to a spectrum of traumatic injuries of the capsuloligamentous structures of the first metatarsophalangeal (MTP) joint, typically resulting from a hyperextension injury."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    }
+  ]
+}

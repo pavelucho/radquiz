@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "gorbachova2020": {
+    "cita": "Gorbachova T. Magnetic resonance imaging of the ankle and foot. Pol J Radiol. 2020 Sep 18;85:e532-e549. doi: 10.5114/pjr.2020.99472.",
+    "credito": "Gorbachova T. Pol J Radiol. 2020",
+    "doi": "10.5114/pjr.2020.99472",
+    "licencia": "CC BY-NC-ND 4.0",
+    "licencia_url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "modificaciones_permitidas": false,
+    "tipo": "articulo",
+    "titular": "© Pol J Radiol 2020",
+    "url": "https://doi.org/10.5114/pjr.2020.99472",
+    "verificacion": {
+      "donde": "p. e532: «This is an Open Access journal, all articles are distributed under the terms of the Creative Commons Attribution-Noncommercial-No Derivatives 4.0 International (CC BY-NC-ND 4.0). License...»",
+      "fecha": "2026-09-20",
+      "por": "Pavel Luna"
+    }
+  }
+}
