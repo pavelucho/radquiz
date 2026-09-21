@@ -11,5 +11,22 @@
         "authorizedRedirectUris": []
       }
     }
+  },
+  "hosting": {
+    "public": "_site",
+    "ignore": [
+      "**/.*"
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
+    ]
   }
 }

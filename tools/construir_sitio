@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Arma _site/, la versión pública de RadQuiz que se publica en GitHub Pages.
+"""Arma _site/, la versión pública de RadQuiz que se publica en GitHub Pages y en Firebase Hosting.
 
 Uso:
     tools/construir_sitio            escribe _site/

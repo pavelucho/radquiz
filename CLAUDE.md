@@ -59,6 +59,15 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - En línea: repositorio público `pavelucho/radquiz`, web en https://pavelucho.github.io/radquiz/ (GitHub Pages).
   `tools/construir_sitio` + `.github/workflows/publicar.yml`: solo los casos `publicado` salen a la web (decisión del
   autor: nunca borradores en la web).
+- **La red del hospital bloquea GitHub por IP** (github.com y github.io: el DNS resuelve, la conexión al 443 se
+  corta; un dominio propio apuntado a GitHub Pages tampoco pasaría). Firebase sí pasa: base con WebSocket, gstatic,
+  identitytoolkit y Hosting. Medido el 2026-09-21 desde el Mac del autor, sin acceso a GitHub en ese momento.
+  Por eso hay una copia del sitio en **Firebase Hosting**: https://radquiz-shpn2.web.app (también
+  `radquiz-shpn2.firebaseapp.com`), el mismo `_site`, para proyectar desde las PC del hospital. Se despliega **a
+  mano** con `tools/construir_sitio && firebase deploy --only hosting` (primera vez el 2026-09-21; portada,
+  práctica, sala y estudio probados ahí). El QR y la dirección del lobby salen de `location`, así que los
+  residentes entran por el mismo dominio que el presentador. Lo publicado en el estudio aparece al instante en
+  las dos webs; redesplegar solo hace falta cuando cambian el código o los temas del repositorio.
 - Estudio web (`estudio.html` + `app/estudio.js`): quien entra con Google queda de alta como autor solo
   (`usuarios/`); «revisor» y «coordinador» los da el coordinador. Publicar es directo; verificar es posterior
   (`verificacion/`), lo hace cualquier revisor sobre cualquier caso publicado —incluidos los suyos, con el botón
@@ -109,6 +118,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
      `firebase deploy --only database` en una terminal con sesión iniciada.
    - En GitHub: el secreto en Settings → Secrets and variables → Actions. `.github/workflows/reglas.yml`
      despliega en cada cambio de `database.rules.json`; sin secreto solo avisa, no falla.
+   - Con el secreto puesto conviene que `publicar.yml` despliegue también Firebase Hosting (hoy es a mano); la
+     cuenta de servicio necesitaría además el papel «Firebase Hosting Admin».
    - Desde una sesión de Claude Code en la web: además del secreto como variable de entorno del entorno,
      **la política de red tiene que permitir `*.firebaseio.com`**. Las reglas se escriben en
      `<instancia>.firebaseio.com/.settings/rules.json`, no en `googleapis.com`, así que sin ese dominio
@@ -118,7 +129,10 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
    `notas` piden confirmarlo mirando la imagen: Fig. 8 (¿T2 con supresión grasa?), Fig. 12 (¿sagital oblicuo?),
    Fig. 13 (¿coronal o sagital?) y Fig. 14. Dejarlas en `null` es correcto mientras nadie las confirme: el
    validador no se queja.
-3. Probar la red de HNERM (WebSocket a Firebase) antes del ensayo con 3 colegas.
+3. Probar la red de HNERM antes del ensayo con 3 colegas. Desde el Mac del autor ya pasa Firebase (ver arriba);
+   falta abrir https://radquiz-shpn2.web.app en la **PC que proyecta** y entrar a una sala desde un celular en el
+   wifi del hospital. Si la copia de Firebase Hosting se queda atrás del repositorio, los temas que falten salen
+   igual desde la base (imágenes en base64, más pesadas): redesplegarla tras cada `git pull`.
 4. Decidir la licencia del código y la de los textos propios.
 
 ## Preferencias del autor (Pavel, residente de radiología)

@@ -38,6 +38,9 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
 ## En línea
 
 - Web: https://pavelucho.github.io/radquiz/ (GitHub Pages, gratis, siempre disponible).
+- Copia para la red del hospital, que bloquea GitHub por IP: https://radquiz-shpn2.web.app/ (Firebase Hosting, plan
+  Spark; también en `radquiz-shpn2.firebaseapp.com`). Mismo `_site`, se despliega con
+  `tools/construir_sitio && firebase deploy --only hosting`. Lo publicado en el estudio sale al instante en las dos.
 - Cada `git push` a `main` valida los temas, arma el sitio y lo publica (`.github/workflows/publicar.yml`).
 - **A la web solo salen los casos en estado `publicado`.** Los borradores quedan en el repositorio, pero no en el sitio.
 - La sala en vivo usa Firebase Realtime Database (plan Spark gratis, proyecto `radquiz-shpn2`, us-central1) solo para
