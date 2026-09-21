@@ -14,6 +14,7 @@ export const LICENCIAS = [
   { valor: "Dominio público", url: "", nd: false },
 ];
 export const MODALIDADES = ["Rx", "US", "TC", "RM", "MN", "PET-TC", "Mamografía", "Fluoroscopía", "Angiografía"];
+export const LADOS = ["derecho", "izquierdo", "bilateral"];
 const BLOQUEADOS = ["statdx.com", "radprimer.com", "imaios.com", "e-anatomy.org"];
 const HTML = /<\/?[a-zA-Z][^>]*>|&[a-zA-Z]+;|&#[0-9]+;/;
 const LETRAS = "ABCDE";
@@ -65,6 +66,11 @@ export function validarImagen(img, fuente) {
   const p = [];
   if (!img.figura) p.push(problema("error", "Falta cómo se llama la figura en la fuente (por ejemplo, «Figura 2»)."));
   if (!img.leyenda_original) p.push(problema("error", "Falta la leyenda original de la figura."));
+  const malos = lista(img.paneles).filter((p) => p.lado && !LADOS.includes(p.lado));
+  if (malos.length) {
+    p.push(problema("error", `El lado de un panel solo puede ser ${LADOS.join(", ")} o quedar vacío`
+      + ` (panel ${malos.map((x) => x.id || "?").join(", ")}: «${malos[0].lado}»).`));
+  }
   const licencia = LICENCIAS.find((l) => l.valor === fuente?.licencia);
   const prohibidas = lista(img.modificaciones).filter((m) => !["redimensionada", "comprimida"].includes(m));
   if (licencia?.nd && prohibidas.length) p.push(problema("error", "La licencia no permite recortar ni marcar esta figura."));
@@ -216,8 +222,11 @@ export function aPaquete(tema, version) {
 // El formato es el mismo que el del repositorio, así que un .zip vale igual venga de donde venga:
 // de otra copia de RadQuiz, de una carpeta de temas/ o de una IA que lo armó desde el PDF.
 // Lo que la fuente no dice viaja como null y aquí vuelve a ser «vacío», que es lo que espera el editor.
+// En la ficha, además, «null» escrito como texto es vacío: una IA que arma el JSON suele escribirlo así,
+// y si se cuela el lector acaba viendo «null» donde debería no haber nada.
 export function dePaquete(paquete, fuentes) {
   const texto = (v) => (v === null || v === undefined ? "" : String(v));
+  const dato = (v) => (["null", "none", "n/a"].includes(texto(v).trim().toLowerCase()) ? "" : texto(v));
   const claves = Object.keys(fuentes || {}).filter((k) => k !== "$schema");
   const clave = claves[0] || "fuente";
   const f = (fuentes || {})[clave] || {};
@@ -247,12 +256,12 @@ export function dePaquete(paquete, fuentes) {
       archivo: texto(img.archivo) || `${id}.jpg`,
       figura: texto(img.figura),
       leyenda_original: texto(img.leyenda_original),
-      modalidad: texto(img.modalidad),
+      modalidad: dato(img.modalidad),
       paneles: lista(img.paneles).map((p) => ({
-        id: texto(p.id) || "único", lado: texto(p.lado), plano: texto(p.plano),
-        secuencia: texto(p.secuencia), condicion: texto(p.condicion),
+        id: texto(p.id) || "único", lado: dato(p.lado), plano: dato(p.plano),
+        secuencia: dato(p.secuencia), condicion: dato(p.condicion),
       })),
-      marcas: lista(img.marcas).map((m) => ({ marca: texto(m.marca), panel: texto(m.panel), senala: texto(m.senala) })),
+      marcas: lista(img.marcas).map((m) => ({ marca: texto(m.marca), panel: dato(m.panel), senala: texto(m.senala) })),
       modificaciones: lista(img.modificaciones).map(texto),
       ...(img.notas ? { notas: texto(img.notas) } : {}),
       orden,

@@ -325,6 +325,29 @@ def pendientes_imagen(img):
     return faltan
 
 
+def nulos_de_texto(img):
+    """«null» escrito como texto: lo que la fuente no dice va como null de verdad.
+
+    Una IA que arma el JSON lo escribe así a menudo, y el lector acaba viendo «null»
+    en la ficha. El esquema no lo ve, porque cualquier texto le vale a estos campos.
+    """
+    malos = []
+    for campo in ("modalidad", "notas"):
+        if es_nulo_de_texto(img.get(campo)):
+            malos.append(campo)
+    for p in img.get("paneles", []) or []:
+        malos += ["panel %s: %s" % (p.get("id", "?"), c)
+                  for c in CAMPOS_PANEL + ("lado",) if es_nulo_de_texto(p.get(c))]
+    for m in img.get("marcas", []) or []:
+        if es_nulo_de_texto(m.get("panel")):
+            malos.append("marca «%s»: panel" % m.get("marca", "?"))
+    return malos
+
+
+def es_nulo_de_texto(valor):
+    return isinstance(valor, str) and valor.strip().lower() in ("null", "none", "n/a")
+
+
 def pendientes_fuente(f):
     faltan = []
     if f.get("licencia") == "Por confirmar":
@@ -397,6 +420,9 @@ def validar_imagenes(carpeta, imagenes, fuentes, usadas, rep):
         faltan = pendientes_imagen(img)
         if faltan:
             rep.aviso(iid, "ficha técnica pendiente: " + ", ".join(faltan))
+        nulos = nulos_de_texto(img)
+        if nulos:
+            rep.error(iid, "«null» escrito como texto (debe ir null de verdad): " + ", ".join(nulos))
         if iid not in usadas:
             rep.aviso(iid, "ningún caso usa esta imagen")
     if carpeta_img.is_dir():
