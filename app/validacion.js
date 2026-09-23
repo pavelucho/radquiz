@@ -156,7 +156,9 @@ export function estadoVerificacion(caso, verificacion) {
 
 // Arma paquete.json y fuentes.json con todos los casos del tema, listos para el repositorio.
 // La verificación se añade al publicar en la web: aquí los casos salen sin revisor.
-export function aPaquete(tema, version) {
+// «drive» (id de imagen → id del archivo en el Drive del autor) solo lo pasa la publicación: el .zip
+// que se descarga lleva los archivos y no apunta al Drive de nadie.
+export function aPaquete(tema, version, drive = {}) {
   const meta = tema.meta;
   const f = tema.fuente;
   const casos = casosOrdenados(tema);
@@ -177,6 +179,7 @@ export function aPaquete(tema, version) {
       marcas: lista(img.marcas).map((m) => ({ marca: m.marca, panel: vacio(m.panel), senala: m.senala })),
       modificaciones: lista(img.modificaciones),
       ...(img.notas ? { notas: img.notas } : {}),
+      ...(drive[img.id] ? { drive: drive[img.id] } : {}),
     };
   }
   const actualizados = {};

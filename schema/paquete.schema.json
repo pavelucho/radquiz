@@ -191,6 +191,11 @@
         "notas": {
           "type": "string",
           "description": "Observaciones para el revisor; no se muestran al residente."
+        },
+        "drive": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{20,100}$",
+          "description": "Id del archivo en el Google Drive de quien publicó el tema, compartido con «cualquiera con el enlace». Si está, la figura se sirve desde ahí y el repositorio no guarda copia en img/."
         }
       }
     },

@@ -11,14 +11,16 @@ export async function reportar(tema, casoId, boton) {
   boton.disabled = true;
   boton.textContent = "Enviando…";
   try {
-    const [{ initializeApp, getApps }, { getAuth, signInAnonymously }, base, { firebaseConfig }] = await Promise.all([
+    const [{ initializeApp, getApps }, { getAuth, signInAnonymously }, base, { firebaseConfig, APP_ANONIMA }] = await Promise.all([
       import(`${SDK}/firebase-app.js`),
       import(`${SDK}/firebase-auth.js`),
       import(`${SDK}/firebase-database.js`),
       import("./firebase-config.js"),
     ]);
-    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    // La misma instancia anónima que la sala, nunca la del estudio: así reportar no toca la sesión de Google.
+    const app = getApps().find((a) => a.name === APP_ANONIMA) || initializeApp(firebaseConfig, APP_ANONIMA);
     const auth = getAuth(app);
+    await auth.authStateReady();
     if (!auth.currentUser) await signInAnonymously(auth);
     const temaId = String(tema).split("/").pop();
     await base.set(base.ref(base.getDatabase(app), `reportes/${temaId}/${casoId}/${auth.currentUser.uid}`), {

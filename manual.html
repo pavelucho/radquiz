@@ -43,6 +43,7 @@
         <li><a href="#imagenes">2. Las imágenes</a></li>
         <li><a href="#generar">3. Los casos, con tu IA</a></li>
         <li><a href="#enviar">4. Publicar</a></li>
+        <li><a href="#drive">Tus figuras, en tu Drive</a></li>
         <li><a href="#borrar">Borrar un cuestionario</a></li></ul></div>
       <div><p class="tema">Revisores y coordinador</p><ul>
         <li><a href="#revisar">Revisar y publicar</a></li>
@@ -222,7 +223,10 @@
         <li>Los casos aparecen como los verá el residente. Debajo de cada uno salen los problemas en rojo (hay que
           corregirlos) y los avisos en amarillo (conviene mirarlos).</li>
         <li>Puedes corregir a mano con <b>Editar</b>, agregar casos con <b>Agregar caso a mano</b>, o tocar
-          <b>Pedir a la IA que corrija</b> para que ella misma los arregle.</li>
+          <b>Pedir a la IA que corrija</b> para que ella misma los arregle. Su respuesta se pega en el mismo sitio: cada
+          caso corregido reemplaza al suyo, en su lugar, sin duplicarse.</li>
+        <li>Si quieres empezar de cero con una respuesta nueva, marca <b>Reemplazar los casos actuales</b> antes de
+          cargarla.</li>
       </ol>
       <p class="muted">Si tu IA responde con texto alrededor del JSON, no importa: el estudio lo reconoce igual. Si algo
         sale mal, te dice qué pedirle.</p>
@@ -234,6 +238,22 @@
         corregir y tocar <b>Publicar cambios</b>.</p>
       <p class="caja">Si corriges un caso que ya estaba verificado, el sello se retira solo y el radiólogo tendrá que
         mirarlo otra vez: es la única forma de que el sello signifique algo.</p>
+      <h3 id="drive">Tus figuras quedan en tu Google Drive</h3>
+      <p>Al publicar, las figuras se suben a <b>tu</b> Google Drive, a una carpeta «RadQuiz · título del tema», y se
+        comparten con cualquiera que tenga el enlace. RadQuiz guarda solo ese enlace: las figuras las alojas tú.</p>
+      <ol class="pasos">
+        <li>La primera vez, Google te pide permiso para que RadQuiz cree archivos en tu Drive. Es un permiso limitado:
+          RadQuiz solo ve los archivos que crea él, nunca el resto de tu Drive.</li>
+        <li>Antes de publicar marcas una declaración: que tienes derecho a compartir esas figuras (por su licencia o por
+          permiso de su titular), que no tienen datos de pacientes y que respondes por ellas. Queda guardada con tu
+          cuenta y la fecha.</li>
+        <li>Volver a publicar reutiliza las figuras que ya subiste; lo que el tema deja de usar va a la papelera de tu
+          Drive.</li>
+        <li>En el paso 4 tienes el enlace a tu carpeta. Si borras las figuras de ahí, el tema se queda sin imágenes: es
+          la forma de retirarlas si alguien reclama.</li>
+      </ol>
+      <p class="caja">Usa una cuenta de Gmail personal. Algunas cuentas institucionales no dejan compartir con
+        «cualquiera con el enlace», y entonces nadie fuera de la institución vería las figuras.</p>
       <h3 id="borrar">Borrar un cuestionario</h3>
       <p>Tus cuestionarios los borras tú, sin pedírselo a nadie: en <b>Mis temas</b>, botón <b>Borrar</b> de la tarjeta,
         o dentro del tema en el paso 4. Antes de hacer nada se te dice qué desaparece —casos, imágenes, sellos y
@@ -241,6 +261,8 @@
       <p class="caja">Borrar no se deshace y nadie del equipo puede recuperarlo, ni siquiera el coordinador. Si solo
         quieres que deje de verse en la web, pide a tu coordinador <b>Quitar de la web</b>: eso sí se deshace, porque
         el contenido sigue guardado en el estudio.</p>
+      <p>Al borrar un tema tuyo, la carpeta de sus figuras va a la papelera de tu Google Drive. Si lo quita de la web el
+        coordinador, las figuras siguen en tu Drive: bórralas tú si también quieres retirarlas.</p>
       <p class="src">¿Prefieres trabajar con archivos y Git? También se puede: mira el
         <a href="https://github.com/pavelucho/radquiz/blob/main/README.md">README</a> del repositorio.</p>
     </section>
@@ -291,7 +313,8 @@
           quitarlo.</li>
         <li><b>Quitar algo de la web:</b> abre el tema, paso 4, <b>Quitar de la web</b>. El contenido sigue guardado en
           el estudio, pero desaparece del sitio en la próxima actualización. Es lo que conviene usar casi siempre,
-          porque se deshace volviendo a publicar.</li>
+          porque se deshace volviendo a publicar. Las figuras están en el Google Drive de su autor: si hay un reclamo
+          de derechos, pídele que las borre de ahí.</li>
         <li><b>Borrar de verdad:</b> el botón <b>Borrar</b> de cualquier tarjeta. Cada autor puede borrar lo suyo; tú
           puedes borrar el de cualquiera. Hay que escribir BORRAR y no se deshace: se van los casos, las imágenes,
           los sellos y los reportes.</li>
@@ -338,6 +361,9 @@
           <tr><td>«El .zip no trae paquete.json»</td><td>El archivo tiene que llevar paquete.json, fuentes.json y la carpeta img/. Pídele a tu IA que lo arme con esos nombres.</td></tr>
           <tr><td>El .zip entró sin algunas figuras</td><td>El estudio te dice cuáles faltan. Créalo igual y súbelas a mano en el paso 2.</td></tr>
           <tr><td>Borré algo sin querer</td><td>No se puede recuperar. Hay que volver a armarlo; por eso el estudio pide escribir BORRAR antes.</td></tr>
+          <tr><td>Al publicar se abre una ventana de Google</td><td>Pide permiso para guardar las figuras en tu Drive. Elige la misma cuenta con la que entraste al estudio y deja marcada la casilla de Google Drive.</td></tr>
+          <tr><td>«Tu cuenta no deja compartir archivos…»</td><td>Tu cuenta (suele ser institucional) no permite compartir con cualquiera. Entra al estudio con un Gmail personal y publica desde ahí.</td></tr>
+          <tr><td>Una figura publicada no aparece en la web</td><td>Probablemente se borró de la carpeta de Drive de su autor. Él puede tocar <b>Volver a publicar</b> en el paso 4: la vuelve a subir.</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -350,8 +376,10 @@
           cerrarla (o, si nadie la cierra, pasadas 24 horas). La práctica individual no guarda nada.</li>
         <li>No se usan imágenes de pacientes del hospital. Todas las imágenes vienen de publicaciones open access o de bancos
           públicos, y cada una muestra su fuente, sus autores y su licencia con enlace.</li>
+        <li>Las figuras las aloja quien publica el tema, en su propio Google Drive; RadQuiz guarda solo el enlace. Al
+          publicar, esa persona declara que tiene derecho a compartirlas y responde por ellas.</li>
         <li>Las figuras con licencia «sin derivadas» (ND) se muestran completas, sin recortes ni marcas agregadas.</li>
-        <li>Ningún caso se publica sin la revisión de un radiólogo distinto del autor.</li>
+        <li>Cada caso dice si un radiólogo lo verificó y quién: «✓ Verificado por…» o «Sin verificar».</li>
       </ul>
     </section>
   </main>

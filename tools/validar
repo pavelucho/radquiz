@@ -402,7 +402,9 @@ def validar_imagenes(carpeta, imagenes, fuentes, usadas, rep):
             if prohibidas:
                 rep.error(iid, "la licencia no permite modificar la figura (%s)" % ", ".join(sorted(prohibidas)))
         ruta = carpeta_img / archivo
-        if not ruta.is_file():
+        if img.get("drive") and not ruta.is_file():
+            pass  # la figura está en el Google Drive de quien publicó: el repositorio no guarda copia
+        elif not ruta.is_file():
             rep.error(iid, "no existe img/%s" % archivo)
         else:
             info = leer_jpeg(ruta)

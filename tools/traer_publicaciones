@@ -12,6 +12,10 @@ Lee dos nodos públicos de la base del estudio:
 
 Los temas que el estudio dejó de publicar se quitan de temas/ (solo los que trajo este comando:
 llevan la marca .origen-estudio).
+
+Las figuras no se copian: están en el Google Drive de quien publicó y la ficha de cada imagen lleva el
+id del archivo («drive»). Solo los temas publicados antes de eso las traen en base64 desde
+«publicacion_img», y esas sí se guardan en img/.
 """
 
 import argparse
@@ -28,6 +32,7 @@ BASE = os.environ.get("RADQUIZ_DB", "https://radquiz-shpn2-default-rtdb.firebase
 SEGMENTOS = json.loads((RAIZ / "schema" / "paquete.schema.json").read_text(encoding="utf-8"))["$defs"]["segmento"]["enum"]
 NOMBRE = re.compile(r"^[a-z0-9]+([-_][a-z0-9]+)*\.jpg$")
 ID = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+DRIVE = re.compile(r"^[A-Za-z0-9_-]{20,100}$")
 USUARIO = re.compile(r"^[a-z0-9._-]+$")
 MARCA = ".origen-estudio"
 
@@ -87,26 +92,35 @@ def escribir_tema(clave, publicacion, verificacion, solo_ver):
         print("  · %s/%s cambiaría (%d casos, %d verificados)" % (segmento, tema_id, len(paquete["casos"]), sellados))
         return True
 
-    imagenes = traer(f"publicacion_img/{clave}.json") or {}
-    (carpeta / "img").mkdir(parents=True, exist_ok=True)
-    esperados = set()
-    for img_id, ficha in paquete.get("imagenes", {}).items():
-        archivo = ficha.get("archivo", "")
-        datos = imagenes.get(img_id, "")
-        if not NOMBRE.match(archivo) or not datos.startswith("data:image/jpeg;base64,"):
+    fichas = paquete.get("imagenes", {})
+    en_drive = {img_id for img_id, ficha in fichas.items() if ficha.get("drive")}
+    imagenes = (traer(f"publicacion_img/{clave}.json") or {}) if len(en_drive) < len(fichas) else {}
+    # Todo se comprueba antes de tocar el disco: un tema con una imagen mala no deja nada a medias.
+    for img_id, ficha in fichas.items():
+        valida = (DRIVE.match(str(ficha.get("drive"))) if img_id in en_drive
+                  else str(imagenes.get(img_id, "")).startswith("data:image/jpeg;base64,"))
+        if not NOMBRE.match(ficha.get("archivo", "")) or not valida:
             print("  ⚠ %s: imagen %s inválida; salto el tema" % (clave, img_id))
             return False
-        (carpeta / "img" / archivo).write_bytes(base64.b64decode(datos.split(",", 1)[1]))
+    (carpeta / "img").mkdir(parents=True, exist_ok=True)
+    esperados = set()
+    for img_id, ficha in fichas.items():
+        if img_id in en_drive:
+            continue  # vive en el Drive de quien publicó: el repositorio no guarda copia
+        archivo = ficha["archivo"]
+        (carpeta / "img" / archivo).write_bytes(base64.b64decode(imagenes[img_id].split(",", 1)[1]))
         esperados.add(archivo)
     for sobrante in (carpeta / "img").iterdir():
         if sobrante.is_file() and sobrante.name not in esperados:
             sobrante.unlink()
+    if not any((carpeta / "img").iterdir()):
+        (carpeta / "img").rmdir()
 
     actual.write_text(nuevo, encoding="utf-8")
     (carpeta / "fuentes.json").write_text(json.dumps(fuentes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (carpeta / MARCA).write_text("Este tema lo mantiene el estudio web; no lo edites a mano.\n", encoding="utf-8")
-    print("  ✓ %s/%s versión %s: %d casos (%d verificados), %d imágenes"
-          % (segmento, tema_id, version, len(paquete["casos"]), sellados, len(esperados)))
+    print("  ✓ %s/%s versión %s: %d casos (%d verificados), %d imágenes aquí y %d en Drive"
+          % (segmento, tema_id, version, len(paquete["casos"]), sellados, len(esperados), len(en_drive)))
     return True
 
 

@@ -73,8 +73,21 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   (`verificacion/`), lo hace cualquier revisor sobre cualquier caso publicado —incluidos los suyos, con el botón
   «Verificar casos»— y se retira solo si el autor edita y vuelve a publicar. Los reportes de error de la web (`reportes/`) ponen el caso primero en la cola. Los casos se generan con **cualquier IA** (el estudio arma el
   texto para copiar y lee la respuesta JSON); no depende de Claude ni de ningún proveedor.
-  Publicar escribe `publicacion/`, `publicacion_img/` e `indice_publicado/`. Validación en el navegador:
+  Publicar escribe `publicacion/` e `indice_publicado/`. Validación en el navegador:
   `app/validacion.js` (espejo de `tools/validar`).
+- **Las figuras publicadas las aloja quien publica, en su Google Drive** (decisión del 2026-09-23: la
+  responsabilidad de las figuras pasa al que sube, no al proyecto). Al publicar, el estudio pide el permiso
+  `drive.file` con `reauthenticateWithPopup`, sube cada figura a la carpeta «RadQuiz · título» del autor, la
+  comparte con «cualquiera con el enlace» y guarda en la ficha solo el id (`drive`, en el esquema). Reutiliza lo
+  ya subido si la huella no cambió y manda a la papelera lo que el tema dejó de usar (`app/drive.js`). El autor
+  marca una declaración (texto en `DECLARACION`, `app/estudio.js`) que queda en `publicacion/<tema>/declaracion`;
+  las reglas la exigen. La web pide cada figura a `www.googleapis.com/drive/v3/files/<id>?alt=media` con
+  `claveDrive`: en Google Cloud la API de Drive tiene que estar habilitada y permitida en esa clave.
+  `publicacion_img/` es de antes: solo admite borrarse, y la web la lee solo para temas no vueltos a publicar.
+  Los borradores siguen en `estudio_img/`. Borrar un tema propio manda su carpeta de Drive a la papelera.
+- La sala y los reportes usan una instancia de Firebase aparte (`APP_ANONIMA`): su sesión anónima no pisa la de
+  Google del estudio en el mismo navegador (antes, abrir la sala cerraba la sesión del estudio, y entrar al
+  estudio le quitaba el control de la sala al presentador).
 - Un cuestionario entero cabe en un `.zip` con la forma de una carpeta de `temas/` (`paquete.json`, `fuentes.json`,
   `img/`): «Subir un .zip» en la portada del estudio y «Descargar .zip» en el paso 4. `app/zip.js` lo lee y lo arma
   sin librerías (`DecompressionStream`; al escribir, guardado sin comprimir), `app/importar.js` lo convierte con
@@ -90,11 +103,12 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   vez (antes estaba vacío, y por eso los temas tardaban en salir), la web ocultó el tema al instante por la marca
   `retirado`, y `tools/traer_publicaciones` borró su carpeta de `temas/` en el workflow siguiente. Desde fuera no
   se distingue «Borrar» de «Quitar de la web»: dejan el mismo rastro público.
-- Publicar es instantáneo: `app/publicado.js` lee por REST los nodos públicos `indice_publicado`, `publicacion`,
-  `publicacion_img` y `verificacion`, y la portada, la práctica y la sala los fusionan con `temas/indice.json`.
-  Gana el estudio cuando su versión no coincide con la del sitio; si coinciden, se usan los archivos del sitio
-  (CDN, más ligeros que las imágenes en base64). Si la base no responde, la web sigue con lo del sitio.
-  `tools/traer_publicaciones` baja lo mismo al repositorio por su cuenta, desde el workflow.
+- Publicar es instantáneo: `app/publicado.js` lee por REST los nodos públicos `indice_publicado`, `publicacion`
+  y `verificacion` (y `publicacion_img` solo para temas de antes de Drive), y la portada, la práctica y la sala los
+  fusionan con `temas/indice.json`. Gana el estudio cuando su versión no coincide con la del sitio; si coinciden,
+  se usan los archivos del sitio. Si la base no responde, la web sigue con lo del sitio.
+  `tools/traer_publicaciones` baja lo mismo al repositorio por su cuenta, desde el workflow, sin copiar las figuras
+  que están en Drive.
 - Manual de uso por papel: `manual.html`, en línea. Camino con Git (alternativo):
   `tools/aprobar <carpeta> --revisor <usuario> --todos|--casos a,b [--estado publicado]`.
 - `referencia/` y `PROMPT_INICIO.md` están en `.gitignore`: solo locales (el respaldo del piloto tiene recortes ND).
@@ -131,8 +145,9 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
    validador no se queja.
 3. Probar la red de HNERM antes del ensayo con 3 colegas. Desde el Mac del autor ya pasa Firebase (ver arriba);
    falta abrir https://radquiz-shpn2.web.app en la **PC que proyecta** y entrar a una sala desde un celular en el
-   wifi del hospital. Si la copia de Firebase Hosting se queda atrás del repositorio, los temas que falten salen
-   igual desde la base (imágenes en base64, más pesadas): redesplegarla tras cada `git pull`.
+   wifi del hospital. Con las figuras en Drive hay que comprobar también que pasa `www.googleapis.com` (la web
+   pide ahí cada figura). Si la copia de Firebase Hosting se queda atrás del repositorio, los temas que falten
+   salen igual desde la base: redesplegarla tras cada `git pull`.
 4. Decidir la licencia del código y la de los textos propios.
 
 ## Preferencias del autor (Pavel, residente de radiología)

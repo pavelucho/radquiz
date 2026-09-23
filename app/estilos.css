@@ -190,3 +190,6 @@ button.peligrosa:hover:not(:disabled) { border-color: var(--bad); }
 button.peligrosa:disabled { color: var(--mute); border-color: var(--line); }
 .panel.peligro { display: grid; gap: 12px; max-width: 560px; width: 100%; cursor: auto; text-align: left; max-height: 86vh; overflow: auto; border-color: #5a2a31; }
 .panel.peligro h3 { color: var(--bad); }
+.panel.dialogo { display: grid; gap: 12px; max-width: 580px; width: 100%; cursor: auto; text-align: left; max-height: 86vh; overflow: auto; }
+.declaro { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel2); font-size: 15px; cursor: pointer; }
+.declaro input { margin-top: 4px; width: 18px; height: 18px; flex: none; accent-color: var(--overlay); }

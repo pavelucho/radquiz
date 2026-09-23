@@ -34,7 +34,7 @@ function visor(refs) {
     if (!imagen) return `<p class="cap">Falta la imagen ${esc(ref.ref)}</p>`;
     const src = srcImagen(ref.ref);
     return `<figure>
-      <img src="${src}" alt="${esc(imagen.figura)}" data-zoom>
+      <img src="${esc(src)}" alt="${esc(imagen.figura)}" data-zoom>
       <figcaption class="cap"><span>${credito(imagen, fuentes[imagen.fuente])}</span><span>Toca para ampliar</span></figcaption>
     </figure>`;
   }).join("")}</div>`;

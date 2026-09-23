@@ -6,14 +6,20 @@
 // son peticiones REST normales, y si fallan la web sigue con lo que trajo el sitio.
 //
 // El sitio manda mientras esté al día: si su versión del tema coincide con la publicada, se usan
-// sus archivos, que van por CDN y pesan menos que las imágenes en base64 de la base.
+// sus archivos, que van por CDN.
+//
+// Las figuras no están en la base: cada autor las aloja en su Google Drive y la ficha de la imagen
+// lleva el id del archivo («drive»). Solo los temas publicados antes de eso las traen en base64,
+// en «publicacion_img».
 import { cargarJSON } from "./comun.js";
 import { firebaseConfig } from "./firebase-config.js";
+import { urlDrive } from "./drive.js";
 
 const BASE = firebaseConfig.databaseURL;
 const ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const USUARIO = /^[a-z0-9._-]+$/;
-const IMAGEN = "data:image/jpeg;base64,";
+// Un JPEG en base64 y nada más: cualquier otro carácter podría salirse del atributo src.
+const IMAGEN = /^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/;
 
 async function leer(ruta) {
   try {
@@ -105,9 +111,7 @@ async function temaEnVivo(ruta, versionDelSitio) {
   if (!entrada || entrada.retirado) return null;
   if (versionDelSitio && entrada.version === versionDelSitio) return null; // el sitio ya está al día
 
-  const [publicacion, imagenes, verificacion] = await Promise.all([
-    leer(`publicacion/${id}`), leer(`publicacion_img/${id}`), leer(`verificacion/${id}`),
-  ]);
+  const [publicacion, verificacion] = await Promise.all([leer(`publicacion/${id}`), leer(`verificacion/${id}`)]);
   if (!publicacion || !publicacion.paquete_json) return null;
   let paquete, fuentes;
   try {
@@ -119,12 +123,20 @@ async function temaEnVivo(ruta, versionDelSitio) {
   if (!Array.isArray(paquete.casos)) return null;
   paquete.version = publicacion.version || paquete.version;
   sellar(paquete, publicacion.actualizados, verificacion);
-  const datos = imagenes || {};
+  const fichas = paquete.imagenes || {};
+  // Solo un tema publicado antes de Drive necesita bajar las figuras en base64.
+  const enBase = Object.values(fichas).some((ficha) => ficha && !ficha.drive);
+  const datos = (enBase && (await leer(`publicacion_img/${id}`))) || {};
   return {
     paquete,
     fuentes,
-    // Las imágenes vienen en base64 desde la base; solo se aceptan JPEG, como exigen las reglas.
-    imagen: (ref) => (String(datos[ref] || "").startsWith(IMAGEN) ? datos[ref] : ""),
+    imagen: (ref) => {
+      const ficha = fichas[ref];
+      if (!ficha) return "";
+      if (ficha.drive) return urlDrive(ficha.drive);
+      const base64 = String(datos[ref] || "");
+      return IMAGEN.test(base64) ? base64 : "";
+    },
   };
 }
 
@@ -143,7 +155,8 @@ export async function cargarPaquete(ruta) {
       fuentes,
       imagen: (ref) => {
         const ficha = (paquete.imagenes || {})[ref];
-        return ficha ? `${carpeta}/img/${encodeURIComponent(ficha.archivo)}` : "";
+        if (!ficha) return "";
+        return ficha.drive ? urlDrive(ficha.drive) : `${carpeta}/img/${encodeURIComponent(ficha.archivo)}`;
       },
     };
   } catch {

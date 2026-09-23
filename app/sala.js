@@ -1,12 +1,12 @@
 // RadQuiz — sala en vivo. Presentador y jugadores usan esta misma página.
 // Firebase guarda solo el estado de la sala (fase, respuestas, puntajes); las preguntas y las imágenes
 // vienen del sitio. Las reglas de seguridad están en database.rules.json.
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {
   getDatabase, ref, set, get, update, remove, onValue, serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
-import { firebaseConfig } from "./firebase-config.js";
+import { firebaseConfig, APP_ANONIMA } from "./firebase-config.js";
 import { $, esc, md, cargarJSON, credito, barajar, sello, opcionesTanda } from "./comun.js";
 import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
 import { reportar } from "./reportar.js";
@@ -85,7 +85,7 @@ function visor(caso, conRespuesta) {
     const imagen = paquete.imagenes[r.ref];
     if (!imagen) return "";
     const src = srcImagen(r.ref);
-    return `<figure><img src="${src}" alt="${esc(imagen.figura)}" data-zoom>
+    return `<figure><img src="${esc(src)}" alt="${esc(imagen.figura)}" data-zoom>
       <figcaption class="cap"><span>${credito(imagen, fuentes[imagen.fuente])}</span><span>Toca para ampliar</span></figcaption></figure>`;
   }).join("")}</div>`;
 }
@@ -675,7 +675,10 @@ async function iniciar() {
     app.innerHTML = panel("La sala en vivo aún no está configurada", "Falta la configuración de Firebase en app/firebase-config.js.");
     return;
   }
-  const fb = initializeApp(firebaseConfig);
+  // Instancia propia, con su propia sesión anónima. Si fuera la de por defecto, entrar a la sala cerraría
+  // la sesión de Google del estudio en este navegador, y entrar al estudio le cambiaría el usuario a la
+  // sala: el presentador perdería el control en plena sesión.
+  const fb = getApps().find((a) => a.name === APP_ANONIMA) || initializeApp(firebaseConfig, APP_ANONIMA);
   db = getDatabase(fb);
   const auth = getAuth(fb);
   onValue(ref(db, ".info/serverTimeOffset"), (s) => { desfase = s.val() || 0; });

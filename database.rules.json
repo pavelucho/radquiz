@@ -229,13 +229,17 @@
     "publicacion": {
       ".read": true,
       "$tema": {
-        ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null)"
+        ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null)",
+        ".validate": "newData.hasChildren(['paquete_json', 'fuentes_json', 'version', 'declaracion'])",
+        "declaracion": {
+          ".validate": "newData.hasChildren(['version', 'uid', 'fecha']) && newData.child('uid').val() == auth.uid && newData.child('fecha').val() == now"
+        }
       }
     },
     "publicacion_img": {
       ".read": true,
       "$tema": {
-        ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null)"
+        ".write": "auth != null && !newData.exists() && (root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador' || (root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null))"
       }
     },
     "indice_publicado": {

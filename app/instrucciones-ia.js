@@ -3,6 +3,8 @@
 import { imagenesOrdenadas, casosOrdenados, lista, idImagen, LICENCIAS, MODALIDADES } from "./validacion.js";
 import { SEGMENTOS } from "./comun.js";
 
+const ID_CASO = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
 const EJEMPLO = `{
   "imagenes": [
     {
@@ -430,7 +432,8 @@ ${REGLAS.slice(0, 8).map((r, i) => `${i + 1}. ${r}`).join("\n")}
 CASOS ACTUALES
 ${JSON.stringify({ casos }, null, 1)}
 
-Devuelve SOLO el JSON corregido completo, con la misma forma ({"casos": [...]}), sin texto antes ni después.`;
+Devuelve SOLO el JSON corregido, sin texto antes ni después, con esta forma: {"correccion": true, "casos": [...]}.
+Conserva el "id" de cada caso tal cual: así cada corrección reemplaza a su caso en vez de sumarse como uno nuevo.`;
 }
 
 // Lee la respuesta de la IA aunque venga con bloques de código o texto alrededor.
@@ -468,6 +471,7 @@ export function leerRespuestaIA(texto, tema) {
       correcta = letra >= 0 ? letra : Number(correcta);
     }
     return {
+      id: ID_CASO.test(String(c.id || "")) ? String(c.id) : null,
       tema: String(c.tema || c.subtema || "").trim(),
       tipo: c.tipo === "concepto" ? "concepto" : "imagen",
       enunciado: String(c.enunciado || c.pregunta || "").trim(),
@@ -485,5 +489,87 @@ export function leerRespuestaIA(texto, tema) {
     };
   });
   if (!casos.length && !imagenes.length) throw new Error("La respuesta no traía casos. Revisa que tu IA haya devuelto el JSON completo.");
-  return { imagenes, casos };
+  // «correccion» lo pone solo el prompt de corrección: sin esa marca, un id que la IA invente al escribir
+  // casos nuevos no puede pisar un caso que ya existe.
+  return { imagenes, casos, correccion: bruto.correccion === true };
+}
+
+function idLibre(usados, desde) {
+  for (let n = desde; ; n++) {
+    const id = `caso-${String(n).padStart(2, "0")}`;
+    if (!usados.has(id)) return id;
+  }
+}
+
+// Qué escribir en la base al cargar una respuesta de la IA: las rutas para un solo update() y un resumen.
+// - Normal: los casos se agregan detrás de los que hay.
+// - Corrección (la respuesta trae «correccion»): cada caso con un id conocido reemplaza al suyo, en su mismo
+//   lugar; los demás se agregan.
+// - Reemplazar: la lista de casos se sustituye entera. Va en una sola ruta, «casos», porque Firebase rechaza
+//   un update() en el que una ruta contiene a otra.
+// «marca» es la hora del servidor (serverTimestamp()); se recibe de fuera para que esto no dependa del SDK.
+export function planDeCarga(tema, datos, { reemplazar = false, marca = null } = {}) {
+  const base = `estudio/${tema.id}`;
+  const cambios = {};
+  let fichas = 0;
+  for (const img of datos.imagenes) {
+    if (!img.ref) continue;
+    fichas += 1;
+    cambios[`${base}/imagenes/${img.ref}/leyenda_original`] = img.leyenda_original;
+    if (img.modalidad) cambios[`${base}/imagenes/${img.ref}/modalidad`] = img.modalidad;
+    if (img.paneles.length) cambios[`${base}/imagenes/${img.ref}/paneles`] = img.paneles;
+    if (img.marcas.length) cambios[`${base}/imagenes/${img.ref}/marcas`] = img.marcas;
+  }
+
+  const guardado = (caso, orden, anterior = {}) => {
+    const { id, ...resto } = caso;
+    return {
+      ...anterior,
+      ...resto,
+      imagenes: caso.imagenes.filter((r) => r.ref).map((r) => ({ ref: r.ref, mostrar_en: r.mostrar_en })),
+      orden,
+      actualizado: marca,
+    };
+  };
+  const actuales = casosOrdenados(tema);
+  const reemplaza = reemplazar && datos.casos.length > 0;
+  let agregados = 0;
+  let corregidos = 0;
+  if (reemplaza) {
+    const nuevos = {};
+    datos.casos.forEach((caso, i) => { nuevos[idLibre(new Set(), i + 1)] = guardado(caso, i + 1); });
+    cambios[`${base}/casos`] = nuevos;
+    agregados = datos.casos.length;
+  } else {
+    const usados = new Set(actuales.map((c) => c.id));
+    let orden = actuales.reduce((mayor, c) => Math.max(mayor, Number(c.orden) || 0), 0);
+    for (const caso of datos.casos) {
+      const anterior = datos.correccion && caso.id ? (tema.casos || {})[caso.id] : null;
+      if (anterior) {
+        cambios[`${base}/casos/${caso.id}`] = guardado(caso, anterior.orden ?? orden + 1, anterior);
+        corregidos += 1;
+        continue;
+      }
+      orden += 1;
+      const id = idLibre(usados, orden);
+      usados.add(id);
+      cambios[`${base}/casos/${id}`] = guardado(caso, orden);
+      agregados += 1;
+    }
+  }
+
+  const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
+  const partes = [];
+  if (reemplaza && actuales.length) partes.push(`Reemplacé ${plural(actuales.length, "caso", "casos")} por ${agregados}`);
+  else {
+    if (corregidos) partes.push(`Corregí ${plural(corregidos, "caso", "casos")}`);
+    if (agregados) partes.push(`${corregidos ? "agregué" : "Cargué"} ${plural(agregados, "caso nuevo", "casos nuevos")}`);
+  }
+  if (fichas) partes.push(`${partes.length ? "" : "Cargué "}${plural(fichas, "leyenda", "leyendas")}`);
+  const ultimo = partes.length > 1 ? ` y ${partes.pop()}` : "";
+  let resumen = partes.length ? `${partes.join(", ")}${ultimo}.` : "La respuesta no traía nada que cargar.";
+  if (reemplazar && !reemplaza) resumen += " No reemplacé los casos: la respuesta no traía ninguno.";
+  const perdidas = [...new Set(datos.casos.flatMap((c) => c.imagenes.filter((r) => !r.ref).map((r) => r.figura)).filter(Boolean))];
+  if (perdidas.length) resumen += ` No reconocí: ${perdidas.join(", ")}.`;
+  return { cambios, resumen, agregados, corregidos, fichas };
 }

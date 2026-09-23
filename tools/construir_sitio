@@ -50,6 +50,8 @@ def construir():
         (salida / "paquete.json").write_text(json.dumps(publico, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
         (salida / "fuentes.json").write_text(json.dumps(fuentes_publicas, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
         for imagen in imagenes.values():
+            if imagen.get("drive"):
+                continue  # se sirve desde el Google Drive de quien la publicó
             shutil.copy2(carpeta / "img" / imagen["archivo"], salida / "img" / imagen["archivo"])
 
         indice.append({

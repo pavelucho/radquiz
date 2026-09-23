@@ -55,20 +55,25 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
 2. El autor completa fuente (con búsqueda por DOI), sube las imágenes (se comprimen en el navegador) y genera los
    casos **con la IA que prefiera**: el estudio arma un texto para copiar y pegar, y lee la respuesta en JSON.
    No se conecta a ningún proveedor de IA.
-3. El autor publica cuando el validador no marca errores. Los casos salen **sin verificar**.
+3. El autor publica cuando el validador no marca errores. Los casos salen **sin verificar**. Las figuras se suben al
+   **Google Drive del autor** (carpeta «RadQuiz · título», compartidas con «cualquiera con el enlace», permiso
+   `drive.file`) y la ficha de cada imagen guarda solo el id del archivo (`drive`). Antes de publicar, el autor marca
+   una declaración de que puede compartirlas y responde por ellas; queda en `publicacion/<tema>/declaracion`. Así
+   quien aloja las figuras es quien las publica, no el proyecto (`app/drive.js`).
 4. Cualquier radiólogo con papel de revisor verifica los casos que quiera, incluidos los suyos (en su tema, botón
    «Verificar casos»); el sello lleva su nombre y su fecha, y se retira solo si el autor cambia ese caso y vuelve a
    publicarlo.
 5. El tema aparece en la web al instante: `app/publicado.js` lee de la base los nodos públicos `indice_publicado`,
    `publicacion` y `verificacion`, y la portada, la práctica y la sala los usan sin esperar a ningún proceso.
 6. Por su cuenta, `.github/workflows/publicar.yml` ejecuta `tools/traer_publicaciones`, que baja lo mismo al
-   repositorio, lo valida y arma el sitio. Desde ahí las imágenes van por CDN y no por la base, así que cuando el
-   sitio alcanza a la versión publicada, la web vuelve a usar sus archivos. En práctica hay filtro «solo
-   verificados»; la sala en vivo usa verificados por defecto. Cualquiera puede reportar un error desde la web
-   (`reportes/`), y eso pone el caso al principio de la cola.
+   repositorio, lo valida y arma el sitio. Las figuras que están en Drive no se copian: la web las pide a la API de
+   Drive con la clave del sitio (`claveDrive` en `app/firebase-config.js`, que en Google Cloud tiene que tener
+   permitida la API de Google Drive). En práctica hay filtro «solo verificados»; la sala en vivo usa verificados por
+   defecto. Cualquiera puede reportar un error desde la web (`reportes/`), y eso pone el caso al principio de la cola.
 
 Los borradores viven en Firebase (`estudio/`, `estudio_img/`); lo publicado queda además en el repositorio, que es el
-historial. Las reglas de `database.rules.json` definen qué puede hacer cada papel.
+historial. Las reglas de `database.rules.json` definen qué puede hacer cada papel. `publicacion_img/` es de antes de
+Drive: ya no admite escrituras, solo borrarse, y la web la lee únicamente para temas que no se han vuelto a publicar.
 
 ### Un cuestionario entero en un `.zip`
 
@@ -100,9 +105,12 @@ puede borrar cualquiera. Hay que escribir `BORRAR` en el aviso, que dice antes c
 reportes se pierden. El borrado quita `publicacion/`, `publicacion_img/`, `verificacion/`, `reportes/`,
 `estudio_img/` y `estudio/` en ese orden —las reglas dan permiso mirando `estudio/<tema>/meta/autor_uid`, así que el
 tema se quita al final— y deja `indice_publicado/<tema>` marcado como `retirado`, que es lo que hace que desaparezca
-de la web al instante y que `tools/traer_publicaciones` borre su carpeta de `temas/`.
+de la web al instante y que `tools/traer_publicaciones` borre su carpeta de `temas/`. Si quien borra es el autor, la
+carpeta de Drive de sus figuras va a la papelera de su Drive; si es el coordinador, las figuras siguen en el Drive
+del autor.
 
 Para que deje de verse en la web sin perder nada está **Quitar de la web** (coordinador, paso 4): eso sí se deshace.
+Las figuras siguen en el Drive del autor hasta que él las borre.
 
 **Las reglas hay que desplegarlas** para que el estudio pueda escribir `indice_publicado`. Si no están,
 publicar sigue funcionando: el tema aparece cuando el workflow lo baje.

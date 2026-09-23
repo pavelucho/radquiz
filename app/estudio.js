@@ -4,7 +4,7 @@
 // El repositorio se pone al día después, por su cuenta: nadie espera a que lo haga.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import {
-  getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously, signOut, onAuthStateChanged,
+  getAuth, GoogleAuthProvider, signInWithPopup, reauthenticateWithPopup, signInAnonymously, signOut, onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {
   getDatabase, ref, get, set, update, remove, onValue, push, serverTimestamp,
@@ -15,9 +15,15 @@ import {
   LICENCIAS, MODALIDADES, lista, slug, idImagen, validarTema, validarCaso, casosOrdenados,
   imagenesOrdenadas, estadoVerificacion, aPaquete,
 } from "./validacion.js";
-import { instruccionesIA, instruccionesCorreccion, instruccionesPaquete, leerRespuestaIA } from "./instrucciones-ia.js";
+import {
+  instruccionesIA, instruccionesCorreccion, instruccionesPaquete, leerRespuestaIA, planDeCarga,
+} from "./instrucciones-ia.js";
 import { crearZip, descargarArchivo, bytesDeDataURL } from "./zip.js";
 import { comprimir, abrirZip } from "./importar.js";
+import {
+  ALCANCE_DRIVE, ID_DRIVE, enlaceCarpeta, existeEnDrive, carpetaDelTema, archivosDeCarpeta, subirFigura,
+  aLaPapelera, huella,
+} from "./drive.js";
 
 const LETRAS = "ABCDE";
 const ESTADOS = {
@@ -39,6 +45,7 @@ let ordenVerificacion = null;   // el orden se fija al abrir el tema para que no
 let modoVerificar = false;      // un revisor puede sellar también sus propios temas
 let importado = null;           // el .zip ya leído, esperando que el autor confirme que lo crea
 let creando = false;            // mientras suben las imágenes del .zip no se redibuja: se perdería el avance
+let publicando = null;          // texto del avance mientras se publica; impide publicar dos veces a la vez
 
 const hoy = () => new Date().toISOString().slice(0, 10);
 const esCoord = () => perfil?.rol === "coordinador";
@@ -163,6 +170,129 @@ function temaActual() {
 
 async function guardarMeta(id, cambios) {
   await update(ref(db, `estudio/${id}/meta`), { ...cambios, actualizado: serverTimestamp() });
+}
+
+// ------------------------------------------------------------------ Google Drive del autor
+// Las figuras publicadas se alojan en el Drive de quien publica (app/drive.js). El permiso se pide al
+// publicar, no al entrar: quien solo revisa no lo necesita. Google lo da por una hora.
+let permisoDrive = null;   // { token, vence }
+
+function mensajeDePermiso(e) {
+  const codigo = e?.code || "";
+  if (codigo === "auth/user-mismatch") return "En la ventana de Google elige la misma cuenta con la que entraste al estudio.";
+  if (codigo === "auth/popup-blocked") return "El navegador bloqueó la ventana de Google: permite las ventanas emergentes de este sitio.";
+  if (codigo === "auth/popup-closed-by-user" || codigo === "auth/cancelled-popup-request") {
+    return "Se cerró la ventana de Google sin dar permiso para tu Drive.";
+  }
+  return `No se pudo pedir permiso para tu Drive (${codigo || e?.message || "error desconocido"}).`;
+}
+
+async function tokenDrive() {
+  if (permisoDrive && permisoDrive.vence > Date.now()) return permisoDrive.token;
+  const proveedor = new GoogleAuthProvider();
+  proveedor.addScope(ALCANCE_DRIVE);
+  if (usuario?.email) proveedor.setCustomParameters({ login_hint: usuario.email });
+  let resultado;
+  try {
+    resultado = await reauthenticateWithPopup(auth.currentUser, proveedor);
+  } catch (e) {
+    throw new Error(mensajeDePermiso(e));
+  }
+  const token = GoogleAuthProvider.credentialFromResult(resultado)?.accessToken;
+  if (!token) throw new Error("Google no entregó el permiso para tu Drive. Vuelve a intentarlo.");
+  permisoDrive = { token, vence: Date.now() + 50 * 60 * 1000 };
+  return token;
+}
+
+// ¿La carpeta de Drive del tema es de quien está usando el estudio? Es de quien publicó por última vez:
+// normalmente el autor, o el coordinador si publicó él.
+const driveEsMio = (t) => ID_DRIVE.test(t?.meta?.drive_carpeta || "") && t.meta.drive_uid === usuario?.uid;
+
+// Sube al Drive de quien publica las figuras que usa el tema. Una figura que ya subió antes y no cambió se
+// reutiliza, así que volver a publicar no llena el Drive de copias; lo que el tema ya no usa va a la papelera.
+// Cada paso se anota en cuanto ocurre: si algo falla a mitad, volver a publicar retoma lo ya subido.
+async function subirAlDrive(t, ids, token, avance) {
+  const anterior = driveEsMio(t) ? t.meta.drive_carpeta : "";
+  const carpeta = await carpetaDelTema(token, { anterior, nombre: `RadQuiz · ${t.meta.titulo}` });
+  if (carpeta !== anterior) {
+    await update(ref(db, `estudio/${t.id}/meta`), { drive_carpeta: carpeta, drive_uid: usuario.uid, drive_nombre: perfil.nombre });
+  }
+  const drive = {};
+  let n = 0;
+  for (const id of ids) {
+    avance(`Subiendo a tu Drive… ${++n} de ${ids.length}`);
+    const bytes = bytesDeDataURL(imagenesTema[id]);
+    const firma = await huella(bytes);
+    const previo = t.imagenes[id]?.drive;
+    if (previo?.carpeta === carpeta && previo.huella === firma && (await existeEnDrive(token, previo.id))) {
+      drive[id] = previo.id;
+      continue;
+    }
+    const ficha = t.imagenes[id] || {};
+    drive[id] = await subirFigura(token, {
+      carpeta, nombre: `${id}.jpg`, bytes, descripcion: `${ficha.figura || id} · ${t.meta.titulo}`,
+    });
+    await set(ref(db, `estudio/${t.id}/imagenes/${id}/drive`), { id: drive[id], huella: firma, carpeta });
+  }
+  const sobrantes = {};
+  for (const [id, ficha] of Object.entries(t.imagenes)) {
+    if (ficha.drive && !drive[id]) sobrantes[`estudio/${t.id}/imagenes/${id}/drive`] = null;
+  }
+  const vigentes = new Set(Object.values(drive));
+  for (const archivo of await archivosDeCarpeta(token, carpeta)) {
+    if (!vigentes.has(archivo.id)) await aLaPapelera(token, archivo.id).catch(() => {});
+  }
+  return { drive, cambios: sobrantes };
+}
+
+// Lo que el autor declara al publicar. Se guarda con la publicación, junto con su cuenta y la fecha.
+// Si el texto cambia, cambia también la versión.
+const DECLARACION = {
+  version: "2026-09-23",
+  texto: "Declaro que tengo derecho a compartir estas figuras —por su licencia o por permiso de su titular—, "
+    + "que no contienen datos de pacientes y que respondo por ellas. Sé que quedan alojadas en mi cuenta de Google "
+    + "y que un reclamo de derechos puede afectarla. Si alguien reclama, el tema se retira de RadQuiz y yo borro "
+    + "las figuras de mi Drive.",
+};
+
+// Antes de publicar: qué pasa con las figuras y la declaración. El botón se habilita al marcarla.
+function confirmarPublicacion(t, figuras) {
+  return new Promise((resolver) => {
+    const fondo = document.createElement("div");
+    fondo.className = "zoom";
+    fondo.innerHTML = `<div class="panel dialogo" role="dialog" aria-modal="true" aria-labelledby="d-titulo">
+      <h3 id="d-titulo"></h3>
+      ${figuras
+        ? `<p>Las figuras (${figuras}) se suben a <b>tu Google Drive</b>, a la carpeta <b id="d-carpeta"></b>, compartidas
+            con cualquiera que tenga el enlace. RadQuiz guarda solo ese enlace: las figuras las alojas tú, y las retiras
+            borrándolas de tu Drive.</p>
+          <p class="src">Google te pedirá permiso para que RadQuiz cree archivos en tu Drive. Solo verá los que cree él,
+            nunca el resto.</p>`
+        : `<p>Este tema no tiene figuras: se publica solo el texto.</p>`}
+      <label class="declaro"><input type="checkbox" id="d-declaro"><span id="d-texto"></span></label>
+      <div class="row"><button id="d-no">Cancelar</button>
+        <button class="primary" id="d-si" disabled>Publicar</button></div>
+    </div>`;
+    fondo.querySelector("#d-titulo").textContent = `Publicar «${t.meta.titulo}»`;
+    const carpeta = fondo.querySelector("#d-carpeta");
+    if (carpeta) carpeta.textContent = `«RadQuiz · ${t.meta.titulo}»`;
+    fondo.querySelector("#d-texto").textContent = DECLARACION.texto;
+    const marca = fondo.querySelector("#d-declaro");
+    const si = fondo.querySelector("#d-si");
+    const tecla = (e) => { if (e.key === "Escape") cerrar(false); };
+    const cerrar = (valor) => {
+      document.removeEventListener("keydown", tecla);
+      fondo.remove();
+      resolver(valor);
+    };
+    marca.onchange = () => { si.disabled = !marca.checked; };
+    fondo.querySelector("#d-no").onclick = () => cerrar(false);
+    si.onclick = () => cerrar(true);
+    fondo.onclick = (e) => { if (e.target === fondo) cerrar(false); };
+    document.addEventListener("keydown", tecla);
+    document.body.append(fondo);
+    marca.focus();
+  });
 }
 
 // ------------------------------------------------------------------ imágenes
@@ -430,7 +560,7 @@ function vistaImportar() {
         trozos, y casi ninguna de estas licencias lo permite.</p>
       <div class="galeria chica">${imagenes.map((img) => `<div class="panel" style="display:grid;gap:6px">
         ${d.datos[img.id]
-          ? `<img class="miniatura chica" src="${d.datos[img.id]}" alt="${esc(img.figura)}" data-zoom>`
+          ? `<img class="miniatura chica" src="${esc(d.datos[img.id])}" alt="${esc(img.figura)}" data-zoom>`
           : `<p class="src">sin archivo</p>`}
         <span class="src">${esc(img.figura || img.id)}</span></div>`).join("") || `<p class="muted">El .zip no traía imágenes.</p>`}</div>
     </section>
@@ -613,7 +743,7 @@ function pasoImagenes(t, v) {
     </label>
     ${cargandoImagenes ? `<p class="muted">Cargando imágenes…</p>` : ""}
     <div class="galeria">${imagenes.map((img) => `<div class="panel" style="display:grid;gap:8px">
-      <img src="${imagenesTema[img.id] || ""}" alt="${esc(img.figura)}" class="miniatura" data-zoom>
+      <img src="${esc(imagenesTema[img.id])}" alt="${esc(img.figura)}" class="miniatura" data-zoom>
       <label class="grid-label">Nombre en la fuente
         <input type="text" data-figura="${esc(img.id)}" value="${esc(img.figura || "")}" placeholder="Figura 2"></label>
       <label class="grid-label">Leyenda original (la puede completar tu IA)
@@ -654,7 +784,7 @@ function tarjetaCaso(t, caso, v) {
     ${estado === "problema" && ver.comentario ? `<p class="caja">${esc(ver.nombre)}: «${esc(ver.comentario)}»</p>` : ""}
     ${reportados.map((r) => `<p class="caja">Reporte de un usuario: «${esc(r.texto)}»</p>`).join("")}
     <div class="md">${md(caso.enunciado || "")}</div>
-    ${orden.length ? `<div class="row">${orden.map((r) => `<img class="miniatura chica" src="${imagenesTema[r.ref] || ""}" alt="" data-zoom>`).join("")}</div>` : ""}
+    ${orden.length ? `<div class="row">${orden.map((r) => `<img class="miniatura chica" src="${esc(imagenesTema[r.ref])}" alt="" data-zoom>`).join("")}</div>` : ""}
     <ol class="opciones-lista">${lista(caso.opciones).map((o, i) => `<li class="${i === caso.correcta ? "correcta" : ""}">${esc(o)}</li>`).join("")}</ol>
     ${problemasHTML(v.casos[caso.id])}
     <div class="row"><button data-editar="${esc(caso.id)}">Editar</button>
@@ -710,7 +840,7 @@ function formularioCaso(t, id) {
       <div class="galeria chica">${imagenes.map((img) => {
         const usada = lista(caso.imagenes).find((r) => r.ref === img.id);
         return `<label class="panel" style="display:grid;gap:6px">
-          <img class="miniatura chica" src="${imagenesTema[img.id] || ""}" alt="">
+          <img class="miniatura chica" src="${esc(imagenesTema[img.id])}" alt="">
           <span class="src">${esc(img.figura || img.id)}</span>
           <select data-img="${esc(img.id)}">
             <option value="">No usar</option>
@@ -757,10 +887,11 @@ function pasoPublicar(t, v) {
       ? `<p class="caja">Faltan ${v.errores} cosas por corregir. Revisa los pasos marcados con •.</p>`
       : `<p class="caja">Al publicar, los casos quedan disponibles en la web como <b>sin verificar</b>. Cualquier radiólogo
           del equipo puede ponerles el sello de verificado; mientras tanto, las salas en vivo no los usan salvo que el
-          presentador lo pida.</p>`}
+          presentador lo pida. Las figuras se alojan en <b>tu Google Drive</b>, compartidas por enlace: RadQuiz solo
+          guarda ese enlace.</p>`}
     <div class="row">
-      <button class="primary" id="publicar" ${v.errores ? "disabled" : ""}>
-        ${publicado ? (sinPublicar(t) ? "Publicar cambios" : "Volver a publicar") : "Publicar"}</button>
+      <button class="primary" id="publicar" ${v.errores || publicando ? "disabled" : ""}>
+        ${publicando ? esc(publicando) : publicado ? (sinPublicar(t) ? "Publicar cambios" : "Volver a publicar") : "Publicar"}</button>
       <button id="descargar-zip">Descargar .zip</button>
       ${publicado && esCoord() ? `<button id="despublicar">Quitar de la web</button>` : ""}
       <button class="peligrosa" id="borrar-tema">Borrar este cuestionario</button>
@@ -768,6 +899,10 @@ function pasoPublicar(t, v) {
     <p class="src">El .zip lleva lo mismo que se publica —paquete.json, fuentes.json e img/— y se puede volver a
       subir aquí o mandar al repositorio. Descarga uno antes de borrar si quieres conservarlo.</p>
     ${publicado ? `<p class="src">Publicado el ${new Date(t.meta.publicado_en || Date.now()).toLocaleDateString("es-PE")}. Ya se puede practicar en la web.</p>` : ""}
+    ${driveEsMio(t)
+      ? `<p class="src">Las figuras publicadas están en tu Google Drive: <a href="${esc(enlaceCarpeta(t.meta.drive_carpeta))}" target="_blank" rel="noopener">abrir la carpeta</a>.
+          Si las borras de ahí, el tema se queda sin imágenes.</p>`
+      : t.meta.drive_nombre ? `<p class="src">Las figuras publicadas están en el Google Drive de ${esc(t.meta.drive_nombre)}.</p>` : ""}
   </section>`;
 }
 
@@ -806,7 +941,7 @@ function casoVerificable(t, caso) {
       <span class="src">${selloCaso(t.id, caso)}</span></div>
     ${reportados.map((r) => `<p class="caja">Reporte de un usuario: «${esc(r.texto)}»</p>`).join("")}
     <div class="stage ${refs.length ? "" : "sin-imagen"}">
-      ${refs.length ? `<div class="viewer">${refs.map((r) => `<figure><img src="${imagenesTema[r.ref] || ""}" alt="" data-zoom>
+      ${refs.length ? `<div class="viewer">${refs.map((r) => `<figure><img src="${esc(imagenesTema[r.ref])}" alt="" data-zoom>
         <figcaption class="cap"><span>${esc((t.imagenes[r.ref] || {}).figura || "")} · ${r.mostrar_en === "respuesta" ? "solo en la respuesta" : "en la pregunta"}</span></figcaption></figure>`).join("")}</div>` : ""}
       <div style="display:grid;gap:10px">
         <div class="stem md">${md(caso.enunciado || "")}</div>
@@ -901,7 +1036,14 @@ function enlazarEditor(t) {
         titulo: t.meta.titulo, segmento: t.meta.segmento, retirado: true,
       });
       await guardarMeta(id, { estado: "borrador" });
-      aviso(delIndice ? "Quitado de la web." : "Quitado. Tarda unos minutos en desaparecer de la web.");
+      // Las figuras están en el Drive del autor: RadQuiz ya no las muestra, pero siguen compartidas por
+      // enlace hasta que él las borre.
+      const enDrive = ID_DRIVE.test(t.meta.drive_carpeta || "")
+        ? driveEsMio(t)
+          ? " Las figuras siguen en tu Drive: si también quieres retirarlas, borra la carpeta (enlace en el paso 4)."
+          : ` Las figuras siguen en el Drive de ${t.meta.drive_nombre || "quien lo publicó"}: pídele que las borre si hace falta.`
+        : "";
+      aviso((delIndice ? "Quitado de la web." : "Quitado. Tarda unos minutos en desaparecer de la web.") + enDrive);
     };
     $("#borrar-tema").onclick = () => borrarTema(t);
   }
@@ -918,13 +1060,37 @@ async function anotarEnIndice(id, entrada) {
   }
 }
 
+// Publicar: las figuras van al Drive del autor y a la base solo el texto, con el id de cada figura.
+// «publicacion_img», donde antes iban las figuras en base64, se vacía.
 async function publicar(t) {
   const partes = (t.meta.version || "0.1.0").split(".").map(Number);
   const version = t.meta.estado === "publicado" ? `${partes[0]}.${partes[1] + 1}.0` : t.meta.version || "0.1.0";
-  const { paquete, fuentes, imagenesUsadas, actualizados } = aPaquete(t, version);
-  const imagenes = {};
-  for (const id of imagenesUsadas) imagenes[id] = imagenesTema[id];
+  const { imagenesUsadas } = aPaquete(t, version);
+  if (cargandoImagenes) return aviso("Espera a que terminen de cargar las imágenes y vuelve a publicar.", true);
+  const sinArchivo = imagenesUsadas.filter((id) => !imagenesTema[id]);
+  if (sinArchivo.length) {
+    return aviso(`Faltan los archivos de ${sinArchivo.length} imagen(es) (${sinArchivo.join(", ")}): súbelas en el paso 2.`, true);
+  }
+  if (publicando || !(await confirmarPublicacion(t, imagenesUsadas.length))) return;
+  // Mientras se publica, el estudio puede redibujarse (cualquier cambio en la base lo hace): el botón sale
+  // siempre deshabilitado y con el avance, para que nadie publique dos veces a la vez.
+  const avance = (texto) => {
+    publicando = texto;
+    const boton = $("#publicar");
+    if (boton) { boton.disabled = true; boton.textContent = texto; }
+  };
+  avance("Preparando…");
+  let paquete, fuentes, actualizados;
   try {
+    let drive = {};
+    let cambiosDrive = {};
+    if (imagenesUsadas.length) {
+      avance("Pidiendo permiso a Google…");
+      const token = await tokenDrive();
+      ({ drive, cambios: cambiosDrive } = await subirAlDrive(t, imagenesUsadas, token, avance));
+    }
+    avance("Publicando…");
+    ({ paquete, fuentes, actualizados } = aPaquete(t, version, drive));
     await update(ref(db), {
       [`publicacion/${t.id}`]: {
         paquete_json: JSON.stringify(paquete),
@@ -934,16 +1100,23 @@ async function publicar(t) {
         version,
         fecha: serverTimestamp(),
         por: perfil.nombre,
+        declaracion: { version: DECLARACION.version, uid: usuario.uid, fecha: serverTimestamp() },
       },
-      [`publicacion_img/${t.id}`]: imagenes,
+      [`publicacion_img/${t.id}`]: null,
       [`estudio/${t.id}/meta/estado`]: "publicado",
       [`estudio/${t.id}/meta/version`]: version,
       [`estudio/${t.id}/meta/publicado_en`]: serverTimestamp(),
+      ...cambiosDrive,
     });
   } catch (e) {
-    aviso("No se pudo publicar: " + (e.code || e.message), true);
+    if (e.status === 401) permisoDrive = null;
+    publicando = null;
+    aviso("No se pudo publicar: " + (e.message || e.code), true);
+    dibujar();
     return;
   }
+  publicando = null;
+  dibujar();
   // La lista de la portada va aparte: si fallara (reglas sin desplegar), el tema queda publicado
   // igual y aparece cuando el repositorio se ponga al día.
   const alIndice = await anotarEnIndice(t.id, {
@@ -967,6 +1140,9 @@ async function borrarTema(t) {
   const imagenes = imagenesOrdenadas(t).length;
   const publicado = t.meta.estado === "publicado";
   const plural = (cuantos, uno, muchos) => `${cuantos} ${cuantos === 1 ? uno : muchos}`;
+  const carpetaDrive = ID_DRIVE.test(t.meta.drive_carpeta || "") ? t.meta.drive_carpeta : "";
+  const driveMio = driveEsMio(t);
+  const autor = t.meta.drive_nombre || "quien lo publicó";
   const ok = await confirmarPeligro({
     titulo: `Borrar «${t.meta.titulo}»`,
     cuerpo: `<p>Se va a borrar del estudio, con todo lo que tiene dentro:</p>
@@ -975,11 +1151,23 @@ async function borrarTema(t) {
         ${n.verificados ? `<li>${plural(n.verificados, "sello de verificado", "sellos de verificado")} puestos por un radiólogo</li>` : ""}
         ${n.reportados ? `<li>${plural(n.reportados, "caso reportado", "casos reportados")} por gente que practicó</li>` : ""}
         ${publicado ? `<li class="error">Está publicado: desaparece de la web y nadie podrá practicarlo</li>` : ""}
+        ${driveMio ? `<li>Las figuras de tu Google Drive (carpeta «RadQuiz · ${esc(t.meta.titulo)}») van a su papelera</li>` : ""}
+        ${carpetaDrive && !driveMio ? `<li>Las figuras siguen en el Google Drive de ${esc(autor)}: solo esa persona puede borrarlas</li>` : ""}
       </ul>
       <p>No se puede deshacer y nadie del equipo lo puede recuperar.</p>`,
     boton: "Borrar para siempre",
   });
   if (!ok) return;
+  // El Drive va primero, mientras sigue fresco el clic que puede tener que abrir la ventana de Google.
+  let notaDrive = carpetaDrive && !driveMio ? ` Las figuras siguen en el Drive de ${autor}.` : "";
+  if (driveMio) {
+    try {
+      await aLaPapelera(await tokenDrive(), carpetaDrive);
+      notaDrive = " Las figuras quedaron en la papelera de tu Drive.";
+    } catch (e) {
+      notaDrive = ` Las figuras siguen en tu Drive (${e.message}): borra tú la carpeta «RadQuiz · ${t.meta.titulo}».`;
+    }
+  }
   try {
     if (publicado) await anotarEnIndice(id, { titulo: t.meta.titulo, segmento: t.meta.segmento, retirado: true });
     await remove(ref(db, `publicacion/${id}`));
@@ -995,7 +1183,7 @@ async function borrarTema(t) {
   }
   if (location.hash.startsWith("#/tema/")) location.hash = "#/";
   else dibujar();
-  aviso(publicado ? "Borrado. Tarda unos minutos en desaparecer de la web." : "Borrado.");
+  aviso((publicado ? "Borrado. Tarda unos minutos en desaparecer de la web." : "Borrado.") + notaDrive, Boolean(notaDrive) && !driveMio);
 }
 
 async function buscarDoi(id) {
@@ -1164,38 +1352,14 @@ async function cargarRespuesta(t) {
   } catch (e) {
     return aviso(e.message, true);
   }
-  const cambios = {};
-  let fichas = 0;
-  for (const img of datos.imagenes) {
-    if (!img.ref) continue;
-    fichas += 1;
-    cambios[`estudio/${t.id}/imagenes/${img.ref}/leyenda_original`] = img.leyenda_original;
-    if (img.modalidad) cambios[`estudio/${t.id}/imagenes/${img.ref}/modalidad`] = img.modalidad;
-    if (img.paneles.length) cambios[`estudio/${t.id}/imagenes/${img.ref}/paneles`] = img.paneles;
-    if (img.marcas.length) cambios[`estudio/${t.id}/imagenes/${img.ref}/marcas`] = img.marcas;
-  }
-  const reemplazar = $("#reemplazar").checked;
-  if (reemplazar) cambios[`estudio/${t.id}/casos`] = null;
-  let orden = reemplazar ? 0 : casosOrdenados(t).length;
-  const existentes = reemplazar ? [] : casosOrdenados(t).map((c) => c.id);
-  for (const caso of datos.casos) {
-    orden += 1;
-    let id = `caso-${String(orden).padStart(2, "0")}`;
-    while (existentes.includes(id)) id = `${id}b`;
-    existentes.push(id);
-    cambios[`estudio/${t.id}/casos/${id}`] = {
-      ...caso,
-      imagenes: caso.imagenes.filter((r) => r.ref).map((r) => ({ ref: r.ref, mostrar_en: r.mostrar_en })),
-      orden,
-      actualizado: serverTimestamp(),
-    };
-  }
+  // Normal: se agregan. Corrección: cada caso reemplaza al suyo. «Reemplazar»: la lista entera, de una vez.
+  const plan = planDeCarga(t, datos, { reemplazar: $("#reemplazar").checked, marca: serverTimestamp() });
+  if (!Object.keys(plan.cambios).length) return aviso(plan.resumen, true);
   try {
-    await update(ref(db), cambios);
+    await update(ref(db), plan.cambios);
     await guardarMeta(t.id, {});
     $("#respuesta-ia").value = "";
-    const perdidas = datos.casos.flatMap((c) => c.imagenes.filter((r) => !r.ref).map((r) => r.figura)).filter(Boolean);
-    aviso(`Cargué ${datos.casos.length} casos y ${fichas} leyendas.` + (perdidas.length ? ` No reconocí: ${[...new Set(perdidas)].join(", ")}.` : ""));
+    aviso(plan.resumen);
     dibujar();
   } catch (e) {
     aviso("No se pudo guardar: " + (e.code || e.message), true);
