@@ -22,7 +22,7 @@ import { crearZip, descargarArchivo, bytesDeDataURL } from "./zip.js";
 import { comprimir, abrirZip } from "./importar.js";
 import {
   ALCANCE_DRIVE, ID_DRIVE, enlaceCarpeta, existeEnDrive, carpetaDelTema, archivosDeCarpeta, subirFigura,
-  aLaPapelera, huella,
+  aLaPapelera, huella, comprobarLectura,
 } from "./drive.js";
 
 const LETRAS = "ABCDE";
@@ -242,6 +242,9 @@ async function subirAlDrive(t, ids, token, avance) {
   for (const archivo of await archivosDeCarpeta(token, carpeta)) {
     if (!vigentes.has(archivo.id)) await aLaPapelera(token, archivo.id).catch(() => {});
   }
+  // Antes de tocar la publicación: que la web pueda leer las figuras como las leerá cualquiera.
+  avance("Comprobando que la web ve las figuras…");
+  await comprobarLectura(Object.values(drive)[0]);
   return { drive, cambios: sobrantes };
 }
 

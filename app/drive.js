@@ -157,6 +157,25 @@ export async function subirFigura(token, { carpeta, nombre, bytes, descripcion =
   return archivo.id;
 }
 
+// ¿La ve cualquiera? La web pide cada figura con la clave del sitio y sin sesión; se prueba igual antes de
+// publicar, para no dejar un tema con las imágenes rotas si en Google Cloud falta permitir Drive en la clave.
+export async function comprobarLectura(id) {
+  for (let intento = 0; ; intento++) {
+    const respuesta = await fetch(urlDrive(id), { cache: "no-store" });
+    if (respuesta.ok) return;
+    const { razon, detalle } = await leerError(respuesta);
+    if (respuesta.status === 404 && intento < 3) {
+      await new Promise((listo) => setTimeout(listo, 1000 * (intento + 1)));  // un archivo recién compartido
+      continue;
+    }
+    if (/API_KEY|accessNotConfigured|SERVICE_DISABLED|has not been used/i.test(`${razon} ${detalle}`)) {
+      throw new Error("La web todavía no puede mostrar figuras de Drive: en Google Cloud falta habilitar la API de "
+        + "Google Drive y permitirla en la clave del sitio. Avisa al coordinador. No se publicó nada.");
+    }
+    throw errorDrive(respuesta.status, razon, detalle, "");
+  }
+}
+
 // Huella corta del contenido: si la figura no cambió, al volver a publicar se reutiliza el mismo archivo.
 export async function huella(bytes) {
   const resumen = new Uint8Array(await crypto.subtle.digest("SHA-256", bytes));
