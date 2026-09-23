@@ -85,6 +85,12 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   `claveDrive`: en Google Cloud la API de Drive tiene que estar habilitada y permitida en esa clave.
   `publicacion_img/` es de antes: solo admite borrarse, y la web la lee solo para temas no vueltos a publicar.
   Los borradores siguen en `estudio_img/`. Borrar un tema propio manda su carpeta de Drive a la papelera.
+- Licencia «Con copyright» (sin licencia abierta): la web muestra «© titular · alojada por <quien publicó>» y ningún
+  enlace de licencia (`credito()` en `app/comun.js`); `alojada_por` va en la fuente. Una licencia CC solo pasa si
+  la frase de `verificacion.donde` la menciona y no dice que se supuso (mismas pruebas en `app/validacion.js` y
+  `tools/validar`: salieron de seis temas con la licencia CC inventada por la IA). Figuras con copyright en `img/`
+  del repositorio son error: solo pueden estar en el Drive de quien publica. Al publicar, la verificación de la
+  licencia se completa con quien publica si vino vacía, y `doi`/`licencia_url` vacíos van como `null`.
 - La sala y los reportes usan una instancia de Firebase aparte (`APP_ANONIMA`): su sesión anónima no pisa la de
   Google del estudio en el mismo navegador (antes, abrir la sala cerraba la sesión del estudio, y entrar al
   estudio le quitaba el control de la sala al presentador).

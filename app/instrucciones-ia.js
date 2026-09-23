@@ -1,7 +1,7 @@
 // RadQuiz — instrucciones para cualquier IA (ChatGPT, Gemini, Copilot, Claude, DeepSeek…) y lectura de su respuesta.
 // No depende de ningún proveedor: el autor copia un texto, lo pega en su IA con el PDF y pega la respuesta de vuelta.
 import { imagenesOrdenadas, casosOrdenados, lista, idImagen, LICENCIAS, MODALIDADES } from "./validacion.js";
-import { SEGMENTOS } from "./comun.js";
+import { SEGMENTOS, CON_COPYRIGHT } from "./comun.js";
 
 const ID_CASO = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
@@ -256,7 +256,10 @@ Una sola fuente. La clave: apellido del primer autor + año, en minúsculas.
 }
 
 La licencia se copia EXACTA de esa lista: el estudio saca de ahí la URL y si permite o no modificar
-la figura. Si el documento no dice claramente su licencia, dímelo en vez de adivinarla.
+la figura. Una licencia Creative Commons solo vale si el documento la dice con todas sus letras. Si no
+la dice —solo «©», «All rights reserved», «for personal use only» o nada—, pon "${CON_COPYRIGHT}" y copia
+en "donde" esa frase tal cual. Nunca pongas una licencia CC que el documento no diga, ni para que pase
+el comprobador: quien publica responde por lo que declara.
 
 ──────────────────────────────── 7. COMPRUÉBALO ANTES DE DÁRMELO
 Corre esto sobre tu .zip y arregla lo que salga. No me lo entregues hasta que imprima «todo bien».

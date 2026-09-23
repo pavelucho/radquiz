@@ -1,6 +1,9 @@
 // RadQuiz — reglas del formato para el estudio web. Son las mismas de tools/validar, con mensajes para no expertos.
 // El validador de Python vuelve a revisar todo antes de publicar: este módulo es la ayuda inmediata.
+import { CON_COPYRIGHT } from "./comun.js";
 
+// «nd»: solo se puede redimensionar y comprimir. «Con copyright» es la fuente sin licencia abierta: sus figuras
+// las aloja y responde por ellas quien publica, y la web no muestra ninguna licencia.
 export const LICENCIAS = [
   { valor: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/", nd: false },
   { valor: "CC BY-SA 4.0", url: "https://creativecommons.org/licenses/by-sa/4.0/", nd: false },
@@ -12,10 +15,16 @@ export const LICENCIAS = [
   { valor: "CC BY-NC-ND 3.0", url: "https://creativecommons.org/licenses/by-nc-nd/3.0/", nd: true },
   { valor: "CC0 1.0", url: "https://creativecommons.org/publicdomain/zero/1.0/", nd: false },
   { valor: "Dominio público", url: "", nd: false },
+  { valor: CON_COPYRIGHT, url: "", nd: true, etiqueta: "Con copyright (sin licencia abierta)" },
 ];
 export const MODALIDADES = ["Rx", "US", "TC", "RM", "MN", "PET-TC", "Mamografía", "Fluoroscopía", "Angiografía"];
 export const LADOS = ["derecho", "izquierdo", "bilateral"];
 const BLOQUEADOS = ["statdx.com", "radprimer.com", "imaios.com", "e-anatomy.org"];
+// La frase copiada de la fuente tiene que decir la licencia CC que se eligió. Las mismas tres pruebas están en
+// tools/validar. Salieron de temas reales: IA que «asumieron» una licencia CC para pasar el validador.
+const MENCIONA_CC = /creative\s*commons|creativecommons\.org|\bCC[\s-]?(BY|0)\b/i;
+const SUPUESTO = /asumid|provisional|para (la )?validaci|no se documenta|seg[uú]n (las )?instrucciones/i;
+const RESERVADOS = /personal (non-commercial )?use|uso personal|all rights reserved|todos los derechos reservados/i;
 const HTML = /<\/?[a-zA-Z][^>]*>|&[a-zA-Z]+;|&#[0-9]+;/;
 const LETRAS = "ABCDE";
 
@@ -55,10 +64,21 @@ export function validarFuente(f) {
   if (BLOQUEADOS.some((d) => host === d || host.endsWith("." + d))) p.push(problema("error", `No se puede usar ${host}: su contenido tiene copyright.`));
   if (!LICENCIAS.some((l) => l.valor === f.licencia)) p.push(problema("error", "Elige la licencia de la fuente."));
   if (!f.titular) p.push(problema("error", "Falta el titular de los derechos (lo que dice «©» en la fuente)."));
-  if (!f.verificacion || !f.verificacion.donde || f.verificacion.donde.length < 3) {
+  const donde = f.verificacion?.donde || "";
+  if (donde.length < 3) {
     p.push(problema("error", "Copia la frase de la fuente donde dice la licencia (así se comprueba que la leíste)."));
+  } else if (/^CC/.test(f.licencia || "")) {
+    if (!MENCIONA_CC.test(donde) || SUPUESTO.test(donde)) {
+      p.push(problema("error", `La frase que copiaste no dice que la fuente tenga licencia ${f.licencia}. Si el documento no la dice con todas sus letras, elige «${CON_COPYRIGHT}».`));
+    } else if (RESERVADOS.test(donde)) {
+      p.push(problema("aviso", "La frase habla de derechos reservados o de uso personal: comprueba que la licencia abierta sea de verdad de este documento."));
+    }
   }
   if (!f.credito) p.push(problema("aviso", "Falta el crédito corto que se muestra bajo cada imagen."));
+  if (f.licencia === CON_COPYRIGHT) {
+    p.push(problema("aviso", "Sin licencia abierta: bajo cada figura se verá «© titular · alojada por» quien publique, "
+      + "sin enlace a ninguna licencia. Mostrarlas es responsabilidad de quien publica."));
+  }
   return p;
 }
 
@@ -156,9 +176,12 @@ export function estadoVerificacion(caso, verificacion) {
 
 // Arma paquete.json y fuentes.json con todos los casos del tema, listos para el repositorio.
 // La verificación se añade al publicar en la web: aquí los casos salen sin revisor.
-// «drive» (id de imagen → id del archivo en el Drive del autor) solo lo pasa la publicación: el .zip
-// que se descarga lleva los archivos y no apunta al Drive de nadie.
-export function aPaquete(tema, version, drive = {}) {
+// Solo la publicación pasa las opciones:
+// - «drive»: id de imagen → id del archivo en el Drive de quien publica. El .zip que se descarga lleva los
+//   archivos y no apunta al Drive de nadie.
+// - «publicador» ({ nombre, fecha }): quien publica. Completa la verificación de la licencia si vino vacía (un
+//   .zip hecho por una IA suele traer solo la frase) y, si hay figuras en su Drive, queda como «alojada_por».
+export function aPaquete(tema, version, { drive = {}, publicador = null } = {}) {
   const meta = tema.meta;
   const f = tema.fuente;
   const casos = casosOrdenados(tema);
@@ -216,8 +239,22 @@ export function aPaquete(tema, version, drive = {}) {
     imagenes,
     casos: casosPaquete,
   };
+  // Lo que no aplica va como null, no como texto vacío: el esquema pide un DOI o un enlace válidos, o null.
   const { clave, ...resto } = f;
-  const fuentes = { $schema: "../../../schema/fuentes.schema.json", [clave]: { ...resto, modificaciones_permitidas: !LICENCIAS.find((l) => l.valor === f.licencia)?.nd } };
+  const verificacion = { ...(resto.verificacion || {}) };
+  if (publicador) {
+    verificacion.fecha = verificacion.fecha || publicador.fecha;
+    verificacion.por = verificacion.por || publicador.nombre;
+  }
+  const fuente = {
+    ...resto,
+    doi: resto.doi || null,
+    licencia_url: resto.licencia_url || null,
+    modificaciones_permitidas: !LICENCIAS.find((l) => l.valor === f.licencia)?.nd,
+    verificacion,
+    ...(publicador && Object.keys(drive).length ? { alojada_por: publicador.nombre } : {}),
+  };
+  const fuentes = { $schema: "../../../schema/fuentes.schema.json", [clave]: fuente };
   return { paquete, fuentes, imagenesUsadas: [...usadas], actualizados };
 }
 

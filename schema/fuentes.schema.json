@@ -34,10 +34,11 @@
         "autor_caso": { "type": "string", "description": "Autor del caso en bancos que exigen nombrarlo (Radiopaedia)." },
         "titular": { "type": "string", "minLength": 3, "description": "Titular de los derechos, como figura en la fuente." },
         "licencia": {
+          "description": "«Con copyright»: sin licencia abierta. Sus figuras las aloja quien publica, en su Google Drive, y la web muestra «© titular · alojada por …» en vez de una licencia.",
           "enum": [
             "CC0 1.0", "CC BY 4.0", "CC BY-SA 4.0", "CC BY-NC 4.0", "CC BY-NC-SA 4.0", "CC BY-NC-ND 4.0",
             "CC BY 3.0", "CC BY-SA 3.0", "CC BY-NC 3.0", "CC BY-NC-SA 3.0", "CC BY-NC-ND 3.0",
-            "Dominio público", "Por confirmar"
+            "Dominio público", "Con copyright", "Por confirmar"
           ]
         },
         "licencia_url": { "type": ["string", "null"], "pattern": "^https://\\S+$" },
@@ -58,6 +59,7 @@
             }
           ]
         },
+        "alojada_por": { "type": "string", "minLength": 2, "maxLength": 80, "description": "Quien publicó el tema y aloja sus figuras en su Google Drive; responde por ellas." },
         "notas": { "type": "string" }
       }
     }

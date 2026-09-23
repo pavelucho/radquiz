@@ -80,15 +80,24 @@ function enlace(url, texto) {
   return segura ? `<a href="${segura}" target="_blank" rel="noopener">${esc(texto)}</a>` : esc(texto);
 }
 
+// Una fuente sin licencia abierta: sus figuras no llevan enlace a ninguna licencia, sino quién las aloja,
+// que es quien las publicó y responde por ellas.
+export const CON_COPYRIGHT = "Con copyright";
+
 // Atribución que exigen las licencias CC: figura, autores y enlace a la fuente, titular, licencia con enlace.
+// Con copyright: figura, fuente, «© titular» y quién la aloja.
 export function credito(imagen, fuente) {
   if (!fuente) return esc(imagen.figura);
   const destino = fuente.doi ? `https://doi.org/${encodeURI(fuente.doi)}` : fuente.url;
+  const cerrada = fuente.licencia === CON_COPYRIGHT;
+  const titular = cerrada && fuente.titular && !fuente.titular.includes("©") ? `© ${fuente.titular}` : fuente.titular;
   return [
     esc(imagen.figura),
     enlace(destino, fuente.credito || fuente.cita),
-    esc(fuente.titular),
-    enlace(fuente.licencia_url, fuente.licencia),
+    esc(titular),
+    cerrada
+      ? esc(fuente.alojada_por ? `alojada por ${fuente.alojada_por}` : "sin licencia abierta")
+      : enlace(fuente.licencia_url, fuente.licencia),
   ].join(" · ");
 }
 

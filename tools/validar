@@ -280,6 +280,11 @@ HTML = re.compile(r"</?[a-zA-Z][^>]*>|&[a-zA-Z]+;|&#[0-9]+;")
 CAMPOS_TEXTO = ("enunciado", "explicacion", "perla")
 CAMPOS_PANEL = ("plano", "secuencia", "condicion")
 CAMPOS_IMAGEN = ("leyenda_original", "modalidad", "paneles", "marcas")
+CON_COPYRIGHT = "Con copyright"
+# La frase copiada de la fuente tiene que decir la licencia CC elegida (las mismas pruebas que app/validacion.js).
+MENCIONA_CC = re.compile(r"creative\s*commons|creativecommons\.org|\bCC[\s-]?(BY|0)\b", re.I)
+SUPUESTO = re.compile(r"asumid|provisional|para (la )?validaci|no se documenta|seg[uú]n (las )?instrucciones", re.I)
+RESERVADOS = re.compile(r"personal (non-commercial )?use|uso personal|all rights reserved|todos los derechos reservados", re.I)
 URL_LICENCIA = {
     "CC0 1.0": "/publicdomain/zero/1.0",
     "CC BY 4.0": "/licenses/by/4.0", "CC BY-SA 4.0": "/licenses/by-sa/4.0",
@@ -352,8 +357,8 @@ def pendientes_fuente(f):
     faltan = []
     if f.get("licencia") == "Por confirmar":
         faltan.append("licencia por confirmar")
-    if not f.get("licencia_url"):
-        faltan.append("licencia_url")
+    if not f.get("licencia_url") and f.get("licencia") in URL_LICENCIA:
+        faltan.append("licencia_url")  # «Con copyright» y «Dominio público» no tienen página de licencia
     if not f.get("verificacion"):
         faltan.append("verificación de la licencia")
     return faltan
@@ -373,8 +378,15 @@ def validar_fuentes(fuentes, citadas, rep):
         if f.get("tipo") == "articulo" and not f.get("doi"):
             rep.error(fid, "un artículo debe tener DOI")
         licencia = f.get("licencia", "")
-        if "ND" in licencia and f.get("modificaciones_permitidas"):
+        if ("ND" in licencia or licencia == CON_COPYRIGHT) and f.get("modificaciones_permitidas"):
             rep.error(fid, "licencia %s: modificaciones_permitidas debe ser false" % licencia)
+        donde = (f.get("verificacion") or {}).get("donde") or ""
+        if licencia.startswith("CC") and donde:
+            if not MENCIONA_CC.search(donde) or SUPUESTO.search(donde):
+                rep.error(fid, "la frase de la verificación no dice que la fuente tenga licencia %s; "
+                          "si el documento no la dice, la licencia es «%s»" % (licencia, CON_COPYRIGHT))
+            elif RESERVADOS.search(donde):
+                rep.aviso(fid, "la frase habla de derechos reservados o de uso personal: confirmar la licencia abierta")
         esperado = URL_LICENCIA.get(licencia)
         if esperado and f.get("licencia_url") and esperado not in f["licencia_url"]:
             rep.aviso(fid, "licencia_url no corresponde a %s" % licencia)
@@ -402,6 +414,9 @@ def validar_imagenes(carpeta, imagenes, fuentes, usadas, rep):
             if prohibidas:
                 rep.error(iid, "la licencia no permite modificar la figura (%s)" % ", ".join(sorted(prohibidas)))
         ruta = carpeta_img / archivo
+        if fuente is not None and fuente.get("licencia") == CON_COPYRIGHT and not img.get("drive"):
+            rep.error(iid, "una figura con copyright no se guarda en el repositorio: se publica desde el estudio "
+                           "y queda en el Google Drive de quien la publica")
         if img.get("drive") and not ruta.is_file():
             pass  # la figura está en el Google Drive de quien publicó: el repositorio no guarda copia
         elif not ruta.is_file():

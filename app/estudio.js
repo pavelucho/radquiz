@@ -724,7 +724,7 @@ function pasoFuente(t, v) {
       <input type="text" id="titular" value="${esc(f.titular || "")}" placeholder="© 2024 Sociedad Chilena de Radiología"></label>
     <label class="grid-label">Licencia
       <select id="licencia"><option value="">Elige…</option>
-        ${LICENCIAS.map((l) => `<option value="${l.valor}" ${f.licencia === l.valor ? "selected" : ""}>${l.valor}${l.nd ? " (no se puede recortar ni marcar)" : ""}</option>`).join("")}
+        ${LICENCIAS.map((l) => `<option value="${l.valor}" ${f.licencia === l.valor ? "selected" : ""}>${l.etiqueta || l.valor}${l.nd && !l.etiqueta ? " (no se puede recortar ni marcar)" : ""}</option>`).join("")}
       </select></label>
     <label class="grid-label">Frase de la fuente donde dice la licencia
       <textarea id="frase" rows="2" placeholder="p. 136: «Este es un artículo open access bajo la licencia CC BY-NC-ND…»">${esc(f.verificacion?.donde || "")}</textarea></label>
@@ -1093,7 +1093,7 @@ async function publicar(t) {
       ({ drive, cambios: cambiosDrive } = await subirAlDrive(t, imagenesUsadas, token, avance));
     }
     avance("Publicando…");
-    ({ paquete, fuentes, actualizados } = aPaquete(t, version, drive));
+    ({ paquete, fuentes, actualizados } = aPaquete(t, version, { drive, publicador: { nombre: perfil.nombre, fecha: hoy() } }));
     await update(ref(db), {
       [`publicacion/${t.id}`]: {
         paquete_json: JSON.stringify(paquete),
@@ -1232,7 +1232,7 @@ async function guardarFuente(id) {
     url: $("#url").value.trim(),
     titular: $("#titular").value.trim(),
     licencia,
-    licencia_url: datos?.url || "",
+    licencia_url: datos?.url || null,
     modificaciones_permitidas: !datos?.nd,
     verificacion: { fecha: hoy(), por: perfil.nombre, donde: $("#frase").value.trim() },
   };
