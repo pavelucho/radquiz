@@ -36,14 +36,21 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - Cada caso lleva `evidencia` (ubicación + frase textual de la fuente). Nada de datos clínicos que no estén en la leyenda.
 - La validación depende del estado: en borrador lo pendiente es aviso; en publicado es error.
 - La app baraja las opciones; id global = `<paquete>/<caso>`.
+- Clasificación (2026-09-24): el paquete tiene un segmento (carpeta y portada) y cada caso lleva `clasificacion`, una o
+  más parejas segmento → área, la principal primero; un caso puede estar en varios segmentos (cadera pediátrica =
+  MSK y pediatría). Sin la clave, hereda el segmento del paquete. Las áreas son una lista cerrada por segmento en
+  `app/areas.js` (lo que sigue a `AREAS =` es JSON estricto: `tools/validar` lee ese archivo). Hay áreas para neuro,
+  cabeza y cuello, tórax, abdomen, genitourinario y MSK; los otros cinco segmentos todavía no tienen, y se agregan
+  con una línea. Área desconocida = error; pareja sin área en un segmento con áreas = aviso.
 
 ## Estado actual (2026-09-20)
 - Fase 0 terminada: `schema/`, `tools/validar` (sin dependencias), `docs/guia-estilo-ia.md`, skill
   `.claude/skills/crear-casos-radquiz`, CI en `.github/workflows/validar.yml`.
 - `temas/cabeza-cuello/atm-rm-lopezramirez2024/`: 27 casos y 17 imágenes, versión 0.2.0, pasa el validador sin
   errores ni avisos. Publicado y **verificado el 2026-09-20**: los 27 casos llevan el sello de `pluna` (Pavel Luna),
-  que es además el autor —el modelo lo permite, y el manual recomienda que un segundo radiólogo lo mire—. Es el
-  único tema del repositorio. `REVISION.md` guarda qué cambió al pasar al formato nuevo.
+  que es además el autor —el modelo lo permite, y el manual recomienda que un segundo radiólogo lo mire—. Los otros
+  dos temas de `temas/` (meniscos y tobillo-pie, de MSK) los trajo el estudio. `REVISION.md` guarda qué cambió al
+  pasar al formato nuevo.
   Licencia verificada: CC BY-NC-ND 4.0 (PDF en español, p. 136). Respaldo del original en `referencia/piloto-original/`.
 - App estática de práctica: `index.html` + `practica.html` (+ `?revision=1` = previsualizador para revisores).
   En la cabecera, «Casos» elige el tamaño de la tanda (todos, 5, 10, 15, 20, 30, 50): los toma al azar pero los deja
@@ -104,6 +111,12 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   `dePaquete()` —el inverso de `aPaquete()`— y `instruccionesPaquete()` da el texto para que una IA con ejecución
   de código lo arme desde el PDF. Lo importado entra siempre como borrador y se enseñan las figuras antes de crear
   nada: una IA puede partir una figura en paneles, y las licencias ND no lo permiten.
+- Carga masiva (2026-09-24): no hay tope de casos. En el paso 3, el panel «Clasificación» resume cuántos casos hay en
+  cada segmento → área y agrega o quita una pareja a los casos marcados de una vez; cambiar la clasificación (ahí o
+  en el formulario) no toca `actualizado` del caso y no retira el sello. Una respuesta de IA cortada se rescata
+  (`rescatar()` en `app/instrucciones-ia.js`): se cargan los casos enteros y el estudio da el pedido para que siga;
+  las instrucciones piden `"faltan": true` si no caben todos. Un `.zip` con más de una fuente se rechaza (uno por
+  artículo: el estudio acredita todas las figuras a una sola fuente). La web todavía no usa la clasificación.
 - Borrar un cuestionario se hace desde el estudio (botón en la tarjeta y en el paso 4), escribiendo `BORRAR` en un
   aviso que dice qué se pierde. El orden de borrado importa: `publicacion`, `publicacion_img`, `verificacion`,
   `reportes`, `estudio_img` y por último `estudio`, porque las reglas dan permiso mirando
@@ -151,6 +164,16 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
    wifi del hospital. Con las figuras en Drive hay que comprobar también que pasa `www.googleapis.com` (la web
    pide ahí cada figura).
 4. Decidir la licencia del código y la de los textos propios.
+5. Clasificar los tres temas publicados con el panel «Clasificación» y volver a publicarlos (hoy dan el aviso «sin
+   área»): ATM → cabeza-cuello/atm; meniscos → musculoesqueletico/rodilla; tobillo → musculoesqueletico/tobillo-pie,
+   más lo que corresponda caso por caso.
+6. Fase 2 de la clasificación: filtros por segmento y área en la práctica, salas por segmento que mezclen temas y
+   conteos en la portada. Hace falta contar por segmento en `indice_publicado` e `indice.json`, y cambiar las reglas
+   de `salas/` para que una sala tenga varios temas.
+7. `meniscos-rm-nguyen2014` no pasa el validador (visto el 2026-09-24): dice CC BY-NC-ND 4.0, pero la frase de
+   `verificacion.donde` es el aviso de RSNA «personal non-commercial use only», y sus 14 figuras están en `img/` de este
+   repositorio público. Si la licencia es «Con copyright», hay que corregirla en el estudio y volver a publicar: las
+   figuras pasan al Drive de quien publica y salen de `temas/`, aunque siguen en el historial de Git.
 
 ## Preferencias del autor (Pavel, residente de radiología)
 - Interfaz y contenido en español.

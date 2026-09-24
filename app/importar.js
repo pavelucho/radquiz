@@ -35,7 +35,8 @@ export async function comprimir(archivo) {
 }
 
 // Devuelve el cuestionario listo para enseñárselo al autor, sin escribir nada todavía:
-// { meta, fuente, imagenes, casos, datos, faltan, nombre }. «datos» son las figuras en dataURL.
+// { meta, fuente, imagenes, casos, datos, faltan, desconocidas, nombre }. «datos» son las figuras en dataURL;
+// «desconocidas», las clasificaciones que no están en la lista de áreas y se quedaron fuera.
 export async function abrirZip(archivo) {
   if (archivo.size > 80 * 1024 * 1024) throw new Error("El .zip pesa más de 80 MB. Debe traer imágenes sin comprimir.");
   const bruto = await leerZip(archivo);
@@ -62,8 +63,14 @@ export async function abrirZip(archivo) {
     throw new Error("«fuentes.json» no es un JSON válido.");
   }
   if (!lista(paquete.casos).length) throw new Error("«paquete.json» no trae ningún caso.");
+  // En el estudio cada cuestionario tiene una sola fuente, y todas sus figuras se acreditan a ella: con dos o
+  // más, las de los otros artículos saldrían con el crédito y la licencia equivocados.
+  const claves = Object.keys(fuentes || {}).filter((k) => k !== "$schema");
+  if (claves.length > 1) {
+    throw new Error(`El .zip trae ${claves.length} fuentes (${claves.join(", ")}). Cada cuestionario lleva una sola: arma un .zip por artículo.`);
+  }
 
-  const { meta, fuente, imagenes, casos } = dePaquete(paquete, fuentes);
+  const { meta, fuente, imagenes, casos, desconocidas } = dePaquete(paquete, fuentes);
   if (!meta.titulo) throw new Error("«paquete.json» no trae título.");
   const datos = {};
   const faltan = [];
@@ -79,5 +86,5 @@ export async function abrirZip(archivo) {
       faltan.push(img.archivo);
     }
   }
-  return { meta, fuente, imagenes, casos, datos, faltan, nombre: archivo.name };
+  return { meta, fuente, imagenes, casos, datos, faltan, desconocidas, nombre: archivo.name };
 }

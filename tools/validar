@@ -38,6 +38,19 @@ CONFIG = json.loads((RAIZ / "tools" / "config.json").read_text(encoding="utf-8")
 LETRAS = "ABCDE"
 
 
+def cargar_areas():
+    """Las áreas de cada segmento: la lista cerrada de app/areas.js, la misma que usa el estudio."""
+    texto = (RAIZ / "app" / "areas.js").read_text(encoding="utf-8")
+    areas = json.loads(texto.split("export const AREAS =", 1)[1].strip().rstrip(";"))
+    segmentos = json.loads((CARPETA_ESQUEMAS / "paquete.schema.json").read_text(encoding="utf-8"))["$defs"]["segmento"]["enum"]
+    if sorted(areas) != sorted(segmentos):
+        raise SystemExit("app/areas.js y schema/paquete.schema.json no tienen los mismos segmentos")
+    return areas
+
+
+AREAS = cargar_areas()
+
+
 # ---------------------------------------------------------------------------
 # Subconjunto de JSON Schema (draft 2020-12)
 # ---------------------------------------------------------------------------
@@ -508,6 +521,26 @@ def validar_caso(caso, paquete_id, imagenes, fuentes, ids_globales, rep):
         rep.pendiente(exigente, cid, "pendiente (%s): %s" % (estado, ", ".join(faltan)))
 
 
+def validar_clasificacion(caso, segmento, rep, sin_area):
+    """Cada pareja segmento → área tiene que estar en app/areas.js. El esquema ya revisó la forma.
+
+    Sin «clasificacion», el caso es del segmento del paquete. Lo que queda sin área cuando el segmento
+    tiene áreas se junta en «sin_area» para avisarlo una sola vez por paquete.
+    """
+    cid = caso.get("id", "?")
+    pares = caso.get("clasificacion")
+    if not isinstance(pares, list) or not pares:
+        pares = [{"segmento": segmento}]
+    for par in pares:
+        if not isinstance(par, dict) or par.get("segmento") not in AREAS:
+            continue
+        seg, area = par["segmento"], par.get("area")
+        if area is not None and area not in AREAS[seg]:
+            rep.error(cid, "«%s» no es un área de %s: las áreas están en app/areas.js" % (area, seg))
+        elif area is None and AREAS[seg]:
+            sin_area.setdefault(seg, []).append(cid)
+
+
 def estadisticas(casos, rep):
     validos = [c for c in casos if isinstance(c.get("correcta"), int) and c.get("opciones")
                and c["correcta"] < len(c["opciones"])]
@@ -569,8 +602,13 @@ def validar_paquete(carpeta, esquemas, ids_globales):
     citadas |= {ev.get("fuente") for c in casos for ev in c.get("evidencia", []) if isinstance(ev, dict)}
     validar_fuentes(fuentes_ok, citadas, rep)
     validar_imagenes(carpeta, imagenes, fuentes_ok, usadas, rep)
+    sin_area = {}
     for caso in casos:
         validar_caso(caso, paquete.get("id", carpeta.name), imagenes, fuentes_ok, ids_globales, rep)
+        validar_clasificacion(caso, paquete.get("segmento"), rep, sin_area)
+    for seg, ids in sin_area.items():
+        muestra = ", ".join(ids[:6]) + (", …" if len(ids) > 6 else "")
+        rep.aviso("paquete", "%d caso(s) sin área de %s (%s): elegirla en «clasificacion»" % (len(ids), seg, muestra))
     estadisticas(casos, rep)
 
     por_estado = {e: sum(1 for c in casos if c.get("estado") == e) for e in ("borrador", "publicado")}

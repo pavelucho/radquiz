@@ -11,12 +11,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 import { firebaseConfig } from "./firebase-config.js";
 import { $, esc, md, SEGMENTOS, credito } from "./comun.js";
+import { AREAS } from "./areas.js";
 import {
   LICENCIAS, MODALIDADES, lista, slug, idImagen, validarTema, validarCaso, casosOrdenados,
-  imagenesOrdenadas, estadoVerificacion, aPaquete,
+  imagenesOrdenadas, estadoVerificacion, aPaquete, clasificacionDe, nombreClasificacion, normalizarClasificacion,
 } from "./validacion.js";
 import {
-  instruccionesIA, instruccionesCorreccion, instruccionesPaquete, leerRespuestaIA, planDeCarga,
+  instruccionesIA, instruccionesCorreccion, instruccionesPaquete, instruccionesContinuar, leerRespuestaIA, planDeCarga,
 } from "./instrucciones-ia.js";
 import { crearZip, descargarArchivo, bytesDeDataURL } from "./zip.js";
 import { comprimir, abrirZip } from "./importar.js";
@@ -46,6 +47,9 @@ let modoVerificar = false;      // un revisor puede sellar también sus propios 
 let importado = null;           // el .zip ya leído, esperando que el autor confirme que lo crea
 let creando = false;            // mientras suben las imágenes del .zip no se redibuja: se perdería el avance
 let publicando = null;          // texto del avance mientras se publica; impide publicar dos veces a la vez
+let marcados = new Set();       // casos marcados en el paso 3 para clasificarlos en bloque
+let bloque = { segmento: "", area: "" };   // lo último elegido para clasificar en bloque: sobrevive al redibujado
+let seguir = null;              // la respuesta de la IA llegó cortada: { mensaje, texto } para pedirle el resto
 
 const hoy = () => new Date().toISOString().slice(0, 10);
 const esCoord = () => perfil?.rol === "coordinador";
@@ -155,6 +159,7 @@ function normalizarTema(id, bruto) {
     c.imagenes = lista(c.imagenes);
     c.evidencia = lista(c.evidencia);
     c.etiquetas = lista(c.etiquetas);
+    c.clasificacion = lista(c.clasificacion);
   }
   for (const i of Object.values(t.imagenes)) {
     i.paneles = lista(i.paneles);
@@ -568,6 +573,13 @@ function vistaImportar() {
         <span class="src">${esc(img.figura || img.id)}</span></div>`).join("") || `<p class="muted">El .zip no traía imágenes.</p>`}</div>
     </section>
     <section class="panel" style="display:grid;gap:10px">
+      <h2>Clasificación</h2>
+      <div class="row" style="gap:6px">${resumenClasificacion(casos, t.meta.segmento)}</div>
+      ${d.desconocidas.length ? `<p class="caja">Estas clasificaciones no están en la lista de áreas y quedaron fuera:
+        ${esc(d.desconocidas.join(", "))}. Esos casos conservan el resto de su clasificación, o el segmento del tema si
+        no tenían otra; lo corriges en el paso 3.</p>` : ""}
+    </section>
+    <section class="panel" style="display:grid;gap:10px">
       <h2>Qué encontró el validador</h2>
       ${v.errores || v.avisos
         ? `<p class="${v.errores ? "caja" : "muted"}">${v.errores} error(es) y ${v.avisos} aviso(s).
@@ -765,6 +777,121 @@ function pasoImagenes(t, v) {
   </section>`;
 }
 
+// ---------- clasificación: cada caso en uno o más segmentos, cada uno con su área (app/areas.js)
+function chipsClasificacion(t, caso) {
+  return clasificacionDe(caso, t.meta.segmento)
+    .map((par) => `<span class="chip clasif">${esc(nombreClasificacion(par))}</span>`).join("");
+}
+
+// Cuántos casos hay en cada segmento → área: de un vistazo se ve cómo quedó una carga grande.
+function resumenClasificacion(casos, segmentoTema) {
+  const cuenta = new Map();
+  for (const c of casos) {
+    for (const par of clasificacionDe(c, segmentoTema)) {
+      const tieneAreas = Object.keys(AREAS[par.segmento] || {}).length;
+      const nombre = par.area || !tieneAreas ? nombreClasificacion(par) : `${SEGMENTOS[par.segmento] || par.segmento} · sin área`;
+      cuenta.set(nombre, (cuenta.get(nombre) || 0) + 1);
+    }
+  }
+  return [...cuenta].sort((a, b) => b[1] - a[1])
+    .map(([nombre, n]) => `<span class="chip clasif">${esc(nombre)} · ${n}</span>`).join("");
+}
+
+function opcionesSegmento(elegido) {
+  return Object.entries(SEGMENTOS)
+    .map(([id, nombre]) => `<option value="${id}" ${id === elegido ? "selected" : ""}>${esc(nombre)}</option>`).join("");
+}
+
+function opcionesArea(segmento, elegida) {
+  const areas = Object.entries(AREAS[segmento] || {});
+  return `<option value="">${areas.length ? "Sin área" : "Este segmento no tiene áreas"}</option>`
+    + areas.map(([id, nombre]) => `<option value="${id}" ${id === elegida ? "selected" : ""}>${esc(nombre)}</option>`).join("");
+}
+
+function filaClasificacion({ segmento, area } = {}) {
+  return `<div class="row clasif-fila" style="gap:8px">
+    <select class="c-segmento" aria-label="Segmento">${opcionesSegmento(segmento)}</select>
+    <select class="c-area" aria-label="Área">${opcionesArea(segmento, area)}</select>
+    <button type="button" class="quitar-clasif">Quitar</button>
+  </div>`;
+}
+
+const textoMarcados = () => `${marcados.size} ${marcados.size === 1 ? "marcado" : "marcados"}`;
+
+function panelClasificar(t, casos) {
+  const segmento = bloque.segmento || t.meta.segmento;
+  return `<div class="panel" style="display:grid;gap:10px">
+    <h3>Clasificación</h3>
+    <div class="row" style="gap:6px">${resumenClasificacion(casos, t.meta.segmento)}</div>
+    <p class="src">Marca casos y agrégales o quítales un segmento con su área. Un caso puede estar en varios segmentos;
+      el primero es el principal. Quitar con «Sin área» saca el segmento entero. Cambiar la clasificación no quita el
+      sello de verificado.</p>
+    <div class="row">
+      <button id="marcar-todos">Marcar todos</button>
+      <button id="marcar-sin-area">Marcar los que no tienen área</button>
+      <button id="marcar-ninguno">Ninguno</button>
+      <span class="src" id="n-marcados">${textoMarcados()}</span>
+    </div>
+    <div class="row">
+      <select id="bloque-segmento" aria-label="Segmento">${opcionesSegmento(segmento)}</select>
+      <select id="bloque-area" aria-label="Área">${opcionesArea(segmento, bloque.area)}</select>
+      <button id="bloque-agregar">Agregar a los marcados</button>
+      <button id="bloque-quitar">Quitar de los marcados</button>
+    </div>
+  </div>`;
+}
+
+// Con área: si el caso ya estaba en ese segmento sin área, la pareja se completa en su mismo lugar; si no, va al final.
+function conPareja(pares, segmento, area) {
+  if (pares.some((p) => p.segmento === segmento && (p.area || "") === area)) return pares;
+  if (!area) return pares.some((p) => p.segmento === segmento) ? pares : [...pares, { segmento }];
+  const i = pares.findIndex((p) => p.segmento === segmento && !p.area);
+  return i === -1 ? [...pares, { segmento, area }] : pares.map((p, j) => (j === i ? { segmento, area } : p));
+}
+
+// Sin área, sale el segmento entero. Con área, sale esa área, y el caso sigue en el segmento aunque sin área.
+function sinPareja(pares, segmento, area) {
+  if (!area) return pares.filter((p) => p.segmento !== segmento);
+  const quedan = pares.filter((p) => !(p.segmento === segmento && p.area === area));
+  if (quedan.length < pares.length && !quedan.some((p) => p.segmento === segmento)) {
+    quedan.splice(pares.findIndex((p) => p.segmento === segmento), 0, { segmento });
+  }
+  return quedan;
+}
+
+// No toca «actualizado» de los casos: el sello de verificado cubre lo que el radiólogo revisó, y la
+// clasificación no lo cambia.
+async function clasificarMarcados(t, agregar) {
+  const segmento = $("#bloque-segmento").value;
+  const area = $("#bloque-area").value;
+  const cambios = {};
+  let cambiados = 0;
+  let sinSegmento = 0;
+  for (const id of marcados) {
+    const caso = t.casos[id];
+    if (!caso) continue;
+    const antes = clasificacionDe(caso, t.meta.segmento);
+    const despues = agregar ? conPareja(antes, segmento, area) : sinPareja(antes, segmento, area);
+    if (!despues.length) { sinSegmento += 1; continue; }
+    if (JSON.stringify(despues) === JSON.stringify(antes)) continue;
+    cambios[`estudio/${t.id}/casos/${id}/clasificacion`] = despues;
+    cambiados += 1;
+  }
+  if (!cambiados) {
+    return aviso(!marcados.size ? "Marca primero algún caso."
+      : sinSegmento ? "No cambió nada: cada caso necesita al menos un segmento." : "Los casos marcados ya estaban así.", true);
+  }
+  try {
+    await update(ref(db), cambios);
+    await guardarMeta(t.id, {});
+  } catch (e) {
+    return aviso("No se pudo guardar: " + (e.code || e.message), true);
+  }
+  const igual = sinSegmento === 1 ? " Uno quedó igual" : ` ${sinSegmento} quedaron igual`;
+  aviso(`Clasificación cambiada en ${cambiados} ${cambiados === 1 ? "caso" : "casos"}.`
+    + (sinSegmento ? `${igual}: cada caso necesita al menos un segmento.` : ""));
+}
+
 function selloCaso(temaId, caso) {
   const ver = vercaso(temaId, caso.id);
   const estado = estadoVerificacion(caso, ver);
@@ -781,9 +908,11 @@ function tarjetaCaso(t, caso, v) {
   const reportados = reportesDe(t.id, caso.id);
   return `<div class="panel caso-card ${estado === "problema" || reportados.length ? "con-cambios" : ""}" style="display:grid;gap:8px">
     <div class="row" style="justify-content:space-between">
-      <span class="tema">${esc(caso.tema || "sin subtema")}</span>
+      <label class="row" style="gap:8px"><input type="checkbox" data-marcar="${esc(caso.id)}" ${marcados.has(caso.id) ? "checked" : ""}>
+        <span class="tema">${esc(caso.tema || "sin subtema")}</span></label>
       <span class="src">${caso.tipo === "concepto" ? "concepto" : "imagen"} · ${selloCaso(t.id, caso)}</span>
     </div>
+    <div class="row" style="gap:6px">${chipsClasificacion(t, caso)}</div>
     ${estado === "problema" && ver.comentario ? `<p class="caja">${esc(ver.nombre)}: «${esc(ver.comentario)}»</p>` : ""}
     ${reportados.map((r) => `<p class="caja">Reporte de un usuario: «${esc(r.texto)}»</p>`).join("")}
     <div class="md">${md(caso.enunciado || "")}</div>
@@ -799,6 +928,7 @@ function tarjetaCaso(t, caso, v) {
 function pasoCasos(t, v) {
   if (editando) return formularioCaso(t, editando);
   const casos = casosOrdenados(t);
+  for (const id of marcados) if (!t.casos[id]) marcados.delete(id);   // borrados mientras tanto
   const sinImagenes = !imagenesOrdenadas(t).length;
   return `<section class="panel" style="display:grid;gap:12px">
     <h2>3. Casos</h2>
@@ -811,6 +941,8 @@ function pasoCasos(t, v) {
         <li>Abre tu IA, <b>adjunta el PDF</b> de la fuente y pega las instrucciones.</li>
         <li>Copia su respuesta y pégala aquí abajo.</li>
       </ol>
+      ${seguir ? `<div class="caja" style="display:grid;gap:8px"><p>${esc(seguir.mensaje)}</p>
+        <div class="row"><button class="primary" id="copiar-seguir">Copiar el pedido para que siga</button></div></div>` : ""}
       <textarea id="respuesta-ia" rows="4" placeholder="Pega aquí la respuesta de tu IA (el JSON)"></textarea>
       <div class="row"><button id="cargar-ia">Cargar respuesta</button>
         <label class="row" style="gap:6px"><input type="checkbox" id="reemplazar"> Reemplazar los casos actuales</label>
@@ -820,6 +952,7 @@ function pasoCasos(t, v) {
     </div>
     <div class="row" style="justify-content:space-between"><h3>${casos.length} casos</h3>
       <button id="nuevo-caso">Agregar caso a mano</button></div>
+    ${casos.length ? panelClasificar(t, casos) : ""}
     <div class="casos">${casos.map((c) => tarjetaCaso(t, c, v)).join("") || `<p class="muted">Todavía no hay casos.</p>`}</div>
     <div class="row"><button id="ir-publicar">Siguiente: publicar</button></div>
   </section>`;
@@ -867,6 +1000,9 @@ function formularioCaso(t, id) {
           <input type="text" class="ev-cita" style="flex:1" placeholder="Frase copiada de la fuente" value="${esc(e.cita || "")}">
         </div>`).join("")}</div>
       <button id="mas-evidencia" type="button">Agregar otra frase</button></div>
+    <div class="grid-label">Clasificación: segmento y área (el primero es el principal)
+      <div id="clasificacion" style="display:grid;gap:8px">${clasificacionDe(caso, t.meta.segmento).map(filaClasificacion).join("")}</div>
+      <button type="button" id="mas-clasificacion">Agregar otro segmento</button></div>
     <label class="grid-label">Etiquetas (separadas por comas)<input type="text" id="c-etiquetas" value="${esc(lista(caso.etiquetas).join(", "))}"></label>
     <div class="row"><button class="primary" id="guardar-caso">Guardar caso</button><button id="cancelar-caso">Cancelar</button></div>
   </section>`;
@@ -937,11 +1073,12 @@ function casoVerificable(t, caso) {
   const ver = vercaso(t.id, caso.id);
   const estado = estadoVerificacion(caso, ver);
   const refs = lista(caso.imagenes);
-  const v = validarCaso(caso, t.imagenes);
+  const v = validarCaso(caso, t.imagenes, t.meta.segmento);
   const reportados = reportesDe(t.id, caso.id);
   return `<section class="panel caso-revision ${estado === "verificado" ? "aprobado" : estado === "problema" ? "cambios" : estado === "cambiado" ? "cambiado" : ""}" style="display:grid;gap:10px">
     <div class="row" style="justify-content:space-between"><span class="tema">${esc(caso.tema || "")}</span>
       <span class="src">${selloCaso(t.id, caso)}</span></div>
+    <div class="row" style="gap:6px">${chipsClasificacion(t, caso)}</div>
     ${reportados.map((r) => `<p class="caja">Reporte de un usuario: «${esc(r.texto)}»</p>`).join("")}
     <div class="stage ${refs.length ? "" : "sin-imagen"}">
       ${refs.length ? `<div class="viewer">${refs.map((r) => `<figure><img src="${esc(imagenesTema[r.ref])}" alt="" data-zoom>
@@ -1014,10 +1151,27 @@ function enlazarEditor(t) {
     });
     app.querySelectorAll("[data-subir]").forEach((b) => { b.onclick = () => mover(t, b.dataset.subir, -1); });
     app.querySelectorAll("[data-bajar]").forEach((b) => { b.onclick = () => mover(t, b.dataset.bajar, 1); });
+    const pedirResto = $("#copiar-seguir");
+    if (pedirResto) pedirResto.onclick = () => copiar(seguir.texto, "Copiado. Pégalo en la misma conversación con tu IA.");
+    enlazarClasificar(t);
   }
   if (paso === "casos" && editando) {
     $("#guardar-caso").onclick = () => guardarCaso(t, editando);
     $("#cancelar-caso").onclick = () => { editando = null; dibujar(); };
+    const clasif = $("#clasificacion");
+    clasif.onchange = (e) => {
+      if (e.target.matches(".c-segmento")) e.target.closest(".clasif-fila").querySelector(".c-area").innerHTML = opcionesArea(e.target.value, "");
+    };
+    clasif.onclick = (e) => {
+      if (!e.target.matches(".quitar-clasif")) return;
+      if (clasif.querySelectorAll(".clasif-fila").length > 1) e.target.closest(".clasif-fila").remove();
+      else aviso("Cada caso necesita al menos un segmento.", true);
+    };
+    $("#mas-clasificacion").onclick = () => {
+      const usados = new Set([...clasif.querySelectorAll(".c-segmento")].map((s) => s.value));
+      const libre = Object.keys(SEGMENTOS).find((s) => !usados.has(s)) || t.meta.segmento;
+      clasif.insertAdjacentHTML("beforeend", filaClasificacion({ segmento: libre }));
+    };
     $("#mas-evidencia").onclick = () => {
       const fila = document.createElement("div");
       fila.className = "row evidencia";
@@ -1050,6 +1204,36 @@ function enlazarEditor(t) {
     };
     $("#borrar-tema").onclick = () => borrarTema(t);
   }
+}
+
+// Los casos marcados sobreviven al redibujado: el panel se rehace con cada cambio en la base.
+function enlazarClasificar(t) {
+  const contar = () => { const n = $("#n-marcados"); if (n) n.textContent = textoMarcados(); };
+  app.querySelectorAll("[data-marcar]").forEach((c) => {
+    c.onchange = () => {
+      if (c.checked) marcados.add(c.dataset.marcar);
+      else marcados.delete(c.dataset.marcar);
+      contar();
+    };
+  });
+  if (!$("#bloque-segmento")) return;
+  const marcar = (ids) => {
+    marcados = new Set(ids);
+    app.querySelectorAll("[data-marcar]").forEach((c) => { c.checked = marcados.has(c.dataset.marcar); });
+    contar();
+  };
+  const casos = casosOrdenados(t);
+  const sinArea = (c) => clasificacionDe(c, t.meta.segmento).some((p) => !p.area && Object.keys(AREAS[p.segmento] || {}).length);
+  $("#marcar-todos").onclick = () => marcar(casos.map((c) => c.id));
+  $("#marcar-sin-area").onclick = () => marcar(casos.filter(sinArea).map((c) => c.id));
+  $("#marcar-ninguno").onclick = () => marcar([]);
+  $("#bloque-segmento").onchange = () => {
+    bloque = { segmento: $("#bloque-segmento").value, area: "" };
+    $("#bloque-area").innerHTML = opcionesArea(bloque.segmento, "");
+  };
+  $("#bloque-area").onchange = () => { bloque = { segmento: $("#bloque-segmento").value, area: $("#bloque-area").value }; };
+  $("#bloque-agregar").onclick = () => clasificarMarcados(t, true);
+  $("#bloque-quitar").onclick = () => clasificarMarcados(t, false);
 }
 
 // Escribe la entrada del tema en «indice_publicado», la lista corta que lee la portada.
@@ -1316,6 +1500,15 @@ function mover(t, casoId, paso_) {
   update(ref(db), cambios);
 }
 
+// Lo que el radiólogo revisa al verificar. La clasificación y el orden quedan fuera: cambiarlos no retira el sello.
+function contenido(c) {
+  return JSON.stringify([
+    c.tema || "", c.tipo || "", c.enunciado || "", lista(c.opciones), c.correcta, c.explicacion || "", c.perla || "",
+    lista(c.etiquetas), lista(c.imagenes).map((r) => `${r.ref}:${r.mostrar_en}`).sort(),
+    lista(c.evidencia).map((e) => [e.ubicacion || "", e.cita || ""]),
+  ]);
+}
+
 async function guardarCaso(t, casoId) {
   const opciones = [...app.querySelectorAll(".opcion")].map((i) => i.value.trim()).filter(Boolean);
   const marcada = app.querySelector("input[name=correcta]:checked");
@@ -1325,6 +1518,9 @@ async function guardarCaso(t, casoId) {
   const evidencia = [...app.querySelectorAll(".evidencia")]
     .map((f) => ({ ubicacion: f.querySelector(".ev-ubicacion").value.trim(), cita: f.querySelector(".ev-cita").value.trim() }))
     .filter((e) => e.ubicacion || e.cita);
+  const clasificacion = normalizarClasificacion([...app.querySelectorAll(".clasif-fila")].map((f) => ({
+    segmento: f.querySelector(".c-segmento").value, area: f.querySelector(".c-area").value,
+  })));
   const anterior = t.casos[casoId] || {};
   const caso = {
     tema: $("#c-tema").value.trim(),
@@ -1337,9 +1533,13 @@ async function guardarCaso(t, casoId) {
     perla: $("#c-perla").value.trim(),
     evidencia,
     etiquetas: $("#c-etiquetas").value.split(",").map((x) => x.trim()).filter(Boolean),
+    clasificacion,
+    ...(anterior.barajar === false ? { barajar: false } : {}),   // el formulario no lo muestra: se conserva
     orden: anterior.orden || casosOrdenados(t).length + 1,
-    actualizado: serverTimestamp(),
   };
+  // Si solo cambió la clasificación, el caso sigue siendo el que el radiólogo verificó: se conserva la fecha, y
+  // con ella el sello.
+  caso.actualizado = anterior.actualizado && contenido(anterior) === contenido(caso) ? anterior.actualizado : serverTimestamp();
   await set(ref(db, `estudio/${t.id}/casos/${casoId}`), caso);
   await guardarMeta(t.id, {});
   editando = null;
@@ -1362,6 +1562,14 @@ async function cargarRespuesta(t) {
     await update(ref(db), plan.cambios);
     await guardarMeta(t.id, {});
     $("#respuesta-ia").value = "";
+    // Una respuesta cortada no se pierde: se cargan los casos enteros y queda a mano el pedido para que siga.
+    seguir = datos.cortada || datos.faltan
+      ? {
+        mensaje: `${datos.cortada ? "La respuesta llegó cortada" : "Tu IA avisa que le faltaron casos"}: cargué los `
+          + `${datos.casos.length} que venían completos. Pídele que siga y pega aquí su respuesta: se suma a lo que ya hay.`,
+        texto: instruccionesContinuar(datos),
+      }
+      : null;
     aviso(plan.resumen);
     dibujar();
   } catch (e) {
@@ -1430,6 +1638,9 @@ function dibujar() {
       paso = "fuente";
       editando = null;
       imagenesTema = {};
+      marcados = new Set();
+      bloque = { segmento: "", area: "" };
+      seguir = null;
       cargarImagenes(ruta[1]);
     }
     return vistaTema();

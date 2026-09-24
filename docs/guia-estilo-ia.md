@@ -33,7 +33,27 @@ Formato exacto: `schema/paquete.schema.json`, `schema/caso.schema.json` y `schem
   respuesta. Nunca se pone una imagen decorativa en la pregunta (por ejemplo, una RM para una pregunta sobre TC).
 - Meta por paquete: al menos 70 % de casos tipo `imagen`.
 
-## 3. Enunciado
+## 3. Clasificación: segmento → área
+
+Cada caso lleva `clasificacion`: una o más parejas `{ "segmento", "area" }`, y la primera es la principal. Los
+segmentos son los 11 del repositorio; las áreas son una lista cerrada por segmento en `app/areas.js`, de donde las
+toman el estudio, las instrucciones para la IA y `tools/validar`.
+
+- Un caso puede estar en varios segmentos: una pareja por cada uno. Displasia del desarrollo de la cadera →
+  `musculoesqueletico/cadera-pelvis` y `pediatria`; biopsia hepática guiada por TC → `abdomen/higado` e
+  `intervencionismo`; artefacto del ángulo mágico en una RM de rodilla → `musculoesqueletico/rodilla` y
+  `fisica-tecnica`.
+- `pediatria`, solo si la fuente dice que el paciente es menor de 18 años o si la entidad es propia de la infancia.
+  `intervencionismo`, si la pregunta trata de un procedimiento guiado por imagen. `fisica-tecnica`, si trata de la
+  técnica, la secuencia, un artefacto, la dosis o el contraste.
+- Columna: médula, canal y raíces → `neurorradiologia/columna`; hueso, fracturas y articulaciones →
+  `musculoesqueletico/columna`. Si toca las dos cosas, las dos parejas.
+- Si ninguna área encaja, la pareja va sin `area` (el validador lo avisa) y se pide un área nueva: no se fuerza una
+  que no corresponde. Los segmentos que todavía no tienen áreas van siempre sin `area`.
+- Sin `clasificacion`, el caso es del segmento del paquete y no tiene área.
+- Un área nueva es una línea en `app/areas.js`. Su id no se cambia ni se borra mientras algún caso lo use.
+
+## 4. Enunciado
 
 - Describe la imagen como la leyenda: lado, plano, secuencia, condición (boca cerrada, apertura, poscontraste) y qué
   panel es cuál. Si la leyenda no dice la secuencia, no se menciona.
@@ -44,7 +64,7 @@ Formato exacto: `schema/paquete.schema.json`, `schema/caso.schema.json` y `schem
 - Una sola pregunta, clara, que termina en `?`. Nada de «todas las anteriores», «ninguna» ni preguntas en negativo
   («¿cuál NO…?»).
 
-## 4. Opciones
+## 5. Opciones
 
 - **Cinco opciones**, una sola correcta, mutuamente excluyentes.
 - **Distractores plausibles:** diagnósticos diferenciales reales de la misma región y modalidad, o errores típicos del
@@ -56,7 +76,7 @@ Formato exacto: `schema/paquete.schema.json`, `schema/caso.schema.json` y `schem
 - La app baraja las opciones. Si el orden importa (por ejemplo, grados de una escala), poner `"barajar": false`.
 - `correcta` cuenta desde 0: 0 = A, 1 = B, … 4 = E.
 
-## 5. Explicación y perla
+## 6. Explicación y perla
 
 - **Explicación:** 2 a 4 viñetas. Primero por qué la correcta es correcta (lo que se ve y cómo se llama), después el
   concepto clave de la fuente. Si la fuente lo permite, una viñeta que diferencie el distractor más tentador.
@@ -65,7 +85,7 @@ Formato exacto: `schema/paquete.schema.json`, `schema/caso.schema.json` y `schem
 - **Perla** (opcional): una frase práctica, también sacada de la fuente.
 - Nunca se inventan citas, cifras ni referencias.
 
-## 6. Ficha de cada imagen
+## 7. Ficha de cada imagen
 
 Va una sola vez, en el catálogo `imagenes` del paquete, y los casos la citan por su id.
 
@@ -78,7 +98,7 @@ Va una sola vez, en el catálogo `imagenes` del paquete, y los casos la citan po
 - `modificaciones`: lista de cambios hechos a la figura (`redimensionada`, `comprimida`…). Con licencias ND solo se
   admiten esos dos.
 
-## 7. Antiejemplos (errores reales del piloto ATM)
+## 8. Antiejemplos (errores reales del piloto ATM)
 
 | Error | Cómo estaba | Cómo quedó |
 | --- | --- | --- |
@@ -90,7 +110,7 @@ Va una sola vez, en el catálogo `imagenes` del paquete, y los casos la citan po
 | Figura ND modificada | Tabla 1 recortada en dos imágenes | Tabla 1 entera, mostrada en la respuesta |
 | HTML en los textos | `<b>1</b>`, `&lt;5%` | `**1**`, `< 5 %` |
 
-## 8. Casos modelo
+## 9. Casos modelo
 
 ### Caso de imagen
 
@@ -101,6 +121,7 @@ evidencia es la leyenda y la frase del texto que define «parcial».
 {
   "id": "atm-10",
   "tema": "Desplazamiento discal · Parcial",
+  "clasificacion": [{ "segmento": "cabeza-cuello", "area": "atm" }],
   "etiquetas": ["ATM", "RM", "desplazamiento discal"],
   "tipo": "imagen",
   "enunciado": "ATM izquierda. Cortes sagitales oblicuos en máxima intercuspidación, lateral (A) y medial (B). ¿Diagnóstico?",
@@ -160,6 +181,7 @@ Sin imagen; opciones de largo parecido y con la misma forma; cada cifra de la ex
 {
   "id": "atm-15",
   "tema": "Desplazamiento discal · Relevancia clínica",
+  "clasificacion": [{ "segmento": "cabeza-cuello", "area": "atm" }],
   "etiquetas": ["ATM", "RM", "desplazamiento discal", "epidemiología"],
   "tipo": "concepto",
   "enunciado": "Una RM de ATM muestra un desplazamiento discal anterior. Según la revisión, ¿qué afirmación es correcta?",
@@ -185,17 +207,18 @@ Sin imagen; opciones de largo parecido y con la misma forma; cada cifra de la ex
 }
 ```
 
-## 9. Cómo pedírselo a la IA
+## 10. Cómo pedírselo a la IA
 
 > Con la guía de estilo de RadQuiz cargada y el PDF adjunto, arma el paquete `temas/<segmento>/<id>/`:
 > `fuentes.json` con licencia verificada en el PDF (cita la frase de la licencia), catálogo de imágenes con la leyenda
-> textual de cada figura, y entre 15 y 30 casos en estado borrador. Cada caso con su evidencia textual.
+> textual de cada figura, y entre 15 y 30 casos en estado borrador. Cada caso con su evidencia textual y su clasificación.
 > Si una figura tiene licencia ND, no la recortes. Al terminar corre `tools/validar` y corrige todo lo que marque.
 
-## 10. Antes de entregar
+## 11. Antes de entregar
 
 - [ ] `tools/validar` sin errores; los avisos, leídos uno por uno.
 - [ ] Ningún dato clínico que no esté en la leyenda.
+- [ ] Cada caso con su `clasificacion`; `pediatria` solo si la fuente da la edad o la entidad es de la infancia.
 - [ ] Ningún enunciado que contenga la palabra clave de la respuesta.
 - [ ] La correcta no es la opción más larga en más de un tercio de los casos (el validador lo cuenta).
 - [ ] Cada afirmación de la explicación tiene su frase en `evidencia`.

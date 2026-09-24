@@ -26,6 +26,7 @@ manual.html                 manual de uso para cada papel
 sala.html                   sala en vivo (presentador y jugadores)
 estudio.html                estudio web: crear, revisar, aprobar y publicar cuestionarios
 app/                        código de la app; app/firebase-config.js apunta al proyecto de Firebase
+app/areas.js                áreas de cada segmento: la lista cerrada con que se clasifica cada caso
 app/zip.js                  leer y armar .zip en el navegador, sin librerías
 app/importar.js             comprimir figuras y abrir un cuestionario entero venido en un .zip
 database.rules.json         reglas de seguridad de la sala en vivo (Firebase Realtime Database)
@@ -78,6 +79,27 @@ Los borradores viven en Firebase (`estudio/`, `estudio_img/`); lo publicado qued
 historial. Las reglas de `database.rules.json` definen qué puede hacer cada papel. `publicacion_img/` es de antes de
 Drive: ya no admite escrituras, solo borrarse, y la web la lee únicamente para temas que no se han vuelto a publicar.
 
+### Clasificación: segmento → área
+
+El segmento del paquete decide su carpeta y dónde sale en la portada. Además, cada caso lleva `clasificacion`: una o
+más parejas `{ "segmento", "area" }`, la principal primero, porque un caso puede ser de varios segmentos (una
+displasia de cadera es musculoesquelético y pediatría). Sin la clave, el caso es del segmento del paquete, sin área.
+
+- Las áreas son una lista cerrada por segmento en `app/areas.js`. De ahí las toman el estudio, las instrucciones
+  para la IA y `tools/validar`, que lee ese mismo archivo: por eso lo que va detrás de `AREAS =` tiene que ser JSON
+  estricto. Un área nueva es una línea; un id en uso no se cambia ni se borra. Un segmento sin áreas admite casos
+  igual, sin área.
+- Un área que no está en la lista es error; una pareja sin área, en un segmento que tiene áreas, es aviso.
+- Lo que escriba la IA se normaliza al cargarlo («Musculoesquelético», «MSK» y «Muñeca y mano» valen). Lo que no
+  se reconoce queda fuera y el estudio lo dice.
+- En el paso 3, el panel **Clasificación** resume cuántos casos hay en cada segmento → área y agrega o quita una
+  pareja a todos los casos marcados de una vez. Cambiar la clasificación, ahí o en el formulario del caso, no
+  retira el sello de verificado: el sello cubre lo que el radiólogo revisó.
+
+Una respuesta de la IA que llega cortada (los chats tienen un límite de largo) ya no se pierde: el estudio carga los
+casos que llegaron enteros y ofrece el pedido para que la IA siga. Las instrucciones le piden cerrar el JSON en un
+caso completo y marcar `"faltan": true` cuando no le caben todos.
+
 ### Un cuestionario entero en un `.zip`
 
 El estudio sube y baja un tema completo —texto e imágenes— en un solo archivo, con la misma forma que una carpeta de
@@ -86,7 +108,9 @@ carpeta; ese nivel se ignora, igual que la basura de `__MACOSX`.
 
 - **Subir un .zip** (portada del estudio): lo lee, lo valida y enseña las figuras antes de crear nada. El tema se
   crea siempre **en preparación** y a nombre de quien lo sube; las imágenes se vuelven a comprimir aquí, así que el
-  límite de 1600 px y 250 KB lo pone el estudio y no quien armó el archivo.
+  límite de 1600 px y 250 KB lo pone el estudio y no quien armó el archivo. Un `.zip` con más de una fuente se
+  rechaza: en el estudio cada cuestionario tiene una sola, y las figuras de los otros artículos saldrían con el
+  crédito equivocado. Uno por artículo.
 - **Descargar .zip** (paso 4): lo mismo que se publica, listo para volver a subirlo, mandarlo a `temas/` por Git o
   guardarlo antes de borrar el tema.
 - **Instrucciones para la IA**, en la portada junto a «Subir un .zip» (y también en «Nuevo cuestionario»), da el

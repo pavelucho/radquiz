@@ -173,9 +173,11 @@
         <li>En la portada del estudio, toca <b>Instrucciones para la IA</b> —está junto a <b>Subir un .zip</b>— y
           pégaselas a tu IA con el PDF. Las instrucciones llevan dentro un comprobador: tu IA tiene que ejecutarlo
           y no darte el archivo hasta que imprima «todo bien». Si te lo entrega sin haberlo corrido, pídeselo.</li>
-        <li>Descarga el .zip que te devuelva y súbelo con <b>Subir un .zip</b>, en la portada del estudio.</li>
-        <li>El estudio te enseña las figuras y lo que encontró el validador <b>antes</b> de crear nada. Si está
-          bien, toca <b>Crear el cuestionario</b>: queda en preparación y a tu nombre.</li>
+        <li>Descarga el .zip que te devuelva y súbelo con <b>Subir un .zip</b>, en la portada del estudio. Un .zip
+          es un artículo: si tienes varios, pide uno por artículo y súbelos de a uno.</li>
+        <li>El estudio te enseña las figuras, cómo quedaron clasificados los casos y lo que encontró el validador
+          <b>antes</b> de crear nada. Si está bien, toca <b>Crear el cuestionario</b>: queda en preparación y a tu
+          nombre.</li>
         <li>Corrige lo que haga falta en los pasos 1 a 3 y publícalo como cualquier otro.</li>
       </ol>
       <p class="caja">Mira las figuras una por una antes de crearlo. Una IA que saca imágenes de un PDF puede partir
@@ -231,9 +233,15 @@
           caso corregido reemplaza al suyo, en su lugar, sin duplicarse.</li>
         <li>Si quieres empezar de cero con una respuesta nueva, marca <b>Reemplazar los casos actuales</b> antes de
           cargarla.</li>
+        <li>Cada caso sale con su <b>clasificación</b>: el segmento y el área (por ejemplo, «Musculoesquelético ·
+          Rodilla»), y puede estar en más de un segmento, como un caso pediátrico de cadera que va también en
+          Pediatría. En el panel <b>Clasificación</b> ves cuántos casos hay en cada área, marcas los que quieras y les
+          agregas o quitas un segmento de una vez. Cambiar la clasificación no quita el sello de verificado.</li>
       </ol>
       <p class="muted">Si tu IA responde con texto alrededor del JSON, no importa: el estudio lo reconoce igual. Si algo
-        sale mal, te dice qué pedirle.</p>
+        sale mal, te dice qué pedirle. Si son muchos casos y su respuesta llega cortada, el estudio carga los que
+        llegaron completos y te da el pedido para que siga: lo pegas en la misma conversación y cargas su respuesta,
+        que se suma a lo que ya hay.</p>
 
       <h3 id="enviar">Paso 4: publicar</h3>
       <p>El paso 4 muestra un resumen. Cuando no queden problemas en rojo, toca <b>Publicar</b>: tus casos quedan en la web
@@ -295,6 +303,8 @@
         <li>La respuesta es correcta y los distractores son plausibles pero erróneos.</li>
         <li>El enunciado no delata la respuesta ni trae datos clínicos que no estén en la leyenda.</li>
         <li>La explicación no afirma más de lo que dice la fuente.</li>
+        <li>La clasificación corresponde: el segmento y el área, y Pediatría solo si la fuente dice que es un niño o
+          la entidad es propia de la infancia.</li>
         <li>La licencia permite este uso y la atribución está completa.</li>
       </ul>
       <div class="tabla"><table>
@@ -325,6 +335,9 @@
         <li><b>El archivo en GitHub:</b> cada pocas horas, lo publicado se guarda en el repositorio. Un tema que no
           pasa el control automático se ve igual en la web, pero no se archiva hasta que se corrija: en la pestaña
           <b>Actions</b>, el workflow «Publicar» lo marca con un aviso amarillo que dice qué tema es.</li>
+        <li><b>Agregar un área:</b> las áreas de cada segmento están en <code>app/areas.js</code>, una por línea.
+          Agregar una es sumar una línea y volver a desplegar la web. Un área que ya usan casos no se renombra ni se
+          borra.</li>
       </ol>
       <div class="tabla"><table>
         <thead><tr><th>Pieza</th><th>Dónde está</th><th>Para qué</th></tr></thead>

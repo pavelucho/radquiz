@@ -13,5 +13,7 @@ description: Arma o corrige un paquete de casos de RadQuiz (temas/<segmento>/<te
    leyenda no dice va en `null`; las dudas, en `notas`. Figuras ND: no recortar ni anotar.
 4. Escribir los casos en estado `borrador`, cada uno con `evidencia` textual. Sin datos clínicos que no estén en la
    leyenda. Opciones homogéneas: la correcta no debe ser la más larga.
+   Cada caso con su `clasificacion`: una o más parejas segmento → área de `app/areas.js`, la principal primero
+   (sección 3 de la guía). Si ninguna área encaja, la pareja va sin área y se avisa: no se inventan áreas.
 5. Correr `tools/validar <carpeta>` y corregir hasta que no haya errores. Leer cada aviso.
 6. Entregar un `REVISION.md` con lo que el revisor debe confirmar. No marcar casos como revisados ni publicados.

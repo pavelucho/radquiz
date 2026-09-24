@@ -1,6 +1,7 @@
 // RadQuiz — reglas del formato para el estudio web. Son las mismas de tools/validar, con mensajes para no expertos.
 // El validador de Python vuelve a revisar todo antes de publicar: este módulo es la ayuda inmediata.
-import { CON_COPYRIGHT } from "./comun.js";
+import { CON_COPYRIGHT, SEGMENTOS } from "./comun.js";
+import { AREAS } from "./areas.js";
 
 // «nd»: solo se puede redimensionar y comprimir. «Con copyright» es la fuente sin licencia abierta: sus figuras
 // las aloja y responde por ellas quien publica, y la web no muestra ninguna licencia.
@@ -50,6 +51,85 @@ export function normalizarFigura(texto) {
   return idImagen(texto);
 }
 
+// ---------- clasificación: cada caso lleva una o más parejas segmento → área, de la lista de areas.js.
+// La primera es la principal. Sin «clasificacion», el caso es del segmento del tema y no tiene área.
+
+// Lo que escribe una IA se parece a los ids pero no siempre es igual: «Musculoesquelético», «MSK»,
+// «Muñeca y mano». Se compara sin tildes, sin mayúsculas y sin la «y».
+const comparable = (texto) => slug(texto).replace(/-y-/g, "-");
+const ALIAS_SEGMENTO = {
+  msk: "musculoesqueletico", "musculo-esqueletico": "musculoesqueletico", osteomuscular: "musculoesqueletico",
+  neuro: "neurorradiologia", "neuro-radiologia": "neurorradiologia", orl: "cabeza-cuello",
+  cardio: "cardiovascular", gu: "genitourinario", urogenital: "genitourinario",
+  pediatrica: "pediatria", pediatrico: "pediatria", intervencionista: "intervencionismo",
+  fisica: "fisica-tecnica", tecnica: "fisica-tecnica",
+};
+
+export function idSegmento(texto) {
+  const k = comparable(texto);
+  if (!k) return "";
+  return ALIAS_SEGMENTO[k] || Object.keys(SEGMENTOS).find((s) => comparable(s) === k || comparable(SEGMENTOS[s]) === k) || "";
+}
+
+function idArea(segmento, texto) {
+  const k = comparable(texto);
+  const areas = AREAS[segmento] || {};
+  return (k && Object.keys(areas).find((a) => comparable(a) === k || comparable(areas[a]) === k)) || "";
+}
+
+// Deja la clasificación como la pide el formato, venga de donde venga (una IA, un .zip, el editor):
+// [{ segmento, area? }], sin repetidos. Lo que no reconoce se anota en «desconocidas» y no entra: un segmento
+// inventado se descarta; un área inventada deja la pareja sin área, y eso el validador lo avisa.
+export function normalizarClasificacion(valor, desconocidas = []) {
+  const pares = [];
+  for (const bruto of lista(valor)) {
+    const [s, a] = typeof bruto === "string" ? bruto.split(/\s*[/→>·:]\s*/) : [bruto?.segmento, bruto?.area];
+    const segmento = idSegmento(s);
+    if (!segmento) {
+      if (s) desconocidas.push(String(s));
+      continue;
+    }
+    const area = idArea(segmento, a);
+    if (a && !area) desconocidas.push(`${segmento}/${a}`);
+    pares.push(area ? { segmento, area } : { segmento });
+  }
+  // Fuera los repetidos, y la pareja sin área de un segmento que ya tiene una con área.
+  return pares.filter((p, i) => pares.findIndex((q) => q.segmento === p.segmento && q.area === p.area) === i
+    && (p.area || !pares.some((q) => q.segmento === p.segmento && q.area)));
+}
+
+// La clasificación con la que cuenta el caso: la suya o, si no tiene, el segmento del tema sin área.
+export function clasificacionDe(caso, segmentoTema = "") {
+  const propia = lista(caso?.clasificacion).filter((p) => p && p.segmento)
+    .map((p) => (p.area ? { segmento: p.segmento, area: p.area } : { segmento: p.segmento }));
+  if (propia.length) return propia;
+  return segmentoTema ? [{ segmento: segmentoTema }] : [];
+}
+
+export function nombreClasificacion({ segmento, area }) {
+  const nombre = SEGMENTOS[segmento] || segmento;
+  return area ? `${nombre} · ${(AREAS[segmento] || {})[area] || area}` : nombre;
+}
+
+function validarClasificacion(caso, segmentoTema) {
+  const p = [];
+  const vistas = new Set();
+  for (const par of clasificacionDe(caso, segmentoTema)) {
+    const nombre = SEGMENTOS[par.segmento];
+    if (!nombre) {
+      p.push(problema("error", `El segmento «${par.segmento}» no existe.`));
+      continue;
+    }
+    const areas = AREAS[par.segmento] || {};
+    const clave = `${par.segmento}/${par.area || ""}`;
+    if (vistas.has(clave)) p.push(problema("error", `«${nombreClasificacion(par)}» está repetido en la clasificación.`));
+    vistas.add(clave);
+    if (par.area && !areas[par.area]) p.push(problema("error", `«${par.area}» no es un área de ${nombre}: elige una de la lista.`));
+    else if (!par.area && Object.keys(areas).length) p.push(problema("aviso", `Falta el área dentro de ${nombre}.`));
+  }
+  return p;
+}
+
 function problema(tipo, texto) {
   return { tipo, texto };
 }
@@ -97,7 +177,7 @@ export function validarImagen(img, fuente) {
   return p;
 }
 
-export function validarCaso(caso, imagenes) {
+export function validarCaso(caso, imagenes, segmentoTema = "") {
   const p = [];
   const opciones = lista(caso.opciones);
   const refs = lista(caso.imagenes);
@@ -131,6 +211,7 @@ export function validarCaso(caso, imagenes) {
       p.push(problema("aviso", "La correcta es mucho más larga que las demás: se adivina por el largo. Iguala los largos."));
     }
   }
+  p.push(...validarClasificacion(caso, segmentoTema));
   return p;
 }
 
@@ -151,7 +232,7 @@ export function validarTema(tema) {
   const r = { fuente: validarFuente(tema.fuente), imagenes: {}, casos: {}, tema: [], errores: 0, avisos: 0 };
   for (const img of imagenesOrdenadas(tema)) r.imagenes[img.id] = validarImagen(img, tema.fuente);
   const casos = casosOrdenados(tema);
-  for (const c of casos) r.casos[c.id] = validarCaso(c, imagenes);
+  for (const c of casos) r.casos[c.id] = validarCaso(c, imagenes, tema.meta?.segmento);
   if (!casos.length) r.tema.push(problema("error", "Todavía no hay casos."));
   if (casos.length >= 10) {
     const largos = casos.filter((c) => {
@@ -211,6 +292,7 @@ export function aPaquete(tema, version, { drive = {}, publicador = null } = {}) 
     return {
       id: c.id,
       tema: c.tema,
+      ...(lista(c.clasificacion).length ? { clasificacion: clasificacionDe(c) } : {}),
       etiquetas: lista(c.etiquetas),
       tipo: c.tipo,
       enunciado: c.enunciado,
@@ -310,13 +392,16 @@ export function dePaquete(paquete, fuentes) {
   }
 
   const casos = {};
+  const desconocidas = [];
   let n = 0;
   for (const c of lista(paquete.casos)) {
     n += 1;
     let id = /^[a-z0-9]+(-[a-z0-9]+)*$/.test(c.id || "") ? c.id : `caso-${String(n).padStart(2, "0")}`;
     while (casos[id]) id = `${id}b`;
+    const clasificacion = normalizarClasificacion(c.clasificacion, desconocidas);
     casos[id] = {
       tema: texto(c.tema),
+      ...(clasificacion.length ? { clasificacion } : {}),
       tipo: c.tipo === "concepto" ? "concepto" : "imagen",
       enunciado: texto(c.enunciado),
       imagenes: lista(c.imagenes)
@@ -338,9 +423,10 @@ export function dePaquete(paquete, fuentes) {
     id: texto(paquete.id),
     titulo: texto(paquete.titulo),
     descripcion: texto(paquete.descripcion),
-    segmento: texto(paquete.segmento),
+    segmento: idSegmento(paquete.segmento) || texto(paquete.segmento),
     modalidades: lista(paquete.modalidades).map(texto).filter(Boolean),
     version: texto(paquete.version) || "0.1.0",
   };
-  return { meta, fuente, imagenes, casos };
+  // «desconocidas»: clasificaciones que no están en la lista y no entraron. Se enseñan antes de crear el tema.
+  return { meta, fuente, imagenes, casos, desconocidas: [...new Set(desconocidas)] };
 }

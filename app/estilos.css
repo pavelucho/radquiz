@@ -167,6 +167,9 @@ input:focus-visible { outline: 2px solid var(--overlay); outline-offset: 2px; }
 .miniatura { width: 100%; max-height: 220px; object-fit: contain; background: #000; border-radius: 6px; cursor: zoom-in; }
 .miniatura.chica { max-height: 90px; }
 .caso-card.con-cambios { border-color: #5a2a31; }
+.chip.clasif { color: var(--c); border-color: #23514c; }
+/* Un área de nombre largo no puede ensanchar la página en el celular: el desplegable se reparte el ancho. */
+.clasif-fila select, #bloque-segmento, #bloque-area { flex: 1 1 12em; width: 0; min-width: 0; }
 .caso-revision.aprobado { border-left: 3px solid var(--ok); }
 .caso-revision.cambios { border-left: 3px solid var(--bad); }
 .caso-revision.cambiado { border-left: 3px solid var(--overlay); }

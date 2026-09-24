@@ -1,7 +1,10 @@
 // RadQuiz — instrucciones para cualquier IA (ChatGPT, Gemini, Copilot, Claude, DeepSeek…) y lectura de su respuesta.
 // No depende de ningún proveedor: el autor copia un texto, lo pega en su IA con el PDF y pega la respuesta de vuelta.
-import { imagenesOrdenadas, casosOrdenados, lista, idImagen, LICENCIAS, MODALIDADES } from "./validacion.js";
+import {
+  imagenesOrdenadas, casosOrdenados, lista, idImagen, normalizarClasificacion, LICENCIAS, MODALIDADES,
+} from "./validacion.js";
 import { SEGMENTOS, CON_COPYRIGHT } from "./comun.js";
+import { AREAS } from "./areas.js";
 
 const ID_CASO = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
@@ -20,6 +23,7 @@ const EJEMPLO = `{
   "casos": [
     {
       "tema": "Subtema corto",
+      "clasificacion": [{ "segmento": "cabeza-cuello", "area": "atm" }],
       "tipo": "imagen",
       "enunciado": "Descripción técnica de la imagen y la pregunta.",
       "imagenes": [{ "figura": "Figura 2", "mostrar_en": "pregunta" }],
@@ -109,6 +113,38 @@ function listaFiguras(tema) {
   return imagenes.map((i) => `- "${i.figura}"${i.leyenda_original ? ` (leyenda ya cargada)` : ""}`).join("\n");
 }
 
+// Sale de areas.js: un área nueva aparece sola en los prompts.
+function listaAreas() {
+  return Object.keys(SEGMENTOS).map((s) => {
+    const areas = Object.entries(AREAS[s] || {});
+    if (!areas.length) return `${s} — ${SEGMENTOS[s]} (sin áreas: va sin "area")`;
+    return `${s} — ${SEGMENTOS[s]}\n${areas.map(([id, nombre]) => `    ${id}: ${nombre}`).join("\n")}`;
+  }).join("\n");
+}
+
+// El mismo bloque para los tres prompts. «segmento» es el del tema cuando ya se sabe; en el del .zip lo
+// elige la IA.
+function reglasClasificacion(segmento) {
+  const principal = segmento
+    ? `Este cuestionario es de ${SEGMENTOS[segmento] || segmento}: casi todos sus casos llevan primero una pareja con "segmento": "${segmento}".`
+    : `La primera pareja de casi todos los casos es la del "segmento" del paquete.`;
+  return `- Cada caso lleva "clasificacion": una o más parejas { "segmento", "area" }. La primera es la principal.
+- Usa solo los segmentos y las áreas de la lista de abajo, escritos como su id (lo que va antes de los dos puntos).
+- ${principal}
+- Si el caso pertenece a más de un segmento, agrega una pareja por cada uno. Por ejemplo: displasia del
+  desarrollo de la cadera → musculoesqueletico/cadera-pelvis y pediatria; biopsia hepática guiada por TC →
+  abdomen/higado e intervencionismo; artefacto del ángulo mágico en una RM de rodilla →
+  musculoesqueletico/rodilla y fisica-tecnica.
+- "pediatria" solo si la fuente dice que el paciente es menor de 18 años o si la entidad es propia de la
+  infancia. "intervencionismo", si la pregunta trata de un procedimiento guiado por imagen. "fisica-tecnica",
+  si trata de la técnica, la secuencia, un artefacto, la dosis o el contraste.
+- Columna: la médula, el canal y las raíces van a neurorradiologia/columna; el hueso, las fracturas y las
+  articulaciones, a musculoesqueletico/columna. Si toca las dos cosas, las dos parejas.
+- Si ninguna área encaja, deja la pareja sin "area": no la fuerces. Los segmentos sin áreas van siempre sin "area".
+
+${listaAreas()}`;
+}
+
 export function instruccionesIA(tema) {
   const meta = tema.meta || {};
   const fuente = tema.fuente || {};
@@ -130,9 +166,14 @@ ${EJEMPLO_OPCIONES}
 CUÁNTOS CASOS
 ${repartoCasos(figuras.length)}
 
+CLASIFICACIÓN DE CADA CASO
+${reglasClasificacion(meta.segmento)}
+
 QUÉ TIENES QUE DEVOLVER
 - ${faltanLeyendas ? 'La lista "imagenes": la ficha de cada figura de arriba, con su leyenda textual, los paneles (A, B…) y qué señala cada flecha, círculo o número.' : 'La lista "imagenes" puede ir vacía: las leyendas ya están cargadas.'}
 - La lista "casos": los que salgan de la cuenta de arriba, con al menos 70 % de tipo "imagen".
+- Si no te caben todos en una sola respuesta, termina en un caso completo, cierra bien el JSON y agrega
+  "faltan": true. Después te pediré el resto.
 - Responde SOLO con un JSON válido, sin texto antes ni después, sin explicaciones y sin bloques de código.
 
 FORMATO EXACTO DE LA RESPUESTA
@@ -192,6 +233,9 @@ ${REGLAS.length + 1}. Escribe los casos en español aunque el documento esté en
 
 ${EJEMPLO_OPCIONES}
 
+CLASIFICACIÓN DE CADA CASO
+${reglasClasificacion("")}
+
 ──────────────────────────────── 5. paquete.json
 Lo que va detrás de // son notas para ti: JSON no admite comentarios, así que no los copies.
 {
@@ -222,6 +266,7 @@ Lo que va detrás de // son notas para ti: JSON no admite comentarios, así que 
     {
       "id": "caso-01",
       "tema": "Subtema corto",
+      "clasificacion": [{ "segmento": "cabeza-cuello", "area": "atm" }],   // apartado 4: la primera, la principal
       "etiquetas": ["palabra clave"],
       "tipo": "imagen",                      // "imagen" o "concepto"
       "enunciado": "Descripción técnica de la imagen y, al final, la pregunta terminada en ?",
@@ -270,6 +315,7 @@ import io
 
 RUTA = "cuestionario.zip"
 SEG = "${Object.keys(SEGMENTOS).join(" ")}".split()
+AREAS = ${JSON.stringify(Object.fromEntries(Object.keys(SEGMENTOS).map((s) => [s, Object.keys(AREAS[s] || {})])))}
 MOD = ${JSON.stringify(MODALIDADES)}
 ND  = ${JSON.stringify(LICENCIAS.filter((l) => l.nd).map((l) => l.valor))}
 LIC = ${JSON.stringify(LICENCIAS.map((l) => l.valor))}
@@ -352,6 +398,14 @@ for c in p.get("casos") or []:
         if r.get("mostrar_en") not in ("pregunta", "respuesta"): mal(cid + ": mostrar_en inválido")
     if c.get("tipo") == "imagen" and not [r for r in refs if r.get("mostrar_en") == "pregunta"]:
         mal(cid + ": es de tipo imagen pero no muestra ninguna en la pregunta")
+    cl = c.get("clasificacion")
+    if not isinstance(cl, list) or not cl:
+        mal(cid + ": falta clasificacion, con una pareja segmento → área o más")
+    for par in cl if isinstance(cl, list) else []:
+        par = par if isinstance(par, dict) else {}
+        s, a = par.get("segmento"), par.get("area")
+        if s not in AREAS: mal("%s: segmento inválido en clasificacion: %r" % (cid, s))
+        elif a is not None and a not in AREAS[s]: mal("%s: %r no es un área de %s (usa una de la lista o ninguna)" % (cid, a, s))
 
 usadas = {r.get("ref") for c in p.get("casos") or [] for r in (c.get("imagenes") or [])}
 for iid in p.get("imagenes") or {}:
@@ -414,6 +468,7 @@ export function instruccionesCorreccion(tema, problemas) {
   const casos = casosOrdenados(tema).map((c) => ({
     id: c.id,
     tema: c.tema,
+    clasificacion: lista(c.clasificacion),
     tipo: c.tipo,
     enunciado: c.enunciado,
     imagenes: lista(c.imagenes).map((r) => ({ figura: (tema.imagenes[r.ref] || {}).figura || r.ref, mostrar_en: r.mostrar_en })),
@@ -424,6 +479,8 @@ export function instruccionesCorreccion(tema, problemas) {
     evidencia: lista(c.evidencia).map((e) => ({ ubicacion: e.ubicacion, cita: e.cita })),
     etiquetas: lista(c.etiquetas),
   }));
+  // La lista de áreas es larga: va solo si algún problema es de clasificación.
+  const deClasificacion = problemas.some((p) => p.textos.some((t) => /clasificación|área|segmento/i.test(t)));
   return `Estos casos son tuyos y tienen problemas. Corrígelos con el mismo documento adjunto y las mismas reglas de antes.
 
 PROBLEMAS POR CASO
@@ -431,7 +488,10 @@ ${problemas.map((p) => `- ${p.caso}: ${p.textos.join(" | ")}`).join("\n")}
 
 RECUERDA
 ${REGLAS.slice(0, 8).map((r, i) => `${i + 1}. ${r}`).join("\n")}
-
+${deClasificacion ? `
+CLASIFICACIÓN DE CADA CASO
+${reglasClasificacion(tema.meta?.segmento)}
+` : ""}
 CASOS ACTUALES
 ${JSON.stringify({ casos }, null, 1)}
 
@@ -439,7 +499,46 @@ Devuelve SOLO el JSON corregido, sin texto antes ni después, con esta forma: {"
 Conserva el "id" de cada caso tal cual: así cada corrección reemplaza a su caso en vez de sumarse como uno nuevo.`;
 }
 
-// Lee la respuesta de la IA aunque venga con bloques de código o texto alrededor.
+// Una respuesta larga puede llegar cortada: los chats tienen un límite de largo por respuesta, y cien casos
+// no suelen caber. En vez de perderlo todo, se recorre el texto como JSON y se guardan los elementos de
+// «imagenes» y «casos» que llegaron enteros. Sirve para {"imagenes": [...], "casos": [...]} y para una lista
+// suelta de casos.
+function rescatar(texto) {
+  const salida = { imagenes: [], casos: [], correccion: /"correccion"\s*:\s*true/.test(texto) };
+  const pila = [];           // las llaves y corchetes abiertos
+  let clave = "";            // la última clave del objeto de arriba: a qué lista va cada elemento
+  let ultimo = "";           // el último texto entre comillas que se cerró
+  let enTexto = false, escapado = false, abreTexto = -1, desde = -1;
+  const enLista = () => (pila.length === 1 && pila[0] === "[") || (pila.length === 2 && pila[0] === "{" && pila[1] === "[");
+  for (let i = 0; i < texto.length; i++) {
+    const ch = texto[i];
+    if (enTexto) {
+      if (escapado) escapado = false;
+      else if (ch === "\\") escapado = true;
+      else if (ch === '"') { enTexto = false; ultimo = texto.slice(abreTexto + 1, i); }
+    } else if (ch === '"') {
+      enTexto = true;
+      abreTexto = i;
+    } else if (ch === ":" && pila.length === 1 && pila[0] === "{") {
+      clave = ultimo;
+    } else if (ch === "{" || ch === "[") {
+      if (ch === "{" && enLista()) desde = i;
+      pila.push(ch);
+    } else if (ch === "}" || ch === "]") {
+      pila.pop();
+      if (ch === "}" && desde !== -1 && enLista()) {
+        const destino = pila[0] === "[" ? "casos" : clave;
+        try {
+          if (salida[destino]) salida[destino].push(JSON.parse(texto.slice(desde, i + 1)));
+        } catch { /* un elemento roto no tumba a los demás */ }
+        desde = -1;
+      }
+    }
+  }
+  return salida;
+}
+
+// Lee la respuesta de la IA aunque venga con bloques de código o texto alrededor, o cortada.
 export function leerRespuestaIA(texto, tema) {
   const limpio = String(texto || "").replace(/```[a-zA-Z]*\n?/g, "").trim();
   const inicio = limpio.indexOf("{");
@@ -448,12 +547,18 @@ export function leerRespuestaIA(texto, tema) {
   if (desde === -1) throw new Error("No encontré ningún JSON en la respuesta. Pídele a tu IA: «devuelve solo el JSON».");
   const cierre = limpio[desde] === "{" ? limpio.lastIndexOf("}") : limpio.lastIndexOf("]");
   let datos;
+  let cortada = false;
   try {
     datos = JSON.parse(limpio.slice(desde, cierre + 1));
   } catch (e) {
-    throw new Error("El JSON de la respuesta está incompleto o mal formado. Pídele a tu IA que lo devuelva entero y sin texto alrededor.");
+    datos = rescatar(limpio.slice(desde));
+    if (!datos.casos.length && !datos.imagenes.length) {
+      throw new Error("El JSON de la respuesta está incompleto o mal formado. Pídele a tu IA que lo devuelva entero y sin texto alrededor.");
+    }
+    cortada = true;
   }
   const bruto = Array.isArray(datos) ? { casos: datos } : datos;
+  const desconocidas = [];
   const porFigura = new Map(imagenesOrdenadas(tema).map((i) => [idImagen(i.figura), i.id]));
 
   const imagenes = lista(bruto.imagenes).map((i) => ({
@@ -473,9 +578,12 @@ export function leerRespuestaIA(texto, tema) {
       const letra = "abcde".indexOf(correcta.trim().toLowerCase());
       correcta = letra >= 0 ? letra : Number(correcta);
     }
+    // Sin clasificación no se escribe la clave: en una corrección, el caso conserva la que tenía.
+    const clasificacion = normalizarClasificacion(c.clasificacion, desconocidas);
     return {
       id: ID_CASO.test(String(c.id || "")) ? String(c.id) : null,
       tema: String(c.tema || c.subtema || "").trim(),
+      ...(clasificacion.length ? { clasificacion } : {}),
       tipo: c.tipo === "concepto" ? "concepto" : "imagen",
       enunciado: String(c.enunciado || c.pregunta || "").trim(),
       imagenes: lista(c.imagenes).map((r) => ({
@@ -494,7 +602,25 @@ export function leerRespuestaIA(texto, tema) {
   if (!casos.length && !imagenes.length) throw new Error("La respuesta no traía casos. Revisa que tu IA haya devuelto el JSON completo.");
   // «correccion» lo pone solo el prompt de corrección: sin esa marca, un id que la IA invente al escribir
   // casos nuevos no puede pisar un caso que ya existe.
-  return { imagenes, casos, correccion: bruto.correccion === true };
+  // «cortada»: se rescataron los elementos enteros de una respuesta incompleta. «faltan»: la IA avisó que no le
+  // cupieron todos. En los dos casos hay que pedirle el resto (instruccionesContinuar).
+  return {
+    imagenes, casos, correccion: bruto.correccion === true, cortada, faltan: bruto.faltan === true,
+    desconocidas: [...new Set(desconocidas)],
+  };
+}
+
+// El pedido para que la IA siga donde se quedó, en la misma conversación: ella ya tiene el documento.
+export function instruccionesContinuar(datos) {
+  const casos = datos.casos || [];
+  const ultimo = casos[casos.length - 1];
+  const hasta = ultimo
+    ? `Me llegaron ${casos.length} ${casos.length === 1 ? "caso completo" : "casos completos"}; el último empieza «${String(ultimo.enunciado || ultimo.tema || "").slice(0, 90)}…».`
+    : "No me llegó ningún caso completo, solo fichas de imágenes.";
+  return `${datos.cortada ? "Tu respuesta se cortó por el largo." : "Me dijiste que te faltaban casos."} ${hasta}
+Sigue desde ahí, con el mismo documento, las mismas reglas y el mismo formato, sin repetir ninguno de los que ya diste.
+Si tampoco te caben todos, termina en un caso completo, cierra bien el JSON y agrega "faltan": true.
+Responde SOLO con el JSON, sin texto antes ni después: {"casos": [...]}`;
 }
 
 function idLibre(usados, desde) {
@@ -574,5 +700,8 @@ export function planDeCarga(tema, datos, { reemplazar = false, marca = null } = 
   if (reemplazar && !reemplaza) resumen += " No reemplacé los casos: la respuesta no traía ninguno.";
   const perdidas = [...new Set(datos.casos.flatMap((c) => c.imagenes.filter((r) => !r.ref).map((r) => r.figura)).filter(Boolean))];
   if (perdidas.length) resumen += ` No reconocí: ${perdidas.join(", ")}.`;
+  if (datos.desconocidas?.length) {
+    resumen += ` Estas clasificaciones no están en la lista de áreas y quedaron fuera: ${datos.desconocidas.join(", ")}.`;
+  }
   return { cambios, resumen, agregados, corregidos, fichas };
 }
