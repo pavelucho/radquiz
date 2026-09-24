@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
-"""Despliega database.rules.json en la base del estudio, sin sesión interactiva de Firebase.
+"""Despliega en Firebase las reglas de la base o la web, sin sesión interactiva.
 
 Uso:
-    tools/desplegar_reglas            despliega
-    tools/desplegar_reglas --ver      solo comprueba que todo esté listo
+    tools/desplegar reglas            despliega database.rules.json
+    tools/desplegar web               arma _site/ (tools/construir_sitio) y lo despliega en Firebase Hosting
+    tools/desplegar reglas --ver      solo comprueba que todo esté listo (igual con «web»)
 
-Lo usan el workflow «Desplegar reglas» y las sesiones de Claude Code en la web, así que el camino
-es uno solo y está probado. Toma la credencial de una de estas variables de entorno:
+Lo usan los workflows («Desplegar reglas» y «Publicar») y las sesiones de Claude Code en la web, así que el
+camino es uno solo y está probado. Toma la credencial de una de estas variables de entorno:
 
-    FIREBASE_SERVICE_ACCOUNT   el JSON de una cuenta de servicio con el papel «Firebase Realtime
-                               Database Admin» (roles/firebasedatabase.admin). Admite el JSON tal
-                               cual o en base64, que viaja mejor en una variable de entorno.
-                               Es la recomendada: solo llega a la base.
-    FIREBASE_TOKEN             lo que imprime «firebase login:ci». Más rápido de conseguir, pero
-                               vale por toda la cuenta de Google en Firebase.
+    FIREBASE_SERVICE_ACCOUNT   el JSON de una cuenta de servicio del proyecto. Admite el JSON tal cual o en
+                               base64, que viaja mejor en una variable de entorno. Papeles: «Firebase Realtime
+                               Database Admin» para las reglas y «Firebase Hosting Admin» para la web.
+    FIREBASE_TOKEN             lo que imprime «firebase login:ci». Más rápido de conseguir, pero vale por toda
+                               la cuenta de Google en Firebase.
 
-Ojo con la red: las reglas se escriben en <instancia>.firebaseio.com, no en googleapis.com. Un
-entorno que bloquee ese dominio no puede desplegarlas por mucha credencial que tenga.
+Fuera de GitHub Actions, sin ninguna de las dos usa la sesión de la CLI («firebase login»), si la hay.
+
+Ojo con la red: las reglas se escriben en <instancia>.firebaseio.com, no en googleapis.com. Un entorno que
+bloquee ese dominio no puede desplegarlas por mucha credencial que tenga.
 """
 
 import base64
@@ -33,6 +35,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 PROYECTO = json.loads((RAIZ / ".firebaserc").read_text(encoding="utf-8"))["projects"]["default"]
 INSTANCIA = "%s-default-rtdb.firebaseio.com" % PROYECTO
+OBJETIVOS = {"reglas": "database", "web": "hosting"}
 
 
 def credencial(tmp):
@@ -60,6 +63,9 @@ def credencial(tmp):
     if os.environ.get("FIREBASE_TOKEN", "").strip():
         print("Credencial: FIREBASE_TOKEN")
         return entorno
+    if os.environ.get("GITHUB_ACTIONS") != "true" and shutil.which("firebase"):
+        print("Credencial: la sesión de la CLI de Firebase («firebase login»)")
+        return entorno
     return None
 
 
@@ -85,9 +91,14 @@ def cli():
 
 
 def main():
+    argumentos = [a for a in sys.argv[1:] if not a.startswith("--")]
     solo_ver = "--ver" in sys.argv[1:]
-    json.loads((RAIZ / "database.rules.json").read_text(encoding="utf-8"))
-    print("database.rules.json es JSON válido")
+    objetivo = argumentos[0] if argumentos else "reglas"
+    if objetivo not in OBJETIVOS:
+        sys.exit("Uso: tools/desplegar reglas|web [--ver]")
+    if objetivo == "reglas":
+        json.loads((RAIZ / "database.rules.json").read_text(encoding="utf-8"))
+        print("database.rules.json es JSON válido")
 
     with tempfile.TemporaryDirectory() as tmp:
         entorno = credencial(tmp)
@@ -95,19 +106,20 @@ def main():
             print("\nFalta la credencial. Pon FIREBASE_SERVICE_ACCOUNT (recomendada) o FIREBASE_TOKEN\n"
                   "en las variables de entorno, y vuelve a intentarlo.")
             return 1
-        red = hay_red()
-        if not red:
+        if objetivo == "reglas" and not hay_red():
             print("\nLa red de este entorno no llega a la base. Hay que permitir *.firebaseio.com\n"
                   "en la política de red; la credencial por sí sola no alcanza.")
             return 1
         if solo_ver:
-            print("\nTodo listo: credencial, red y reglas válidas.")
+            print("\nTodo listo: credencial%s." % (", red y reglas válidas" if objetivo == "reglas" else ""))
             return 0
+        if objetivo == "web":
+            subprocess.run([sys.executable, str(RAIZ / "tools" / "construir_sitio")], check=True)
         if not cli():
             print("\nNo pude instalar firebase-tools.")
             return 1
         hecho = subprocess.run(
-            ["firebase", "deploy", "--only", "database", "--project", PROYECTO, "--non-interactive"],
+            ["firebase", "deploy", "--only", OBJETIVOS[objetivo], "--project", PROYECTO, "--non-interactive"],
             cwd=RAIZ, env=entorno)
         return hecho.returncode
 

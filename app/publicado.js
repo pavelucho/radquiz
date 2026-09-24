@@ -1,6 +1,6 @@
 // RadQuiz — lo que los autores acaban de publicar, leído directamente del estudio.
 //
-// El sitio de GitHub Pages se arma cuando corre el workflow, así que un tema recién publicado
+// La copia del sitio en Firebase Hosting se arma al desplegar, así que un tema recién publicado
 // tardaría en aparecer. Estos nodos de la base son de lectura pública (database.rules.json),
 // así que la web los consulta y el tema sale al instante. No hace falta el SDK de Firebase:
 // son peticiones REST normales, y si fallan la web sigue con lo que trajo el sitio.

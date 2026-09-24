@@ -3,7 +3,7 @@
 Casos radiológicos para residentes, en vivo (tipo Kahoot) y en práctica individual. Gratis, sin cuentas y en español.
 
 **Manual de uso** (residentes, presentadores, autores, revisores y coordinador): [manual.html](manual.html), en línea en
-https://pavelucho.github.io/radquiz/manual.html
+https://radquiz-shpn2.web.app/manual.html
 
 El plan completo está en el documento del proyecto; este archivo explica el repositorio.
 
@@ -37,14 +37,17 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
 
 ## En línea
 
-- Web: https://pavelucho.github.io/radquiz/ (GitHub Pages, gratis, siempre disponible).
-- Copia para la red del hospital, que bloquea GitHub por IP: https://radquiz-shpn2.web.app/ (Firebase Hosting, plan
-  Spark; también en `radquiz-shpn2.firebaseapp.com`). Mismo `_site`, se despliega con
-  `tools/construir_sitio && firebase deploy --only hosting`. Lo publicado en el estudio sale al instante en las dos.
-- Cada `git push` a `main` valida los temas, arma el sitio y lo publica (`.github/workflows/publicar.yml`).
+- Web: https://radquiz-shpn2.web.app/ (Firebase Hosting, plan Spark; también `radquiz-shpn2.firebaseapp.com`). Es la
+  única: la red del hospital bloquea GitHub por IP, y Firebase pasa. Se despliega con `tools/desplegar web`, que arma
+  `_site` con `tools/construir_sitio` y lo sube. Lo publicado en el estudio sale al instante, sin desplegar.
+- `.github/workflows/publicar.yml`, en cada `git push` a `main` y cada pocas horas: archiva en `temas/` lo publicado
+  en el estudio (un tema que no pasa el validador queda fuera, sin frenar nada), despliega la web si el repositorio
+  tiene el secreto de Firebase (ver más abajo; el papel que hace falta es «Firebase Hosting Admin») y deja en
+  `pavelucho.github.io/radquiz` solo una redirección a la misma ruta en Firebase (`redireccion/index.html`), para los
+  enlaces viejos.
 - **A la web solo salen los casos en estado `publicado`.** Los borradores quedan en el repositorio, pero no en el sitio.
 - La sala en vivo usa Firebase Realtime Database (plan Spark gratis, proyecto `radquiz-shpn2`, us-central1) solo para
-  el estado de cada sala. Si se cambian las reglas: `firebase deploy --only database,auth`.
+  el estado de cada sala. Si se cambian las reglas: `tools/desplegar reglas`.
 
 ## Estudio web (camino normal)
 
@@ -66,7 +69,7 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
 5. El tema aparece en la web al instante: `app/publicado.js` lee de la base los nodos públicos `indice_publicado`,
    `publicacion` y `verificacion`, y la portada, la práctica y la sala los usan sin esperar a ningún proceso.
 6. Por su cuenta, `.github/workflows/publicar.yml` ejecuta `tools/traer_publicaciones`, que baja lo mismo al
-   repositorio, lo valida y arma el sitio. Las figuras que están en Drive no se copian: la web las pide a la API de
+   repositorio y lo valida tema por tema. Las figuras que están en Drive no se copian: la web las pide a la API de
    Drive con la clave del sitio (`claveDrive` en `app/firebase-config.js`, que en Google Cloud tiene que tener
    permitida la API de Google Drive). En práctica hay filtro «solo verificados»; la sala en vivo usa verificados por
    defecto. Cualquiera puede reportar un error desde la web (`reportes/`), y eso pone el caso al principio de la cola.
@@ -118,8 +121,10 @@ publicar sigue funcionando: el tema aparece cuando el workflow lo baje.
 `.github/workflows/reglas.yml` las despliega solo cuando cambia `database.rules.json`, si el repositorio tiene el
 secreto `FIREBASE_SERVICE_ACCOUNT` (JSON de una cuenta de servicio con el papel «Firebase Realtime Database Admin»,
 que es lo recomendado; **no** «Firebase Rules Admin», que es de Firestore y Storage) o `FIREBASE_TOKEN` (lo que
-imprime `firebase login:ci`, más rápido pero vale por toda la cuenta).
-Sin secreto el workflow avisa y no falla, y queda el camino de siempre: `firebase deploy --only database`.
+imprime `firebase login:ci`, más rápido pero vale por toda la cuenta). Para que `publicar.yml` despliegue también la
+web, la misma cuenta necesita además el papel «Firebase Hosting Admin».
+Sin secreto los workflows avisan y no fallan, y queda el camino a mano: `tools/desplegar reglas` y
+`tools/desplegar web`, que fuera de GitHub usan la sesión de la CLI de Firebase si no hay credencial.
 
 ## Sala en vivo
 

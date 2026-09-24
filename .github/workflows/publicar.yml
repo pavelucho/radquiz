@@ -1,28 +1,35 @@
-name: Publicar sitio
+name: Publicar
+
+# La web está en Firebase Hosting: https://radquiz-shpn2.web.app. Este workflow:
+# 1. Archiva en temas/ lo publicado en el estudio: el texto y los ids de Drive (las figuras se quedan en el
+#    Drive de quien publica). Un tema que no pasa el validador se queda fuera del archivo y no frena nada.
+# 2. Despliega la web en Firebase Hosting con «tools/desplegar web», si hay credencial en Settings →
+#    Secrets and variables → Actions: FIREBASE_SERVICE_ACCOUNT (cuenta de servicio con el papel «Firebase
+#    Hosting Admin») o FIREBASE_TOKEN. Sin credencial avisa y no falla: se despliega a mano con el mismo
+#    comando.
+# 3. En GitHub Pages deja solo una redirección (redireccion/index.html), para que los enlaces viejos a
+#    pavelucho.github.io/radquiz lleguen a la misma ruta en Firebase.
 
 on:
   push:
     branches: [main]
   schedule:
     # Minutos desplazados a propósito: GitHub encola y descarta los crones en el
-    # filo de la hora, y "*/15" cae justo en :00. Sigue siendo cada 15 minutos.
+    # filo de la hora, y "*/15" cae justo en :00. En la práctica corre cada pocas horas.
     - cron: "7,22,37,52 * * * *"
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
 concurrency:
-  group: pages
+  group: publicar
   cancel-in-progress: false
 
 jobs:
-  construir:
+  archivar:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
-      publicar: ${{ steps.decidir.outputs.publicar }}
+      desplegar: ${{ steps.decidir.outputs.desplegar }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -33,19 +40,22 @@ jobs:
         id: traer
         run: python tools/traer_publicaciones
 
+      # Informa y no frena: traer_publicaciones ya deja fuera del archivo los temas que no pasan.
       - name: Validar temas
+        continue-on-error: true
         run: python tools/validar
 
-      - name: Guardar los temas nuevos en el repositorio
+      - name: Guardar los temas en el repositorio
         if: steps.traer.outputs.cambios == 'true'
         run: |
           git config user.name "RadQuiz"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add temas
-          git commit -m "Publica los cuestionarios aprobados en el estudio"
+          git commit -m "Archiva los cuestionarios publicados en el estudio"
+          git pull --rebase
           git push
 
-      - name: Mantener activa la publicación automática
+      - name: Mantener activo el cron
         if: github.event_name == 'schedule' && steps.traer.outputs.cambios != 'true'
         run: |
           ultimo=$(git log -1 --format=%ct)
@@ -56,33 +66,69 @@ jobs:
             git push
           fi
 
-      - name: ¿Hace falta publicar?
+      - name: ¿Hace falta desplegar?
         id: decidir
         run: |
           if [ "${{ github.event_name }}" != "schedule" ] || [ "${{ steps.traer.outputs.cambios }}" = "true" ]; then
-            echo "publicar=true" >> "$GITHUB_OUTPUT"
+            echo "desplegar=true" >> "$GITHUB_OUTPUT"
           else
-            echo "publicar=false" >> "$GITHUB_OUTPUT"
+            echo "desplegar=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Armar el sitio (solo casos publicados)
-        if: steps.decidir.outputs.publicar == 'true'
-        run: python tools/construir_sitio
-
-      - uses: actions/configure-pages@v6
-        if: steps.decidir.outputs.publicar == 'true'
-      - uses: actions/upload-pages-artifact@v5
-        if: steps.decidir.outputs.publicar == 'true'
-        with:
-          path: _site
-
-  publicar:
-    needs: construir
-    if: needs.construir.outputs.publicar == 'true'
+  firebase:
+    needs: archivar
+    if: needs.archivar.outputs.desplegar == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main  # con lo que acaba de archivar el trabajo anterior
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: ¿Hay credencial?
+        id: credencial
+        env:
+          CUENTA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          if [ -n "$CUENTA" ] || [ -n "$TOKEN" ]; then
+            echo "hay=si" >> "$GITHUB_OUTPUT"
+          else
+            echo "hay=no" >> "$GITHUB_OUTPUT"
+            echo "::warning::Sin credencial de Firebase: la web no se despliega sola. Añade el secreto FIREBASE_SERVICE_ACCOUNT (cuenta de servicio con el papel Firebase Hosting Admin) o FIREBASE_TOKEN, o corre «tools/desplegar web» a mano."
+          fi
+
+      - name: Desplegar la web en Firebase Hosting
+        if: steps.credencial.outputs.hay == 'si'
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: python3 tools/desplegar web
+
+  redireccion:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.despliegue.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v7
+      - name: Armar la redirección
+        run: |
+          mkdir -p _redireccion
+          cp redireccion/index.html _redireccion/index.html
+          cp redireccion/index.html _redireccion/404.html
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _redireccion
       - id: despliegue
         uses: actions/deploy-pages@v5

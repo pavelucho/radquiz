@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RadQuiz se mudó</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://radquiz-shpn2.web.app/">
+<script>
+  // RadQuiz ya no se publica en GitHub Pages. El workflow deja esta página como index.html y como 404.html
+  // de pavelucho.github.io/radquiz, así que cualquier enlace viejo llega aquí y sigue a la misma ruta en
+  // Firebase Hosting, con la consulta incluida: el código de una sala o el tema de una práctica.
+  (function () {
+    var partes = location.pathname.split("/");
+    if (/\.github\.io$/.test(location.hostname)) partes.splice(1, 1);  // quita «/radquiz»
+    var ruta = partes.join("/") || "/";
+    location.replace("https://radquiz-shpn2.web.app" + ruta + location.search + location.hash);
+  })();
+</script>
+<meta http-equiv="refresh" content="3; url=https://radquiz-shpn2.web.app/">
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 16px; background: #0c1015; color: #e7ecf2; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  a { color: #f0c24b; }
+</style>
+</head>
+<body>
+<main>
+  <h1>RadQuiz se mudó</h1>
+  <p>Ahora está en <a href="https://radquiz-shpn2.web.app/">radquiz-shpn2.web.app</a>, que también abre desde la red del hospital.</p>
+</main>
+</body>
+</html>

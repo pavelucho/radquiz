@@ -104,8 +104,8 @@
       <h3 id="antes">Antes de la clase</h3>
       <ul>
         <li>Una laptop conectada al proyector con Chrome, Edge, Safari o Firefox actualizado.</li>
-        <li>En una PC del hospital entra por <b>radquiz-shpn2.web.app</b>: la red bloquea GitHub, y esa dirección
-          lleva a la misma web. El código QR y la dirección que ven los residentes salen de ahí solos.</li>
+        <li>Entra por <b>radquiz-shpn2.web.app</b>, que abre también desde la red del hospital. El código QR y la
+          dirección que ven los residentes salen de ahí solos.</li>
         <li>Comprueba que la red del lugar deje entrar a la sala: abre <b>Sala en vivo</b> desde el Wi-Fi que usarán los
           residentes. Si falla, pueden usar sus datos móviles.</li>
         <li>La sala en vivo usa por defecto solo los casos <b>verificados</b> por un radiólogo. El selector de temas te
@@ -322,20 +322,22 @@
         <li><b>Borrar de verdad:</b> el botón <b>Borrar</b> de cualquier tarjeta. Cada autor puede borrar lo suyo; tú
           puedes borrar el de cualquiera. Hay que escribir BORRAR y no se deshace: se van los casos, las imágenes,
           los sellos y los reportes.</li>
-        <li><b>Si algo no aparece:</b> mira la pestaña <b>Actions</b> del repositorio en GitHub. Una ✗ roja significa
-          que el control automático encontró un problema; el detalle está en el paso «Validar temas».</li>
+        <li><b>El archivo en GitHub:</b> cada pocas horas, lo publicado se guarda en el repositorio. Un tema que no
+          pasa el control automático se ve igual en la web, pero no se archiva hasta que se corrija: en la pestaña
+          <b>Actions</b>, el workflow «Publicar» lo marca con un aviso amarillo que dice qué tema es.</li>
       </ol>
       <div class="tabla"><table>
         <thead><tr><th>Pieza</th><th>Dónde está</th><th>Para qué</th></tr></thead>
         <tbody>
           <tr><td>Estudio</td><td><a href="estudio.html">estudio</a></td><td>Preparar, revisar, aprobar y publicar</td></tr>
-          <tr><td>Web</td><td><a href="https://pavelucho.github.io/radquiz/">pavelucho.github.io/radquiz</a> y <a href="https://radquiz-shpn2.web.app/">radquiz-shpn2.web.app</a></td><td>Lo que ven los residentes; la segunda, para las PC del hospital</td></tr>
+          <tr><td>Web</td><td><a href="https://radquiz-shpn2.web.app/">radquiz-shpn2.web.app</a></td><td>Lo que ven los residentes, también desde la red del hospital. La dirección vieja, pavelucho.github.io/radquiz, lleva aquí</td></tr>
           <tr><td>Código y temas publicados</td><td><a href="https://github.com/pavelucho/radquiz">github.com/pavelucho/radquiz</a></td><td>Historial de todo lo publicado</td></tr>
           <tr><td>Salas y borradores</td><td><a href="https://console.firebase.google.com/project/radquiz-shpn2/database">Firebase</a></td><td>Base de datos gratuita del estudio y de las salas</td></tr>
         </tbody>
       </table></div>
-      <p class="muted">Límites del plan gratis: 100 personas conectadas a la vez en las salas; sitio de hasta 1 GB y unos
-        100 GB de tráfico al mes.</p>
+      <p class="muted">Límites del plan gratis de Firebase: 100 personas conectadas a la vez en las salas; la web sirve
+        unos 360 MB al día y la base, 10 GB al mes. Las figuras publicadas no cuentan: salen del Google Drive de quien
+        las publicó.</p>
     </section>
 
     <!-- ============================================================ PROBLEMAS -->
@@ -347,7 +349,8 @@
           <tr><td>«No hay una sala con ese código»</td><td>Revisa las 4 letras. Si el presentador cerró la sala, pide el código nuevo.</td></tr>
           <tr><td>«No se registró la respuesta»</td><td>El tiempo ya había terminado o ya habías respondido esa pregunta.</td></tr>
           <tr><td>El celular no entra o se queda en «Conectando…»</td><td>La red puede estar bloqueando la conexión: cambia a datos móviles.</td></tr>
-          <tr><td>La web no abre en una PC del hospital</td><td>La red bloquea GitHub. Entra por <b>radquiz-shpn2.web.app</b> (o <b>radquiz-shpn2.firebaseapp.com</b>): es la misma web.</td></tr>
+          <tr><td>La web no abre en una PC del hospital</td><td>Entra por <b>radquiz-shpn2.web.app</b> (o <b>radquiz-shpn2.firebaseapp.com</b>, que es la misma). La dirección vieja de GitHub no abre en la red del hospital.</td></tr>
+          <tr><td>Tengo guardado un enlace a pavelucho.github.io/radquiz</td><td>Fuera del hospital sigue funcionando: te lleva a la misma página en radquiz-shpn2.web.app. Guarda la dirección nueva.</td></tr>
           <tr><td>La sala en vivo no conecta en la laptop</td><td>Proyecta el tema en <b>Practicar</b> y que respondan a mano alzada.</td></tr>
           <tr><td>La imagen tarda en aparecer</td><td>Red lenta. Espera unos segundos; la siguiente se descarga de antemano.</td></tr>
           <tr><td>Un tema dice «Sin publicar»</td><td>Sus casos siguen en borrador: nadie los ha publicado todavía.</td></tr>

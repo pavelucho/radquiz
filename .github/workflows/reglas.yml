@@ -2,7 +2,7 @@ name: Desplegar reglas
 
 # Las reglas de database.rules.json deciden quién puede escribir qué en la base, y no sirven de
 # nada hasta que se despliegan. Hacerlo a mano se olvida, así que lo hace este workflow cada vez
-# que el archivo cambia en main. El trabajo lo hace tools/desplegar_reglas, el mismo comando que
+# que el archivo cambia en main. El trabajo lo hace «tools/desplegar reglas», el mismo comando que
 # se usa desde una sesión de Claude Code, para que el camino sea uno solo y esté probado.
 #
 # Hace falta una credencial en Settings → Secrets and variables → Actions. Cualquiera de las dos:
@@ -20,7 +20,7 @@ on:
     paths:
       - database.rules.json
       - firebase.json
-      - tools/desplegar_reglas
+      - tools/desplegar
       - .github/workflows/reglas.yml
   workflow_dispatch:
 
@@ -56,4 +56,4 @@ jobs:
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: python3 tools/desplegar_reglas
+        run: python3 tools/desplegar reglas

@@ -16,18 +16,37 @@ llevan la marca .origen-estudio).
 Las figuras no se copian: están en el Google Drive de quien publicó y la ficha de cada imagen lleva el
 id del archivo («drive»). Solo los temas publicados antes de eso las traen en base64 desde
 «publicacion_img», y esas sí se guardan en img/.
+
+Cada tema pasa por tools/validar antes de entrar: uno que no pasa se queda fuera del archivo, con su
+versión anterior si la había, y los demás siguen.
 """
 
 import argparse
 import base64
+import importlib.machinery
+import importlib.util
 import json
 import os
 import re
+import shutil
 import sys
+import tempfile
 import urllib.request
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
+
+
+def cargar_validador():
+    """tools/validar como módulo, para validar cada tema antes de guardarlo."""
+    cargador = importlib.machinery.SourceFileLoader("validar", str(RAIZ / "tools" / "validar"))
+    modulo = importlib.util.module_from_spec(importlib.util.spec_from_loader("validar", cargador))
+    cargador.exec_module(modulo)
+    return modulo
+
+
+VALIDAR = cargar_validador()
+ESQUEMAS = VALIDAR.Esquemas(VALIDAR.CARPETA_ESQUEMAS)
 BASE = os.environ.get("RADQUIZ_DB", "https://radquiz-shpn2-default-rtdb.firebaseio.com")
 SEGMENTOS = json.loads((RAIZ / "schema" / "paquete.schema.json").read_text(encoding="utf-8"))["$defs"]["segmento"]["enum"]
 NOMBRE = re.compile(r"^[a-z0-9]+([-_][a-z0-9]+)*\.jpg$")
@@ -102,25 +121,38 @@ def escribir_tema(clave, publicacion, verificacion, solo_ver):
         if not NOMBRE.match(ficha.get("archivo", "")) or not valida:
             print("  ⚠ %s: imagen %s inválida; salto el tema" % (clave, img_id))
             return False
-    (carpeta / "img").mkdir(parents=True, exist_ok=True)
-    esperados = set()
-    for img_id, ficha in fichas.items():
-        if img_id in en_drive:
-            continue  # vive en el Drive de quien publicó: el repositorio no guarda copia
-        archivo = ficha["archivo"]
-        (carpeta / "img" / archivo).write_bytes(base64.b64decode(imagenes[img_id].split(",", 1)[1]))
-        esperados.add(archivo)
-    for sobrante in (carpeta / "img").iterdir():
-        if sobrante.is_file() and sobrante.name not in esperados:
-            sobrante.unlink()
-    if not any((carpeta / "img").iterdir()):
-        (carpeta / "img").rmdir()
-
-    actual.write_text(nuevo, encoding="utf-8")
-    (carpeta / "fuentes.json").write_text(json.dumps(fuentes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (carpeta / MARCA).write_text("Este tema lo mantiene el estudio web; no lo edites a mano.\n", encoding="utf-8")
+    # Se arma aparte y se valida: un tema que no pasa no entra al archivo (y el que ya estaba se queda como
+    # estaba), sin frenar a los demás ni el despliegue.
+    with tempfile.TemporaryDirectory() as tmp:
+        borrador = Path(tmp) / "temas" / segmento / tema_id
+        (borrador / "img").mkdir(parents=True)
+        aqui = 0
+        for img_id, ficha in fichas.items():
+            if img_id in en_drive:
+                continue  # vive en el Drive de quien publicó: el repositorio no guarda copia
+            (borrador / "img" / ficha["archivo"]).write_bytes(base64.b64decode(imagenes[img_id].split(",", 1)[1]))
+            aqui += 1
+        if not aqui:
+            (borrador / "img").rmdir()
+        (borrador / "paquete.json").write_text(nuevo, encoding="utf-8")
+        (borrador / "fuentes.json").write_text(json.dumps(fuentes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        (borrador / MARCA).write_text("Este tema lo mantiene el estudio web; no lo edites a mano.\n", encoding="utf-8")
+        reporte, _ = VALIDAR.validar_paquete(borrador, ESQUEMAS, set())
+        if reporte.errores:
+            print("  ⚠ %s: no pasa el validador; queda fuera del archivo hasta que se corrija" % clave)
+            for gravedad, donde, mensaje in reporte.lineas:
+                if gravedad == "ERROR":
+                    print("      %s: %s" % (donde, mensaje))
+            if os.environ.get("GITHUB_ACTIONS") == "true":
+                print("::warning::%s no pasa el validador (%d errores) y no se archiva: corrígelo en el estudio y "
+                      "vuelve a publicarlo." % (clave, reporte.errores))
+            return False
+        if carpeta.exists():
+            shutil.rmtree(carpeta)
+        carpeta.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(borrador, carpeta)
     print("  ✓ %s/%s versión %s: %d casos (%d verificados), %d imágenes aquí y %d en Drive"
-          % (segmento, tema_id, version, len(paquete["casos"]), sellados, len(esperados), len(en_drive)))
+          % (segmento, tema_id, version, len(paquete["casos"]), sellados, aqui, len(en_drive)))
     return True
 
 

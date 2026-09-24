@@ -8,7 +8,8 @@ residentes entran desde el celular con un código de sala de 4 letras + nombre, 
 Modos v1: sesión en vivo y práctica individual. Todos los segmentos de la radiología.
 
 ## Arquitectura (decidida)
-- Un repositorio en GitHub: app + temas + imágenes. Publicado con GitHub Pages.
+- Un repositorio en GitHub: app + temas (texto e ids de Drive; las figuras las aloja quien publica). La web está en
+  Firebase Hosting; GitHub Pages ya no se usa, salvo para redirigir los enlaces viejos (decisión del 2026-09-23).
 - Firebase Realtime Database (plan Spark, gratis, 100 conexiones simultáneas) solo para el estado de las salas en vivo.
 - App estática HTML + JavaScript, sin servidor propio. La práctica individual NO depende de Firebase.
 
@@ -56,18 +57,21 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   El lobby del presentador muestra, junto al código, un QR del enlace `sala.html?c=<código>` (se escanea y se
   entra con el código puesto). Lo dibuja `app/qr.js`, generador propio sin dependencias ni CDN —la red del
   hospital puede no dejar salir— modo byte, corrección M, versiones 1 a 10.
-- En línea: repositorio público `pavelucho/radquiz`, web en https://pavelucho.github.io/radquiz/ (GitHub Pages).
-  `tools/construir_sitio` + `.github/workflows/publicar.yml`: solo los casos `publicado` salen a la web (decisión del
-  autor: nunca borradores en la web).
+- En línea: repositorio público `pavelucho/radquiz` y **una sola web, en Firebase Hosting**:
+  https://radquiz-shpn2.web.app (también `radquiz-shpn2.firebaseapp.com`). Solo los casos `publicado` salen a la
+  web (decisión del autor: nunca borradores en la web). Se despliega con `tools/desplegar web`, que arma `_site`
+  con `tools/construir_sitio` y lo sube; fuera de GitHub usa la sesión de la CLI si no hay credencial. Lo publicado
+  en el estudio aparece al instante sin desplegar: redesplegar solo hace falta cuando cambia el código.
 - **La red del hospital bloquea GitHub por IP** (github.com y github.io: el DNS resuelve, la conexión al 443 se
   corta; un dominio propio apuntado a GitHub Pages tampoco pasaría). Firebase sí pasa: base con WebSocket, gstatic,
-  identitytoolkit y Hosting. Medido el 2026-09-21 desde el Mac del autor, sin acceso a GitHub en ese momento.
-  Por eso hay una copia del sitio en **Firebase Hosting**: https://radquiz-shpn2.web.app (también
-  `radquiz-shpn2.firebaseapp.com`), el mismo `_site`, para proyectar desde las PC del hospital. Se despliega **a
-  mano** con `tools/construir_sitio && firebase deploy --only hosting` (primera vez el 2026-09-21; portada,
-  práctica, sala y estudio probados ahí). El QR y la dirección del lobby salen de `location`, así que los
-  residentes entran por el mismo dominio que el presentador. Lo publicado en el estudio aparece al instante en
-  las dos webs; redesplegar solo hace falta cuando cambian el código o los temas del repositorio.
+  identitytoolkit y Hosting. Medido el 2026-09-21 desde el Mac del autor. Por eso, desde el 2026-09-23, GitHub
+  Pages no sirve la web: `pavelucho.github.io/radquiz` solo tiene `redireccion/index.html` (como index y como 404),
+  que manda a la misma ruta en Firebase con la consulta incluida. El QR y la dirección del lobby salen de
+  `location`.
+- `.github/workflows/publicar.yml` («Publicar»), en cada push a `main` y cada pocas horas: archiva en `temas/` lo
+  publicado (`tools/traer_publicaciones` valida cada tema antes de guardarlo: el que no pasa queda fuera con un
+  aviso y no frena nada; «Validar temas» informa sin bloquear), despliega la web en Firebase si hay secreto, y en
+  cada push vuelve a dejar la redirección en Pages. Límite de Hosting en Spark: unos 360 MB al día de tráfico.
 - Estudio web (`estudio.html` + `app/estudio.js`): quien entra con Google queda de alta como autor solo
   (`usuarios/`); «revisor» y «coordinador» los da el coordinador. Publicar es directo; verificar es posterior
   (`verificacion/`), lo hace cualquier revisor sobre cualquier caso publicado —incluidos los suyos, con el botón
@@ -121,29 +125,22 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - Herramientas: `gh` está en `~/.local/bin/gh` (no en el PATH); `firebase` global vía npm.
 
 ## Pendiente
-1. **Poner el secreto de Firebase en GitHub.** Las reglas están desplegadas: el 2026-09-20 se corrió
-   `firebase deploy --only database` a mano desde la máquina del autor, con la sesión de la CLI ya iniciada, e
-   incluyen ya lo que hace falta para borrar un tema publicado. Pero el workflow `reglas.yml` sigue **sin
-   credencial**: termina en verde y solo avisa, así que el próximo cambio de `database.rules.json` tampoco se
-   desplegará solo y habrá que repetir el comando a mano.
-   Comprobado tras el despliegue: `indice_publicado`, `publicacion` y `verificacion` se leen sin sesión (HTTP
-   200) y `estudio` sigue cerrado (401). `indice_publicado` está vacío porque el estudio nunca pudo escribirlo;
-   se llenará en la próxima publicación, y hasta entonces la web se apaña con `temas/indice.json`.
-   `tools/desplegar_reglas` lo hace sin sesión
-   interactiva, y es el mismo comando que corre el workflow. Necesita, en variables de entorno o en secretos:
-   `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con el papel «Firebase
-   Realtime Database Admin»; **no** «Firebase Rules Admin», que es de Firestore y Storage) o `FIREBASE_TOKEN`
-   (de `firebase login:ci`). Caminos:
-   - Sin nada de eso: pegar `database.rules.json` en la consola de Firebase y publicar; o
-     `firebase deploy --only database` en una terminal con sesión iniciada.
-   - En GitHub: el secreto en Settings → Secrets and variables → Actions. `.github/workflows/reglas.yml`
-     despliega en cada cambio de `database.rules.json`; sin secreto solo avisa, no falla.
-   - Con el secreto puesto conviene que `publicar.yml` despliegue también Firebase Hosting (hoy es a mano); la
-     cuenta de servicio necesitaría además el papel «Firebase Hosting Admin».
+1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
+   avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
+   `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas y la web en línea están
+   al día a 2026-09-23 (desplegadas así).
+   `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
+   secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
+   «Firebase Realtime Database Admin» y «Firebase Hosting Admin»; **no** «Firebase Rules Admin», que es de
+   Firestore y Storage) o `FIREBASE_TOKEN` (de `firebase login:ci`). Caminos:
+   - Sin nada de eso: `tools/desplegar reglas|web` en una terminal con sesión iniciada, o pegar
+     `database.rules.json` en la consola de Firebase.
+   - En GitHub: el secreto en Settings → Secrets and variables → Actions. `reglas.yml` despliega las reglas en
+     cada cambio de `database.rules.json`; `publicar.yml`, la web en cada push a `main`.
    - Desde una sesión de Claude Code en la web: además del secreto como variable de entorno del entorno,
      **la política de red tiene que permitir `*.firebaseio.com`**. Las reglas se escriben en
      `<instancia>.firebaseio.com/.settings/rules.json`, no en `googleapis.com`, así que sin ese dominio
-     no hay despliegue por mucha credencial que haya. `tools/desplegar_reglas --ver` lo diagnostica.
+     no hay despliegue por mucha credencial que haya. `tools/desplegar reglas --ver` lo diagnostica.
 2. Que un segundo radiólogo mire el tema ATM. Ya está verificado, pero por su propio autor, y el sello dice quién
    lo puso. De paso quedan cuatro fichas con `plano`/`secuencia` en `null` porque la leyenda no lo dice, y sus
    `notas` piden confirmarlo mirando la imagen: Fig. 8 (¿T2 con supresión grasa?), Fig. 12 (¿sagital oblicuo?),
@@ -152,8 +149,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 3. Probar la red de HNERM antes del ensayo con 3 colegas. Desde el Mac del autor ya pasa Firebase (ver arriba);
    falta abrir https://radquiz-shpn2.web.app en la **PC que proyecta** y entrar a una sala desde un celular en el
    wifi del hospital. Con las figuras en Drive hay que comprobar también que pasa `www.googleapis.com` (la web
-   pide ahí cada figura). Si la copia de Firebase Hosting se queda atrás del repositorio, los temas que falten
-   salen igual desde la base: redesplegarla tras cada `git pull`.
+   pide ahí cada figura).
 4. Decidir la licencia del código y la de los textos propios.
 
 ## Preferencias del autor (Pavel, residente de radiología)
