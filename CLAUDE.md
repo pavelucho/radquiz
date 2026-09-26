@@ -132,7 +132,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   se usan los archivos del sitio. Si la base no responde, la web sigue con lo del sitio.
   `tools/traer_publicaciones` baja lo mismo al repositorio por su cuenta, desde el workflow, sin copiar las figuras
   que están en Drive.
-- Diseño (2026-09-26): `app/estilos.css` es el sistema de diseño de toda la web. Las fichas (colores, tipografía,
+- Diseño (2026-09-25): `app/estilos.css` es el sistema de diseño de toda la web. Las fichas (colores, tipografía,
   radios, íconos) van al principio, en `:root`; debajo, los componentes, por pantalla. La idea es una sala de
   lectura: fondo oscuro y neutro, y el amarillo de las anotaciones como color de la marca y de lo que se toca; cada
   letra A–E tiene su color, y ✓/✗ acompañan al verde y al rojo. Los tres colores de texto pasan 4,5:1 sobre todas
@@ -151,8 +151,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 ## Pendiente
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
-   `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas y la web en línea están
-   al día a 2026-09-23 (desplegadas así).
+   `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
+   2026-09-23 y la web a 2026-09-25, con el rediseño (desplegadas así).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
    «Firebase Realtime Database Admin» y «Firebase Hosting Admin»; **no** «Firebase Rules Admin», que es de
