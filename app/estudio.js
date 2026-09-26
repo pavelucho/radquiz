@@ -314,12 +314,13 @@ async function cargarImagenes(id) {
 
 // ------------------------------------------------------------------ arranque y sesión
 function entrar() {
-  app.innerHTML = `<section class="panel" style="display:grid;gap:14px;max-width:640px">
-    <h1>Estudio de RadQuiz</h1>
-    <p>Aquí se preparan los cuestionarios: el autor arma el tema con la ayuda de la IA que prefiera, un radiólogo lo
-      revisa y el coordinador lo publica. Todo desde el navegador.</p>
-    <div class="row"><button class="primary" id="google">Entrar con Google</button>
-      <a class="boton" href="manual.html#autores">Cómo funciona</a></div>
+  app.innerHTML = `<section class="panel entrar">
+    <p class="eyebrow">Estudio de RadQuiz</p>
+    <h1>Prepara y publica tus cuestionarios</h1>
+    <p class="lead">Armas el tema con la IA que prefieras y lo publicas tú; después un radiólogo le pone el sello de
+      verificado, caso por caso. Todo desde el navegador.</p>
+    <div class="row"><button class="primary lg" id="google">Entrar con Google</button>
+      <a class="boton lg" href="manual.html#autores">Cómo funciona</a></div>
     <p class="src">Se usa tu cuenta de Google solo para saber quién escribe y quién revisa cada caso.</p>
   </section>`;
   $("#google").onclick = async () => {
@@ -380,10 +381,11 @@ function tarjetaTema(t) {
   const mio = soyAutor(t);
   const puedeVerificar = esRevisor() && !mio && t.meta.estado === "publicado";
   return `<article class="panel tema-card">
-    <div class="row" style="justify-content:space-between"><h3>${esc(t.meta.titulo || t.id)}</h3>${chipEstado(t.meta.estado)}</div>
+    <div class="etiquetas">${chipEstado(t.meta.estado)}</div>
+    <h3>${esc(t.meta.titulo || t.id)}</h3>
     <p class="meta">${esc(SEGMENTOS[t.meta.segmento] || t.meta.segmento || "")} · ${n.casos} casos · ${esc(t.meta.autor_nombre || "")}${mio ? " (tú)" : ""}</p>
     <p class="meta">${n.verificados} ${n.verificados === 1 ? "verificado" : "verificados"}${n.problemas ? ` · ${n.problemas} con problema` : ""}${n.reportados ? ` · ${n.reportados} reportados` : ""}${sinPublicar(t) ? " · cambios sin publicar" : ""}</p>
-    <div class="row"><a class="boton" href="#/tema/${esc(t.id)}">${puedeEditar(t) ? "Abrir" : puedeVerificar ? "Verificar" : "Ver"}</a>
+    <div class="row acciones"><a class="boton" href="#/tema/${esc(t.id)}">${puedeEditar(t) ? "Abrir" : puedeVerificar ? "Verificar" : "Ver"}</a>
       ${puedeEditar(t) ? `<button class="peligrosa" data-borrar-tema="${esc(t.id)}">Borrar</button>` : ""}</div>
   </article>`;
 }
@@ -404,16 +406,19 @@ function inicio() {
     <h2>${titulo}</h2>
     ${lista_.length ? `<div class="temas">${lista_.map(tarjetaTema).join("")}</div>` : `<p class="muted">${vacio}</p>`}</section>`;
 
-  app.innerHTML = `<div style="display:grid;gap:22px">
+  app.innerHTML = `<div class="stack segmentos">
+    <div class="seccion-cabeza">
+      <div class="stack" style="gap:4px"><p class="eyebrow">Estudio</p><h1>Cuestionarios</h1></div>
+      <span class="row"><a class="boton primary" href="#/nuevo">Nuevo cuestionario</a>
+        <button id="copiar-ia-zip" title="El texto para que tu IA saque las figuras del PDF y te devuelva el cuestionario entero en un .zip">Instrucciones para la IA</button>
+        <button id="subir-zip" title="Sube el .zip que te devolvió tu IA: aquí lo revisas antes de crear nada">Subir un .zip</button>
+        <input type="file" id="archivo-zip" accept=".zip,application/zip" hidden></span>
+    </div>
     ${esCoord() && pendientes ? `<p class="caja">Hay ${pendientes} pedido(s) para verificar casos. <a href="#/equipo">Ver</a></p>` : ""}
     ${esRevisor() ? bloque("Para verificar", porVerificar,
         "Todo verificado. Los temas con casos reportados o sin verificar aparecen aquí primero.") : ""}
     <section class="segmento">
-      <div class="row" style="justify-content:space-between"><h2>Mis temas</h2>
-        <span class="row"><a class="boton primary" href="#/nuevo">Nuevo cuestionario</a>
-          <button id="copiar-ia-zip" title="El texto para que tu IA saque las figuras del PDF y te devuelva el cuestionario entero en un .zip">Instrucciones para la IA</button>
-          <button id="subir-zip" title="Sube el .zip que te devolvió tu IA: aquí lo revisas antes de crear nada">Subir un .zip</button>
-          <input type="file" id="archivo-zip" accept=".zip,application/zip" hidden></span></div>
+      <h2>Mis temas</h2>
       ${mios.length ? `<div class="temas">${mios.map(tarjetaTema).join("")}</div>` : `<p class="muted">Todavía no creaste ninguno. Cualquiera puede publicar; los radiólogos ponen el sello de verificado.</p>`}
     </section>
     ${otros.length ? bloque("Otros temas", otros, "") : ""}
@@ -451,8 +456,8 @@ function inicio() {
 function equipo() {
   const pedidos = Object.entries(solicitudes);
   const gente = Object.entries(miembros);
-  app.innerHTML = `<div style="display:grid;gap:20px">
-    <div class="row"><a class="boton" href="#/">Volver</a></div>
+  app.innerHTML = `<div class="stack segmentos">
+    <div class="stack" style="gap:6px"><a class="volver" href="#/">← Todos los temas</a><h1>Equipo</h1></div>
     <section class="segmento"><h2>Pedidos para verificar casos</h2>
       ${pedidos.length ? pedidos.map(([uid, s]) => `<div class="panel" style="display:grid;gap:8px">
         <b>${esc(s.nombre)}</b><p class="src">${esc(s.email)} · pide ser ${esc(s.rol)}${s.mensaje ? ` · «${esc(s.mensaje)}»` : ""}</p>
@@ -555,8 +560,8 @@ function vistaImportar() {
   const v = validarTema(t);
   const imagenes = imagenesOrdenadas(t);
   const casos = casosOrdenados(t);
-  app.innerHTML = `<div style="display:grid;gap:18px">
-    <div><a class="src" href="#/">← Todos los temas</a><h1>${esc(d.meta.titulo)}</h1>
+  app.innerHTML = `<div class="stack stack-lg">
+    <div class="stack" style="gap:6px"><a class="volver" href="#/">← Todos los temas</a><h1>${esc(d.meta.titulo)}</h1>
       <p class="muted">${esc(SEGMENTOS[d.meta.segmento] || d.meta.segmento || "sin segmento")} ·
         ${casos.length} casos · ${imagenes.length} imágenes · de ${esc(d.nombre)}</p></div>
     ${d.faltan.length ? `<p class="caja">El .zip no traía ${d.faltan.length} imagen(es): ${esc(d.faltan.slice(0, 6).join(", "))}${d.faltan.length > 6 ? "…" : ""}.
@@ -662,8 +667,8 @@ function vistaTema() {
   const revisando = esRevisor() && publicado && (modoVerificar || !puedeEditar(t));
   const alternar = esRevisor() && publicado && puedeEditar(t)
     ? `<button id="alternar">${modoVerificar ? "Volver a editar" : "Verificar casos"}</button>` : "";
-  const cabecera = `<div class="row" style="justify-content:space-between;align-items:baseline">
-      <div><a class="src" href="#/">← Todos los temas</a><h1>${esc(t.meta.titulo)}</h1>
+  const cabecera = `<div class="seccion-cabeza tema-cabeza">
+      <div class="stack" style="gap:6px"><a class="volver" href="#/">← Todos los temas</a><h1>${esc(t.meta.titulo)}</h1>
         <p class="muted">${esc(SEGMENTOS[t.meta.segmento] || "")} · ${esc(t.meta.autor_nombre || "")} · ${chipEstado(t.meta.estado)}</p></div>
       ${alternar}
     </div>`;
@@ -694,7 +699,7 @@ function panelSoloLectura(t) {
 
 // ---------- editor del autor
 function pasos(t, v) {
-  const marca = (ok) => (ok ? "✓" : "•");
+  const marca = (ok) => (ok ? `<span class="paso-marca">✓</span>` : `<span class="paso-marca falta" title="Falta corregir algo">•</span>`);
   const items = [
     ["fuente", `${marca(!v.fuente.some((p) => p.tipo === "error"))} 1. Fuente`],
     ["imagenes", `${marca(imagenesOrdenadas(t).length && !Object.values(v.imagenes).flat().some((p) => p.tipo === "error"))} 2. Imágenes`],
@@ -721,15 +726,15 @@ function pasoFuente(t, v) {
     <h2>1. De dónde salen las imágenes</h2>
     <p class="muted">Solo se pueden usar artículos de acceso abierto o bancos públicos con licencia que permita uso educativo.</p>
     <div class="row" style="align-items:end">
-      <label class="grid-label" style="flex:1">DOI del artículo
+      <label class="grid-label crece">DOI del artículo
         <input type="text" id="doi" value="${esc(f.doi || "")}" placeholder="10.24875/AJI.23000069"></label>
       <button id="buscar">Completar con el DOI</button>
     </div>
     <label class="grid-label">Cita completa<textarea id="cita" rows="3">${esc(f.cita || "")}</textarea></label>
     <div class="row">
-      <label class="grid-label" style="flex:1">Crédito corto (aparece bajo la imagen)
+      <label class="grid-label crece">Crédito corto (aparece bajo la imagen)
         <input type="text" id="credito" maxlength="80" value="${esc(f.credito || "")}" placeholder="López-Ramírez M, et al. Austral J Imaging. 2024"></label>
-      <label class="grid-label" style="flex:1">Enlace a la fuente
+      <label class="grid-label crece">Enlace a la fuente
         <input type="text" id="url" value="${esc(f.url || "")}" placeholder="https://…"></label>
     </div>
     <label class="grid-label">Titular de los derechos (lo que dice «©» en la fuente)
@@ -965,7 +970,7 @@ function formularioCaso(t, id) {
   return `<section class="panel" style="display:grid;gap:12px">
     <h2>Caso</h2>
     <div class="row">
-      <label class="grid-label" style="flex:1">Subtema<input type="text" id="c-tema" maxlength="80" value="${esc(caso.tema || "")}" placeholder="Desplazamiento discal"></label>
+      <label class="grid-label crece">Subtema<input type="text" id="c-tema" maxlength="80" value="${esc(caso.tema || "")}" placeholder="Desplazamiento discal"></label>
       <label class="grid-label">Tipo<select id="c-tipo">
         <option value="imagen" ${caso.tipo !== "concepto" ? "selected" : ""}>Se responde mirando la imagen</option>
         <option value="concepto" ${caso.tipo === "concepto" ? "selected" : ""}>Se responde sin imagen</option>
@@ -1085,7 +1090,7 @@ function casoVerificable(t, caso) {
         <figcaption class="cap"><span>${esc((t.imagenes[r.ref] || {}).figura || "")} · ${r.mostrar_en === "respuesta" ? "solo en la respuesta" : "en la pregunta"}</span></figcaption></figure>`).join("")}</div>` : ""}
       <div style="display:grid;gap:10px">
         <div class="stem md">${md(caso.enunciado || "")}</div>
-        <div class="opts">${lista(caso.opciones).map((o, i) => `<div class="opt ${i === caso.correcta ? "right" : ""}">
+        <div class="opts">${lista(caso.opciones).map((o, i) => `<div class="opt ${i === caso.correcta ? "right" : ""}" data-k="${i}">
           <span class="k">${LETRAS[i]}</span><span>${esc(o)}</span><span class="n"></span></div>`).join("")}</div>
         <div class="exp md">${md(caso.explicacion || "")}</div>
         ${caso.perla ? `<div class="pearl md">${md(caso.perla)}</div>` : ""}

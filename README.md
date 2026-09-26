@@ -29,6 +29,9 @@ app/                        código de la app; app/firebase-config.js apunta al 
 app/areas.js                áreas de cada segmento: la lista cerrada con que se clasifica cada caso
 app/zip.js                  leer y armar .zip en el navegador, sin librerías
 app/importar.js             comprimir figuras y abrir un cuestionario entero venido en un .zip
+app/estilos.css             diseño de toda la web: fichas de color y tipografía al principio, componentes debajo
+app/marca.svg               logo y favicon
+app/fuentes/                IBM Plex Sans y Mono (licencia OFL), alojadas en el sitio y no en Google Fonts
 database.rules.json         reglas de seguridad de la sala en vivo (Firebase Realtime Database)
 firebase.json, .firebaserc  despliegue de reglas y acceso anónimo con la CLI de Firebase
 tools/construir_sitio       arma _site/ con solo los casos publicados

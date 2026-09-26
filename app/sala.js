@@ -66,7 +66,7 @@ function aviso(texto) {
 }
 
 function panel(titulo, texto, extra = "") {
-  return `<section class="panel" style="display:grid;gap:10px;max-width:680px">
+  return `<section class="panel stack angosto">
     <h2>${esc(titulo)}</h2><p class="muted">${esc(texto)}</p>${extra}</section>`;
 }
 
@@ -121,27 +121,33 @@ function encabezado() {
 }
 
 // ------------------------------------------------------------------ pantallas sin sala
-function pantallaInicio(codigoInicial = "", mensaje = "") {
+function sinSala() {
   $("#rol").textContent = "Sin sala";
   $("#rol").className = "chip";
   $("#conteo").hidden = true;
+}
+
+function pantallaInicio(codigoInicial = "", mensaje = "") {
+  sinSala();
   const sesion = leerSesion();
   app.innerHTML = `
     ${mensaje ? `<p class="nota">${esc(mensaje)}</p>` : ""}
     <section class="lobby">
-      <form class="panel" id="unirse" style="display:grid;gap:12px">
+      <form class="panel" id="unirse">
+        <p class="eyebrow">Residentes</p>
         <h1>Unirme</h1>
         <label class="grid-label">Código de la sala
-          <input type="text" id="codigo" maxlength="4" autocomplete="off" autocapitalize="characters" value="${esc(codigoInicial)}" placeholder="ABCD" class="input-codigo"></label>
+          <input type="text" id="codigo" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" value="${esc(codigoInicial)}" placeholder="ABCD" class="input-codigo"></label>
         <label class="grid-label">Tu nombre o apodo
           <input type="text" id="nombre" maxlength="24" autocomplete="nickname" value="${esc((sesion && sesion.nombre) || "")}"></label>
-        <div class="row"><button class="primary" type="submit">Entrar</button></div>
+        <button class="primary lg" type="submit">Entrar</button>
         <p class="src">Tu nombre solo se usa en esta sala y se borra cuando el presentador la cierra.</p>
       </form>
-      <div class="panel" style="display:grid;gap:12px;align-content:start">
+      <div class="panel">
+        <p class="eyebrow">Presentadores</p>
         <h2>Soy presentador</h2>
         <p class="muted">Crea una sala, proyecta esta pantalla y comparte el código.</p>
-        <div class="row"><button id="crear">Crear sala</button></div>
+        <div class="row"><button class="lg" id="crear">Crear sala</button></div>
         <p class="src">¿Primera vez? <a href="manual.html#crear-sala">Cómo presentar</a> · <a href="manual.html#jugar">Cómo jugar</a></p>
       </div>
     </section>`;
@@ -179,18 +185,21 @@ async function pantallaCrear() {
       `<div class="row"><a class="boton" href="sala.html">Volver</a></div>`);
     return;
   }
-  app.innerHTML = `<form class="panel" id="config" style="display:grid;gap:14px;max-width:680px">
+  app.innerHTML = `<form class="panel stack angosto" id="config">
+    <p class="eyebrow">Presentador</p>
     <h2>Crear sala</h2>
     <label class="grid-label">Tema <select id="tema">${opciones}</select></label>
-    <div class="row">
-      <label class="row" style="gap:6px">Tiempo por caso <select id="duracion">${DURACIONES.map((s) => `<option value="${s}" ${s === 45 ? "selected" : ""}>${s} s</option>`).join("")}</select></label>
-      <label class="row" style="gap:6px">Cuántos casos <select id="cuantos"></select></label>
+    <div class="campos">
+      <label class="grid-label">Tiempo por caso <select id="duracion">${DURACIONES.map((s) => `<option value="${s}" ${s === 45 ? "selected" : ""}>${s} s</option>`).join("")}</select></label>
+      <label class="grid-label">Cuántos casos <select id="cuantos"></select></label>
     </div>
     <p class="src" id="nota-tanda"></p>
-    <label class="row" style="gap:8px"><input type="checkbox" id="sin-verificar"> Incluir casos sin verificar</label>
-    <label class="row" style="gap:8px"><input type="checkbox" id="mezclar"> Mezclar el orden de los casos</label>
-    ${hayBorradores ? `<label class="row" style="gap:8px"><input type="checkbox" id="borradores"> Incluir casos sin publicar (ensayo en esta computadora)</label>` : ""}
-    <div class="row"><button class="primary" type="submit">Crear sala</button><a class="boton" href="sala.html">Cancelar</a></div>
+    <div class="casillas">
+      <label class="row"><input type="checkbox" id="sin-verificar"> Incluir casos sin verificar</label>
+      <label class="row"><input type="checkbox" id="mezclar"> Mezclar el orden de los casos</label>
+      ${hayBorradores ? `<label class="row"><input type="checkbox" id="borradores"> Incluir casos sin publicar (ensayo en esta computadora)</label>` : ""}
+    </div>
+    <div class="row"><button class="primary lg" type="submit">Crear sala</button><a class="boton lg" href="sala.html">Cancelar</a></div>
   </form>`;
 
   // Cuántos casos hay depende del tema y de los dos filtros, así que el desplegable se rehace
@@ -425,26 +434,32 @@ function bloqueQR(enlace) {
   </figure>`;
 }
 
+// La inicial de cada jugador, para el círculo de color de la lista.
+const inicial = (nombre) => ([...String(nombre || "?").trim()][0] || "?").toUpperCase();
+
 function hostLobby() {
   const enlace = `${location.origin}${location.pathname}?c=${codigo}`;
-  const nombres = Object.values(jugadores).map((j) => `<span class="pl">${esc(j.nombre)}</span>`).join("");
+  const nombres = Object.values(jugadores)
+    .map((j) => `<span class="pl" data-inicial="${esc(inicial(j.nombre))}">${esc(j.nombre)}</span>`).join("");
   app.innerHTML = `<section class="lobby">
-    <div class="panel" style="display:grid;gap:12px">
+    <div class="panel">
       <p class="tema">Código de la sala</p>
       <div class="entrada">
         <div>
           <div class="codigo">${esc(codigo)}</div>
-          <p>Entren a <b>${esc(location.host + location.pathname)}</b> y escriban el código.</p>
+          <div class="como-entrar"><p class="muted">Entren a</p>
+            <p class="direccion">${esc(location.host + location.pathname)}</p>
+            <p class="muted">y escriban el código.</p></div>
         </div>
         ${bloqueQR(enlace)}
       </div>
       <p class="src">Enlace directo: ${esc(enlace)}</p>
       <p class="muted">${esc(info.titulo)} · ${info.casos.length} casos · ${info.duracion} s por caso</p>
-      <div class="row"><button class="primary" id="empezar">Empezar</button><button id="cerrar">Cerrar sala</button></div>
+      <div class="row"><button class="primary lg" id="empezar">Empezar</button><button class="lg" id="cerrar">Cerrar sala</button></div>
     </div>
-    <div class="panel" style="display:grid;gap:10px;align-content:start">
-      <h2>En la sala: ${Object.keys(jugadores).length}</h2>
-      <div class="players">${nombres || `<span class="muted">Esperando residentes…</span>`}</div>
+    <div class="panel">
+      <h2>En la sala: <span class="cuenta">${Object.keys(jugadores).length}</span></h2>
+      <div class="players">${nombres || `<p class="esperando"><i><b></b></i>Esperando residentes…</p>`}</div>
       <p class="src">Sin celulares o sin red, se puede empezar igual y responder a mano alzada.</p>
     </div>
   </section>`;
@@ -476,13 +491,13 @@ function hostCaso() {
   const letra = LETRAS[orden.indexOf(caso.correcta)];
   const imagenes = visor(caso, revelado);
   app.innerHTML = `
-    <div class="qhead"><span class="qnum">${estado.indice + 1}/${info.casos.length}</span>${revelado ? `<span class="tema">${esc(caso.tema)}</span>` : ""}</div>
+    <div class="qhead"><span class="qnum">${estado.indice + 1}<small> / ${info.casos.length}</small></span>${revelado ? `<span class="tema">${esc(caso.tema)}</span>` : ""}</div>
     <section class="stage ${imagenes ? "" : "sin-imagen"}">
       ${imagenes}
-      <div style="display:grid;gap:12px">
+      <div class="pregunta">
         <div class="stem md">${md(caso.enunciado)}</div>
-        ${revelado ? "" : `<div class="row" style="justify-content:space-between"><span class="clock" id="clock">${info.duracion}</span>
-          <span class="chip" id="respondieron">${total}/${Object.keys(jugadores).length} respondieron</span></div><div class="timer"><i id="bar"></i></div>`}
+        ${revelado ? "" : `<div class="reloj" id="reloj"><div class="row"><span class="clock" id="clock">${info.duracion}</span>
+          <span class="chip" id="respondieron">${total}/${Object.keys(jugadores).length} respondieron</span></div><div class="timer"><i id="bar"></i></div></div>`}
         <div class="opts">${opciones}</div>
         ${revelado ? `<div class="exp md"><div class="ans">Respuesta: ${letra}. ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>
           ${caso.perla ? `<div class="pearl md"><b>Perla:</b> ${md(caso.perla)}</div>` : ""}
@@ -528,6 +543,9 @@ function iniciarReloj() {
     const bar = $("#bar");
     if (clock) clock.textContent = Math.ceil(restante);
     if (bar) bar.style.width = `${(100 * restante) / info.duracion}%`;
+    // Los últimos segundos (10, o la cuarta parte si el tiempo es corto) el reloj se pone rojo.
+    const caja = $("#reloj") || (bar && bar.parentElement);
+    if (caja) caja.classList.toggle("poco", restante <= Math.min(10, info.duracion / 4));
     if (restante <= 0) {
       clearInterval(reloj);
       if (soyHost) revelar();
@@ -552,7 +570,8 @@ async function revelar() {
 
 function hostRanking(final) {
   const ultimo = estado.indice === info.casos.length - 1;
-  app.innerHTML = `<section style="display:grid;gap:14px;max-width:720px">
+  app.innerHTML = `<section class="stack angosto">
+    <p class="eyebrow">${esc(info.titulo)}</p>
     <h1>${final ? "Resultado final" : "Ranking"}</h1>
     ${listaRanking(final ? 10 : 5)}
     <div class="ctrl">
@@ -583,9 +602,9 @@ function vistaJugador() {
     return;
   }
   if (fase === "lobby") {
-    app.innerHTML = `<section class="panel" style="display:grid;gap:10px;max-width:560px">
-      <span class="tema">Conectado como</span><div class="big">${esc(yo.nombre)}</div>
-      <p class="muted">Listo. La partida empieza cuando el presentador pulse Empezar.</p>
+    app.innerHTML = `<section class="panel stack angosto">
+      <span class="tema">Conectado como</span><div class="big nombre">${esc(yo.nombre)}</div>
+      <p class="esperando"><i><b></b></i>Listo. La partida empieza cuando el presentador pulse Empezar.</p>
       <div class="row"><button id="salir">Salir de la sala</button></div></section>`;
     $("#salir").onclick = salir;
     return;
@@ -593,7 +612,7 @@ function vistaJugador() {
   if (fase === "pregunta" || fase === "revelar") return jugadorCaso();
   const lista = ranking();
   const posicion = lista.findIndex((r) => r.id === uid) + 1;
-  app.innerHTML = `<section style="display:grid;gap:14px;max-width:640px">
+  app.innerHTML = `<section class="stack angosto">
     <span class="tema">${fase === "fin" ? "Resultado final" : "Ranking"}</span>
     <div class="big">${posicion ? `${posicion}.º` : "—"}</div>
     <p class="muted">${puntajes[uid] || 0} puntos · ${lista.length} ${lista.length === 1 ? "participante" : "participantes"}</p>
@@ -614,7 +633,7 @@ function jugadorCaso() {
       ? `<div class="verdict no">Sin respuesta</div>`
       : `<div class="verdict ${acierto ? "ok" : "no"}">${acierto ? `Correcto${resultado ? ` · +${puntos(resultado, caso)}` : ""}` : "Incorrecto"}</div>`;
   } else if (elegida !== undefined) {
-    arriba = `<div class="chip live" style="justify-self:start">Respuesta enviada: ${LETRAS[orden.indexOf(elegida)]}</div>`;
+    arriba = `<div class="chip live enviada">Respuesta enviada: ${LETRAS[orden.indexOf(elegida)]}</div>`;
   }
   const opciones = orden.map((original, pos) => {
     let clase = "";
@@ -625,10 +644,10 @@ function jugadorCaso() {
   }).join("");
   const imagenes = visor(caso, revelado);
   app.innerHTML = `
-    <div class="qhead"><span class="qnum">${indice + 1}/${info.casos.length}</span>${revelado ? `<span class="tema">${esc(caso.tema)}</span>` : ""}</div>
+    <div class="qhead"><span class="qnum">${indice + 1}<small> / ${info.casos.length}</small></span>${revelado ? `<span class="tema">${esc(caso.tema)}</span>` : ""}</div>
     <section class="stage ${imagenes ? "" : "sin-imagen"}">
       ${imagenes}
-      <div style="display:grid;gap:12px">
+      <div class="pregunta">
         ${arriba}
         <div class="stem md">${md(caso.enunciado)}</div>
         ${revelado ? "" : `<div class="timer"><i id="bar"></i></div>`}
@@ -697,6 +716,10 @@ async function iniciar() {
   const pedido = (params.get("c") || "").toUpperCase();
   const sesion = leerSesion();
   if (sesion && (!pedido || pedido === sesion.codigo)) return entrar(sesion.codigo, sesion.rol);
+  if (params.has("crear") && !pedido) {   // «Presentar una sesión», en la portada
+    sinSala();
+    return pantallaCrear();
+  }
   pantallaInicio(pedido);
 }
 

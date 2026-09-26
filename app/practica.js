@@ -111,14 +111,16 @@ function vistaCaso() {
 
   const ultima = actual === casos.length - 1;
   app.innerHTML = `
+    <div class="avance" role="progressbar" aria-label="Avance de la tanda" aria-valuemin="1" aria-valuemax="${casos.length}"
+      aria-valuenow="${actual + 1}"><i style="width:${(100 * (actual + 1)) / casos.length}%"></i></div>
     <div class="qhead">
-      <span class="qnum">${actual + 1}/${casos.length}</span>
+      <span class="qnum">${actual + 1}<small> / ${casos.length}</small></span>
       ${respondido ? `<span class="tema">${esc(caso.tema)}</span>` : ""}
       ${caso.estado !== "publicado" ? `<span class="badge borrador">${esc(caso.estado)}</span>` : sello(caso, paquete.personas)}
     </div>
     <section class="stage ${refs.length ? "" : "sin-imagen"}">
       ${visor(refs)}
-      <div style="display:grid;gap:12px">
+      <div class="pregunta">
         <div class="stem md">${md(caso.enunciado)}</div>
         <div class="opts">${opciones}</div>
         ${despues}
@@ -129,7 +131,7 @@ function vistaCaso() {
       <button id="anterior" ${actual === 0 ? "disabled" : ""}>Anterior</button>
       <button class="primary" id="siguiente">${ultima ? "Ver resultado" : "Siguiente caso"}</button>
       <span class="spacer"></span>
-      <span class="src">Teclas: A–E responde · → siguiente</span>
+      <span class="src teclas"><kbd>A</kbd>–<kbd>E</kbd> responde · <kbd>→</kbd> siguiente</span>
     </div>`;
 
   app.querySelectorAll("button.opt").forEach((boton) => {
@@ -167,10 +169,13 @@ function ir(indice) {
 function resultado() {
   const hechas = casos.filter((c) => respuestas.has(c.id));
   const falladas = hechas.filter((c) => respuestas.get(c.id) !== c.correcta);
-  app.innerHTML = `<section class="panel" style="display:grid;gap:14px;max-width:640px">
+  const bien = hechas.length - falladas.length;
+  const porcentaje = hechas.length ? Math.round((100 * bien) / hechas.length) : 0;
+  app.innerHTML = `<section class="panel resultado">
     <span class="tema">${esc(paquete.titulo)}</span>
-    <div class="big">${hechas.length - falladas.length}/${hechas.length}</div>
-    <p class="muted">correctas de ${hechas.length} respondidas (${casos.length} en esta tanda).</p>
+    <div class="big">${bien}<small> / ${hechas.length}</small></div>
+    <div class="medidor"><div class="barra"><i style="width:${porcentaje}%"></i></div>
+      <span>${porcentaje} % de aciertos · ${hechas.length} respondidas de ${casos.length} en esta tanda.</span></div>
     ${casos.length < disponibles.length
       ? `<p class="src">El tema tiene ${disponibles.length} casos. «Empezar de nuevo» arma otra tanda al azar.</p>` : ""}
     <div class="row">

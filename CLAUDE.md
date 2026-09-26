@@ -132,6 +132,16 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   se usan los archivos del sitio. Si la base no responde, la web sigue con lo del sitio.
   `tools/traer_publicaciones` baja lo mismo al repositorio por su cuenta, desde el workflow, sin copiar las figuras
   que están en Drive.
+- Diseño (2026-09-26): `app/estilos.css` es el sistema de diseño de toda la web. Las fichas (colores, tipografía,
+  radios, íconos) van al principio, en `:root`; debajo, los componentes, por pantalla. La idea es una sala de
+  lectura: fondo oscuro y neutro, y el amarillo de las anotaciones como color de la marca y de lo que se toca; cada
+  letra A–E tiene su color, y ✓/✗ acompañan al verde y al rojo. Los tres colores de texto pasan 4,5:1 sobre todas
+  las superficies. Las tipografías se alojan en el sitio, no en Google Fonts (la red del hospital): IBM Plex Sans
+  variable —la misma da la versión condensada de los números grandes, con `font-stretch: 85%`— e IBM Plex Mono,
+  licencia OFL en `app/fuentes/OFL.txt`. Logo y favicon: `app/marca.svg`, la retícula con que se marca un hallazgo.
+  Todo funciona en Chrome 109 (el último de Windows 7); `:has()` y `text-wrap` solo mejoran. La portada trae una
+  casilla para entrar a una sala con el código (formulario GET a `sala.html?c=`), y «Presentar una sesión» abre
+  `sala.html?crear=1`, que va directo a crear la sala.
 - Manual de uso por papel: `manual.html`, en línea. Camino con Git (alternativo):
   `tools/aprobar <carpeta> --revisor <usuario> --todos|--casos a,b [--estado publicado]`.
 - `referencia/` y `PROMPT_INICIO.md` están en `.gitignore`: solo locales (el respaldo del piloto tiene recortes ND).

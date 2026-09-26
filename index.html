@@ -3,24 +3,63 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RadQuiz</title>
-<meta name="description" content="Casos radiológicos para residentes: práctica individual y sesiones en vivo.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230c1015%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%229%22 fill=%22none%22 stroke=%22%23f0c24b%22 stroke-width=%223%22/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>RadQuiz · Casos radiológicos para residentes</title>
+<meta name="description" content="Casos radiológicos para residentes: práctica individual y sesiones en vivo desde el celular, sin cuentas.">
+<meta name="theme-color" content="#0b0f14">
+<link rel="icon" href="app/marca.svg" type="image/svg+xml">
+<link rel="preload" href="app/fuentes/plex-sans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="app/estilos.css">
 </head>
-<body>
+<body class="pagina-inicio">
 <div class="wrap">
   <header class="bar">
-    <a class="brand" href="./">RadQuiz <small>Casos radiológicos para residentes</small></a>
+    <a class="brand" href="./"><img class="logo" src="app/marca.svg" alt="" width="30" height="30">RadQuiz</a>
     <span class="spacer"></span>
-    <a class="boton" href="manual.html">Manual</a>
-    <a class="boton" href="estudio.html">Estudio</a>
-    <a class="boton primary" href="sala.html">Sala en vivo</a>
+    <nav class="nav" aria-label="Principal">
+      <a class="boton" href="manual.html">Manual</a>
+      <a class="boton" href="estudio.html">Estudio</a>
+      <a class="boton primary" href="sala.html">Sala en vivo</a>
+    </nav>
   </header>
-  <main id="app" aria-live="polite"><p class="muted">Cargando temas…</p></main>
-  <p class="src">Práctica individual: elige un tema. Sesión en clase: «Sala en vivo», con código de 4 letras. Cada imagen muestra su fuente y su licencia.</p>
+
+  <main class="stack inicio">
+    <section class="portada">
+      <div class="portada-texto">
+        <p class="eyebrow">Práctica individual y sesiones en vivo</p>
+        <h1>Casos radiológicos para residentes</h1>
+        <p class="lead">Practica a tu ritmo o juega en clase, como en Kahoot: el presentador proyecta el caso y cada uno
+          responde desde su celular. Sin cuentas y sin instalar nada.</p>
+        <div class="row">
+          <a class="boton primary lg" href="#temas">Elegir un tema</a>
+          <a class="boton lg" href="sala.html?crear=1">Presentar una sesión</a>
+        </div>
+        <ul class="garantias">
+          <li>Cada imagen muestra su fuente y su licencia.</li>
+          <li>Cada caso dice si un radiólogo lo verificó.</li>
+          <li>Gratis, en el celular o en la computadora.</li>
+        </ul>
+      </div>
+      <form class="panel unirse" action="sala.html" method="get" autocomplete="off">
+        <p class="eyebrow">Sala en vivo</p>
+        <h2>¿Tienes un código?</h2>
+        <label class="grid-label">Código de la sala
+          <input type="text" class="input-codigo" name="c" maxlength="4" pattern="[A-Za-z]{4}" required placeholder="ABCD"
+            autocapitalize="characters" spellcheck="false" title="El código tiene 4 letras"></label>
+        <button class="primary lg" type="submit">Entrar a la sala</button>
+        <p class="src">Está en el proyector. Si ves un QR, escanéalo con la cámara y entras directo.</p>
+      </form>
+    </section>
+
+    <section class="stack stack-lg" id="temas" aria-labelledby="titulo-temas">
+      <div class="seccion-cabeza"><h2 id="titulo-temas">Temas</h2><p class="src" id="resumen"></p></div>
+      <div id="app" aria-live="polite"><p class="muted">Cargando temas…</p></div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>RadQuiz · Casos radiológicos para residentes. Cada imagen muestra su fuente y su licencia.</p>
+    <nav aria-label="Más"><a href="manual.html">Manual</a><a href="manual.html#privacidad">Privacidad y licencias</a><a href="estudio.html">Estudio para autores</a></nav>
+  </footer>
 </div>
 <script type="module" src="app/inicio.js"></script>
 </body>
