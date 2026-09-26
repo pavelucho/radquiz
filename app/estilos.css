@@ -2,8 +2,9 @@
    La idea es una sala de lectura: fondo oscuro y neutro para mirar imágenes y proyectar, y el amarillo de
    las anotaciones (los círculos y flechas que señalan un hallazgo) como color de la marca y de lo que se toca.
    Las tipografías (IBM Plex, licencia OFL) van en app/fuentes/, no en Google Fonts: la red del hospital
-   podría no dejarlas pasar. Todo funciona en Chrome 109, el último de Windows 7; lo más nuevo (:has,
-   text-wrap) solo mejora lo que ya se ve bien. */
+   podría no dejarlas pasar. Solo se usa lo que ya tenía Chrome 109, el último de Windows 7 (revisado
+   función por función, no probado en ese navegador); text-wrap, y :has() en Firefox anteriores al 121,
+   solo mejoran lo que ya se ve bien. */
 
 /* ------------------------------------------------------------------ tipografías */
 @font-face {

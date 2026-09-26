@@ -139,7 +139,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   las superficies. Las tipografías se alojan en el sitio, no en Google Fonts (la red del hospital): IBM Plex Sans
   variable —la misma da la versión condensada de los números grandes, con `font-stretch: 85%`— e IBM Plex Mono,
   licencia OFL en `app/fuentes/OFL.txt`. Logo y favicon: `app/marca.svg`, la retícula con que se marca un hallazgo.
-  Todo funciona en Chrome 109 (el último de Windows 7); `:has()` y `text-wrap` solo mejoran. La portada trae una
+  Solo se usa lo que ya tenía Chrome 109 (el último de Windows 7): revisado función por función, no probado en ese
+  navegador. `text-wrap`, y `:has()` en Firefox anteriores al 121, solo mejoran. La portada trae una
   casilla para entrar a una sala con el código (formulario GET a `sala.html?c=`), y «Presentar una sesión» abre
   `sala.html?crear=1`, que va directo a crear la sala.
 - Manual de uso por papel: `manual.html`, en línea. Camino con Git (alternativo):
