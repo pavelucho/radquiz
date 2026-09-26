@@ -37,6 +37,7 @@ let suscripcionRespuestas = null;
 let vistaActual = "";
 let reloj = null;
 let revelando = false;
+let jugadoresListos = false;   // hasta leer la lista no se sabe si este jugador sigue en la sala
 const miRespuesta = new Map();  // jugador: índice de pregunta → opción original elegida
 const miResultado = new Map();  // jugador: índice de pregunta → { opcion, t } leído al revelar
 
@@ -331,6 +332,7 @@ async function entrar(c, rol) {
 
 function suscribir() {
   suscripciones.forEach((cancelar) => cancelar());
+  jugadoresListos = false;
   suscripciones = [
     onValue(salaRef("estado"), (s) => {
       const anterior = estado;
@@ -340,7 +342,7 @@ function suscribir() {
       if (!soyHost && ["revelar", "ranking", "fin"].includes(estado.fase)) leerMiResultado(estado.indice);
       render();
     }, () => confirmarCierre()),
-    onValue(salaRef("jugadores"), (s) => { jugadores = s.val() || {}; render(); }),
+    onValue(salaRef("jugadores"), (s) => { jugadores = s.val() || {}; jugadoresListos = true; render(); }),
     onValue(salaRef("puntajes"), (s) => { puntajes = s.val() || {}; render(); }),
   ];
 }
@@ -384,8 +386,11 @@ function salaCerrada() {
   pantallaInicio("", "La sala se cerró.");
 }
 
+// No se dibuja nada hasta tener la lista de jugadores. El estado suele llegar antes: quien entra o recarga a
+// mitad de una pregunta se veía fuera de la sala («Saliste de la sala») y, como la pregunta no se vuelve a
+// dibujar, quedaba así hasta que se revelaba la respuesta.
 function render(forzar = false) {
-  if (!estado || !info) return;
+  if (!estado || !info || !jugadoresListos) return;
   encabezado();
   const clave = `${estado.fase}:${estado.indice}`;
   const cambio = clave !== vistaActual;
