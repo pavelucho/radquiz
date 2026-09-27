@@ -149,6 +149,7 @@ function pantallaInicio(codigoInicial = "", mensaje = "") {
         <p class="muted">Crea una sala, proyecta esta pantalla y comparte el código.</p>
         <div class="row"><button class="lg" id="crear">Crear sala</button></div>
         <p class="src">¿Primera vez? <a href="manual.html#crear-sala">Cómo presentar</a> · <a href="manual.html#jugar">Cómo jugar</a></p>
+        <p class="src">¿Sin celulares? Juega por equipos en el <a href="tablero.html">tablero</a>, al estilo Jeopardy.</p>
       </div>
     </section>`;
   $("#unirse").onsubmit = (e) => { e.preventDefault(); unirse($("#codigo").value, $("#nombre").value); };

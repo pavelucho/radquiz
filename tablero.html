@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tablero por equipos · RadQuiz</title>
+<meta name="theme-color" content="#0b0f14">
+<link rel="icon" href="app/marca.svg" type="image/svg+xml">
+<link rel="preload" href="app/fuentes/plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="app/estilos.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <a class="brand" href="./"><img class="logo" src="app/marca.svg" alt="" width="30" height="30">RadQuiz <small id="subtitulo">Tablero por equipos</small></a>
+    <span class="spacer"></span>
+    <div class="herramientas">
+      <a class="boton" href="manual.html#tablero">Cómo se juega</a>
+      <span class="chip live" id="turno" hidden></span>
+    </div>
+  </header>
+  <main id="app" class="stack" aria-live="polite"><p class="muted">Cargando…</p></main>
+</div>
+<div class="zoom" id="zoom" hidden><img id="zoomImg" alt=""></div>
+<div class="zoom" id="dialogo" hidden></div>
+<script type="module" src="app/tablero-local.js"></script>
+</body>
+</html>

@@ -5,7 +5,8 @@ Plan completo (fuente de verdad): https://claude.ai/code/artifact/acd19a8f-ec5a-
 ## Qué es
 Web tipo Kahoot, gratuita, para residentes de radiología (HNERM / UNMSM). El presentador proyecta; los
 residentes entran desde el celular con un código de sala de 4 letras + nombre, sin cuentas ni app.
-Modos v1: sesión en vivo y práctica individual. Todos los segmentos de la radiología.
+Modos v1: sesión en vivo, práctica individual y tablero por equipos (al estilo Jeopardy, sin celulares). Todos los
+segmentos de la radiología.
 
 ## Arquitectura (decidida)
 - Un repositorio en GitHub: app + temas (texto e ids de Drive; las figuras las aloja quien publica). La web está en
@@ -143,6 +144,20 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   navegador. `text-wrap`, y `:has()` en Firefox anteriores al 121, solo mejoran. La portada trae una
   casilla para entrar a una sala con el código (formulario GET a `sala.html?c=`), y «Presentar una sesión» abre
   `sala.html?crear=1`, que va directo a crear la sala.
+- Tablero por equipos (2026-09-27): `tablero.html` + `app/tablero-local.js`, al estilo Jeopardy, para proyectar sin
+  celulares ni sala en vivo. Decidido por etapas: primero este («A»), después el tablero dentro de la sala con todos
+  respondiendo desde el celular («B»), y el pulsador («C») solo si el grupo lo pide y tras medir el wifi. En pantalla
+  se llama «Tablero»: Jeopardy! es marca registrada. Los equipos responden en voz alta y el presentador marca
+  Acertó/Falló (teclas 1–6 y Mayús + número): la app suma o resta, pasa el turno, tiene casilla doble, ronda final con
+  apuestas escritas en papel, «Deshacer» por paso, y guarda la partida en `localStorage`. La lógica, sin pantalla ni
+  Firebase para reusarla en la sala, está en `app/tablero.js`: columnas por área de `clasificacion` (varios temas
+  clasificados), si no por lo que va antes de « · » en `tema` juntando grupos chicos, si no un tema por columna. El
+  valor no mide dificultad: el orden sale al azar y el presentador lo cambia. Tras cada casilla, `app/diapositivas.js`
+  arma la enseñanza con lo que el caso ya trae: Respuesta (figura y `marcas`), Por qué (la misma figura, fija),
+  Compárelo (hasta dos casos parecidos que quedaron fuera del tablero, propuestos por palabras en común y confirmados
+  por el presentador) y Clave (la perla). Para no adelantar respuestas, una figura que usa otra casilla sin jugar sale
+  sin la lista de marcas, o no sale si es de «respuesta»; y nunca se compara con un caso que comparta figura o
+  respuesta con una casilla. Probado de punta a punta en el navegador con ATM 4 × 4, no en un aula.
 - Manual de uso por papel: `manual.html`, en línea. Camino con Git (alternativo):
   `tools/aprobar <carpeta> --revisor <usuario> --todos|--casos a,b [--estado publicado]`.
 - `referencia/` y `PROMPT_INICIO.md` están en `.gitignore`: solo locales (el respaldo del piloto tiene recortes ND).
@@ -185,6 +200,18 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
    `verificacion.donde` es el aviso de RSNA «personal non-commercial use only», y sus 14 figuras están en `img/` de este
    repositorio público. Si la licencia es «Con copyright», hay que corregirla en el estudio y volver a publicar: las
    figuras pasan al Drive de quien publica y salen de `temas/`, aunque siguen en el historial de Git.
+8. Tablero, etapa B: el tablero dentro de la sala en vivo, con todos respondiendo desde el celular. Hay que cambiar
+   las reglas de `salas/` (fases `tablero` y `apuesta`, turno, casillas usadas, apuestas, puntajes negativos: hoy
+   `puntajes` exige `>= 0`) y conviene hacerlo junto con las salas de varios temas del pendiente 6. La lógica de
+   `app/tablero.js` y `app/diapositivas.js` ya sirve para la sala. Etapa C (pulsador): solo tras medir la latencia de
+   4 o 5 celulares en el wifi de HNERM.
+9. Perlas: 43 de los 67 casos publicados no tienen (ATM 23 de 27, tobillo 20 de 20), y sin perla el tablero no
+   muestra la diapositiva «Clave». Desde el 2026-09-27 las instrucciones para la IA la piden siempre; el esquema la
+   sigue dejando opcional y el validador no la exige (un error dejaría fuera temas enteros en `traer_publicaciones`).
+   Completarlas en ATM le quita el sello a esos casos (editar y volver a publicar lo retira): mejor junto con la
+   revisión del segundo radiólogo (pendiente 2).
+10. En la sala clásica, una figura de «respuesta» que comparten varios casos se ve al revelar el primero: la Tabla 1
+    de Protocolo muestra la orientación de los cortes que pregunta Planificación. El tablero ya lo evita; la sala no.
 
 ## Preferencias del autor (Pavel, residente de radiología)
 - Interfaz y contenido en español.

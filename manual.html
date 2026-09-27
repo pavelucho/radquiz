@@ -40,7 +40,8 @@
         <li><a href="#antes">Antes de la clase</a></li>
         <li><a href="#crear-sala">Crear una sala</a></li>
         <li><a href="#conducir">Conducir la sesión</a></li>
-        <li><a href="#cerrar">Cerrar la sala</a></li></ul></div>
+        <li><a href="#cerrar">Cerrar la sala</a></li>
+        <li><a href="#tablero">Tablero por equipos</a></li></ul></div>
       <div><p class="tema">Autores</p><ul>
         <li><a href="#entrar">Entrar al estudio</a></li>
         <li><a href="#zip">Subir un .zip ya hecho</a></li>
@@ -154,6 +155,51 @@
       <p>Al terminar toca <b>Cerrar sala</b> y confirma. Se borran los nombres, las respuestas y los puntajes, y los
         celulares vuelven a la pantalla de inicio. Si olvidas cerrarla, se borra sola pasadas 24 horas, en cuanto alguien
         crea otra sala.</p>
+
+      <h3 id="tablero">Tablero por equipos, sin celulares</h3>
+      <p>Un juego por categorías, al estilo de Jeopardy!, para proyectar en clase. Los equipos eligen una casilla y
+        responden en voz alta, y tú marcas quién acertó: la app suma o resta los puntos, pasa el turno y, después de cada
+        casilla, proyecta la enseñanza del caso. No usa celulares ni la sala en vivo, así que sirve también cuando la
+        red del lugar no deja entrar a la sala.</p>
+      <ol class="pasos">
+        <li>En la portada toca <b>Tablero por equipos</b>. Elige los temas, el tamaño (4 × 4 con ronda final dura unos
+          50 minutos), los equipos y las reglas: casilla doble, ronda final, restar al que falla y diapositivas de
+          enseñanza. Como la sala, usa solo casos verificados salvo que marques <b>Incluir casos sin verificar</b>.</li>
+        <li><b>Revisa el tablero antes de proyectar</b>: esa pantalla muestra de qué trata cada casilla y su respuesta.
+          Las columnas salen de lo que va antes de « · » en el tema de cada caso (en ATM, «Técnica», «Anatomía»…).
+          Puedes renombrarlas, juntar una con la siguiente, cambiar un caso por otro del grupo, subirlo o bajarlo, y
+          elegir la casilla doble y el caso de la ronda final. El valor no mide dificultad: el orden sale al azar.</li>
+        <li>En cada casilla puedes elegir hasta dos <b>casos para comparar</b>. La app propone los más parecidos entre
+          los que quedaron fuera del tablero y deja marcado el más cercano del mismo grupo.</li>
+        <li>Durante el juego, el equipo con el turno elige una casilla. Proyecta la pista y, si hace falta, toca
+          <b>Mostrar opciones</b>. Cuando un equipo responde, toca <b>Acertó</b> o <b>Falló</b> en su recuadro. Si falla,
+          otro equipo puede intentarlo; si nadie acierta, toca <b>Nadie acertó: revelar</b>. El que acierta elige la
+          siguiente casilla.</li>
+        <li>Después vienen las diapositivas: la respuesta con su figura y lo que señala cada marca, el porqué con la
+          misma figura al lado, los casos para comparar y la perla, si el caso la tiene. Pasa de una a otra con
+          <kbd>→</kbd> o con el control remoto de presentaciones.</li>
+        <li>En la <b>casilla doble</b> responde solo el equipo con el turno, que apuesta antes de ver la pista: hasta
+          sus puntos o hasta el valor más alto del tablero. Si falla, pierde lo apostado.</li>
+        <li>En la <b>ronda final</b> se anuncia la categoría y cada equipo escribe en un papel cuánto apuesta, de 0
+          hasta sus puntos. Al revelar, anotas cada apuesta, marcas quién acertó y la app muestra el resultado.</li>
+      </ol>
+      <div class="tabla"><table>
+        <thead><tr><th>Tecla</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>1</kbd> a <kbd>6</kbd></td><td>Acertó ese equipo (el número está en su recuadro).</td></tr>
+          <tr><td><kbd>Mayús</kbd> + número</td><td>Falló ese equipo.</td></tr>
+          <tr><td><kbd>R</kbd></td><td>Nadie acertó: revela la respuesta.</td></tr>
+          <tr><td><kbd>O</kbd></td><td>Muestra las opciones.</td></tr>
+          <tr><td><kbd>Z</kbd></td><td>Deshace lo último que marcaste.</td></tr>
+          <tr><td><kbd>→</kbd> o Avanzar página</td><td>Siguiente diapositiva; en la última, vuelve al tablero.</td></tr>
+          <tr><td><kbd>←</kbd> o Retroceder página</td><td>Diapositiva anterior.</td></tr>
+          <tr><td><kbd>Esc</kbd></td><td>Salta el resto de las diapositivas y vuelve al tablero.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="caja">Si marcas algo mal, <b>Deshacer</b> vuelve atrás, y tocando un puntaje en el tablero lo corriges a
+        mano. La partida se guarda en el navegador de esa computadora: si recargas la página, sigue donde estaba. Para
+        que la enseñanza no adelante otra casilla, una figura que también usa una casilla sin jugar sale sin la lista de
+        lo que señala cada marca, y no sale si es de las que se muestran solo al responder.</p>
     </section>
 
     <!-- ============================================================ AUTORES -->
@@ -372,6 +418,8 @@
           <tr><td>Tengo guardado un enlace a pavelucho.github.io/radquiz</td><td>Fuera del hospital sigue funcionando: te lleva a la misma página en radquiz-shpn2.web.app. Guarda la dirección nueva.</td></tr>
           <tr><td>La sala en vivo no conecta en la laptop</td><td>Proyecta el tema en <b>Practicar</b> y que respondan a mano alzada.</td></tr>
           <tr><td>La imagen tarda en aparecer</td><td>Red lenta. Espera unos segundos; la siguiente se descarga de antemano.</td></tr>
+          <tr><td>En el tablero, una figura sale sin la lista de lo que señala cada marca</td><td>Otra casilla todavía sin jugar usa esa figura, y la lista le daría la respuesta. Aparece cuando esa casilla ya se jugó.</td></tr>
+          <tr><td>El tablero no propone casos para comparar en una casilla</td><td>No quedó fuera del tablero ningún caso parecido que no comparta figura con otra casilla. Pasa, por ejemplo, en Anatomía de ATM, cuyos casos usan todos la misma figura.</td></tr>
           <tr><td>Un tema dice «Sin publicar»</td><td>Sus casos siguen en borrador: nadie los ha publicado todavía.</td></tr>
           <tr><td>Mi caso aparece «Sin verificar»</td><td>Está publicado y se puede practicar; falta que un radiólogo le ponga el sello.</td></tr>
           <tr><td>No veo el botón «Equipo»</td><td>Solo lo ve el coordinador.</td></tr>
@@ -401,6 +449,8 @@
       <ul>
         <li>No hay cuentas. En una sala solo se guardan el nombre o apodo, las respuestas y los puntajes, y se borran al
           cerrarla (o, si nadie la cierra, pasadas 24 horas). La práctica individual no guarda nada.</li>
+        <li>El tablero por equipos guarda los nombres de los equipos y los puntajes solo en el navegador de la computadora
+          que proyecta, para aguantar una recarga. «Armar otra» o «Nueva partida» los borran.</li>
         <li>No se usan imágenes de pacientes del hospital. Cada imagen viene de una publicación o de un banco público y
           muestra su fuente y sus autores. Si tiene licencia abierta, la licencia va con su enlace; si no, dice
           «© titular · alojada por» quien la publicó.</li>

@@ -543,6 +543,101 @@ main:has(.exp) > .ctrl {
 .rk.me { border-color: var(--marca); box-shadow: inset 0 0 0 1px var(--marca); }
 .rk.me span:nth-child(2)::after { content: "  · tú"; color: var(--marca); font-weight: 600; }
 
+/* ------------------------------------------------------------------ tablero por equipos */
+/* Se proyecta: los valores y los puntajes van grandes, en la Plex condensada de los números de la sala. Una casilla
+   jugada queda vacía, como en el programa, y no solo más apagada. */
+.tablero { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: clamp(6px, .9vw, 12px); }
+.tb-cab {
+  display: flex; align-items: flex-end; min-height: 3.3em; padding: 0 4px 6px;
+  font-size: clamp(14px, 1.4vw, 20px); font-weight: 650; line-height: 1.2; color: var(--tinta); text-wrap: balance; overflow-wrap: anywhere;
+}
+.tb-celda {
+  display: grid; place-items: center; min-height: clamp(64px, 12vh, 124px); padding: 6px;
+  font-size: clamp(30px, 4.4vw, 64px); font-weight: 700; font-stretch: 85%; line-height: 1; font-variant-numeric: tabular-nums;
+  color: var(--marca); background: var(--panel-2); border: 1px solid var(--linea-2); border-radius: 12px;
+}
+button.tb-celda:not(:disabled):hover { color: var(--marca-2); background: var(--panel-3); border-color: var(--marca); }
+.tb-celda.usada, .tb-celda.vacia { background: var(--panel); border-color: var(--linea); }
+.tb-celda.vacia { border-style: dashed; }
+.tb-celda.falta { font-size: 18px; font-weight: 500; color: var(--mute); }
+.tb-valor { font-size: 22px; font-weight: 700; font-stretch: 85%; line-height: 1; color: var(--marca); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tb-equipos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 10px; }
+.tb-equipo { display: grid; gap: 8px; align-content: start; min-width: 0; padding: 10px 14px; background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; }
+.tb-equipo.turno { border-color: var(--marca); box-shadow: inset 0 0 0 1px var(--marca-borde); }
+.tb-nombre { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 15px; font-weight: 600; color: var(--tinta-2); overflow-wrap: anywhere; }
+.tb-equipo.turno .tb-nombre { color: var(--marca); }
+.tb-puntos {
+  justify-self: start; justify-content: flex-start; min-height: 0; padding: 0; background: none; border: 0; border-radius: 6px;
+  font-size: clamp(30px, 3.4vw, 48px); font-weight: 700; font-stretch: 85%; line-height: 1; font-variant-numeric: tabular-nums; color: var(--tinta);
+}
+button.tb-puntos:not(:disabled):hover { background: none; color: #fff; text-decoration: underline dotted var(--linea-3); }
+.tb-puntos.negativo { color: var(--mal); }
+.pregunta .tb-puntos { font-size: 30px; }
+.tb-juez { display: flex; gap: 8px; }
+.tb-juez button { flex: 1 1 0; min-height: 42px; padding: 6px 8px; font-size: 14.5px; }
+.tb-juez button::before { content: ""; width: 18px; height: 18px; flex: none; background: center / contain no-repeat; }
+.tb-juez .si { color: var(--ok); background: var(--ok-suave); border-color: var(--ok-borde); }
+.tb-juez .si::before { background-image: var(--i-ok); }
+.tb-juez .no { color: var(--mal); background: var(--mal-suave); border-color: var(--mal-borde); }
+.tb-juez .no::before { background-image: var(--i-mal); }
+.tb-estado { font-size: 14px; font-weight: 600; color: var(--mute); }
+.tb-estado.mal { color: var(--mal); }
+.tb-mini { display: inline-flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+.tb-mini b { color: var(--tinta); }
+.chip.tb-ok { color: var(--ok); background: var(--ok-suave); border-color: var(--ok-borde); }
+.chip.tb-mal { color: var(--mal); background: var(--mal-suave); border-color: var(--mal-borde); }
+.tb-anuncio { justify-items: center; text-align: center; max-width: 900px; margin-inline: auto; }
+.tb-anuncio h1 { font-size: clamp(40px, 6vw, 76px); font-stretch: 85%; color: var(--marca); }
+.tb-anuncio .lead { max-width: 56ch; }
+.tb-anuncio .tb-equipos { width: 100%; text-align: left; }
+.tb-apuesta { width: min(100%, 280px); text-align: left; }
+.tb-apuesta input { font-size: 28px; font-weight: 700; font-stretch: 85%; text-align: center; }
+.tb-final { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; }
+
+/* diapositivas de enseñanza: la figura queda fija a la izquierda y cambia el texto */
+.diapo { min-height: min(60vh, 620px); display: grid; align-content: start; gap: 14px; }
+.diapo-dos { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(16px, 2.6vw, 40px); align-items: start; }
+.diapo-sola { display: grid; gap: 14px; max-width: 900px; }
+.diapo-fig { margin: 0; overflow: hidden; background: #000; border: 1px solid var(--linea); border-radius: var(--r-lg); }
+.diapo-fig img { display: block; width: 100%; max-height: 62vh; object-fit: contain; cursor: zoom-in; }
+.diapo-fig.chica img { max-height: 30vh; }
+.diapo-texto { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.diapo-respuesta { font-size: clamp(26px, 3vw, 42px); font-weight: 650; line-height: 1.15; letter-spacing: -.015em; color: var(--ok); text-wrap: balance; }
+.diapo-md { font-size: clamp(18px, 1.75vw, 25px); line-height: 1.45; }
+.diapo-md ul, .diapo-md ol { gap: 12px; }
+.marcas { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: clamp(16px, 1.5vw, 21px); line-height: 1.4; }
+.marcas b { color: var(--marca); font-weight: 600; }
+.diapo-paneles { font-size: clamp(14px, 1.2vw, 17px); line-height: 1.55; color: var(--tinta-2); }
+.diapo-paneles b { color: var(--tinta); }
+.diapo-comparar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 2vw, 30px); align-items: start; }
+.diapo-comparar .diapo-fig img { max-height: 44vh; }
+.diapo-rotulo { font-size: clamp(18px, 1.8vw, 25px); font-weight: 650; line-height: 1.25; }
+.diapo-rotulo.este { color: var(--ok); }
+.diapo-clave { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(16px, 2.6vw, 40px); align-items: center; }
+.diapo-clave.sola { grid-template-columns: minmax(0, 1fr); max-width: 900px; }
+.diapo-perla { font-size: clamp(24px, 2.9vw, 40px); font-weight: 600; line-height: 1.3; text-wrap: balance; }
+.diapo-pie { font-size: 13px; line-height: 1.5; }
+
+/* armado del tablero */
+.tb-grupos { display: grid; gap: 8px; }
+.tb-grupo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 12px; background: var(--panel-2); border: 1px solid var(--linea); border-radius: var(--r); }
+.tb-grupo input[type=text] { flex: 1 1 14em; width: auto; min-height: 38px; padding-block: 6px; }
+.tb-grupo button, .tb-fila button { min-height: 34px; padding: 4px 11px; font-size: 13.5px; }
+.tb-revision { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: 14px; align-items: start; }
+.tb-col { display: grid; gap: 10px; }
+.tb-fila { display: grid; gap: 7px; padding: 10px 12px; background: var(--panel-2); border: 1px solid var(--linea); border-radius: var(--r); }
+.tb-fila.doble { border-color: var(--marca-borde); box-shadow: inset 3px 0 0 var(--marca); }
+.tb-fila.vacia { border-style: dashed; }
+.tb-fila-cabeza { display: flex; align-items: baseline; gap: 10px; }
+.tb-fila-cabeza b { font-weight: 600; line-height: 1.3; }
+.tb-fila .acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.tb-fila select { width: auto; min-height: 34px; padding-block: 4px; font-size: 13.5px; }
+.tb-comparar { display: grid; gap: 4px; font-size: 13.5px; color: var(--tinta-2); }
+.tb-comparar label { align-items: flex-start; }
+/* Una casilla con un texto largo: el texto se parte, la casilla no se queda sola en su línea. */
+label.tb-opcion { flex-wrap: nowrap; align-items: flex-start; }
+label.tb-opcion > input { margin-top: 3px; }
+
 /* ------------------------------------------------------------------ estudio */
 .volver { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--tinta-2); text-decoration: none; }
 .volver:hover { color: var(--tinta); }
@@ -663,6 +758,8 @@ main:has(.exp) > .ctrl {
   .stage { grid-template-columns: minmax(0, 1fr); }
   .viewer img { max-height: 48vh; }
   .lobby { grid-template-columns: minmax(0, 1fr); }
+  .diapo-dos, .diapo-comparar, .diapo-clave { grid-template-columns: minmax(0, 1fr); }
+  .diapo-fig img { max-height: 48vh; }
 }
 @media (max-width: 640px) {
   header.bar { min-height: 0; row-gap: 8px; }
