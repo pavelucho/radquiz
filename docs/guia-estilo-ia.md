@@ -82,7 +82,8 @@ toman el estudio, las instrucciones para la IA y `tools/validar`.
   concepto clave de la fuente. Si la fuente lo permite, una viñeta que diferencie el distractor más tentador.
 - Usa el vocabulario de la fuente y no afirma más que ella («contribuye» no se convierte en «inicia»; «puede sugerir»
   no se convierte en «es diagnóstico de»).
-- **Perla** (opcional): una frase práctica, también sacada de la fuente.
+- **Perla**: la enseñanza clave del caso, en una frase práctica, también sacada de la fuente. El esquema la deja
+  opcional, pero se escribe siempre: el tablero por equipos la proyecta como diapositiva «Clave para llevarse».
 - Nunca se inventan citas, cifras ni referencias.
 
 ## 7. Ficha de cada imagen
@@ -222,4 +223,5 @@ Sin imagen; opciones de largo parecido y con la misma forma; cada cifra de la ex
 - [ ] Ningún enunciado que contenga la palabra clave de la respuesta.
 - [ ] La correcta no es la opción más larga en más de un tercio de los casos (el validador lo cuenta).
 - [ ] Cada afirmación de la explicación tiene su frase en `evidencia`.
+- [ ] Cada caso tiene su perla, sacada de la fuente.
 - [ ] Leyendas textuales; campos que la fuente no dice, en `null`; lo que no se pudo confirmar, en `notas`.

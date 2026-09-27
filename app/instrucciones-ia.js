@@ -30,7 +30,7 @@ const EJEMPLO = `{
       "opciones": ["Opción A", "Opción B", "Opción C", "Opción D", "Opción E"],
       "correcta": 2,
       "explicacion": "- Primera idea.\\n- Segunda idea.",
-      "perla": "Frase práctica (opcional).",
+      "perla": "La enseñanza clave del caso, en una frase práctica sacada del documento.",
       "evidencia": [{ "ubicacion": "p. 5, leyenda de la Figura 2", "cita": "Frase copiada textual del documento." }],
       "etiquetas": ["palabra clave"]
     }
@@ -47,6 +47,7 @@ const REGLAS = [
   "Los calificadores extremos (masivo, severo, completo, exacto, puro, siempre, nunca, solamente) delatan al distractor. Si los usas, que aparezcan también en la correcta; mejor, que no aparezcan en ninguna.",
   "PRUEBA DE LA TAPADERA, en cada caso antes de darlo por bueno: tapa la imagen y el enunciado y lee solo las cinco opciones. Si desde ahí ya se ve cuál es la correcta —porque es la única sensata, la única de su familia, la más larga o la más precisa—, el caso está mal: reescribe los distractores, no la pregunta.",
   "La explicación son 2 a 4 viñetas que empiezan con «- », con el vocabulario del documento y sin afirmar más que él.",
+  "Cada caso lleva «perla»: la enseñanza clave, en una frase práctica sacada del documento. El tablero por equipos la proyecta como «Clave para llevarse».",
   "Cada caso lleva «evidencia»: dónde está en el documento y la frase copiada textual que sostiene la respuesta.",
   "Tipo «imagen» si hay que mirar la figura para responder; tipo «concepto» si no hace falta (y entonces sin figura en la pregunta).",
   "Si una figura o tabla contiene la respuesta escrita, úsala con \"mostrar_en\": \"respuesta\".",
@@ -274,7 +275,7 @@ Lo que va detrás de // son notas para ti: JSON no admite comentarios, así que 
       "opciones": ["Primera opción", "Segunda opción", "Tercera opción", "Cuarta opción", "Quinta opción"],
       "correcta": 2,                         // posición desde 0: aquí, "Tercera opción". 0 la primera, 4 la quinta
       "explicacion": "- Primera idea.\\n- Segunda idea.",
-      "perla": "Frase práctica (opcional).",
+      "perla": "La enseñanza clave del caso, en una frase práctica sacada del documento.",
       "evidencia": [
         { "ubicacion": "p. 5, leyenda de la Figura 2", "cita": "Frase copiada textual, 10 caracteres como mínimo." }
       ]
@@ -389,6 +390,7 @@ for c in p.get("casos") or []:
     elif len(op) > 1 and len(str(op[c["correcta"]])) >= 1.3 * max(len(str(o)) for i, o in enumerate(op) if i != c["correcta"]):
         mal(cid + ": la correcta es mucho más larga que las demás; iguala los largos")
     if not c.get("explicacion"): mal(cid + ": falta explicacion")
+    if not c.get("perla"): mal(cid + ": falta perla")
     ev = c.get("evidencia") or []
     if not ev or any(len(e.get("cita", "")) < 10 or not e.get("ubicacion") for e in ev):
         mal(cid + ": falta evidencia con ubicación y frase textual")

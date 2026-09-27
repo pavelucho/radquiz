@@ -24,12 +24,15 @@ temas/<segmento>/<tema>/    un paquete por tema:
 index.html, practica.html   app estática: lista de temas y práctica individual
 manual.html                 manual de uso para cada papel
 sala.html                   sala en vivo (presentador y jugadores)
+tablero.html                tablero por equipos en el proyector, al estilo Jeopardy, sin celulares
 estudio.html                estudio web: crear, revisar, aprobar y publicar cuestionarios
 app/                        código de la app; app/firebase-config.js apunta al proyecto de Firebase
 app/areas.js                áreas de cada segmento: la lista cerrada con que se clasifica cada caso
 app/zip.js                  leer y armar .zip en el navegador, sin librerías
 app/importar.js             comprimir figuras y abrir un cuestionario entero venido en un .zip
 app/estilos.css             diseño de toda la web: fichas de color y tipografía al principio, componentes debajo
+app/tablero.js              lógica del tablero (grupos, columnas, casos parecidos, apuestas), sin pantalla ni Firebase
+app/diapositivas.js         diapositivas de enseñanza de un caso, armadas con lo que el caso ya trae
 app/marca.svg               logo y favicon
 app/fuentes/                IBM Plex Sans y Mono (licencia OFL), alojadas en el sitio y no en Google Fonts
 database.rules.json         reglas de seguridad de la sala en vivo (Firebase Realtime Database)
@@ -168,6 +171,23 @@ dos veces, responda fuera de tiempo o lea las respuestas ajenas antes de revelar
 Para ensayar con casos sin publicar: correr el sitio en la computadora y marcar «Incluir casos sin publicar» al crear
 la sala. Los jugadores tienen que abrir esa misma dirección (misma red Wi-Fi: `python3 -m http.server 8000 --bind 0.0.0.0`
 y la IP de la computadora).
+
+## Tablero por equipos
+
+`tablero.html` es un juego por categorías, al estilo Jeopardy, para proyectar en clase sin celulares: los equipos
+eligen casilla y responden en voz alta, y el presentador marca quién acertó. Solo lee lo publicado (como la práctica),
+así que no depende de la sala en vivo ni de sus reglas.
+
+1. El armado propone las columnas: por el área de `clasificacion` si hay varios temas clasificados, si no por lo que va
+   antes de « · » en el `tema` de cada caso (los grupos chicos se juntan hasta llenar una columna), y si no, un tema
+   por columna. El presentador las renombra, junta o cambia, y elige casilla doble, ronda final y casos para comparar.
+2. Puntaje: acierto +valor; error −valor (se puede desactivar; en la casilla doble siempre se pierde lo apostado).
+   Casilla doble: apuesta hasta el puntaje propio o el valor más alto del tablero. Final: apuesta hasta el puntaje.
+3. Después de cada casilla, diapositivas armadas con lo que el caso ya trae: respuesta con la figura y sus `marcas`,
+   la explicación con la misma figura al lado, «Compárelo» (hasta dos casos parecidos que quedaron fuera del tablero)
+   y la perla. Una figura que usa otra casilla sin jugar sale sin la lista de marcas, o no sale si es de las que se
+   muestran solo al responder: así la enseñanza no adelanta respuestas.
+4. La partida se guarda en `localStorage` del navegador que proyecta, con «Deshacer» para cada paso.
 
 ## Validar
 
