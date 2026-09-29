@@ -17,7 +17,9 @@
     <div class="herramientas compacta">
       <span class="salto" aria-hidden="true"></span>
       <label class="row" id="tanda" hidden><span class="muted">Casos</span>
-        <select id="cuantos" title="Cuántos casos quieres en esta tanda"></select></label>
+        <input type="number" id="cuantos" min="1" step="1" inputmode="numeric"
+          title="Cuántos casos quieres en esta tanda: se eligen al azar entre los del tema">
+        <span class="muted" id="de-total"></span></label>
       <label class="row"><input type="checkbox" id="solo-verificados"> <span class="muted">Solo verificados</span></label>
       <span class="chip" id="modo">Práctica</span>
       <span class="chip" id="marcador" hidden></span>

@@ -7,7 +7,7 @@ import {
   getDatabase, ref, set, get, update, remove, onValue, serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 import { firebaseConfig, APP_ANONIMA } from "./firebase-config.js";
-import { $, esc, md, cargarJSON, credito, barajar, sello, opcionesTanda } from "./comun.js";
+import { $, esc, md, cargarJSON, credito, barajar, sello, leerTanda, totalTanda } from "./comun.js";
 import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
 import { reportar } from "./reportar.js";
 import { qrDataURI } from "./qr.js";
@@ -15,6 +15,7 @@ import { qrDataURI } from "./qr.js";
 const LETRAS = "ABCDE";
 const LETRAS_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ";
 const DURACIONES = [20, 30, 45, 60, 90];
+const TOPE_CASOS = 200;      // las reglas piden estado/indice < 200
 const UN_DIA = 24 * 60 * 60 * 1000;
 const app = $("#app");
 const params = new URLSearchParams(location.search);
@@ -186,13 +187,13 @@ async function pantallaCrear() {
       `<div class="row"><a class="boton" href="sala.html">Volver</a></div>`);
     return;
   }
-  app.innerHTML = `<form class="panel stack angosto" id="config">
+  app.innerHTML = `<form class="panel stack angosto" id="config" novalidate>
     <p class="eyebrow">Presentador</p>
     <h2>Crear sala</h2>
     <label class="grid-label">Tema <select id="tema">${opciones}</select></label>
     <div class="campos">
       <label class="grid-label">Tiempo por caso <select id="duracion">${DURACIONES.map((s) => `<option value="${s}" ${s === 45 ? "selected" : ""}>${s} s</option>`).join("")}</select></label>
-      <label class="grid-label">Cuántos casos <select id="cuantos"></select></label>
+      <label class="grid-label">Cuántos casos <input type="number" id="cuantos" min="1" step="1" inputmode="numeric"></label>
     </div>
     <p class="src" id="nota-tanda"></p>
     <div class="casillas">
@@ -203,31 +204,43 @@ async function pantallaCrear() {
     <div class="row"><button class="primary lg" type="submit">Crear sala</button><a class="boton lg" href="sala.html">Cancelar</a></div>
   </form>`;
 
-  // Cuántos casos hay depende del tema y de los dos filtros, así que el desplegable se rehace
-  // cuando cambian. Solo se rehace si cambió el total: si no, se perdería la tanda elegida.
+  // Cuántos casos hay depende del tema y de los dos filtros, así que el campo se ajusta cuando cambian.
+  // Solo se toca si cambió el total: si no, se perdería el número escrito.
   let totalPrevio = -1;
+  const campo = $("#cuantos");
   function refrescar() {
     const tema = porRuta.get($("#tema").value);
     const borradores = Boolean($("#borradores") && $("#borradores").checked);
     const total = borradores
       ? tema.publicados + tema.sinPublicar
       : $("#sin-verificar").checked ? tema.publicados : tema.verificados;
-    const select = $("#cuantos");
     if (total !== totalPrevio) {
       totalPrevio = total;
-      select.innerHTML = opcionesTanda(total, Number(select.value) || 0);
+      totalTanda(campo, Math.min(total, TOPE_CASOS));
+      campo.disabled = !total;
     }
-    const cuantos = Number(select.value) || 0;
+    const cuantos = leerTanda(campo) || Math.min(total, TOPE_CASOS);
     $("#nota-tanda").textContent = !total
       ? "Ningún caso cumple el filtro: marca «Incluir casos sin verificar»."
-      : !cuantos ? `La sesión usa los ${total} casos.`
-      : $("#mezclar").checked ? `${cuantos} casos al azar entre los ${total}.`
-      : `Los primeros ${cuantos} casos del tema; con «Mezclar» salen al azar.`;
+      : cuantos === total ? (total === 1 ? "La sesión usa el único caso." : `La sesión usa los ${total} casos.`)
+      : $("#mezclar").checked ? `${cuantos} ${cuantos === 1 ? "caso" : "casos"} al azar entre los ${total}.`
+      : cuantos === 1 ? `El primero de los ${total} casos del tema; con «Mezclar» sale uno al azar.`
+      : `Los primeros ${cuantos} de los ${total} casos del tema; con «Mezclar» salen al azar.`;
   }
-  ["#tema", "#cuantos", "#mezclar", "#sin-verificar", "#borradores"].forEach((sel) => {
+  ["#tema", "#mezclar", "#sin-verificar", "#borradores"].forEach((sel) => {
     const control = $(sel);
     if (control) control.onchange = refrescar;
   });
+  // La nota sigue lo que se escribe; al soltar el campo, lo que quedó fuera de rango se muestra como todos.
+  campo.oninput = refrescar;
+  campo.onchange = () => {
+    campo.value = leerTanda(campo) || campo.max;
+    refrescar();
+  };
+  // Enter confirma el número y no crea la sala: debajo quedan casillas por marcar.
+  campo.onkeydown = (e) => {
+    if (e.key === "Enter") { e.preventDefault(); campo.blur(); }
+  };
   refrescar();
 
   $("#config").onsubmit = (e) => {
@@ -235,7 +248,7 @@ async function pantallaCrear() {
     crearSala({
       tema: $("#tema").value,
       duracion: Number($("#duracion").value),
-      cuantos: Number($("#cuantos").value) || 0,
+      cuantos: leerTanda(campo),
       mezclar: $("#mezclar").checked,
       sinVerificar: $("#sin-verificar").checked,
       borradores: Boolean($("#borradores") && $("#borradores").checked),
@@ -266,7 +279,7 @@ async function crearSala({ tema, duracion, cuantos, mezclar, borradores, sinVeri
   let casos = pkg.casos.filter((c) => c.estado === "publicado" || borradores);
   if (!sinVerificar && !borradores) casos = casos.filter((c) => c.revisor);
   if (mezclar) casos = barajar(casos);
-  if (cuantos) casos = casos.slice(0, cuantos);   // mezclados = al azar; sin mezclar = los primeros
+  casos = casos.slice(0, cuantos || TOPE_CASOS);   // mezclados = al azar; sin mezclar = los primeros
   if (!casos.length) {
     aviso("No hay casos que cumplan el filtro. Prueba marcando «Incluir casos sin verificar».", true);
     return;

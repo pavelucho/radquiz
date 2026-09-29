@@ -110,16 +110,19 @@ export function sello(caso, personas = {}) {
   return `<span class="sello sin" title="Todavía ningún radiólogo lo revisó">Sin verificar</span>`;
 }
 
-// Tandas: cuántos casos puede pedir quien practica o quien crea una sala.
-export const TANDAS = [5, 10, 15, 20, 30, 50];
+// Tandas: cuántos casos pide quien practica o quien crea una sala. El campo numérico admite cualquier número
+// del 1 al total, que va en su max. Vacío, 0, el total o más = todos, que se devuelve como 0.
+export function leerTanda(campo) {
+  const n = Math.floor(Number(campo.value));
+  return n >= 1 && n < Number(campo.max) ? n : 0;
+}
 
-// Opciones del desplegable «cuántos casos». 0 = todos; solo caben las tandas menores que el total.
-export function opcionesTanda(total, elegido = 0, sufijo = "casos") {
-  return [
-    `<option value="0">Todos (${total})</option>`,
-    ...TANDAS.filter((n) => n < total).map((n) =>
-      `<option value="${n}"${n === elegido ? " selected" : ""}>${n} ${sufijo}</option>`),
-  ].join("");
+// Pone un total nuevo en el campo (otro tema, otro filtro). Quien tenía todos sigue con todos, y un número
+// escrito se conserva mientras quepa.
+export function totalTanda(campo, total) {
+  const cuantos = leerTanda(campo);
+  campo.max = total;
+  campo.value = cuantos && cuantos < total ? cuantos : total;
 }
 
 export function barajar(lista) {

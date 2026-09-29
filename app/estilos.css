@@ -161,7 +161,8 @@ header.bar {
 }
 .herramientas { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; }
 .salto { display: none; }
-.bar select { min-height: 36px; padding-block: 5px; }
+.bar select, .bar input[type=number] { min-height: 36px; padding-block: 5px; }
+.bar input[type=number] { width: 5em; }
 .bar label.row { font-size: 14.5px; }
 .pie {
   margin-top: auto; padding-top: 22px; border-top: 1px solid var(--linea);
@@ -227,6 +228,7 @@ select {
   background-repeat: no-repeat; background-position: right 13px center; background-size: 12px 8px;
 }
 select option { background: var(--panel-2); color: var(--tinta); }
+input[type=number] { font-variant-numeric: tabular-nums; }
 input[type=checkbox], input[type=radio] { width: 18px; height: 18px; margin: 0; flex: none; accent-color: var(--marca); cursor: pointer; }
 .grid-label { display: grid; gap: 7px; font-size: 14.5px; font-weight: 500; color: var(--tinta-2); min-width: 0; }
 .grid-label > :where(input, select, textarea) { font-weight: 400; }

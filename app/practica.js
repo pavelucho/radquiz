@@ -1,6 +1,6 @@
 // RadQuiz — práctica individual. Con ?revision=1 muestra también los borradores y la información para el revisor
 // (evidencia, ficha técnica, notas): es el previsualizador de la fase de revisión.
-import { $, esc, md, credito, barajar, sello, TANDAS, opcionesTanda } from "./comun.js";
+import { $, esc, md, credito, barajar, sello, leerTanda, totalTanda } from "./comun.js";
 import { cargarPaquete } from "./publicado.js";
 import { reportar } from "./reportar.js";
 
@@ -14,7 +14,7 @@ let paquete, fuentes, base;
 let srcImagen = () => "";
 let disponibles = [];   // los casos del tema que pasan el filtro «Solo verificados»
 let casos = [];         // la tanda que se está practicando
-let totalOpciones = -1;
+let totalPrevio = -1;
 let actual = 0;
 const orden = new Map();       // id del caso → índices originales en el orden mostrado
 const respuestas = new Map();  // id del caso → índice original elegido
@@ -200,14 +200,14 @@ function tanda(lista, cuantos) {
   return lista.filter((_, i) => elegidos.has(i));
 }
 
-// El desplegable solo se rehace cuando cambia cuántos casos hay (al tocar «Solo verificados»):
-// así, al elegir una tanda, la elección no se pierde mientras se rehacen las opciones.
-function ponerOpciones(total) {
-  if (total === totalOpciones) return;
-  totalOpciones = total;
-  const select = $("#cuantos");
-  select.innerHTML = opcionesTanda(total, Number(select.value) || 0, "al azar");
-  $("#tanda").hidden = total <= TANDAS[0];   // con tan pocos casos no hay nada que elegir
+// El campo solo se toca cuando cambia cuántos casos hay (al tocar «Solo verificados»): así el número
+// escrito se conserva mientras quepa.
+function ponerTotal(total) {
+  if (total === totalPrevio) return;
+  totalPrevio = total;
+  totalTanda($("#cuantos"), total);
+  $("#de-total").textContent = `de ${total}`;
+  $("#tanda").hidden = total < 2;   // con un solo caso no hay nada que elegir
 }
 
 function reiniciar() {
@@ -219,8 +219,9 @@ function reiniciar() {
 function empezar() {
   const soloVerificados = $("#solo-verificados").checked;
   disponibles = base.filter((c) => !soloVerificados || c.revisor);
-  ponerOpciones(disponibles.length);
-  casos = tanda(disponibles, Number($("#cuantos").value) || 0);
+  ponerTotal(disponibles.length);
+  casos = tanda(disponibles, leerTanda($("#cuantos")));
+  $("#cuantos").value = casos.length;   // lo escrito fuera de rango queda como lo que de verdad sale
   actual = 0;
   if (!casos.length) {
     app.innerHTML = `<section class="panel"><p>Este tema todavía no tiene casos verificados por un radiólogo.
@@ -259,6 +260,8 @@ async function iniciar() {
   if (!base.length) return sinCasos();
   $("#solo-verificados").onchange = reiniciar;
   $("#cuantos").onchange = reiniciar;
+  // Enter confirma el número; al soltar el campo se cierra el teclado del celular.
+  $("#cuantos").onkeydown = (e) => { if (e.key === "Enter") e.target.blur(); };
   empezar();
 }
 
@@ -273,7 +276,7 @@ document.addEventListener("click", (e) => {
 $("#zoom").onclick = () => { $("#zoom").hidden = true; };
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") { $("#zoom").hidden = true; return; }
-  if (!casos.length || !$(".opts") || e.target.closest("select")) return;
+  if (!casos.length || !$(".opts") || e.target.closest("select, input:not([type=checkbox])")) return;
   const pos = "abcde".indexOf(e.key.toLowerCase());
   if (pos >= 0) {
     const boton = app.querySelector(`button.opt[data-k="${pos}"]`);

@@ -54,12 +54,14 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   pasar al formato nuevo.
   Licencia verificada: CC BY-NC-ND 4.0 (PDF en español, p. 136). Respaldo del original en `referencia/piloto-original/`.
 - App estática de práctica: `index.html` + `practica.html` (+ `?revision=1` = previsualizador para revisores).
-  En la cabecera, «Casos» elige el tamaño de la tanda (todos, 5, 10, 15, 20, 30, 50): los toma al azar pero los deja
-  en el orden del tema, y cambiarlo —o «Empezar de nuevo»— arma otra tanda.
+  En la cabecera, «Casos» es un campo numérico (2026-09-25): cualquier número del 1 al total, que es con lo que
+  empieza; vacío, 0 o más que el total = todos. Los toma al azar pero los deja en el orden del tema, y cambiarlo
+  —o «Empezar de nuevo»— arma otra tanda.
   Probar con `python3 -m http.server`. Necesita `temas/indice.json` (`tools/validar --indice`).
-- Al crear una sala se elige también «Cuántos casos»; con «Mezclar» la tanda sale al azar y sin mezclar son los
-  primeros del tema. El desplegable y su nota se rehacen según el tema y los filtros (`opcionesTanda` en `app/comun.js`,
-  compartido con la práctica).
+- Al crear una sala se escribe también «Cuántos casos», con el mismo campo; con «Mezclar» la tanda sale al azar y sin
+  mezclar son los primeros del tema. El campo y su nota se ajustan según el tema y los filtros (`leerTanda` y
+  `totalTanda` en `app/comun.js`, compartidos con la práctica). Una sala tiene como mucho 200 casos, porque las reglas
+  piden `estado/indice < 200`; Enter en el campo confirma el número y no crea la sala.
 - Sala en vivo: `sala.html` + `app/sala.js`, Firebase Realtime Database (proyecto `radquiz-shpn2`, plan Spark,
   us-central1) con auth anónima y reglas en `database.rules.json`. Probada de punta a punta el 2026-09-19.
   El lobby del presentador muestra, junto al código, un QR del enlace `sala.html?c=<código>` (se escanea y se
