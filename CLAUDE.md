@@ -146,6 +146,14 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   navegador. `text-wrap`, y `:has()` en Firefox anteriores al 121, solo mejoran. La portada trae una
   casilla para entrar a una sala con el código (formulario GET a `sala.html?c=`), y «Presentar una sesión» abre
   `sala.html?crear=1`, que va directo a crear la sala.
+- Fondo animado de la portada (2026-09-28): `.fondo-vivo` en `index.html`, sus estilos en la sección «inicio» de
+  `app/estilos.css` y `centrarMira()` en `app/inicio.js`. En escritorio, una mira como la del logo rodea la casilla
+  del código: anillos finos, una escala de gantry que gira despacio y un punto que da la vuelta, sobre una rejilla de
+  puntos y dos luces. Se desvanece antes de la columna de texto, la cabecera y la fila de «Temas» (dos máscaras que
+  se intersecan). Con la portada en una columna no hay mira: bajan una banda de luz tenue y dos luces frías que
+  vienen de arriba. Solo se animan `transform` y `opacity`; con «reducir movimiento» queda quieto. El contraste se
+  midió con capturas de cada animación en sus extremos (375, 1024, 1280, 1440 y 1920 px): ningún texto baja de
+  4,5:1; el peor es el gris de `--mute`, 4,95:1 en el celular.
 - Tablero por equipos (2026-09-27): `tablero.html` + `app/tablero-local.js`, al estilo Jeopardy, para proyectar sin
   celulares ni sala en vivo. Decidido por etapas: primero este («A»), después el tablero dentro de la sala con todos
   respondiendo desde el celular («B»), y el pulsador («C») solo si el grupo lo pide y tras medir el wifi. En pantalla

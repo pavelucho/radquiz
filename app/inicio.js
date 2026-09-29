@@ -68,4 +68,28 @@ async function iniciar() {
     </section>`).join("")}</div>`;
 }
 
+// Fondo animado: la mira se centra en la casilla del código y el fondo baja un poco más que ella, sin pasar del
+// final de la página. Se vuelve a medir cuando cambia el diseño: llega la tipografía, cambia el ancho, aparecen
+// los temas.
+function centrarMira() {
+  const fondo = $(".fondo-vivo");
+  const caja = $(".unirse").getBoundingClientRect();
+  const texto = $(".portada-texto").getBoundingClientRect();
+  const cabecera = $("header.bar").getBoundingClientRect();
+  const temas = $("#temas").getBoundingClientRect();
+  const x = caja.left + scrollX + caja.width / 2;
+  const y = caja.top + scrollY + caja.height / 2;
+  const radio = Math.hypot(caja.width, caja.height) / 2;
+  fondo.style.setProperty("--mx", `${Math.round(x)}px`);
+  fondo.style.setProperty("--my", `${Math.round(y)}px`);
+  fondo.style.setProperty("--mr", `${Math.round(radio)}px`);
+  fondo.style.setProperty("--mt", `${Math.round(caja.left + caja.width / 2 - texto.right)}px`);
+  fondo.style.setProperty("--mh", `${Math.round(caja.top + caja.height / 2 - cabecera.bottom)}px`);
+  fondo.style.setProperty("--mb", `${Math.round(temas.top - caja.top - caja.height / 2)}px`);
+  fondo.style.height = `${Math.round(Math.min(y + 2.2 * radio, $(".wrap").offsetHeight))}px`;
+  fondo.classList.add("listo");
+}
+
+new ResizeObserver(centrarMira).observe($(".wrap"));
+addEventListener("resize", centrarMira);
 iniciar();
