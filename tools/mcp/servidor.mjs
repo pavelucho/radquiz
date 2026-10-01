@@ -323,11 +323,13 @@ const contenidoImagen = (bytes) => ({ type: "image", data: Buffer.from(bytes).to
 
 // Las líneas que no son pie de figura: rótulos del equipo y medidas que forman parte de la imagen. Tolera los
 // errores del OCR («Stuoy Date»): basta una palabra o un patrón del rótulo.
-const ROTULO_EQUIPO = /Stu.?y|Date|Time|Series|Slice|Image:|Acc|FOV|kVp?|\bmA|\bTR\b|\bTE\b|=|\bmm\b|\bms\b|CBF|CBV|MTT|\b(Se|Im|Ex):|\d+:\d+/i;
+const ROTULO_EQUIPO = /Stu.?y|Date|Time|Series|Slice|Image:|\bAcc\b|FOV|\bkVp?\b|\bmA\b|\bTR\b|\bTE\b|=|\bmm\b|\bms\b|CBF|CBV|MTT|\b(Se|Im|Ex):|\d+:\d+|Header|Info|Contrast|SENSE|flex|Page:/i;
 
 function sugerirRectangulo(lineas, ancho, alto, minimo) {
-  // Los rótulos del equipo son cortos; una línea larga es texto de la página aunque diga «Series» o «Time».
-  const pie = lineas.filter((l) => l.texto.length >= minimo && !(l.texto.length < 30 && ROTULO_EQUIPO.test(l.texto)));
+  // Los rótulos del equipo son cortos y suelen ir en mayúsculas («MR SHOULDER WO CONTRAST»); una línea larga es
+  // texto de la página aunque diga «Series» o «Time».
+  const rotulo = (t) => t.length < 30 && (ROTULO_EQUIPO.test(t) || !/[a-záéíóúñ]/.test(t));
+  const pie = lineas.filter((l) => l.texto.length >= minimo && !rotulo(l.texto));
   if (!pie.length) return null;
   const m = 8;
   const r = [
