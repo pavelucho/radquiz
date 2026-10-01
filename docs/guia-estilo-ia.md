@@ -31,7 +31,8 @@ Formato exacto: `schema/paquete.schema.json`, `schema/caso.schema.json` y `schem
 - **`imagen`**: la respuesta depende de mirar la imagen. Es el tipo principal: la imagen es el caso.
 - **`concepto`**: se responde sin mirar (protocolo, epidemiología, diferencial). Va sin imagen o con la imagen solo en la
   respuesta. Nunca se pone una imagen decorativa en la pregunta (por ejemplo, una RM para una pregunta sobre TC).
-- Meta por paquete: al menos 70 % de casos tipo `imagen`.
+- No son de imagen aunque lleven figura: definiciones, cifras, frecuencias, criterios, «qué característica define…».
+- Meta por paquete: al menos 70 % de casos tipo `imagen` y dos por figura (el comprobador del `.zip` lo exige).
 
 ## 3. Clasificación: segmento → área
 
@@ -55,14 +56,29 @@ toman el estudio, las instrucciones para la IA y `tools/validar`.
 
 ## 4. Enunciado
 
-- Describe la imagen como la leyenda: lado, plano, secuencia, condición (boca cerrada, apertura, poscontraste) y qué
-  panel es cuál. Si la leyenda no dice la secuencia, no se menciona.
-- **No delata la respuesta.** No nombra el diagnóstico ni la palabra que lo define. Ejemplo: si la leyenda dice
-  «sagital oblicuo medial a la cabeza condilar» y la respuesta es «desplazamiento discal medial», el enunciado dice solo
-  «sagital oblicuo».
-- Nombra las marcas que hay que mirar (flecha blanca, círculo, asterisco, número) sin decir qué señalan.
-- Una sola pregunta, clara, que termina en `?`. Nada de «todas las anteriores», «ninguna» ni preguntas en negativo
-  («¿cuál NO…?»).
+El formato de los bancos de casos tipo RadPrimer: la figura primero, un enunciado corto y una pregunta directa
+(«¿Diagnóstico más probable?», «¿Qué señala la flecha?», «¿Qué signo se ve en el panel B?»). De RadPrimer se toma solo
+el formato; el contenido sale de la fuente.
+
+- **Dice dónde mirar, no qué hay.** Lleva, en este orden: la historia clínica (solo si la leyenda la da), la técnica
+  —lado, plano, secuencia, condición (boca cerrada, apertura, poscontraste) y qué panel—, la marca que hay que mirar
+  (flecha blanca, círculo, asterisco, número) sin decir qué señala, y una sola pregunta que termina en `?`. Si la
+  leyenda no dice la secuencia, no se menciona. Menos de 250 caracteres: en la sala hay 45 s para leer, mirar y
+  responder.
+- **Lo que define la respuesta lo pone la imagen.** El enunciado no lleva la forma del hallazgo («fragmento»,
+  «hendidura», «banda»), su trayecto o adónde se movió («migrado a la escotadura», «paralela al LCP»), el signo, el
+  diagnóstico ni las palabras del título de la leyenda. Ejemplo: si la leyenda dice «sagital oblicuo medial a la
+  cabeza condilar» y la respuesta es «desplazamiento discal medial», el enunciado dice solo «sagital oblicuo». Sin
+  marca, dice dónde mirar («el cuerno posterior», «el foco hiperintenso de la faceta») sin decir qué es.
+- Una pregunta mira una sola cosa: un panel o una marca. Tres paneles con tres signos son tres preguntas, no una con
+  «respectivamente».
+- Varias preguntas de la misma figura se responden cada una sola y en cualquier orden (nada de «la misma figura»):
+  ninguna da en su enunciado o sus opciones la respuesta de otra, y no hay dos con la misma respuesta.
+- Nada de «todas las anteriores», «ninguna» ni preguntas en negativo («¿cuál NO…?»).
+- **Prueba de la imagen tapada:** con la figura tapada, quien leyó el artículo no puede responder. Si puede, el
+  enunciado describe el hallazgo (se le quita) o el caso es de concepto.
+- `tema` va como «Grupo · Subtema». El grupo es la columna del tablero y se ve antes de responder: nombra el área
+  («Roturas meniscales»), nunca la respuesta. El subtema solo se ve después.
 
 ## 5. Opciones
 
@@ -73,6 +89,11 @@ toman el estudio, las instrucciones para la IA y `tools/validar`.
   adivinar ([Haladyna 2002](https://doi.org/10.1207/S15324818AME1503_5)). Si la correcta necesita más palabras,
   alargue los distractores con detalles plausibles o acorte la correcta.
 - Misma estructura gramatical en las cinco («Diagnóstico; riesgo», «X, Y y Z»).
+- En los casos de imagen, cada opción nombra un hallazgo, una estructura, un signo o un diagnóstico, casi siempre en 1
+  a 8 palabras.
+- Una palabra del enunciado que solo está en la correcta es una pista, aunque cambie la terminación («migrado» y
+  «migración»).
+- **Prueba de las opciones solas:** leídas sin la imagen ni el enunciado, no se ve cuál es la correcta.
 - La app baraja las opciones. Si el orden importa (por ejemplo, grados de una escala), poner `"barajar": false`.
 - `correcta` cuenta desde 0: 0 = A, 1 = B, … 4 = E.
 
@@ -90,19 +111,29 @@ toman el estudio, las instrucciones para la IA y `tools/validar`.
 
 Va una sola vez, en el catálogo `imagenes` del paquete, y los casos la citan por su id.
 
+Antes de escribir se **mira cada figura**: qué es cada panel (imagen, esquema, foto de artroscopia o de patología,
+tabla), qué marcas tiene y qué está escrito dentro. La figura sale entera en la pregunta —las ND no se recortan—, así
+que un panel o un rótulo que da la respuesta («HANDLE FRAGMENT», «PCL», un esquema del hallazgo) la deja fuera de la
+pregunta de ese caso: va en la respuesta, o el caso pregunta otra cosa.
+
 - `leyenda_original`: textual.
 - `paneles`: uno por letra (`"A"`, `"B"`…) o `"único"`. En cada uno: `plano`, `secuencia`, `condicion` y, si la
   leyenda lo dice, `lado`.
 - **Clave ausente = pendiente.** **`null` = la fuente no lo indica.** Nunca se rellena con una suposición: lo que se
-  ve pero la leyenda no dice va en `notas`, para que el revisor lo confirme.
-- `marcas`: qué señala cada flecha, círculo, asterisco o número, según la leyenda.
+  ve pero la leyenda no dice va en `notas`, para que el revisor lo confirme. Una IA que no pudo ver la figura lo dice
+  ahí: «No vi la figura: paneles y marcas según la leyenda».
+- `marcas`: todas las que se ven, con su panel y lo que señala según la leyenda. Un enunciado que nombra una marca o
+  un panel que la ficha no tiene es un error.
 - `modificaciones`: lista de cambios hechos a la figura (`redimensionada`, `comprimida`…). Con licencias ND solo se
   admiten esos dos.
 
-## 8. Antiejemplos (errores reales del piloto ATM)
+## 8. Antiejemplos (errores reales del piloto ATM y de los temas de MSK)
 
 | Error | Cómo estaba | Cómo quedó |
 | --- | --- | --- |
+| Enunciado que describe el hallazgo | «…se evidencia una rotura que involucra un tercio del menisco, con un fragmento central migrado que simula la empuñadura de un cubo (flecha). ¿Qué tipo de rotura representa?» (meniscos) | «Rodilla, sagital DP (panel d). ¿Qué signo señalan las flechas?», con un panel sin rótulos |
+| Figura con la respuesta escrita, en la pregunta | Fig. 17 de meniscos —«HANDLE FRAGMENT» en el panel c— en la pregunta de «¿Qué tipo de rotura?» | Esa figura, solo en la respuesta |
+| Una pregunta para tres paneles | «¿Cuáles son los tres signos señalados en a, b y c, respectivamente?», con «rotura radial» en el enunciado | Tres preguntas, una por panel: «Sagital DP (panel b). ¿Qué signo señala la punta de flecha?» |
 | Datos clínicos inventados | «Mujer de 34 años con chasquido y dolor en ATM derecha…» (la leyenda de la Fig. 2 no trae edad, sexo ni síntomas) | «ATM derecha. Cortes sagitales oblicuos en máxima intercuspidación, lateral (A) y medial (B). ¿Qué muestra la flecha blanca?» |
 | Pista en el enunciado | «…sagital oblicuo medial a la cabeza condilar. ¿Qué muestra la flecha?» → desplazamiento medial | «Corte coronal (A) y sagital oblicuo (B). ¿Qué muestra la flecha blanca?» |
 | Correcta mucho más larga | Correcta de 160 caracteres; la siguiente, de 69 | Cinco opciones de 50 a 66 caracteres |
@@ -221,6 +252,9 @@ Sin imagen; opciones de largo parecido y con la misma forma; cada cifra de la ex
 - [ ] Ningún dato clínico que no esté en la leyenda.
 - [ ] Cada caso con su `clasificacion`; `pediatria` solo si la fuente da la edad o la entidad es de la infancia.
 - [ ] Ningún enunciado que contenga la palabra clave de la respuesta.
+- [ ] Con la imagen tapada, ningún caso de imagen se responde.
+- [ ] Ninguna figura que sale en una pregunta tiene un panel o un rótulo con la respuesta de ese caso.
+- [ ] Al menos el 70 % de los casos son de imagen.
 - [ ] La correcta no es la opción más larga en más de un tercio de los casos (el validador lo cuenta).
 - [ ] Cada afirmación de la explicación tiene su frase en `evidencia`.
 - [ ] Cada caso tiene su perla, sacada de la fuente.

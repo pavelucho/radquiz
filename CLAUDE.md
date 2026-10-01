@@ -114,6 +114,17 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   `dePaquete()` —el inverso de `aPaquete()`— y `instruccionesPaquete()` da el texto para que una IA con ejecución
   de código lo arme desde el PDF. Lo importado entra siempre como borrador y se enseñan las figuras antes de crear
   nada: una IA puede partir una figura en paneles, y las licencias ND no lo permiten.
+- Prompts para la IA (2026-09-30): lo principal es la pregunta de imagen, al estilo de los bancos de casos tipo
+  RadPrimer (solo el formato). El del .zip va en orden de trabajo —sacar las figuras, **mirarlas**, escribir,
+  empaquetar, comprobar—: la IA busca rótulos, esquemas y fotos que delaten la respuesta, el enunciado dice dónde
+  mirar y no qué hay, y cada caso pasa la prueba de la imagen tapada y la de las opciones solas. Salió de meniscos y
+  tobillo, donde la mayoría de los casos de imagen copiaban de la leyenda la descripción del hallazgo, y de la Fig. 17
+  de meniscos, con «HANDLE FRAGMENT» escrito, en la pregunta de «¿qué tipo de rotura?». Los bloques
+  (`PREGUNTA_IMAGEN`, `PRUEBAS`, `ERRORES_REALES` en `app/instrucciones-ia.js`) los comparte el prompt del estudio. El
+  comprobador del .zip ahora también bloquea paneles y marcas del enunciado que la ficha no tiene, menos del 70 % de
+  casos de imagen o de dos casos de imagen por figura, dos preguntas de una figura con la misma respuesta y pistas
+  comparadas por las 5 primeras letras; y avisa (⚠, no bloquea) de enunciados que describen lo que se ve o pasan de
+  250 caracteres. Probado contra los tres temas: en ATM no da ninguna pista falsa.
 - Carga masiva (2026-09-24): no hay tope de casos. En el paso 3, el panel «Clasificación» resume cuántos casos hay en
   cada segmento → área y agrega o quita una pareja a los casos marcados de una vez; cambiar la clasificación (ahí o
   en el formulario) no toca `actualizado` del caso y no retira el sello. Una respuesta de IA cortada se rescata
@@ -224,6 +235,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
    revisión del segundo radiólogo (pendiente 2).
 10. En la sala clásica, una figura de «respuesta» que comparten varios casos se ve al revelar el primero: la Tabla 1
     de Protocolo muestra la orientación de los cortes que pregunta Planificación. El tablero ya lo evita; la sala no.
+    Desde el 2026-09-30 los prompts piden que una figura vaya en la respuesta de un solo caso y el comprobador del
+    .zip lo avisa, pero los temas ya publicados siguen igual.
 
 ## Preferencias del autor (Pavel, residente de radiología)
 - Interfaz y contenido en español.

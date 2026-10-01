@@ -22,14 +22,14 @@ const EJEMPLO = `{
   ],
   "casos": [
     {
-      "tema": "Subtema corto",
+      "tema": "Grupo · Subtema",
       "clasificacion": [{ "segmento": "cabeza-cuello", "area": "atm" }],
       "tipo": "imagen",
-      "enunciado": "Descripción técnica de la imagen y la pregunta.",
+      "enunciado": "ATM derecha, sagital oblicuo en boca cerrada (A). ¿Qué señala la flecha blanca?",
       "imagenes": [{ "figura": "Figura 2", "mostrar_en": "pregunta" }],
       "opciones": ["Opción A", "Opción B", "Opción C", "Opción D", "Opción E"],
       "correcta": 2,
-      "explicacion": "- Primera idea.\\n- Segunda idea.",
+      "explicacion": "- En A, la flecha blanca señala …: es …\\n- No es … (el distractor más tentador) porque …\\n- La idea clave del documento.",
       "perla": "La enseñanza clave del caso, en una frase práctica sacada del documento.",
       "evidencia": [{ "ubicacion": "p. 5, leyenda de la Figura 2", "cita": "Frase copiada textual del documento." }],
       "etiquetas": ["palabra clave"]
@@ -37,23 +37,24 @@ const EJEMPLO = `{
   ]
 }`;
 
+// Las reglas de todos los casos. Las de la pregunta de imagen van aparte, en PREGUNTA_IMAGEN, porque son lo
+// principal. Las siete primeras son las de las opciones: el prompt de corrección las repite.
 const REGLAS = [
   "Usa SOLO el documento adjunto. Si algo no está ahí, no lo escribas, aunque sepas que es cierto.",
   "No inventes datos clínicos. La edad, el sexo o los síntomas van en la pregunta solo si la leyenda de esa figura los dice.",
-  "La pregunta describe la imagen como la leyenda (lado, plano, secuencia, condición) pero no nombra el diagnóstico, ni la palabra que lo delata, ni su descripción literal: si el enunciado dice «contacto entre las apófisis espinosas», la respuesta no puede ser «kissing spines». Una palabra del enunciado que solo aparezca en la opción correcta es una pista: úsala también en algún distractor o reescríbela.",
-  "Cinco opciones, una sola correcta. Las cinco del mismo tipo (todas diagnósticos, o todas estructuras, o todas porcentajes), del mismo largo y con el mismo nivel de detalle. La correcta no puede ser la más larga ni la más matizada.",
-  "Los cuatro distractores son respuestas que un residente daría de verdad ante ESA imagen: los diagnósticos diferenciales de la misma familia que la correcta, o el error de quien confunde una entidad con la de al lado. Escríbelos con el vocabulario del documento.",
+  "Cinco opciones, una sola correcta. Las cinco del mismo tipo (todas diagnósticos, o todas estructuras, o todas signos), del mismo largo y con el mismo nivel de detalle. La correcta no puede ser la más larga ni la más matizada.",
+  "Los cuatro distractores son respuestas que un residente daría de verdad ante ESA imagen: los diagnósticos diferenciales de la misma familia que la correcta, la variante normal o el artefacto que la imitan, o el error de quien confunde una entidad con la de al lado. Escríbelos con el vocabulario del documento.",
   "Prohibido el distractor-comodín. En un cuestionario de patología degenerativa, un tumor, una infección, una fractura aguda o una anomalía congénita no son distractores: se descartan sin mirar la imagen. Nada absurdo, catastrófico ni de otro capítulo para rellenar.",
   "Los calificadores extremos (masivo, severo, completo, exacto, puro, siempre, nunca, solamente) delatan al distractor. Si los usas, que aparezcan también en la correcta; mejor, que no aparezcan en ninguna.",
-  "PRUEBA DE LA TAPADERA, en cada caso antes de darlo por bueno: tapa la imagen y el enunciado y lee solo las cinco opciones. Si desde ahí ya se ve cuál es la correcta —porque es la única sensata, la única de su familia, la más larga o la más precisa—, el caso está mal: reescribe los distractores, no la pregunta.",
-  "La explicación son 2 a 4 viñetas que empiezan con «- », con el vocabulario del documento y sin afirmar más que él.",
+  "Una palabra del enunciado que solo aparezca en la opción correcta es una pista, aunque cambie la terminación («migrado» y «migración»): úsala también en algún distractor o reescríbela.",
+  "La explicación son 2 a 4 viñetas que empiezan con «- », con el vocabulario del documento y sin afirmar más que él. En un caso de imagen, la primera dice qué se ve y dónde (panel, marca) y cómo se llama, y otra, por qué no es el distractor más tentador.",
   "Cada caso lleva «perla»: la enseñanza clave, en una frase práctica sacada del documento. El tablero por equipos la proyecta como «Clave para llevarse».",
   "Cada caso lleva «evidencia»: dónde está en el documento y la frase copiada textual que sostiene la respuesta.",
-  "Tipo «imagen» si hay que mirar la figura para responder; tipo «concepto» si no hace falta (y entonces sin figura en la pregunta).",
-  "Si una figura o tabla contiene la respuesta escrita, úsala con \"mostrar_en\": \"respuesta\".",
+  "«tema» va como «Grupo · Subtema». El grupo es la columna del tablero por equipos y se ve antes de responder: nombra un área («Roturas meniscales»), nunca la respuesta. El subtema solo se ve después.",
+  "Si una figura o tabla trae la respuesta escrita, va con \"mostrar_en\": \"respuesta\", nunca en la pregunta de ese caso.",
   "Copia cada leyenda tal cual está en el documento, en su idioma, sin traducirla ni resumirla.",
   "Texto simple: nada de HTML. Para resaltar usa **negrita**.",
-  "«correcta» es la posición de la opción correcta contando desde 0: 0 es la primera opción y 4 la quinta. La app baraja las opciones al presentarlas: nada de «todas las anteriores» ni de opciones que se refieran a otras.",
+  "«correcta» es la posición de la opción correcta contando desde 0: 0 es la primera opción y 4 la quinta. La app baraja las opciones al presentarlas: nada de «todas las anteriores», de opciones que se refieran a otras ni de preguntas en negativo («¿cuál NO…?»).",
 ];
 
 // El número de casos lo manda el documento, no una cifra fija: un artículo con quince figuras da
@@ -73,39 +74,98 @@ const COMODINES = {
 const EXTREMOS = ["masiv", "sever", "complet", "exactament", "solament", "unicament", "siempre", "nunca",
   "absolut", "extrem", "gigant", "totalment", "imposible", "extensa", "extenso", "puro", "pura"];
 
-// Sacado de un cuestionario ya publicado: las cuatro opciones malas eran de otro capítulo, así que la
-// correcta se veía sin abrir la imagen. Un ejemplo concreto corrige esto mucho mejor que una regla más.
-const EJEMPLO_OPCIONES = `EL ERROR QUE MÁS SE REPITE (de un cuestionario real, no lo copies)
-  Pregunta: «En el panel B (axial STIR), ¿qué representa el hallazgo hiperintenso de la faceta?»
-    Tumor neurogénico de la raíz · Edema de la médula espinal · Rotura del ligamento amarillo ·
-    Grasa epidural hipertrofiada pura · LÍQUIDO ARTICULAR EN LA FACETA (la correcta)
-  La imagen sobra: las otras cuatro son de otro capítulo y un residente las tacha de memoria.
-  Así sí, todas de la misma familia y todas posibles ante esa imagen:
-    Líquido articular · Quiste sinovial facetario · Edema óseo subcondral · Hipertrofia sinovial sin
-    líquido · Grasa periarticular`;
+// Lo principal de los dos prompts: cómo se escribe una pregunta de imagen, al estilo de los bancos de casos
+// como RadPrimer (la figura primero, un enunciado corto y una pregunta directa). Sale de los cuestionarios
+// de meniscos y tobillo (2026-09-20): en la mayoría de sus casos de imagen el enunciado copiaba de la leyenda la
+// descripción del hallazgo —«un fragmento central migrado que simula la empuñadura de un cubo», y la respuesta
+// era «asa de cubo»— y la imagen sobraba. La regla de no nombrar el diagnóstico no bastaba: la IA no
+// tomaba la descripción por el diagnóstico.
+const PREGUNTA_IMAGEN = `CÓMO SE ESCRIBE UNA PREGUNTA DE IMAGEN
+Es de imagen si para responder hay que mirar la figura. El residente ve la figura entera, el enunciado y las
+cinco opciones; la leyenda, solo después de responder.
+- El enunciado dice dónde mirar, no qué hay. Lleva, en este orden: la historia clínica, solo si la leyenda la
+  da; la técnica (modalidad, plano, secuencia, lado, condición, qué panel); la marca que hay que mirar, sin
+  decir qué señala; y una sola pregunta directa que termina en «?». De una a tres frases cortas y menos de 250
+  caracteres: en la sala hay 45 segundos para leer, mirar y responder.
+- Lo que define la respuesta lo pone la imagen, nunca el enunciado: la forma («fragmento», «hendidura»,
+  «banda»), el trayecto o adónde se movió («migrado a la escotadura», «paralela al LCP»), el signo, el
+  diagnóstico y las palabras del título de la leyenda. Si la figura no tiene marca, di dónde mirar —«el cuerno
+  posterior», «el foco hiperintenso de la faceta»— sin decir qué es.
+- Preguntas que funcionan: ¿Cuál es el diagnóstico más probable? · ¿Qué señala la flecha (el asterisco, el
+  número 3)? · ¿Qué signo se ve en el panel B? · ¿Qué estructura está lesionada? · ¿Qué tipo o grado es,
+  según la clasificación del documento? · Y un paso más con la misma imagen —qué hallazgo asociado buscar,
+  qué implica, qué plano o secuencia lo muestra mejor—, si el documento lo dice y sin escribir en el
+  enunciado lo que se ve.
+- Una pregunta mira una sola cosa: un panel o una marca. Tres paneles con tres signos son tres preguntas, no
+  una con «respectivamente».
+- Las opciones nombran un hallazgo, una estructura, un signo o un diagnóstico, casi siempre en 1 a 8
+  palabras: nada de frases largas ni de pares «X asociado a Y».
+- Varias preguntas de la misma figura: cada una se responde sola y en cualquier orden —nada de «la misma
+  figura» ni «el caso anterior»—, ninguna dice en su enunciado ni en sus opciones la respuesta de otra, y no
+  hay dos con la misma respuesta.
+- No son de imagen, aunque lleven figura: definiciones, cifras, frecuencias, criterios, protocolos, «qué
+  característica define…». Van como "concepto", sin figura en la pregunta.`;
 
-function objetivoCasos(nFiguras) {
-  return Math.max(MINIMO_CASOS, POR_FIGURA * (nFiguras || 0));
-}
+// La prueba de las opciones solas ya estaba; la de la imagen tapada es la que faltaba: es la que habría
+// parado los enunciados de meniscos.
+const PRUEBAS = `DOS PRUEBAS, en cada caso de imagen antes de darlo por bueno
+a) Imagen tapada. Tapa la figura y lee el enunciado con las opciones. Si alguien que leyó el artículo ya
+   sabe la respuesta, el enunciado la está describiendo: quítale la descripción. Si aun así se responde sin
+   mirar, no es de imagen: pásalo a "concepto" o pregunta otra cosa.
+b) Opciones solas. Tapa también el enunciado y lee solo las cinco opciones. Si se ve cuál es la correcta
+   —la única sensata, la única de su familia, la más larga o la más precisa—, reescribe los distractores.`;
+
+// Dos errores de cuestionarios publicados, con su arreglo: un ejemplo concreto corrige mejor que una regla más.
+// El primero es la Figura 17 de meniscos, que además tiene «HANDLE FRAGMENT» escrito en el panel c; el «así sí»
+// es el panel d de la Figura 18, que no tiene rótulos (el c sí: «PCL»).
+const ERRORES_REALES = `DOS ERRORES REALES (de cuestionarios publicados; no copies su contenido)
+1. El enunciado describe el hallazgo y la figura lo trae escrito.
+   «En la reconstrucción axial sensible a líquido (panel b) se evidencia una rotura que involucra un tercio
+   del menisco, con un fragmento central migrado que simula la empuñadura de un cubo (flecha). ¿Qué tipo de
+   rotura representa?»
+   «Empuñadura de un cubo» ya es la respuesta (rotura en asa de cubo), y en otro panel de esa figura se lee
+   «HANDLE FRAGMENT». Así sí, con un panel sin rótulos de otra figura del mismo artículo:
+   «Rodilla, sagital DP (panel d). ¿Qué signo señalan las flechas?»
+     Signo del doble cuerno anterior · Signo del doble LCP · Signo del corbatín ausente ·
+     Signo del menisco fantasma · Signo de la hendidura en marcha
+2. Los distractores son de otro capítulo.
+   «En el panel B (axial STIR), ¿qué representa el hallazgo hiperintenso de la faceta?»
+     Tumor neurogénico de la raíz · Edema de la médula espinal · Rotura del ligamento amarillo ·
+     Grasa epidural hipertrofiada pura · LÍQUIDO ARTICULAR EN LA FACETA (la correcta)
+   Las otras cuatro se tachan de memoria. Así sí, todas posibles ante esa imagen:
+     Líquido articular · Quiste sinovial facetario · Edema óseo subcondral · Hipertrofia sinovial sin
+     líquido · Grasa periarticular`;
+
+// Una figura con la respuesta escrita en un panel no se ve leyendo la leyenda: hay que mirarla. El prompt
+// del estudio la mira en el PDF; el del .zip, en los JPG que acaba de sacar (instruccionesPaquete).
+const MIRAR_EN_PDF = `MIRA CADA FIGURA EN EL PDF ANTES DE ESCRIBIR
+- Qué es cada panel (imagen, esquema, foto, tabla), qué marcas tiene y qué está escrito dentro de la figura.
+- La figura sale entera en la pregunta. Si un panel o un rótulo («HANDLE FRAGMENT», «PCL», «Normal») delata la
+  respuesta de un caso, ese caso no lleva la figura en la pregunta: pregunta otra cosa que la figura no
+  delate, o pásalo a "concepto" con la figura en "respuesta".`;
 
 // El mismo reparto para los dos prompts. Con las figuras ya cargadas se da la cifra exacta; en el
-// del .zip todavía no se sabe cuántas saldrán del PDF, así que se da la regla.
+// del .zip todavía no se sabe cuántas saldrán del PDF, así que se da la regla. Se cuentan los casos de
+// imagen: los de concepto no pueden tapar una figura sin preguntas.
 function repartoCasos(nFiguras) {
   const cuantos = nFiguras
-    ? `Tienes ${nFiguras} ${nFiguras === 1 ? "figura" : "figuras"}: escribe ${objetivoCasos(nFiguras)} casos o más.`
-    : `Cuenta las figuras que conseguiste extraer: ${POR_FIGURA} casos por figura como mínimo, y nunca menos de ${MINIMO_CASOS} en total.`;
+    ? `Tienes ${nFiguras} ${nFiguras === 1 ? "figura" : "figuras"}: escribe ${POR_FIGURA * nFiguras} casos de imagen o más, y unos ${MINIMO_CASOS} casos en total como mínimo.`
+    : `Cuenta las figuras que conseguiste extraer: escribe al menos ${POR_FIGURA} casos de imagen por cada una, y unos ${MINIMO_CASOS} casos en total como mínimo.`;
   return `- ${cuantos}
-- De cada figura salen al menos dos preguntas distintas: una de reconocimiento (qué se ve, qué
-  hallazgo es) y otra que vaya más allá con la misma imagen —diagnóstico diferencial, plano o
-  secuencia, signo, medida, qué implica en la clínica—. Si la figura tiene varios paneles o varias
-  marcas, salen tres o cuatro sin repetirse.
-- Suma los casos de tipo "concepto" que dé el texto: definiciones, indicaciones, criterios, errores
-  frecuentes. Esos van aparte de la cuenta por figura.
-- No hay máximo. Un documento con muchas figuras da para un cuestionario largo: aprovéchalo entero
-  en vez de parar en una cifra redonda.
+- De cada figura salen al menos dos preguntas de imagen distintas: una de reconocimiento (qué hallazgo es,
+  qué diagnóstico) y otra que vaya más allá con la misma imagen (el signo, el diferencial, el plano o la
+  secuencia, qué implica). Una figura con varios paneles o varias marcas da tres o cuatro: una por panel o
+  por marca.
+- Una figura sin nada que mirar —una tabla, un esquema rotulado— no cuenta para eso: va en la respuesta del
+  caso de concepto que responda, y de uno solo (al revelarlo se ve entera y respondería a los demás).
+- Los casos de "concepto" (definiciones, indicaciones, criterios, cifras) van aparte y son como mucho 3 de
+  cada 10: el cuestionario es de imagen.
+- No hay máximo. Un documento con muchas figuras da para un cuestionario largo: aprovéchalo entero en vez
+  de parar en una cifra redonda.
 - Ninguna figura puede quedarse sin pregunta.
-- Nada de relleno: dos preguntas que piden lo mismo con otras palabras cuentan como una. Antes que
-  repetir, deja esa figura con menos casos.`;
+- Nada de relleno: dos preguntas que piden lo mismo con otras palabras cuentan como una, y dos de la misma
+  figura con la misma respuesta, también. Si un documento corto no da para ${MINIMO_CASOS} casos sin relleno,
+  entrega menos y dilo.`;
 }
 
 function listaFiguras(tema) {
@@ -150,8 +210,9 @@ export function instruccionesIA(tema) {
   const meta = tema.meta || {};
   const fuente = tema.fuente || {};
   const figuras = imagenesOrdenadas(tema);
+  const conFiguras = figuras.length > 0;
   const faltanLeyendas = figuras.some((i) => !i.leyenda_original);
-  return `Eres un radiólogo docente que prepara preguntas de opción múltiple para residentes de radiología, a partir del documento que te adjunto.
+  return `Eres un radiólogo docente que prepara preguntas de opción múltiple para residentes de radiología, a partir del documento que te adjunto.${conFiguras ? ` Las de imagen siguen el formato de los bancos de casos tipo RadPrimer: la figura es la pregunta. De RadPrimer tomas solo el formato; el contenido sale únicamente del documento.` : ""}
 
 TEMA: ${meta.titulo || "(sin título)"} — segmento ${meta.segmento || "(sin segmento)"}.
 FUENTE: ${fuente.cita || "(la del documento adjunto)"}
@@ -159,20 +220,26 @@ FUENTE: ${fuente.cita || "(la del documento adjunto)"}
 FIGURAS DISPONIBLES (usa exactamente estos nombres en "figura"):
 ${listaFiguras(tema)}
 
-REGLAS OBLIGATORIAS
+${conFiguras ? `${MIRAR_EN_PDF}
+
+${PREGUNTA_IMAGEN}
+
+${PRUEBAS}
+
+${ERRORES_REALES}
+
+` : ""}REGLAS DE TODOS LOS CASOS
 ${REGLAS.map((r, i) => `${i + 1}. ${r}`).join("\n")}
 
-${EJEMPLO_OPCIONES}
-
 CUÁNTOS CASOS
-${repartoCasos(figuras.length)}
+${conFiguras ? repartoCasos(figuras.length) : `- Unos ${MINIMO_CASOS} casos, sin relleno: dos preguntas que piden lo mismo con otras palabras cuentan como una.`}
 
 CLASIFICACIÓN DE CADA CASO
 ${reglasClasificacion(meta.segmento)}
 
 QUÉ TIENES QUE DEVOLVER
 - ${faltanLeyendas ? 'La lista "imagenes": la ficha de cada figura de arriba, con su leyenda textual, los paneles (A, B…) y qué señala cada flecha, círculo o número.' : 'La lista "imagenes" puede ir vacía: las leyendas ya están cargadas.'}
-- La lista "casos": los que salgan de la cuenta de arriba, con al menos 70 % de tipo "imagen".
+- La lista "casos": ${conFiguras ? 'los que salgan de la cuenta de arriba, con al menos 70 % de tipo "imagen"' : 'todos de tipo "concepto", sin figuras'}.
 - Si no te caben todos en una sola respuesta, termina en un caso completo, cierra bien el JSON y agrega
   "faltan": true. Después te pediré el resto.
 - Responde SOLO con un JSON válido, sin texto antes ni después, sin explicaciones y sin bloques de código.
@@ -185,21 +252,82 @@ ${EJEMPLO}`;
 // con su herramienta de análisis, Gemini con ejecución): que devuelva el cuestionario entero —texto
 // e imágenes— en un solo .zip, con la misma forma que una carpeta de temas/ en el repositorio.
 //
-// El prompt lleva dentro un comprobador en Python que la IA tiene que correr antes de entregar.
-// Repite las reglas del esquema (schema/*.schema.json) porque ahí es donde se equivocan: el .zip
-// llega bien formado o no llega, y un aviso del estudio a toro pasado no sirve de nada.
+// Va en el orden en que se trabaja —sacar las figuras, mirarlas, escribir, empaquetar, comprobar— y lo largo
+// es lo que importa: las preguntas de imagen (pasos 2 y 3). El formato del .zip es mecánico y lo repite el
+// comprobador en Python que la IA tiene que correr antes de entregar, porque ahí es donde se equivocan: el .zip
+// llega bien formado o no llega, y un aviso del estudio a toro pasado no sirve de nada. Sus ✗ bloquean; sus ⚠
+// son señales de una pregunta mal hecha que no se pueden afirmar sin leerla (un enunciado que describe lo que
+// se ve, uno largo), y la IA las revisa con las dos pruebas.
 export function instruccionesPaquete() {
   const segmentos = Object.keys(SEGMENTOS).join(" · ");
   const modalidades = MODALIDADES.join(" · ");
   const licencias = LICENCIAS.map((l) => l.valor).join(" · ");
   const nd = LICENCIAS.filter((l) => l.nd).map((l) => l.valor).join(" y ");
-  return `Eres un radiólogo docente. Con el documento de acceso abierto que te adjunto vas a armar un
-cuestionario de opción múltiple para residentes de radiología y devolvérmelo en UN SOLO archivo .zip.
+  return `Eres un radiólogo docente que escribe preguntas de imagen para residentes de radiología, en el formato
+de los bancos de casos tipo RadPrimer: la figura es la pregunta. De RadPrimer tomas solo el formato; el
+contenido sale únicamente del documento de acceso abierto que te adjunto. Con él vas a armar un cuestionario
+de opción múltiple y devolvérmelo en UN SOLO archivo .zip.
 
-Necesito que ejecutes código: hay que sacar las figuras del PDF y comprobar el resultado antes de
+Lo que más importa son las preguntas de imagen (pasos 2 y 3). El formato del .zip es mecánico y lo revisa el
+comprobador del paso 7.
+
+Necesito que ejecutes código: hay que sacar las figuras del PDF, mirarlas y comprobar el resultado antes de
 entregarlo. Si no puedes ejecutar código, dímelo ahora y lo hacemos de otra manera.
 
-──────────────────────────────── 1. QUÉ LLEVA EL .ZIP
+──────────────────────────────── 1. SACA LAS FIGURAS
+- Con PyMuPDF (fitz): localiza el rectángulo que contiene la figura ENTERA —todos sus paneles, sin el texto
+  de la leyenda— y renderiza esa zona:
+      pagina.get_pixmap(clip=rect, dpi=200).save(...)
+  Luego a JPG, lado mayor 1600 px como máximo y por debajo de 250 KB. Sin metadatos EXIF.
+- Comprueba cada recorte: pagina.get_text("text", clip=rect) no puede traer frases de la leyenda ni de otra
+  figura —si las trae, el rectángulo es demasiado grande—, y tienen que estar todos los paneles que nombra
+  la leyenda.
+- NO uses page.get_images() ni extract_image() para sacar los objetos incrustados uno a uno. Una figura de
+  varios paneles suele estar guardada como varias imágenes sueltas, y entregarlas por separado es partir la
+  figura.
+- Las licencias sin derivadas (${nd}) solo permiten redimensionar y comprimir:
+  nada de recortar, partir ni anotar.
+- Un archivo por FIGURA, no por panel. El nombre va en minúsculas, termina en .jpg (ni .jpeg ni .png) y sale
+  del id de la figura: "Figura 2" → img/fig02.jpg · "Figura 3B" → img/fig03b.jpg · "Tabla 1" → img/tabla1.jpg.
+- Si no consigues extraer alguna figura, déjala fuera del .zip y dímelo: se sube luego a mano.
+
+──────────────────────────────── 2. MIRA CADA FIGURA ANTES DE ESCRIBIR
+Abre cada JPG a tamaño completo (o la página del PDF) y anota para ti, figura por figura:
+- Los paneles como vienen rotulados (A, B… o a, b…) y qué es cada uno: imagen (RM, TC, Rx, US…), esquema o
+  dibujo, foto (artroscopia, cirugía, patología), tabla o gráfico.
+- Las marcas que se ven —flecha blanca o negra, punta de flecha, asterisco, círculo, número— y en qué panel.
+  Van todas en "marcas", con lo que señala cada una según la leyenda.
+- Lo que está escrito dentro de la figura: nombres de estructuras, diagnósticos, títulos. «HANDLE FRAGMENT»,
+  «PCL» o «Normal» son la respuesta escrita. pagina.get_text("text", clip=rect) da el texto que el PDF guarda
+  como texto; el que forma parte de la imagen solo se ve mirándola.
+- Qué hallazgo se ve en cada panel y con qué marca: eso es lo que se puede preguntar.
+La figura sale entera —las licencias no dejan recortarla— y el residente ve todos sus paneles a la vez. Si un
+panel (un esquema, una foto rotulada, un rótulo) delata la respuesta de un caso, ese caso no lleva la figura
+en la pregunta: pregunta otra cosa que la figura no delate, o pásalo a "concepto" con la figura en
+"respuesta".
+Si tu entorno no te deja ver imágenes, dilo antes de empezar, escribe las preguntas con lo que dice la leyenda
+de cada panel y de cada marca, y pon en "notas" de cada figura: «No vi la figura: paneles y marcas según la
+leyenda».
+
+──────────────────────────────── 3. LAS PREGUNTAS DE IMAGEN
+${PREGUNTA_IMAGEN}
+
+${PRUEBAS}
+
+${ERRORES_REALES}
+
+──────────────────────────────── 4. CUÁNTAS PREGUNTAS
+${repartoCasos(0)}
+
+──────────────────────────────── 5. REGLAS DE TODOS LOS CASOS
+${REGLAS.map((r, i) => `${i + 1}. ${r}`).join("\n")}
+${REGLAS.length + 1}. Escribe los casos en español aunque el documento esté en otro idioma. Las leyendas, no:
+    esas van copiadas tal cual, en el idioma original.
+
+CLASIFICACIÓN DE CADA CASO
+${reglasClasificacion("")}
+
+──────────────────────────────── 6. EL .ZIP
 Exactamente estos nombres, SIN una carpeta por encima:
 
     paquete.json
@@ -207,38 +335,7 @@ Exactamente estos nombres, SIN una carpeta por encima:
     img/fig02.jpg
     img/fig03.jpg   … una por figura usada
 
-Los nombres de img/ van en minúsculas y terminan en .jpg (ni .jpeg ni .png), y se forman con el id
-de la figura: "Figura 2" → fig02.jpg · "Figura 3B" → fig03b.jpg · "Tabla 1" → tabla1.jpg.
-
-──────────────────────────────── 2. LAS FIGURAS
-- Con PyMuPDF (fitz): localiza el rectángulo que contiene la figura ENTERA —todos sus paneles, sin
-  el texto de la leyenda— y renderiza esa zona:
-      pagina.get_pixmap(clip=rect, dpi=200).save(...)
-  Luego a JPG, lado mayor 1600 px como máximo y por debajo de 250 KB. Sin metadatos EXIF.
-- NO uses page.get_images() ni extract_image() para sacar los objetos incrustados uno a uno. Una
-  figura de varios paneles suele estar guardada como varias imágenes sueltas, y entregarlas por
-  separado es partir la figura.
-  Las licencias sin derivadas (${nd}) solo permiten redimensionar y comprimir:
-  nada de recortar, partir ni anotar.
-- Comprobación mental: el número de archivos de img/ tiene que ser el número de FIGURAS que usas,
-  no el de paneles.
-- Si no consigues extraer alguna figura, déjala fuera del .zip y dímelo: se sube luego a mano.
-
-──────────────────────────────── 3. CUÁNTAS PREGUNTAS
-${repartoCasos(0)}
-
-──────────────────────────────── 4. REGLAS DE LOS CASOS
-${REGLAS.map((r, i) => `${i + 1}. ${r}`).join("\n")}
-${REGLAS.length + 1}. Escribe los casos en español aunque el documento esté en otro idioma. Las leyendas, no:
-    esas van copiadas tal cual, en el idioma original.
-
-${EJEMPLO_OPCIONES}
-
-CLASIFICACIÓN DE CADA CASO
-${reglasClasificacion("")}
-
-──────────────────────────────── 5. paquete.json
-Lo que va detrás de // son notas para ti: JSON no admite comentarios, así que no los copies.
+paquete.json. Lo que va detrás de // son notas para ti: JSON no admite comentarios, así que no los copies.
 {
   "id": "minusculas-con-guiones",            // descriptivo + primer autor + año: "atm-rm-lopezramirez2024"
   "titulo": "Título del cuestionario",
@@ -257,24 +354,26 @@ Lo que va detrás de // son notas para ti: JSON no admite comentarios, así que 
       "paneles": [
         { "id": "A", "lado": "derecho", "plano": "sagital oblicuo", "secuencia": "DP", "condicion": "boca cerrada" }
       ],                                     // "lado": derecho · izquierdo · bilateral · null
-      "marcas": [                            // [] si la figura no tiene flechas ni círculos
+      "marcas": [                            // todas las que se ven; [] si no tiene ninguna
         { "marca": "flecha blanca", "panel": "A", "senala": "qué señala, según la leyenda" }
       ],
-      "modificaciones": ["redimensionada", "comprimida"]
+      "modificaciones": ["redimensionada", "comprimida"],
+      "notas": "…"                           // solo si hace falta: lo que ves y la leyenda no dice, o «No vi la figura»
     }
   },
   "casos": [
     {
       "id": "caso-01",
-      "tema": "Subtema corto",
-      "clasificacion": [{ "segmento": "cabeza-cuello", "area": "atm" }],   // apartado 4: la primera, la principal
+      "tema": "Grupo · Subtema",              // el grupo es la columna del tablero y se ve antes de responder: un área, nunca la respuesta
+      "clasificacion": [{ "segmento": "cabeza-cuello", "area": "atm" }],   // paso 5: la primera, la principal
       "etiquetas": ["palabra clave"],
       "tipo": "imagen",                      // "imagen" o "concepto"
-      "enunciado": "Descripción técnica de la imagen y, al final, la pregunta terminada en ?",
+      "enunciado": "ATM derecha, sagital oblicuo DP en boca cerrada (A). ¿Qué señala la flecha blanca?",
+                                             // dónde mirar, no qué hay (paso 3)
       "imagenes": [{ "ref": "fig02", "mostrar_en": "pregunta" }],   // "pregunta" o "respuesta"
       "opciones": ["Primera opción", "Segunda opción", "Tercera opción", "Cuarta opción", "Quinta opción"],
       "correcta": 2,                         // posición desde 0: aquí, "Tercera opción". 0 la primera, 4 la quinta
-      "explicacion": "- Primera idea.\\n- Segunda idea.",
+      "explicacion": "- En A, la flecha blanca señala …: es …\\n- No es … (el distractor más tentador) porque …\\n- La idea clave del documento.",
       "perla": "La enseñanza clave del caso, en una frase práctica sacada del documento.",
       "evidencia": [
         { "ubicacion": "p. 5, leyenda de la Figura 2", "cita": "Frase copiada textual, 10 caracteres como mínimo." }
@@ -283,11 +382,10 @@ Lo que va detrás de // son notas para ti: JSON no admite comentarios, así que 
   ]
 }
 
-Los campos que no aparecen arriba no van: el catálogo no admite claves de más. Todo "ref" de un
-caso tiene que existir como clave de "imagenes"; si la figura no está, el caso no la cita.
+Los campos que no aparecen arriba no van: el catálogo no admite claves de más. Todo "ref" de un caso tiene
+que existir como clave de "imagenes"; si la figura no está, el caso no la cita.
 
-──────────────────────────────── 6. fuentes.json
-Una sola fuente. La clave: apellido del primer autor + año, en minúsculas.
+fuentes.json. Una sola fuente; la clave, apellido del primer autor + año, en minúsculas.
 {
   "lopezramirez2024": {
     "tipo": "articulo",                      // articulo · caso · libro · banco
@@ -301,18 +399,19 @@ Una sola fuente. La clave: apellido del primer autor + año, en minúsculas.
   }
 }
 
-La licencia se copia EXACTA de esa lista: el estudio saca de ahí la URL y si permite o no modificar
-la figura. Una licencia Creative Commons solo vale si el documento la dice con todas sus letras. Si no
-la dice —solo «©», «All rights reserved», «for personal use only» o nada—, pon "${CON_COPYRIGHT}" y copia
-en "donde" esa frase tal cual. Nunca pongas una licencia CC que el documento no diga, ni para que pase
-el comprobador: quien publica responde por lo que declara.
+La licencia se copia EXACTA de esa lista: el estudio saca de ahí la URL y si permite o no modificar la
+figura. Una licencia Creative Commons solo vale si el documento la dice con todas sus letras. Si no la dice
+—solo «©», «All rights reserved», «for personal use only» o nada—, pon "${CON_COPYRIGHT}" y copia en "donde"
+esa frase tal cual. Nunca pongas una licencia CC que el documento no diga, ni para que pase el comprobador:
+quien publica responde por lo que declara.
 
 ──────────────────────────────── 7. COMPRUÉBALO ANTES DE DÁRMELO
-Corre esto sobre tu .zip y arregla lo que salga. No me lo entregues hasta que imprima «todo bien».
+Corre esto sobre tu .zip y arregla cada ✗. No me lo entregues hasta que imprima «todo bien». Los ⚠ no
+bloquean: son señales de una pregunta mal hecha; revisa esos casos con las dos pruebas del paso 3 y corrige lo
+que haga falta.
 
-import json, re, unicodedata, zipfile
+import io, json, re, unicodedata, zipfile
 from PIL import Image
-import io
 
 RUTA = "cuestionario.zip"
 SEG = "${Object.keys(SEGMENTOS).join(" ")}".split()
@@ -320,11 +419,13 @@ AREAS = ${JSON.stringify(Object.fromEntries(Object.keys(SEGMENTOS).map((s) => [s
 MOD = ${JSON.stringify(MODALIDADES)}
 ND  = ${JSON.stringify(LICENCIAS.filter((l) => l.nd).map((l) => l.valor))}
 LIC = ${JSON.stringify(LICENCIAS.map((l) => l.valor))}
+POR_FIGURA, MINIMO = ${POR_FIGURA}, ${MINIMO_CASOS}
 
 z = zipfile.ZipFile(RUTA)
-hay = set(z.namelist())
-malo = []
-def mal(m): malo.append(m)
+hay = {n for n in z.namelist() if not n.endswith("/")}   # las carpetas no cuentan
+malo, ojo = [], []
+def mal(m): malo.append(m)        # ✗ así no se entrega
+def revisa(m): ojo.append(m)      # ⚠ míralo con las dos pruebas del paso 3
 
 for n in ("paquete.json", "fuentes.json"):
     if n not in hay: mal("falta " + n)
@@ -352,7 +453,8 @@ if src.get("tipo") == "articulo" and not re.fullmatch(r"10\\.\\d{4,9}/\\S+", src
 if len((src.get("verificacion") or {}).get("donde", "")) < 3:
     mal("falta la frase del documento donde dice la licencia")
 
-for iid, img in (p.get("imagenes") or {}).items():
+IMGS = p.get("imagenes") or {}
+for iid, img in IMGS.items():
     if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", iid): mal("id de imagen inválido: %r" % iid)
     arch = img.get("archivo", "")
     if not re.fullmatch(r"[a-z0-9]+([-_][a-z0-9]+)*\\.jpg", arch): mal("nombre inválido: %r" % arch)
@@ -371,20 +473,53 @@ for iid, img in (p.get("imagenes") or {}).items():
     if im.format != "JPEG": mal(arch + " no es JPEG")
     if max(im.size) > 1600: mal("%s mide %dx%d, lado mayor máximo 1600" % (arch, *im.size))
 
+def limpia(t):
+    t = unicodedata.normalize("NFD", str(t).lower())
+    return "".join(ch for ch in t if unicodedata.category(ch) != "Mn")
+def palabras(t): return re.findall(r"[a-z]+", limpia(t))
+
+# Lo que un enunciado puede decir sin delatar nada: la técnica y las marcas. Se quita antes de buscar pistas.
+TECNICA = re.compile(r"\\b(con )?(supresion|saturacion) (de )?(la )?grasa\\b|\\bsensibles? a(l)? liquido\\b|\\bdensidad (protonica|de protones)\\b")
+MARCAS = re.compile(r"\\b((puntas?|cabezas?) de flechas?|flechas?|asteriscos?|circulos?|estrellas?|numeros?)"
+                    r"( (blanc|negr|roj|amarill|curv|ondulad|discontinu|puntead|continu|fin|grues|abiert|cerrad)(a|o)s?)*\\b")
+def sin_marcas(t): return MARCAS.sub(" ", TECNICA.sub(" ", limpia(t)))
+
+# Paneles y marcas que nombra el enunciado: tienen que estar en la ficha de la figura que se ve.
+TIPO_MARCA = {"flecha": ["flech"], "punta de flecha": ["punta", "cabeza"], "asterisco": ["asteris"],
+              "círculo": ["circul"], "estrella": ["estrell"], "número": ["numer"] + list("0123456789")}
+def marcas_de(texto):
+    t = limpia(texto)
+    vistas = {m for m, rx in (("punta de flecha", r"\\b(punta|cabeza)s? de flecha"), ("asterisco", r"\\basteriscos?\\b"),
+              ("círculo", r"\\bcirculos?\\b"), ("estrella", r"\\bestrellas?\\b"), ("número", r"\\bnumeros?\\b")) if re.search(rx, t)}
+    if re.search(r"\\bflechas?\\b", re.sub(r"\\b(punta|cabeza)s? de flechas?", " ", t)): vistas.add("flecha")
+    return vistas
+def paneles_de(texto):
+    letras = set(re.findall(r"\\(([A-Ha-h])(?=[),\\s])", texto))
+    for m in re.finditer(r"\\bpanel(?:es)?\\s+([A-Ha-h])\\b((?:\\s*(?:,|\\by\\b|\\be\\b)\\s*[A-Ha-h]\\b)*)", texto):
+        letras |= {m.group(1)} | set(re.findall(r"(?:,|\\by\\b|\\be\\b)\\s*([A-Ha-h])\\b", m.group(2)))
+    return {l.upper() for l in letras}
+
 vistos = set()
-if not p.get("casos"): mal("no hay casos")
-for c in p.get("casos") or []:
+CASOS = p.get("casos") or []
+if not CASOS: mal("no hay casos")
+for c in CASOS:
     cid = c.get("id", "?")
     if cid in vistos: mal("id de caso repetido: " + cid)
     vistos.add(cid)
     if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", cid): mal("id de caso inválido: %r" % cid)
     if not c.get("tema"): mal(cid + ": falta tema")
-    if not c.get("enunciado"): mal(cid + ": falta enunciado")
+    enun = str(c.get("enunciado") or "")
+    if not enun: mal(cid + ": falta enunciado")
+    elif not enun.rstrip().endswith("?"): mal(cid + ": el enunciado tiene que terminar en una pregunta con «?»")
+    if re.search(r"\\bNO\\b|\\bEXCEPTO\\b", enun) or re.search(r"\\b(excepto|salvo|incorrecta|falsa)\\b", limpia(enun)):
+        mal(cid + ": pregunta en negativo; pregunta por lo que sí es")
     if c.get("tipo") not in ("imagen", "concepto"): mal(cid + ": tipo inválido")
     op = c.get("opciones") or []
     if len(op) != 5: mal("%s: tiene %d opciones, deben ser 5" % (cid, len(op)))
     if any(not str(o).strip() for o in op): mal(cid + ": hay una opción vacía")
     if len({str(o).strip().lower() for o in op}) != len(op): mal(cid + ": hay opciones repetidas")
+    if any(re.search(r"\\b(todas|ninguna)( de)? las (opciones )?anteriores\\b|^[a-e] y [a-e]\\b", limpia(o)) for o in op):
+        mal(cid + ": nada de «todas/ninguna de las anteriores» ni opciones que nombran a otras: la app las baraja")
     if not isinstance(c.get("correcta"), int) or not 0 <= c["correcta"] < len(op):
         mal(cid + ": correcta fuera de rango")
     elif len(op) > 1 and len(str(op[c["correcta"]])) >= 1.3 * max(len(str(o)) for i, o in enumerate(op) if i != c["correcta"]):
@@ -396,10 +531,24 @@ for c in p.get("casos") or []:
         mal(cid + ": falta evidencia con ubicación y frase textual")
     refs = c.get("imagenes") or []
     for r in refs:
-        if r.get("ref") not in (p.get("imagenes") or {}): mal("%s: usa una imagen que no existe: %r" % (cid, r.get("ref")))
+        if r.get("ref") not in IMGS: mal("%s: usa una imagen que no existe: %r" % (cid, r.get("ref")))
         if r.get("mostrar_en") not in ("pregunta", "respuesta"): mal(cid + ": mostrar_en inválido")
-    if c.get("tipo") == "imagen" and not [r for r in refs if r.get("mostrar_en") == "pregunta"]:
+    en_pregunta = [IMGS[r["ref"]] for r in refs if r.get("mostrar_en") == "pregunta" and r.get("ref") in IMGS]
+    if c.get("tipo") == "imagen" and not en_pregunta:
         mal(cid + ": es de tipo imagen pero no muestra ninguna en la pregunta")
+    if c.get("tipo") == "concepto" and en_pregunta:
+        mal(cid + ": es de concepto y muestra una figura en la pregunta: si hay que mirarla es de imagen; si no, va en la respuesta")
+    if en_pregunta:
+        ids = {str(x.get("id", "")).strip().upper() for g in en_pregunta for x in (g.get("paneles") or [])}
+        faltan = sorted(paneles_de(enun) - ids)
+        if faltan:
+            mal("%s: el enunciado nombra el panel %s y la figura no lo tiene (paneles: %s)"
+                % (cid, ", ".join(faltan), ", ".join(sorted(ids)) or "ninguno"))
+        tipos = " ".join(limpia(m.get("marca", "")) for g in en_pregunta for m in (g.get("marcas") or []))
+        for m in sorted(marcas_de(enun)):
+            if not any(r in tipos for r in TIPO_MARCA[m]):
+                mal("%s: el enunciado nombra «%s» y la figura no tiene esa marca en «marcas»: "
+                    "añádela con lo que señala según la leyenda, o quítala del enunciado" % (cid, m))
     cl = c.get("clasificacion")
     if not isinstance(cl, list) or not cl:
         mal(cid + ": falta clasificacion, con una pareja segmento → área o más")
@@ -409,29 +558,56 @@ for c in p.get("casos") or []:
         if s not in AREAS: mal("%s: segmento inválido en clasificacion: %r" % (cid, s))
         elif a is not None and a not in AREAS[s]: mal("%s: %r no es un área de %s (usa una de la lista o ninguna)" % (cid, a, s))
 
-usadas = {r.get("ref") for c in p.get("casos") or [] for r in (c.get("imagenes") or [])}
-for iid in p.get("imagenes") or {}:
+# Cuántos: el cuestionario es de imagen.
+de_imagen = [c for c in CASOS if c.get("tipo") == "imagen"]
+usadas = {r.get("ref") for c in CASOS for r in (c.get("imagenes") or [])}
+for iid in IMGS:
     if iid not in usadas: mal(iid + ": ninguna pregunta usa esta figura; escríbele una o quítala del catálogo")
-minimo = max(${MINIMO_CASOS}, ${POR_FIGURA} * len(p.get("imagenes") or {}))
-if len(p.get("casos") or []) < minimo:
-    mal("%d casos para %d figuras: son pocos, el mínimo son %d" % (len(p.get("casos") or []), len(p.get("imagenes") or {}), minimo))
+con_pregunta = {r.get("ref") for c in de_imagen for r in (c.get("imagenes") or []) if r.get("mostrar_en") == "pregunta"}
+if len(de_imagen) < POR_FIGURA * len(con_pregunta):
+    mal("%d casos de imagen para %d figuras: son pocos, el mínimo son %d (%d por figura)"
+        % (len(de_imagen), len(con_pregunta), POR_FIGURA * len(con_pregunta), POR_FIGURA))
+if IMGS and CASOS and len(de_imagen) < 0.7 * len(CASOS):
+    mal("solo %d de %d casos son de imagen: tienen que ser al menos el 70 %%" % (len(de_imagen), len(CASOS)))
+if CASOS and len(CASOS) < MINIMO:
+    revisa("%d casos en total: si el documento da para más sin relleno, escríbelos; si no, dilo en la entrega" % len(CASOS))
 
-# ¿Se adivina la correcta sin mirar la imagen, solo comparando las opciones?
+# Varias preguntas de una figura: ninguna con la respuesta de otra, y una figura que delata no se reparte.
+validos = [c for c in CASOS
+           if isinstance(c.get("correcta"), int) and 2 <= len(c.get("opciones") or []) > c["correcta"] >= 0]
+por_figura, en_respuesta = {}, {}
+for c in validos:
+    respuesta = " ".join(palabras(c["opciones"][c["correcta"]]))
+    for r in c.get("imagenes") or []:
+        if r.get("mostrar_en") == "pregunta" and c.get("tipo") == "imagen":
+            por_figura.setdefault(r.get("ref"), []).append((c.get("id", "?"), respuesta))
+        if r.get("mostrar_en") == "respuesta":
+            en_respuesta.setdefault(r.get("ref"), []).append(c.get("id", "?"))
+for iid, lista in por_figura.items():
+    for i, (a, ra) in enumerate(lista):
+        for b, rb in lista[i + 1:]:
+            if ra == rb or (min(len(ra), len(rb)) >= 8 and (ra in rb or rb in ra)):
+                mal("%s y %s: misma figura (%s) y misma respuesta; una de las dos tiene que preguntar otra cosa" % (a, b, iid))
+for iid, ids in en_respuesta.items():
+    if len(ids) > 1:
+        revisa("%s sale en la respuesta de %s: al revelar uno se ve la respuesta de los demás" % (iid, ", ".join(ids)))
+
+# ¿Se adivina la correcta sin mirar la imagen?
 COMODIN = ${JSON.stringify(COMODINES)}
 EXTREMO = ${JSON.stringify(EXTREMOS)}
-VACIAS = set("""panel paneles imagen imagenes figura figuras secuencia muestra muestran observa aprecia
-identifica corresponde siguiente cuales segun sagital axial coronal paciente estudio senala senalada
-senalado senalan presenta aparece derecho izquierdo""".split())
+VACIAS = {w[:5] for w in """panel paneles imagen figura secuencia muestra observa aprecia identifica corresponde
+siguiente cuales segun sagital axial coronal oblicuo paciente estudio senala presenta aparece derecho izquierdo
+ponderada potenciada reconstruccion corte hallazgo diagnostico probable estructura""".split()}
+DESCRIBE = ["hiperintens", "hipointens", "hiperdens", "hipodens", "hiperecog", "hipoecog", "anecog", "realce", "realza",
+            "coleccion", "fragment", "hendidura", "banda", "engros", "adelgaz", "edema", "liquido", "quist", "irregular",
+            "interrump", "disrup", "discontinu", "migrad", "desplazad", "ausencia", "ausente", "amorf", "linea", "trazo",
+            "defecto", "retrai", "retracc"]
 
-def limpia(t):
-    t = unicodedata.normalize("NFD", str(t).lower())
-    return "".join(ch for ch in t if unicodedata.category(ch) != "Mn")
-def palabras(t): return set(re.findall(r"[a-z]+", limpia(t)))
 def tiene(t, raices): return any(w.startswith(r) for w in palabras(t) for r in raices)
-def clave(t): return {w for w in palabras(t) if len(w) >= 6} - VACIAS
+def raices(t):
+    """Primeras 5 letras de cada palabra de 5 o más: «fragmentos» y «fragmento» son la misma pista."""
+    return {w[:5]: w for w in palabras(t) if len(w) >= 5 and w[:5] not in VACIAS}
 
-validos = [c for c in p.get("casos") or []
-           if isinstance(c.get("correcta"), int) and 2 <= len(c.get("opciones") or []) > c["correcta"] >= 0]
 mas_larga = []
 for c in validos:
     op, k, cid = c["opciones"], c["correcta"], c.get("id", "?")
@@ -439,31 +615,46 @@ for c in validos:
     if len(str(op[k])) > max(len(str(o)) for o in otras): mas_larga.append(cid)
     if sum(1 for o in otras if tiene(o, EXTREMO)) >= 2 and not tiene(op[k], EXTREMO):
         mal(cid + ": los calificadores extremos están solo en los distractores; se tachan sin mirar la imagen")
-    pista = (clave(c.get("enunciado", "")) & clave(op[k])) - set().union(*[clave(o) for o in otras])
+    enun = raices(sin_marcas(c.get("enunciado", "")))
+    pista = (enun.keys() & raices(op[k]).keys()) - set().union(*[raices(o).keys() for o in otras])
     if pista:
         mal("%s: «%s» está en la pregunta y solo en la respuesta correcta; úsala también en un distractor o cámbiala"
-            % (cid, ", ".join(sorted(pista))))
+            % (cid, ", ".join(sorted(enun[r] for r in pista))))
+    if c.get("tipo") != "imagen": continue
+    describe = sorted({d for d in DESCRIBE if re.search(r"\\b" + d, sin_marcas(c.get("enunciado", "")))})
+    if describe:
+        revisa("%s: el enunciado describe lo que se ve (%s): que no sea lo que define la respuesta" % (cid, ", ".join(describe)))
+    if len(c.get("enunciado", "")) > 250:
+        revisa("%s: enunciado de %d caracteres; en la sala hay 45 s para leer, mirar y responder" % (cid, len(c["enunciado"])))
+    if max(len(str(o)) for o in op) > 90:
+        revisa(cid + ": opciones largas; en una pregunta de imagen son el nombre de un hallazgo, un signo o un diagnóstico")
+    if re.search(r"\\brespectivamente\\b|\\ben ese orden\\b|\\bmisma (figura|imagen)\\b|\\b(caso|pregunta) anterior\\b", limpia(c.get("enunciado", ""))):
+        revisa(cid + ": cada pregunta mira una sola cosa y se responde sola, sin «respectivamente» ni «la misma figura»")
 if len(validos) >= 10 and len(mas_larga) > 0.3 * len(validos):
     mal("la correcta es la opción más larga en %d de %d casos (%s): alarga los distractores o acorta la correcta"
         % (len(mas_larga), len(validos), ", ".join(mas_larga[:8])))
-for fam, raices in COMODIN.items():
+for fam, raiz in COMODIN.items():
     como_mal = [c.get("id", "?") for c in validos
-                if any(tiene(o, raices) for i, o in enumerate(c["opciones"]) if i != c["correcta"])]
-    if len(como_mal) >= 3 and not any(tiene(c["opciones"][c["correcta"]], raices) for c in validos):
+                if any(tiene(o, raiz) for i, o in enumerate(c["opciones"]) if i != c["correcta"])]
+    if len(como_mal) >= 3 and not any(tiene(c["opciones"][c["correcta"]], raiz) for c in validos):
         mal("«%s» sale en los distractores de %d casos y en ninguna respuesta correcta (%s): es un comodín, "
             "cámbialo por un diferencial de verdad" % (fam, len(como_mal), ", ".join(como_mal[:8])))
 
-esperadas = {"img/" + i.get("archivo", "") for i in (p.get("imagenes") or {}).values()}
-for n in hay:
+esperadas = {"img/" + i.get("archivo", "") for i in IMGS.values()}
+for n in sorted(hay):
     if n.startswith("img/") and n not in esperadas: mal("sobra " + n)
 
-print("\\n".join("✗ " + m for m in malo) if malo else "todo bien: %d casos, %d imágenes" % (len(p["casos"]), len(p["imagenes"])))
+print("\\n".join("✗ " + m for m in malo) if malo
+      else "todo bien: %d casos (%d de imagen), %d imágenes" % (len(CASOS), len(de_imagen), len(IMGS)))
+if ojo:
+    print("\\nRevisa cada uno con las dos pruebas del paso 3 (no bloquean):\\n" + "\\n".join("⚠ " + m for m in ojo))
 
 ──────────────────────────────── 8. ENTREGA
-- Tantos casos como dé el documento (apartado 3): ${POR_FIGURA} por figura como mínimo y nunca
-  menos de ${MINIMO_CASOS}, con al menos el 70 % de tipo "imagen".
+- Tantos casos como dé el documento (paso 4): al menos ${POR_FIGURA} de imagen por figura y, en total, como
+  mínimo un 70 % de imagen.
 - Dame el .zip para descargar.
-- Y en una línea aparte: qué figuras no pudiste extraer y qué dudas te quedaron sobre la licencia.`;
+- Y aparte, en pocas líneas: si pudiste ver las figuras, cuáles no pudiste extraer, qué ⚠ dejaste y por qué,
+  y qué dudas te quedaron sobre la licencia.`;
 }
 
 export function instruccionesCorreccion(tema, problemas) {
@@ -489,7 +680,9 @@ PROBLEMAS POR CASO
 ${problemas.map((p) => `- ${p.caso}: ${p.textos.join(" | ")}`).join("\n")}
 
 RECUERDA
-${REGLAS.slice(0, 8).map((r, i) => `${i + 1}. ${r}`).join("\n")}
+${PRUEBAS}
+
+${REGLAS.slice(0, 7).map((r, i) => `${i + 1}. ${r}`).join("\n")}
 ${deClasificacion ? `
 CLASIFICACIÓN DE CADA CASO
 ${reglasClasificacion(tema.meta?.segmento)}

@@ -121,11 +121,18 @@ carpeta; ese nivel se ignora, igual que la basura de `__MACOSX`.
   guardarlo antes de borrar el tema.
 - **Instrucciones para la IA**, en la portada junto a «Subir un .zip» (y también en «Nuevo cuestionario»), da el
   texto para una IA que sepa ejecutar código:
-  saca las figuras del PDF y devuelve el `.zip` armado. El prompt (`instruccionesPaquete()`) repite las reglas del
-  esquema —enums de segmento, modalidad y licencia, patrones de id, límites de imagen— y termina con un
-  **comprobador en Python que la IA tiene que correr antes de entregar**: abre su propio `.zip` y no da el visto
-  bueno hasta que todo cuadra. Los enums salen de `SEGMENTOS`, `MODALIDADES` y `LICENCIAS`, así que el prompt no se
-  desincroniza del formato.
+  saca las figuras del PDF y devuelve el `.zip` armado. El prompt (`instruccionesPaquete()`) va en el orden en que
+  se trabaja y lo principal es la pregunta de imagen, al estilo de los bancos de casos tipo RadPrimer: la IA **mira
+  cada figura** antes de escribir (rótulos, esquemas o fotos que delatan la respuesta), el enunciado dice dónde mirar
+  y no qué hay, y cada caso pasa dos pruebas, la de la imagen tapada y la de las opciones solas. El prompt del
+  estudio comparte esos bloques. Después repite las reglas del esquema —enums de segmento, modalidad y licencia,
+  patrones de id, límites de imagen— y termina con un **comprobador en Python que la IA tiene que correr antes de
+  entregar**: abre su propio `.zip` y no da el visto bueno hasta que todo cuadra. Sus ✗ bloquean —también un panel o
+  una marca que el enunciado nombra y la ficha no tiene, menos del 70 % de casos de imagen o de dos por figura, dos
+  preguntas de una figura con la misma respuesta y las pistas del enunciado, comparadas por la raíz de la palabra—;
+  sus ⚠ señalan lo que hay que releer: enunciados que describen lo que se ve o pasan de 250 caracteres, opciones
+  largas, una figura en la respuesta de varios casos. Los enums salen de `SEGMENTOS`, `MODALIDADES` y `LICENCIAS`,
+  así que el prompt no se desincroniza del formato.
 - Aun así hay que mirar las figuras una por una antes de crearlo: una IA puede partir una figura en paneles
   sueltos, y las licencias ND no permiten obras derivadas. Eso el comprobador no lo puede ver.
 - Leer y escribir `.zip` es `app/zip.js`: usa `DecompressionStream` del navegador, sin dependencias. Al escribir
