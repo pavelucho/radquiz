@@ -25,7 +25,7 @@
           "description": "Atribución corta que la app muestra bajo cada imagen: «López-Ramírez M, et al. Austral J Imaging. 2024»."
         },
         "doi": {
-          "description": "Obligatorio en artículos. null solo si la fuente no tiene DOI.",
+          "description": "El DOI de la fuente, si tiene. null si no tiene (páginas web, casos de bancos, artículos sin DOI): entonces la web enlaza a url.",
           "type": ["string", "null"],
           "pattern": "^10\\.[0-9]{4,9}/\\S+$"
         },

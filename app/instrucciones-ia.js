@@ -391,7 +391,7 @@ fuentes.json. Una sola fuente; la clave, apellido del primer autor + año, en mi
     "tipo": "articulo",                      // articulo · caso · libro · banco
     "cita": "Cita Vancouver completa, con volumen, páginas y doi:",
     "credito": "López-Ramírez M, et al. Austral J Imaging. 2024",   // corto, va bajo cada imagen
-    "doi": "10.24875/AJI.23000069",          // sin https://doi.org/ delante
+    "doi": "10.24875/AJI.23000069",          // sin https://doi.org/ delante; null si la fuente no tiene DOI
     "url": "https://doi.org/10.24875/AJI.23000069",
     "titular": "© 2024 Sociedad …",          // copiado del «©» del documento
     "licencia": "una de: ${licencias}",
@@ -448,8 +448,10 @@ for campo in ("tipo", "cita", "url", "titular", "licencia"):
     if not src.get(campo): mal("falta fuentes.json → " + campo)
 if src.get("licencia") not in LIC: mal("licencia inválida: %r" % src.get("licencia"))
 if len(src.get("cita", "")) < 20: mal("la cita es demasiado corta")
-if src.get("tipo") == "articulo" and not re.fullmatch(r"10\\.\\d{4,9}/\\S+", src.get("doi") or ""):
-    mal("un artículo necesita DOI, empezando por 10.")
+if src.get("doi") and not re.fullmatch(r"10\\.\\d{4,9}/\\S+", str(src["doi"])):
+    mal("el DOI no es válido: tiene que empezar por 10. (sin https://doi.org/ delante)")
+if not src.get("doi") and src.get("tipo") == "articulo":
+    revisa("artículo sin DOI: confírmalo en el documento o en Crossref; si de verdad no tiene, déjalo en null")
 if len((src.get("verificacion") or {}).get("donde", "")) < 3:
     mal("falta la frase del documento donde dice la licencia")
 

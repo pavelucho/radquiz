@@ -388,8 +388,10 @@ def validar_fuentes(fuentes, citadas, rep):
             rep.error(fid, "la fuente %s es de un sitio no permitido (contenido con copyright)" % host)
         elif host and not pertenece(host, CONFIG["dominios_conocidos"]):
             rep.aviso(fid, "sitio %s no está en la lista de fuentes conocidas: confirmar licencia a mano" % host)
-        if f.get("tipo") == "articulo" and not f.get("doi"):
-            rep.error(fid, "un artículo debe tener DOI")
+        # El DOI es opcional: hay fuentes buenas sin él. Si está, el esquema comprueba su formato; a un artículo
+        # sin DOI se le avisa para que se busque. Las mismas reglas que app/validacion.js.
+        if not f.get("doi") and f.get("tipo") == "articulo":
+            rep.aviso(fid, "artículo sin DOI: confirmar en doi.org o Crossref que no lo tiene")
         licencia = f.get("licencia", "")
         if ("ND" in licencia or licencia == CON_COPYRIGHT) and f.get("modificaciones_permitidas"):
             rep.error(fid, "licencia %s: modificaciones_permitidas debe ser false" % licencia)

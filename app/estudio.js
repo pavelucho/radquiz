@@ -13,7 +13,7 @@ import { firebaseConfig } from "./firebase-config.js";
 import { $, esc, md, SEGMENTOS, credito } from "./comun.js";
 import { AREAS } from "./areas.js";
 import {
-  LICENCIAS, MODALIDADES, lista, slug, idImagen, validarTema, validarCaso, casosOrdenados,
+  LICENCIAS, TIPOS_FUENTE, MODALIDADES, lista, slug, idImagen, validarTema, validarCaso, casosOrdenados,
   imagenesOrdenadas, estadoVerificacion, aPaquete, clasificacionDe, nombreClasificacion, normalizarClasificacion,
 } from "./validacion.js";
 import {
@@ -725,8 +725,12 @@ function pasoFuente(t, v) {
   return `<section class="panel" style="display:grid;gap:12px">
     <h2>1. De dónde salen las imágenes</h2>
     <p class="muted">Solo se pueden usar artículos de acceso abierto o bancos públicos con licencia que permita uso educativo.</p>
+    <label class="grid-label">Tipo de fuente
+      <select id="tipo-fuente">
+        ${TIPOS_FUENTE.map((x) => `<option value="${x.valor}" ${(f.tipo || "articulo") === x.valor ? "selected" : ""}>${esc(x.etiqueta)}</option>`).join("")}
+      </select></label>
     <div class="row" style="align-items:end">
-      <label class="grid-label crece">DOI del artículo
+      <label class="grid-label crece">DOI, si tiene (déjalo vacío si la fuente no tiene)
         <input type="text" id="doi" value="${esc(f.doi || "")}" placeholder="10.24875/AJI.23000069"></label>
       <button id="buscar">Completar con el DOI</button>
     </div>
@@ -1414,7 +1418,7 @@ async function guardarFuente(id) {
   const anio = (cita.match(/(19|20)\d{2}/) || [""])[0];
   const fuente = {
     clave: t.fuente?.clave || `${apellido}${anio}` || "fuente",
-    tipo: "articulo",
+    tipo: $("#tipo-fuente").value || "articulo",
     cita,
     credito: $("#credito").value.trim(),
     doi: $("#doi").value.trim().replace(/^https?:\/\/(dx\.)?doi\.org\//, ""),

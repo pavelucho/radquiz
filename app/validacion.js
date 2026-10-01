@@ -18,6 +18,16 @@ export const LICENCIAS = [
   { valor: "Dominio público", url: "", nd: false },
   { valor: CON_COPYRIGHT, url: "", nd: true, etiqueta: "Con copyright (sin licencia abierta)" },
 ];
+// Los cuatro tipos del esquema. El DOI no es obligatorio en ninguno: muchas fuentes buenas no lo tienen (páginas
+// como The Radiology Assistant, casos de Radiopaedia, artículos viejos de SciELO). Si se escribe, tiene que ser
+// válido; un artículo sin DOI solo da aviso, para que se busque antes de darlo por inexistente.
+export const TIPOS_FUENTE = [
+  { valor: "articulo", etiqueta: "Artículo de revista" },
+  { valor: "banco", etiqueta: "Página web o sitio educativo (Radiology Assistant…)" },
+  { valor: "caso", etiqueta: "Caso de un banco público (Radiopaedia…)" },
+  { valor: "libro", etiqueta: "Libro o capítulo" },
+];
+const DOI = /^10\.\d{4,9}\/\S+$/;
 export const MODALIDADES = ["Rx", "US", "TC", "RM", "MN", "PET-TC", "Mamografía", "Fluoroscopía", "Angiografía"];
 export const LADOS = ["derecho", "izquierdo", "bilateral"];
 const BLOQUEADOS = ["statdx.com", "radprimer.com", "imaios.com", "e-anatomy.org"];
@@ -138,7 +148,10 @@ export function validarFuente(f) {
   const p = [];
   if (!f) return [problema("error", "Falta completar la fuente.")];
   if (!f.cita || f.cita.length < 20) p.push(problema("error", "Falta la cita completa del artículo o caso."));
-  if (f.tipo === "articulo" && !/^10\.\d{4,9}\/\S+$/.test(f.doi || "")) p.push(problema("error", "Un artículo necesita su DOI (empieza con 10.)."));
+  if (f.doi && !DOI.test(f.doi)) p.push(problema("error", "El DOI no es válido: empieza con 10. (por ejemplo, 10.24875/AJI.23000069)."));
+  if (!f.doi && (f.tipo || "articulo") === "articulo") {
+    p.push(problema("aviso", "Artículo sin DOI: búscalo en doi.org o Crossref antes de dejarlo vacío. Sin DOI, la web enlaza a la dirección de la fuente."));
+  }
   if (!/^https:\/\/\S+$/.test(f.url || "")) p.push(problema("error", "Falta el enlace (https://…) a la fuente."));
   const host = (() => { try { return new URL(f.url).hostname; } catch { return ""; } })();
   if (BLOQUEADOS.some((d) => host === d || host.endsWith("." + d))) p.push(problema("error", `No se puede usar ${host}: su contenido tiene copyright.`));
@@ -354,7 +367,7 @@ export function dePaquete(paquete, fuentes) {
   const f = (fuentes || {})[clave] || {};
   const fuente = {
     clave,
-    tipo: f.tipo === "caso" ? "caso" : "articulo",
+    tipo: TIPOS_FUENTE.some((t) => t.valor === f.tipo) ? f.tipo : "articulo",
     cita: texto(f.cita),
     credito: texto(f.credito),
     doi: texto(f.doi).replace(/^https?:\/\/(dx\.)?doi\.org\//, ""),

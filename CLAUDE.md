@@ -131,6 +131,11 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   (`rescatar()` en `app/instrucciones-ia.js`): se cargan los casos enteros y el estudio da el pedido para que siga;
   las instrucciones piden `"faltan": true` si no caben todos. Un `.zip` con más de una fuente se rechaza (uno por
   artículo: el estudio acredita todas las figuras a una sola fuente). La web todavía no usa la clasificación.
+- DOI opcional (2026-09-30): el paso 1 del estudio pide el tipo de fuente (artículo, página web o sitio educativo,
+  caso de un banco, libro; `TIPOS_FUENTE` en `app/validacion.js`) y el DOI «si tiene». Un DOI escrito tiene que ser
+  válido; un artículo sin DOI da aviso, nunca error (estudio, `tools/validar` y comprobador del .zip). Sin DOI, la web
+  enlaza a `url`. Antes, `dePaquete()` y `guardarFuente()` dejaban toda fuente como `articulo` y exigían DOI, y
+  páginas como The Radiology Assistant no se podían publicar.
 - Borrar un cuestionario se hace desde el estudio (botón en la tarjeta y en el paso 4), escribiendo `BORRAR` en un
   aviso que dice qué se pierde. El orden de borrado importa: `publicacion`, `publicacion_img`, `verificacion`,
   `reportes`, `estudio_img` y por último `estudio`, porque las reglas dan permiso mirando
@@ -240,5 +245,6 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 
 ## Preferencias del autor (Pavel, residente de radiología)
 - Interfaz y contenido en español.
-- Referencias reales y verificadas una por una, siempre con DOI.
+- Referencias reales y verificadas una por una, con DOI cuando lo tienen (desde el 2026-09-30 el DOI es opcional:
+  hay fuentes buenas sin él, y un artículo sin DOI solo da aviso).
 - Revisión autocrítica: señalar cada vacío con su corrección concreta.
