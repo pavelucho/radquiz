@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "rubin2005": {
+    "cita": "Rubin D, Smithuis R. Meniscal pathology [Internet]. The Radiology Assistant; 2005 Jul 20 [citado 2026 Sep 30]. Disponible en: https://radiologyassistant.nl/musculoskeletal/knee/meniscal-pathology",
+    "credito": "Rubin D, Smithuis R. The Radiology Assistant. 2005",
+    "doi": null,
+    "licencia": "Con copyright",
+    "licencia_url": null,
+    "modificaciones_permitidas": false,
+    "tipo": "banco",
+    "titular": "David Rubin, Robin Smithuis y The Radiology Assistant",
+    "url": "https://radiologyassistant.nl/musculoskeletal/knee/meniscal-pathology",
+    "verificacion": {
+      "donde": "https://radiologyassistant.nl/disclaimer: «The images and illustrations on this site may be reproduced for educational purposes with due credit being given to the original author and the Radiology Assistant.»",
+      "fecha": "2026-09-30",
+      "por": "Claude (asistente IA), falta confirmación humana"
+    },
+    "alojada_por": "Pavel Luna"
+  }
+}

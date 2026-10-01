@@ -1,0 +1,2222 @@
+{
+  "$schema": "../../../schema/paquete.schema.json",
+  "id": "meniscos-rm-radiologyassistant2005",
+  "titulo": "Patología meniscal en RM (Radiology Assistant)",
+  "descripcion": "Anatomía, criterios y formas de rotura, signos de la rotura radial y de la raíz, y menisco operado, según Rubin y Smithuis.",
+  "segmento": "musculoesqueletico",
+  "modalidades": [
+    "RM"
+  ],
+  "idioma": "es",
+  "version": "0.1.0",
+  "personas": {
+    "pluna": "Pavel Luna"
+  },
+  "imagenes": {
+    "fig01": {
+      "archivo": "fig01.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 1 de la página (sin número)",
+      "leyenda_original": "Medial meniscus: The posterior horn is always larger than the anterior horn.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). Dos cortes, al parecer sagitales, del menisco medial; la leyenda no da plano ni secuencia.",
+      "drive": "1vkeCYrnoMn2LkofkCYBgKXWvsTTHW43u"
+    },
+    "fig02": {
+      "archivo": "fig02.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 2 de la página (sin número)",
+      "leyenda_original": "LEFT: normal medial meniscal root immediately anterior to the posterior cruciate ligament. RIGHT: missing posterior root due to meniscal root tear.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": "sagital",
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": "sagital",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha amarilla",
+          "panel": "derecha",
+          "senala": "missing posterior root due to meniscal root tear"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). Plano según el texto de la sección («If it is missing on the sagittal images…»).",
+      "drive": "1ellToMMs-ZfYAQ_ceOY_seFF6_bE7sER"
+    },
+    "fig03": {
+      "archivo": "fig03.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 3 de la página (sin número)",
+      "leyenda_original": "Lateral meniscus.  Both horns are about the same size.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "centro",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). Tres cortes, al parecer sagitales; la leyenda no da plano ni secuencia.",
+      "drive": "1pmwb1v4hAumBXphKUlS0WjkDq0KdsOTc"
+    },
+    "fig04": {
+      "archivo": "fig04.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 4 de la página (sin número)",
+      "leyenda_original": "Lateral meniscus: posterior horn and posterior meniscal root.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha amarilla",
+          "panel": "izquierda y derecha",
+          "senala": "posterior horn and posterior meniscal root (lateral meniscus)"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). Parecen coronales, la derecha con supresión grasa; la leyenda no lo dice.",
+      "drive": "1DQ6X6GM-eSXetiMXcnVYypp03A54RJ9f"
+    },
+    "fig06": {
+      "archivo": "fig06.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 6 de la página (sin número)",
+      "leyenda_original": "High signal intensity not unequivocally contacting surface. Small black line on inferior margin of the meniscus. At arthroscopy the meniscus was normal.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha negra",
+          "panel": "izquierda",
+          "senala": "señal alta que no contacta inequívocamente la superficie (según la leyenda)"
+        },
+        {
+          "marca": "flecha amarilla",
+          "panel": "derecha",
+          "senala": "señal alta que no contacta inequívocamente la superficie (según la leyenda)"
+        },
+        {
+          "marca": "signo de interrogación",
+          "panel": "izquierda y derecha",
+          "senala": "la duda sobre si la señal llega a la superficie"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). La leyenda no asigna cada flecha; ambas parecen señalar el mismo hallazgo en dos cortes.",
+      "drive": "13xBQ2Ob5GCp784MAQpoNo5ihKycTzCxF"
+    },
+    "fig07": {
+      "archivo": "fig07.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 7 de la página (sin número)",
+      "leyenda_original": "Basic shapes: Longitudinal, Horizontal and Radial.",
+      "modalidad": null,
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "centro",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "centro",
+          "senala": "la rotura horizontal"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Esquema, no imagen. Por la leyenda: izquierda longitudinal, centro horizontal, derecha radial. Sin rótulos dentro.",
+      "drive": "146RpvbJ1yyhCcrPRN1gHveFwlMrVKDTb"
+    },
+    "fig08": {
+      "archivo": "fig08.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 8 de la página (sin número)",
+      "leyenda_original": "Bucket handle, Horizontal Flap tear and Parrot beak.",
+      "modalidad": null,
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "centro",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca",
+          "panel": "centro",
+          "senala": "el colgajo de la rotura horizontal"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Esquema, no imagen. Por la leyenda: izquierda asa de cubo, centro colgajo horizontal, derecha pico de loro. Sin rótulos dentro.",
+      "drive": "1wWzASnDaM8205HY2tJu1cooxpt9amxYh"
+    },
+    "fig10": {
+      "archivo": "fig10.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 10 de la página (sin número)",
+      "leyenda_original": "Three sagittal images of a longitudinal tear",
+      "modalidad": null,
+      "paneles": [
+        {
+          "id": "único",
+          "plano": "sagital",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Esquema: tres líneas de corte (roja, verde, amarilla) sobre un menisco con rotura longitudinal y la forma que da cada una.",
+      "drive": "1IDrSE1QbrSo1tXfmVFqpCBki2QxQPcRs"
+    },
+    "fig11": {
+      "archivo": "fig11.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 11 de la página (sin número)",
+      "leyenda_original": "LEFT: abnormal shape of posterior horn. A piece is missing. RIGHT: displaced fragment in the intercondylar fossa.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha amarilla",
+          "panel": "izquierda",
+          "senala": "abnormal shape of posterior horn. A piece is missing."
+        },
+        {
+          "marca": "flecha amarilla",
+          "panel": "derecha",
+          "senala": "displaced fragment in the intercondylar fossa"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). Parecen sagitales; la leyenda no lo dice.",
+      "drive": "1p2ajAM-7q3MRwlGl9LWbSqdz0lGKwNTX"
+    },
+    "fig12": {
+      "archivo": "fig12.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 12 de la página (sin número)",
+      "leyenda_original": "LEFT: meniscus is abnormal in shape and there is a displaced fragment. RIGHT: Three structures in the intercondylar fossa: post cruciate lig (1), ant cruciate lig (2) and displaced fragment (3).",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": "coronal",
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": "coronal",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas amarillas",
+          "panel": "izquierda",
+          "senala": "meniscus is abnormal in shape and there is a displaced fragment"
+        },
+        {
+          "marca": "número 1",
+          "panel": "derecha",
+          "senala": "post cruciate lig"
+        },
+        {
+          "marca": "número 2",
+          "panel": "derecha",
+          "senala": "ant cruciate lig"
+        },
+        {
+          "marca": "número 3",
+          "panel": "derecha",
+          "senala": "displaced fragment"
+        },
+        {
+          "marca": "flecha amarilla",
+          "panel": "derecha",
+          "senala": "displaced fragment (3)"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). Plano según el texto de la sección («On coronal images bucket handle tears are easier to recognize»). Parecen con supresión grasa.",
+      "drive": "1C_lkkPpLX3z9IWn_AY3i5vHo_FggVvPd"
+    },
+    "fig13": {
+      "archivo": "fig13.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 13 de la página (sin número)",
+      "leyenda_original": "Flipped meniscus: posterior horn is missing because it is flipped over and located on top of the anterior horn.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha curva amarilla",
+          "panel": "izquierda",
+          "senala": "el volteo del cuerno posterior"
+        },
+        {
+          "marca": "rótulos AH y PH con flechas",
+          "panel": "derecha",
+          "senala": "anterior horn y posterior horn"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). Tiene «AH» y «PH» escritos: delata la respuesta, por eso solo va en la respuesta.",
+      "drive": "10-OqbffAQH_xBJMPzNLOUbkDJ-J5syDC"
+    },
+    "fig14": {
+      "archivo": "fig14.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 14 de la página (sin número)",
+      "leyenda_original": "Horizontal tear with a meniscal cyst",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). Parecen sagital (izquierda) y coronal con supresión grasa (derecha); la leyenda no lo dice.",
+      "drive": "1f8HI9CPkiPI_xjwN787w56fxPUwtVNb3"
+    },
+    "fig16": {
+      "archivo": "fig16.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 16 de la página (sin número)",
+      "leyenda_original": "LEFT: triangle missing the tip.RIGHT: disrupted bow tie.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha amarilla",
+          "panel": "izquierda",
+          "senala": "triangle missing the tip"
+        },
+        {
+          "marca": "flecha amarilla",
+          "panel": "derecha",
+          "senala": "disrupted bow tie"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). La leyenda no da los planos.",
+      "drive": "1rEhvyuBw7TIRG9woHCTYcvnwiyWqemuq"
+    },
+    "fig18": {
+      "archivo": "fig18.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 18 de la página (sin número)",
+      "leyenda_original": "LEFT: Absent or empty meniscus on sagittal image.RIGHT: Axial image shows complete radial tear leading to a defect in the meniscus.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": "sagital",
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": "axial",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha amarilla",
+          "panel": "izquierda",
+          "senala": "Absent or empty meniscus"
+        },
+        {
+          "marca": "flecha amarilla",
+          "panel": "derecha",
+          "senala": "complete radial tear leading to a defect in the meniscus"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). ",
+      "drive": "18Ko4903vfvUmBcjL7hoLosDiSdwhP6gR"
+    },
+    "fig19": {
+      "archivo": "fig19.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 19 de la página (sin número)",
+      "leyenda_original": "Meniscal root tear: on sagittal images there is an absent or empty meniscus-sign adjacent to the posterior cruciate ligament where the meniscal root should be. On coronal images a meniscal root tear is confirmed.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": "sagital",
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "centro",
+          "plano": "sagital",
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": "coronal",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha amarilla",
+          "panel": "izquierda y centro",
+          "senala": "absent or empty meniscus-sign adjacent to the posterior cruciate ligament"
+        },
+        {
+          "marca": "flecha amarilla",
+          "panel": "derecha",
+          "senala": "meniscal root tear"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). La leyenda no dice qué panel es coronal: por la imagen, el de la derecha.",
+      "drive": "1Ws2pyFpQf4pQgYGJFkuCWAnsIBmD5fCO"
+    },
+    "fig21": {
+      "archivo": "fig21.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 21 de la página (sin número)",
+      "leyenda_original": "PD and T2W images. Prior partial meniscectomy and suture repair. At arthroscopy, there was no tear.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": "DP",
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": "T2",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha amarilla",
+          "panel": "izquierda",
+          "senala": "señal alta que toca la superficie en DP (según el texto de la sección)"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). Orden DP–T2 según la leyenda («PD and T2W»), de izquierda a derecha.",
+      "drive": "1VIkvxcMLl-JaMRwLXB_gZYMr4mSXKy80"
+    },
+    "fig22": {
+      "archivo": "fig22.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 22 de la página (sin número)",
+      "leyenda_original": "LEFT: Old MR exam with tear. Patient had a suture repair. RIGHT: On new exam, there is a new tear (yellow arrow). It is not possible to tell if the old tear has healed.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha amarilla",
+          "panel": "derecha",
+          "senala": "new tear"
+        },
+        {
+          "marca": "flechas negras",
+          "panel": "izquierda y derecha",
+          "senala": "la leyenda no las nombra; parecen señalar la rotura antigua"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). Las flechas negras no están en la leyenda: confirmar qué señalan.",
+      "drive": "17MNKxmlVjybmYzB52illZfTN8wvaMWLC"
+    },
+    "fig23": {
+      "archivo": "fig23.jpg",
+      "fuente": "rubin2005",
+      "figura": "Imagen 23 de la página (sin número)",
+      "leyenda_original": "MR-arthrogram: In the new tear the signal is as bright as in the synovial fluid (yellow arrows). In the healed tear the signal is not as bright.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "único",
+          "plano": null,
+          "secuencia": null,
+          "condicion": "artro-RM"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas amarillas",
+          "panel": "único",
+          "senala": "new tear (la que apunta hacia arriba, en el menisco) y synovial fluid (la de arriba a la izquierda)"
+        },
+        {
+          "marca": "flecha azul",
+          "panel": "único",
+          "senala": "healed tear (la leyenda no nombra la flecha azul; se deduce)"
+        }
+      ],
+      "modificaciones": [
+        "comprimida"
+      ],
+      "notas": "Vista en 370 px (el tamaño que publica el sitio). La leyenda no nombra la flecha azul; por exclusión señala la rotura cicatrizada. Confirmar.",
+      "drive": "17sPP2IYboELfQL9OIxC9M4IkEkKdx_22"
+    }
+  },
+  "casos": [
+    {
+      "id": "caso-01",
+      "tema": "Anatomía meniscal · Tamaño de los cuernos",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "anatomía",
+        "menisco medial",
+        "menisco lateral"
+      ],
+      "tipo": "concepto",
+      "enunciado": "En los cortes sagitales de RM de rodilla, ¿qué relación de tamaño entre los cuernos meniscales es normal?",
+      "imagenes": [
+        {
+          "ref": "fig01",
+          "mostrar_en": "respuesta"
+        },
+        {
+          "ref": "fig03",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Medial: posterior mayor; lateral: cuernos similares",
+        "Medial: cuernos similares; lateral: posterior mayor",
+        "Medial: anterior mayor; lateral: cuernos similares",
+        "Medial y lateral: el anterior mayor que el posterior",
+        "Medial y lateral: los dos cuernos del mismo tamaño"
+      ],
+      "correcta": 0,
+      "explicacion": "- En el menisco **medial**, el cuerno posterior es siempre mayor que el anterior; ambos cuernos son triangulares y de punta aguda.\n- En el menisco **lateral**, los dos cuernos tienen más o menos el mismo tamaño.\n- Si el medial no cumple esa relación, la forma es anormal: puede ser una rotura o una meniscectomía parcial.",
+      "perla": "Un cuerno posterior medial que no es mayor que el anterior es una forma anormal: rotura o meniscectomía parcial.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Medial meniscus»",
+          "cita": "The posterior horn is always larger than the anterior horn (figure)."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Medial meniscus»",
+          "cita": "If this is not the case, then the shape is abnormal, which can be a sign of a meniscal tear or a partial meniscectomy."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Lateral meniscus»",
+          "cita": "Both horns are about the same size."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-02",
+      "tema": "Anatomía meniscal · Raíz posterior medial",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "anatomía",
+        "raíz meniscal",
+        "LCP"
+      ],
+      "tipo": "concepto",
+      "enunciado": "En los cortes sagitales de RM de rodilla, ¿dónde se encuentra la raíz posterior normal del menisco medial?",
+      "imagenes": [
+        {
+          "ref": "fig02",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Inmediatamente anterior al LCA",
+        "Sobre la espina tibial lateral",
+        "Junto al ligamento intermeniscal",
+        "Inmediatamente anterior al LCP",
+        "Inmediatamente posterior al LCP"
+      ],
+      "correcta": 3,
+      "explicacion": "- La raíz posterior del menisco medial está **inmediatamente por delante del ligamento cruzado posterior**.\n- Si no se ve ahí en los cortes sagitales, hay una **rotura de la raíz meniscal**.\n- El ligamento intermeniscal (transverso) une los cuernos **anteriores**, no las raíces posteriores.",
+      "perla": "Busque la raíz posterior medial justo delante del LCP en sagital: si falta, es una rotura de la raíz.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Medial meniscus»",
+          "cita": "The posterior root is immediately anterior to the posterior cruciate ligament."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Medial meniscus»",
+          "cita": "If it is missing on the sagittal images, then there is a meniscal root tear (figure)."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-03",
+      "tema": "Anatomía meniscal · Señal del cuerno posterior lateral",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        },
+        {
+          "segmento": "fisica-tecnica"
+        }
+      ],
+      "etiquetas": [
+        "anatomía",
+        "menisco lateral",
+        "ángulo mágico",
+        "artefacto"
+      ],
+      "tipo": "concepto",
+      "enunciado": "En RM, ¿por qué el cuerno posterior del menisco lateral puede verse con una señal más alta en todos los planos?",
+      "imagenes": [
+        {
+          "ref": "fig04",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Vascularización abundante de su zona periférica",
+        "Ángulo mágico, porque sube alto sobre la espina tibial",
+        "Degeneración mucoide, frecuente en ese cuerno",
+        "Pulsación de la arteria poplítea, que pasa por detrás",
+        "Volumen parcial con el tendón poplíteo adyacente"
+      ],
+      "correcta": 1,
+      "explicacion": "- Por detrás, el menisco lateral **sube alto sobre la espina tibial** para insertarse cerca del LCP.\n- Esa posición ascendente **puede ser** la causa de que el cuerno posterior tenga señal más alta en todos los planos, por **efecto de ángulo mágico**.",
+      "perla": "La señal algo más alta del cuerno posterior lateral puede ser ángulo mágico, por su trayecto ascendente.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Lateral meniscus»",
+          "cita": "The lateral meniscus posteriorly comes up high over the tibial spine to insert near the posterior cruciate ligament."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Lateral meniscus»",
+          "cita": "This upward position of the posterior horn may be the reason for the higher signal intensity of the posterior horn in all planes due to magic angle effect."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-04",
+      "tema": "Criterios de rotura · Los dos criterios",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "criterios",
+        "rotura meniscal",
+        "DP"
+      ],
+      "tipo": "concepto",
+      "enunciado": "Según los autores, ¿cuáles son los dos criterios más importantes para diagnosticar una rotura meniscal en RM?",
+      "imagenes": [],
+      "opciones": [
+        "Forma anormal y señal alta intrameniscal que no llega a la superficie",
+        "Menisco no homogéneamente negro en DP y derrame articular",
+        "Señal alta en T1 dentro del menisco y edema óseo subcondral",
+        "Quiste parameniscal y señal alta en T2 del cuerno posterior",
+        "Forma anormal y señal alta que toca sin duda la superficie en DP"
+      ],
+      "correcta": 4,
+      "explicacion": "- Los dos criterios más importantes son la **forma anormal** del menisco y la **señal alta que contacta inequívocamente la superficie** en imágenes DP.\n- Es un error pensar que el menisco tiene que ser homogéneamente negro en DP: la señal interna que no llega a la superficie no es rotura.\n- Si hay duda de que la señal toque la superficie, se miran los cortes vecinos; si la duda persiste, no se diagnostica rotura.",
+      "perla": "Si duda de que la señal toque la superficie tras mirar los cortes vecinos, informe el menisco como normal.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Criteria for tears»",
+          "cita": "The two most important criteria for meniscal tears are an abnormal shape of the meniscus and high signal intensity unequivocally contacting the surface on PD images."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Criteria for tears»",
+          "cita": "It is a misunderstanding that menisci should be homogeneously low in signal intensity on proton-density images."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Criteria for tears»",
+          "cita": "If there is still doubt, then do not diagnose a tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-05",
+      "tema": "Criterios de rotura · Señal dudosa",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "criterios",
+        "señal intrameniscal",
+        "falso positivo"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, dos imágenes. ¿Cómo se informa lo que señalan las flechas?",
+      "imagenes": [
+        {
+          "ref": "fig06",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura radial",
+        "Rotura compleja",
+        "Menisco normal",
+        "Rotura horizontal",
+        "Rotura longitudinal"
+      ],
+      "correcta": 2,
+      "explicacion": "- La señal alta **no contacta inequívocamente la superficie**; solo hay una línea negra fina en el borde inferior.\n- Sin ese contacto inequívoco no se diagnostica rotura: en la artroscopia el menisco era **normal**.\n- Ante la duda, mirar los cortes vecinos; si sigue la duda, informar el menisco como normal.",
+      "perla": "Señal que no toca sin duda la superficie no es rotura: ante la duda, menisco normal.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 6",
+          "cita": "High signal intensity not unequivocally contacting surface. Small black line on inferior margin of the meniscus. At arthroscopy the meniscus was normal."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Criteria for tears»",
+          "cita": "Only when the high signal unequivocally reaches the surface of the meniscus you can make the diagnosis of a tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-06",
+      "tema": "Formas de rotura · Longitudinal",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "tipos de rotura",
+        "longitudinal",
+        "esquema"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Esquemas de roturas meniscales. ¿Qué tipo de rotura representa el dibujo de la izquierda?",
+      "imagenes": [
+        {
+          "ref": "fig07",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Longitudinal",
+        "Horizontal",
+        "Radial",
+        "Compleja",
+        "En asa de cubo"
+      ],
+      "correcta": 0,
+      "explicacion": "- El dibujo de la izquierda muestra una rotura **paralela al eje largo** del menisco, que lo divide en una parte interna y otra externa: es **longitudinal**.\n- Las tres formas básicas son longitudinal, horizontal y radial; las complejas combinan varias.",
+      "perla": "Tres formas básicas —longitudinal, horizontal y radial—; las complejas las combinan.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 7",
+          "cita": "Basic shapes: Longitudinal, Horizontal and Radial."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Longitudinal tears»",
+          "cita": "Longitudinal tears parallel the long axis of the meniscus dividing the meniscus into an inner and outer part."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-07",
+      "tema": "Formas de rotura · Horizontal",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "tipos de rotura",
+        "horizontal",
+        "esquema"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Esquemas de roturas meniscales. ¿Qué tipo de rotura señala la flecha blanca del dibujo central?",
+      "imagenes": [
+        {
+          "ref": "fig07",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Longitudinal",
+        "Horizontal",
+        "Radial",
+        "Compleja",
+        "En asa de cubo"
+      ],
+      "correcta": 1,
+      "explicacion": "- La rotura del dibujo central divide el menisco en una parte **superior** y otra **inferior** (como un pan pita): es **horizontal**.\n- Si llega desde el ápex hasta el borde externo, puede formar un **quiste meniscal**.",
+      "perla": "La rotura horizontal parte el menisco en arriba y abajo, y es la que da quistes meniscales.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 7",
+          "cita": "Basic shapes: Longitudinal, Horizontal and Radial."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Horizontal tears»",
+          "cita": "Horizontal tears divide the meniscus in a top and bottom part (pita bread)."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-08",
+      "tema": "Formas de rotura · Radial",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "tipos de rotura",
+        "radial",
+        "esquema"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Esquemas de roturas meniscales. ¿Qué tipo de rotura representa el dibujo de la derecha?",
+      "imagenes": [
+        {
+          "ref": "fig07",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Longitudinal",
+        "Horizontal",
+        "Radial",
+        "Compleja",
+        "En asa de cubo"
+      ],
+      "correcta": 2,
+      "explicacion": "- La rotura del dibujo de la derecha es **perpendicular al eje largo** del menisco y nace en el borde interno: es **radial**.\n- Rompe los haces de colágeno paralelos al eje largo: son roturas de **alta energía**.",
+      "perla": "La rotura radial corta los haces de colágeno, empieza en el borde interno y es de alta energía.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 7",
+          "cita": "Basic shapes: Longitudinal, Horizontal and Radial."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Radial tears»",
+          "cita": "Radial tears are perpendicular to the long axis of the meniscus."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Radial tears»",
+          "cita": "These are high energy tears."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-09",
+      "tema": "Formas de rotura · Asa de cubo",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "roturas desplazadas",
+        "asa de cubo",
+        "esquema"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Esquema de una rotura meniscal (izquierda). ¿Qué tipo de rotura representa?",
+      "imagenes": [
+        {
+          "ref": "fig08",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura en asa de cubo",
+        "Rotura en colgajo",
+        "Rotura en pico de loro",
+        "Menisco volteado",
+        "Rotura longitudinal sin desplazar"
+      ],
+      "correcta": 0,
+      "explicacion": "- El dibujo de la izquierda muestra la parte interna del menisco separada y desplazada: rotura en **asa de cubo**.\n- El asa de cubo es una **rotura longitudinal desplazada**.",
+      "perla": "Asa de cubo = longitudinal desplazada; colgajo = horizontal desplazada; pico de loro = radial desplazada.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 8",
+          "cita": "Bucket handle, Horizontal Flap tear and Parrot beak."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Displaced Tears»",
+          "cita": "Bucket-handle tear = displaced longitudinal tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-10",
+      "tema": "Formas de rotura · Colgajo",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "roturas desplazadas",
+        "colgajo",
+        "esquema"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Esquema de una rotura meniscal (centro). ¿Qué tipo de rotura señala la flecha blanca?",
+      "imagenes": [
+        {
+          "ref": "fig08",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura en asa de cubo",
+        "Rotura en colgajo",
+        "Rotura en pico de loro",
+        "Menisco volteado",
+        "Rotura longitudinal sin desplazar"
+      ],
+      "correcta": 1,
+      "explicacion": "- El dibujo central muestra una hoja del menisco levantada y desplazada: rotura en **colgajo** (*flap*).\n- El colgajo es una **rotura horizontal desplazada**.",
+      "perla": "Colgajo = rotura horizontal desplazada.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 8",
+          "cita": "Bucket handle, Horizontal Flap tear and Parrot beak."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Displaced Tears»",
+          "cita": "Flap tear = displaced horizontal tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-11",
+      "tema": "Formas de rotura · Pico de loro",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "roturas desplazadas",
+        "pico de loro",
+        "esquema"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Esquema de una rotura meniscal (derecha). ¿Qué tipo de rotura representa?",
+      "imagenes": [
+        {
+          "ref": "fig08",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura en asa de cubo",
+        "Rotura en colgajo",
+        "Rotura en pico de loro",
+        "Menisco volteado",
+        "Rotura longitudinal sin desplazar"
+      ],
+      "correcta": 2,
+      "explicacion": "- El dibujo de la derecha muestra un fragmento del borde interno levantado en forma de pico: rotura en **pico de loro**.\n- El pico de loro es una **rotura radial desplazada**.",
+      "perla": "Pico de loro = rotura radial desplazada.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 8",
+          "cita": "Bucket handle, Horizontal Flap tear and Parrot beak."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Displaced Tears»",
+          "cita": "Parrot beak = displaced radial tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-12",
+      "tema": "Formas de rotura · Geometría de la longitudinal",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "tipos de rotura",
+        "longitudinal"
+      ],
+      "tipo": "concepto",
+      "enunciado": "¿Qué característica geométrica define a una rotura meniscal longitudinal?",
+      "imagenes": [
+        {
+          "ref": "fig10",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Divide el menisco en una parte superior y otra inferior",
+        "Es perpendicular al eje largo y corta los haces de colágeno",
+        "Combina un trayecto horizontal y uno radial en el mismo cuerno",
+        "Distancia constante al borde externo; no toca el borde interno",
+        "Nace en el borde interno y avanza hacia la periferia"
+      ],
+      "correcta": 3,
+      "explicacion": "- La rotura longitudinal es paralela al eje largo y divide el menisco en una parte interna y otra externa.\n- Por eso la distancia entre la rotura y el borde externo es **siempre la misma**, y la rotura **nunca toca el borde interno**.\n- Sigue los haces de colágeno; si tiene otros componentes (horizontal o radial) es una rotura **compleja**, de mayor energía.",
+      "perla": "La longitudinal sigue los haces de colágeno: misma distancia al borde externo y nunca toca el borde interno.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Longitudinal tears»",
+          "cita": "Therefore, the distance between the tear and the outer margin of the meniscus is always the same (figure)."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Longitudinal tears»",
+          "cita": "The tear never touches the inner margin."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Longitudinal tears»",
+          "cita": "If a longitudinal tear has other components (horizontal or radial), then it is a complex tear violating the collagen bundles."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-13",
+      "tema": "Formas de rotura · Cuerno posterior",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "asa de cubo",
+        "forma anormal",
+        "RM"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, imagen izquierda. ¿Qué muestra el cuerno posterior que señala la flecha amarilla?",
+      "imagenes": [
+        {
+          "ref": "fig11",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Tamaño igual al del cuerno anterior",
+        "Forma anormal: le falta una parte",
+        "Forma triangular normal y aguda",
+        "Señal alta que no llega a la superficie",
+        "Volteado sobre el cuerno anterior"
+      ],
+      "correcta": 1,
+      "explicacion": "- El cuerno posterior tiene una **forma anormal: le falta un trozo**.\n- La forma anormal es uno de los dos criterios principales de rotura.\n- En esta rodilla, el trozo que falta está desplazado a la escotadura intercondílea (imagen derecha): rotura en asa de cubo.",
+      "perla": "Si a un cuerno le falta un trozo, busque el fragmento desplazado.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 11",
+          "cita": "LEFT: abnormal shape of posterior horn. A piece is missing."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Bucket handle tear»",
+          "cita": "is a displaced longitudinal tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-14",
+      "tema": "Formas de rotura · Escotadura en sagital",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "asa de cubo",
+        "fragmento desplazado",
+        "RM"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, imagen derecha. ¿Qué señala la flecha amarilla?",
+      "imagenes": [
+        {
+          "ref": "fig11",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Ligamento cruzado posterior",
+        "Ligamento cruzado anterior",
+        "Fragmento meniscal desplazado",
+        "Ligamento meniscofemoral",
+        "Ligamento intermeniscal"
+      ],
+      "correcta": 2,
+      "explicacion": "- La flecha señala un **fragmento meniscal desplazado** en la escotadura intercondílea.\n- Con el cuerno posterior incompleto (imagen izquierda), es una rotura en **asa de cubo**: una rotura longitudinal desplazada.",
+      "perla": "Cuerno al que le falta un trozo + estructura de más en la escotadura = asa de cubo.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 11",
+          "cita": "RIGHT: displaced fragment in the intercondylar fossa."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Bucket handle tear»",
+          "cita": "is a displaced longitudinal tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-15",
+      "tema": "Formas de rotura · Escotadura en coronal",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "asa de cubo",
+        "escotadura intercondílea",
+        "RM coronal"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, imagen derecha. ¿Qué es la estructura marcada con el número 3?",
+      "imagenes": [
+        {
+          "ref": "fig12",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Ligamento cruzado posterior",
+        "Ligamento cruzado anterior",
+        "Fragmento meniscal desplazado",
+        "Ligamento meniscofemoral",
+        "Ligamento intermeniscal"
+      ],
+      "correcta": 2,
+      "explicacion": "- El **3** es un **fragmento meniscal desplazado**.\n- Normalmente en la escotadura intercondílea solo hay dos estructuras: los ligamentos cruzados anterior y posterior.\n- Cualquier otra estructura ahí es anormal, y lo más probable es un fragmento meniscal desplazado.",
+      "perla": "En coronal, una tercera estructura en la escotadura, además de los dos cruzados, es, lo más probable, un fragmento meniscal desplazado.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 12",
+          "cita": "RIGHT: Three structures in the intercondylar fossa: post cruciate lig (1), ant cruciate lig (2) and displaced fragment (3)."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Bucket handle tear»",
+          "cita": "Any other structure in the intercondylar fossa is abnormal and a displaced meniscal fragment is the most likely possibility."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-16",
+      "tema": "Formas de rotura · Escotadura normal (1)",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "asa de cubo",
+        "LCP",
+        "anatomía"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, imagen derecha. ¿Qué es la estructura marcada con el número 1?",
+      "imagenes": [
+        {
+          "ref": "fig12",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Ligamento cruzado posterior",
+        "Ligamento cruzado anterior",
+        "Fragmento meniscal desplazado",
+        "Ligamento meniscofemoral",
+        "Ligamento intermeniscal"
+      ],
+      "correcta": 0,
+      "explicacion": "- El **1** es el **ligamento cruzado posterior**.\n- En la escotadura intercondílea normalmente solo están el LCA y el LCP; aquí hay además un fragmento meniscal desplazado.\n- En coronal, las roturas en asa de cubo son más fáciles de reconocer.",
+      "perla": "Normalmente la escotadura solo tiene dos estructuras: el LCA y el LCP.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 12",
+          "cita": "RIGHT: Three structures in the intercondylar fossa: post cruciate lig (1), ant cruciate lig (2) and displaced fragment (3)."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Bucket handle tear»",
+          "cita": "Normally there are only two structures in the intercondylar fossa: the anterior and posterior cruciate ligament."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-17",
+      "tema": "Formas de rotura · Escotadura normal (2)",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "asa de cubo",
+        "LCA",
+        "anatomía"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, imagen derecha. ¿Qué es la estructura marcada con el número 2?",
+      "imagenes": [
+        {
+          "ref": "fig12",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Ligamento cruzado posterior",
+        "Ligamento cruzado anterior",
+        "Fragmento meniscal desplazado",
+        "Ligamento meniscofemoral",
+        "Ligamento intermeniscal"
+      ],
+      "correcta": 1,
+      "explicacion": "- El **2** es el **ligamento cruzado anterior**.\n- En la escotadura normalmente solo están el LCA y el LCP; cualquier otra estructura es anormal.",
+      "perla": "En coronal, cuente las estructuras de la escotadura: más de dos obliga a buscar un fragmento meniscal.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 12",
+          "cita": "RIGHT: Three structures in the intercondylar fossa: post cruciate lig (1), ant cruciate lig (2) and displaced fragment (3)."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Bucket handle tear»",
+          "cita": "Normally there are only two structures in the intercondylar fossa: the anterior and posterior cruciate ligament."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-18",
+      "tema": "Formas de rotura · Menisco volteado",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "asa de cubo",
+        "menisco volteado"
+      ],
+      "tipo": "concepto",
+      "enunciado": "En el menisco volteado (*flipped meniscus*), ¿adónde va a parar el fragmento meniscal?",
+      "imagenes": [
+        {
+          "ref": "fig13",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "El cuerno anterior, por debajo del ligamento transverso",
+        "El cuerno posterior, encima del cuerno anterior",
+        "El cuerno anterior, encima del cuerno posterior",
+        "El cuerno posterior, al fondo de la escotadura",
+        "El cuerpo, al receso parameniscal externo"
+      ],
+      "correcta": 1,
+      "explicacion": "- El menisco volteado es una forma de **rotura en asa de cubo**.\n- Hay una desinserción capsular o una rotura periférica, casi siempre del cuerno posterior.\n- El **cuerno posterior se voltea sobre el cuerno anterior**: en sagital falta el posterior porque está encima del anterior.",
+      "perla": "Si en sagital falta el cuerno posterior, búsquelo volteado encima del cuerno anterior.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 13",
+          "cita": "Flipped meniscus: posterior horn is missing because it is flipped over and located on top of the anterior horn."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Flipped meniscus»",
+          "cita": "Flipped meniscus is a form of bucket handle tear."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Flipped meniscus»",
+          "cita": "There is a capsular detachment or peripheral tear of the meniscus, usually the posterior horn."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-19",
+      "tema": "Formas de rotura · Colección junto al menisco",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "quiste meniscal",
+        "rotura horizontal",
+        "RM"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, dos imágenes. ¿Diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig14",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Quiste poplíteo (de Baker)",
+        "Ganglión del ligamento cruzado anterior",
+        "Bursitis de la pata de ganso",
+        "Rotura en asa de cubo desplazada",
+        "Rotura horizontal con quiste meniscal"
+      ],
+      "correcta": 4,
+      "explicacion": "- Es una **rotura horizontal con quiste meniscal**.\n- El líquido sinovial pasa por la rotura horizontal hacia la periferia, se acumula y forma el quiste.\n- Criterios: rotura horizontal, líquido brillante en T2 y forma aplanada contra la periferia del menisco.",
+      "perla": "Un quiste meniscal exige rotura horizontal: el cirujano opera por fuera el quiste y por dentro el menisco.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 14",
+          "cita": "Horizontal tear with a meniscal cyst"
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Horizontal tears»",
+          "cita": "If horizontal tears go all the way from the apex to the outer margin of the meniscus, they may result in the formation of a meniscal cyst."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-20",
+      "tema": "Formas de rotura · Criterios del quiste",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "quiste meniscal",
+        "criterios"
+      ],
+      "tipo": "concepto",
+      "enunciado": "¿Cuáles son los tres criterios del quiste meniscal en RM?",
+      "imagenes": [],
+      "opciones": [
+        "Rotura longitudinal, señal alta en T1 y tabiques internos en la periferia",
+        "Rotura horizontal, contenido brillante en T1 y forma redondeada central",
+        "Rotura horizontal, líquido brillante en T2 y forma aplanada en la periferia",
+        "Rotura radial, líquido brillante en T2 y realce periférico tras el contraste",
+        "Rotura horizontal, señal baja en T2 y comunicación libre con la articulación"
+      ],
+      "correcta": 2,
+      "explicacion": "- Tres criterios: **rotura horizontal**, **acumulación de líquido brillante en T2** y **forma aplanada contra la periferia** del menisco.\n- La comunicación con la articulación suele perderse: por eso no se llenan de contraste en la artro-RM.\n- Importa al cirujano: hace falta una operación por fuera de la rodilla para el quiste y otra por dentro para el menisco.",
+      "perla": "Quiste meniscal = rotura horizontal + líquido en T2 + forma aplanada en la periferia.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Horizontal tears»",
+          "cita": "There are 3 criteria for the diagnosis of a meniscal cyst:"
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Horizontal tears»",
+          "cita": "Fluid accumulation with bright signal on T2."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Horizontal tears»",
+          "cita": "Flat lining against the periphery of the meniscus."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Horizontal tears»",
+          "cita": "The connection with the joint space is often lost, so they will not fill with contrast on MR-arthrography."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-21",
+      "tema": "Signos en RM · Imagen izquierda",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "rotura radial",
+        "signos",
+        "RM"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, imagen izquierda. ¿Qué signo señala la flecha amarilla?",
+      "imagenes": [
+        {
+          "ref": "fig16",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Triángulo sin punta",
+        "Corbatín interrumpido",
+        "Menisco ausente o vacío",
+        "Doble ligamento cruzado posterior",
+        "Cuerno posterior volteado"
+      ],
+      "correcta": 0,
+      "explicacion": "- La flecha señala un **triángulo sin punta**: al cuerno le falta el vértice.\n- En la imagen derecha hay un **corbatín interrumpido**.\n- Un triángulo sin punta en un plano y un corbatín interrumpido en el otro son diagnósticos de **rotura radial**.",
+      "perla": "Rotura radial: triángulo sin punta en un plano + corbatín interrumpido en el otro.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 16",
+          "cita": "LEFT: triangle missing the tip."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Radial tears»",
+          "cita": "In one plane: triangle missing the tip and in the other plane: a disrupted bow tie."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-22",
+      "tema": "Signos en RM · Imagen derecha",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "rotura radial",
+        "signos",
+        "RM"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, imagen derecha. ¿Qué signo señala la flecha amarilla?",
+      "imagenes": [
+        {
+          "ref": "fig16",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Triángulo sin punta",
+        "Corbatín interrumpido",
+        "Menisco ausente o vacío",
+        "Doble ligamento cruzado posterior",
+        "Cuerno posterior volteado"
+      ],
+      "correcta": 1,
+      "explicacion": "- La flecha señala un **corbatín interrumpido**.\n- Las roturas radiales son difíciles de ver: hay que combinar los hallazgos de los cortes sagitales y coronales.\n- En las roturas radiales pequeñas, a veces el corbatín interrumpido es el único signo.",
+      "perla": "En una rotura radial pequeña, el corbatín interrumpido puede ser el único signo.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 16",
+          "cita": "RIGHT: disrupted bow tie."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Radial tears»",
+          "cita": "Radial tears are difficult to recognize. You have to combine the findings on sagittal and coronal images to make the diagnosis."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Radial tears»",
+          "cita": "Sometimes the only sign is a disrupted bow tie."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-23",
+      "tema": "Signos en RM · Sagital",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "rotura radial",
+        "menisco ausente",
+        "RM"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, corte sagital (imagen izquierda). ¿Qué signo señala la flecha amarilla?",
+      "imagenes": [
+        {
+          "ref": "fig18",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Triángulo sin punta",
+        "Corbatín interrumpido",
+        "Menisco ausente o vacío",
+        "Doble ligamento cruzado posterior",
+        "Cuerno posterior volteado"
+      ],
+      "correcta": 2,
+      "explicacion": "- La flecha señala un **menisco ausente o vacío**.\n- Aparece cuando el corte sagital cae justo a lo largo de una **rotura radial completa**: las partes se separan y parece que falta menisco.\n- No hay fragmento desplazado: solo se separan las partes del menisco.",
+      "perla": "Menisco ausente sin fragmento desplazado: piense en una rotura radial completa cortada a lo largo.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 18",
+          "cita": "LEFT: Absent or empty meniscus on sagittal image."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Radial tears»",
+          "cita": "If you image a complete radial tear directly along the length of the tear you will see an absent or empty meniscus."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Radial tears»",
+          "cita": "However you will not find a displaced meniscal fragment."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-24",
+      "tema": "Signos en RM · Axial",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "rotura radial",
+        "RM axial"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, corte axial (imagen derecha). ¿Qué muestra la flecha amarilla?",
+      "imagenes": [
+        {
+          "ref": "fig18",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura longitudinal periférica",
+        "Rotura horizontal con quiste",
+        "Rotura en asa de cubo",
+        "Menisco discoide lateral",
+        "Rotura radial completa"
+      ],
+      "correcta": 4,
+      "explicacion": "- El corte axial muestra una **rotura radial completa** que deja un defecto en el menisco.\n- Las roturas radiales completas se abren y dan la impresión de que falta una parte, pero no hay fragmento desplazado.",
+      "perla": "En axial, la rotura radial completa se ve como un defecto que corta el menisco de lado a lado.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 18",
+          "cita": "RIGHT: Axial image shows complete radial tear leading to a defect in the meniscus."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Radial tears»",
+          "cita": "These complete radial tears open up and give the impression that there is a part missing."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-25",
+      "tema": "Signos en RM · Cortes sagitales",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "raíz meniscal",
+        "menisco ausente",
+        "RM sagital"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, dos cortes sagitales (imágenes izquierda y central). ¿Qué signo señalan las flechas amarillas?",
+      "imagenes": [
+        {
+          "ref": "fig19",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Triángulo sin punta",
+        "Corbatín interrumpido",
+        "Menisco ausente o vacío",
+        "Doble ligamento cruzado posterior",
+        "Cuerno posterior volteado"
+      ],
+      "correcta": 2,
+      "explicacion": "- Las flechas señalan un **menisco ausente o vacío** junto al ligamento cruzado posterior, donde debería estar la raíz.\n- Normalmente, en el corte del LCP (o el vecino) se ve buena parte del cuerno posterior; si no, es el signo del menisco ausente e indica una rotura radial.",
+      "perla": "En el corte sagital del LCP o en el vecino debe verse el cuerno posterior: si no está, busque una rotura de la raíz.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 19",
+          "cita": "Meniscal root tear: on sagittal images there is an absent or empty meniscus-sign adjacent to the posterior cruciate ligament where the meniscal root should be."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Meniscal root tear»",
+          "cita": "If this is not the case it is an absent or empty meniscus-sign, indicating a radial tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-26",
+      "tema": "Signos en RM · Corte coronal",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "raíz meniscal",
+        "RM coronal"
+      ],
+      "tipo": "imagen",
+      "enunciado": "RM de rodilla, corte coronal (imagen derecha). ¿Diagnóstico de lo que señala la flecha amarilla?",
+      "imagenes": [
+        {
+          "ref": "fig19",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura de la raíz posterior",
+        "Rotura en asa de cubo",
+        "Quiste meniscal pequeño",
+        "Rotura horizontal del cuerpo",
+        "Menisco volteado"
+      ],
+      "correcta": 0,
+      "explicacion": "- El corte coronal **confirma la rotura de la raíz meniscal** que se sospechaba en sagital.\n- La rotura de la raíz es una **rotura radial situada en la raíz meniscal**.",
+      "perla": "Rotura de la raíz = rotura radial en la raíz: se sospecha en sagital y se confirma en coronal.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 19",
+          "cita": "On coronal images a meniscal root tear is confirmed."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Meniscal root tear»",
+          "cita": "A meniscal root tear is a radial tear located at the meniscal root."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-27",
+      "tema": "Menisco operado · Sutura y T2",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "menisco operado",
+        "sutura",
+        "T2"
+      ],
+      "tipo": "concepto",
+      "enunciado": "Menisco con sutura previa. ¿Qué hallazgo en RM permite diagnosticar una rotura?",
+      "imagenes": [
+        {
+          "ref": "fig21",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Forma anormal del menisco en DP",
+        "Señal intermedia en T1 sin contraste",
+        "Menisco no homogéneamente negro",
+        "Señal alta en T2 dentro del menisco",
+        "Señal alta en DP que toca la superficie"
+      ],
+      "correcta": 3,
+      "explicacion": "- Tras una sutura, la cicatriz también da **señal alta en DP**: la señal en DP ya no es fiable.\n- Si además hay **señal alta en T2** (líquido sinovial que entra en la rotura), se puede diagnosticar una rotura; es un hallazgo poco frecuente.\n- Tras una meniscectomía parcial, la forma anormal tampoco es fiable: hay que saber qué se operó y comparar con estudios previos.",
+      "perla": "En el menisco suturado, la señal en DP no sirve: solo la señal alta en T2 permite diagnosticar rotura.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Post-operative meniscus»",
+          "cita": "Abnormal signal is no longer a reliable sign of a tear, because if there has been a suture repair, this will heal with scar tissue, which also has high signal on PD-images (figure)."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Post-operative meniscus»",
+          "cita": "Although an uncommon finding, if there is also high signal on T2-weighted images, then you can make the diagnosis of a tear, as this is the result of synovial fluid leaking into a meniscal tear."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Post-operative meniscus»",
+          "cita": "Abnormal shape can be the result of partial meniscectomy."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-28",
+      "tema": "Menisco operado · Artro-RM",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "menisco operado",
+        "artro-RM"
+      ],
+      "tipo": "concepto",
+      "enunciado": "Menisco operado: la RM convencional no distingue un cambio posoperatorio de una rotura nueva. ¿Qué estudio ayuda?",
+      "imagenes": [],
+      "opciones": [
+        "Radiografía en carga con proyección de túnel",
+        "Artro-RM con gadolinio diluido y T1 con supresión grasa",
+        "TC con contraste intravenoso en fase tardía",
+        "RM con gadolinio intravenoso y T2 sin supresión grasa",
+        "Ecografía dinámica con maniobras de estrés en varo"
+      ],
+      "correcta": 1,
+      "explicacion": "- En esos casos ayuda la **artro-RM con 40 cc de gadolinio diluido**.\n- Incluso poco gadolinio que entra en una rotura se ve bien en **T1 con supresión grasa**.\n- Comparar con los estudios posoperatorios previos también ayuda a reconocer una rotura nueva.",
+      "perla": "Si la RM no distingue cicatriz de rotura nueva en un menisco operado, pida una artro-RM.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Post-operative meniscus»",
+          "cita": "Sometimes differentiation between normal post-op findings and a re-tear is not possible on conventional MR-images."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Post-operative meniscus»",
+          "cita": "In these cases, MR-arthrography with 40cc diluted Gadolinium helps to make the distinction because even small amounts of Gadolinium that leak into a tear are readily visible on fat saturated T1 images."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-29",
+      "tema": "Menisco operado · Estudio nuevo",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "menisco operado",
+        "rotura nueva",
+        "comparación"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Sutura meniscal previa. Estudio anterior (izquierda) y actual (derecha), tras otra lesión. ¿Qué señala la flecha amarilla?",
+      "imagenes": [
+        {
+          "ref": "fig22",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura antigua cicatrizada",
+        "Rotura nueva del menisco",
+        "Líquido sinovial del receso",
+        "Quiste meniscal pequeño",
+        "Efecto de ángulo mágico"
+      ],
+      "correcta": 1,
+      "explicacion": "- La flecha amarilla señala una **rotura nueva**, que no estaba en el estudio anterior.\n- Comparar con los estudios previos sirvió para diagnosticarla.\n- En cambio, en este estudio **no se puede saber si la rotura antigua cicatrizó**.",
+      "perla": "En el menisco operado, compare siempre con el estudio previo: así se reconoce una rotura nueva.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 22",
+          "cita": "RIGHT: On new exam, there is a new tear (yellow arrow). It is not possible to tell if the old tear has healed."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Post-operative Meniscus 2»",
+          "cita": "There was a new injury."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-30",
+      "tema": "Menisco operado · Artro-RM (flecha azul)",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "menisco operado",
+        "artro-RM",
+        "rotura cicatrizada"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Artro-RM tras sutura de una rotura meniscal y otra lesión posterior. ¿Qué señala la flecha azul?",
+      "imagenes": [
+        {
+          "ref": "fig23",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura antigua cicatrizada",
+        "Rotura nueva del menisco",
+        "Líquido sinovial del receso",
+        "Quiste meniscal pequeño",
+        "Efecto de ángulo mágico"
+      ],
+      "correcta": 0,
+      "explicacion": "- En la rotura **cicatrizada** la señal **no es tan brillante** como el líquido sinovial: es lo que señala la flecha azul.\n- En la rotura nueva, en cambio, la señal es tan brillante como el líquido sinovial.\n- La artro-RM mostró que la rotura antigua había cicatrizado.",
+      "perla": "En artro-RM, rotura con señal tan brillante como el líquido = nueva; menos brillante = cicatrizada.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 23",
+          "cita": "MR-arthrogram: In the new tear the signal is as bright as in the synovial fluid (yellow arrows). In the healed tear the signal is not as bright."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Post-operative Meniscus 2»",
+          "cita": "So comparison with the old films was diagnostic for the new tear, while the arthrogram showed that the old tear has healed."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    },
+    {
+      "id": "caso-31",
+      "tema": "Menisco operado · Artro-RM (flecha amarilla)",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        }
+      ],
+      "etiquetas": [
+        "menisco operado",
+        "artro-RM",
+        "rotura nueva"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Artro-RM tras sutura de una rotura meniscal y otra lesión posterior. ¿Qué señala la flecha amarilla que apunta hacia arriba, en el menisco?",
+      "imagenes": [
+        {
+          "ref": "fig23",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Rotura antigua cicatrizada",
+        "Rotura nueva del menisco",
+        "Líquido sinovial del receso",
+        "Quiste meniscal pequeño",
+        "Efecto de ángulo mágico"
+      ],
+      "correcta": 1,
+      "explicacion": "- En la rotura **nueva** la señal es **tan brillante como el líquido sinovial** (la otra flecha amarilla señala el líquido).\n- En la rotura cicatrizada, la señal no es tan brillante.",
+      "perla": "Gadolinio tan brillante como el líquido dentro del menisco operado = rotura nueva.",
+      "evidencia": [
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Leyenda de la imagen 23",
+          "cita": "MR-arthrogram: In the new tear the signal is as bright as in the synovial fluid (yellow arrows). In the healed tear the signal is not as bright."
+        },
+        {
+          "fuente": "rubin2005",
+          "ubicacion": "Sección «Post-operative Meniscus 2»",
+          "cita": "On an MR-arthrogram, there was very high signal intensity in the new tear comparable with the synovial fluid, but only moderate signal intensity at the healed old tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-01"
+    }
+  ]
+}
