@@ -85,6 +85,32 @@ Los borradores viven en Firebase (`estudio/`, `estudio_img/`); lo publicado qued
 historial. Las reglas de `database.rules.json` definen qué puede hacer cada papel. `publicacion_img/` es de antes de
 Drive: ya no admite escrituras, solo borrarse, y la web la lee únicamente para temas que no se han vuelto a publicar.
 
+### Claude con el estudio (servidor MCP)
+
+`tools/mcp/servidor.mjs` deja que Claude Code (o cualquier cliente MCP) maneje el estudio en línea: leer temas y
+casos, corregirlos, arreglar la fuente, buscar y tapar texto pegado en las figuras, publicar y comprobar lo publicado.
+Está registrado en `.mcp.json`; Claude Code lo ofrece al abrir el proyecto. Sin dependencias: Node ≥ 20 y, para las
+figuras, `tools/mcp/imagen.swift` (OCR de Vision y CoreGraphics de macOS), que se compila solo la primera vez.
+
+- **Entra como el autor, nunca con una cuenta de servicio.** `sesion_iniciar` abre una página en `localhost` (dominio
+  autorizado en Firebase Auth) y la persona entra con Google. Las reglas de la base valen igual que en el navegador.
+  El token de renovación de Firebase queda en `~/.config/radquiz-mcp/sesion.json` (permiso 600); el permiso de Drive
+  dura una hora y vive solo en memoria.
+- **Usa la lógica de la app**, no una copia: `app/validacion.js` (validar, `aPaquete`), `app/instrucciones-ia.js`
+  (correcciones con `leerRespuestaIA` y `planDeCarga`) y `app/drive.js` (subir figuras). El texto de la declaración
+  se lee de `app/estudio.js`.
+- **Lo que escribe simula por defecto** (`casos_corregir`, `fuente_guardar`, `imagen_tapar`, `imagen_reemplazar`):
+  muestra qué cambia —y la figura resultante— antes de guardar con `simular: false`.
+- **Publicar exige la declaración de la persona.** `tema_publicar` con `declaracion_aceptada: false` devuelve el texto;
+  solo pasa en `true` si la persona la acepta en el chat. No publica con errores del validador.
+- **No borra ni verifica.** Borrar un tema, quitarlo de la web y poner el sello de verificado se siguen haciendo en el
+  estudio: son decisiones de una persona.
+
+Herramientas: `sesion_iniciar`, `sesion_estado`, `temas_listar`, `tema_leer`, `casos_leer`, `tema_validar`,
+`casos_corregir`, `fuente_guardar`, `imagen_ver`, `imagenes_buscar_texto`, `imagen_tapar`, `imagen_reemplazar`,
+`tema_publicar` y `publicacion_comprobar`. `casos_leer` devuelve los casos en el mismo formato que recibe
+`casos_corregir`, así que una corrección es leer, editar y devolver.
+
 ### Clasificación: segmento → área
 
 El segmento del paquete decide su carpeta y dónde sale en la portada. Además, cada caso lleva `clasificacion`: una o

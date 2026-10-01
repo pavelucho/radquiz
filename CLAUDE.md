@@ -187,6 +187,13 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   por el presentador) y Clave (la perla). Para no adelantar respuestas, una figura que usa otra casilla sin jugar sale
   sin la lista de marcas, o no sale si es de «respuesta»; y nunca se compara con un caso que comparta figura o
   respuesta con una casilla. Probado de punta a punta en el navegador con ATM 4 × 4, no en un aula.
+- Servidor MCP (2026-10-01): `tools/mcp/servidor.mjs`, registrado en `.mcp.json`, para que Claude maneje el estudio en
+  línea. Entra con Google como el autor (página en `localhost`, autorizado en Firebase Auth; sin cuenta de servicio),
+  así que valen las mismas reglas. Reusa `app/validacion.js`, `app/instrucciones-ia.js` y `app/drive.js`; el ayudante
+  `tools/mcp/imagen.swift` (OCR de Vision, tapar y comprimir; solo macOS) se compila solo. Lo que escribe simula por
+  defecto; publicar pide que la persona acepte la declaración en el chat; no borra ni verifica. Sesión en
+  `~/.config/radquiz-mcp/sesion.json`. Probado contra producción el mismo día, solo lectura y simulaciones. Detalle en
+  README.md.
 - Manual de uso por papel: `manual.html`, en línea. Camino con Git (alternativo):
   `tools/aprobar <carpeta> --revisor <usuario> --todos|--casos a,b [--estado publicado]`.
 - `referencia/` y `PROMPT_INICIO.md` están en `.gitignore`: solo locales (el respaldo del piloto tiene recortes ND).
