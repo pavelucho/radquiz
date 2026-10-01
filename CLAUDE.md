@@ -95,8 +95,11 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   comparte con «cualquiera con el enlace» y guarda en la ficha solo el id (`drive`, en el esquema). Reutiliza lo
   ya subido si la huella no cambió y manda a la papelera lo que el tema dejó de usar (`app/drive.js`). El autor
   marca una declaración (texto en `DECLARACION`, `app/estudio.js`) que queda en `publicacion/<tema>/declaracion`;
-  las reglas la exigen. La web pide cada figura a `www.googleapis.com/drive/v3/files/<id>?alt=media` con
-  `claveDrive`: en Google Cloud la API de Drive tiene que estar habilitada y permitida en esa clave.
+  las reglas la exigen. La web pide cada figura a `lh3.googleusercontent.com/d/<id>=s0` (mismo archivo, byte a
+  byte) y, si falla, a `www.googleapis.com/drive/v3/files/<id>?alt=media` con `claveDrive` (`activarRespaldoDrive`
+  en `app/drive.js`). Antes iba directo a la API, y el 2026-09-30 dejaron de cargar todas las figuras: Drive
+  contestaba 403 «your computer or network may be sending automated queries» a las descargas con clave (los
+  metadatos sí salían). Para el respaldo, la API de Drive sigue habilitada y permitida en esa clave.
   `publicacion_img/` es de antes: solo admite borrarse, y la web la lee solo para temas no vueltos a publicar.
   Los borradores siguen en `estudio_img/`. Borrar un tema propio manda su carpeta de Drive a la papelera.
 - Licencia «Con copyright» (sin licencia abierta): la web muestra «© titular · alojada por <quien publicó>» y ningún
@@ -214,8 +217,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
    validador no se queja.
 3. Probar la red de HNERM antes del ensayo con 3 colegas. Desde el Mac del autor ya pasa Firebase (ver arriba);
    falta abrir https://radquiz-shpn2.web.app en la **PC que proyecta** y entrar a una sala desde un celular en el
-   wifi del hospital. Con las figuras en Drive hay que comprobar también que pasa `www.googleapis.com` (la web
-   pide ahí cada figura).
+   wifi del hospital. Con las figuras en Drive hay que comprobar también que pasan `lh3.googleusercontent.com` (la web
+   pide ahí cada figura) y `www.googleapis.com` (el respaldo).
 4. Decidir la licencia del código y la de los textos propios.
 5. Clasificar los tres temas publicados con el panel «Clasificación» y volver a publicarlos (hoy dan el aviso «sin
    área»): ATM → cabeza-cuello/atm; meniscos → musculoesqueletico/rodilla; tobillo → musculoesqueletico/tobillo-pie,

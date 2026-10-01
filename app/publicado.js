@@ -13,13 +13,16 @@
 // en «publicacion_img».
 import { cargarJSON } from "./comun.js";
 import { firebaseConfig } from "./firebase-config.js";
-import { urlDrive } from "./drive.js";
+import { urlDrive, activarRespaldoDrive } from "./drive.js";
 
 const BASE = firebaseConfig.databaseURL;
 const ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const USUARIO = /^[a-z0-9._-]+$/;
 // Un JPEG en base64 y nada más: cualquier otro carácter podría salirse del atributo src.
 const IMAGEN = /^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/;
+
+// Toda página que muestra temas pasa por aquí: si una figura no carga por lh3, se pide a la API de Drive.
+activarRespaldoDrive();
 
 async function leer(ruta) {
   try {

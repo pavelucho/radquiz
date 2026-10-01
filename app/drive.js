@@ -17,9 +17,32 @@ const CARPETA = "application/vnd.google-apps.folder";
 // Los identificadores de Drive son letras, números, «-» y «_». Solo eso entra en una URL de la web.
 export const ID_DRIVE = /^[A-Za-z0-9_-]{20,100}$/;
 
-// La figura tal como la ve cualquiera, sin sesión: la API documentada de Drive con la clave del sitio.
+// La figura tal como la ve cualquiera, sin sesión. Primero, el servidor de imágenes de Google
+// (lh3.googleusercontent.com): entrega el mismo archivo, byte a byte, y no tiene el freno antibots que la API
+// pone a las descargas con clave («your computer or network may be sending automated queries», visto el
+// 2026-09-30 en todas las figuras, y que en el hospital, con todos detrás de una IP, saltaría antes). No está
+// documentado, así que si falla la imagen pasa sola a la API documentada (`activarRespaldoDrive`).
+const IMAGENES = "https://lh3.googleusercontent.com/d/";
+
 export function urlDrive(id) {
+  return ID_DRIVE.test(id || "") ? `${IMAGENES}${id}=s0` : "";
+}
+
+// La misma figura por la API de Drive con la clave del sitio.
+export function urlApiDrive(id) {
   return ID_DRIVE.test(id || "") ? `${API}/files/${id}?alt=media&key=${encodeURIComponent(claveDrive)}` : "";
+}
+
+// Una figura de Drive que no carga por lh3 se vuelve a pedir, una vez, a la API. Vale para toda imagen de la
+// página, también las que se pintan después: el evento «error» no burbujea, pero se ve en la fase de captura.
+export function activarRespaldoDrive() {
+  if (typeof document === "undefined") return;
+  document.addEventListener("error", (e) => {
+    const img = e.target;
+    if (!(img instanceof HTMLImageElement) || !img.src.startsWith(IMAGENES)) return;
+    const id = img.src.slice(IMAGENES.length).replace(/=s0$/, "");
+    if (ID_DRIVE.test(id)) img.src = urlApiDrive(id);
+  }, true);
 }
 
 // Para que el autor abra su carpeta en Drive.
@@ -157,11 +180,13 @@ export async function subirFigura(token, { carpeta, nombre, bytes, descripcion =
   return archivo.id;
 }
 
-// ¿La ve cualquiera? La web pide cada figura con la clave del sitio y sin sesión; se prueba igual antes de
-// publicar, para no dejar un tema con las imágenes rotas si en Google Cloud falta permitir Drive en la clave.
+// ¿La ve cualquiera? La web pide cada figura sin sesión, a lh3 o, si falla, a la API con la clave del sitio; se
+// prueba igual antes de publicar, para no dejar un tema con las imágenes rotas.
 export async function comprobarLectura(id) {
   for (let intento = 0; ; intento++) {
-    const respuesta = await fetch(urlDrive(id), { cache: "no-store" });
+    const directa = await fetch(urlDrive(id), { cache: "no-store" }).catch(() => null);
+    if (directa?.ok) return;
+    const respuesta = await fetch(urlApiDrive(id), { cache: "no-store" });
     if (respuesta.ok) return;
     const { razon, detalle } = await leerError(respuesta);
     if (respuesta.status === 404 && intento < 3) {
