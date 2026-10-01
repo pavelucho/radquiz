@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "gunderman2010": {
+    "cita": "Tsiouris AJ, Sanelli PC, Comunale JP, eds. Case-Based Brain Imaging (RadCases). 2nd ed. New York: Thieme Medical Publishers; 2013. ISBN 978-1-60406-953-2.",
+    "credito": "Tsiouris, Sanelli, Comunale. Case-Based Brain Imaging. Thieme, 2013",
+    "doi": "10.1055/b-002-79368",
+    "licencia": "Con copyright",
+    "modificaciones_permitidas": false,
+    "tipo": "libro",
+    "titular": "© 2013 Thieme Medical Publishers, Inc.",
+    "url": "https://doi.org/10.1055/b-002-79368",
+    "verificacion": {
+      "donde": "p. iv (créditos): «Copyright © 2013 by Thieme Medical Publishers, Inc. This book, including all parts thereof, is legally protected by copyright.»",
+      "fecha": "2026-10-01",
+      "por": "Pavel Luna"
+    },
+    "licencia_url": null,
+    "alojada_por": "Pavel Luna"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "gunderman2010": {
+    "cita": "Gunderman R. Pediatric Imaging. 2010. doi: 10.1234/5678",
+    "credito": "Gunderman R. Pediatric Imaging. 2010",
+    "doi": "10.1234/5678",
+    "licencia": "Con copyright",
+    "licencia_url": null,
+    "modificaciones_permitidas": false,
+    "tipo": "articulo",
+    "titular": "© 2010 Thieme",
+    "url": "https://doi.org/10.1234/5678",
+    "verificacion": {
+      "donde": "p. 2",
+      "fecha": "2026-10-01",
+      "por": "Pavel Luna"
+    },
+    "alojada_por": "Pavel Luna"
+  }
+}
