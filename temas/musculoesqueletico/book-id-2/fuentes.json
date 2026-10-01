@@ -1,20 +1,20 @@
 {
   "$schema": "../../../schema/fuentes.schema.json",
   "gunderman2010": {
-    "cita": "Gunderman R. Pediatric Imaging. 2010. doi: 10.1234/5678",
-    "credito": "Gunderman R. Pediatric Imaging. 2010",
-    "doi": "10.1234/5678",
+    "cita": "Garcia GM, ed. RadCases Plus Q&A: Musculoskeletal Radiology. 2nd ed. New York: Thieme Medical Publishers; 2018. ISBN 978-1-62623-244-0.",
+    "credito": "Garcia GM, ed. RadCases Musculoskeletal Radiology. Thieme, 2018",
+    "doi": "10.1055/b-006-160933",
     "licencia": "Con copyright",
-    "licencia_url": null,
     "modificaciones_permitidas": false,
-    "tipo": "articulo",
-    "titular": "© 2010 Thieme",
-    "url": "https://doi.org/10.1234/5678",
+    "tipo": "libro",
+    "titular": "© 2018 Thieme Medical Publishers, Inc.",
+    "url": "https://doi.org/10.1055/b-006-160933",
     "verificacion": {
-      "donde": "p. 2",
+      "donde": "Página de créditos: «Copyright © 2018 by Thieme Medical Publishers, Inc.»",
       "fecha": "2026-10-01",
       "por": "Pavel Luna"
     },
+    "licencia_url": null,
     "alojada_por": "Pavel Luna"
   }
 }

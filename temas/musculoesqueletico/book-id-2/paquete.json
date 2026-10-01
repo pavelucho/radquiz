@@ -11,7 +11,7 @@
     "Rx"
   ],
   "idioma": "es",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -102,7 +102,7 @@
         "redimensionada",
         "comprimida"
       ],
-      "drive": "1P50dqBXLzEGhA-ruiagrDNi8-LRHT479"
+      "drive": "1zHQkJirnVw77VrWC1DzmavsqFLtzz5FP"
     },
     "case024": {
       "archivo": "case024.jpg",
@@ -124,7 +124,7 @@
         "redimensionada",
         "comprimida"
       ],
-      "drive": "1iyMM0qZx1xEPpq1S8wE6fK_dhEuDdune"
+      "drive": "1O5lHMbNPfuCvDvv3s7HbPvznbcKIm1hI"
     },
     "case030": {
       "archivo": "case030.jpg",
@@ -410,7 +410,7 @@
         "redimensionada",
         "comprimida"
       ],
-      "drive": "1AS6bys-pbLma26TIU-N72Ytjckda2ZG4"
+      "drive": "1xH3qvxawEZ-HvjBBJFrp7k-5Hmiz4HAW"
     },
     "case035": {
       "archivo": "case035.jpg",
@@ -520,7 +520,7 @@
         "redimensionada",
         "comprimida"
       ],
-      "drive": "1QdX6y8OQ3alpHsmFI3e7so3lhauTJHq1"
+      "drive": "1xwlbno5SWocIMLbOB-dzqC-NqR_G2Mip"
     },
     "case046": {
       "archivo": "case046.jpg",
@@ -1180,7 +1180,7 @@
         "redimensionada",
         "comprimida"
       ],
-      "drive": "1hiwxrqWHNMHw61BVwHTn7pCIU-Tvcn9n"
+      "drive": "1Mw2X79EMONOt_VVZ97wfogXzNvwuIxn6"
     },
     "case056": {
       "archivo": "case056.jpg",
@@ -1356,7 +1356,7 @@
         "redimensionada",
         "comprimida"
       ],
-      "drive": "1MMTLpoi1vPGU15g_4Kv3lxLm0H4SvzdK"
+      "drive": "14oNlpfEwal7TbiBN5WTf9P0KmNgTHsIJ"
     },
     "case099": {
       "archivo": "case099.jpg",
@@ -1972,7 +1972,7 @@
         "redimensionada",
         "comprimida"
       ],
-      "drive": "1WA1A9_1BNCIqngdjXKVJY4rqQsoIhdVT"
+      "drive": "1DLUoVXdZGsszEOSiI74fjnsVhNLauvFy"
     },
     "case012": {
       "archivo": "case012.jpg",
@@ -2016,7 +2016,7 @@
         "redimensionada",
         "comprimida"
       ],
-      "drive": "1TlNz4nKUKP5DQTAzWgLw-UUBAyaEcLO8"
+      "drive": "18s7Ha4-CCxUf9_Ccb1QGrjrBaq5kAhde"
     },
     "case002": {
       "archivo": "case002.jpg",
@@ -2060,7 +2060,7 @@
         "redimensionada",
         "comprimida"
       ],
-      "drive": "1Cx3nEwHBtrVQ0NN0xdTnIRwJ9kdX4nwq"
+      "drive": "1Hjn9y05gea5hG17PfGluI2SBMOZZBLXr"
     },
     "case017": {
       "archivo": "case017.jpg",
@@ -2227,13 +2227,13 @@
         }
       ],
       "etiquetas": [
-        "bisphosphonates",
-        "femur",
-        "fracture",
+        "bifosfonatos",
+        "fémur",
+        "fractura",
         "osteoporosis"
       ],
       "tipo": "imagen",
-      "enunciado": "An elderly female patient on long-term bisphosphonate therapy for osteoporosis presents with chronic hip pain. Based on the radiographic and CT findings demonstrating lateral subtrochanteric cortical thickening and spiking, what is the most likely diagnosis?",
+      "enunciado": "Una mujer anciana en tratamiento prolongado con bifosfonatos por osteoporosis presenta dolor crónico de cadera. La radiografía y la TC muestran engrosamiento cortical lateral subtrocantérico con un pico cortical. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case001",
@@ -2241,15 +2241,15 @@
         }
       ],
       "opciones": [
-        "Linea aspera hypertrophy",
-        "Osteogenic sarcoma",
-        "Bisphosphonate-related femoral fracture",
-        "Stress fracture of the femoral neck",
-        "Paget's disease of bone"
+        "Hipertrofia de la línea áspera",
+        "Osteosarcoma",
+        "Fractura femoral asociada a bifosfonatos",
+        "Fractura por estrés del cuello femoral",
+        "Enfermedad de Paget"
       ],
       "correcta": 2,
-      "explicacion": "- Bisphosphonate-related femoral fractures are insufficiency fractures associated with long-term bisphosphonate use.\n- They commonly occur along the proximal lateral femoral cortices, frequently involving subtrochanteric regions.\n- Findings include beaking or pointing of the cortices along the fracture margins.",
-      "perla": "Greater than 50% of bisphosphonate-related femoral fractures are bilateral and occur along the femoral diaphysis within 5 cm of the lesser trochanter.",
+      "explicacion": "- Las fracturas femorales asociadas a bifosfonatos son fracturas por insuficiencia relacionadas con el uso prolongado de estos fármacos.\n- Suelen localizarse en la cortical lateral del fémur proximal, con frecuencia en la región subtrocantérica.\n- Es característico el pico o «pico de pájaro» de la cortical en los bordes de la fractura.",
+      "perla": "Más del 50 % de estas fracturas son bilaterales, y más del 50 % asientan en la diáfisis femoral a menos de 5 cm del trocánter menor.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2270,13 +2270,13 @@
         }
       ],
       "etiquetas": [
-        "ultrasound",
-        "foreign body",
-        "penetrating injury",
-        "soft tissue"
+        "ecografía",
+        "cuerpo extraño",
+        "herida penetrante",
+        "partes blandas"
       ],
       "tipo": "imagen",
-      "enunciado": "A 40-year-old male presents with soft tissue swelling of the distal ring finger and a remote history of a penetrating injury. Ultrasound evaluation is provided. Which of the following is the most likely diagnosis?",
+      "enunciado": "Un hombre de 40 años presenta aumento de volumen de partes blandas en la falange distal del dedo anular y antecedente remoto de una herida penetrante. Se muestra la ecografía. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case002",
@@ -2284,15 +2284,15 @@
         }
       ],
       "opciones": [
-        "Subcutaneous abscess",
-        "Echogenic linear foreign body",
-        "Dystrophic soft tissue calcification",
-        "Epidermoid inclusion cyst",
-        "Giant cell tumor of the tendon sheath"
+        "Absceso subcutáneo",
+        "Cuerpo extraño lineal ecogénico",
+        "Calcificación distrófica de partes blandas",
+        "Quiste de inclusión epidérmico",
+        "Tumor de células gigantes de la vaina tendinosa"
       ],
       "correcta": 1,
-      "explicacion": "- An echogenic, linear, non-anatomic foreign structure with surrounding fluid in a patient with a history of penetrating injury is diagnostic of a foreign body.\n- Characteristic ultrasound features include a linear echogenic structure with or without acoustic shadowing.\n- All superficial foreign bodies are echogenic and potentially detectable on ultrasound.",
-      "perla": "Dystrophic soft tissue calcifications may result in a false-positive finding with ultrasound imaging when searching for foreign bodies.",
+      "explicacion": "- Una estructura extraña lineal, ecogénica y no anatómica, rodeada de líquido, en un paciente con antecedente de herida penetrante es diagnóstica de cuerpo extraño.\n- En la ecografía se ve como una estructura lineal ecogénica, con o sin sombra acústica.\n- Todos los cuerpos extraños superficiales son ecogénicos y pueden detectarse con ecografía.",
+      "perla": "Las calcificaciones distróficas de partes blandas pueden dar un falso positivo en la ecografía cuando se busca un cuerpo extraño.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2313,13 +2313,13 @@
         }
       ],
       "etiquetas": [
-        "MRI",
-        "meniscus",
-        "knee",
-        "normal variant"
+        "RM",
+        "menisco",
+        "rodilla",
+        "variante normal"
       ],
       "tipo": "imagen",
-      "enunciado": "A patient presents with knee swelling and pain. Sagittal fluid- and fat-sensitive MRI sequences show a specific appearance of the lateral meniscus. What is the most appropriate term for this finding?",
+      "enunciado": "Un paciente presenta aumento de volumen y dolor de rodilla. Las secuencias sagitales de RM sensibles a líquido y a grasa muestran un aspecto particular del menisco lateral. ¿Cuál es el término más adecuado para este hallazgo?",
       "imagenes": [
         {
           "ref": "case003",
@@ -2327,15 +2327,15 @@
         }
       ],
       "opciones": [
-        "Discoid meniscus",
-        "Complex meniscal tear",
-        "Meniscal flounce",
-        "Parameniscal cyst",
-        "Meniscocapsular separation"
+        "Menisco discoide",
+        "Rotura meniscal compleja",
+        "Menisco ondulado («flounce»)",
+        "Quiste parameniscal",
+        "Separación meniscocapsular"
       ],
       "correcta": 2,
-      "explicacion": "- Meniscal flounce is a transient positional waviness assumed by the meniscus.\n- It is related to transient positional distortion dependent on flexion and external rotation.\n- Typically described as a normal variant with an incidence on MRI ranging from 0.1 to 6%.",
-      "perla": "Meniscal flounce is more common in the medial meniscus, though it can occur laterally, and some true meniscal tears may mimic a flounce-like appearance.",
+      "explicacion": "- El menisco ondulado («flounce») es una ondulación transitoria que adopta el menisco según la posición.\n- Se debe a una distorsión posicional transitoria que depende de la flexión y la rotación externa.\n- Se considera una variante normal; su incidencia en RM va del 0,1 al 6 %.",
+      "perla": "El menisco ondulado es más frecuente en el menisco medial, aunque puede verse en el lateral, y algunas roturas verdaderas pueden simularlo.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2356,12 +2356,12 @@
         }
       ],
       "etiquetas": [
-        "wrist",
-        "arthrography",
-        "TFCC tear"
+        "muñeca",
+        "artrografía",
+        "rotura del FCT"
       ],
       "tipo": "imagen",
-      "enunciado": "A middle-aged female presents with ulnar-sided wrist pain and an audible click. A fluoroscopic spot film from a single-compartment radiocarpal arthrogram and an MR arthrogram are shown. What is the primary diagnosis?",
+      "enunciado": "Una mujer de mediana edad presenta dolor en el lado cubital de la muñeca con un chasquido audible. Se muestran una placa fluoroscópica de una artrografía radiocarpiana de un solo compartimento y una artro-RM. ¿Cuál es el diagnóstico principal?",
       "imagenes": [
         {
           "ref": "case004",
@@ -2369,15 +2369,15 @@
         }
       ],
       "opciones": [
-        "Scapholunate ligament tear",
-        "Lunotriquetral ligament tear",
-        "Tear of the triangular fibrocartilage",
-        "Ulnar impaction syndrome",
-        "carpi ulnaris tendonitis"
+        "Rotura del ligamento escafolunar",
+        "Rotura del ligamento lunopiramidal",
+        "Rotura del fibrocartílago triangular",
+        "Síndrome de impactación cubital",
+        "Tendinitis del extensor cubital del carpo"
       ],
       "correcta": 2,
-      "explicacion": "- The extravasation of contrast into the distal radial ulnar joint (DRUJ) during radiocarpal arthrography indicates a tear of the triangular fibrocartilage (TFC).\n- The coronal MR arthrogram demonstrates absence of the central membranous segment of the TFC.\n- TFC tears may be degenerative or traumatic, and are highly associated with ulnar positive variance.",
-      "perla": "Patients older than 35-40 years frequently exhibit asymptomatic membranous perforations through the TFC, making clinical correlation essential.",
+      "explicacion": "- El paso de contraste a la articulación radiocubital distal durante una artrografía radiocarpiana indica una rotura del fibrocartílago triangular (FCT).\n- La artro-RM coronal muestra la ausencia del segmento membranoso central del FCT.\n- Las roturas del FCT pueden ser degenerativas o traumáticas, y se asocian mucho a la varianza cubital positiva.",
+      "perla": "Después de los 35–40 años son frecuentes las perforaciones membranosas asintomáticas del FCT, por lo que la correlación clínica es esencial.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2398,13 +2398,13 @@
         }
       ],
       "etiquetas": [
-        "MRI",
-        "desmoid tumor",
-        "soft tissue mass",
-        "fibrous neoplasm"
+        "RM",
+        "tumor desmoide",
+        "masa de partes blandas",
+        "neoplasia fibrosa"
       ],
       "tipo": "imagen",
-      "enunciado": "A 35-year-old female presents with a slowly enlarging left flank mass. MRI demonstrates a solid mass abutting the paraspinal fascia with decreased T1 and T2 signal, spiculated infiltrative margins, and heterogeneous enhancement. What is the most likely diagnosis?",
+      "enunciado": "Una mujer de 35 años presenta una masa en el flanco izquierdo que crece lentamente. La RM muestra una masa sólida adyacente a la fascia paraespinal, hipointensa en T1 y T2, con bordes espiculados e infiltrantes y realce heterogéneo. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case005",
@@ -2412,15 +2412,15 @@
         }
       ],
       "opciones": [
-        "Nodular fasciitis",
-        "Myositis ossificans",
-        "Soft tissue sarcoma",
-        "Desmoid tumor",
-        "Intramuscular hemangioma"
+        "Fascitis nodular",
+        "Miositis osificante",
+        "Sarcoma de partes blandas",
+        "Tumor desmoide",
+        "Hemangioma intramuscular"
       ],
       "correcta": 3,
-      "explicacion": "- Desmoid tumors are benign, locally aggressive fibrous neoplasms frequently seen in females.\n- They exhibit decreased T1 and T2 signal due to an abundance of fibrous tissue/collagen.\n- Spiculated, infiltrative margins are common, and extra-abdominal desmoids often affect the chest wall, flank, and proximal upper extremities.",
-      "perla": "Extra-abdominal desmoids peak at 25-35 years with a 2:1 female predominance, and may show internal T2 signal increase inversely proportional to collagen content.",
+      "explicacion": "- Los tumores desmoides son neoplasias fibrosas benignas pero localmente agresivas, frecuentes en mujeres.\n- Son hipointensos en T1 y T2 por la abundancia de tejido fibroso y colágeno.\n- Los bordes espiculados e infiltrantes son frecuentes; los desmoides extraabdominales afectan a menudo la pared torácica, el flanco y la parte proximal de las extremidades superiores.",
+      "perla": "Los desmoides extraabdominales tienen su pico entre los 25 y los 35 años, con predominio femenino 2:1, y su señal T2 interna aumenta cuanto menos colágeno tienen.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2441,12 +2441,12 @@
         }
       ],
       "etiquetas": [
-        "renal osteodystrophy",
-        "brown tumor",
-        "hyperparathyroidism"
+        "osteodistrofia renal",
+        "tumor pardo",
+        "hiperparatiroidismo"
       ],
       "tipo": "imagen",
-      "enunciado": "A 24-year-old female presents with chronic metabolic derangement. Radiographs demonstrate a lytic expansile lesion replacing the proximal tibia and erosions along the articular margins of the acromioclavicular joint. What is the most appropriate diagnosis?",
+      "enunciado": "Una mujer de 24 años presenta un trastorno metabólico crónico. Las radiografías muestran una lesión lítica expansiva que sustituye la tibia proximal y erosiones en los márgenes articulares de la articulación acromioclavicular. ¿Cuál es el diagnóstico más adecuado?",
       "imagenes": [
         {
           "ref": "case006",
@@ -2454,15 +2454,15 @@
         }
       ],
       "opciones": [
-        "Metastatic disease",
-        "Multiple myeloma",
-        "Renal osteodystrophy with brown tumor",
-        "Giant cell tumor of bone",
-        "Aneurysmal bone cyst"
+        "Enfermedad metastásica",
+        "Mieloma múltiple",
+        "Osteodistrofia renal con tumor pardo",
+        "Tumor de células gigantes",
+        "Quiste óseo aneurismático"
       ],
       "correcta": 2,
-      "explicacion": "- Renal osteodystrophy causes diffuse osteopenia, periarticular erosions (like at the AC joint), and multifocal lytic lesions (brown tumors).\n- Brown tumors are lytic lesions composed of blood products, fibrous tissue, and osteoclasts, often arising from secondary hyperparathyroidism.\n- The patient's young age and AC joint erosions make metastases or multiple myeloma much less likely.",
-      "perla": "Acro-osteolysis and radial-sided resorption along the middle phalanges of the second and third digits are diagnostic of this disease process.",
+      "explicacion": "- La osteodistrofia renal produce osteopenia difusa, erosiones periarticulares (como en la articulación acromioclavicular) y lesiones líticas multifocales (tumores pardos).\n- Los tumores pardos son lesiones líticas formadas por productos hemáticos, tejido fibroso y osteoclastos; suelen deberse a un hiperparatiroidismo secundario.\n- La edad joven y las erosiones acromioclaviculares hacen mucho menos probables las metástasis y el mieloma múltiple.",
+      "perla": "La acroosteólisis y la resorción subperióstica del lado radial de las falanges medias del segundo y tercer dedos son diagnósticas de hiperparatiroidismo.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2483,13 +2483,13 @@
         }
       ],
       "etiquetas": [
-        "MRI",
+        "RM",
         "pseudotumor",
-        "metal-on-metal",
-        "hip arthroplasty"
+        "metal-metal",
+        "artroplastia de cadera"
       ],
       "tipo": "imagen",
-      "enunciado": "A 53-year-old female with a metal-on-metal (MOM) left total hip arthroplasty (THA) presents with pain and fullness. MRI demonstrates a cystic and solid soft tissue mass surrounding the hardware, with fluid dissecting beyond the joint capsule. What is the most likely diagnosis?",
+      "enunciado": "Una mujer de 53 años con una artroplastia total de cadera izquierda metal-metal presenta dolor y sensación de plenitud. La RM muestra una masa de partes blandas quística y sólida alrededor del material protésico, con líquido que se extiende más allá de la cápsula articular. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case007",
@@ -2497,15 +2497,15 @@
         }
       ],
       "opciones": [
-        "Reactive joint effusion",
-        "Post-operative hematoma",
+        "Derrame articular reactivo",
+        "Hematoma posoperatorio",
         "Pseudotumor",
-        "Septic arthritis",
-        "Periprosthetic fracture"
+        "Artritis séptica",
+        "Fractura periprotésica"
       ],
       "correcta": 2,
-      "explicacion": "- Pseudotumor is an expansile cystic and solid lesion associated with MOM THAs, representing an adverse reaction to metal debris.\n- It is thought to be driven by an immune response to metallic wear particles, resembling a type IV hypersensitivity reaction.\n- Extension of joint fluid beyond the capsule, adjacent muscle tears, and a low T1/T2 signal rim are characteristic.",
-      "perla": "MRI findings of capsular dehiscence and a mixed appearance of synovitis and extra-capsular synovial herniation are strongly correlated with intraoperative tissue damage.",
+      "explicacion": "- El pseudotumor es una lesión expansiva quística y sólida asociada a las artroplastias metal-metal; es una reacción adversa a los detritos metálicos.\n- Se atribuye a una respuesta inmunitaria a las partículas de desgaste metálico, parecida a una hipersensibilidad de tipo IV.\n- Son característicos la extensión del líquido articular fuera de la cápsula, las roturas musculares adyacentes y un borde hipointenso en T1 y T2.",
+      "perla": "En la RM, la dehiscencia capsular y el aspecto mixto de sinovitis con herniación sinovial extracapsular se correlacionan bien con el daño tisular que se encuentra en la cirugía.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2526,12 +2526,12 @@
         }
       ],
       "etiquetas": [
-        "MRI",
-        "ischiofemoral impingement",
-        "hip pain"
+        "RM",
+        "pinzamiento isquiofemoral",
+        "dolor de cadera"
       ],
       "tipo": "imagen",
-      "enunciado": "A 37-year-old female presents with posterior right hip pain without a history of trauma. Axial fluid-sensitive MRI demonstrates moderate central quadratus femoris muscle edema without muscle fiber interruption. What is the most likely diagnosis?",
+      "enunciado": "Una mujer de 37 años presenta dolor en la cara posterior de la cadera derecha sin antecedente de trauma. La RM axial sensible a líquido muestra edema moderado en la porción central del músculo cuadrado femoral, sin interrupción de las fibras. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case008",
@@ -2539,15 +2539,15 @@
         }
       ],
       "opciones": [
-        "Denervation edema",
-        "Exercise-induced edema",
-        "Quadratus femoris muscle strain",
-        "Ischiofemoral impingement",
-        "Piriformis syndrome"
+        "Edema por denervación",
+        "Edema inducido por el ejercicio",
+        "Distensión del músculo cuadrado femoral",
+        "Pinzamiento isquiofemoral",
+        "Síndrome piriforme"
       ],
       "correcta": 3,
-      "explicacion": "- Ischiofemoral impingement involves crowding of the fibers of the quadratus femoris muscle belly between the ischium and/or hamstring tendons and the posteromedial femur.\n- It classically causes central quadratus femoris muscle edema without a history of trauma, typical in middle-aged or older females.\n- A correlation exists with narrowing of the ischiofemoral space to 13 mm or less.",
-      "perla": "Quadratus femoris muscle edema in ischiofemoral impingement is centered within the central muscle belly, differentiating it from musculotendinous strains or global denervation edema.",
+      "explicacion": "- El pinzamiento isquiofemoral es el atrapamiento del vientre del cuadrado femoral entre el isquion o los tendones isquiotibiales y la cara posteromedial del fémur.\n- De forma clásica produce edema central del cuadrado femoral sin antecedente de trauma, típicamente en mujeres de mediana edad o mayores.\n- Se ha descrito una correlación con el estrechamiento del espacio isquiofemoral a 13 mm o menos.",
+      "perla": "En el pinzamiento isquiofemoral, el edema se centra en el vientre muscular del cuadrado femoral, a diferencia de las distensiones miotendinosas o del edema global por denervación.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2568,13 +2568,13 @@
         }
       ],
       "etiquetas": [
-        "MRI",
-        "cyclops lesion",
-        "ACL reconstruction",
-        "knee"
+        "RM",
+        "lesión cíclope",
+        "reconstrucción del LCA",
+        "rodilla"
       ],
       "tipo": "imagen",
-      "enunciado": "A patient presents with a block to knee extension a few months after ACL reconstruction surgery. Sagittal MRI shows an intermediate signal intensity nodule within the intercondylar notch, intimately associated with the anterior distal fibers of the ACL graft. What is this lesion called?",
+      "enunciado": "Un paciente presenta un bloqueo de la extensión de la rodilla unos meses después de una reconstrucción del LCA. La RM sagital muestra un nódulo de señal intermedia en la escotadura intercondílea, íntimamente relacionado con las fibras anteriores y distales del injerto del LCA. ¿Cómo se llama esta lesión?",
       "imagenes": [
         {
           "ref": "case009",
@@ -2582,15 +2582,15 @@
         }
       ],
       "opciones": [
-        "Focal pigmented villonodular synovitis",
-        "Cyclops lesion",
-        "Mucoid degeneration of the ACL graft",
-        "Intra-articular loose body",
-        "Synovial hemangioma"
+        "Sinovitis vellonodular pigmentada focal",
+        "Lesión cíclope",
+        "Degeneración mucoide del injerto del LCA",
+        "Cuerpo libre intraarticular",
+        "Hemangioma sinovial"
       ],
       "correcta": 1,
-      "explicacion": "- A Cyclops lesion is a localized fibrous tissue formation typically related to ACL surgery.\n- It presents as a firm mass that adheres to the anterior and distal ACL graft fibers, demonstrating intermediate MR signal intensity.\n- Patients typically present with a block to extension secondary to mass effect within the anterior intercondylar notch.",
-      "perla": "A cyclopoid lesion/scar may occur adjacent to the ACL but is compressible and does not cause the characteristic block to extension seen in true cyclops lesions.",
+      "explicacion": "- La lesión cíclope es una formación localizada de tejido fibroso, típicamente relacionada con la cirugía del LCA.\n- Es una masa firme adherida a las fibras anteriores y distales del injerto, de señal intermedia en RM.\n- Suele causar un bloqueo de la extensión por efecto de masa en la porción anterior de la escotadura intercondílea.",
+      "perla": "Junto al LCA puede haber una cicatriz «ciclopoide», pero es compresible y no produce el bloqueo de la extensión típico de la lesión cíclope verdadera.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2611,13 +2611,13 @@
         }
       ],
       "etiquetas": [
-        "MRI",
-        "shoulder",
-        "biceps tendon dislocation",
-        "subscapularis tear"
+        "RM",
+        "hombro",
+        "luxación del tendón del bíceps",
+        "rotura del subescapular"
       ],
       "tipo": "imagen",
-      "enunciado": "A patient presents with left arm weakness and pain. Axial fluid-sensitive MRI of the shoulder demonstrates an empty biceps sulcus, a medially dislocated intra-articular biceps tendon, and a full-thickness retracted tear of an anterior tendon. Which tendon rupture primarily allowed this dislocation?",
+      "enunciado": "Un paciente presenta debilidad y dolor en el brazo izquierdo. La RM axial del hombro sensible a líquido muestra la corredera bicipital vacía, el tendón del bíceps luxado hacia medial en posición intraarticular y una rotura completa y retraída de un tendón anterior. ¿Qué rotura tendinosa permitió principalmente esta luxación?",
       "imagenes": [
         {
           "ref": "case010",
@@ -2625,15 +2625,15 @@
         }
       ],
       "opciones": [
-        "Supraspinatus tendon",
-        "Infraspinatus tendon",
-        "Subscapularis tendon",
-        "Teres minor tendon",
-        "Coracobrachialis tendon"
+        "Tendón del supraespinoso",
+        "Tendón del infraespinoso",
+        "Tendón del subescapular",
+        "Tendón del redondo menor",
+        "Tendón del coracobraquial"
       ],
       "correcta": 2,
-      "explicacion": "- Full-thickness disruption of the subscapularis tendon fibers superiorly allows medial biceps tendon dislocation between the humeral head and glenoid.\n- The subscapularis tendon inserts onto the lesser tuberosity and its lateral fibers help secure the biceps tendon within the biceps sulcus.\n- Medial dislocation leaves an empty biceps sulcus.",
-      "perla": "Marked fatty replacement of the subscapularis musculature related to a chronic subscapularis tendon tear should raise suspicion for biceps tendon subluxation/dislocation.",
+      "explicacion": "- La rotura completa de las fibras superiores del subescapular permite la luxación medial del bíceps entre la cabeza humeral y la glenoides.\n- El subescapular se inserta en el troquín, y sus fibras laterales ayudan a mantener el tendón del bíceps dentro de la corredera bicipital.\n- La luxación medial deja la corredera bicipital vacía.",
+      "perla": "Una sustitución grasa marcada del músculo subescapular por una rotura crónica de su tendón debe hacer sospechar una subluxación o luxación del tendón del bíceps.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3002,10 +3002,10 @@
         }
       ],
       "opciones": [
-        "Extensor carpi radialis brevis",
-        "carpi radialis longus",
-        "digitorum",
-        "carpi ulnaris",
+        "Extensor radial corto del carpo",
+        "Extensor radial largo del carpo",
+        "Extensor común de los dedos",
+        "Extensor cubital del carpo",
         "Supinador"
       ],
       "correcta": 0,
@@ -3074,11 +3074,11 @@
       ],
       "etiquetas": [
         "elastofibroma",
-        "chest wall mass",
-        "MRI"
+        "masa de la pared torácica",
+        "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "An elderly female presents with a history of posterior chest wall masses. MRI of the chest shows bilateral masses located inferior and deep to the distal margins of the scapulae, with signal characteristics isointense to skeletal muscle on T1 and T2 weighted sequences. What is the most likely diagnosis?",
+      "enunciado": "Una mujer anciana presenta masas en la pared torácica posterior. La RM de tórax muestra masas bilaterales por debajo y por delante del borde inferior de las escápulas, isointensas al músculo esquelético en T1 y T2. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case021",
@@ -3086,15 +3086,15 @@
         }
       ],
       "opciones": [
-        "Desmoid tumor",
+        "Tumor desmoide",
         "Elastofibroma",
         "Lipoma",
         "Sarcoma sinovial",
         "Hemangioma"
       ],
       "correcta": 1,
-      "explicacion": "- Elastofibroma is a degenerative reactive fibrous pseudotumor arising from mechanical irritation adjacent to the scapulothoracic interface.\n- These lesions are typically seen in patients 55 years and older presenting with stiffness and pain.\n- The abundance of collagen deposition is responsible for the low-signal MR characteristics. Bilaterality may be present in up to 60% of patients.",
-      "perla": "Elastofibromas frequently have a right-sided predominance and can be overlooked due to their similar appearance to skeletal muscle on MR.",
+      "explicacion": "- El elastofibroma es un pseudotumor fibroso reactivo y degenerativo causado por la fricción mecánica en la interfaz escapulotorácica.\n- Suele verse en pacientes de 55 años o más, que consultan por rigidez y dolor.\n- El abundante depósito de colágeno explica su baja señal en RM. Puede ser bilateral hasta en el 60 % de los pacientes.",
+      "perla": "Los elastofibromas predominan en el lado derecho y pueden pasar inadvertidos en la RM porque se parecen al músculo esquelético.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3115,12 +3115,12 @@
         }
       ],
       "etiquetas": [
-        "meniscus root tear",
-        "knee pain",
-        "MRI"
+        "rotura de la raíz meniscal",
+        "dolor de rodilla",
+        "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "A middle-aged female presents with a 1-month history of knee pain. Fluid-sensitive coronal MR images show fluid signal intensity extending through the posterior horn medial meniscus root insertion, with > 3 mm peripheral extrusion of the medial meniscus body and subchondral marrow edema in the medial tibial plateau. Which of the following is the most likely diagnosis?",
+      "enunciado": "Una mujer de mediana edad presenta dolor de rodilla de 1 mes de evolución. Las imágenes coronales de RM sensibles a líquido muestran señal líquida que atraviesa la inserción de la raíz del cuerno posterior del menisco medial, extrusión periférica del cuerpo del menisco medial mayor de 3 mm y edema medular subcondral en la meseta tibial medial. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case022",
@@ -3128,15 +3128,15 @@
         }
       ],
       "opciones": [
-        "Bucket handle tear of the medial meniscus",
-        "Medial meniscus root tear",
-        "Discoid meniscus tear",
-        "Anterior cruciate ligament tear",
-        "Posterior horn lateral meniscus root tear"
+        "Rotura en asa de cubo del menisco medial",
+        "Rotura de la raíz del menisco medial",
+        "Rotura de un menisco discoide",
+        "Rotura del ligamento cruzado anterior",
+        "Rotura de la raíz del cuerno posterior del menisco lateral"
       ],
       "correcta": 1,
-      "explicacion": "- A medial meniscus root tear is a radial tear pattern occurring through the posterior horn of the medial meniscus root insertion, resulting in peripheral extrusion of the medial meniscus body.\n- It results in abnormal axial loading causing high-grade medial compartment chondral loss and underlying subchondral insufficiency fractures.\n- A posterior horn meniscal root tear should be suspected if meniscal tissue is not seen adjacent to the tibial insertion of the PCL on sagittal MR images.",
-      "perla": "A subchondral insufficiency fracture in an older female patient (previously SONK) should prompt the radiologist to consider an underlying medial meniscus root tear.",
+      "explicacion": "- La rotura de la raíz del menisco medial es una rotura radial que atraviesa la inserción de la raíz del cuerno posterior y provoca la extrusión periférica del cuerpo del menisco.\n- Altera la transmisión de cargas axiales y produce pérdida condral avanzada en el compartimento medial y fracturas subcondrales por insuficiencia.\n- Hay que sospecharla si en las imágenes sagitales no se ve tejido meniscal junto a la inserción tibial del LCP.",
+      "perla": "Una fractura subcondral por insuficiencia en una mujer mayor (antes llamada SONK) debe hacer buscar una rotura de la raíz del menisco medial.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3157,12 +3157,12 @@
         }
       ],
       "etiquetas": [
-        "Stener lesion",
-        "gamekeeper's thumb",
-        "ulnar collateral ligament"
+        "lesión de Stener",
+        "pulgar del guardabosques",
+        "ligamento colateral cubital"
       ],
       "tipo": "imagen",
-      "enunciado": "A patient presents with a fall on an outstretched hand with the thumb abducted. MRI of the thumb shows the adductor pollicis aponeurosis positioned deep to a ruptured and proximally retracted, rounded ulnar collateral ligament. What is this specific finding called?",
+      "enunciado": "Un paciente sufre una caída sobre la mano extendida con el pulgar en abducción. La RM del pulgar muestra la aponeurosis del aductor del pulgar por debajo de un ligamento colateral cubital roto, retraído hacia proximal y de aspecto redondeado. ¿Cómo se llama este hallazgo?",
       "imagenes": [
         {
           "ref": "case023",
@@ -3170,15 +3170,15 @@
         }
       ],
       "opciones": [
-        "Bennett fracture",
-        "Rolando fracture",
-        "Stener lesion",
-        "Volar plate avulsion",
-        "Skier's thumb without Stener lesion"
+        "Fractura de Bennett",
+        "Fractura de Rolando",
+        "Lesión de Stener",
+        "Avulsión de la placa volar",
+        "Pulgar del esquiador sin lesión de Stener"
       ],
       "correcta": 2,
-      "explicacion": "- The Stener lesion occurs when the ruptured ulnar collateral ligament retracts, allowing interposition of the adductor pollicis aponeurosis deep to it.\n- This malpositioning of anatomic structures prevents normal healing.\n- Medial widening or radial subluxation of the thumb MCP joint are characteristic for gamekeeper's thumb, which may also be associated with avulsion fractures.",
-      "perla": "Markedly displaced avulsive fragments from the base of the medial thumb proximal phalanx typically coexist with a displaced ligament tear and/or Stener lesion.",
+      "explicacion": "- La lesión de Stener se produce cuando el ligamento colateral cubital roto se retrae y la aponeurosis del aductor del pulgar queda interpuesta por debajo de él.\n- Esta mala posición de las estructuras impide la cicatrización normal.\n- El ensanchamiento medial o la subluxación radial de la articulación metacarpofalángica del pulgar son característicos del pulgar del guardabosques, que también puede asociarse a fracturas por avulsión.",
+      "perla": "Los fragmentos de avulsión muy desplazados de la base medial de la falange proximal del pulgar suelen acompañarse de un ligamento roto desplazado o de una lesión de Stener.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3199,12 +3199,12 @@
         }
       ],
       "etiquetas": [
-        "AC joint separation",
-        "Rockwood classification",
-        "shoulder trauma"
+        "luxación acromioclavicular",
+        "clasificación de Rockwood",
+        "trauma de hombro"
       ],
       "tipo": "imagen",
-      "enunciado": "A patient presents with trauma to the left shoulder. Radiographs demonstrate > 5-mm widening of the acromioclavicular (AC) joint and > 11-mm widening of the coracoclavicular interval, with 100% superior displacement of the clavicle relative to the acromion. What grade of AC joint injury is this according to the Rockwood classification?",
+      "enunciado": "Un paciente sufre un traumatismo en el hombro izquierdo. Las radiografías muestran un ensanchamiento de la articulación acromioclavicular mayor de 5 mm y del espacio coracoclavicular mayor de 11 mm, con desplazamiento superior de la clavícula del 100 % respecto del acromion. ¿Qué grado de lesión acromioclavicular es según la clasificación de Rockwood?",
       "imagenes": [
         {
           "ref": "case024",
@@ -3212,15 +3212,15 @@
         }
       ],
       "opciones": [
-        "Grade 1",
-        "Grade 2",
-        "Grade 3",
-        "Grade 4",
-        "Grade 5"
+        "Grado 1",
+        "Grado 2",
+        "Grado 3",
+        "Grado 4",
+        "Grado 5"
       ],
       "correcta": 2,
-      "explicacion": "- Rockwood grade 3 AC joint separation involves disruption of the AC and coracoclavicular ligaments.\n- Radiographs demonstrate > 5-mm widening of the AC joint and > 11-mm coracoclavicular interval widening with 100% superior displacement of the clavicle at the AC joint.\n- Disruption of the deltoid and trapezius musculature may be seen with grade 3 AC injuries.",
-      "perla": "Weightbearing radiographs may be used to discriminate grade 2 and 3 AC injuries demonstrating distraction of both the AC joint and coracoclavicular interval.",
+      "explicacion": "- La luxación acromioclavicular de grado 3 de Rockwood implica la rotura de los ligamentos acromioclaviculares y coracoclaviculares.\n- En la radiografía hay un ensanchamiento acromioclavicular mayor de 5 mm y coracoclavicular mayor de 11 mm, con desplazamiento superior de la clavícula del 100 %.\n- En las lesiones de grado 3 puede verse la desinserción de los músculos deltoides y trapecio.",
+      "perla": "Las radiografías en carga permiten distinguir las lesiones de grado 2 y 3, porque muestran la separación de la articulación acromioclavicular y del espacio coracoclavicular.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3241,12 +3241,12 @@
         }
       ],
       "etiquetas": [
-        "hamstring rupture",
-        "sports injury",
-        "MRI"
+        "rotura de isquiotibiales",
+        "lesión deportiva",
+        "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "A female triathlete presents after a fall from a bicycle. Coronal fluid-sensitive MRI of the pelvis demonstrates a fluid-filled gap replacing the proximal hamstring tendon at the level of the ischial origin, with distal tendinous retraction and surrounding muscle edema. What is the diagnosis?",
+      "enunciado": "Una triatleta sufre una caída de bicicleta. La RM coronal de pelvis sensible a líquido muestra un espacio lleno de líquido en lugar del tendón proximal de los isquiotibiales a nivel de su origen en el isquion, con retracción distal del tendón y edema muscular alrededor. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case025",
@@ -3254,15 +3254,15 @@
         }
       ],
       "opciones": [
-        "Adductor magnus tendon rupture",
-        "Ischial bursitis",
-        "Proximal hamstring tendon rupture",
-        "Gluteus medius tendon tear",
-        "Quadriceps tendon rupture"
+        "Rotura del tendón del aductor mayor",
+        "Bursitis isquiática",
+        "Rotura del tendón proximal de los isquiotibiales",
+        "Rotura del tendón del glúteo medio",
+        "Rotura del tendón del cuádriceps"
       ],
       "correcta": 2,
-      "explicacion": "- Proximal hamstring tendon complex avulsion is the most serious acute injury of the hamstrings typically seen in adults, commonly involving athletic activities requiring rapid acceleration.\n- MRI shows fluid signal intensity replacing the proximal hamstring tendon at the ischial origin with distal retraction and edema.\n- Hamstring tendon avulsions most commonly involve the entire proximal tendon complex, but the conjoined tendon or semimembranosus tendon may be ruptured in isolation.",
-      "perla": "Hamstring tendon avulsion in the adult skeleton typically occurs without an osseous avulsion, whereas the similar injury in the adolescent skeleton may result in an ischial apophyseal avulsive injury.",
+      "explicacion": "- La avulsión del complejo tendinoso proximal de los isquiotibiales es la lesión aguda más grave de estos músculos en adultos; suele ocurrir en deportes que exigen aceleraciones rápidas.\n- La RM muestra señal líquida en lugar del tendón proximal en su origen isquiático, con retracción distal y edema.\n- La avulsión suele afectar a todo el complejo tendinoso proximal, aunque el tendón conjunto o el del semimembranoso pueden romperse aislados.",
+      "perla": "En el adulto, la avulsión de los isquiotibiales suele ocurrir sin fragmento óseo; en el adolescente, la misma lesión puede arrancar la apófisis isquiática.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3283,12 +3283,12 @@
         }
       ],
       "etiquetas": [
-        "adhesive capsulitis",
-        "frozen shoulder",
-        "MRI"
+        "capsulitis adhesiva",
+        "hombro congelado",
+        "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "A middle-aged female presents with restricted shoulder range of motion, which is worse at night. MRI shows obliteration of the subcoracoid fat triangle with > 4-mm thickening of the coracohumeral ligament and the inferior joint capsule. What is the most likely diagnosis?",
+      "enunciado": "Una mujer de mediana edad presenta limitación de la movilidad del hombro que empeora por la noche. La RM muestra obliteración del triángulo graso subcoracoideo, con engrosamiento mayor de 4 mm del ligamento coracohumeral y de la cápsula articular inferior. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case026",
@@ -3296,15 +3296,15 @@
         }
       ],
       "opciones": [
-        "Capsular sprain",
-        "Rotator cuff tear",
-        "Adhesive capsulitis",
-        "Glenohumeral osteoarthritis",
-        "Parsonage-Turner syndrome"
+        "Esguince capsular",
+        "Rotura del manguito rotador",
+        "Capsulitis adhesiva",
+        "Artrosis glenohumeral",
+        "Síndrome de Parsonage-Turner"
       ],
       "correcta": 2,
-      "explicacion": "- Adhesive capsulitis, or frozen shoulder, is an inflammatory condition of the shoulder joint capsule causing capsular thickening and contraction.\n- MRI findings include > 4-mm thickening of the coracohumeral ligament, capsular thickening with obliteration of the subcoracoid fat signal intensity by edema.\n- It is associated with conditions like Dupuytren's disease and thyroid dysfunction.",
-      "perla": "A halo of edema outlining the axillary recess may be seen on sagittal fat-sensitive MR imaging in cases of adhesive capsulitis.",
+      "explicacion": "- La capsulitis adhesiva, u hombro congelado, es una inflamación de la cápsula articular del hombro que la engrosa y la retrae.\n- En la RM hay engrosamiento del ligamento coracohumeral mayor de 4 mm, engrosamiento capsular y obliteración de la grasa subcoracoidea por edema.\n- Se asocia a enfermedades como la de Dupuytren y a la disfunción tiroidea.",
+      "perla": "En las imágenes sagitales sensibles a grasa puede verse un halo de edema alrededor del receso axilar en la capsulitis adhesiva.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3325,12 +3325,12 @@
         }
       ],
       "etiquetas": [
-        "posterior tibialis tendon tear",
-        "flatfoot deformity",
-        "MRI"
+        "rotura del tibial posterior",
+        "pie plano",
+        "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "A middle-aged female presents with a progressive flatfoot deformity. Axial MRI at the level of the medial malleolus shows an empty retromalleolar groove with a fluid-filled tendon sheath positioned medial to the flexor digitorum longus tendon, with retracted tendon stumps. What is the most likely diagnosis?",
+      "enunciado": "Una mujer de mediana edad presenta un pie plano progresivo. La RM axial a nivel del maléolo medial muestra el surco retromaleolar vacío, con una vaina tendinosa llena de líquido medial al tendón del flexor largo de los dedos y muñones tendinosos retraídos. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case027",
@@ -3338,15 +3338,15 @@
         }
       ],
       "opciones": [
-        "Achilles tendon rupture",
-        "Flexor hallucis longus tear",
-        "Anterior tibialis tendon tear",
-        "Posterior tibialis tendon tear",
-        "Peroneus brevis tendon tear"
+        "Rotura del tendón de Aquiles",
+        "Rotura del flexor largo del dedo gordo",
+        "Rotura del tendón del tibial anterior",
+        "Rotura del tendón del tibial posterior",
+        "Rotura del tendón del peroneo corto"
       ],
       "correcta": 3,
-      "explicacion": "- The posterior tibialis tendon is essential for maintaining the longitudinal arch of the foot.\n- Complete rupture (type III tear) is characterized by an empty posterior tibialis tendon sheath at the level of the retromalleolar groove with retracted stumps.\n- It is a chronic injury commonly seen in females in their 5th and 6th decades, resulting in a progressive flatfoot deformity.",
-      "perla": "Spring ligament tears frequently coexist with posterior tibialis tendon tears. On axial MRI, the normal posterior tibialis tendon should be no more than twice the size of the flexor digitorum tendon.",
+      "explicacion": "- El tendón del tibial posterior es esencial para mantener el arco longitudinal del pie.\n- La rotura completa (tipo III) se caracteriza por una vaina del tibial posterior vacía en el surco retromaleolar, con los muñones retraídos.\n- Es una lesión crónica, frecuente en mujeres en la quinta y sexta décadas, que produce un pie plano progresivo.",
+      "perla": "Las roturas del ligamento calcaneonavicular plantar (ligamento en resorte) suelen acompañar a las del tibial posterior. En la RM axial, el tibial posterior normal no mide más del doble que el flexor largo de los dedos.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3367,12 +3367,12 @@
         }
       ],
       "etiquetas": [
-        "hypertrophic osteoarthropathy",
-        "periosteal reaction",
-        "paraneoplastic"
+        "osteoartropatía hipertrófica",
+        "reacción perióstica",
+        "paraneoplásico"
       ],
       "tipo": "imagen",
-      "enunciado": "A patient with a chronic cough and weight loss presents with polyarthralgias. Radiographs of the hands and hips demonstrate symmetric, diffuse periosteal reaction along the diaphyses of the phalanges, distal radii/ulnae, and proximal femora. A chest radiograph reveals a rounded opacity in the left upper lobe. What is the most likely diagnosis for the osseous findings?",
+      "enunciado": "Un paciente con tos crónica y pérdida de peso presenta poliartralgias. Las radiografías de manos y caderas muestran una reacción perióstica difusa y simétrica en las diáfisis de las falanges, el radio y el cúbito distales y los fémures proximales. La radiografía de tórax muestra una opacidad redondeada en el lóbulo superior izquierdo. ¿Cuál es el diagnóstico más probable de los hallazgos óseos?",
       "imagenes": [
         {
           "ref": "case028",
@@ -3380,15 +3380,15 @@
         }
       ],
       "opciones": [
-        "Rheumatoid arthritis",
-        "Psoriatic arthritis",
-        "Hypertrophic osteoarthropathy",
-        "Thyroid acropachy",
-        "Pachydermoperiostosis"
+        "Artritis reumatoide",
+        "Artritis psoriásica",
+        "Osteoartropatía hipertrófica",
+        "Acropaquia tiroidea",
+        "Paquidermoperiostosis"
       ],
       "correcta": 2,
-      "explicacion": "- Hypertrophic osteoarthropathy is a systemically mediated paraneoplastic syndrome that causes symmetric widespread periosteal reaction of the tubular bones.\n- Bronchogenic carcinoma (especially adenocarcinoma) is a common secondary cause of diffuse periostitis.\n- Symptoms and radiographic findings resolve following successful tumor resection.",
-      "perla": "Hypertrophic osteoarthropathy associated with lung cancer typically involves the diaphyses of the tubular bones in a symmetric fashion while sparing the epiphyses.",
+      "explicacion": "- La osteoartropatía hipertrófica es un síndrome paraneoplásico de mecanismo sistémico que produce una reacción perióstica simétrica y extensa en los huesos tubulares.\n- El carcinoma broncogénico (sobre todo el adenocarcinoma) es una causa secundaria frecuente de periostitis difusa.\n- Los síntomas y los hallazgos radiográficos se resuelven tras resecar el tumor.",
+      "perla": "La osteoartropatía hipertrófica asociada al cáncer de pulmón afecta de forma simétrica las diáfisis de los huesos tubulares y respeta las epífisis.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3409,12 +3409,12 @@
         }
       ],
       "etiquetas": [
-        "de Quervain's tenosynovitis",
-        "wrist pain",
-        "MRI"
+        "tenosinovitis de De Quervain",
+        "dolor de muñeca",
+        "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "A recreational tennis player presents with dorsolateral wrist pain. MRI of the wrist shows diffuse enlargement, fluid distention, and surrounding hyperintense T2 signal involving the abductor pollicis longus and extensor pollicis brevis tendons. What is the most likely diagnosis?",
+      "enunciado": "Un tenista aficionado presenta dolor en la cara dorsolateral de la muñeca. La RM de muñeca muestra engrosamiento difuso, distensión líquida y señal T2 alta alrededor de los tendones del abductor largo y el extensor corto del pulgar. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case029",
@@ -3422,15 +3422,15 @@
         }
       ],
       "opciones": [
-        "Intersection syndrome",
-        "de Quervain's tenosynovitis",
-        "carpi ulnaris tenosynovitis",
-        "Wartenberg's syndrome",
-        "Scapholunate ligament tear"
+        "Síndrome de intersección",
+        "Tenosinovitis de De Quervain",
+        "Tenosinovitis del extensor cubital del carpo",
+        "Síndrome de Wartenberg",
+        "Rotura del ligamento escafolunar"
       ],
       "correcta": 1,
-      "explicacion": "- de Quervain's disease is a stenosing tenosynovitis of the abductor pollicis longus (APL) and extensor pollicis brevis (EPB) tendons in the first extensor compartment.\n- This overuse injury typically affects pregnant/nursing females or athletes in racquet sports.\n- MRI shows thickening of the APL and EPB tendons with surrounding fluid in the tendon sheath.",
-      "perla": "Wrist radiographs may demonstrate periosteal reaction along the radial styloid process secondary to the superimposed inflammatory changes.",
+      "explicacion": "- La enfermedad de De Quervain es una tenosinovitis estenosante del abductor largo y del extensor corto del pulgar, en el primer compartimento extensor.\n- Es una lesión por sobreuso, típica de mujeres embarazadas o en periodo de lactancia y de deportistas de raqueta.\n- La RM muestra engrosamiento de ambos tendones y líquido en su vaina.",
+      "perla": "La radiografía de muñeca puede mostrar una reacción perióstica en la apófisis estiloides del radio por la inflamación vecina.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3451,12 +3451,12 @@
         }
       ],
       "etiquetas": [
-        "talocalcaneal coalition",
-        "tarsal coalition",
-        "C sign"
+        "coalición astragalocalcánea",
+        "coalición tarsal",
+        "signo de la C"
       ],
       "tipo": "imagen",
-      "enunciado": "An adolescent patient presents with chronic foot pain, stiffness, and repetitive ankle sprains. Lateral radiographs of the ankle demonstrate a continuous 'C' sign. Coronal MRI through the subtalar joint shows subchondral bony irregularity, joint space narrowing, and bone marrow edema across the middle facet. What is the most likely diagnosis?",
+      "enunciado": "Un adolescente presenta dolor crónico del pie, rigidez y esguinces de tobillo repetidos. La radiografía lateral del tobillo muestra un signo de la «C» continua. La RM coronal a través de la articulación subastragalina muestra irregularidad ósea subcondral, estrechamiento del espacio articular y edema medular a través de la faceta media. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case030",
@@ -3464,15 +3464,15 @@
         }
       ],
       "opciones": [
-        "Calcaneonavicular coalition",
-        "Talocalcaneal fibrous coalition",
-        "Subtalar osteoarthritis",
-        "Talar dome osteochondral defect",
-        "Sinus tarsi syndrome"
+        "Coalición calcaneonavicular",
+        "Coalición astragalocalcánea fibrosa",
+        "Artrosis subastragalina",
+        "Lesión osteocondral de la cúpula astragalina",
+        "Síndrome del seno del tarso"
       ],
       "correcta": 1,
-      "explicacion": "- Tarsal coalitions are congenital segmentation abnormalities involving the intertarsal joints. The middle facet of the subtalar joint is the most common talocalcaneal site.\n- Fusion can be fibrous, cartilaginous, or osseous. Fibrous coalition shows joint space narrowing, sclerosis, and bone marrow edema.\n- The continuous 'C' sign is seen on lateral radiographs due to continuation of cortical shadows from the medial cortex of the talar dome and the sustentaculum talus.",
-      "perla": "Fibrous tarsal coalitions may be misdiagnosed as osteoarthrosis secondary to joint space narrowing with sclerosis. Tarsal coalition is bilateral in ~50% of cases.",
+      "explicacion": "- Las coaliciones tarsales son anomalías congénitas de segmentación de las articulaciones intertarsianas; la faceta media de la subastragalina es el sitio astragalocalcáneo más frecuente.\n- La fusión puede ser fibrosa, cartilaginosa u ósea. La coalición fibrosa muestra estrechamiento articular, esclerosis y edema medular.\n- El signo de la «C» continua se ve en la radiografía lateral porque la cortical medial de la cúpula astragalina se continúa con el sustentáculo del astrágalo.",
+      "perla": "Las coaliciones tarsales fibrosas pueden confundirse con artrosis por el estrechamiento articular con esclerosis. La coalición tarsal es bilateral en cerca del 50 % de los casos.",
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3632,7 +3632,7 @@
         }
       ],
       "opciones": [
-        "Tumor de células",
+        "Tumor de células gigantes",
         "Condroblastoma",
         "Absceso de Brodie",
         "Quiste óseo aneurismático",
@@ -3717,7 +3717,7 @@
       ],
       "opciones": [
         "Quiste óseo simple",
-        "Tumor de células",
+        "Tumor de células gigantes",
         "Fibroma no osificante",
         "Quiste óseo aneurismático",
         "Osteosarcoma telangiectásico"
@@ -3926,7 +3926,7 @@
         }
       ],
       "opciones": [
-        "vascular",
+        "Malformación vascular",
         "Sarcoma sinovial",
         "Quiste de ganglión",
         "Quiste epidermoide",
@@ -5106,7 +5106,7 @@
         "Fractura patológica por metástasis",
         "Enfermedad de Paget",
         "Osteomielitis aguda",
-        "Tumor de células"
+        "Tumor de células gigantes"
       ],
       "correcta": 1,
       "explicacion": "- Las fracturas por avulsión del trocánter menor (inserción del psoas-ilíaco) en adultos mayores, especialmente sin un traumatismo grave, son altamente sugestivas de fracturas patológicas.\n- La causa más común de lesión ósea subyacente en este escenario clínico es una metástasis.",
@@ -5147,7 +5147,7 @@
         "Quiste óseo aneurismático",
         "Sarcoma de Ewing",
         "Osteosarcoma telangiectásico",
-        "Tumor de células",
+        "Tumor de células gigantes",
         "Condrosarcoma"
       ],
       "correcta": 2,
@@ -5640,9 +5640,9 @@
         }
       ],
       "etiquetas": [
-        "Transient bone marrow edema",
-        "Hip",
-        "Embarazo"
+        "edema óseo transitorio",
+        "cadera",
+        "embarazo"
       ],
       "tipo": "imagen",
       "enunciado": "Joven embarazada que presenta un cuadro de 2 semanas de dolor en la cadera derecha sin antecedente de traumatismo. Con base en los hallazgos de resonancia magnética, ¿cuál es la característica principal de la entidad patológica más probable?",
@@ -5808,9 +5808,9 @@
         }
       ],
       "etiquetas": [
-        "Quadrilateral space syndrome",
-        "Axillary nerve",
-        "Atrophy"
+        "síndrome del espacio cuadrilátero",
+        "nervio axilar",
+        "atrofia"
       ],
       "tipo": "imagen",
       "enunciado": "Mujer de 48 años con dolor crónico de hombro y debilidad. En base a los hallazgos de infiltración grasa y atrofia aislada observados en RM, ¿qué estructura nerviosa se encuentra comprometida a nivel del espacio cuadrilátero?",
@@ -5892,9 +5892,9 @@
         }
       ],
       "etiquetas": [
-        "Charcot arthropathy",
-        "Neuropathic joint",
-        "Diabetes"
+        "artropatía de Charcot",
+        "articulación neuropática",
+        "diabetes"
       ],
       "tipo": "imagen",
       "enunciado": "Paciente diabético crónico con deformidad del pie y edema difuso. ¿Cuál es el factor etiológico principal que condiciona la extensa destrucción y desorganización articular, característica de esta entidad?",
@@ -5934,9 +5934,9 @@
         }
       ],
       "etiquetas": [
-        "Osteoid osteoma",
-        "Nidus",
-        "Bone tumor"
+        "osteoma osteoide",
+        "nidus",
+        "tumor óseo"
       ],
       "tipo": "imagen",
       "enunciado": "Niño de 9 años con historia de dolor sordo en la cadera derecha, de predominio nocturno y alivio con AINEs. ¿Qué característica clásica de la gammagrafía ósea se asocia habitualmente con esta lesión benigna?",
@@ -5976,8 +5976,8 @@
         }
       ],
       "etiquetas": [
-        "Septic arthritis",
-        "Hip infection"
+        "artritis séptica",
+        "infección de cadera"
       ],
       "tipo": "imagen",
       "enunciado": "Mujer de 40 años que acude con cuadro de 2 semanas de dolor severo en cadera derecha, sin antecedente traumático. ¿Cuál es la vía de infección y microorganismos etiológicos más frecuentes para esta patología en adultos?",
