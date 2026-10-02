@@ -54,6 +54,41 @@ toman el estudio, las instrucciones para la IA y `tools/validar`.
 - Sin `clasificacion`, el caso es del segmento del paquete y no tiene área.
 - Un área nueva es una línea en `app/areas.js`. Su id no se cambia ni se borra mientras algún caso lo use.
 
+### Dificultad: cuatro niveles, por el contenido y la bibliografía
+
+Cada caso lleva `dificultad`: `{ "nivel": 1–4, "motivo": "…", "por": "ia" | "autor" | "revisor" }`. El residente
+no la ve; el tablero por equipos ordena con ella las filas (100 = nivel 1). Se decide por el **contenido** del caso
+contrastado con la **bibliografía**, nunca por cuántos aciertan (decisión del 2026-10-01). El referente es el
+currículo europeo de la ESR ([ETC](https://www.myesr.org/education/training-curricula/)): nivel I = primeros tres
+años, nivel II = años 4 y 5, nivel III = subespecialidad después de la certificación. La residencia de HNERM/UNMSM
+dura tres años.
+
+| nivel | nombre | referente | típico |
+|---|---|---|---|
+| 1 | Básico | R1 · ETC I temprano | Anatomía normal, técnica, signo o diagnóstico clásico que se reconoce de vista, entidad común con presentación típica |
+| 2 | Intermedio | R2 · ETC I | Diagnóstico típico que integra clínica e imagen, diferencial frecuente, complicación conocida de una entidad común |
+| 3 | Avanzado | R3 y egreso · ETC II | Entidad poco frecuente, presentación atípica, diferencial fino, clasificación o estadificación que cambia el manejo, asociación sindrómica |
+| 4 | Subespecialidad | Fellow · ETC III | Entidad rara, signo sutil o de nicho, clasificación detallada de la subespecialidad, dato de literatura especializada |
+
+- Se miran cuatro cosas: la frecuencia de la entidad (lo que dice la fuente: «classic», «common» bajan; «rare»,
+  «atypical», «pitfall», «subtle» suben), la tarea (reconocer → diagnosticar → diferenciar → clasificar y decidir),
+  la sutileza del hallazgo y el nivel del currículo. Pesa más lo más exigente.
+- `motivo` (20 a 200 caracteres en lo que escribe la IA; el esquema admite hasta 300) dice qué referente decidió.
+- Un cuestionario bien hecho tiene casos de varios niveles: con más del 70 % en uno, el validador avisa.
+- Sin `dificultad`, el caso cuenta como nivel 2. No es error: el validador solo avisa.
+- Es un metadato, como `clasificacion`: cambiarla no quita el sello de verificado.
+- Límite conocido: el juicio de expertos predice solo en parte la dificultad real (R = 0,57 en un examen de
+  licenciatura médica, [BMC Med Educ 2024](https://bmcmededuc.biomedcentral.com/articles/10.1186/s12909-024-06012-x)).
+  Por eso el presentador puede reordenar las casillas y un revisor corrige el nivel en el estudio.
+
+### Opciones tapadas y `requiere_opciones`
+
+Con las cinco opciones tapadas, el enunciado (y la figura) tiene que bastar para decir la respuesta: es la regla
+«cover the options» del manual de redacción de preguntas del NBME, y la usa el modo **sin alternativas** de la
+práctica y del tablero. «¿Cuál es el diagnóstico más probable?» sirve; «¿Cuál de las siguientes afirmaciones es
+correcta?» no. Si la pregunta de verdad no se entiende sin la lista, el caso lleva `"requiere_opciones": true` y en
+ese modo se muestra con sus opciones; en la duda, se reescribe el enunciado.
+
 ## 4. Enunciado
 
 El formato de los bancos de casos tipo RadPrimer: la figura primero, un enunciado corto y una pregunta directa
@@ -251,6 +286,8 @@ Sin imagen; opciones de largo parecido y con la misma forma; cada cifra de la ex
 - [ ] `tools/validar` sin errores; los avisos, leídos uno por uno.
 - [ ] Ningún dato clínico que no esté en la leyenda.
 - [ ] Cada caso con su `clasificacion`; `pediatria` solo si la fuente da la edad o la entidad es de la infancia.
+- [ ] Cada caso con su `dificultad` (nivel y motivo), y niveles repartidos.
+- [ ] Con las opciones tapadas, cada enunciado se contesta; si no, `requiere_opciones: true`.
 - [ ] Ningún enunciado que contenga la palabra clave de la respuesta.
 - [ ] Con la imagen tapada, ningún caso de imagen se responde.
 - [ ] Ninguna figura que sale en una pregunta tiene un panel o un rótulo con la respuesta de ese caso.

@@ -110,6 +110,22 @@ export function sello(caso, personas = {}) {
   return `<span class="sello sin" title="Todavía ningún radiólogo lo revisó">Sin verificar</span>`;
 }
 
+// Dificultad interna de un caso, en cuatro niveles anclados al currículo europeo de la ESR (ETC): se asigna por
+// el contenido y la bibliografía, nunca por quién acierta (docs/guia-estilo-ia.md). El residente no la ve; el
+// tablero ordena con ella las filas. Un caso sin dificultad cuenta como intermedio.
+export const NIVELES = {
+  1: { nombre: "Básico", referente: "R1 · ETC nivel I temprano" },
+  2: { nombre: "Intermedio", referente: "R2 · ETC nivel I" },
+  3: { nombre: "Avanzado", referente: "R3 y egreso · ETC nivel II" },
+  4: { nombre: "Subespecialidad", referente: "Fellow · ETC nivel III" },
+};
+export const NIVEL_POR_DEFECTO = 2;
+
+export function nivelDe(caso) {
+  const n = caso?.dificultad?.nivel;
+  return NIVELES[n] && Number.isInteger(n) ? n : NIVEL_POR_DEFECTO;
+}
+
 // Tandas: cuántos casos pide quien practica o quien crea una sala. El campo numérico admite cualquier número
 // del 1 al total, que va en su max. Vacío, 0, el total o más = todos, que se devuelve como 0.
 export function leerTanda(campo) {

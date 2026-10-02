@@ -1,6 +1,6 @@
 // RadQuiz — reglas del formato para el estudio web. Son las mismas de tools/validar, con mensajes para no expertos.
 // El validador de Python vuelve a revisar todo antes de publicar: este módulo es la ayuda inmediata.
-import { CON_COPYRIGHT, SEGMENTOS } from "./comun.js";
+import { CON_COPYRIGHT, SEGMENTOS, NIVELES } from "./comun.js";
 import { AREAS } from "./areas.js";
 
 // «nd»: solo se puede redimensionar y comprimir. «Con copyright» es la fuente sin licencia abierta: sus figuras
@@ -140,6 +140,41 @@ function validarClasificacion(caso, segmentoTema) {
   return p;
 }
 
+// ---------- dificultad y modo sin alternativas.
+
+export const ORIGENES_DIFICULTAD = ["ia", "autor", "revisor"];
+const NOMBRE_NIVEL = Object.fromEntries(Object.entries(NIVELES).map(([n, v]) => [slug(v.nombre), Number(n)]));
+
+// Deja la dificultad como la pide el formato, venga de una IA, de un .zip o del editor: { nivel, motivo?, por? },
+// o null si no hay un nivel reconocible. Acepta 3, "3", "Avanzado" o { nivel: 3, motivo: "…" }.
+export function normalizarDificultad(valor, porDefecto = "") {
+  const bruto = valor && typeof valor === "object" ? valor : { nivel: valor };
+  const texto = String(bruto.nivel ?? "").trim();
+  const nivel = /^[1-4]$/.test(texto) ? Number(texto) : NOMBRE_NIVEL[slug(texto)];
+  if (!nivel) return null;
+  const motivo = String(bruto.motivo ?? "").trim().slice(0, 300);
+  const por = ORIGENES_DIFICULTAD.includes(bruto.por) ? bruto.por : porDefecto;
+  return { nivel, ...(motivo ? { motivo } : {}), ...(por ? { por } : {}) };
+}
+
+// Enunciados que, por su forma, suelen necesitar las opciones a la vista: «¿cuál de las siguientes NO…?»,
+// «excepto», verdadero/falso. Es solo una pista para el autor: «¿Cuál de los siguientes es el diagnóstico más
+// probable?» también coincide y se contesta sin opciones (la regla de tapar las opciones decide).
+export function pareceRequerirOpciones(enunciado) {
+  return /de (las|los) siguientes|cu[aá]l(es)? de (est[ao]s|ell[ao]s)|\bexcepto\b|\bNO\b|incorrect[ao]|\bfals[ao]\b|verdader|todas las anteriores|ninguna de las anteriores|menos (probable|frecuente)/
+    .test(String(enunciado || ""));
+}
+
+function validarDificultad(caso) {
+  if (caso.dificultad === undefined || caso.dificultad === null || caso.dificultad === "") return [];
+  const d = caso.dificultad;
+  if (typeof d !== "object" || !Number.isInteger(d.nivel) || !NIVELES[d.nivel]) {
+    return [problema("error", "La dificultad tiene que ser un nivel del 1 al 4.")];
+  }
+  if (d.motivo && String(d.motivo).length > 300) return [problema("error", "El motivo de la dificultad pasa de 300 caracteres.")];
+  return [];
+}
+
 function problema(tipo, texto) {
   return { tipo, texto };
 }
@@ -225,6 +260,7 @@ export function validarCaso(caso, imagenes, segmentoTema = "") {
     }
   }
   p.push(...validarClasificacion(caso, segmentoTema));
+  p.push(...validarDificultad(caso));
   return p;
 }
 
@@ -253,6 +289,20 @@ export function validarTema(tema) {
       return Number.isInteger(c.correcta) && o[c.correcta] > Math.max(...o.filter((_, i) => i !== c.correcta));
     }).length;
     if (largos / casos.length > 0.35) r.tema.push(problema("aviso", `La correcta es la opción más larga en ${largos} de ${casos.length} casos.`));
+  }
+  // Mismos avisos que tools/validar: la dificultad es opcional, pero sin ella el tablero no ordena las filas.
+  const sinNivel = casos.filter((c) => !c.dificultad?.nivel).length;
+  if (casos.length && sinNivel) {
+    r.tema.push(problema("aviso", `${sinNivel === casos.length ? "Ningún caso tiene" : `${sinNivel} de ${casos.length} casos no tienen`}`
+      + " dificultad: el tablero los toma como nivel 2. Asígnala en el panel «Dificultad»."));
+  }
+  const niveles = casos.map((c) => c.dificultad?.nivel).filter(Boolean);
+  if (niveles.length >= 10) {
+    const [nivel, veces] = Object.entries(niveles.reduce((n, x) => ({ ...n, [x]: (n[x] || 0) + 1 }), {}))
+      .sort((a, b) => b[1] - a[1])[0];
+    if (veces / niveles.length > 0.7) {
+      r.tema.push(problema("aviso", `${veces} de ${niveles.length} casos tienen dificultad ${nivel}: revisa que el nivel discrimine.`));
+    }
   }
   const todos = [r.fuente, r.tema, ...Object.values(r.imagenes), ...Object.values(r.casos)].flat();
   r.errores = todos.filter((x) => x.tipo === "error").length;
@@ -313,8 +363,10 @@ export function aPaquete(tema, version, { drive = {}, publicador = null } = {}) 
       opciones: lista(c.opciones),
       correcta: c.correcta,
       ...(c.barajar === false ? { barajar: false } : {}),
+      ...(c.requiere_opciones === true ? { requiere_opciones: true } : {}),
       explicacion: c.explicacion,
       ...(c.perla ? { perla: c.perla } : {}),
+      ...(normalizarDificultad(c.dificultad) ? { dificultad: normalizarDificultad(c.dificultad) } : {}),
       evidencia: lista(c.evidencia).map((e) => ({ fuente: f.clave, ubicacion: e.ubicacion, cita: e.cita })),
       estado: "publicado",
       autor: meta.autor_usuario,
@@ -423,8 +475,10 @@ export function dePaquete(paquete, fuentes) {
       opciones: lista(c.opciones).map(texto),
       correcta: Number.isInteger(c.correcta) ? c.correcta : -1,
       ...(c.barajar === false ? { barajar: false } : {}),
+      ...(c.requiere_opciones === true ? { requiere_opciones: true } : {}),
       explicacion: texto(c.explicacion),
       perla: texto(c.perla),
+      ...(normalizarDificultad(c.dificultad, "ia") ? { dificultad: normalizarDificultad(c.dificultad, "ia") } : {}),
       // «fuente» se cae: en el estudio hay una sola por tema y se guarda aparte.
       evidencia: lista(c.evidencia).map((e) => ({ ubicacion: texto(e.ubicacion), cita: texto(e.cita) })),
       etiquetas: lista(c.etiquetas).map(texto).filter(Boolean),

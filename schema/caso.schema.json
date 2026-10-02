@@ -116,11 +116,44 @@
       "description": "false si el orden de las opciones importa. Por defecto la app las baraja.",
       "type": "boolean"
     },
+    "requiere_opciones": {
+      "description": "true si el enunciado no se puede contestar con las opciones tapadas («¿cuál de las siguientes NO…?», «excepto», verdadero/falso). En el modo sin alternativas, estos casos se muestran con sus opciones.",
+      "type": "boolean"
+    },
     "explicacion": {
       "$ref": "#/$defs/texto"
     },
     "perla": {
       "$ref": "#/$defs/texto"
+    },
+    "dificultad": {
+      "description": "Dificultad interna, asignada por el contenido y la bibliografía (docs/guia-estilo-ia.md): 1 básico (R1, ETC nivel I temprano), 2 intermedio (R2, ETC nivel I), 3 avanzado (R3 y egreso, ETC nivel II), 4 subespecialidad (ETC nivel III). La web no la muestra al residente; el tablero ordena con ella las filas. Sin esta clave, el tablero toma el nivel 2.",
+      "type": "object",
+      "required": [
+        "nivel"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "nivel": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "motivo": {
+          "description": "El referente que decidió el nivel: ETC I/II/III, frecuencia de la entidad o lo que dice la fuente.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "por": {
+          "description": "Quién lo asignó; manda el último que lo toca.",
+          "enum": [
+            "ia",
+            "autor",
+            "revisor"
+          ]
+        }
+      }
     },
     "evidencia": {
       "description": "De dónde sale la respuesta: ubicación y frase textual de la fuente. Obligatoria para revisar.",

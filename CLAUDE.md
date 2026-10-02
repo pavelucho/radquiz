@@ -194,6 +194,26 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   defecto; publicar pide que la persona acepte la declaración en el chat; no borra ni verifica. Sesión en
   `~/.config/radquiz-mcp/sesion.json`. Probado contra producción el mismo día, solo lectura y simulaciones. Detalle en
   README.md.
+- Avance, dificultad y modo sin alternativas (2026-10-01), para los cuestionarios de 100 casos o más:
+  - **Avance de la práctica, solo local** (`app/avance.js`, `localStorage`): una clave por tema con cada respuesta
+    —la huella del texto de la opción, no su posición, así que se recalifica si el autor corrige la clave— y la tanda en
+    curso, que se retoma al volver. «Cuáles»: los que me faltan (por defecto), todos, los que fallé. La portada muestra
+    cuánto lleva cada tema y «Seguir donde lo dejaste». No se exporta ni se sincroniza: decisión del autor. En revisión
+    (`?revision=1`) no se guarda.
+  - **Modo sin alternativas**: se piensa (o escribe) la respuesta, se revela y uno mismo marca Acerté/Fallé (teclas 1 y
+    2). En la práctica y en el tablero («Alternativas»: a pedido —lo de antes—, nunca, siempre); no en la sala en vivo.
+    `requiere_opciones: true` marca los enunciados que no se contestan con las opciones tapadas (regla del NBME): salen
+    con sus opciones, y el tablero en «nunca» los evita.
+  - **Dificultad interna** `dificultad: { nivel 1–4, motivo, por }`, solo por el contenido y la bibliografía —nunca por
+    cuántos aciertan: el autor descartó calibrar con datos—, anclada al ETC de la ESR (1 R1, 2 R2, 3 R3/egreso,
+    4 subespecialidad; rúbrica en `docs/guia-estilo-ia.md`). El residente no la ve. El tablero ordena con ella las filas
+    (`NIVELES_FILA` en `app/tablero.js`), la casilla doble prefiere 3–4 y la final el nivel más alto. Metadato como la
+    clasificación: no entra en `contenido()` y no quita el sello. Sin ella cuenta como 2 y el validador solo avisa (y
+    avisa si más del 70 % cae en un nivel). Panel «Dificultad y modo sin alternativas» en el paso 3 del estudio;
+    herramienta MCP `casos_dificultad`; las instrucciones para la IA la piden siempre.
+  - El 2026-10-01 se asignó a los 1016 casos de los 13 temas del autor (siete agentes con la rúbrica) y se guardó en el
+    estudio; **falta volver a publicarlos** para que llegue a la web. Notas de casos dudosos en
+    `referencia/revision-dificultad-2026-10-01.md` (local).
 - Manual de uso por papel: `manual.html`, en línea. Camino con Git (alternativo):
   `tools/aprobar <carpeta> --revisor <usuario> --todos|--casos a,b [--estado publicado]`.
 - `referencia/` y `PROMPT_INICIO.md` están en `.gitignore`: solo locales (el respaldo del piloto tiene recortes ND).
@@ -251,6 +271,13 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
     de Protocolo muestra la orientación de los cortes que pregunta Planificación. El tablero ya lo evita; la sala no.
     Desde el 2026-09-30 los prompts piden que una figura vaya en la respuesta de un solo caso y el comprobador del
     .zip lo avisa, pero los temas ya publicados siguen igual.
+
+11. Volver a publicar los 13 temas con dificultad (estudio o `tema_publicar`, con la declaración aceptada) y desplegar
+    la web con el código nuevo. `iip-hrct-dixon2010` e `ila-radiographics-hata2022` no se pueden volver a publicar
+    hasta corregir su licencia: dicen CC BY-NC-ND y la frase de la verificación no lo dice (mismo caso que el
+    pendiente 7).
+12. Ids definitivos para los siete RadCases (`book-id`, `book-id-2-2-…`): el avance guardado usa el id del tema, así que
+    renombrarlos después borra el avance de todos. Renombrar es crear el tema con el id nuevo y borrar el viejo.
 
 ## Preferencias del autor (Pavel, residente de radiología)
 - Interfaz y contenido en español.

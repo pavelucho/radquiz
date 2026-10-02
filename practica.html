@@ -16,6 +16,17 @@
     <span class="spacer"></span>
     <div class="herramientas compacta">
       <span class="salto" aria-hidden="true"></span>
+      <label class="row"><span class="muted">Cuáles</span>
+        <select id="cuales" title="De dónde sale la tanda. Lo que respondiste se guarda en este dispositivo">
+          <option value="faltan">Los que me faltan</option>
+          <option value="todos">Todos</option>
+          <option value="falladas">Los que fallé</option>
+        </select></label>
+      <label class="row"><span class="muted">Respuesta</span>
+        <select id="modo-respuesta" title="Sin alternativas: piensas la respuesta, la revelas y marcas si acertaste">
+          <option value="alt">Con alternativas</option>
+          <option value="sin">Sin alternativas</option>
+        </select></label>
       <label class="row" id="tanda" hidden><span class="muted">Casos</span>
         <input type="number" id="cuantos" min="1" step="1" inputmode="numeric"
           title="Cuántos casos quieres en esta tanda: se eligen al azar entre los del tema">

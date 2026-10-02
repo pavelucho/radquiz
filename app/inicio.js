@@ -2,8 +2,11 @@
 // que arma el sitio, más lo que se acaba de publicar en el estudio y el sitio todavía no trae.
 import { $, esc, cargarJSON, SEGMENTOS } from "./comun.js";
 import { indiceEnVivo, fusionarIndice } from "./publicado.js";
+import { resumenes } from "./avance.js";
 
 const app = $("#app");
+// Lo que el residente respondió en este dispositivo, por tema (app/avance.js). No se pide nada a la red.
+const mios = new Map(resumenes().map((r) => [r.ruta, r]));
 
 const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
 
@@ -17,11 +20,24 @@ function medidor(publicado, verificado) {
     <span>${texto}</span></div>`;
 }
 
+// Cuánto del tema respondió el residente en este dispositivo. El total es el de hoy: si el tema creció, baja.
+function miAvance(paquete) {
+  const r = mios.get(paquete.ruta);
+  const total = paquete.casos?.publicado || 0;
+  if (!r || !r.vistos || !total) return "";
+  const vistos = Math.min(r.vistos, total);
+  const texto = vistos >= total ? "Lo respondiste entero" : `Llevas ${vistos} de ${total}`;
+  return `<div class="medidor mio"><div class="barra"><i style="width:${Math.round((100 * vistos) / total)}%"></i></div>
+    <span>${texto} · ${Math.round((100 * r.bien) / r.vistos)} % de aciertos</span></div>`;
+}
+
 function tarjeta(paquete) {
   const { publicado = 0, verificado = 0, revisado = 0, borrador = 0 } = paquete.casos || {};
   const ruta = encodeURIComponent(paquete.ruta).replace("%2F", "/");
+  const mio = mios.get(paquete.ruta);
+  const empezado = mio && mio.vistos > 0 && mio.vistos < publicado;
   const practicar = publicado
-    ? `<a class="boton primary" href="practica.html?tema=${ruta}">Practicar · ${plural(publicado, "caso", "casos")}</a>`
+    ? `<a class="boton primary" href="practica.html?tema=${ruta}">${empezado ? "Continuar" : "Practicar"} · ${plural(publicado, "caso", "casos")}</a>`
     : `<button disabled>Sin publicar</button>`;
   const pendientes = borrador + revisado;
   const revisar = pendientes
@@ -32,9 +48,28 @@ function tarjeta(paquete) {
     <div class="etiquetas">${modalidades}${paquete.version ? `<span class="src">versión ${esc(paquete.version)}</span>` : ""}</div>
     <h4>${esc(paquete.titulo)}</h4>
     ${medidor(publicado, Math.min(verificado, publicado))}
+    ${miAvance(paquete)}
     <div class="row acciones">${practicar}</div>
     ${revisar}
   </article>`;
+}
+
+// El último tema que el residente dejó a medias, arriba de todo: para terminarlo hay que encontrarlo.
+function continuar(paquetes) {
+  const porRuta = new Map(paquetes.map((p) => [p.ruta, p]));
+  const ultimo = [...mios.values()]
+    .filter((r) => porRuta.has(r.ruta) && r.vistos < (porRuta.get(r.ruta).casos?.publicado || 0))
+    .sort((a, b) => (b.t || 0) - (a.t || 0))[0];
+  if (!ultimo) return "";
+  const p = porRuta.get(ultimo.ruta);
+  const total = p.casos.publicado;
+  const ruta = encodeURIComponent(p.ruta).replace("%2F", "/");
+  return `<section class="panel continuar" aria-label="Seguir practicando">
+    <div class="crece"><span class="src">Seguir donde lo dejaste</span><b>${esc(p.titulo)}</b>
+      <div class="medidor mio"><div class="barra"><i style="width:${Math.round((100 * ultimo.vistos) / total)}%"></i></div>
+        <span>Te faltan ${plural(total - ultimo.vistos, "caso", "casos")} de ${total}</span></div></div>
+    <a class="boton primary" href="practica.html?tema=${ruta}">Continuar</a>
+  </section>`;
 }
 
 async function iniciar() {
@@ -61,7 +96,7 @@ async function iniciar() {
   const verificados = paquetes.reduce((n, p) => n + Math.min(p.casos?.verificado || 0, p.casos?.publicado || 0), 0);
   $("#resumen").textContent = `${plural(paquetes.length, "tema", "temas")} · ${plural(casos, "caso", "casos")} · ${verificados} verificados`;
   const orden = Object.keys(SEGMENTOS).filter((s) => porSegmento.has(s));
-  app.innerHTML = `<div class="stack segmentos">${orden.map((s) => `
+  app.innerHTML = `${continuar(paquetes)}<div class="stack segmentos">${orden.map((s) => `
     <section class="segmento">
       <h3 class="segmento-titulo">${esc(SEGMENTOS[s])} <span class="n">${porSegmento.get(s).length}</span></h3>
       <div class="temas">${porSegmento.get(s).map(tarjeta).join("")}</div>

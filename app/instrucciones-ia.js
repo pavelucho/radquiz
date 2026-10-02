@@ -1,7 +1,7 @@
 // RadQuiz — instrucciones para cualquier IA (ChatGPT, Gemini, Copilot, Claude, DeepSeek…) y lectura de su respuesta.
 // No depende de ningún proveedor: el autor copia un texto, lo pega en su IA con el PDF y pega la respuesta de vuelta.
 import {
-  imagenesOrdenadas, casosOrdenados, lista, idImagen, normalizarClasificacion, LICENCIAS, MODALIDADES,
+  imagenesOrdenadas, casosOrdenados, lista, idImagen, normalizarClasificacion, normalizarDificultad, LICENCIAS, MODALIDADES,
 } from "./validacion.js";
 import { SEGMENTOS, CON_COPYRIGHT } from "./comun.js";
 import { AREAS } from "./areas.js";
@@ -31,6 +31,7 @@ const EJEMPLO = `{
       "correcta": 2,
       "explicacion": "- En A, la flecha blanca señala …: es …\\n- No es … (el distractor más tentador) porque …\\n- La idea clave del documento.",
       "perla": "La enseñanza clave del caso, en una frase práctica sacada del documento.",
+      "dificultad": { "nivel": 2, "motivo": "Diagnóstico típico (ETC I); el documento lo llama hallazgo clásico" },
       "evidencia": [{ "ubicacion": "p. 5, leyenda de la Figura 2", "cita": "Frase copiada textual del documento." }],
       "etiquetas": ["palabra clave"]
     }
@@ -105,6 +106,36 @@ cinco opciones; la leyenda, solo después de responder.
   hay dos con la misma respuesta.
 - No son de imagen, aunque lleven figura: definiciones, cifras, frecuencias, criterios, protocolos, «qué
   característica define…». Van como "concepto", sin figura en la pregunta.`;
+
+// La dificultad sale del contenido y de la bibliografía, nunca de cuántos aciertan (decisión del 2026-10-01): el
+// residente no la ve y el tablero ordena con ella las filas. Los cuatro niveles se anclan al currículo europeo de
+// la ESR (ETC: nivel I, años 1–3; nivel II, años 4–5; nivel III, subespecialidad). Las opciones tapadas son la
+// regla del manual de redacción del NBME; el modo sin alternativas de la práctica y del tablero depende de ella.
+export const DIFICULTAD = `DIFICULTAD DE CADA CASO
+Cada caso lleva "dificultad": { "nivel": 1 a 4, "motivo": "…" }. El residente no la ve: ordena las filas del
+tablero por equipos. Se juzga por el CONTENIDO del caso contrastado con la bibliografía —nunca por cuántos
+aciertan—, con el currículo europeo de la ESR (ETC): nivel I = primeros tres años, nivel II = años 4 y 5,
+nivel III = subespecialidad.
+- 1 Básico (R1 · ETC I temprano): anatomía normal, técnica, signo o diagnóstico clásico que se reconoce de
+  vista, entidad común con presentación típica.
+- 2 Intermedio (R2 · ETC I): diagnóstico típico que exige integrar clínica e imagen, diferencial frecuente,
+  complicación conocida de una entidad común.
+- 3 Avanzado (R3 y egreso · ETC II): entidad poco frecuente, presentación atípica, diferencial fino entre
+  parecidos, clasificación o estadificación que cambia el manejo, asociación sindrómica.
+- 4 Subespecialidad (fellow · ETC III): entidad rara, signo sutil o de nicho, clasificación detallada propia
+  de la subespecialidad, dato que solo trae la literatura especializada.
+Mira cuatro cosas: qué tan frecuente es la entidad (lo que dice el documento: «classic», «common» bajan;
+«rare», «atypical», «pitfall», «subtle» suben), qué pide el caso (reconocer, diagnosticar, diferenciar o
+clasificar y decidir), qué tan sutil es el hallazgo y en qué nivel del currículo se enseña. Pesa más lo más
+exigente. El "motivo", de 20 a 200 caracteres, dice qué decidió: «ETC II; entidad poco frecuente según el
+documento». No lo pongas todo en un nivel: un cuestionario bien hecho tiene casos de varios.
+
+OPCIONES TAPADAS
+Tapa las cinco opciones: con el enunciado (y la figura) se tiene que poder decir la respuesta. Es la regla del
+manual de redacción de preguntas del NBME, y RadQuiz tiene un modo sin alternativas que se apoya en ella:
+«¿Cuál es el diagnóstico más probable?» sirve; «¿Cuál de las siguientes afirmaciones es correcta?» no. Si la
+pregunta de verdad no se entiende sin ver la lista, agrega "requiere_opciones": true; en la duda, reescribe el
+enunciado.`;
 
 // La prueba de las opciones solas ya estaba; la de la imagen tapada es la que faltaba: es la que habría
 // parado los enunciados de meniscos.
@@ -237,6 +268,8 @@ ${conFiguras ? repartoCasos(figuras.length) : `- Unos ${MINIMO_CASOS} casos, sin
 CLASIFICACIÓN DE CADA CASO
 ${reglasClasificacion(meta.segmento)}
 
+${DIFICULTAD}
+
 QUÉ TIENES QUE DEVOLVER
 - ${faltanLeyendas ? 'La lista "imagenes": la ficha de cada figura de arriba, con su leyenda textual, los paneles (A, B…) y qué señala cada flecha, círculo o número.' : 'La lista "imagenes" puede ir vacía: las leyendas ya están cargadas.'}
 - La lista "casos": ${conFiguras ? 'los que salgan de la cuenta de arriba, con al menos 70 % de tipo "imagen"' : 'todos de tipo "concepto", sin figuras'}.
@@ -327,6 +360,8 @@ ${REGLAS.length + 1}. Escribe los casos en español aunque el documento esté en
 CLASIFICACIÓN DE CADA CASO
 ${reglasClasificacion("")}
 
+${DIFICULTAD}
+
 ──────────────────────────────── 6. EL .ZIP
 Exactamente estos nombres, SIN una carpeta por encima:
 
@@ -375,6 +410,8 @@ paquete.json. Lo que va detrás de // son notas para ti: JSON no admite comentar
       "correcta": 2,                         // posición desde 0: aquí, "Tercera opción". 0 la primera, 4 la quinta
       "explicacion": "- En A, la flecha blanca señala …: es …\\n- No es … (el distractor más tentador) porque …\\n- La idea clave del documento.",
       "perla": "La enseñanza clave del caso, en una frase práctica sacada del documento.",
+      "dificultad": { "nivel": 2, "motivo": "Diagnóstico típico (ETC I); el documento lo llama clásico" },   // paso 5
+                                             // "requiere_opciones": true, solo si no se contesta con las opciones tapadas
       "evidencia": [
         { "ubicacion": "p. 5, leyenda de la Figura 2", "cita": "Frase copiada textual, 10 caracteres como mínimo." }
       ]
@@ -559,6 +596,18 @@ for c in CASOS:
         s, a = par.get("segmento"), par.get("area")
         if s not in AREAS: mal("%s: segmento inválido en clasificacion: %r" % (cid, s))
         elif a is not None and a not in AREAS[s]: mal("%s: %r no es un área de %s (usa una de la lista o ninguna)" % (cid, a, s))
+    d = c.get("dificultad")
+    if not isinstance(d, dict) or d.get("nivel") not in (1, 2, 3, 4):
+        mal(cid + ": falta dificultad, con un nivel del 1 al 4 (paso 5)")
+    elif not 20 <= len(str(d.get("motivo") or "")) <= 200:
+        mal(cid + ": el motivo de la dificultad tiene que tener entre 20 y 200 caracteres")
+    if "requiere_opciones" in c and not isinstance(c["requiere_opciones"], bool):
+        mal(cid + ": requiere_opciones es true o no va")
+
+niveles = [c["dificultad"]["nivel"] for c in CASOS if isinstance(c.get("dificultad"), dict) and c["dificultad"].get("nivel") in (1, 2, 3, 4)]
+if len(niveles) >= 10 and max(niveles.count(n) for n in set(niveles)) > 0.7 * len(niveles):
+    revisa("más del 70 %% de los casos tienen la misma dificultad (%s): revisa que el nivel discrimine"
+           % " · ".join("%d: %d" % (n, niveles.count(n)) for n in sorted(set(niveles))))
 
 # Cuántos: el cuestionario es de imagen.
 de_imagen = [c for c in CASOS if c.get("tipo") == "imagen"]
@@ -794,6 +843,9 @@ export function leerRespuestaIA(texto, tema) {
       perla: String(c.perla || "").trim(),
       evidencia: lista(c.evidencia).map((e) => ({ ubicacion: String(e.ubicacion || "").trim(), cita: String(e.cita || "").trim() })),
       etiquetas: lista(c.etiquetas).map((t) => String(t).trim()).filter(Boolean),
+      // Igual que la clasificación: si la respuesta no las trae, una corrección conserva las que el caso tenía.
+      ...(normalizarDificultad(c.dificultad, "ia") ? { dificultad: normalizarDificultad(c.dificultad, "ia") } : {}),
+      ...(typeof c.requiere_opciones === "boolean" ? { requiere_opciones: c.requiere_opciones || null } : {}),
     };
   });
   if (!casos.length && !imagenes.length) throw new Error("La respuesta no traía casos. Revisa que tu IA haya devuelto el JSON completo.");

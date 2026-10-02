@@ -90,19 +90,28 @@
       <ol class="pasos">
         <li>En la página de inicio elige un tema y toca <b>Practicar</b>. Si un tema dice «Sin publicar», todavía no tiene
           casos en la web.</li>
-        <li>Arriba, en <b>Casos</b>, escribes cuántos quieres en esta tanda: 7, 13, los que quieras hasta el total del
-          tema, que es con lo que empieza. Se toman al azar entre los del tema. Cambiarlo empieza una tanda nueva, y
-          «Empezar de nuevo» arma otra distinta.</li>
-        <li>Responde tocando una opción. En la computadora puedes usar las teclas <kbd>A</kbd>–<kbd>E</kbd> para responder
-          y <kbd>→</kbd> para pasar al siguiente caso.</li>
-        <li>Después de responder ves la explicación, la perla y la leyenda original de la figura.</li>
-        <li>Al final ves tu puntaje y puedes <b>repasar solo las falladas</b>.</li>
+        <li>Arriba, en <b>Cuáles</b>, eliges de dónde sale la tanda: <b>Los que me faltan</b> (lo normal: los que todavía
+          no respondiste), <b>Todos</b> o <b>Los que fallé</b>. En <b>Casos</b> escribes cuántos quieres: 7, 13, los que
+          quieras hasta el total; se toman al azar, pero en el orden del tema. Cambiar cualquiera de los dos empieza una
+          tanda nueva.</li>
+        <li>En <b>Respuesta</b> eliges el modo. <b>Con alternativas</b>: tocas una opción; en la computadora, las teclas
+          <kbd>A</kbd>–<kbd>E</kbd>. <b>Sin alternativas</b>: miras la imagen y la pregunta, piensas la respuesta (o la
+          escribes, si quieres), tocas <b>Ver respuesta</b> (<kbd>Enter</kbd>) y marcas tú mismo <b>Acerté</b> o
+          <b>Fallé</b> (<kbd>1</kbd> o <kbd>2</kbd>). Se parece más a informar un estudio. Las pocas preguntas que no se
+          entienden sin la lista salen con sus opciones aunque elijas este modo.</li>
+        <li>Después de responder ves la explicación, la perla y la leyenda original de la figura. <kbd>→</kbd> pasa al
+          siguiente caso.</li>
+        <li>Al final ves tu puntaje y puedes <b>seguir con los que faltan</b> o <b>repasar las falladas</b>.</li>
       </ol>
+      <p class="caja"><b>Tu avance se guarda en tu celular o computadora.</b> Los temas largos (hay de 100 y 150 casos)
+        no se terminan en una sentada: si cierras la página, al volver sigues en el mismo caso. En la página de inicio
+        cada tema muestra cuánto llevas, y arriba aparece <b>Seguir donde lo dejaste</b>. El avance no sale de ese
+        aparato —no hay cuentas— y no pasa de un aparato a otro. En una computadora compartida, o para empezar de cero,
+        usa <b>Borrar mi avance</b> al terminar una tanda. En una ventana privada no se guarda nada.</p>
       <p class="caja"><b>El sello.</b> Cualquier residente puede publicar cuestionarios, así que cada caso dice si un
         radiólogo lo revisó. Arriba a la derecha tienes la casilla <b>Solo verificados</b> si quieres practicar
         únicamente con esos. Y si algo está mal, usa <b>Reportar un error</b> debajo de la explicación: el caso pasa al
         principio de la lista de revisión.</p>
-      <p class="muted">La práctica no guarda nada: tu progreso se pierde al cerrar la página.</p>
     </section>
 
     <!-- ============================================================ PRESENTADORES -->
@@ -169,11 +178,16 @@
         <li><b>Revisa el tablero antes de proyectar</b>: esa pantalla muestra de qué trata cada casilla y su respuesta.
           Las columnas salen de lo que va antes de « · » en el tema de cada caso (en ATM, «Técnica», «Anatomía»…).
           Puedes renombrarlas, juntar una con la siguiente, cambiar un caso por otro del grupo, subirlo o bajarlo, y
-          elegir la casilla doble y el caso de la ronda final. El valor no mide dificultad: el orden sale al azar.</li>
+          elegir la casilla doble y el caso de la ronda final. El valor sube con la dificultad del caso: 100 es básico
+          (lo que sabe un R1) y la fila de más arriba, lo más difícil; cada casilla muestra su nivel en esta pantalla,
+          nunca en el proyector. La casilla doble cae en una casilla difícil y la final, en la más difícil.</li>
+        <li>En <b>Alternativas</b> eliges cómo se juega: <b>a pedido</b> (la pista sale sin opciones y tú las muestras
+          con <kbd>O</kbd> si hace falta), <b>nunca</b> (se responde sin opciones, como en el programa; las pocas preguntas
+          que las necesitan las muestran solas, y el armado las evita) o <b>siempre a la vista</b>.</li>
         <li>En cada casilla puedes elegir hasta dos <b>casos para comparar</b>. La app propone los más parecidos entre
           los que quedaron fuera del tablero y deja marcado el más cercano del mismo grupo.</li>
         <li>Durante el juego, el equipo con el turno elige una casilla. Proyecta la pista y, si hace falta, toca
-          <b>Mostrar opciones</b>. Cuando un equipo responde, toca <b>Acertó</b> o <b>Falló</b> en su recuadro. Si falla,
+          <b>Mostrar opciones</b> (salvo que hayas elegido «nunca»). Cuando un equipo responde, toca <b>Acertó</b> o <b>Falló</b> en su recuadro. Si falla,
           otro equipo puede intentarlo; si nadie acierta, toca <b>Nadie acertó: revelar</b>. El que acierta elige la
           siguiente casilla.</li>
         <li>Después vienen las diapositivas: la respuesta con su figura y lo que señala cada marca, el porqué con la
@@ -294,6 +308,12 @@
           Rodilla»), y puede estar en más de un segmento, como un caso pediátrico de cadera que va también en
           Pediatría. En el panel <b>Clasificación</b> ves cuántos casos hay en cada área, marcas los que quieras y les
           agregas o quitas un segmento de una vez. Cambiar la clasificación no quita el sello de verificado.</li>
+        <li>Cada caso lleva también su <b>dificultad</b>, de 1 a 4, que el residente no ve: el tablero por equipos ordena
+          con ella las filas. Tu IA la propone con su motivo, mirando el contenido y la bibliografía —el currículo
+          europeo de radiología (ESR): 1 básico (R1), 2 intermedio (R2), 3 avanzado (R3 y egreso), 4 subespecialidad—,
+          nunca cuántos aciertan. En el panel <b>Dificultad y modo sin alternativas</b> ves el reparto y la cambias a
+          los casos marcados; ahí mismo marcas los casos que <b>necesitan las opciones</b> porque no se contestan con
+          ellas tapadas («¿cuál de las siguientes afirmaciones…?»). Nada de esto quita el sello.</li>
       </ol>
       <p class="muted">Si tu IA responde con texto alrededor del JSON, no importa: el estudio lo reconoce igual. Si algo
         sale mal, te dice qué pedirle. Si son muchos casos y su respuesta llega cortada, el estudio carga los que

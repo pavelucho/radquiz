@@ -107,15 +107,39 @@ export function juntar(a, b) {
   return { id: `${a.id}+${b.id}`, nombre: enumerar([a.nombre, b.nombre]), claves: [...a.claves, ...b.claves], usar: a.usar || b.usar };
 }
 
-// Una columna por grupo, con «filas» casos del grupo al azar: el formato no tiene dificultad, así que el valor
-// no dice «más difícil» (el presentador puede reordenarlos). Las columnas ya armadas de un grupo se conservan:
-// marcar otra columna no vuelve a sortear las demás.
-export function armarColumnas(grupos, filas, previas = []) {
+// El nivel de dificultad que busca cada fila (app/comun.js, NIVELES): 100 es básico y el valor más alto, el más
+// difícil. La dificultad sale del contenido y la bibliografía, no de quién acierta.
+export const NIVELES_FILA = { 3: [1, 2, 3], 4: [1, 2, 3, 4], 5: [1, 2, 2, 3, 4] };
+
+// Elige «filas» claves para una columna: para cada fila, la de nivel más cercano al que busca (los empates, al
+// azar), y la columna queda de menor a mayor. «evitar» marca las que conviene no usar —con «Alternativas: nunca»,
+// las que necesitan las opciones—: solo entran si no hay otras.
+export function elegirPorNivel(claves, filas, nivelDe, evitar = () => false) {
+  const objetivo = NIVELES_FILA[filas] || Array.from({ length: filas }, (_, i) => 1 + Math.round((3 * i) / Math.max(1, filas - 1)));
+  const libres = barajar(claves);
+  const elegidas = [];
+  for (const meta of objetivo) {
+    if (!libres.length) break;
+    let mejor = 0;
+    let costo = Infinity;
+    libres.forEach((k, i) => {
+      const c = Math.abs(nivelDe(k) - meta) + (evitar(k) ? 10 : 0);
+      if (c < costo) { mejor = i; costo = c; }
+    });
+    elegidas.push(libres.splice(mejor, 1)[0]);
+  }
+  return elegidas.map((k, i) => ({ k, i })).sort((a, b) => nivelDe(a.k) - nivelDe(b.k) || a.i - b.i).map((x) => x.k);
+}
+
+// Una columna por grupo, con «filas» casos del grupo ordenados por dificultad (sin «nivelDe», al azar). El
+// presentador puede reordenarlos. Las columnas ya armadas de un grupo se conservan: marcar otra columna no vuelve
+// a sortear las demás.
+export function armarColumnas(grupos, filas, previas = [], nivelDe = null, evitar = undefined) {
   const porGrupo = new Map(previas.map((c) => [c.grupo, c]));
   return grupos.map((g) => {
     const previa = porGrupo.get(g.id);
     if (previa && previa.casos.length === filas) return { ...previa, nombre: g.nombre };
-    const casos = barajar(g.claves).slice(0, filas);
+    const casos = nivelDe ? elegirPorNivel(g.claves, filas, nivelDe, evitar) : barajar(g.claves).slice(0, filas);
     while (casos.length < filas) casos.push(null);
     return { grupo: g.id, nombre: g.nombre, casos };
   });
@@ -127,20 +151,26 @@ export function enTablero(columnas, final = null) {
   return claves;
 }
 
-// La casilla doble va escondida fuera de la primera fila, como en el programa.
-export function sortearDobles(columnas, cuantas = 1) {
+// La casilla doble va escondida fuera de la primera fila, como en el programa; mejor en una casilla avanzada
+// (nivel 3 o 4), donde apostar pesa.
+export function sortearDobles(columnas, cuantas = 1, nivelDe = () => 2) {
   const candidatas = columnas.flatMap((col) => col.casos.filter((clave, r) => clave && r > 0));
-  return barajar(candidatas).slice(0, cuantas);
+  const altas = candidatas.filter((k) => nivelDe(k) >= 3);
+  return [...barajar(altas), ...barajar(candidatas.filter((k) => nivelDe(k) < 3))].slice(0, cuantas);
 }
 
-// La ronda final sale de un caso que no está en el tablero; mejor de un grupo que no es columna.
-export function proponerFinal(grupos, columnas) {
+// La ronda final sale de un caso que no está en el tablero; mejor de un grupo que no es columna, y entre esos, de
+// los más difíciles (nivel 4, si hay).
+export function proponerFinal(grupos, columnas, nivelDe = () => 2, evitar = () => false) {
   const usados = enTablero(columnas);
   const deColumnas = new Set(columnas.map((c) => c.grupo));
   const libres = (g) => g.claves.filter((k) => !usados.has(k));
   const fuera = grupos.filter((g) => !deColumnas.has(g.id)).flatMap(libres);
   const resto = grupos.filter((g) => deColumnas.has(g.id)).flatMap(libres);
-  return barajar(fuera.length ? fuera : resto)[0] || null;
+  let candidatas = fuera.length ? fuera : resto;
+  if (candidatas.some((k) => !evitar(k))) candidatas = candidatas.filter((k) => !evitar(k));
+  const tope = Math.max(...candidatas.map(nivelDe));
+  return barajar(candidatas.filter((k) => nivelDe(k) === tope))[0] || null;
 }
 
 // Lo que no puede aparecer en la enseñanza de otra casilla mientras estas claves sigan sin jugarse: sus figuras

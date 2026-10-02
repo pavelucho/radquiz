@@ -268,6 +268,12 @@ details > :not(summary) { margin: 0 14px 14px; }
   background: currentColor; box-shadow: 0 0 0 3px rgba(242, 193, 78, .18);
 }
 .chip.clasif { color: var(--info); background: var(--info-suave); border-color: var(--info-borde); min-height: 26px; padding: 3px 10px; font-size: 12.5px; }
+/* dificultad interna (estudio y revisión del tablero): un color por nivel, de la paleta de las letras */
+.chip.nivel { min-height: 26px; padding: 3px 10px; font-size: 12.5px; background: var(--panel-2); font-variant-numeric: tabular-nums; }
+.chip.nivel.n1 { color: var(--c); border-color: var(--c); }
+.chip.nivel.n2 { color: var(--a); border-color: var(--a); }
+.chip.nivel.n3 { color: var(--b); border-color: var(--b); }
+.chip.nivel.n4 { color: var(--e); border-color: var(--e); }
 .badge {
   display: inline-flex; align-items: center; min-height: 22px; padding: 2px 9px; white-space: nowrap;
   font-size: 12px; font-weight: 600; line-height: 1.2; letter-spacing: .01em;
@@ -454,6 +460,11 @@ blockquote { margin: 4px 0; padding: 8px 14px; font-size: 15px; color: var(--tin
 .medidor { display: grid; gap: 6px; font-size: 13px; color: var(--mute); font-variant-numeric: tabular-nums; }
 .medidor .barra { height: 5px; border-radius: 99px; background: var(--panel-3); overflow: hidden; }
 .medidor .barra i { display: block; height: 100%; border-radius: inherit; background: var(--ok); }
+/* el avance propio va en el amarillo de la marca, para no confundirlo con los verificados (verde) */
+.medidor.mio .barra i { background: var(--marca); }
+.continuar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 18px; border-color: var(--marca-borde); }
+.continuar .crece { flex: 1 1 260px; display: grid; gap: 6px; }
+.continuar b { color: var(--tinta); }
 
 /* ------------------------------------------------------------------ caso: práctica y sala */
 .qhead { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
@@ -559,6 +570,27 @@ main:has(.exp) > .ctrl {
 .big { font-size: clamp(54px, 11vw, 88px); font-weight: 700; font-stretch: 85%; line-height: .95; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .big small { font-size: .42em; font-weight: 600; color: var(--mute); letter-spacing: 0; }
 .resultado .medidor .barra { height: 8px; }
+.completo { font-size: 17px; font-weight: 650; color: var(--ok); }
+
+/* avance guardado y modo sin alternativas */
+.avance-tema { font-variant-numeric: tabular-nums; }
+.retomada { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+button.enlace { min-height: 0; padding: 0; color: var(--marca); background: none; border: 0; text-decoration: underline; text-underline-offset: 3px; }
+button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
+.libre { display: grid; gap: 10px; }
+.libre textarea { font-size: 16px; }   /* 16 px: el celular no hace zoom al escribir */
+.libre-escrita { padding: 10px 14px; border: 1px dashed var(--linea-2); border-radius: var(--r); }
+.autocalif { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.autocalif > span { font-weight: 650; }
+.autocalif button { flex: 1 1 140px; min-height: 48px; font-size: 16px; }
+.autocalif button::before { content: ""; width: 20px; height: 20px; flex: none; background: center / contain no-repeat; }
+.autocalif .si { color: var(--ok); background: var(--ok-suave); border-color: var(--ok-borde); }
+.autocalif .si::before { background-image: var(--i-ok); }
+.autocalif .no { color: var(--mal); background: var(--mal-suave); border-color: var(--mal-borde); }
+.autocalif .no::before { background-image: var(--i-mal); }
+.verdict small { font-size: 14px; font-weight: 500; font-stretch: 100%; color: var(--tinta-2); }
+.alternativas { margin: 8px 0 0; padding-left: 22px; display: grid; gap: 4px; color: var(--tinta-2); }
+.alternativas .correcta { color: var(--ok); font-weight: 600; }
 
 /* panel del revisor (práctica con ?revision=1) */
 .revision { display: grid; gap: 12px; padding: 16px; border: 1px dashed var(--marca-borde); border-radius: var(--r-lg); background: rgba(242, 193, 78, .03); }

@@ -543,6 +543,21 @@ def validar_clasificacion(caso, segmento, rep, sin_area):
             sin_area.setdefault(seg, []).append(cid)
 
 
+def validar_dificultad(casos, rep):
+    """La dificultad es opcional: el esquema revisa el nivel (1 a 4); aquí solo se avisa lo que falta y un reparto
+    sospechoso. Que todo salga en un mismo nivel suele ser una IA que no discriminó (mismo umbral que el estudio)."""
+    sin_nivel = [c.get("id", "?") for c in casos if not isinstance(c.get("dificultad"), dict)]
+    if sin_nivel:
+        muestra = ", ".join(sin_nivel[:6]) + (", …" if len(sin_nivel) > 6 else "")
+        rep.aviso("paquete", "%d caso(s) sin dificultad (%s): el tablero los toma como nivel 2" % (len(sin_nivel), muestra))
+    niveles = [c["dificultad"].get("nivel") for c in casos if isinstance(c.get("dificultad"), dict)]
+    if len(niveles) >= 10:
+        nivel, veces = max(((n, niveles.count(n)) for n in set(niveles)), key=lambda x: x[1])
+        if veces / len(niveles) > 0.7:
+            rep.aviso("paquete", "%d de %d casos tienen dificultad %s: revisar que el nivel discrimine"
+                      % (veces, len(niveles), nivel))
+
+
 def estadisticas(casos, rep):
     validos = [c for c in casos if isinstance(c.get("correcta"), int) and c.get("opciones")
                and c["correcta"] < len(c["opciones"])]
@@ -611,6 +626,7 @@ def validar_paquete(carpeta, esquemas, ids_globales):
     for seg, ids in sin_area.items():
         muestra = ", ".join(ids[:6]) + (", …" if len(ids) > 6 else "")
         rep.aviso("paquete", "%d caso(s) sin área de %s (%s): elegirla en «clasificacion»" % (len(ids), seg, muestra))
+    validar_dificultad(casos, rep)
     estadisticas(casos, rep)
 
     por_estado = {e: sum(1 for c in casos if c.get("estado") == e) for e in ("borrador", "publicado")}

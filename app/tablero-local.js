@@ -4,7 +4,7 @@
 // marca quién acertó: la app suma o resta, pasa el turno y proyecta la enseñanza del caso (app/diapositivas.js).
 // La partida (nombres de los equipos y puntajes) se guarda solo en este navegador, para aguantar una recarga.
 // De Firebase solo lee lo publicado (app/publicado.js), así que funciona aunque la sala en vivo no conecte.
-import { $, esc, md, cargarJSON, credito, barajar, SEGMENTOS } from "./comun.js";
+import { $, esc, md, cargarJSON, credito, barajar, SEGMENTOS, NIVELES, nivelDe } from "./comun.js";
 import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
 import { reportar } from "./reportar.js";
 import {
@@ -100,12 +100,25 @@ function armarCatalogo(rutas, sinVerificar) {
 }
 
 const datosDeClave = (clave) => datosDe.get(catalogo.get(clave)?.ruta);
+const nivelClave = (clave) => nivelDe(catalogo.get(clave)?.caso);
+const necesitaOpciones = (clave) => Boolean(catalogo.get(clave)?.caso.requiere_opciones);
+
+// Alternativas: «pedido», el presentador las muestra con la tecla O (como antes); «nunca», se responde sin ellas
+// salvo los casos que las necesitan; «siempre», a la vista desde el principio. Las partidas guardadas de antes
+// no traen el campo: son «pedido».
+const ALTERNATIVAS = {
+  pedido: "A pedido: el presentador las muestra con la tecla O",
+  nunca: "Nunca: se responde sin alternativas",
+  siempre: "Siempre a la vista",
+};
+const modoAlternativas = (c) => (ALTERNATIVAS[c?.alternativas] ? c.alternativas : "pedido");
+const evitarDe = (b) => (modoAlternativas(b) === "nunca" ? necesitaOpciones : () => false);
 const tituloDe = (rutas) => (rutas.length === 1 ? datosDe.get(rutas[0])?.paquete.titulo || "Tablero" : `${rutas.length} temas`);
 
 // ------------------------------------------------------------------ armado, paso 1: temas, tamaño y equipos
 const PREDETERMINADO = {
   temas: [], sinVerificar: false, columnas: 4, filas: 4, equipos: ["Equipo 1", "Equipo 2", "Equipo 3"],
-  doble: true, conFinal: true, restar: true, diapositivas: true,
+  doble: true, conFinal: true, restar: true, diapositivas: true, alternativas: "pedido",
 };
 
 async function pantallaArmado(previo = null) {
@@ -139,6 +152,8 @@ async function pantallaArmado(previo = null) {
       <label class="grid-label">Columnas <select id="columnas">${numeros(2, MAX_COLUMNAS, b.columnas)}</select></label>
       <label class="grid-label">Filas <select id="filas">${numeros(3, 5, b.filas, (n) => `${n} (100 a ${n * 100})`)}</select></label>
       <label class="grid-label">Equipos <select id="n-equipos">${numeros(2, MAX_EQUIPOS, b.equipos.length)}</select></label>
+      <label class="grid-label">Alternativas <select id="alternativas">${Object.entries(ALTERNATIVAS).map(([v, t]) =>
+        `<option value="${v}" ${v === modoAlternativas(b) ? "selected" : ""}>${esc(t)}</option>`).join("")}</select></label>
     </div>
     <div class="campos" id="nombres"></div>
     <div class="casillas">
@@ -180,6 +195,7 @@ async function pantallaArmado(previo = null) {
       conFinal: $("#con-final").checked,
       restar: $("#restar").checked,
       diapositivas: $("#diapositivas").checked,
+      alternativas: $("#alternativas").value,
     });
   };
 }
@@ -217,7 +233,8 @@ async function armar(b) {
 
 // ------------------------------------------------------------------ armado, paso 2: revisar el tablero
 function rehacerColumnas({ sortear = false } = {}) {
-  borrador.tablero = armarColumnas(borrador.grupos.filter((g) => g.usar), borrador.filas, sortear ? [] : borrador.tablero);
+  borrador.tablero = armarColumnas(borrador.grupos.filter((g) => g.usar), borrador.filas, sortear ? [] : borrador.tablero,
+    nivelClave, evitarDe(borrador));
 }
 
 // La casilla doble, la final y los casos para comparar dependen de qué casos quedaron en el tablero.
@@ -225,11 +242,11 @@ function rehacerDerivados({ sortear = false } = {}) {
   const b = borrador;
   const enJuego = enTablero(b.tablero);
   b.dobles = b.doble ? (sortear ? [] : b.dobles.filter((k) => enJuego.has(k))) : [];
-  if (b.doble && !b.dobles.length) b.dobles = sortearDobles(b.tablero, 1);
+  if (b.doble && !b.dobles.length) b.dobles = sortearDobles(b.tablero, 1, nivelClave);
   if (!b.conFinal) {
     b.final = null;
   } else if (sortear || !b.final || enJuego.has(b.final) || !catalogo.has(b.final)) {
-    b.final = proponerFinal(b.grupos, b.tablero);
+    b.final = proponerFinal(b.grupos, b.tablero, nivelClave, evitarDe(b));
     b.finalNombre = b.final ? catalogo.get(b.final).grupo : "";
   }
   if (sortear) b.tocado = {};
@@ -263,6 +280,13 @@ function comparacion(clave) {
   }).join("")}</div>`;
 }
 
+// Solo en la revisión, que no se proyecta: el nivel de dificultad y el porqué.
+function chipNivel(caso) {
+  const n = caso.dificultad?.nivel;
+  if (!NIVELES[n]) return `<span class="chip nivel" title="El caso no tiene dificultad: cuenta como intermedio">Sin nivel</span>`;
+  return `<span class="chip nivel n${n}" title="${esc([NIVELES[n].referente, caso.dificultad.motivo].filter(Boolean).join(" · "))}">${n} · ${esc(NIVELES[n].nombre)}</span>`;
+}
+
 function filaRevision(clave, c, r, libres, filas) {
   const valor = (r + 1) * 100;
   if (!clave) {
@@ -274,6 +298,8 @@ function filaRevision(clave, c, r, libres, filas) {
   return `<div class="tb-fila ${doble ? "doble" : ""}">
     <div class="tb-fila-cabeza"><span class="tb-valor">${valor}</span><b>${esc(e.caso.tema)}</b></div>
     <span class="src">Respuesta: ${esc(respuestaDe(e.caso))}</span>
+    <div class="row">${chipNivel(e.caso)}${modoAlternativas(borrador) === "nunca" && e.caso.requiere_opciones
+      ? `<span class="src">Necesita las opciones: saldrán a la vista.</span>` : ""}</div>
     <div class="acciones">
       <button type="button" data-mover="${c}:${r}:-1" ${r === 0 ? "disabled" : ""} aria-label="Subir">↑</button>
       <button type="button" data-mover="${c}:${r}:1" ${r === filas - 1 ? "disabled" : ""} aria-label="Bajar">↓</button>
@@ -287,6 +313,7 @@ function filaRevision(clave, c, r, libres, filas) {
 
 function pantallaRevision() {
   const b = borrador;
+  const conNivel = [...enTablero(b.tablero)].some((k) => catalogo.get(k)?.caso.dificultad?.nivel);
   const enJuego = enTablero(b.tablero);
   const casillas = b.tablero.reduce((n, col) => n + col.casos.filter(Boolean).length, 0);
   const columnas = b.tablero.map((col, c) => {
@@ -303,8 +330,9 @@ function pantallaRevision() {
       <p class="nota">Todavía no lo proyectes: aquí se ve de qué trata cada casilla y su respuesta.</p>
       <h3>Columnas</h3>
       <p class="src">Marca hasta ${MAX_COLUMNAS}. Salen de lo que va antes de « · » en el tema de cada caso; puedes
-        cambiarles el nombre o juntar una con la siguiente. El orden dentro de cada columna es al azar: el valor no
-        mide dificultad.</p>
+        cambiarles el nombre o juntar una con la siguiente. ${conNivel
+          ? "Dentro de cada columna, el valor sube con la dificultad del caso (1 básico a 4 subespecialidad, asignada por el contenido y la bibliografía); puedes reordenarlos."
+          : "Estos casos todavía no tienen dificultad: el orden dentro de cada columna es al azar y el valor no la mide."}</p>
       <div class="tb-grupos">${b.grupos.map((g, i) => `<div class="tb-grupo">
         <input type="checkbox" id="usar-${i}" data-usar="${i}" ${g.usar ? "checked" : ""} aria-label="Usar como columna">
         <input type="text" id="nombre-${i}" data-nombre="${i}" value="${esc(g.nombre)}" maxlength="60" aria-label="Nombre de la columna">
@@ -435,6 +463,7 @@ function empezarPartida() {
     restar: b.restar,
     diapositivas: b.diapositivas,
     comparar: b.comparar,
+    alternativas: modoAlternativas(b),
   };
   juego = {
     fase: "tablero", puntos: b.equipos.map(() => 0), turno: Math.min(b.empieza, b.equipos.length - 1), usadas: {},
@@ -638,6 +667,14 @@ function vistaPista() {
   const pos = posicion(clave);
   const doble = !esFinal && esDoble(clave);
   const imagenes = visor(datosDeClave(clave), e.caso.imagenes.filter((r) => r.mostrar_en === "pregunta"));
+  const modo = modoAlternativas(config);
+  // «Siempre», o «nunca» con un caso que las necesita: las opciones salen solas, barajadas una vez.
+  if (!juego.opciones && (modo === "siempre" || (modo === "nunca" && e.caso.requiere_opciones))) {
+    const indices = e.caso.opciones.map((_, i) => i);
+    juego.opciones = true;
+    juego.orden = e.caso.barajar === false ? indices : barajar(indices);
+    guardar();
+  }
   app.innerHTML = `
     <div class="qhead"><span class="qnum">${esc(pos.columna)}</span>
       <span class="tb-valor">${esFinal ? "Ronda final" : doble ? `Doble · ${fmt(juego.apuesta)}` : pos.valor}</span></div>
@@ -645,7 +682,8 @@ function vistaPista() {
       ${imagenes}
       <div class="pregunta">
         <div class="stem md">${md(e.caso.enunciado)}</div>
-        ${juego.opciones ? opcionesHTML(e.caso) : `<div class="row"><button id="ver-opciones">Mostrar opciones <kbd>O</kbd></button></div>`}
+        ${juego.opciones ? opcionesHTML(e.caso) : modo === "nunca" ? ""
+          : `<div class="row"><button id="ver-opciones">Mostrar opciones <kbd>O</kbd></button></div>`}
         ${esFinal ? "" : marcador({ juez: true })}
       </div>
     </section>
@@ -669,7 +707,7 @@ function vistaPista() {
 }
 
 function verOpciones() {
-  if (!["pista", "final-pista"].includes(juego.fase) || juego.opciones) return;
+  if (!["pista", "final-pista"].includes(juego.fase) || juego.opciones || modoAlternativas(config) === "nunca") return;
   const caso = catalogo.get(juego.abierta).caso;
   const indices = caso.opciones.map((_, i) => i);
   juego.opciones = true;
@@ -867,7 +905,7 @@ function nuevaPartida() {
   const previo = config && {
     temas: config.temas, sinVerificar: config.sinVerificar, columnas: config.columnas.length, filas: config.filas,
     equipos: config.equipos, doble: config.dobles.length > 0, conFinal: Boolean(config.final), restar: config.restar,
-    diapositivas: config.diapositivas,
+    diapositivas: config.diapositivas, alternativas: modoAlternativas(config),
   };
   borrarGuardado();
   pantallaArmado(previo);

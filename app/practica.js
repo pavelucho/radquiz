@@ -1,8 +1,15 @@
 // RadQuiz — práctica individual. Con ?revision=1 muestra también los borradores y la información para el revisor
-// (evidencia, ficha técnica, notas): es el previsualizador de la fase de revisión.
+// (evidencia, ficha técnica, notas): es el previsualizador de la fase de revisión, y no guarda avance.
+//
+// El avance queda en este dispositivo (app/avance.js): qué casos se respondieron y la tanda en curso, que se
+// retoma al volver. Dos modos: con alternativas, y sin ellas —se piensa la respuesta, se revela y uno mismo marca
+// si acertó—. Un caso con «requiere_opciones» sale siempre con sus opciones.
 import { $, esc, md, credito, barajar, sello, leerTanda, totalTanda } from "./comun.js";
 import { cargarPaquete } from "./publicado.js";
 import { reportar } from "./reportar.js";
+import {
+  hayAlmacenamiento, huella, leerAvance, guardarAvance, borrarAvance, leerModo, guardarModo, estadoDe, anotar, contar,
+} from "./avance.js";
 
 const LETRAS = "ABCDE";
 const params = new URLSearchParams(location.search);
@@ -16,8 +23,28 @@ let disponibles = [];   // los casos del tema que pasan el filtro «Solo verific
 let casos = [];         // la tanda que se está practicando
 let totalPrevio = -1;
 let actual = 0;
+let creada = 0;         // cuándo empezó la tanda: lo respondido antes es de otra vuelta
+let retomada = false;   // la tanda viene de una visita anterior: se avisa una vez
+let modo = leerModo();  // "alt": con alternativas · "sin": sin alternativas
+let avance = { casos: {}, tanda: null, resumen: null };
 const orden = new Map();       // id del caso → índices originales en el orden mostrado
-const respuestas = new Map();  // id del caso → índice original elegido
+const respuestas = new Map();  // id del caso → { m: "alt", elegida } | { m: "sin", ok }, en esta tanda
+const reveladas = new Set();   // sin alternativas: casos con la respuesta a la vista que falta calificar
+const escritas = new Map();    // sin alternativas: lo que el residente escribió (no se guarda)
+
+const acerto = (caso) => {
+  const r = respuestas.get(caso.id);
+  return r ? (r.m === "sin" ? r.ok : r.elegida === caso.correcta) : false;
+};
+const estado = (caso) => estadoDe(caso, avance.casos[caso.id]);
+
+// En revisión no se guarda nada: el revisor mira borradores, no practica.
+function guardar() {
+  if (revision) return;
+  avance.tanda = { ids: casos.map((c) => c.id), i: actual, creada, cuales: $("#cuales").value };
+  avance.resumen = { ...contar(base, avance), titulo: paquete.titulo, t: Date.now() };
+  guardarAvance(tema, avance);
+}
 
 function ordenDe(caso) {
   if (!orden.has(caso.id)) {
@@ -41,8 +68,8 @@ function visor(refs) {
 }
 
 function marcador() {
-  const hechas = [...respuestas.entries()].filter(([id]) => casos.some((c) => c.id === id));
-  const bien = hechas.filter(([id, elegida]) => casos.find((c) => c.id === id).correcta === elegida).length;
+  const hechas = casos.filter((c) => respuestas.has(c.id));
+  const bien = hechas.filter(acerto).length;
   const chip = $("#marcador");
   chip.hidden = !hechas.length;
   chip.textContent = `${bien}/${hechas.length} correctas`;
@@ -81,48 +108,91 @@ function panelRevision(caso) {
   </section>`;
 }
 
+// Con alternativas: los botones A–E y, al responder, la correcta en verde y la elegida en rojo.
+function bloqueAlternativas(caso, resp) {
+  const indices = ordenDe(caso);
+  return `<div class="opts">${indices.map((original, pos) => {
+    let clase = "";
+    if (resp) clase = original === caso.correcta ? "right" : "wrong";
+    if (resp && original === resp.elegida) clase += " mine";
+    return `<button class="opt ${clase}" data-k="${pos}" data-original="${original}" ${resp ? "disabled" : ""}>
+      <span class="k">${LETRAS[pos]}</span><span>${esc(caso.opciones[original])}</span></button>`;
+  }).join("")}</div>`;
+}
+
+// Sin alternativas: se piensa (o se escribe) la respuesta y se revela.
+function bloqueLibre(caso, revelado) {
+  const escrita = escritas.get(caso.id) || "";
+  if (revelado) return escrita ? `<p class="libre-escrita"><span class="muted">Tu respuesta:</span> ${esc(escrita)}</p>` : "";
+  return `<div class="libre">
+    <label class="grid-label">Tu respuesta <span class="muted">(opcional: también puedes pensarla)</span>
+      <textarea id="libre" rows="2" maxlength="300" placeholder="Escribe el diagnóstico o el hallazgo">${esc(escrita)}</textarea></label>
+    <div class="row"><button class="primary" id="revelar">Ver respuesta</button></div>
+  </div>`;
+}
+
+function leyendasDe(caso) {
+  return caso.imagenes.map((r) => paquete.imagenes[r.ref]).filter((i) => i && i.leyenda_original)
+    .map((i) => `<details><summary>Leyenda original · ${esc(i.figura)}</summary><p>${esc(i.leyenda_original)}</p></details>`).join("");
+}
+
 function vistaCaso() {
   const caso = casos[actual];
-  const elegida = respuestas.get(caso.id);
-  const respondido = elegida !== undefined;
+  const resp = respuestas.get(caso.id);
+  // Lo ya respondido se ve como se respondió; lo pendiente, en el modo elegido.
+  const libre = resp ? resp.m === "sin" : modo === "sin" && !caso.requiere_opciones;
+  const revelado = Boolean(resp) || (libre && reveladas.has(caso.id));
+  const refs = caso.imagenes.filter((r) => r.mostrar_en === "pregunta" || revelado);
   const indices = ordenDe(caso);
-  const refs = caso.imagenes.filter((r) => r.mostrar_en === "pregunta" || respondido);
-
-  const opciones = indices.map((original, pos) => {
-    let clase = "";
-    if (respondido) clase = original === caso.correcta ? "right" : "wrong";
-    if (respondido && original === elegida) clase += " mine";
-    return `<button class="opt ${clase}" data-k="${pos}" data-original="${original}" ${respondido ? "disabled" : ""}>
-      <span class="k">${LETRAS[pos]}</span><span>${esc(caso.opciones[original])}</span></button>`;
-  }).join("");
 
   let despues = "";
-  if (respondido) {
-    const acierto = elegida === caso.correcta;
-    const letra = LETRAS[indices.indexOf(caso.correcta)];
-    const leyendas = caso.imagenes.map((r) => paquete.imagenes[r.ref]).filter((i) => i && i.leyenda_original);
+  if (revelado && libre) {
     despues = `
-      <div class="verdict ${acierto ? "ok" : "no"}">${acierto ? "Correcto" : "Incorrecto"}</div>
+      ${resp ? `<div class="verdict ${resp.ok ? "ok" : "no"}">${resp.ok ? "Acertaste" : "Fallaste"} <small>· lo marcaste tú</small></div>` : ""}
+      <div class="exp md"><div class="ans">Respuesta: ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>
+      ${caso.perla ? `<div class="pearl md"><b>Perla:</b> ${md(caso.perla)}</div>` : ""}
+      ${resp ? "" : `<div class="autocalif" role="group" aria-label="¿Acertaste?">
+        <span>¿La tenías?</span>
+        <button class="si" id="acerte">Acerté <kbd>1</kbd></button>
+        <button class="no" id="falle">Fallé <kbd>2</kbd></button></div>`}
+      <details><summary>Las alternativas eran</summary><ol class="alternativas">${indices.map((o) =>
+        `<li class="${o === caso.correcta ? "correcta" : ""}">${esc(caso.opciones[o])}</li>`).join("")}</ol></details>
+      ${leyendasDe(caso)}
+      <div class="row"><button id="reportar" class="reportar">Reportar un error en este caso</button></div>`;
+  } else if (resp) {
+    const letra = LETRAS[indices.indexOf(caso.correcta)];
+    despues = `
+      <div class="verdict ${acerto(caso) ? "ok" : "no"}">${acerto(caso) ? "Correcto" : "Incorrecto"}</div>
       <div class="exp md"><div class="ans">Respuesta: ${letra}. ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>
       ${caso.perla ? `<div class="pearl md"><b>Perla:</b> ${md(caso.perla)}</div>` : ""}
-      ${leyendas.map((i) => `<details><summary>Leyenda original · ${esc(i.figura)}</summary><p>${esc(i.leyenda_original)}</p></details>`).join("")}
+      ${leyendasDe(caso)}
       <div class="row"><button id="reportar" class="reportar">Reportar un error en este caso</button></div>`;
   }
 
   const ultima = actual === casos.length - 1;
+  const delTema = contar(base, avance);
+  const teclas = libre
+    ? (revelado ? (resp ? "<kbd>→</kbd> siguiente" : "<kbd>1</kbd> acerté · <kbd>2</kbd> fallé")
+      : "<kbd>Enter</kbd> ver respuesta · <kbd>→</kbd> siguiente")
+    : "<kbd>A</kbd>–<kbd>E</kbd> responde · <kbd>→</kbd> siguiente";
   app.innerHTML = `
+    ${retomada ? `<p class="retomada src">Seguiste donde lo dejaste.
+      <button id="otra-tanda" class="enlace">Empezar otra tanda</button></p>` : ""}
     <div class="avance" role="progressbar" aria-label="Avance de la tanda" aria-valuemin="1" aria-valuemax="${casos.length}"
       aria-valuenow="${actual + 1}"><i style="width:${(100 * (actual + 1)) / casos.length}%"></i></div>
     <div class="qhead">
       <span class="qnum">${actual + 1}<small> / ${casos.length}</small></span>
-      ${respondido ? `<span class="tema">${esc(caso.tema)}</span>` : ""}
+      ${revelado ? `<span class="tema">${esc(caso.tema)}</span>` : ""}
       ${caso.estado !== "publicado" ? `<span class="badge borrador">${esc(caso.estado)}</span>` : sello(caso, paquete.personas)}
+      ${revision ? "" : `<span class="spacer"></span><span class="src avance-tema" title="Casos del tema que ya respondiste en este dispositivo">
+        Tema · ${delTema.vistos} de ${delTema.total}</span>`}
     </div>
     <section class="stage ${refs.length ? "" : "sin-imagen"}">
       ${visor(refs)}
       <div class="pregunta">
         <div class="stem md">${md(caso.enunciado)}</div>
-        <div class="opts">${opciones}</div>
+        ${modo === "sin" && !libre && !resp ? `<p class="src">Esta pregunta necesita ver las opciones.</p>` : ""}
+        ${libre ? bloqueLibre(caso, revelado) : bloqueAlternativas(caso, resp)}
         ${despues}
       </div>
     </section>
@@ -131,12 +201,22 @@ function vistaCaso() {
       <button id="anterior" ${actual === 0 ? "disabled" : ""}>Anterior</button>
       <button class="primary" id="siguiente">${ultima ? "Ver resultado" : "Siguiente caso"}</button>
       <span class="spacer"></span>
-      <span class="src teclas"><kbd>A</kbd>–<kbd>E</kbd> responde · <kbd>→</kbd> siguiente</span>
+      <span class="src teclas">${teclas}</span>
     </div>`;
 
   app.querySelectorAll("button.opt").forEach((boton) => {
     boton.onclick = () => responder(Number(boton.dataset.original));
   });
+  const campo = $("#libre");
+  if (campo) {
+    campo.oninput = () => escritas.set(caso.id, campo.value);
+    // Enter revela; Mayús + Enter es un salto de línea.
+    campo.onkeydown = (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); revelar(); } };
+  }
+  if ($("#revelar")) $("#revelar").onclick = revelar;
+  if ($("#acerte")) $("#acerte").onclick = () => calificar(true);
+  if ($("#falle")) $("#falle").onclick = () => calificar(false);
+  if ($("#otra-tanda")) $("#otra-tanda").onclick = () => { retomada = false; empezar(); };
   const botonReporte = $("#reportar");
   if (botonReporte) botonReporte.onclick = () => reportar(tema, caso.id, botonReporte);
   $("#anterior").onclick = () => ir(actual - 1);
@@ -156,41 +236,120 @@ function precargar(caso) {
 function responder(original) {
   const caso = casos[actual];
   if (respuestas.has(caso.id)) return;
-  respuestas.set(caso.id, original);
+  respuestas.set(caso.id, { m: "alt", elegida: original });
+  anotar(avance, caso, { m: "alt", r: huella(caso.opciones[original]) });
+  guardar();
+  vistaCaso();
+}
+
+function revelar() {
+  const caso = casos[actual];
+  if (respuestas.has(caso.id) || reveladas.has(caso.id)) return;
+  reveladas.add(caso.id);
+  vistaCaso();
+}
+
+// Sin alternativas, el resultado lo pone el residente: compara lo que pensó con la respuesta.
+function calificar(ok) {
+  const caso = casos[actual];
+  if (respuestas.has(caso.id) || !reveladas.has(caso.id)) return;
+  respuestas.set(caso.id, { m: "sin", ok });
+  anotar(avance, caso, { m: "sin", ok, c: huella(caso.opciones[caso.correcta]) });
+  guardar();
   vistaCaso();
 }
 
 function ir(indice) {
   actual = Math.max(0, Math.min(casos.length - 1, indice));
+  retomada = false;
+  guardar();
   vistaCaso();
   window.scrollTo({ top: 0 });
 }
 
+function borrarMiAvance() {
+  if (!confirm(`¿Borrar tu avance en «${paquete.titulo}»? Se olvida qué casos respondiste en este dispositivo.`)) return;
+  borrarAvance(tema);
+  avance = { casos: {}, tanda: null, resumen: null };
+  $("#cuales").value = "faltan";
+  empezar();
+}
+
+// Lo que el residente lleva del tema, con la nota de que vive en este dispositivo.
+function lineaDelTema() {
+  if (revision) return "";
+  const t = contar(disponibles, avance);
+  const porcentaje = t.vistos ? Math.round((100 * t.bien) / t.vistos) : 0;
+  return `<div class="medidor"><div class="barra"><i style="width:${t.total ? (100 * t.vistos) / t.total : 0}%"></i></div>
+    <span>Del tema: ${t.vistos} de ${t.total} casos respondidos${t.vistos ? ` · ${porcentaje} % de aciertos` : ""}.
+    ${hayAlmacenamiento ? "Se guarda en este dispositivo." : "Este navegador no guarda el avance (ventana privada o datos bloqueados)."}</span></div>`;
+}
+
+function otraVuelta(cuales) {
+  $("#cuales").value = cuales;
+  empezar();
+}
+
+// Botones para seguir: lo que falta del tema, las falladas o una vuelta entera; y borrar el avance.
+function botonesSeguir(falladasTanda = []) {
+  const faltan = disponibles.filter((c) => !estado(c)).length;
+  const falladasTema = disponibles.filter((c) => estado(c) === "mal").length;
+  const cuantos = leerTanda($("#cuantos")) || faltan;
+  return `<div class="row">
+    ${faltan ? `<button class="primary" id="seguir">${cuantos < faltan ? `Seguir con ${cuantos} de los ${faltan} que faltan` : `Seguir con los ${faltan} que faltan`}</button>`
+      : `<button class="primary" id="vuelta">Otra vuelta con todos</button>`}
+    ${falladasTanda.length ? `<button id="falladas">Repasar las ${falladasTanda.length} falladas de esta tanda</button>` : ""}
+    ${falladasTema > falladasTanda.length ? `<button id="falladas-tema">Repasar las ${falladasTema} falladas del tema</button>` : ""}
+    ${!revision && Object.keys(avance.casos).length ? `<button class="peligrosa" id="borrar-avance">Borrar mi avance</button>` : ""}
+  </div>`;
+}
+
+function enlazarSeguir(falladasTanda = []) {
+  if ($("#seguir")) $("#seguir").onclick = () => otraVuelta("faltan");
+  if ($("#vuelta")) $("#vuelta").onclick = () => otraVuelta("todos");
+  if ($("#falladas-tema")) $("#falladas-tema").onclick = () => otraVuelta("falladas");
+  if ($("#borrar-avance")) $("#borrar-avance").onclick = borrarMiAvance;
+  const boton = $("#falladas");
+  if (boton) boton.onclick = () => {
+    casos = falladasTanda;
+    falladasTanda.forEach((c) => { respuestas.delete(c.id); reveladas.delete(c.id); orden.delete(c.id); });
+    actual = 0;
+    creada = Date.now();
+    guardar();
+    vistaCaso();
+  };
+}
+
 function resultado() {
   const hechas = casos.filter((c) => respuestas.has(c.id));
-  const falladas = hechas.filter((c) => respuestas.get(c.id) !== c.correcta);
+  const falladas = hechas.filter((c) => !acerto(c));
   const bien = hechas.length - falladas.length;
   const porcentaje = hechas.length ? Math.round((100 * bien) / hechas.length) : 0;
+  const completo = !revision && disponibles.length && disponibles.every((c) => estado(c));
   app.innerHTML = `<section class="panel resultado">
     <span class="tema">${esc(paquete.titulo)}</span>
     <div class="big">${bien}<small> / ${hechas.length}</small></div>
     <div class="medidor"><div class="barra"><i style="width:${porcentaje}%"></i></div>
       <span>${porcentaje} % de aciertos · ${hechas.length} respondidas de ${casos.length} en esta tanda.</span></div>
-    ${casos.length < disponibles.length
-      ? `<p class="src">El tema tiene ${disponibles.length} casos. «Empezar de nuevo» arma otra tanda al azar.</p>` : ""}
-    <div class="row">
-      <button class="primary" id="repetir">Empezar de nuevo</button>
-      ${falladas.length ? `<button id="falladas">Repasar las ${falladas.length} falladas</button>` : ""}
-    </div>
+    ${completo ? `<p class="completo">Respondiste todos los casos del tema.</p>` : ""}
+    ${lineaDelTema()}
+    ${botonesSeguir(falladas)}
   </section>`;
-  $("#repetir").onclick = reiniciar;
-  const boton = $("#falladas");
-  if (boton) boton.onclick = () => {
-    casos = falladas;
-    falladas.forEach((c) => { respuestas.delete(c.id); orden.delete(c.id); });
-    actual = 0;
-    vistaCaso();
-  };
+  enlazarSeguir(falladas);
+}
+
+// No queda nada en el grupo elegido: el tema está terminado, o no hay falladas.
+function nadaQueMostrar(cuales) {
+  const texto = cuales === "falladas" ? "No tienes casos fallados en este tema."
+    : `Respondiste los ${disponibles.length} casos del tema.`;
+  app.innerHTML = `<section class="panel resultado">
+    <span class="tema">${esc(paquete.titulo)}</span>
+    <p class="completo">${texto}</p>
+    ${lineaDelTema()}
+    ${botonesSeguir()}
+  </section>`;
+  enlazarSeguir();
+  marcador();
 }
 
 // Elige «cuantos» casos al azar, pero los deja en el orden del tema.
@@ -210,26 +369,73 @@ function ponerTotal(total) {
   $("#tanda").hidden = total < 2;   // con un solo caso no hay nada que elegir
 }
 
-function reiniciar() {
-  respuestas.clear();
-  orden.clear();
-  empezar();
+// Los casos de donde sale la tanda: los que faltan, los fallados o todos.
+function grupo(cuales) {
+  if (cuales === "faltan") return disponibles.filter((c) => !estado(c));
+  if (cuales === "falladas") return disponibles.filter((c) => estado(c) === "mal");
+  return disponibles;
 }
 
-function empezar() {
+function filtrar() {
   const soloVerificados = $("#solo-verificados").checked;
   disponibles = base.filter((c) => !soloVerificados || c.revisor);
-  ponerTotal(disponibles.length);
-  casos = tanda(disponibles, leerTanda($("#cuantos")));
+}
+
+// Una tanda nueva: lo respondido en otras vueltas sigue en el avance, pero aquí se responde otra vez.
+function empezar() {
+  filtrar();
+  const cuales = $("#cuales").value;
+  const desde = grupo(cuales);
+  ponerTotal(desde.length);
+  casos = tanda(desde, leerTanda($("#cuantos")));
   $("#cuantos").value = casos.length;   // lo escrito fuera de rango queda como lo que de verdad sale
+  respuestas.clear();
+  reveladas.clear();
+  orden.clear();
   actual = 0;
+  creada = Date.now();
   if (!casos.length) {
-    app.innerHTML = `<section class="panel"><p>Este tema todavía no tiene casos verificados por un radiólogo.
-      Quita el filtro «Solo verificados» para practicar con los demás.</p></section>`;
-    marcador();
-    return;
+    if (!disponibles.length) {
+      app.innerHTML = `<section class="panel"><p>Este tema todavía no tiene casos verificados por un radiólogo.
+        Quita el filtro «Solo verificados» para practicar con los demás.</p></section>`;
+      marcador();
+      return;
+    }
+    return nadaQueMostrar(cuales);
   }
+  guardar();
   vistaCaso();
+}
+
+// La tanda de la visita anterior, si le quedan casos sin responder. Lo respondido desde que empezó se vuelve a
+// mostrar como se respondió.
+function retomar() {
+  const t = avance.tanda;
+  if (!t || !Array.isArray(t.ids)) return false;
+  const porId = new Map(base.map((c) => [c.id, c]));
+  const lista = t.ids.map((id) => porId.get(id)).filter(Boolean);
+  if (!lista.length) return false;
+  for (const caso of lista) {
+    const r = avance.casos[caso.id];
+    if (!r || r.t < (t.creada || 0) || !estado(caso)) continue;
+    if (r.m === "sin") respuestas.set(caso.id, { m: "sin", ok: r.ok });
+    else respuestas.set(caso.id, { m: "alt", elegida: caso.opciones.findIndex((o) => huella(o) === r.r) });
+  }
+  if (lista.every((c) => respuestas.has(c.id))) {
+    respuestas.clear();
+    return false;
+  }
+  if (["faltan", "todos", "falladas"].includes(t.cuales)) $("#cuales").value = t.cuales;
+  filtrar();
+  ponerTotal(grupo($("#cuales").value).length + lista.filter((c) => respuestas.has(c.id)).length);
+  casos = lista;
+  $("#cuantos").value = casos.length;
+  creada = t.creada || Date.now();
+  const pendiente = casos.findIndex((c) => !respuestas.has(c.id));
+  actual = Number.isInteger(t.i) && casos[t.i] && !respuestas.has(casos[t.i].id) ? t.i : pendiente;
+  retomada = true;
+  vistaCaso();
+  return true;
 }
 
 function sinCasos() {
@@ -258,11 +464,19 @@ async function iniciar() {
   if (revision) $("#modo").classList.add("live");
   base = paquete.casos.filter((c) => revision || c.estado === "publicado");
   if (!base.length) return sinCasos();
-  $("#solo-verificados").onchange = reiniciar;
-  $("#cuantos").onchange = reiniciar;
+  if (!revision) avance = leerAvance(tema);
+  $("#modo-respuesta").value = modo;
+  $("#modo-respuesta").onchange = () => {
+    modo = $("#modo-respuesta").value;
+    guardarModo(modo);
+    if (casos.length && $(".stage")) vistaCaso();
+  };
+  $("#solo-verificados").onchange = empezar;
+  $("#cuales").onchange = empezar;
+  $("#cuantos").onchange = empezar;
   // Enter confirma el número; al soltar el campo se cierra el teclado del celular.
   $("#cuantos").onkeydown = (e) => { if (e.key === "Enter") e.target.blur(); };
-  empezar();
+  if (!retomar()) empezar();
 }
 
 document.addEventListener("click", (e) => {
@@ -276,7 +490,17 @@ document.addEventListener("click", (e) => {
 $("#zoom").onclick = () => { $("#zoom").hidden = true; };
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") { $("#zoom").hidden = true; return; }
-  if (!casos.length || !$(".opts") || e.target.closest("select, input:not([type=checkbox])")) return;
+  if (!casos.length || !$(".stage") || e.target.closest("select, textarea, input:not([type=checkbox])")) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if ($("#revelar") && (e.key === "Enter" || e.key === " ")) {
+    e.preventDefault();
+    revelar();
+    return;
+  }
+  if ($("#acerte") && (e.key === "1" || e.key === "2")) {
+    calificar(e.key === "1");
+    return;
+  }
   const pos = "abcde".indexOf(e.key.toLowerCase());
   if (pos >= 0) {
     const boton = app.querySelector(`button.opt[data-k="${pos}"]`);

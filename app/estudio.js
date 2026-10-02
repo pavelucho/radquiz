@@ -10,11 +10,12 @@ import {
   getDatabase, ref, get, set, update, remove, onValue, push, serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 import { firebaseConfig } from "./firebase-config.js";
-import { $, esc, md, SEGMENTOS, credito } from "./comun.js";
+import { $, esc, md, SEGMENTOS, credito, NIVELES } from "./comun.js";
 import { AREAS } from "./areas.js";
 import {
   LICENCIAS, TIPOS_FUENTE, MODALIDADES, lista, slug, idImagen, validarTema, validarCaso, casosOrdenados,
   imagenesOrdenadas, estadoVerificacion, aPaquete, clasificacionDe, nombreClasificacion, normalizarClasificacion,
+  normalizarDificultad, pareceRequerirOpciones,
 } from "./validacion.js";
 import {
   instruccionesIA, instruccionesCorreccion, instruccionesPaquete, instruccionesContinuar, leerRespuestaIA, planDeCarga,
@@ -49,6 +50,7 @@ let creando = false;            // mientras suben las imágenes del .zip no se r
 let publicando = null;          // texto del avance mientras se publica; impide publicar dos veces a la vez
 let marcados = new Set();       // casos marcados en el paso 3 para clasificarlos en bloque
 let bloque = { segmento: "", area: "" };   // lo último elegido para clasificar en bloque: sobrevive al redibujado
+let bloqueNivel = "";                       // ídem, para la dificultad
 let seguir = null;              // la respuesta de la IA llegó cortada: { mensaje, texto } para pedirle el resto
 
 const hoy = () => new Date().toISOString().slice(0, 10);
@@ -839,7 +841,7 @@ function panelClasificar(t, casos) {
       <button id="marcar-todos">Marcar todos</button>
       <button id="marcar-sin-area">Marcar los que no tienen área</button>
       <button id="marcar-ninguno">Ninguno</button>
-      <span class="src" id="n-marcados">${textoMarcados()}</span>
+      <span class="src n-marcados">${textoMarcados()}</span>
     </div>
     <div class="row">
       <select id="bloque-segmento" aria-label="Segmento">${opcionesSegmento(segmento)}</select>
@@ -901,6 +903,65 @@ async function clasificarMarcados(t, agregar) {
     + (sinSegmento ? `${igual}: cada caso necesita al menos un segmento.` : ""));
 }
 
+// ---------- dificultad (cuatro niveles, por el contenido y la bibliografía) y modo sin alternativas
+function chipDificultad(caso) {
+  const n = caso.dificultad?.nivel;
+  if (!NIVELES[n]) return `<span class="chip" title="El tablero lo toma como nivel 2">Sin dificultad</span>`;
+  const titulo = [NIVELES[n].referente, caso.dificultad.motivo, caso.dificultad.por && `asignada por: ${caso.dificultad.por}`]
+    .filter(Boolean).join(" · ");
+  return `<span class="chip nivel n${n}" title="${esc(titulo)}">${n} · ${esc(NIVELES[n].nombre)}</span>`;
+}
+
+function opcionesNivel(elegido, vacio) {
+  return `<option value="">${vacio}</option>` + Object.entries(NIVELES).map(([n, v]) =>
+    `<option value="${n}" ${String(elegido) === n ? "selected" : ""}>${n} · ${esc(v.nombre)} (${esc(v.referente)})</option>`).join("");
+}
+
+function panelDificultad(casos) {
+  const cuenta = (n) => casos.filter((c) => (c.dificultad?.nivel || 0) === n).length;
+  const reparto = [1, 2, 3, 4].map((n) => `<span class="chip nivel n${n}">${n} · ${esc(NIVELES[n].nombre)} · ${cuenta(n)}</span>`).join("")
+    + (cuenta(0) ? `<span class="chip">Sin dificultad · ${cuenta(0)}</span>` : "");
+  const conOpciones = casos.filter((c) => c.requiere_opciones).length;
+  return `<div class="panel" style="display:grid;gap:10px">
+    <h3>Dificultad y modo sin alternativas</h3>
+    <div class="row" style="gap:6px">${reparto}</div>
+    <p class="src">La dificultad no la ve el residente: el tablero ordena con ella las filas (100 = nivel 1). Se asigna
+      por el contenido y la bibliografía, con el currículo europeo de la ESR como referencia; tu IA la propone con su
+      motivo. ${conOpciones} ${conOpciones === 1 ? "caso necesita" : "casos necesitan"} las opciones a la vista: en el
+      modo sin alternativas se muestran con ellas. Nada de esto quita el sello de verificado.</p>
+    <div class="row">
+      <button id="marcar-sin-nivel">Marcar los que no tienen dificultad</button>
+      <button id="marcar-parecen">Marcar los que parecen necesitar las opciones</button>
+      <span class="src n-marcados">${textoMarcados()}</span>
+    </div>
+    <div class="row">
+      <select id="bloque-nivel" aria-label="Dificultad">${opcionesNivel(bloqueNivel, "Sin dificultad")}</select>
+      <button id="nivel-marcados">Poner a los marcados</button>
+      <button id="con-opciones">Necesitan las opciones</button>
+      <button id="sin-opciones">Se contestan sin opciones</button>
+    </div>
+  </div>`;
+}
+
+// Como la clasificación, no toca «actualizado» de los casos: no es lo que el radiólogo verificó.
+async function cambiarMarcados(t, campo, valor) {
+  const cambios = {};
+  for (const id of marcados) {
+    if (!t.casos[id]) continue;
+    if (JSON.stringify(t.casos[id][campo] ?? null) === JSON.stringify(valor)) continue;
+    cambios[`estudio/${t.id}/casos/${id}/${campo}`] = valor;
+  }
+  const n = Object.keys(cambios).length;
+  if (!n) return aviso(!marcados.size ? "Marca primero algún caso." : "Los casos marcados ya estaban así.", true);
+  try {
+    await update(ref(db), cambios);
+    await guardarMeta(t.id, {});
+  } catch (e) {
+    return aviso("No se pudo guardar: " + (e.code || e.message), true);
+  }
+  aviso(`Cambiado en ${n} ${n === 1 ? "caso" : "casos"}.`);
+}
+
 function selloCaso(temaId, caso) {
   const ver = vercaso(temaId, caso.id);
   const estado = estadoVerificacion(caso, ver);
@@ -921,7 +982,8 @@ function tarjetaCaso(t, caso, v) {
         <span class="tema">${esc(caso.tema || "sin subtema")}</span></label>
       <span class="src">${caso.tipo === "concepto" ? "concepto" : "imagen"} · ${selloCaso(t.id, caso)}</span>
     </div>
-    <div class="row" style="gap:6px">${chipsClasificacion(t, caso)}</div>
+    <div class="row" style="gap:6px">${chipsClasificacion(t, caso)}${chipDificultad(caso)}
+      ${caso.requiere_opciones ? `<span class="chip" title="En el modo sin alternativas se muestra con sus opciones">Necesita las opciones</span>` : ""}</div>
     ${estado === "problema" && ver.comentario ? `<p class="caja">${esc(ver.nombre)}: «${esc(ver.comentario)}»</p>` : ""}
     ${reportados.map((r) => `<p class="caja">Reporte de un usuario: «${esc(r.texto)}»</p>`).join("")}
     <div class="md">${md(caso.enunciado || "")}</div>
@@ -962,6 +1024,7 @@ function pasoCasos(t, v) {
     <div class="row" style="justify-content:space-between"><h3>${casos.length} casos</h3>
       <button id="nuevo-caso">Agregar caso a mano</button></div>
     ${casos.length ? panelClasificar(t, casos) : ""}
+    ${casos.length ? panelDificultad(casos) : ""}
     <div class="casos">${casos.map((c) => tarjetaCaso(t, c, v)).join("") || `<p class="muted">Todavía no hay casos.</p>`}</div>
     <div class="row"><button id="ir-publicar">Siguiente: publicar</button></div>
   </section>`;
@@ -1013,6 +1076,15 @@ function formularioCaso(t, id) {
       <div id="clasificacion" style="display:grid;gap:8px">${clasificacionDe(caso, t.meta.segmento).map(filaClasificacion).join("")}</div>
       <button type="button" id="mas-clasificacion">Agregar otro segmento</button></div>
     <label class="grid-label">Etiquetas (separadas por comas)<input type="text" id="c-etiquetas" value="${esc(lista(caso.etiquetas).join(", "))}"></label>
+    <div class="row">
+      <label class="grid-label">Dificultad (no la ve el residente)<select id="c-nivel">${opcionesNivel(caso.dificultad?.nivel || "", "Sin asignar")}</select></label>
+      <label class="grid-label crece">Motivo: ETC I/II/III, frecuencia, lo que dice la fuente
+        <input type="text" id="c-motivo" maxlength="300" value="${esc(caso.dificultad?.motivo || "")}"></label>
+    </div>
+    <label class="row" style="gap:8px"><input type="checkbox" id="c-requiere" ${caso.requiere_opciones ? "checked" : ""}>
+      Necesita ver las opciones para contestarse (en el modo sin alternativas se muestra con ellas)</label>
+    ${pareceRequerirOpciones(caso.enunciado) && !caso.requiere_opciones
+      ? `<p class="src">La pregunta parece remitir a las opciones. Prueba a taparlas: si igual se contesta, deja la casilla sin marcar.</p>` : ""}
     <div class="row"><button class="primary" id="guardar-caso">Guardar caso</button><button id="cancelar-caso">Cancelar</button></div>
   </section>`;
 }
@@ -1217,7 +1289,7 @@ function enlazarEditor(t) {
 
 // Los casos marcados sobreviven al redibujado: el panel se rehace con cada cambio en la base.
 function enlazarClasificar(t) {
-  const contar = () => { const n = $("#n-marcados"); if (n) n.textContent = textoMarcados(); };
+  const contar = () => app.querySelectorAll(".n-marcados").forEach((n) => { n.textContent = textoMarcados(); });
   app.querySelectorAll("[data-marcar]").forEach((c) => {
     c.onchange = () => {
       if (c.checked) marcados.add(c.dataset.marcar);
@@ -1243,6 +1315,12 @@ function enlazarClasificar(t) {
   $("#bloque-area").onchange = () => { bloque = { segmento: $("#bloque-segmento").value, area: $("#bloque-area").value }; };
   $("#bloque-agregar").onclick = () => clasificarMarcados(t, true);
   $("#bloque-quitar").onclick = () => clasificarMarcados(t, false);
+  $("#marcar-sin-nivel").onclick = () => marcar(casos.filter((c) => !c.dificultad?.nivel).map((c) => c.id));
+  $("#marcar-parecen").onclick = () => marcar(casos.filter((c) => pareceRequerirOpciones(c.enunciado)).map((c) => c.id));
+  $("#bloque-nivel").onchange = () => { bloqueNivel = $("#bloque-nivel").value; };
+  $("#nivel-marcados").onclick = () => cambiarMarcados(t, "dificultad", bloqueNivel ? { nivel: Number(bloqueNivel), por: "autor" } : null);
+  $("#con-opciones").onclick = () => cambiarMarcados(t, "requiere_opciones", true);
+  $("#sin-opciones").onclick = () => cambiarMarcados(t, "requiere_opciones", null);
 }
 
 // Escribe la entrada del tema en «indice_publicado», la lista corta que lee la portada.
@@ -1544,9 +1622,18 @@ async function guardarCaso(t, casoId) {
     etiquetas: $("#c-etiquetas").value.split(",").map((x) => x.trim()).filter(Boolean),
     clasificacion,
     ...(anterior.barajar === false ? { barajar: false } : {}),   // el formulario no lo muestra: se conserva
+    ...($("#c-requiere").checked ? { requiere_opciones: true } : {}),
     orden: anterior.orden || casosOrdenados(t).length + 1,
   };
-  // Si solo cambió la clasificación, el caso sigue siendo el que el radiólogo verificó: se conserva la fecha, y
+  // Quien cambia el nivel pasa a ser quien lo asignó; si solo retoca el motivo, se queda el de antes.
+  const nivel = $("#c-nivel").value;
+  if (nivel) {
+    const mismoNivel = String(anterior.dificultad?.nivel || "") === nivel;
+    caso.dificultad = normalizarDificultad({
+      nivel, motivo: $("#c-motivo").value, por: mismoNivel ? anterior.dificultad?.por || "autor" : "autor",
+    });
+  }
+  // Si solo cambió la clasificación, la dificultad o si necesita las opciones, el caso sigue siendo el que el radiólogo verificó: se conserva la fecha, y
   // con ella el sello.
   caso.actualizado = anterior.actualizado && contenido(anterior) === contenido(caso) ? anterior.actualizado : serverTimestamp();
   await set(ref(db, `estudio/${t.id}/casos/${casoId}`), caso);

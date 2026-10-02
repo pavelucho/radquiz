@@ -28,6 +28,7 @@ import { promisify } from "node:util";
 import { firebaseConfig } from "../../app/firebase-config.js";
 import {
   validarTema, validarFuente, aPaquete, casosOrdenados, imagenesOrdenadas, lista, LICENCIAS, TIPOS_FUENTE,
+  normalizarDificultad,
 } from "../../app/validacion.js";
 import { leerRespuestaIA, planDeCarga } from "../../app/instrucciones-ia.js";
 import {
@@ -258,6 +259,7 @@ function casoParaEditar(t, c) {
     opciones: lista(c.opciones), correcta: c.correcta, explicacion: c.explicacion || "", perla: c.perla || "",
     evidencia: lista(c.evidencia).map((e) => ({ ubicacion: e.ubicacion || "", cita: e.cita || "" })),
     etiquetas: lista(c.etiquetas), clasificacion: lista(c.clasificacion),
+    ...(c.dificultad ? { dificultad: c.dificultad } : {}), ...(c.requiere_opciones ? { requiere_opciones: true } : {}),
   };
 }
 
@@ -273,7 +275,8 @@ function resumenValidacion(v, t) {
   return { errores: v.errores, avisos: v.avisos, detalle: lineas };
 }
 
-const CAMPOS = ["tema", "tipo", "enunciado", "imagenes", "opciones", "correcta", "explicacion", "perla", "evidencia", "etiquetas", "clasificacion"];
+const CAMPOS = ["tema", "tipo", "enunciado", "imagenes", "opciones", "correcta", "explicacion", "perla", "evidencia", "etiquetas", "clasificacion",
+  "dificultad", "requiere_opciones"];
 function cambiosDeCaso(antes, despues) {
   const iguales = (a, b) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null);
   const norm = (c, k) => {
@@ -460,6 +463,58 @@ herramienta("casos_corregir",
     if (simular) return ["SIMULACIÓN (no se guardó nada):", ...informe].join("\n");
     await actualizar({ ...plan.cambios, [`estudio/${tema}/meta/actualizado`]: AHORA });
     return ["Guardado en el estudio. Falta publicar para que salga en la web («tema_publicar»).", ...informe].join("\n");
+  });
+
+herramienta("casos_dificultad",
+  "Pone la dificultad (nivel 1 a 4 con su motivo, por el contenido y la bibliografía: docs/guia-estilo-ia.md) y si el caso necesita las opciones a la vista, como el panel «Dificultad» del paso 3. No toca el texto del caso, así que no le quita el sello de verificado. Recibe {\"<id del caso>\": {\"nivel\": 2, \"motivo\": \"…\", \"requiere_opciones\": false}} directamente o en un archivo JSON local con esa forma. Por defecto solo simula.",
+  {
+    tema: TEMA,
+    casos: { type: "object", description: "{\"caso-01\": {\"nivel\": 2, \"motivo\": \"…\", \"requiere_opciones\": false}, …}" },
+    archivo: { type: "string", description: "Ruta a un JSON con la misma forma que «casos», en vez de pasarlos aquí." },
+    por: { type: "string", enum: ["ia", "autor", "revisor"], description: "Quién la asigna; por defecto «ia»." },
+    simular: SIMULAR,
+  },
+  ["tema"],
+  async ({ tema, casos, archivo, por = "ia", simular = true }) => {
+    await miPerfil();
+    const t = await leerTema(tema);
+    exigirMio(t);
+    const datos = archivo ? JSON.parse(await readFile(resolve(archivo), "utf8")) : casos;
+    if (!datos || typeof datos !== "object") throw new Error("Pasa «casos» o «archivo».");
+    const desconocidos = Object.keys(datos).filter((id) => !t.casos[id]);
+    if (desconocidos.length) throw new Error(`Estos casos no existen en «${tema}»: ${desconocidos.join(", ")}.`);
+    const cambios = {};
+    const malos = [];
+    let niveles = 0, opciones = 0;
+    for (const [id, v] of Object.entries(datos)) {
+      const caso = t.casos[id];
+      if (v.nivel !== undefined) {
+        const d = normalizarDificultad({ ...v, por });
+        if (!d) { malos.push(id); continue; }
+        if (JSON.stringify(caso.dificultad ?? null) !== JSON.stringify(d)) {
+          cambios[`estudio/${tema}/casos/${id}/dificultad`] = d;
+          caso.dificultad = d;
+          niveles += 1;
+        }
+      }
+      if (typeof v.requiere_opciones === "boolean" && Boolean(caso.requiere_opciones) !== v.requiere_opciones) {
+        cambios[`estudio/${tema}/casos/${id}/requiere_opciones`] = v.requiere_opciones || null;
+        caso.requiere_opciones = v.requiere_opciones || undefined;
+        opciones += 1;
+      }
+    }
+    if (malos.length) throw new Error(`Nivel inválido (tiene que ser 1 a 4) en: ${malos.join(", ")}.`);
+    const reparto = [1, 2, 3, 4].map((n) => `${n}: ${Object.values(t.casos).filter((c) => c.dificultad?.nivel === n).length}`).join(" · ");
+    const sin = Object.values(t.casos).filter((c) => !c.dificultad?.nivel).length;
+    const v = validarTema(t);
+    const informe = [
+      `Cambia la dificultad de ${niveles} casos y «necesita las opciones» de ${opciones}.`,
+      `Reparto: ${reparto}${sin ? ` · sin dificultad: ${sin}` : ""}. Necesitan las opciones: ${Object.values(t.casos).filter((c) => c.requiere_opciones).length}.`,
+      `Validador después: ${v.errores} errores y ${v.avisos} avisos.`,
+    ];
+    if (simular || !Object.keys(cambios).length) return [simular ? "SIMULACIÓN (no se guardó nada):" : "No había nada que cambiar.", ...informe].join("\n");
+    await actualizar({ ...cambios, [`estudio/${tema}/meta/actualizado`]: AHORA });
+    return ["Guardado en el estudio, sin quitar sellos. Falta publicar para que salga en la web («tema_publicar»).", ...informe].join("\n");
   });
 
 herramienta("fuente_guardar",

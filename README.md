@@ -31,6 +31,7 @@ app/areas.js                áreas de cada segmento: la lista cerrada con que se
 app/zip.js                  leer y armar .zip en el navegador, sin librerías
 app/importar.js             comprimir figuras y abrir un cuestionario entero venido en un .zip
 app/estilos.css             diseño de toda la web: fichas de color y tipografía al principio, componentes debajo
+app/avance.js               avance de la práctica, solo en el dispositivo (localStorage): respuestas y tanda en curso
 app/tablero.js              lógica del tablero (grupos, columnas, casos parecidos, apuestas), sin pantalla ni Firebase
 app/diapositivas.js         diapositivas de enseñanza de un caso, armadas con lo que el caso ya trae
 app/marca.svg               logo y favicon
@@ -99,7 +100,7 @@ figuras, `tools/mcp/imagen.swift` (OCR de Vision y CoreGraphics de macOS), que s
 - **Usa la lógica de la app**, no una copia: `app/validacion.js` (validar, `aPaquete`), `app/instrucciones-ia.js`
   (correcciones con `leerRespuestaIA` y `planDeCarga`) y `app/drive.js` (subir figuras). El texto de la declaración
   se lee de `app/estudio.js`.
-- **Lo que escribe simula por defecto** (`casos_corregir`, `fuente_guardar`, `imagen_tapar`, `imagen_reemplazar`):
+- **Lo que escribe simula por defecto** (`casos_corregir`, `casos_dificultad`, `fuente_guardar`, `imagen_tapar`, `imagen_reemplazar`):
   muestra qué cambia —y la figura resultante— antes de guardar con `simular: false`.
 - **Publicar exige la declaración de la persona.** `tema_publicar` con `declaracion_aceptada: false` devuelve el texto;
   solo pasa en `true` si la persona la acepta en el chat. No publica con errores del validador.
@@ -107,9 +108,10 @@ figuras, `tools/mcp/imagen.swift` (OCR de Vision y CoreGraphics de macOS), que s
   estudio: son decisiones de una persona.
 
 Herramientas: `sesion_iniciar`, `sesion_estado`, `temas_listar`, `tema_leer`, `casos_leer`, `tema_validar`,
-`casos_corregir`, `fuente_guardar`, `imagen_ver`, `imagenes_buscar_texto`, `imagen_tapar`, `imagen_reemplazar`,
-`tema_publicar` y `publicacion_comprobar`. `casos_leer` devuelve los casos en el mismo formato que recibe
-`casos_corregir`, así que una corrección es leer, editar y devolver.
+`casos_corregir`, `casos_dificultad`, `fuente_guardar`, `imagen_ver`, `imagenes_buscar_texto`, `imagen_tapar`,
+`imagen_reemplazar`, `tema_publicar` y `publicacion_comprobar`. `casos_leer` devuelve los casos en el mismo formato que
+recibe `casos_corregir`, así que una corrección es leer, editar y devolver. `casos_dificultad` pone el nivel, su motivo
+y `requiere_opciones` (directo o desde un JSON local) sin tocar el texto, así que no quita sellos.
 
 ### Clasificación: segmento → área
 
@@ -127,6 +129,15 @@ displasia de cadera es musculoesquelético y pediatría). Sin la clave, el caso 
 - En el paso 3, el panel **Clasificación** resume cuántos casos hay en cada segmento → área y agrega o quita una
   pareja a todos los casos marcados de una vez. Cambiar la clasificación, ahí o en el formulario del caso, no
   retira el sello de verificado: el sello cubre lo que el radiólogo revisó.
+
+### Dificultad y modo sin alternativas
+
+Cada caso puede llevar `dificultad` (`{ nivel 1–4, motivo, por }`) y `requiere_opciones`. La dificultad es interna:
+el residente no la ve y el tablero ordena con ella las filas. Se asigna por el contenido y la bibliografía, con el
+currículo europeo de la ESR como referente (rúbrica en `docs/guia-estilo-ia.md`), nunca por cuántos aciertan. Sin
+ella, el caso cuenta como nivel 2 y el validador solo avisa. `requiere_opciones: true` marca los enunciados que no se
+contestan con las opciones tapadas: en el modo sin alternativas salen con sus opciones. Las dos son metadatos, como la
+clasificación: el panel «Dificultad y modo sin alternativas» del paso 3 las cambia en bloque y no retira sellos.
 
 Una respuesta de la IA que llega cortada (los chats tienen un límite de largo) ya no se pierde: el estudio carga los
 casos que llegaron enteros y ofrece el pedido para que la IA siga. Las instrucciones le piden cerrar el JSON en un
@@ -214,6 +225,10 @@ así que no depende de la sala en vivo ni de sus reglas.
 1. El armado propone las columnas: por el área de `clasificacion` si hay varios temas clasificados, si no por lo que va
    antes de « · » en el `tema` de cada caso (los grupos chicos se juntan hasta llenar una columna), y si no, un tema
    por columna. El presentador las renombra, junta o cambia, y elige casilla doble, ronda final y casos para comparar.
+   Dentro de cada columna el valor sube con la `dificultad` (3 filas: niveles 1-2-3; 4: 1-2-3-4; 5: 1-2-2-3-4; si no
+   hay un caso de ese nivel, el más cercano). La casilla doble prefiere los niveles 3 y 4, y la final el más alto.
+   «Alternativas»: a pedido (tecla O, como antes), nunca (se responde sin ellas; los casos con `requiere_opciones`
+   las muestran solos y el armado los evita) o siempre a la vista.
 2. Puntaje: acierto +valor; error −valor (se puede desactivar; en la casilla doble siempre se pierde lo apostado).
    Casilla doble: apuesta hasta el puntaje propio o el valor más alto del tablero. Final: apuesta hasta el puntaje.
 3. Después de cada casilla, diapositivas armadas con lo que el caso ya trae: respuesta con la figura y sus `marcas`,
