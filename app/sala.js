@@ -340,17 +340,25 @@ async function entrar(c, rol) {
   }
   try {
     ({ paquete, fuentes, imagen: srcImagen } = await cargarPaquete(info.tema));
-  } catch (e) {
-    app.innerHTML = panel("No se pudo cargar el tema", e.message);
-    return;
+  } catch {
+    return salaSinTema(`La sala ${c} usa un tema que ya no está publicado (${info.tema}).`);
   }
   casoPorId = new Map(paquete.casos.map((caso) => [caso.id, caso]));
   if (info.casos.some((id) => !casoPorId.has(id))) {
-    app.innerHTML = panel("Faltan casos en este sitio",
-      "La sala usa casos que esta versión del sitio no tiene (por ejemplo, borradores de un ensayo local).");
-    return;
+    return salaSinTema(`La sala ${c} usa casos que el tema ya no tiene: se editó después de crearla.`);
   }
   suscribir();
+}
+
+// Una sala guardada en este navegador cuyo tema se retiró o cambió no se puede jugar. Antes la página
+// se quedaba ahí cada vez que se abría, porque la sesión guardada volvía a entrar a la misma sala.
+async function salaSinTema(mensaje) {
+  if (soyHost) {
+    await remove(ref(db, `indice_salas/${codigo}`)).catch(() => {});
+    await remove(ref(db, `salas/${codigo}`)).catch(() => {});
+  }
+  borrarSesion();
+  pantallaInicio("", `${mensaje} ${soyHost ? "La cerré; crea otra." : "Pídele al presentador el código de otra."}`);
 }
 
 function suscribir() {
