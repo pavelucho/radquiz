@@ -241,7 +241,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
    `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
-   2026-09-23 y la web a 2026-10-02 (desplegada con el código de `cfa307e`). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
+   2026-09-23 y la web a 2026-10-02 (desplegada con el código de `bdc51db`, el Tabú). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
    sin commit; hay que desplegar con la carpeta limpia o desde una copia de `main` (`git worktree add … origin/main`).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
