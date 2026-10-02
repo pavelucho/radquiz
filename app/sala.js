@@ -7,10 +7,14 @@ import {
   getDatabase, ref, set, get, update, remove, onValue, serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 import { firebaseConfig, APP_ANONIMA } from "./firebase-config.js";
-import { $, esc, md, cargarJSON, credito, barajar, sello, leerTanda, totalTanda } from "./comun.js";
+import { $, esc, md, cargarJSON, credito, barajar, sello, leerTanda, totalTanda, nivelDe } from "./comun.js";
 import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
 import { reportar } from "./reportar.js";
 import { qrDataURI } from "./qr.js";
+import {
+  MODOS, modoDe, esSupervivencia, esRescate, armarSecuencia, vivos, puedeVolver, puedeResponder, habilitados,
+  resolverRonda, decidida, siguiente, faltanParaRescate, numeroDe, clasificacion,
+} from "./supervivencia.js";
 
 const LETRAS = "ABCDE";
 const LETRAS_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -28,6 +32,9 @@ let info = null;
 let estado = null;
 let jugadores = {};
 let puntajes = {};
+let eliminados = {};           // supervivencia: uid → caso en que cayó
+let rescatados = {};           // supervivencia con rescate: uid → caso en que volvió
+const marcandoTarde = new Set();  // presentador: quienes entraron con la partida empezada, mientras se escribe
 let respuestasActual = {};     // solo el presentador: respuestas de la pregunta en curso
 let paquete = null;
 let fuentes = null;
@@ -191,6 +198,8 @@ async function pantallaCrear() {
     <p class="eyebrow">Presentador</p>
     <h2>Crear sala</h2>
     <label class="grid-label">Tema <select id="tema">${opciones}</select></label>
+    <label class="grid-label">Modo <select id="modo">${Object.entries(MODOS).map(([v, t]) => `<option value="${v}">${esc(t)}</option>`).join("")}</select></label>
+    <p class="src" id="nota-modo"></p>
     <div class="campos">
       <label class="grid-label">Tiempo por caso <select id="duracion">${DURACIONES.map((s) => `<option value="${s}" ${s === 45 ? "selected" : ""}>${s} s</option>`).join("")}</select></label>
       <label class="grid-label">Cuántos casos <input type="number" id="cuantos" min="1" step="1" inputmode="numeric"></label>
@@ -198,7 +207,7 @@ async function pantallaCrear() {
     <p class="src" id="nota-tanda"></p>
     <div class="casillas">
       <label class="row"><input type="checkbox" id="sin-verificar"> Incluir casos sin verificar</label>
-      <label class="row"><input type="checkbox" id="mezclar"> Mezclar el orden de los casos</label>
+      <label class="row" id="fila-mezclar"><input type="checkbox" id="mezclar"> Mezclar el orden de los casos</label>
       ${hayBorradores ? `<label class="row"><input type="checkbox" id="borradores"> Incluir casos sin publicar (ensayo en esta computadora)</label>` : ""}
     </div>
     <div class="row"><button class="primary lg" type="submit">Crear sala</button><a class="boton lg" href="sala.html">Cancelar</a></div>
@@ -220,14 +229,24 @@ async function pantallaCrear() {
       campo.disabled = !total;
     }
     const cuantos = leerTanda(campo) || Math.min(total, TOPE_CASOS);
+    const modo = $("#modo").value;
+    // En supervivencia el orden lo pone la dificultad (de fácil a difícil): «Mezclar» no se aplica.
+    $("#fila-mezclar").hidden = modo !== "clasico";
+    $("#nota-modo").textContent = {
+      clasico: "Todos responden todos los casos y gana quien suma más puntos.",
+      supervivencia: "Una vida: quien falla o no responde queda eliminado. Si fallan todos los que siguen, no cae nadie. Gana el último en pie; los casos van del más fácil al más difícil.",
+      rescate: `Como Supervivencia, y cada 3 casos uno de rescate, más fácil: el eliminado que acierta vuelve (una vez por persona; en el último tercio ya no hay rescates).`,
+    }[modo];
     $("#nota-tanda").textContent = !total
       ? "Ningún caso cumple el filtro: marca «Incluir casos sin verificar»."
+      : modo !== "clasico"
+        ? `${cuantos === total ? `Los ${total} casos` : `${cuantos} ${cuantos === 1 ? "caso" : "casos"} al azar entre los ${total}`}, del más fácil al más difícil${modo === "rescate" ? "; los de rescate salen de los que sobran o, si no sobran, de estos" : ""}.`
       : cuantos === total ? (total === 1 ? "La sesión usa el único caso." : `La sesión usa los ${total} casos.`)
       : $("#mezclar").checked ? `${cuantos} ${cuantos === 1 ? "caso" : "casos"} al azar entre los ${total}.`
       : cuantos === 1 ? `El primero de los ${total} casos del tema; con «Mezclar» sale uno al azar.`
       : `Los primeros ${cuantos} de los ${total} casos del tema; con «Mezclar» salen al azar.`;
   }
-  ["#tema", "#mezclar", "#sin-verificar", "#borradores"].forEach((sel) => {
+  ["#tema", "#modo", "#mezclar", "#sin-verificar", "#borradores"].forEach((sel) => {
     const control = $(sel);
     if (control) control.onchange = refrescar;
   });
@@ -250,6 +269,7 @@ async function pantallaCrear() {
       duracion: Number($("#duracion").value),
       cuantos: leerTanda(campo),
       mezclar: $("#mezclar").checked,
+      modo: $("#modo").value,
       sinVerificar: $("#sin-verificar").checked,
       borradores: Boolean($("#borradores") && $("#borradores").checked),
     }).catch((err) => aviso("No se pudo crear la sala: " + err.message));
@@ -274,12 +294,20 @@ async function limpiarSalasViejas() {
   } catch { /* la limpieza es un extra: si falla, se intenta en la próxima sala */ }
 }
 
-async function crearSala({ tema, duracion, cuantos, mezclar, borradores, sinVerificar }) {
+async function crearSala({ tema, duracion, cuantos, mezclar, modo, borradores, sinVerificar }) {
   const { paquete: pkg } = await cargarPaquete(tema);
   let casos = pkg.casos.filter((c) => c.estado === "publicado" || borradores);
   if (!sinVerificar && !borradores) casos = casos.filter((c) => c.revisor);
-  if (mezclar) casos = barajar(casos);
-  casos = casos.slice(0, cuantos || TOPE_CASOS);   // mezclados = al azar; sin mezclar = los primeros
+  let rescates = [];
+  if (modo !== "clasico") {
+    const secuencia = armarSecuencia(casos, { cuantos, rescate: modo === "rescate", nivelDe, barajar, tope: TOPE_CASOS });
+    const porId = new Map(casos.map((c) => [c.id, c]));
+    casos = secuencia.casos.map((id) => porId.get(id));
+    rescates = secuencia.rescates;
+  } else {
+    if (mezclar) casos = barajar(casos);
+    casos = casos.slice(0, cuantos || TOPE_CASOS);   // mezclados = al azar; sin mezclar = los primeros
+  }
   if (!casos.length) {
     aviso("No hay casos que cumplan el filtro. Prueba marcando «Incluir casos sin verificar».", true);
     return;
@@ -294,7 +322,10 @@ async function crearSala({ tema, duracion, cuantos, mezclar, borradores, sinVeri
     const nuevo = codigoAleatorio();
     try {
       await set(ref(db, `salas/${nuevo}`), {
-        info: { host: uid, creada: serverTimestamp(), tema, titulo: pkg.titulo, duracion, casos: casos.map((c) => c.id), orden },
+        info: {
+          host: uid, creada: serverTimestamp(), tema, titulo: pkg.titulo, duracion, casos: casos.map((c) => c.id), orden,
+          ...(modo !== "clasico" ? { modo } : {}), ...(rescates.length ? { rescates } : {}),
+        },
         estado: { fase: "lobby", indice: 0 },
       });
     } catch (e) {
@@ -373,9 +404,29 @@ function suscribir() {
       if (!soyHost && ["revelar", "ranking", "fin"].includes(estado.fase)) leerMiResultado(estado.indice);
       render();
     }, () => confirmarCierre()),
-    onValue(salaRef("jugadores"), (s) => { jugadores = s.val() || {}; jugadoresListos = true; render(); }),
+    onValue(salaRef("jugadores"), (s) => { jugadores = s.val() || {}; jugadoresListos = true; marcarTarde(); render(); }),
     onValue(salaRef("puntajes"), (s) => { puntajes = s.val() || {}; render(); }),
   ];
+  if (esSupervivencia(info)) {
+    suscripciones.push(
+      onValue(salaRef("eliminados"), (s) => { eliminados = s.val() || {}; render(true); }),
+      onValue(salaRef("rescatados"), (s) => { rescatados = s.val() || {}; render(true); }),
+    );
+  }
+}
+
+// Supervivencia: quien entra con la partida empezada no esquivó los casos anteriores, así que entra eliminado
+// (con rescate, puede volver como los demás). Lo marca el presentador, que es quien escribe en la sala.
+function marcarTarde() {
+  if (!soyHost || !esSupervivencia(info) || typeof info.empezo !== "number" || !estado || estado.fase === "lobby") return;
+  const cambios = {};
+  for (const [id, j] of Object.entries(jugadores)) {
+    if (j.unido > info.empezo && !(id in eliminados) && !marcandoTarde.has(id)) {
+      marcandoTarde.add(id);
+      cambios[`eliminados/${id}`] = estado.indice;
+    }
+  }
+  if (Object.keys(cambios).length) update(salaRef(), cambios).catch(() => {}).finally(() => marcandoTarde.clear());
 }
 
 function escucharRespuestas() {
@@ -476,7 +527,8 @@ function hostLobby() {
         ${bloqueQR(enlace)}
       </div>
       <p class="src">Enlace directo: ${esc(enlace)}</p>
-      <p class="muted">${esc(info.titulo)} · ${info.casos.length} casos · ${info.duracion} s por caso</p>
+      <p class="muted">${esc(info.titulo)} · ${esSupervivencia(info) ? `${esc(MODOS[modoDe(info)])} · ${numeroDe(0, info).total} casos${info.rescates?.length ? ` y ${info.rescates.length} de rescate` : ""}`
+        : `${info.casos.length} casos`} · ${info.duracion} s por caso</p>
       <div class="row"><button class="primary lg" id="empezar">Empezar</button><button class="lg" id="cerrar">Cerrar sala</button></div>
     </div>
     <div class="panel">
@@ -490,8 +542,40 @@ function hostLobby() {
 }
 
 function irA(indice) {
-  return set(salaRef("estado"), { fase: "pregunta", indice, inicio: serverTimestamp() })
+  const nuevo = { fase: "pregunta", indice, inicio: serverTimestamp(), ...(esRescate(info, indice) ? { rescate: true } : {}) };
+  // Al empezar una supervivencia se anota cuándo: quien entre después, entra eliminado.
+  const empieza = esSupervivencia(info) && estado.fase === "lobby" && typeof info.empezo !== "number";
+  if (empieza) info.empezo = ahora();
+  return (empieza ? update(salaRef(), { estado: nuevo, "info/empezo": serverTimestamp() }) : set(salaRef("estado"), nuevo))
     .catch((e) => aviso("No se pudo avanzar: " + e.message));
+}
+
+// El caso que sigue, o null si no queda ninguno. En supervivencia se saltan los rescates sin nadie que pueda volver.
+function proximo() {
+  if (esSupervivencia(info)) return siguiente(estado.indice, info, { jugadores, eliminados, rescatados });
+  return estado.indice + 1 < info.casos.length ? estado.indice + 1 : null;
+}
+const terminada = () => esSupervivencia(info) && decidida(jugadores, eliminados, { info, indice: estado.indice, rescatados });
+
+// «7 / 20», sin contar los casos de rescate, y el aviso de la ronda de rescate.
+function cabezaCaso(revelado, caso) {
+  const { numero, total, rescate } = numeroDe(estado.indice, info);
+  const enPie = esSupervivencia(info) ? vivos(jugadores, eliminados).length : 0;
+  return `<div class="qhead">${rescate ? `<span class="sv-rescate">Ronda de rescate</span>`
+      : `<span class="qnum">${numero}<small> / ${total}</small></span>`}
+    ${esSupervivencia(info) ? `<span class="chip sv-quedan">${enPie} de ${Object.keys(jugadores).length} en pie</span>` : ""}
+    ${revelado ? `<span class="tema">${esc(caso.tema)}</span>` : ""}</div>`;
+}
+
+// Lo que pasó en la ronda, para el proyector y para cada celular.
+function resultadoRonda() {
+  const i = estado.indice;
+  const nombres = (ids) => ids.map((id) => esc(jugadores[id]?.nombre || "?")).join(", ");
+  // Quien entró durante este caso también queda marcado con él, pero no «cayó»: se reconoce porque entró después.
+  const caen = Object.keys(eliminados).filter((id) => eliminados[id] === i && jugadores[id]
+    && !(jugadores[id].unido > (typeof estado.inicio === "number" ? estado.inicio : Infinity)));
+  const vuelven = Object.keys(rescatados).filter((id) => rescatados[id] === i && jugadores[id]);
+  return { caen, vuelven, salvados: Boolean(estado.salvados), nombres };
 }
 
 function conteoPorOpcion() {
@@ -506,20 +590,23 @@ function hostCaso() {
   const revelado = estado.fase === "revelar";
   const conteo = conteoPorOpcion();
   const total = Object.keys(respuestasActual).length;
-  const ultimo = estado.indice === info.casos.length - 1;
+  const sigue = proximo();
+  const fin = sigue === null || terminada();
   const opciones = orden.map((original, pos) => `<div class="opt ${revelado ? (original === caso.correcta ? "right" : "wrong") : ""}" data-k="${pos}">
       <span class="fill" style="width:${revelado && total ? Math.round((100 * conteo[original]) / total) : 0}%"></span>
       <span class="k">${LETRAS[pos]}</span><span>${esc(caso.opciones[original])}</span><span class="n">${revelado ? conteo[original] : ""}</span></div>`).join("");
   const letra = LETRAS[orden.indexOf(caso.correcta)];
   const imagenes = visor(caso, revelado);
   app.innerHTML = `
-    <div class="qhead"><span class="qnum">${estado.indice + 1}<small> / ${info.casos.length}</small></span>${revelado ? `<span class="tema">${esc(caso.tema)}</span>` : ""}</div>
+    ${cabezaCaso(revelado, caso)}
+    ${!revelado && estado.rescate ? `<p class="sv-aviso">Responden todos. Los que siguen en pie no arriesgan nada; el eliminado que acierta, vuelve.</p>` : ""}
+    ${revelado && esSupervivencia(info) ? avisoRonda() : ""}
     <section class="stage ${imagenes ? "" : "sin-imagen"}">
       ${imagenes}
       <div class="pregunta">
         <div class="stem md">${md(caso.enunciado)}</div>
         ${revelado ? "" : `<div class="reloj" id="reloj"><div class="row"><span class="clock" id="clock">${info.duracion}</span>
-          <span class="chip" id="respondieron">${total}/${Object.keys(jugadores).length} respondieron</span></div><div class="timer"><i id="bar"></i></div></div>`}
+          <span class="chip" id="respondieron">${total}/${cuantosResponden()} respondieron</span></div><div class="timer"><i id="bar"></i></div></div>`}
         <div class="opts">${opciones}</div>
         ${revelado ? `<div class="exp md"><div class="ans">Respuesta: ${letra}. ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>
           ${caso.perla ? `<div class="pearl md"><b>Perla:</b> ${md(caso.perla)}</div>` : ""}
@@ -529,7 +616,9 @@ function hostCaso() {
     </section>
     <div class="ctrl">
       ${revelado
-        ? `<button id="ranking">Ver ranking</button>${ultimo ? `<button class="primary" id="fin">Terminar</button>` : `<button class="primary" id="siguiente">Siguiente caso</button>`}`
+        ? `<button id="ranking">${esSupervivencia(info) ? "Ver quién sigue" : "Ver ranking"}</button>${fin
+          ? `<button class="primary" id="fin">${terminada() ? "Ver al ganador" : "Terminar"}</button>`
+          : `<button class="primary" id="siguiente">Siguiente caso</button>`}`
         : `<button class="primary" id="revelar">Revelar respuesta</button>`}
       <span class="spacer"></span><button id="cerrar">Cerrar sala</button>
     </div>`;
@@ -538,20 +627,36 @@ function hostCaso() {
     iniciarReloj();
   } else {
     $("#ranking").onclick = () => set(salaRef("estado/fase"), "ranking");
-    if (ultimo) $("#fin").onclick = () => set(salaRef("estado/fase"), "fin");
-    else $("#siguiente").onclick = () => irA(estado.indice + 1);
+    if (fin) $("#fin").onclick = () => set(salaRef("estado/fase"), "fin");
+    else $("#siguiente").onclick = () => irA(sigue);
   }
   $("#cerrar").onclick = cerrarSala;
   const botonReporte = $("#reportar");
   if (botonReporte) botonReporte.onclick = () => reportar(info.tema, caso.id, botonReporte);
 }
 
+// Cuántos pueden responder este caso: en la sala clásica y en un rescate, todos; si no, los que siguen en pie.
+const cuantosResponden = () => (esSupervivencia(info)
+  ? habilitados(jugadores, eliminados, Boolean(estado.rescate)).length : Object.keys(jugadores).length);
+
+// En el proyector, después de revelar: quiénes cayeron o volvieron.
+function avisoRonda() {
+  const { caen, vuelven, salvados, nombres } = resultadoRonda();
+  if (estado.rescate) {
+    return vuelven.length ? `<p class="sv-aviso ok">Vuelven al juego: ${nombres(vuelven)}</p>`
+      : `<p class="sv-aviso">Nadie vuelve en este rescate.</p>`;
+  }
+  if (salvados) return `<p class="sv-aviso ok">Fallaron todos los que seguían en pie: ¡se salvan todos!</p>`;
+  return caen.length ? `<p class="sv-aviso mal">${caen.length === 1 ? "Cae" : `Caen ${caen.length}`}: ${nombres(caen)}</p>`
+    : `<p class="sv-aviso ok">Nadie cae en este caso.</p>`;
+}
+
 function actualizarPregunta() {
   if (!soyHost) return;
   const total = Object.keys(respuestasActual).length;
+  const n = cuantosResponden();
   const chip = $("#respondieron");
-  if (chip) chip.textContent = `${total}/${Object.keys(jugadores).length} respondieron`;
-  const n = Object.keys(jugadores).length;
+  if (chip) chip.textContent = `${total}/${n} respondieron`;
   if (n > 0 && total >= n) revelar();
 }
 
@@ -587,25 +692,54 @@ async function revelar() {
     const ganados = puntos(respuesta, caso);
     if (ganados) cambios[`puntajes/${jugador}`] = (puntajes[jugador] || 0) + ganados;
   }
+  if (esSupervivencia(info)) {
+    const { caen, vuelven, salvados } = resolverRonda({
+      jugadores, eliminados, rescatados, rescate: Boolean(estado.rescate),
+      acerto: (id) => respuestas[id]?.opcion === caso.correcta,
+    });
+    caen.forEach((id) => { cambios[`eliminados/${id}`] = estado.indice; });
+    vuelven.forEach((id) => {
+      cambios[`eliminados/${id}`] = null;
+      cambios[`rescatados/${id}`] = estado.indice;
+    });
+    if (salvados) cambios["estado/salvados"] = true;
+  }
   await update(salaRef(), cambios).catch((e) => { revelando = false; aviso("No se pudo revelar: " + e.message); });
 }
 
 function hostRanking(final) {
-  const ultimo = estado.indice === info.casos.length - 1;
-  app.innerHTML = `<section class="stack angosto">
+  const sigue = proximo();
+  const fin = sigue === null || terminada();
+  app.innerHTML = `<section class="stack ${esSupervivencia(info) ? "" : "angosto"}">
     <p class="eyebrow">${esc(info.titulo)}</p>
-    <h1>${final ? "Resultado final" : "Ranking"}</h1>
-    ${listaRanking(final ? 10 : 5)}
+    ${esSupervivencia(info) ? sobrevivientes(final) : `<h1>${final ? "Resultado final" : "Ranking"}</h1>${listaRanking(final ? 10 : 5)}`}
     <div class="ctrl">
       ${final ? `<button class="primary" id="cerrar">Cerrar sala</button>`
-        : ultimo ? `<button class="primary" id="fin">Terminar</button>` : `<button class="primary" id="siguiente">Siguiente caso</button>`}
+        : fin ? `<button class="primary" id="fin">${terminada() ? "Ver al ganador" : "Terminar"}</button>`
+          : `<button class="primary" id="siguiente">Siguiente caso</button>`}
       <span class="spacer"></span>${final ? "" : `<button id="cerrar">Cerrar sala</button>`}
     </div></section>`;
   if (!final) {
-    if (ultimo) $("#fin").onclick = () => set(salaRef("estado/fase"), "fin");
-    else $("#siguiente").onclick = () => irA(estado.indice + 1);
+    if (fin) $("#fin").onclick = () => set(salaRef("estado/fase"), "fin");
+    else $("#siguiente").onclick = () => irA(sigue);
   }
   $("#cerrar").onclick = cerrarSala;
+}
+
+// Supervivencia: los que siguen en pie, grandes, y debajo los eliminados con el caso en que cayeron. Al final, el
+// ganador (o los que llegaron en pie al último caso).
+function sobrevivientes(final) {
+  const lista = clasificacion(jugadores, eliminados, puntajes);
+  const enPie = lista.filter((r) => r.cayo === null);
+  const caidos = lista.filter((r) => r.cayo !== null);
+  const titulo = !final ? `Siguen en pie: ${enPie.length} de ${lista.length}`
+    : enPie.length === 1 ? `Gana ${esc(enPie[0].nombre)}`
+      : enPie.length ? `Llegaron al final: ${enPie.length}` : "Resultado final";
+  const tarjeta = (r, clase) => `<span class="pl ${clase} ${r.id === uid ? "yo" : ""}" data-inicial="${esc(inicial(r.nombre))}">${esc(r.nombre)}
+    <small>${r.cayo === null ? `${r.pts} pts` : `cayó en el caso ${numeroDe(r.cayo, info).numero}`}</small></span>`;
+  return `<h1 class="${final && enPie.length === 1 ? "sv-ganador" : ""}">${titulo}</h1>
+    ${enPie.length ? `<div class="players sv-en-pie">${enPie.map((r) => tarjeta(r, "")).join("")}</div>` : ""}
+    ${caidos.length ? `<h3>Eliminados</h3><div class="players">${caidos.map((r) => tarjeta(r, "caido")).join("")}</div>` : ""}`;
 }
 
 async function cerrarSala() {
@@ -627,11 +761,17 @@ function vistaJugador() {
     app.innerHTML = `<section class="panel stack angosto">
       <span class="tema">Conectado como</span><div class="big nombre">${esc(yo.nombre)}</div>
       <p class="esperando"><i><b></b></i>Listo. La partida empieza cuando el presentador pulse Empezar.</p>
+      ${esSupervivencia(info) ? `<p class="sv-aviso"><b>${esc(MODOS[modoDe(info)])}.</b> Una vida: si fallas o no respondes,
+        quedas eliminado.${info.rescates?.length ? " Cada tanto hay una ronda de rescate: si aciertas, vuelves (una vez)." : ""}</p>` : ""}
       <div class="row"><button id="salir">Salir de la sala</button></div></section>`;
     $("#salir").onclick = salir;
     return;
   }
   if (fase === "pregunta" || fase === "revelar") return jugadorCaso();
+  if (esSupervivencia(info)) {
+    app.innerHTML = `<section class="stack">${miEstado(false)}${sobrevivientes(fase === "fin")}</section>`;
+    return;
+  }
   const lista = ranking();
   const posicion = lista.findIndex((r) => r.id === uid) + 1;
   app.innerHTML = `<section class="stack angosto">
@@ -641,14 +781,51 @@ function vistaJugador() {
     ${listaRanking(fase === "fin" ? 10 : 5)}</section>`;
 }
 
+// Supervivencia: cómo está este jugador. Durante el caso, si puede responder y qué arriesga; al revelar, qué le pasó.
+function miEstado(revelado) {
+  if (!esSupervivencia(info)) return "";
+  const i = estado.indice;
+  const fuera = uid in eliminados;
+  const tarde = (jugadores[uid]?.unido || 0) > (info.empezo ?? Infinity);
+  const caja = (clase, texto) => `<p class="sv-estado ${clase}">${texto}</p>`;
+  if (estado.fase === "ranking" || estado.fase === "fin") {
+    const solo = vivos(jugadores, eliminados).length === 1;
+    if (!fuera) return caja("vivo", estado.fase !== "fin" ? "Sigues en pie" : solo ? "¡Ganaste!" : "Llegaste en pie hasta el final");
+    const faltan = estado.fase === "ranking" && puedeVolver(uid, eliminados, rescatados) ? faltanParaRescate(i, info) : null;
+    return caja("caido", `Estás eliminado.${faltan ? ` Rescate dentro de ${faltan === 1 ? "1 caso" : `${faltan} casos`}.` : ""}`);
+  }
+  if (revelado) {
+    if (rescatados[uid] === i) return caja("vuelve", "¡Vuelves al juego!");
+    if (fuera && eliminados[uid] === i && !((jugadores[uid]?.unido || 0) > (estado.inicio ?? Infinity))) return caja("caido", "Caíste");
+    if (!fuera && estado.salvados) return caja("vivo", "Fallaron todos: ¡se salvan todos!");
+    if (!fuera) return caja("vivo", "Sigues en pie");
+    if (estado.rescate) {
+      const otro = puedeVolver(uid, eliminados, rescatados) ? faltanParaRescate(i, info) : null;
+      return caja("caido", `Esta vez no: sigues eliminado.${otro ? ` Otro rescate dentro de ${otro === 1 ? "1 caso" : `${otro} casos`}.` : ""}`);
+    }
+  }
+  if (!fuera) return estado.rescate ? caja("vivo", "Ronda de rescate: tú sigues en pie y respondes sin riesgo") : caja("vivo", "Sigues en pie");
+  if (estado.rescate) {
+    return puedeVolver(uid, eliminados, rescatados) ? caja("vuelve", "¡Ronda de rescate! Si aciertas, vuelves al juego")
+      : caja("caido", "Ya usaste tu rescate: respondes solo por los puntos");
+  }
+  const faltan = puedeVolver(uid, eliminados, rescatados) ? faltanParaRescate(i, info) : null;
+  const motivo = tarde && !(uid in rescatados)
+    ? "Entraste con la partida empezada: miras como espectador" : `Eliminado en el caso ${numeroDe(eliminados[uid], info).numero}`;
+  return caja("caido", `${motivo}.${faltan ? ` Rescate dentro de ${faltan === 1 ? "1 caso" : `${faltan} casos`}.` : ""}`);
+}
+
 function jugadorCaso() {
   const indice = estado.indice;
   const caso = casoEn(indice);
   const orden = ordenEn(indice);
   const revelado = estado.fase === "revelar";
+  const bloqueado = esSupervivencia(info) && !puedeResponder(uid, eliminados, Boolean(estado.rescate));
   const elegida = miRespuesta.has(indice) ? miRespuesta.get(indice) : miResultado.get(indice)?.opcion;
   let arriba = "";
-  if (revelado) {
+  if (revelado && bloqueado) {
+    arriba = "";
+  } else if (revelado) {
     const resultado = miResultado.get(indice);
     const acierto = elegida === caso.correcta;
     arriba = elegida === undefined
@@ -661,15 +838,16 @@ function jugadorCaso() {
     let clase = "";
     if (revelado) clase = original === caso.correcta ? "right" : "wrong";
     if (original === elegida) clase += " mine";
-    return `<button class="opt ${clase}" data-k="${pos}" data-original="${original}" ${revelado || elegida !== undefined ? "disabled" : ""}>
+    return `<button class="opt ${clase}" data-k="${pos}" data-original="${original}" ${revelado || bloqueado || elegida !== undefined ? "disabled" : ""}>
       <span class="k">${LETRAS[pos]}</span><span>${esc(caso.opciones[original])}</span></button>`;
   }).join("");
   const imagenes = visor(caso, revelado);
   app.innerHTML = `
-    <div class="qhead"><span class="qnum">${indice + 1}<small> / ${info.casos.length}</small></span>${revelado ? `<span class="tema">${esc(caso.tema)}</span>` : ""}</div>
+    ${cabezaCaso(revelado, caso)}
     <section class="stage ${imagenes ? "" : "sin-imagen"}">
       ${imagenes}
       <div class="pregunta">
+        ${miEstado(revelado)}
         ${arriba}
         <div class="stem md">${md(caso.enunciado)}</div>
         ${revelado ? "" : `<div class="timer"><i id="bar"></i></div>`}
@@ -687,6 +865,7 @@ function jugadorCaso() {
 async function responder(original) {
   const indice = estado.indice;
   if (miRespuesta.has(indice) || estado.fase !== "pregunta") return;
+  if (esSupervivencia(info) && !puedeResponder(uid, eliminados, Boolean(estado.rescate))) return;
   miRespuesta.set(indice, original);
   render(true);
   try {

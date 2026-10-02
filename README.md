@@ -213,7 +213,24 @@ Sin secreto los workflows avisan y no fallan, y queda el camino a mano: `tools/d
    cuando alguien crea una sala nueva.
 
 Las reglas (`database.rules.json`) impiden que un jugador cambie el estado, toque puntajes, escriba por otro, responda
-dos veces, responda fuera de tiempo o lea las respuestas ajenas antes de revelarlas.
+dos veces, responda fuera de tiempo o lea las respuestas ajenas antes de revelarlas; en supervivencia, también que
+responda un eliminado fuera de una ronda de rescate.
+
+### Supervivencia
+
+Modo de la sala (`info.modo`: `supervivencia` o `rescate`; sin la clave, clásico). La lógica, sin pantalla ni Firebase,
+está en `app/supervivencia.js`.
+
+- Una vida: quien falla o no responde queda en `eliminados/<uid>` (el índice del caso). Si fallan todos los que seguían
+  en pie, no cae nadie (`estado.salvados`). Gana el último en pie.
+- `armarSecuencia` elige los casos al azar y los ordena por `dificultad`. Con rescate, cada 3 casos va uno de rescate
+  (los de nivel más bajo, de los que sobran; si no sobran, se ceden casos principales) y nunca en el último tercio;
+  sus posiciones van en `info.rescates` y la ronda lleva `estado.rescate`.
+- En un rescate responden todos; el eliminado que acierta sale de `eliminados` y queda en `rescatados/<uid>` (una vez
+  por persona). Un rescate sin nadie que pueda volver se salta, y la partida no termina mientras quede uno con alguien
+  que pueda volver.
+- `info.empezo` es cuándo se pulsó Empezar: el presentador marca como eliminado a quien entra después.
+- Todo lo escribe el presentador al revelar (igual que los puntajes).
 
 Para ensayar con casos sin publicar: correr el sitio en la computadora y marcar «Incluir casos sin publicar» al crear
 la sala. Los jugadores tienen que abrir esa misma dirección (misma red Wi-Fi: `python3 -m http.server 8000 --bind 0.0.0.0`

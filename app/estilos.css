@@ -667,6 +667,40 @@ button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
 .rk.me { border-color: var(--marca); box-shadow: inset 0 0 0 1px var(--marca); }
 .rk.me span:nth-child(2)::after { content: "  · tú"; color: var(--marca); font-weight: 600; }
 
+/* supervivencia: en pie (verde, con ✓), eliminado (apagado y tachado, con ✗) y la ronda de rescate en el amarillo
+   de la marca. El ícono dice lo mismo que el color. */
+.sv-quedan { color: var(--ok); border-color: var(--ok-borde); background: var(--ok-suave); }
+.sv-rescate {
+  display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px;
+  font-size: 15px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--marca-tinta); background: var(--marca);
+}
+.sv-aviso {
+  padding: 10px 14px; font-size: 16px; line-height: 1.45; color: var(--tinta);
+  background: var(--marca-suave); border: 1px solid var(--marca-borde); border-radius: var(--r);
+}
+.sv-aviso.ok { background: var(--ok-suave); border-color: var(--ok-borde); }
+.sv-aviso.mal { background: var(--mal-suave); border-color: var(--mal-borde); }
+.sv-aviso.ok, .sv-aviso.mal { font-size: clamp(17px, 1.7vw, 22px); font-weight: 600; }
+.sv-estado {
+  display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px;
+  font-size: 17px; font-weight: 650; line-height: 1.3;
+}
+.sv-estado::before { content: ""; width: 26px; height: 26px; flex: none; border-radius: 50%; background: center / 16px no-repeat; }
+.sv-estado.vivo { color: var(--ok); background: var(--ok-suave); border: 1px solid var(--ok-borde); }
+.sv-estado.vivo::before { background-color: var(--ok); background-image: var(--i-ok-oscuro); }
+.sv-estado.caido { color: var(--tinta-2); background: var(--panel-2); border: 1px solid var(--linea-2); }
+.sv-estado.caido::before { background-color: var(--mal); background-image: var(--i-mal-oscuro); }
+.sv-estado.vuelve { color: var(--marca); background: var(--marca-suave); border: 1px solid var(--marca-borde); }
+.sv-estado.vuelve::before { background-color: var(--marca); background-image: var(--i-ok-oscuro); }
+.pl small { font-size: 12.5px; font-weight: 500; color: var(--mute); font-variant-numeric: tabular-nums; }
+.sv-en-pie .pl { padding: 10px 16px 10px 10px; font-size: clamp(16px, 1.6vw, 21px); border-color: var(--ok-borde); background: var(--ok-suave); }
+.pl.caido { color: var(--mute); text-decoration: line-through; text-decoration-color: var(--linea-3); opacity: .75; }
+.pl.caido small { text-decoration: none; }
+.pl.caido::before { filter: grayscale(1); opacity: .6; }
+.pl.yo { box-shadow: inset 0 0 0 1px var(--marca); border-color: var(--marca); }
+.sv-ganador { font-size: clamp(40px, 6vw, 76px); font-stretch: 85%; color: var(--marca); }
+
 /* ------------------------------------------------------------------ tablero por equipos */
 /* Se proyecta: los valores y los puntajes van grandes, en la Plex condensada de los números de la sala. Una casilla
    jugada queda vacía, como en el programa, y no solo más apagada. */

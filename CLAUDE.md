@@ -202,9 +202,16 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   lo marcado. Carta = caso de imagen con respuesta corta (407 de 498 en `temas/`). Wake Lock y un pitido con WebAudio;
   la partida va en `localStorage` y una recarga en pleno turno vuelve en pausa. La carga de temas del tablero pasó a
   `app/catalogo.js`, compartido. Probado en el navegador (escritorio y 375 px) con ATM + RadCases MSK, no en un aula.
-  Ideas siguientes, ya planeadas con el autor: Supervivencia y Supervivencia con rescate en la sala en vivo (una vida;
-  si fallan todos no cae nadie; rescate cada 3 casos, uno por persona y no en el último tercio; responden todos), que
-  piden cambiar las reglas de `salas/`.
+- Supervivencia (2026-10-02): modo de la sala en vivo, «Supervivencia» o «Supervivencia con rescate» al crearla
+  (`info.modo`); lógica sin pantalla en `app/supervivencia.js`. Una vida: quien falla o no responde cae
+  (`eliminados/<uid>`); si fallan todos los que seguían en pie no cae nadie; gana el último en pie. Casos al azar y
+  ordenados por `dificultad`. Con rescate, cada 3 casos uno fácil (`info.rescates`, `estado.rescate`) en que responden
+  todos y el eliminado que acierta vuelve (`rescatados/<uid>`, una vez por persona); no hay rescates en el último
+  tercio, se salta el que no tiene a quién rescatar y la partida no se da por ganada mientras quede un rescate con
+  alguien que pueda volver. Quien entra tras Empezar (`info.empezo`) entra eliminado. Las reglas impiden que un
+  eliminado responda fuera de un rescate; se desplegaron el 2026-10-02 y son compatibles con las salas clásicas.
+  Probado de punta a punta contra producción con presentador y tres jugadores (caídas, «se salvan todos», rescate,
+  entrada tardía, ganador, rechazo de la base) y una sala clásica, no en un aula.
 - Servidor MCP (2026-10-01): `tools/mcp/servidor.mjs`, registrado en `.mcp.json`, para que Claude maneje el estudio en
   línea. Entra con Google como el autor (página en `localhost`, autorizado en Firebase Auth; sin cuenta de servicio),
   así que valen las mismas reglas. Reusa `app/validacion.js`, `app/instrucciones-ia.js` y `app/drive.js`; el ayudante
@@ -241,7 +248,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
    `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
-   2026-09-23 y la web a 2026-10-02 (desplegada con el código de `bdc51db`, el Tabú). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
+   2026-10-02 (supervivencia) y la web a 2026-10-02 (desplegada con el código de `bdc51db`, el Tabú). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
    sin commit; hay que desplegar con la carpeta limpia o desde una copia de `main` (`git worktree add … origin/main`).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
