@@ -3101,7 +3101,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-02",
@@ -3163,7 +3164,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-03",
@@ -3221,7 +3223,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-04",
@@ -3273,7 +3276,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-05",
@@ -3331,7 +3335,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-06",
@@ -3383,7 +3388,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-07",
@@ -3441,7 +3447,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-08",
@@ -3493,7 +3500,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-09",
@@ -3545,7 +3553,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-10",
@@ -3598,7 +3607,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-11",
@@ -3651,7 +3661,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-12",
@@ -3707,7 +3718,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-14",
@@ -3768,7 +3780,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-15",
@@ -3830,7 +3843,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-16",
@@ -3882,7 +3896,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-17",
@@ -3943,7 +3958,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "dis-18",
@@ -4004,7 +4020,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-01",
@@ -4061,7 +4078,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-02",
@@ -4113,7 +4131,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-03",
@@ -4165,7 +4184,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-04",
@@ -4221,7 +4241,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-05",
@@ -4277,7 +4298,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-06",
@@ -4329,7 +4351,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-07",
@@ -4381,7 +4404,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-08",
@@ -4436,7 +4460,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-09",
@@ -4488,7 +4513,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-10",
@@ -4549,7 +4575,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-11",
@@ -4597,7 +4624,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-12",
@@ -4652,7 +4680,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "sig-13",
@@ -4694,7 +4723,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-01",
@@ -4751,7 +4781,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-02",
@@ -4808,7 +4839,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-03",
@@ -4866,7 +4898,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-04",
@@ -4923,7 +4956,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-05",
@@ -4983,7 +5017,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-06",
@@ -5035,7 +5070,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-07",
@@ -5096,7 +5132,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-08",
@@ -5153,7 +5190,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-09",
@@ -5200,7 +5238,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-10",
@@ -5242,7 +5281,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-11",
@@ -5298,7 +5338,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-12",
@@ -5355,7 +5396,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-13",
@@ -5407,7 +5449,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-14",
@@ -5458,7 +5501,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-15",
@@ -5500,7 +5544,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ate-16",
@@ -5547,7 +5592,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-01",
@@ -5609,7 +5655,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-02",
@@ -5670,7 +5717,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-03",
@@ -5722,7 +5770,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-04",
@@ -5779,7 +5828,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-05",
@@ -5831,7 +5881,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-06",
@@ -5888,7 +5939,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-07",
@@ -5945,7 +5997,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-08",
@@ -5997,7 +6050,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-09",
@@ -6045,7 +6099,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-10",
@@ -6093,7 +6148,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-11",
@@ -6145,7 +6201,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-12",
@@ -6197,7 +6254,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-13",
@@ -6253,7 +6311,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-14",
@@ -6305,7 +6364,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-15",
@@ -6357,7 +6417,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-16",
@@ -6414,7 +6475,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-17",
@@ -6466,7 +6528,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "nod-18",
@@ -6522,7 +6585,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-01",
@@ -6578,7 +6642,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-02",
@@ -6635,7 +6700,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-05",
@@ -6692,7 +6758,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-07",
@@ -6749,7 +6816,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-08",
@@ -6801,7 +6869,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-09",
@@ -6858,7 +6927,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-10",
@@ -6910,7 +6980,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-11",
@@ -6958,7 +7029,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-12",
@@ -7014,7 +7086,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-13",
@@ -7066,7 +7139,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-14",
@@ -7123,7 +7197,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-15",
@@ -7174,7 +7249,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-16",
@@ -7230,7 +7306,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-17",
@@ -7287,7 +7364,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-18",
@@ -7329,7 +7407,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-19",
@@ -7377,7 +7456,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-20",
@@ -7419,7 +7499,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "via-21",
@@ -7462,7 +7543,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-01",
@@ -7523,7 +7605,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-02",
@@ -7579,7 +7662,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-03",
@@ -7635,7 +7719,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-04",
@@ -7691,7 +7776,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-05",
@@ -7744,7 +7830,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-06",
@@ -7786,7 +7873,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-07",
@@ -7842,7 +7930,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-08",
@@ -7898,7 +7987,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-09",
@@ -7958,7 +8048,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-10",
@@ -8003,7 +8094,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-11",
@@ -8069,7 +8161,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-12",
@@ -8125,7 +8218,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-13",
@@ -8171,7 +8265,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "enf-14",
@@ -8217,7 +8312,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-03",
@@ -8269,7 +8365,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-04",
@@ -8321,7 +8418,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-05",
@@ -8373,7 +8471,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-06",
@@ -8425,7 +8524,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-07",
@@ -8485,7 +8585,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-08",
@@ -8550,7 +8651,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-09",
@@ -8605,7 +8707,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-10",
@@ -8660,7 +8763,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-11",
@@ -8717,7 +8821,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-12",
@@ -8768,7 +8873,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-13",
@@ -8825,7 +8931,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-14",
@@ -8870,7 +8977,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-15",
@@ -8913,7 +9021,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-16",
@@ -8973,7 +9082,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-17",
@@ -9019,7 +9129,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-18",
@@ -9075,7 +9186,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-19",
@@ -9127,7 +9239,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-20",
@@ -9173,7 +9286,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-21",
@@ -9216,7 +9330,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "pat-22",
@@ -9257,7 +9372,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-01",
@@ -9324,7 +9440,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-02",
@@ -9381,7 +9498,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-03",
@@ -9437,7 +9555,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-04",
@@ -9489,7 +9608,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-05",
@@ -9549,7 +9669,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-06",
@@ -9606,7 +9727,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-07",
@@ -9666,7 +9788,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-08",
@@ -9719,7 +9842,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-09",
@@ -9770,7 +9894,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-10",
@@ -9821,7 +9946,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-11",
@@ -9864,7 +9990,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-12",
@@ -9906,7 +10033,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-13",
@@ -9949,7 +10077,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-14",
@@ -9996,7 +10125,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "int-15",
@@ -10041,7 +10171,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-01",
@@ -10092,7 +10223,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-02",
@@ -10144,7 +10276,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-03",
@@ -10204,7 +10337,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-04",
@@ -10250,7 +10384,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-05",
@@ -10301,7 +10436,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-06",
@@ -10357,7 +10493,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-07",
@@ -10413,7 +10550,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-08",
@@ -10459,7 +10597,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-09",
@@ -10504,7 +10643,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-10",
@@ -10560,7 +10700,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-11",
@@ -10621,7 +10762,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ple-12",
@@ -10675,7 +10817,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-01",
@@ -10730,7 +10873,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-02",
@@ -10772,7 +10916,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-03",
@@ -10827,7 +10972,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-04",
@@ -10887,7 +11033,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-05",
@@ -10943,7 +11090,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-06",
@@ -10994,7 +11142,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-07",
@@ -11045,7 +11194,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-08",
@@ -11101,7 +11251,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-09",
@@ -11153,7 +11304,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-10",
@@ -11210,7 +11362,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-11",
@@ -11252,7 +11405,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-12",
@@ -11298,7 +11452,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-13",
@@ -11340,7 +11495,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-14",
@@ -11386,7 +11542,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-15",
@@ -11431,7 +11588,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "ana-16",
@@ -11478,7 +11636,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "vas-01",
@@ -11534,7 +11693,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "vas-02",
@@ -11586,7 +11746,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "vas-03",
@@ -11638,7 +11799,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "vas-04",
@@ -11680,7 +11842,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "vas-05",
@@ -11727,7 +11890,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     },
     {
       "id": "vas-06",
@@ -11768,7 +11932,8 @@
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": null
+      "revisor": "pluna",
+      "fecha_revision": "2026-10-02"
     }
   ]
 }
