@@ -128,6 +128,13 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   casos de imagen o de dos casos de imagen por figura, dos preguntas de una figura con la misma respuesta y pistas
   comparadas por las 5 primeras letras; y avisa (⚠, no bloquea) de enunciados que describen lo que se ve o pasan de
   250 caracteres. Probado contra los tres temas: en ATM no da ninguna pista falsa.
+- Hallazgos al revelar (2026-10-01): en los siete RadCases, unos 750 de 852 enunciados de imagen contaban lo que se
+  ve («la RM muestra…», copiado de la sección de hallazgos del libro) y la imagen sobraba. Se reescribieron en el
+  estudio: el enunciado dice qué estudio es y dónde mirar, y la descripción pasó a la primera viñeta de la
+  explicación, «**Hallazgos:** …»; también salieron los antecedentes que daban la respuesta solos (bifosfonatos,
+  prótesis metal-metal, mutación PLP1…). Los prompts piden ahora esa viñeta, prohíben los verbos que cuentan la imagen
+  venga de donde venga la descripción, y el comprobador del .zip lo bloquea (✗; «se muestra la RM» y «que se ve» no
+  cuentan). Los niveles de dificultad no se revisaron tras quitar la descripción.
 - Carga masiva (2026-09-24): no hay tope de casos. En el paso 3, el panel «Clasificación» resume cuántos casos hay en
   cada segmento → área y agrega o quita una pareja a los casos marcados de una vez; cambiar la clasificación (ahí o
   en el formulario) no toca `actualizado` del caso y no retira el sello. Una respuesta de IA cortada se rescata

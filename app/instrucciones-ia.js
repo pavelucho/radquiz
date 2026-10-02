@@ -29,7 +29,7 @@ const EJEMPLO = `{
       "imagenes": [{ "figura": "Figura 2", "mostrar_en": "pregunta" }],
       "opciones": ["Opción A", "Opción B", "Opción C", "Opción D", "Opción E"],
       "correcta": 2,
-      "explicacion": "- En A, la flecha blanca señala …: es …\\n- No es … (el distractor más tentador) porque …\\n- La idea clave del documento.",
+      "explicacion": "- **Hallazgos:** en A, la flecha blanca señala …: es …\\n- No es … (el distractor más tentador) porque …\\n- La idea clave del documento.",
       "perla": "La enseñanza clave del caso, en una frase práctica sacada del documento.",
       "dificultad": { "nivel": 2, "motivo": "Diagnóstico típico (ETC I); el documento lo llama hallazgo clásico" },
       "evidencia": [{ "ubicacion": "p. 5, leyenda de la Figura 2", "cita": "Frase copiada textual del documento." }],
@@ -42,13 +42,13 @@ const EJEMPLO = `{
 // principal. Las siete primeras son las de las opciones: el prompt de corrección las repite.
 const REGLAS = [
   "Usa SOLO el documento adjunto. Si algo no está ahí, no lo escribas, aunque sepas que es cierto.",
-  "No inventes datos clínicos. La edad, el sexo o los síntomas van en la pregunta solo si la leyenda de esa figura los dice.",
+  "No inventes datos clínicos. La edad, el sexo o los síntomas van en la pregunta solo si la leyenda de esa figura, o la presentación clínica de ese caso en un libro o banco de casos, los dice.",
   "Cinco opciones, una sola correcta. Las cinco del mismo tipo (todas diagnósticos, o todas estructuras, o todas signos), del mismo largo y con el mismo nivel de detalle. La correcta no puede ser la más larga ni la más matizada.",
   "Los cuatro distractores son respuestas que un residente daría de verdad ante ESA imagen: los diagnósticos diferenciales de la misma familia que la correcta, la variante normal o el artefacto que la imitan, o el error de quien confunde una entidad con la de al lado. Escríbelos con el vocabulario del documento.",
   "Prohibido el distractor-comodín. En un cuestionario de patología degenerativa, un tumor, una infección, una fractura aguda o una anomalía congénita no son distractores: se descartan sin mirar la imagen. Nada absurdo, catastrófico ni de otro capítulo para rellenar.",
   "Los calificadores extremos (masivo, severo, completo, exacto, puro, siempre, nunca, solamente) delatan al distractor. Si los usas, que aparezcan también en la correcta; mejor, que no aparezcan en ninguna.",
   "Una palabra del enunciado que solo aparezca en la opción correcta es una pista, aunque cambie la terminación («migrado» y «migración»): úsala también en algún distractor o reescríbela.",
-  "La explicación son 2 a 4 viñetas que empiezan con «- », con el vocabulario del documento y sin afirmar más que él. En un caso de imagen, la primera dice qué se ve y dónde (panel, marca) y cómo se llama, y otra, por qué no es el distractor más tentador.",
+  "La explicación son 2 a 4 viñetas que empiezan con «- », con el vocabulario del documento y sin afirmar más que él. En un caso de imagen, la primera empieza con «**Hallazgos:**» y dice qué se ve y dónde (panel, marca) y cómo se llama: ahí va la descripción que no puede ir en el enunciado. Otra, por qué no es el distractor más tentador.",
   "Cada caso lleva «perla»: la enseñanza clave, en una frase práctica sacada del documento. El tablero por equipos la proyecta como «Clave para llevarse».",
   "Cada caso lleva «evidencia»: dónde está en el documento y la frase copiada textual que sostiene la respuesta.",
   "«tema» va como «Grupo · Subtema». El grupo es la columna del tablero por equipos y se ve antes de responder: nombra un área («Roturas meniscales»), nunca la respuesta. El subtema solo se ve después.",
@@ -80,7 +80,9 @@ const EXTREMOS = ["masiv", "sever", "complet", "exactament", "solament", "unicam
 // de meniscos y tobillo (2026-09-20): en la mayoría de sus casos de imagen el enunciado copiaba de la leyenda la
 // descripción del hallazgo —«un fragmento central migrado que simula la empuñadura de un cubo», y la respuesta
 // era «asa de cubo»— y la imagen sobraba. La regla de no nombrar el diagnóstico no bastaba: la IA no
-// tomaba la descripción por el diagnóstico.
+// tomaba la descripción por el diagnóstico. Los siete RadCases (2026-10-01) lo repitieron a escala —unos 670 de
+// 852 enunciados de imagen con «la RM muestra…»—, copiando la sección de hallazgos de cada caso del libro, que no
+// es una leyenda: de ahí la regla de los verbos y el destino de la descripción, la viñeta «Hallazgos».
 const PREGUNTA_IMAGEN = `CÓMO SE ESCRIBE UNA PREGUNTA DE IMAGEN
 Es de imagen si para responder hay que mirar la figura. El residente ve la figura entera, el enunciado y las
 cinco opciones; la leyenda, solo después de responder.
@@ -92,6 +94,12 @@ cinco opciones; la leyenda, solo después de responder.
   «banda»), el trayecto o adónde se movió («migrado a la escotadura», «paralela al LCP»), el signo, el
   diagnóstico y las palabras del título de la leyenda. Si la figura no tiene marca, di dónde mirar —«el cuerno
   posterior», «el foco hiperintenso de la faceta»— sin decir qué es.
+- El enunciado no cuenta lo que muestra la imagen: nada de «la RM muestra…», «se observa…», «la TC revela…»,
+  venga de donde venga la descripción —la leyenda, la sección de hallazgos de un caso («Findings», «Imaging
+  findings»), el informe o el texto—. Esa descripción se ve al revelar: es la primera viñeta de la explicación,
+  «**Hallazgos:** …». «Se muestra la RM» o «RM coronal STIR (A)» sí valen: dicen qué estudio es, no qué hay.
+- En un libro o banco de casos (presentación, hallazgos, diagnóstico, diferencial), la presentación clínica
+  puede ir en el enunciado; los hallazgos, el diagnóstico y el diferencial van solo en la explicación.
 - Preguntas que funcionan: ¿Cuál es el diagnóstico más probable? · ¿Qué señala la flecha (el asterisco, el
   número 3)? · ¿Qué signo se ve en el panel B? · ¿Qué estructura está lesionada? · ¿Qué tipo o grado es,
   según la clasificación del documento? · Y un paso más con la misma imagen —qué hallazgo asociado buscar,
@@ -141,15 +149,16 @@ enunciado.`;
 // parado los enunciados de meniscos.
 const PRUEBAS = `DOS PRUEBAS, en cada caso de imagen antes de darlo por bueno
 a) Imagen tapada. Tapa la figura y lee el enunciado con las opciones. Si alguien que leyó el artículo ya
-   sabe la respuesta, el enunciado la está describiendo: quítale la descripción. Si aun así se responde sin
-   mirar, no es de imagen: pásalo a "concepto" o pregunta otra cosa.
+   sabe la respuesta, el enunciado la está describiendo: pasa la descripción a la viñeta «**Hallazgos:**» de
+   la explicación. Cuenta también la historia: un antecedente que por sí solo da el diagnóstico sale del
+   enunciado. Si aun así se responde sin mirar, no es de imagen: pásalo a "concepto" o pregunta otra cosa.
 b) Opciones solas. Tapa también el enunciado y lee solo las cinco opciones. Si se ve cuál es la correcta
    —la única sensata, la única de su familia, la más larga o la más precisa—, reescribe los distractores.`;
 
-// Dos errores de cuestionarios publicados, con su arreglo: un ejemplo concreto corrige mejor que una regla más.
+// Errores de cuestionarios publicados, con su arreglo: un ejemplo concreto corrige mejor que una regla más.
 // El primero es la Figura 17 de meniscos, que además tiene «HANDLE FRAGMENT» escrito en el panel c; el «así sí»
-// es el panel d de la Figura 18, que no tiene rótulos (el c sí: «PCL»).
-const ERRORES_REALES = `DOS ERRORES REALES (de cuestionarios publicados; no copies su contenido)
+// es el panel d de la Figura 18, que no tiene rótulos (el c sí: «PCL»). El tercero es el caso 25 de RadCases MSK.
+const ERRORES_REALES = `TRES ERRORES REALES (de cuestionarios publicados; no copies su contenido)
 1. El enunciado describe el hallazgo y la figura lo trae escrito.
    «En la reconstrucción axial sensible a líquido (panel b) se evidencia una rotura que involucra un tercio
    del menisco, con un fragmento central migrado que simula la empuñadura de un cubo (flecha). ¿Qué tipo de
@@ -165,7 +174,16 @@ const ERRORES_REALES = `DOS ERRORES REALES (de cuestionarios publicados; no copi
      Grasa epidural hipertrofiada pura · LÍQUIDO ARTICULAR EN LA FACETA (la correcta)
    Las otras cuatro se tachan de memoria. Así sí, todas posibles ante esa imagen:
      Líquido articular · Quiste sinovial facetario · Edema óseo subcondral · Hipertrofia sinovial sin
-     líquido · Grasa periarticular`;
+     líquido · Grasa periarticular
+3. El enunciado copia los hallazgos del caso del libro.
+   «Una triatleta sufre una caída de bicicleta. La RM coronal de pelvis sensible a líquido muestra un espacio
+   lleno de líquido en lugar del tendón proximal de los isquiotibiales en su origen en el isquion, con
+   retracción distal del tendón y edema muscular alrededor. ¿Cuál es el diagnóstico?»
+   Se responde sin mirar la figura. Así sí:
+   «Una triatleta sufre una caída de bicicleta. RM coronal de pelvis, secuencia sensible a líquido. ¿Cuál es
+   el diagnóstico?»
+   y la descripción pasa a la explicación: «- **Hallazgos:** líquido en lugar del tendón proximal de los
+   isquiotibiales en su origen isquiático, con retracción distal y edema muscular: avulsión proximal.»`;
 
 // Una figura con la respuesta escrita en un panel no se ve leyendo la leyenda: hay que mirarla. El prompt
 // del estudio la mira en el PDF; el del .zip, en los JPG que acaba de sacar (instruccionesPaquete).
@@ -408,7 +426,7 @@ paquete.json. Lo que va detrás de // son notas para ti: JSON no admite comentar
       "imagenes": [{ "ref": "fig02", "mostrar_en": "pregunta" }],   // "pregunta" o "respuesta"
       "opciones": ["Primera opción", "Segunda opción", "Tercera opción", "Cuarta opción", "Quinta opción"],
       "correcta": 2,                         // posición desde 0: aquí, "Tercera opción". 0 la primera, 4 la quinta
-      "explicacion": "- En A, la flecha blanca señala …: es …\\n- No es … (el distractor más tentador) porque …\\n- La idea clave del documento.",
+      "explicacion": "- **Hallazgos:** en A, la flecha blanca señala …: es …\\n- No es … (el distractor más tentador) porque …\\n- La idea clave del documento.",
       "perla": "La enseñanza clave del caso, en una frase práctica sacada del documento.",
       "dificultad": { "nivel": 2, "motivo": "Diagnóstico típico (ETC I); el documento lo llama clásico" },   // paso 5
                                              // "requiere_opciones": true, solo si no se contesta con las opciones tapadas
@@ -653,6 +671,9 @@ DESCRIBE = ["hiperintens", "hipointens", "hiperdens", "hipodens", "hiperecog", "
             "coleccion", "fragment", "hendidura", "banda", "engros", "adelgaz", "edema", "liquido", "quist", "irregular",
             "interrump", "disrup", "discontinu", "migrad", "desplazad", "ausencia", "ausente", "amorf", "linea", "trazo",
             "defecto", "retrai", "retracc"]
+# «La RM muestra…», «se observa…» antes de la pregunta: cuenta lo que hay. «Se muestra la RM» y «la lesión que se ve» no.
+CUENTA = re.compile(r"(?<!\\bse )\\b(muestran?|demuestran?|revelan?|evidencian?|exhiben?)\\b"
+                    r"|(?<!\\bque )\\bse (observan?|aprecian?|identifican?|evidencian?|visualizan?|ven?|detectan?)\\b|\\bcon (hallazgos?|signos?) de\\b")
 
 def tiene(t, raices): return any(w.startswith(r) for w in palabras(t) for r in raices)
 def raices(t):
@@ -672,7 +693,11 @@ for c in validos:
         mal("%s: «%s» está en la pregunta y solo en la respuesta correcta; úsala también en un distractor o cámbiala"
             % (cid, ", ".join(sorted(enun[r] for r in pista))))
     if c.get("tipo") != "imagen": continue
-    describe = sorted({d for d in DESCRIBE if re.search(r"\\b" + d, sin_marcas(c.get("enunciado", "")))})
+    cuenta = CUENTA.search(limpia(c.get("enunciado", "")).split("¿")[0])
+    if cuenta:
+        mal("%s: el enunciado cuenta lo que muestra la imagen («%s…»): esa descripción va en la explicación, «**Hallazgos:** …»"
+            % (cid, cuenta.group(0)))
+    describe =sorted({d for d in DESCRIBE if re.search(r"\\b" + d, sin_marcas(c.get("enunciado", "")))})
     if describe:
         revisa("%s: el enunciado describe lo que se ve (%s): que no sea lo que define la respuesta" % (cid, ", ".join(describe)))
     if len(c.get("enunciado", "")) > 250:

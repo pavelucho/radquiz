@@ -15,7 +15,7 @@ Formato exacto: `schema/paquete.schema.json`, `schema/caso.schema.json` y `schem
 1. **Solo la fuente cargada.** Todo lo que diga un caso (hallazgo, cifra, clasificación, secuencia, conducta) tiene que
    estar en la fuente. Si no está, no se escribe. No se agregan conocimientos «de cultura general», aunque sean ciertos.
 2. **Nada de datos clínicos inventados.** Edad, sexo, síntomas o antecedentes van en el enunciado solo si la leyenda
-   de *esa* figura los dice. Que el artículo describa un síntoma en general no autoriza a atribuírselo a ese paciente.
+   de *esa* figura —o, en un libro o banco de casos, la presentación clínica de *ese* caso— los dice. Que el artículo describa un síntoma en general no autoriza a atribuírselo a ese paciente.
 3. **Cada caso lleva `evidencia`:** la ubicación (página, figura o tabla) y la frase textual de la fuente que sostiene
    la respuesta y la explicación. Si no se encuentra la frase, el caso no se escribe.
 4. **Las leyendas se copian tal cual**, en el idioma de la fuente, en `leyenda_original`. Traducir una leyenda es
@@ -105,13 +105,19 @@ el formato; el contenido sale de la fuente.
   diagnóstico ni las palabras del título de la leyenda. Ejemplo: si la leyenda dice «sagital oblicuo medial a la
   cabeza condilar» y la respuesta es «desplazamiento discal medial», el enunciado dice solo «sagital oblicuo». Sin
   marca, dice dónde mirar («el cuerno posterior», «el foco hiperintenso de la faceta») sin decir qué es.
+- **No cuenta lo que muestra la imagen.** Nada de «la RM muestra…», «se observa…», «la TC revela…», venga de la
+  leyenda, de la sección de hallazgos de un caso («Findings») o del texto: esa descripción va en la primera viñeta de
+  la explicación, «**Hallazgos:** …». «Se muestra la RM» o «RM coronal STIR (A)» sí valen. En un libro o banco de
+  casos, la presentación clínica puede ir en el enunciado; los hallazgos, el diagnóstico y el diferencial, no. El
+  comprobador del .zip lo bloquea.
 - Una pregunta mira una sola cosa: un panel o una marca. Tres paneles con tres signos son tres preguntas, no una con
   «respectivamente».
 - Varias preguntas de la misma figura se responden cada una sola y en cualquier orden (nada de «la misma figura»):
   ninguna da en su enunciado o sus opciones la respuesta de otra, y no hay dos con la misma respuesta.
 - Nada de «todas las anteriores», «ninguna» ni preguntas en negativo («¿cuál NO…?»).
 - **Prueba de la imagen tapada:** con la figura tapada, quien leyó el artículo no puede responder. Si puede, el
-  enunciado describe el hallazgo (se le quita) o el caso es de concepto.
+  enunciado describe el hallazgo (pasa a «Hallazgos» en la explicación), un antecedente da por sí solo el
+  diagnóstico (sale del enunciado) o el caso es de concepto.
 - `tema` va como «Grupo · Subtema». El grupo es la columna del tablero y se ve antes de responder: nombra el área
   («Roturas meniscales»), nunca la respuesta. El subtema solo se ve después.
 
@@ -134,7 +140,9 @@ el formato; el contenido sale de la fuente.
 
 ## 6. Explicación y perla
 
-- **Explicación:** 2 a 4 viñetas. Primero por qué la correcta es correcta (lo que se ve y cómo se llama), después el
+- **Explicación:** 2 a 4 viñetas. Primero por qué la correcta es correcta: en un caso de imagen, la viñeta empieza con
+  «**Hallazgos:**» y dice lo que se ve, dónde y cómo se llama (es el lugar de la descripción que no va en el
+  enunciado). Después el
   concepto clave de la fuente. Si la fuente lo permite, una viñeta que diferencie el distractor más tentador.
 - Usa el vocabulario de la fuente y no afirma más que ella («contribuye» no se convierte en «inicia»; «puede sugerir»
   no se convierte en «es diagnóstico de»).
@@ -162,11 +170,12 @@ pregunta de ese caso: va en la respuesta, o el caso pregunta otra cosa.
 - `modificaciones`: lista de cambios hechos a la figura (`redimensionada`, `comprimida`…). Con licencias ND solo se
   admiten esos dos.
 
-## 8. Antiejemplos (errores reales del piloto ATM y de los temas de MSK)
+## 8. Antiejemplos (errores reales del piloto ATM y de los temas de MSK y RadCases)
 
 | Error | Cómo estaba | Cómo quedó |
 | --- | --- | --- |
 | Enunciado que describe el hallazgo | «…se evidencia una rotura que involucra un tercio del menisco, con un fragmento central migrado que simula la empuñadura de un cubo (flecha). ¿Qué tipo de rotura representa?» (meniscos) | «Rodilla, sagital DP (panel d). ¿Qué signo señalan las flechas?», con un panel sin rótulos |
+| Enunciado con los hallazgos del libro | «Una triatleta sufre una caída de bicicleta. La RM coronal de pelvis sensible a líquido muestra un espacio lleno de líquido en lugar del tendón proximal de los isquiotibiales… ¿Cuál es el diagnóstico?» (RadCases MSK, y unos 670 de 852 casos de los siete RadCases) | «Una triatleta sufre una caída de bicicleta. RM coronal de pelvis, secuencia sensible a líquido. ¿Cuál es el diagnóstico?», y la descripción en «**Hallazgos:**» de la explicación |
 | Figura con la respuesta escrita, en la pregunta | Fig. 17 de meniscos —«HANDLE FRAGMENT» en el panel c— en la pregunta de «¿Qué tipo de rotura?» | Esa figura, solo en la respuesta |
 | Una pregunta para tres paneles | «¿Cuáles son los tres signos señalados en a, b y c, respectivamente?», con «rotura radial» en el enunciado | Tres preguntas, una por panel: «Sagital DP (panel b). ¿Qué signo señala la punta de flecha?» |
 | Datos clínicos inventados | «Mujer de 34 años con chasquido y dolor en ATM derecha…» (la leyenda de la Fig. 2 no trae edad, sexo ni síntomas) | «ATM derecha. Cortes sagitales oblicuos en máxima intercuspidación, lateral (A) y medial (B). ¿Qué muestra la flecha blanca?» |
@@ -201,7 +210,7 @@ evidencia es la leyenda y la frase del texto que define «parcial».
     "ATM normal"
   ],
   "correcta": 3,
-  "explicacion": "- En el corte lateral (A) el disco está por delante del cóndilo; en el medial (B) está en posición normal.\n- Si solo un segmento del disco está por delante del cóndilo, el desplazamiento es **parcial**.\n- Se reconoce comparando los cortes laterales con los mediales.",
+  "explicacion": "- **Hallazgos:** en el corte lateral (A) el disco está por delante del cóndilo; en el medial (B) está en posición normal.\n- Si solo un segmento del disco está por delante del cóndilo, el desplazamiento es **parcial**.\n- Se reconoce comparando los cortes laterales con los mediales.",
   "evidencia": [
     {
       "fuente": "lopezramirez2024",
@@ -290,6 +299,8 @@ Sin imagen; opciones de largo parecido y con la misma forma; cada cifra de la ex
 - [ ] Con las opciones tapadas, cada enunciado se contesta; si no, `requiere_opciones: true`.
 - [ ] Ningún enunciado que contenga la palabra clave de la respuesta.
 - [ ] Con la imagen tapada, ningún caso de imagen se responde.
+- [ ] Ningún enunciado de imagen cuenta lo que muestra la figura («muestra», «se observa», «revela»): eso va en
+  «**Hallazgos:**», la primera viñeta de la explicación.
 - [ ] Ninguna figura que sale en una pregunta tiene un panel o un rótulo con la respuesta de ese caso.
 - [ ] Al menos el 70 % de los casos son de imagen.
 - [ ] La correcta no es la opción más larga en más de un tercio de los casos (el validador lo cuenta).
