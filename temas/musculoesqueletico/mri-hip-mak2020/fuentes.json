@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "mak2020": {
+    "cita": "Mak MS, Teh J. Magnetic resonance imaging of the hip: anatomy and pathology. Pol J Radiol 2020; 85: e489-e508. doi: 10.5114/pjr.2020.99414",
+    "credito": "Mak MS, et al. Pol J Radiol. 2020",
+    "doi": "10.5114/pjr.2020.99414",
+    "licencia": "CC BY-NC-ND 4.0",
+    "licencia_url": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "modificaciones_permitidas": false,
+    "tipo": "articulo",
+    "titular": "© Pol J Radiol 2020",
+    "url": "https://doi.org/10.5114/pjr.2020.99414",
+    "verificacion": {
+      "donde": "p. 1: «This is an Open Access journal, all articles are distributed under the terms of the Creative Commons Attribution-Noncommercial-No Derivatives 4.0 International (CC BY-NC-ND 4.0).»",
+      "fecha": "2026-10-02",
+      "por": "Pavel Luna"
+    },
+    "alojada_por": "Pavel Luna"
+  }
+}

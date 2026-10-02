@@ -8,7 +8,7 @@
     "RM"
   ],
   "idioma": "es",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -53,7 +53,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "1Ib-yfk65M_LvM5eSQVHKiGlDCGFy0eOZ"
     },
     "fig02": {
       "archivo": "fig02.jpg",
@@ -79,7 +80,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "1MBtmucXDxIdYyC37MiqRS4pBi7z4D1mq"
     },
     "fig04": {
       "archivo": "fig04.jpg",
@@ -105,7 +107,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "15QB-7TbJKUMWuiBTeP_NRBGCqLRuvkFr"
     },
     "fig05": {
       "archivo": "fig05.jpg",
@@ -141,7 +144,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "16YReXg8yEeBNM7qFgGR0VsZSdb01g32i"
     },
     "fig07": {
       "archivo": "fig07.jpg",
@@ -194,7 +198,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "1rxp63ICt96EzHPwKNResFOscuADu7DoT"
     },
     "fig08": {
       "archivo": "fig08.jpg",
@@ -236,7 +241,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "1ithLe_GCzNInmVtrpZouDikz11kUA-1g"
     },
     "fig10": {
       "archivo": "fig10.jpg",
@@ -288,7 +294,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "18sv0B8tN_igQoUv7Gb6o133BX0zN1ySK"
     },
     "fig11": {
       "archivo": "fig11.jpg",
@@ -329,7 +336,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "15emGaWK3mUG42vORhJJ4JwxZyfnwbiNL"
     },
     "fig12": {
       "archivo": "fig12.jpg",
@@ -376,7 +384,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "1bk5LLTWCIRUxdBiIiQo87OU8BECVx4zn"
     },
     "fig15": {
       "archivo": "fig15.jpg",
@@ -407,7 +416,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "1ljIgsW-pDN9LsPkoEFwfvD8yL30SSZ4r"
     },
     "fig17": {
       "archivo": "fig17.jpg",
@@ -433,7 +443,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "12WB_XC_O16qWgSFCnEtY7WC4g02f-tGG"
     },
     "fig20": {
       "archivo": "fig20.jpg",
@@ -479,7 +490,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "10p-cVX-SOOmCuj3I-M_yl_kaODDu0au8"
     },
     "fig23": {
       "archivo": "fig23.jpg",
@@ -541,7 +553,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "1eCg3UgHP9kNYv6pAGQHPVBxV3RPtLc8r"
     },
     "fig27": {
       "archivo": "fig27.jpg",
@@ -604,7 +617,8 @@
       "modificaciones": [
         "redimensionada",
         "comprimida"
-      ]
+      ],
+      "drive": "1a1ijI7FValAjREAg8cTK13A40sIjx23Z"
     }
   },
   "casos": [
@@ -632,6 +646,11 @@
       ],
       "correcta": 2,
       "explicacion": "- Las imágenes muestran una señal tipo edema de médula ósea prominente en la cabeza y cuello del talo (asterisco) que se extiende desde la superficie articular.\n- La línea de fractura hipointensa irregular (cabezas de flecha) discurre paralela y en estrecha proximidad a la placa ósea subcondral, característico de una fractura de insuficiencia subcondral.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Fractura de insuficiencia subcondral de la cabeza del talo: localización poco común y diferencial fino con lesión osteocondral y OCD (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -667,6 +686,11 @@
       ],
       "correcta": 3,
       "explicacion": "- La imagen demuestra una línea de fractura incompleta que se extiende en el plano sagital oblicuo a través de la porción media del hueso navicular tarsiano dorsalmente.\n- Esta localización característica a menudo hace que dichas fracturas de estrés sean difíciles de detectar radiográficamente.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Fractura de estrés navicular: entidad conocida en atletas; la fuente dice que es difícil en radiografía, en RM la línea es visible (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -702,6 +726,11 @@
       ],
       "correcta": 1,
       "explicacion": "- Existe una irregularidad del cartílago articular y la placa ósea subcondral en la cúpula talar medial con prominentes cambios subcondrales de tipo quístico subyacentes.\n- Se clasifica como una lesión osteocondral crónica, que es un término general apropiado cuando no se visualiza un fragmento osteocondral in situ o falta especificidad.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Lesión osteocondral crónica del talo: entidad común; elegir el término genérico ante falta de fragmento in situ (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -737,6 +766,11 @@
       ],
       "correcta": 3,
       "explicacion": "- En la imagen de RM se observa un borde de alta intensidad de señal y pequeños cambios de tipo quístico en la interfaz entre el fragmento y el hueso parental.\n- Ambos hallazgos son indicativos de inestabilidad en una OCD en pacientes adultos.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Criterios de inestabilidad de OCD en el adulto (borde hiperintenso y quistes): estadificación que cambia el manejo (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -771,6 +805,11 @@
       ],
       "correcta": 2,
       "explicacion": "- Las imágenes muestran una lesión compleja de la sindesmosis (esguince de tobillo alto).\n- Hay un desgarro del ligamento interóseo inferior (flecha blanca, A), desgarro completo del ligamento tibioperoneo anterior (flecha curva blanca, B), y esguince del ligamento tibioperoneo posterior (flecha curva negra, B) y del ligamento tibioperoneo transverso inferior (flecha negra, C).",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Lesión sindesmótica compleja graduada componente por componente (interóseo, anterior, posterior, transverso): análisis detallado (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -806,6 +845,11 @@
       ],
       "correcta": 2,
       "explicacion": "- La imagen A muestra disrupción completa del ligamento talofibular anterior (flecha).\n- La imagen B revela un ligamento calcaneofibular indistinto y edematoso (flecha), lo cual es consistente con un esguince de alto grado.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Esguince lateral de tobillo con rotura del LTFA y esguince del LCF: lesión muy común, graduar dos ligamentos (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -841,6 +885,11 @@
       ],
       "correcta": 3,
       "explicacion": "- La imagen A muestra un desgarro de espesor total del tendón de Aquiles.\n- Se observa una brecha o defecto lleno de líquido (flecha) localizado a unos 7 cm proximales a su inserción en el calcáneo.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Rotura completa del Aquiles con brecha líquida: entidad común y hallazgo evidente con clínica típica de chasquido (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -875,6 +924,11 @@
       ],
       "correcta": 1,
       "explicacion": "- Se observa un hematoma (asterisco) entre el músculo sóleo y la cabeza medial del gastrocnemio.\n- Hay una disrupción en la unión miotendinosa de la cabeza medial del gastrocnemio (flecha negra), característico de la lesión conocida como \"tennis leg\".",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Tennis leg: desgarro de la cabeza medial del gastrocnemio con hematoma interfascial, cuadro típico que exige ubicar la estructura (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -910,6 +964,11 @@
       ],
       "correcta": 2,
       "explicacion": "- Existe un engrosamiento anormal del tendón tibial posterior (flecha en A).\n- Se aprecia un aumento de señal intrasustancia (flecha en B), que es indicativo de degeneración del tendón y desgarro intrasustancia.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Disfunción del tibial posterior en pie plano adquirido del adulto: complicación conocida y frecuente, signo típico (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -945,6 +1004,11 @@
       ],
       "correcta": 1,
       "explicacion": "- La imagen demuestra un despegamiento (stripping) del retináculo peroneo superior (cabezas de flecha blancas).\n- Esto se asocia con una subluxación anterolateral del tendón peroneo largo. También se nota una cresta fibrosa en la inserción fibular esperada del retináculo.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Despegamiento del retináculo peroneo superior con subluxación: entidad poco común, hallazgo que hay que buscar (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -979,6 +1043,11 @@
       ],
       "correcta": 2,
       "explicacion": "- La distracción mayor de 6 mm (diástasis) de un os peroneum multipartito se asocia con un desgarro de espesor total del tendón peroneo largo.\n- En la imagen se aprecia la distracción y edema de los osículos proximal y distal del os peroneum bipartito (cabezas de flecha).",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Síndrome de os peroneum doloroso: diástasis del os peroneum equivalente a rotura del peroneo largo, entidad poco frecuente (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -1014,6 +1083,11 @@
       ],
       "correcta": 2,
       "explicacion": "- El síndrome del túnel tarsiano puede deberse a lesiones ocupantes de espacio como gangliones, que comprimen el nervio tibial posterior.\n- En este caso se observa un ganglión de tejido blando lobulado (asterisco) que separa los contenidos del túnel tarsiano.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Ganglión como causa de síndrome del túnel tarsiano: la lesión ocupante más frecuente y evidente, pero tema de ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -1048,6 +1122,11 @@
       ],
       "correcta": 2,
       "explicacion": "- El caso ilustra una lesión severa de la articulación de Lisfranc con disrupción completa de múltiples estabilizadores.\n- Se evidencia el desgarro completo de los componentes dorsal (flecha negra en A), interóseo (flecha blanca en A y B) y plantar (cabeza de flecha blanca en A) del complejo ligamentoso de Lisfranc.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Lisfranc con rotura de los tres componentes (dorsal, interóseo, plantar): análisis detallado que define estabilidad y manejo (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -1083,6 +1162,11 @@
       ],
       "correcta": 1,
       "explicacion": "- La pérdida o reemplazo de la señal de la médula grasa normal en imágenes potenciadas en T1 es un signo más específico que el edema, indicando invasión directa por la infección.\n- La imagen T1 coronal muestra el reemplazo de la señal de la médula grasa normal en las bases del tercer y cuarto metatarsiano (asteriscos en A).",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Osteomielitis en pie diabético: reemplazo de grasa medular en T1 es el signo clave y conocido de una entidad común (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -1113,6 +1197,11 @@
       ],
       "correcta": 2,
       "explicacion": "- La anatomía ligamentosa de la articulación tarsometatarsiana es compleja.\n- El componente interóseo, o ligamento de Lisfranc propiamente dicho, cursa desde la cuña medial (C1) a la base del segundo metatarsiano (M2) y se considera el más fuerte y biomecánicamente más importante.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Anatomía del complejo de Lisfranc: el interóseo es el más fuerte; dato anatómico-biomecánico de ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -1142,6 +1231,11 @@
       ],
       "correcta": 1,
       "explicacion": "- La apariencia del neuroma de Morton en secuencias sensibles a líquidos y el grado de realce son altamente variables.\n- La secuencia T1 permite una mayor conspicuidad frente a la grasa normal del espacio intermetatarsiano plantar, identificando el neuroma como una masa isointensa al músculo.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Neuroma de Morton: T1 da mayor conspicuidad que las secuencias de líquido; detalle técnico de protocolo (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -1172,6 +1266,11 @@
       ],
       "correcta": 1,
       "explicacion": "- El diagnóstico de osteomielitis en el contexto de artropatía neuropática es un desafío.\n- El análisis se basa en el principio de que las anomalías medulares en el pie neuropático se centran en la articulación (articular-centered), mientras que la infección entra por diseminación directa desde una úlcera cutánea adyacente.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Diferenciar Charcot de osteomielitis (centrado en la articulación vs desde la úlcera): diferencial fino que la fuente llama un desafío (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -1201,6 +1300,11 @@
       ],
       "correcta": 2,
       "explicacion": "- Históricamente se atribuía a la lesión del tendón del músculo plantar.\n- Estudios recientes han demostrado que las lesiones del músculo gastrocnemio, en particular de su cabeza medial, son la causa mucho más común del \"tennis leg\".",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Tennis leg: la cabeza medial del gastrocnemio es la estructura lesionada con más frecuencia, no el plantar; dato de ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -1231,6 +1335,11 @@
       ],
       "correcta": 2,
       "explicacion": "- La articulación tarsal transversa incluye el complejo articular calcaneocuboideo y talocalcaneonavicular.\n- El ligamento bifurcado, compuesto por los ligamentos calcaneonavicular lateral y calcaneocuboideo medial, es conocido como la \"llave de la articulación de Chopart\".",
+      "dificultad": {
+        "nivel": 4,
+        "motivo": "Ligamento bifurcado como llave de Chopart: anatomía ligamentaria de nicho que solo trae la literatura de subespecialidad (ETC III)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",
@@ -1261,6 +1370,11 @@
       ],
       "correcta": 1,
       "explicacion": "- La anatomía capsular de la primera articulación metatarsofalángica es compleja e incluye el complejo de la placa plantar.\n- El término \"turf toe\" se refiere a un espectro de lesiones traumáticas de las estructuras capsuloligamentosas de la primera articulación metatarsofalángica (MTP), que típicamente resultan de una lesión por hiperextensión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Turf toe: hiperextensión de la primera MTP, término deportivo conocido de mecanismo y estructura (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gorbachova2020",

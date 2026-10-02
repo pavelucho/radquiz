@@ -11,7 +11,7 @@
     "Rx"
   ],
   "idioma": "es",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -2231,7 +2231,7 @@
         "signo del campanario"
       ],
       "tipo": "imagen",
-      "enunciado": "Infante con estridor inspiratorio. ¿Cuál es el diagnóstico más probable basado en el hallazgo de estrechamiento subglótico simétrico en la radiografía?",
+      "enunciado": "Lactante con estridor inspiratorio. Se muestra la radiografía. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case001",
@@ -2246,8 +2246,13 @@
         "Traqueomalacia"
       ],
       "correcta": 1,
-      "explicacion": "- El 'signo del campanario' (steeple sign) por estrechamiento subglótico simétrico es característico del crup.\n- La epiglotitis se caracteriza por el signo del pulgar en radiografía lateral.\n- El hemangioma subglótico suele mostrar estrechamiento asimétrico.",
+      "explicacion": "- **Hallazgos:** estrechamiento subglótico simétrico («signo del campanario»).\n- El 'signo del campanario' (steeple sign) por estrechamiento subglótico simétrico es característico del crup.\n- La epiglotitis se caracteriza por el signo del pulgar en radiografía lateral.\n- El hemangioma subglótico suele mostrar estrechamiento asimétrico.",
       "perla": "El crup típicamente presenta el clásico 'signo del campanario' en la radiografía AP de cuello por edema de la mucosa subglótica.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Crup con signo del campanario: entidad común y signo clásico de vista, ETC I temprano",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2272,7 +2277,7 @@
         "drenaje venoso anómalo"
       ],
       "tipo": "imagen",
-      "enunciado": "Radiografía frontal de tórax de un niño con pulmón derecho pequeño, desplazamiento del mediastino a la derecha y una opacidad curva cerca del hemidiafragma derecho. ¿Cuál es el diagnóstico?",
+      "enunciado": "Niño. Se muestra la radiografía frontal de tórax. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case002",
@@ -2287,8 +2292,13 @@
         "Hernia de Bochdalek"
       ],
       "correcta": 1,
-      "explicacion": "- El síndrome de la cimitarra consiste en un pulmón derecho hipoplásico con drenaje venoso pulmonar anómalo hacia la VCI.\n- La opacidad curva (signo de la cimitarra) corresponde a la vena pulmonar anómala.",
+      "explicacion": "- **Hallazgos:** pulmón derecho pequeño, mediastino desplazado a la derecha y una opacidad curva cerca del hemidiafragma derecho (signo de la cimitarra).\n- El síndrome de la cimitarra consiste en un pulmón derecho hipoplásico con drenaje venoso pulmonar anómalo hacia la VCI.\n- La opacidad curva (signo de la cimitarra) corresponde a la vena pulmonar anómala.",
       "perla": "El síndrome de la cimitarra se caracteriza por hipoplasia del pulmón derecho y una opacidad curva en lóbulo inferior derecho correspondiente a una vena pulmonar de drenaje anómalo.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Síndrome de la cimitarra: entidad rara (drenaje venoso anómalo parcial), signo clásico; ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2313,7 +2323,7 @@
         "neumonía recurrente"
       ],
       "tipo": "imagen",
-      "enunciado": "Niña de 10 años con neumonía recurrente en lóbulo inferior. La TC contrastada muestra una masa quística con irrigación de la aorta descendente. ¿Cuál es el diagnóstico?",
+      "enunciado": "Niña de 10 años con neumonía recurrente en el lóbulo inferior. Se muestra la TC con contraste. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case003",
@@ -2328,8 +2338,13 @@
         "Hernia diafragmática"
       ],
       "correcta": 1,
-      "explicacion": "- El secuestro pulmonar es tejido pulmonar anormal con irrigación arterial sistémica (aorta descendente).\n- Es una causa clásica de neumonía recurrente focal.",
+      "explicacion": "- **Hallazgos:** masa quística irrigada por la aorta descendente.\n- El secuestro pulmonar es tejido pulmonar anormal con irrigación arterial sistémica (aorta descendente).\n- Es una causa clásica de neumonía recurrente focal.",
       "perla": "La demostración de una arteria sistémica aferente a la masa pulmonar es diagnóstica de secuestro pulmonar.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Secuestro pulmonar: entidad poco común pero con signo diagnóstico típico (arteria sistémica); ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2354,7 +2369,7 @@
         "drepanocitosis"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño de 10 años con dolor torácico. La radiografía muestra cardiomegalia, opacidades pulmonares e irregularidad de las epífisis humerales y platillos vertebrales. ¿Cuál es el diagnóstico?",
+      "enunciado": "Niño de 10 años con dolor torácico. Se muestra la radiografía. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case004",
@@ -2369,8 +2384,13 @@
         "Histiocitosis de Langerhans"
       ],
       "correcta": 2,
-      "explicacion": "- Las alteraciones óseas (necrosis avascular humeral, vértebras en H) sumadas a alteraciones pleuropulmonares son características del síndrome torácico agudo en drepanocitosis.",
+      "explicacion": "- **Hallazgos:** cardiomegalia, opacidades pulmonares e irregularidad de las epífisis humerales y de los platillos vertebrales.\n- Las alteraciones óseas (necrosis avascular humeral, vértebras en H) sumadas a alteraciones pleuropulmonares son características del síndrome torácico agudo en drepanocitosis.",
       "perla": "Los cambios isquémicos óseos en un niño con consolidación pulmonar deben alertar sobre enfermedad de células falciformes (síndrome torácico agudo).",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Síndrome torácico agudo: complicación conocida de drepanocitosis; integra hallazgos óseos y pulmonares, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2395,7 +2415,7 @@
         "recién nacido"
       ],
       "tipo": "imagen",
-      "enunciado": "Recién nacido con dificultad respiratoria. La radiografía muestra opacidades intersticiales gruesas con hiperinsuflación, sin derrame pleural, y epífisis humerales osificadas. ¿Cuál es el diagnóstico probable?",
+      "enunciado": "Recién nacido con dificultad respiratoria. Se muestra la radiografía. ¿Cuál es el diagnóstico probable?",
       "imagenes": [
         {
           "ref": "case005",
@@ -2410,8 +2430,13 @@
         "Displasia broncopulmonar"
       ],
       "correcta": 1,
-      "explicacion": "- Las opacidades gruesas e hiperinsuflación en un neonato a término (epífisis osificadas) sin derrame son típicas del síndrome de aspiración de meconio.",
+      "explicacion": "- **Hallazgos:** opacidades intersticiales gruesas con hiperinsuflación, sin derrame pleural, y epífisis humerales osificadas (neonato a término).\n- Las opacidades gruesas e hiperinsuflación en un neonato a término (epífisis osificadas) sin derrame son típicas del síndrome de aspiración de meconio.",
       "perla": "La aspiración de meconio ocurre en neonatos a término/postérmino, con hiperinsuflación y opacidades gruesas sin derrame pleural significativo.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Aspiración de meconio: neonatal común; diferencial frecuente con otras causas de distrés usando las epífisis, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2436,7 +2461,7 @@
         "masa de tejidos blandos"
       ],
       "tipo": "imagen",
-      "enunciado": "Adolescente con falta de aliento. La radiografía de tórax y TC revelan una masa lisa y homogénea en el ápice izquierdo con valores de atenuación similares a la grasa subcutánea. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Adolescente con falta de aliento. Se muestran la radiografía de tórax y la TC. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case006",
@@ -2451,8 +2476,13 @@
         "Teratoma"
       ],
       "correcta": 1,
-      "explicacion": "- La masa lisa, homogénea y con atenuación idéntica a la grasa es altamente sugestiva de un lipoma benigno.",
+      "explicacion": "- **Hallazgos:** masa lisa y homogénea en el ápice izquierdo, con atenuación igual a la de la grasa subcutánea.\n- La masa lisa, homogénea y con atenuación idéntica a la grasa es altamente sugestiva de un lipoma benigno.",
       "perla": "Los lipomas son los tumores de partes blandas más comunes y se identifican fácilmente en TC o RM por sus características idénticas a la grasa macroscópica.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Lipoma: tumor más común, densidad grasa evidente en TC; reconocimiento básico ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2477,7 +2507,7 @@
         "masa mediastinal posterior"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente pediátrico con gran masa predominante en el mediastino posterior izquierdo que contiene calcificaciones y ensancha el foramen neural invadiendo el canal vertebral. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Paciente pediátrico. Se muestran las imágenes del tórax. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case007",
@@ -2492,8 +2522,13 @@
         "Timoma"
       ],
       "correcta": 2,
-      "explicacion": "- Una masa mediastinal posterior calcificada que invade el canal vertebral a través del foramen neural en un niño es característica de un neuroblastoma o ganglioneuroma.",
+      "explicacion": "- **Hallazgos:** gran masa en el mediastino posterior izquierdo, con calcificaciones, que ensancha el foramen neural e invade el canal vertebral.\n- Una masa mediastinal posterior calcificada que invade el canal vertebral a través del foramen neural en un niño es característica de un neuroblastoma o ganglioneuroma.",
       "perla": "El neuroblastoma es un tumor de origen simpático, común en mediastino posterior infantil y a menudo se asocia con calcificaciones e invasión del foramen neural.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Neuroblastoma mediastinal posterior con calcio e invasión foraminal: presentación típica de tumor pediátrico común, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2518,7 +2553,7 @@
         "Bochdalek"
       ],
       "tipo": "imagen",
-      "enunciado": "Neonato con dificultad respiratoria severa. La radiografía muestra lucencias quísticas en la base del hemitórax derecho continuas con gas intestinal abdominal y desplazamiento del mediastino hacia la izquierda. ¿Cuál es el diagnóstico?",
+      "enunciado": "Neonato con dificultad respiratoria grave. Se muestra la radiografía. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case008",
@@ -2533,8 +2568,13 @@
         "Atresia esofágica"
       ],
       "correcta": 3,
-      "explicacion": "- Las lucencias quísticas torácicas continuas con gas intestinal junto con el desplazamiento mediastinal identifican una hernia diafragmática congénita.",
+      "explicacion": "- **Hallazgos:** lucencias quísticas en la base del hemitórax derecho, continuas con el gas intestinal abdominal, y desplazamiento del mediastino hacia la izquierda.\n- Las lucencias quísticas torácicas continuas con gas intestinal junto con el desplazamiento mediastinal identifican una hernia diafragmática congénita.",
       "perla": "En la hernia diafragmática congénita, el paso de asas intestinales al tórax condiciona hipoplasia pulmonar severa y desplazamiento mediastinal.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Hernia diafragmática congénita con asas en el tórax: diagnóstico clásico de vista, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2559,7 +2599,7 @@
         "signo del pulgar"
       ],
       "tipo": "imagen",
-      "enunciado": "Adolescente con dolor de garganta severo, fiebre y babeo. La radiografía lateral de cuello muestra marcado engrosamiento de la epiglotis y los pliegues ariepiglóticos. ¿Cómo se denomina este hallazgo radiográfico clásico?",
+      "enunciado": "Adolescente con dolor de garganta intenso, fiebre y babeo. Se muestra la radiografía lateral de cuello. ¿Cómo se denomina el hallazgo radiográfico clásico?",
       "imagenes": [
         {
           "ref": "case009",
@@ -2574,8 +2614,13 @@
         "Signo de la vela"
       ],
       "correcta": 1,
-      "explicacion": "- El marcado engrosamiento de la epiglotis visible en la proyección lateral de cuello se conoce como 'signo del pulgar' (thumb sign), característico de la epiglotitis.",
+      "explicacion": "- **Hallazgos:** marcado engrosamiento de la epiglotis y de los pliegues ariepiglóticos.\n- El marcado engrosamiento de la epiglotis visible en la proyección lateral de cuello se conoce como 'signo del pulgar' (thumb sign), característico de la epiglotitis.",
       "perla": "La epiglotitis presenta el clásico 'signo del pulgar' en la radiografía lateral por el edema y engrosamiento epiglótico.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Signo del pulgar de la epiglotitis: signo clásico que se reconoce de vista, ETC I temprano",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2600,7 +2645,7 @@
         "tubo endotraqueal"
       ],
       "tipo": "imagen",
-      "enunciado": "Lactante con dificultad respiratoria persistente a pesar de estar intubado. La radiografía frontal de tórax muestra pulmones hipoinsuflados, tubo endotraqueal paralelo al esofágico y columna de aire traqueal por separado a la derecha. ¿Cuál es la complicación evidente?",
+      "enunciado": "Lactante intubado con dificultad respiratoria persistente. Se muestra la radiografía frontal de tórax. ¿Cuál es la complicación?",
       "imagenes": [
         {
           "ref": "case010",
@@ -2615,8 +2660,13 @@
         "Ruptura traqueal"
       ],
       "correcta": 1,
-      "explicacion": "- Un tubo endotraqueal que discurre lateral a la columna de aire traqueal (a menudo paralelo a la sonda nasogástrica) indica intubación en el esófago.",
+      "explicacion": "- **Hallazgos:** pulmones hipoinsuflados; el tubo endotraqueal va paralelo a la sonda esofágica, y la columna de aire traqueal se ve aparte, a la derecha.\n- Un tubo endotraqueal que discurre lateral a la columna de aire traqueal (a menudo paralelo a la sonda nasogástrica) indica intubación en el esófago.",
       "perla": "La intubación esofágica se sospecha radiográficamente cuando el tubo endotraqueal se proyecta fuera de la columna aérea traqueal o se observan pulmones no insuflados y gran distensión gástrica.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Intubación esofágica: posición de dispositivos, dato elemental de cuidados intensivos ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2641,7 +2691,7 @@
         "pediatría"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño presenta fiebre y tos. La radiografía de tórax muestra una opacidad redondeada, de aspecto masa, en el lóbulo superior derecho, con broncograma aéreo. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un niño presenta fiebre y tos. Se muestra la radiografía de tórax. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case011",
@@ -2656,8 +2706,13 @@
         "Tuberculosis"
       ],
       "correcta": 2,
-      "explicacion": "- La neumonía redonda es la causa más probable de una opacidad redondeada en un niño con una infección aguda.\n- El broncograma aéreo apoya el diagnóstico y la distingue del quiste broncogénico o de las metástasis, que no suelen contener aire.",
+      "explicacion": "- **Hallazgos:** opacidad redondeada, de aspecto de masa, en el lóbulo superior derecho, con broncograma aéreo.\n- La neumonía redonda es la causa más probable de una opacidad redondeada en un niño con una infección aguda.\n- El broncograma aéreo apoya el diagnóstico y la distingue del quiste broncogénico o de las metástasis, que no suelen contener aire.",
       "perla": "Las neumonías redondas en los niños se atribuyen a la inmadurez de las vías de ventilación colateral (canales de Lambert y poros de Kohn).",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Neumonía redonda: diagnóstico típico pediátrico que integra clínica e imagen frente a masa, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2682,7 +2737,7 @@
         "patrón miliar"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño presenta tos y sudoración nocturna. Las radiografías muestran innumerables nódulos pulmonares pequeños bilaterales con aumento de los hilios. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un niño presenta tos y sudoración nocturna. Se muestran las radiografías. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case012",
@@ -2697,8 +2752,13 @@
         "Bronquiolitis"
       ],
       "correcta": 1,
-      "explicacion": "- El patrón miliar con adenopatías hiliares sugiere mucho una tuberculosis, sobre todo con sudoración nocturna.\n- El tratamiento usa al menos tres fármacos, y a los niños con una prueba de tuberculina recién positiva se les debe hacer una radiografía de tórax.",
+      "explicacion": "- **Hallazgos:** innumerables nódulos pulmonares pequeños bilaterales (patrón miliar) con hilios aumentados.\n- El patrón miliar con adenopatías hiliares sugiere mucho una tuberculosis, sobre todo con sudoración nocturna.\n- El tratamiento usa al menos tres fármacos, y a los niños con una prueba de tuberculina recién positiva se les debe hacer una radiografía de tórax.",
       "perla": "La tuberculosis miliar se llama así porque los nódulos recuerdan a semillas de mijo. El paciente sigue siendo contagioso varias semanas después de empezar el tratamiento.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Tuberculosis miliar con adenopatías: patrón clásico y entidad común en nuestro medio, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2723,7 +2783,7 @@
         "masa quística"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño presenta tos crónica y fiebre reciente. Las radiografías muestran una gran masa quística de pared gruesa en el lóbulo inferior derecho con nivel hidroaéreo. ¿Cuál es la lesión primaria más probable?",
+      "enunciado": "Un niño presenta tos crónica y fiebre reciente. Se muestran las radiografías. ¿Cuál es la lesión primaria más probable?",
       "imagenes": [
         {
           "ref": "case013",
@@ -2738,8 +2798,13 @@
         "Secuestro pulmonar"
       ],
       "correcta": 3,
-      "explicacion": "- La MAPC suele presentarse como una masa con quistes que puede sobreinfectarse; entonces aparecen paredes gruesas y niveles hidroaéreos.\n- Es un hamartoma con proliferación anómala de los bronquiolos terminales.",
+      "explicacion": "- **Hallazgos:** gran masa quística de pared gruesa en el lóbulo inferior derecho, con nivel hidroaéreo.\n- La MAPC suele presentarse como una masa con quistes que puede sobreinfectarse; entonces aparecen paredes gruesas y niveles hidroaéreos.\n- Es un hamartoma con proliferación anómala de los bronquiolos terminales.",
       "perla": "Por el riesgo pequeño de malignización y el riesgo de infección, las MAPC asintomáticas suelen resecarse después del periodo neonatal.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "MAPC sobreinfectada: entidad poco común y diferencial fino con neumonía necrosante y quiste infectado, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2764,7 +2829,7 @@
         "hipoplasia"
       ],
       "tipo": "imagen",
-      "enunciado": "Un joven de 18 años presenta tos y dolor torácico. Las imágenes muestran el pulmón derecho más pequeño que el izquierdo, el mediastino desplazado a la derecha y ausencia de la arteria pulmonar derecha, sin atrapamiento aéreo en espiración. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un joven de 18 años presenta tos y dolor torácico. Se muestran las imágenes. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case014",
@@ -2779,8 +2844,13 @@
         "Tromboembolia pulmonar"
       ],
       "correcta": 1,
-      "explicacion": "- La ausencia de la arteria pulmonar se ve como un pulmón pequeño, sin hilio y sin atrapamiento aéreo en espiración.\n- El síndrome de Swyer-James tendría atrapamiento aéreo en espiración, lo que permite distinguirlos.",
+      "explicacion": "- **Hallazgos:** pulmón derecho más pequeño que el izquierdo, mediastino desplazado a la derecha y ausencia de la arteria pulmonar derecha, sin atrapamiento aéreo en espiración.\n- La ausencia de la arteria pulmonar se ve como un pulmón pequeño, sin hilio y sin atrapamiento aéreo en espiración.\n- El síndrome de Swyer-James tendría atrapamiento aéreo en espiración, lo que permite distinguirlos.",
       "perla": "La ausencia congénita de la arteria pulmonar derecha se confunde fácilmente con el síndrome de Swyer-James, pero la falta de atrapamiento aéreo los diferencia.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Ausencia congénita de la arteria pulmonar: entidad rara, diferencial fino con Swyer-James por atrapamiento, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2805,7 +2875,7 @@
         "sibilancias"
       ],
       "tipo": "imagen",
-      "enunciado": "Un lactante presenta sibilancias y dificultad respiratoria. La radiografía de tórax muestra hiperinsuflación con opacidades alveolares parcheadas, de predominio perihiliar y bilaterales. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un lactante presenta sibilancias y dificultad respiratoria. Se muestra la radiografía de tórax. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case015",
@@ -2820,8 +2890,13 @@
         "Enfisema lobar congénito"
       ],
       "correcta": 2,
-      "explicacion": "- Los hallazgos clásicos de la bronquiolitis viral son la hiperinsuflación y las opacidades alveolares o intersticiales perihiliares.\n- Aunque el asma puede verse igual, en un lactante con este cuadro clínico y esta radiografía la presentación clásica es la bronquiolitis viral.",
+      "explicacion": "- **Hallazgos:** hiperinsuflación con opacidades alveolares parcheadas, perihiliares y bilaterales.\n- Los hallazgos clásicos de la bronquiolitis viral son la hiperinsuflación y las opacidades alveolares o intersticiales perihiliares.\n- Aunque el asma puede verse igual, en un lactante con este cuadro clínico y esta radiografía la presentación clásica es la bronquiolitis viral.",
       "perla": "El estrechamiento de la vía aérea es grave en los niños pequeños porque una mínima reducción del diámetro disminuye mucho el área de sección.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Bronquiolitis viral: entidad muy común; la fuente llama clásicos la hiperinsuflación y opacidades perihiliares",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2846,7 +2921,7 @@
         "hiperclaridad"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño de 10 años presenta tos. Las imágenes muestran un pulmón izquierdo pequeño e hiperclaro, con menos vascularización y atrapamiento aéreo en la TC en espiración y en la gammagrafía de ventilación. El hilio izquierdo es pequeño. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un niño de 10 años presenta tos. Se muestran las imágenes, incluidas la TC en espiración y la gammagrafía de ventilación. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case016",
@@ -2861,8 +2936,13 @@
         "Asma"
       ],
       "correcta": 3,
-      "explicacion": "- El síndrome de Swyer-James se presenta con un pulmón pequeño e hiperclaro, hilio pequeño y atrapamiento aéreo en espiración; suele ser posinfeccioso (por ejemplo, bronquiolitis obliterante por adenovirus).\n- La agenesia de la arteria pulmonar no tiene atrapamiento aéreo. El enfisema lobar congénito se presenta con un lóbulo aumentado de tamaño e hiperclaro.",
+      "explicacion": "- **Hallazgos:** pulmón izquierdo pequeño e hiperclaro, con menos vascularización, hilio pequeño y atrapamiento aéreo en la TC en espiración y en la gammagrafía de ventilación.\n- El síndrome de Swyer-James se presenta con un pulmón pequeño e hiperclaro, hilio pequeño y atrapamiento aéreo en espiración; suele ser posinfeccioso (por ejemplo, bronquiolitis obliterante por adenovirus).\n- La agenesia de la arteria pulmonar no tiene atrapamiento aéreo. El enfisema lobar congénito se presenta con un lóbulo aumentado de tamaño e hiperclaro.",
       "perla": "En el síndrome de Swyer-James, la hiperclaridad se debe a la menor perfusión, no a una mayor ventilación.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Swyer-James: entidad poco común con presentación típica (pulmón pequeño hiperclaro con atrapamiento), ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2887,7 +2967,7 @@
         "anillo vascular"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño presenta episodios de disnea. El esofagograma con bario muestra impresiones bilaterales sobre el esófago, la derecha más alta que la izquierda. La TC confirma arcos aórticos derecho e izquierdo. ¿Cuál es el diagnóstico?",
+      "enunciado": "Un niño presenta episodios de disnea. Se muestran el esofagograma con bario y la TC. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case017",
@@ -2902,8 +2982,13 @@
         "Coartación de aorta"
       ],
       "correcta": 1,
-      "explicacion": "- El doble arco aórtico suele producir impresiones bilaterales sobre el esófago y es el anillo vascular sintomático más frecuente.\n- El arco derecho con subclavia izquierda aberrante puede verse parecido en el esofagograma, pero los cortes transversales muestran un solo arco, el derecho.",
+      "explicacion": "- **Hallazgos:** impresiones bilaterales sobre el esófago, la derecha más alta que la izquierda; la TC muestra arcos aórticos derecho e izquierdo.\n- El doble arco aórtico suele producir impresiones bilaterales sobre el esófago y es el anillo vascular sintomático más frecuente.\n- El arco derecho con subclavia izquierda aberrante puede verse parecido en el esofagograma, pero los cortes transversales muestran un solo arco, el derecho.",
       "perla": "En el doble arco aórtico, los cortes transversales por encima del arco muestran cuatro arterias en lugar de las tres habituales.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Doble arco aórtico: anillo vascular, diferencial con arco derecho y subclavia aberrante; ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2928,7 +3013,7 @@
         "prematuro"
       ],
       "tipo": "imagen",
-      "enunciado": "Un recién nacido prematuro con ventilación mecánica presenta claridades lineales y burbujeantes extensas, que irradian desde los hilios hacia la periferia en ambos pulmones. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Recién nacido prematuro con ventilación mecánica. Se muestra la radiografía de tórax. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case018",
@@ -2943,8 +3028,13 @@
         "Hernia diafragmática congénita"
       ],
       "correcta": 2,
-      "explicacion": "- El EIP se presenta como claridades burbujeantes o lineales que irradian desde los hilios en un prematuro ventilado, típicamente en la primera semana de vida.\n- Se debe a un barotrauma que fuerza el aire hacia los espacios peribronquiales y perivasculares.",
+      "explicacion": "- **Hallazgos:** claridades lineales y burbujeantes extensas que irradian desde los hilios hacia la periferia en ambos pulmones.\n- El EIP se presenta como claridades burbujeantes o lineales que irradian desde los hilios en un prematuro ventilado, típicamente en la primera semana de vida.\n- Se debe a un barotrauma que fuerza el aire hacia los espacios peribronquiales y perivasculares.",
       "perla": "El EIP puede ser el primer signo de un escape aéreo inminente, como un neumotórax o un neumomediastino.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Enfisema intersticial pulmonar: complicación conocida de la ventilación en el prematuro, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2969,7 +3059,7 @@
         "compresión de la vía aérea"
       ],
       "tipo": "imagen",
-      "enunciado": "Un lactante presenta episodios repetidos de dificultad respiratoria. El esofagograma con bario muestra un efecto de masa focal en la cara anterior del esófago y posterior de la tráquea. La TC muestra una arteria pulmonar izquierda anómala que nace de la arteria pulmonar derecha. ¿Cómo se llama esta anomalía?",
+      "enunciado": "Un lactante presenta episodios repetidos de dificultad respiratoria. Se muestran el esofagograma con bario y la TC. ¿Cómo se llama la anomalía?",
       "imagenes": [
         {
           "ref": "case019",
@@ -2984,8 +3074,13 @@
         "Arco aórtico cervical"
       ],
       "correcta": 2,
-      "explicacion": "- La arteria pulmonar en cabestrillo es la única anomalía vascular relativamente frecuente que pasa entre la tráquea y el esófago, y produce una impresión anterior sobre el esófago.\n- Se debe al origen anómalo de la arteria pulmonar izquierda en la derecha.",
+      "explicacion": "- **Hallazgos:** efecto de masa focal en la cara anterior del esófago y posterior de la tráquea; en la TC, la arteria pulmonar izquierda nace de la derecha.\n- La arteria pulmonar en cabestrillo es la única anomalía vascular relativamente frecuente que pasa entre la tráquea y el esófago, y produce una impresión anterior sobre el esófago.\n- Se debe al origen anómalo de la arteria pulmonar izquierda en la derecha.",
       "perla": "Es la única anomalía vascular que se asocia a una insuflación pulmonar asimétrica.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Arteria pulmonar en cabestrillo: anomalía vascular poco frecuente; anillos vasculares son ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3010,7 +3105,7 @@
         "muescas costales"
       ],
       "tipo": "imagen",
-      "enunciado": "Un adolescente hipertenso tiene la presión arterial más baja en las piernas que en los brazos. La radiografía de tórax muestra un botón aórtico aumentado, una muesca entre el botón y la aorta descendente y muescas costales leves. ¿Cuál es el diagnóstico?",
+      "enunciado": "Un adolescente hipertenso tiene la presión arterial más baja en las piernas que en los brazos. Se muestra la radiografía de tórax. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case020",
@@ -3025,8 +3120,13 @@
         "Arteritis de Takayasu"
       ],
       "correcta": 3,
-      "explicacion": "- La coartación de aorta se presenta con hipertensión en los miembros superiores, el signo del «3» o muesca en la radiografía y muescas costales por el flujo colateral intercostal.\n- Se asocia con frecuencia a válvula aórtica bicúspide.",
+      "explicacion": "- **Hallazgos:** botón aórtico aumentado, con una muesca entre el botón y la aorta descendente (signo del «3»), y muescas costales leves.\n- La coartación de aorta se presenta con hipertensión en los miembros superiores, el signo del «3» o muesca en la radiografía y muescas costales por el flujo colateral intercostal.\n- Se asocia con frecuencia a válvula aórtica bicúspide.",
       "perla": "Las muescas costales pueden ser el único hallazgo radiográfico en las coartaciones no sospechadas clínicamente.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Coartación aórtica: entidad común con signos clásicos (signo del 3, muescas) que integra la clínica, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3052,7 +3152,7 @@
         "Cardiomegalia"
       ],
       "tipo": "imagen",
-      "enunciado": "Neonato que presenta cianosis severa. En la radiografía frontal de tórax se observa cardiomegalia masiva en forma de 'caja' y vascularidad pulmonar disminuida. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Neonato con cianosis grave. Se muestra la radiografía frontal de tórax. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case021",
@@ -3067,8 +3167,13 @@
         "Transposición de grandes vasos"
       ],
       "correcta": 2,
-      "explicacion": "- La cardiomegalia masiva con marcada convexidad del borde derecho y la disminución de la vascularidad pulmonar son típicas de la anomalía de Ebstein.\n- El desplazamiento de la válvula tricúspide hacia el ventrículo derecho causa una 'atrialización' del ventrículo y cardiomegalia derecha masiva.",
+      "explicacion": "- **Hallazgos:** cardiomegalia masiva «en caja», con convexidad marcada del borde derecho, y vascularización pulmonar disminuida.\n- La cardiomegalia masiva con marcada convexidad del borde derecho y la disminución de la vascularidad pulmonar son típicas de la anomalía de Ebstein.\n- El desplazamiento de la válvula tricúspide hacia el ventrículo derecho causa una 'atrialización' del ventrículo y cardiomegalia derecha masiva.",
       "perla": "Los lactantes con anomalía de Ebstein generalmente se presentan con cianosis o insuficiencia cardíaca y una cardiomegalia masiva en forma de caja.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Anomalía de Ebstein: cardiopatía congénita rara; corazón en caja típico pero diferencial cianótico, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3094,7 +3199,7 @@
         "Trombosis yugular"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño con dolor de garganta severo, fiebre, inflamación del cuello y dificultad respiratoria. La TC muestra nódulos pulmonares cavitados bilaterales, derrame pleural y un defecto de llenado en la vena yugular interna izquierda. ¿Cuál es el microorganismo más frecuentemente asociado a esta condición?",
+      "enunciado": "Niño con dolor de garganta intenso, fiebre, inflamación del cuello y dificultad respiratoria. Se muestra la TC. ¿Qué microorganismo se asocia con más frecuencia a esta condición?",
       "imagenes": [
         {
           "ref": "case022",
@@ -3109,8 +3214,13 @@
         "Mycobacterium tuberculosis"
       ],
       "correcta": 2,
-      "explicacion": "- Este cuadro clínico y radiológico (infección del espacio faríngeo lateral, trombosis séptica de la vena yugular y émbolos pulmonares) corresponde al síndrome de Lemierre.\n- Está asociado en la mayoría de los casos con Fusobacterium necrophorum, un anaerobio de la cavidad oral.",
+      "explicacion": "- **Hallazgos:** nódulos pulmonares cavitados bilaterales, derrame pleural y un defecto de llenado en la vena yugular interna izquierda.\n- Este cuadro clínico y radiológico (infección del espacio faríngeo lateral, trombosis séptica de la vena yugular y émbolos pulmonares) corresponde al síndrome de Lemierre.\n- Está asociado en la mayoría de los casos con Fusobacterium necrophorum, un anaerobio de la cavidad oral.",
       "perla": "Cuando las imágenes del tórax muestran posibles émbolos sépticos, se deben considerar focos de flebitis, además de la endocarditis.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Síndrome de Lemierre: entidad poco frecuente, asociación sindrómica y microbiológica; ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3135,7 +3245,7 @@
         "Mediastino"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño de 8 años con dolor torácico y disfagia. La radiografía y TC de tórax muestran una masa bien definida de baja densidad en el nivel de la carina que estrecha el bronquio principal izquierdo. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño de 8 años con dolor torácico y disfagia. Se muestran la radiografía y la TC de tórax. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case023",
@@ -3150,8 +3260,13 @@
         "Linfoma"
       ],
       "correcta": 2,
-      "explicacion": "- Los hallazgos describen un quiste broncogénico, típicamente una masa quística redonda u ovalada paratraqueal o subcarinal.\n- Aunque puede ser difícil diferenciarlo de un quiste de duplicación esofágica, estos últimos suelen ser de localización mediastínica posterior o intramurales.",
+      "explicacion": "- **Hallazgos:** masa bien definida, de baja densidad, a la altura de la carina, que estrecha el bronquio principal izquierdo.\n- Aunque puede ser difícil diferenciarlo de un quiste de duplicación esofágica, estos últimos suelen ser de localización mediastínica posterior o intramurales.",
       "perla": "Los quistes broncogénicos resultan de un brote ventral anormal del árbol traqueobronquial; pueden presentar densidad de líquido y paredes delgadas.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Quiste broncogénico subcarinal: masa mediastínica congénita típica, diferencial con duplicación, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3177,7 +3292,7 @@
         "Nódulos pulmonares"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente de 4 años que se presenta con ronquera. La TC demuestra múltiples masas de tejido blando en la tráquea y nódulos en ambos pulmones. ¿Cuál es el origen de esta patología?",
+      "enunciado": "Niño de 4 años con ronquera. Se muestra la TC. ¿Cuál es el origen de esta patología?",
       "imagenes": [
         {
           "ref": "case024",
@@ -3192,8 +3307,13 @@
         "Histiocitosis de células de Langerhans"
       ],
       "correcta": 1,
-      "explicacion": "- La papilomatosis respiratoria recurrente se debe a la transmisión perinatal del virus del papiloma humano (VPH) de madre a hijo.\n- Provoca tumores benignos de los sistemas respiratorio y digestivo inferior.",
+      "explicacion": "- **Hallazgos:** múltiples masas de partes blandas en la tráquea y nódulos en ambos pulmones.\n- La papilomatosis respiratoria recurrente se debe a la transmisión perinatal del virus del papiloma humano (VPH) de madre a hijo.\n- Provoca tumores benignos de los sistemas respiratorio y digestivo inferior.",
       "perla": "La papilomatosis es la causa más común de tumores laríngeos en niños; menos del 1% se disemina para involucrar los pulmones.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Papilomatosis respiratoria con diseminación pulmonar: rara (menos del 1 %), pregunta su etiología; ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3219,7 +3339,7 @@
         "Páncreas"
       ],
       "tipo": "imagen",
-      "enunciado": "Adolescente de 17 años con infecciones respiratorias frecuentes. La TC demuestra bronquiectasias severas e hiperinsuflación pulmonar, y en el abdomen se observa reemplazo graso del páncreas. ¿Qué diagnóstico unifica estos hallazgos?",
+      "enunciado": "Adolescente de 17 años con infecciones respiratorias frecuentes. Se muestra la TC de tórax y abdomen. ¿Qué diagnóstico une los hallazgos?",
       "imagenes": [
         {
           "ref": "case025",
@@ -3234,8 +3354,13 @@
         "Discinesia ciliar primaria"
       ],
       "correcta": 3,
-      "explicacion": "- La combinación de reemplazo graso del páncreas y bronquiectasias hace el diagnóstico de fibrosis quística.\n- El síndrome de Schwachman-Diamond también causa lipomatosis pancreática, pero no suele presentar bronquiectasias.",
+      "explicacion": "- **Hallazgos:** bronquiectasias graves e hiperinsuflación pulmonar, con reemplazo graso del páncreas.\n- La combinación de reemplazo graso del páncreas y bronquiectasias hace el diagnóstico de fibrosis quística.\n- El síndrome de Schwachman-Diamond también causa lipomatosis pancreática, pero no suele presentar bronquiectasias.",
       "perla": "La disfunción de las glándulas exocrinas en la fibrosis quística causa alteraciones multiorgánicas, destacando bronquiectasias (predominio superior) y reemplazo graso pancreático.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Fibrosis quística: entidad común que integra bronquiectasias y páncreas graso; la fuente dice que hace el diagnóstico",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3260,7 +3385,7 @@
         "Ecografía"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño con una masa abdominal palpable. La ecografía de la lesión quística revela una pared con un patrón de 'firma gastrointestinal' (mucosa ecogénica, muscularis hipoecoica y serosa ecogénica). ¿A qué corresponde este hallazgo?",
+      "enunciado": "Niño con una masa abdominal palpable. Se muestra la ecografía de la lesión quística. ¿A qué corresponde la lesión?",
       "imagenes": [
         {
           "ref": "case026",
@@ -3275,8 +3400,13 @@
         "Quiste de colédoco"
       ],
       "correcta": 2,
-      "explicacion": "- El hallazgo de la 'firma gastrointestinal' en la pared de una lesión quística es diagnóstico de un quiste de duplicación del tracto gastrointestinal.\n- Los quistes mesentéricos u otras malformaciones carecen de esta firma ecográfica característica.",
+      "explicacion": "- **Hallazgos:** pared con «firma gastrointestinal»: mucosa ecogénica, muscular hipoecoica y serosa ecogénica.\n- El hallazgo de la 'firma gastrointestinal' en la pared de una lesión quística es diagnóstico de un quiste de duplicación del tracto gastrointestinal.\n- Los quistes mesentéricos u otras malformaciones carecen de esta firma ecográfica característica.",
       "perla": "Los quistes de duplicación pueden surgir de cualquier parte del tubo digestivo y con frecuencia contienen mucosa gástrica ectópica.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Quiste de duplicación con firma intestinal: entidad poco común con signo ecográfico que la fuente llama diagnóstico, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3301,7 +3431,7 @@
         "Hepatomegalia"
       ],
       "tipo": "imagen",
-      "enunciado": "Neonato con masa abdominal. Las imágenes muestran cardiomegalia y hepatomegalia, con múltiples lesiones hepáticas hipoecoicas con flujo elevado. La TC muestra un cambio abrupto en el calibre de la aorta por debajo de la arteria celíaca. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Neonato con una masa abdominal. Se muestran las imágenes. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case027",
@@ -3316,8 +3446,13 @@
         "Carcinoma hepatocelular"
       ],
       "correcta": 2,
-      "explicacion": "- Estos hallazgos son característicos de la hemangioendoteliomatosis, que cursa con cortocircuito arteriovenoso masivo, insuficiencia cardíaca de alto gasto y disminución del calibre aórtico distal.\n- A diferencia del hepatoblastoma, suele ser multifocal o difuso con shunts notorios.",
+      "explicacion": "- **Hallazgos:** cardiomegalia y hepatomegalia con múltiples lesiones hepáticas hipoecoicas de flujo elevado; en la TC, cambio abrupto del calibre de la aorta por debajo del tronco celíaco.\n- Estos hallazgos son característicos de la hemangioendoteliomatosis, que cursa con cortocircuito arteriovenoso masivo, insuficiencia cardíaca de alto gasto y disminución del calibre aórtico distal.\n- A diferencia del hepatoblastoma, suele ser multifocal o difuso con shunts notorios.",
       "perla": "Considere el hemangioendotelioma en un lactante con insuficiencia cardíaca congestiva y un hígado grande, y busque el cambio de calibre de la aorta.",
+      "dificultad": {
+        "nivel": 4,
+        "motivo": "Hemangioendoteliomatosis: entidad rara; el signo decisivo es el cambio sutil de calibre aórtico bajo el tronco celíaco, ETC III",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3342,7 +3477,7 @@
         "Microcolon"
       ],
       "tipo": "imagen",
-      "enunciado": "Neonato con fracaso en la evacuación del meconio. El enema de contraste muestra un recto de calibre estrecho y poco distensible en comparación con el colon sigmoide, observándose una zona de transición. ¿Qué condición se describe?",
+      "enunciado": "Neonato que no evacúa el meconio. Se muestra el enema de contraste. ¿Cuál es la condición?",
       "imagenes": [
         {
           "ref": "case028",
@@ -3357,8 +3492,13 @@
         "Malrotación intestinal"
       ],
       "correcta": 3,
-      "explicacion": "- La presencia de un recto menos distensible que el sigmoide (relación rectosigmoidea menor a 1) y una zona de transición clara hacia un colon proximal dilatado es típica de la enfermedad de Hirschsprung.\n- Se debe a la falta de migración de las células de la cresta neural y ausencia de plexo mientérico.",
+      "explicacion": "- **Hallazgos:** recto estrecho y poco distensible comparado con el sigma, con una zona de transición.\n- La presencia de un recto menos distensible que el sigmoide (relación rectosigmoidea menor a 1) y una zona de transición clara hacia un colon proximal dilatado es típica de la enfermedad de Hirschsprung.\n- Se debe a la falta de migración de las células de la cresta neural y ausencia de plexo mientérico.",
       "perla": "La vista crítica en el enema de contraste es la vista lateral de llenado temprano, que muestra un recto estrecho y la zona de transición.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Hirschsprung: entidad común; diagnóstico típico en enema por índice rectosigmoideo y zona de transición, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3384,7 +3524,7 @@
         "Fibrosis quística"
       ],
       "tipo": "imagen",
-      "enunciado": "Neonato que no ha expulsado meconio. El enema de contraste demuestra un colon muy pequeño (microcolon) y defectos de llenado múltiples por reflujo hacia el íleon terminal. ¿A qué enfermedad subyacente está asociada casi exclusivamente esta condición?",
+      "enunciado": "Neonato que no ha expulsado meconio. Se muestra el enema de contraste. ¿A qué enfermedad de base se asocia casi siempre esta condición?",
       "imagenes": [
         {
           "ref": "case029",
@@ -3399,8 +3539,13 @@
         "Enfermedad celíaca"
       ],
       "correcta": 1,
-      "explicacion": "- Estos hallazgos describen el íleo meconial, que produce el microcolon más severo, y los defectos de llenado corresponden a pellets de meconio seco en el íleon.\n- Casi todos los pacientes que presentan íleo meconial tienen fibrosis quística.",
+      "explicacion": "- **Hallazgos:** colon muy pequeño (microcolon) y múltiples defectos de llenado por reflujo al íleon terminal: íleo meconial.\n- Estos hallazgos describen el íleo meconial, que produce el microcolon más severo, y los defectos de llenado corresponden a pellets de meconio seco en el íleon.\n- Casi todos los pacientes que presentan íleo meconial tienen fibrosis quística.",
       "perla": "Casi todos los pacientes con íleo meconial tienen fibrosis quística, y el enema con contraste hiperosmolar puede ser tanto diagnóstico como terapéutico.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Íleo meconial y su asociación casi exclusiva con fibrosis quística: obstrucción neonatal conocida, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3425,7 +3570,7 @@
         "Hidronefrosis"
       ],
       "tipo": "imagen",
-      "enunciado": "Neonato masculino con hidronefrosis detectada in utero. La cistouretrografía miccional revela una dilatación en forma de bala de la uretra posterior, y la uretra más distal es de calibre normal. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Neonato varón con hidronefrosis detectada en la ecografía prenatal. Se muestra la cistouretrografía miccional. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case030",
@@ -3440,8 +3585,13 @@
         "Ureterocele"
       ],
       "correcta": 2,
-      "explicacion": "- La dilatación de la uretra posterior con un cambio abrupto a un calibre normal distal indica una obstrucción a nivel del tracto de salida de la vejiga, clásico de las valvas de uretra posterior.\n- Esta condición ocurre exclusivamente en varones y puede causar complicaciones graves como displasia renal u oligohidramnios.",
+      "explicacion": "- **Hallazgos:** dilatación en forma de bala de la uretra posterior, con la uretra distal de calibre normal.\n- La dilatación de la uretra posterior con un cambio abrupto a un calibre normal distal indica una obstrucción a nivel del tracto de salida de la vejiga, clásico de las valvas de uretra posterior.\n- Esta condición ocurre exclusivamente en varones y puede causar complicaciones graves como displasia renal u oligohidramnios.",
       "perla": "El hallazgo característico es la dilatación de la uretra posterior con un cambio brusco de calibre hacia una uretra distal normal.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Valvas de uretra posterior: signo distintivo en la CUMS; diagnóstico típico que integra hidronefrosis prenatal, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3468,7 +3618,7 @@
         "MAG3"
       ],
       "tipo": "imagen",
-      "enunciado": "Un lactante presenta hidronefrosis en la ecografía prenatal. La ecografía renal muestra una estructura central anecoica dilatada. El estudio con MAG3 muestra captación y excreción retrasadas del trazador en el riñón izquierdo, que está aumentado de tamaño. No hay hidrouréter. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Lactante con hidronefrosis en la ecografía prenatal. Se muestran la ecografía renal y el estudio con MAG3. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case031",
@@ -3483,8 +3633,13 @@
         "Agenesia renal"
       ],
       "correcta": 0,
-      "explicacion": "- La obstrucción de la unión pieloureteral (UPU) es la forma más frecuente de obstrucción urinaria en los niños.\n- Un riñón hidronefrótico sin hidrouréter, con captación y excreción retrasadas de MAG3, es compatible con obstrucción de la UPU.\n- El riñón displásico multiquístico no captaría MAG3, y la obstrucción de la unión ureterovesical cursaría con hidrouréter.",
+      "explicacion": "- **Hallazgos:** estructura central anecoica dilatada en la ecografía; el riñón izquierdo, aumentado de tamaño, capta y excreta el MAG3 con retraso, y no hay hidrouréter.\n- La obstrucción de la unión pieloureteral (UPU) es la forma más frecuente de obstrucción urinaria en los niños.\n- Un riñón hidronefrótico sin hidrouréter, con captación y excreción retrasadas de MAG3, es compatible con obstrucción de la UPU.\n- El riñón displásico multiquístico no captaría MAG3, y la obstrucción de la unión ureterovesical cursaría con hidrouréter.",
       "perla": "La obstrucción de la UPU es la forma más frecuente de obstrucción urinaria en los niños y suele presentarse como un riñón hidronefrótico sin hidrouréter.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Obstrucción pieloureteral: la más frecuente en niños; integra ecografía y MAG3 en diferencial común, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3510,7 +3665,7 @@
         "pertecnetato"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño de 4 años presenta episodios repetidos de dolor abdominal y rectorragia. La gammagrafía con pertecnetato muestra un acúmulo focal del trazador en la fosa ilíaca derecha que aumenta con el tiempo. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño de 4 años con episodios repetidos de dolor abdominal y rectorragia. Se muestra la gammagrafía con pertecnetato. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case032",
@@ -3525,8 +3680,13 @@
         "Invaginación sin cabeza de invaginación"
       ],
       "correcta": 0,
-      "explicacion": "- La captación de pertecnetato en un divertículo de Meckel aumenta con el tiempo, igual que la actividad gástrica.\n- Es un resto del conducto onfalomesentérico y una causa frecuente de hemorragia digestiva en los niños.",
+      "explicacion": "- **Hallazgos:** acúmulo focal del trazador en la fosa ilíaca derecha que aumenta con el tiempo, igual que el estómago.\n- La captación de pertecnetato en un divertículo de Meckel aumenta con el tiempo, igual que la actividad gástrica.\n- Es un resto del conducto onfalomesentérico y una causa frecuente de hemorragia digestiva en los niños.",
       "perla": "Los divertículos de Meckel siguen la «regla de los 2» y pueden actuar como cabeza de invaginación. La cimetidina y el glucagón aumentan la sensibilidad de la gammagrafía.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Divertículo de Meckel en gammagrafía con pertecnetato: entidad común, integra clínica y medicina nuclear, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3552,7 +3712,7 @@
         "signo de la cuerda"
       ],
       "tipo": "imagen",
-      "enunciado": "Un lactante varón de 1 mes presenta vómitos no biliosos progresivos. En la exploración se palpa una masa antral. El tránsito esofagogastroduodenal con bario muestra un canal pilórico alargado y estrecho («signo de la cuerda»). ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Lactante varón de 1 mes con vómitos no biliosos progresivos y una masa antral palpable. Se muestra el tránsito esofagogastroduodenal con bario. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case033",
@@ -3567,8 +3727,13 @@
         "Vólvulo del intestino medio"
       ],
       "correcta": 2,
-      "explicacion": "- La estenosis hipertrófica de píloro es una hipertrofia idiopática del píloro que se presenta con vómitos no biliosos en proyectil progresivos y una masa palpable «en oliva».\n- Las imágenes muestran un canal pilórico alargado y estrecho.",
+      "explicacion": "- **Hallazgos:** canal pilórico alargado y estrecho («signo de la cuerda»).\n- La estenosis hipertrófica de píloro es una hipertrofia idiopática del píloro que se presenta con vómitos no biliosos en proyectil progresivos y una masa palpable «en oliva».",
       "perla": "La estenosis hipertrófica de píloro se desarrolla de forma progresiva, suele aparecer entre las 2 y las 12 semanas de vida y es cuatro veces más frecuente en varones.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Estenosis hipertrófica de píloro con signo de la cuerda: entidad común y signo clásico, ETC I temprano",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3594,7 +3759,7 @@
         "CUMS"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño de 2 años presenta dolor abdominal, fiebre y disminución de la diuresis. La cistouretrografía miccional seriada (CUMS) muestra un gran defecto de llenado irregular en la luz de la vejiga distendida. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño de 2 años con dolor abdominal, fiebre y disminución de la diuresis. Se muestra la cistouretrografía miccional seriada. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case034",
@@ -3609,8 +3774,13 @@
         "Tumor de Wilms"
       ],
       "correcta": 3,
-      "explicacion": "- Una masa vesical grande en un niño es muy compatible con un rabdomiosarcoma.\n- Es la neoplasia más frecuente de la vía urinaria inferior y en los varones suele originarse en la próstata o la vejiga.",
+      "explicacion": "- **Hallazgos:** gran defecto de llenado irregular en la luz de la vejiga distendida.\n- Una masa vesical grande en un niño es muy compatible con un rabdomiosarcoma.\n- Es la neoplasia más frecuente de la vía urinaria inferior y en los varones suele originarse en la próstata o la vejiga.",
       "perla": "El rabdomiosarcoma genitourinario es dos o tres veces más frecuente en varones, con un pico entre los 2 y los 5 años.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Rabdomiosarcoma vesical: neoplasia más frecuente de vía urinaria inferior en niños; masa típica, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3636,7 +3806,7 @@
         "ausencia de expulsión de meconio"
       ],
       "tipo": "imagen",
-      "enunciado": "Un recién nacido no expulsa meconio. Las radiografías de abdomen muestran calcificaciones curvilíneas sutiles en el mesogastrio y escaso gas intestinal distal. ¿Cuál es la causa más probable de estos hallazgos?",
+      "enunciado": "Recién nacido que no expulsa meconio. Se muestran las radiografías de abdomen. ¿Cuál es la causa más probable?",
       "imagenes": [
         {
           "ref": "case035",
@@ -3651,8 +3821,13 @@
         "Hepatoblastoma"
       ],
       "correcta": 2,
-      "explicacion": "- Las calcificaciones curvilíneas en el abdomen de un recién nacido que no ha expulsado meconio sugieren mucho una perforación intrauterina por íleo meconial.\n- El meconio que se escapa queda tabicado, forma un seudoquiste y se calcifica.",
+      "explicacion": "- **Hallazgos:** calcificaciones curvilíneas sutiles en el mesogastrio y escaso gas intestinal distal.\n- Las calcificaciones curvilíneas en el abdomen de un recién nacido que no ha expulsado meconio sugieren mucho una perforación intrauterina por íleo meconial.\n- El meconio que se escapa queda tabicado, forma un seudoquiste y se calcifica.",
       "perla": "Las calcificaciones de una perforación intestinal intrauterina se hacen visibles en una semana y siguen el contorno del peritoneo.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Seudoquiste meconial: entidad poco común con calcificaciones que la fuente describe como sutiles; ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3678,7 +3853,7 @@
         "vómitos"
       ],
       "tipo": "imagen",
-      "enunciado": "Un recién nacido presenta vómitos y distensión abdominal. Las radiografías simples muestran múltiples asas de intestino delgado dilatadas con niveles hidroaéreos y sin gas distal. El enema opaco muestra un microcolon, y el contraste no refluye al íleon terminal. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Recién nacido con vómitos y distensión abdominal. Se muestran las radiografías simples y el enema opaco. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case036",
@@ -3693,8 +3868,13 @@
         "Atresia duodenal"
       ],
       "correcta": 2,
-      "explicacion": "- El microcolon y la imposibilidad de que el contraste refluya al íleon terminal sugieren una atresia ileal.\n- En el íleo meconial, el contraste debería refluir al íleon terminal y dibujar los tapones de meconio que obstruyen.",
+      "explicacion": "- **Hallazgos:** múltiples asas de delgado dilatadas con niveles hidroaéreos y sin gas distal; en el enema, microcolon, y el contraste no refluye al íleon terminal.\n- El microcolon y la imposibilidad de que el contraste refluya al íleon terminal sugieren una atresia ileal.\n- En el íleo meconial, el contraste debería refluir al íleon terminal y dibujar los tapones de meconio que obstruyen.",
       "perla": "La atresia ileal se debe a un accidente vascular intrauterino que deja el intestino desvascularizado y necrótico. Suele presentarse con distensión abdominal y ausencia de expulsión de meconio.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Atresia ileal frente a íleo meconial y Hirschsprung total: diferencial fino entre obstrucciones bajas neonatales, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3720,7 +3900,7 @@
         "dilatación biliar"
       ],
       "tipo": "imagen",
-      "enunciado": "Una niña de 10 años presenta dolor abdominal. La colangio-RM muestra una dilatación difusa de la vía biliar extrahepática y un canal común largo entre el conducto pancreático y el colédoco. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niña de 10 años con dolor abdominal. Se muestra la colangio-RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case037",
@@ -3735,8 +3915,13 @@
         "Atresia biliar"
       ],
       "correcta": 1,
-      "explicacion": "- Una dilatación marcada del colédoco con un canal común largo entre el conducto pancreático y el colédoco es compatible con un quiste de colédoco.\n- Una estenosis o un cálculo obstructivo no explicarían el canal común largo.",
+      "explicacion": "- **Hallazgos:** dilatación difusa de la vía biliar extrahepática y canal común largo entre el conducto pancreático y el colédoco.\n- Una dilatación marcada del colédoco con un canal común largo entre el conducto pancreático y el colédoco es compatible con un quiste de colédoco.\n- Una estenosis o un cálculo obstructivo no explicarían el canal común largo.",
       "perla": "Un colédoco de más de 10 mm en un niño sugiere mucho un quiste de colédoco.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Quiste de colédoco con canal común largo: entidad poco común con hallazgo típico en colangio-RM, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3762,7 +3947,7 @@
         "vómitos biliosos"
       ],
       "tipo": "imagen",
-      "enunciado": "Un recién nacido presenta vómitos biliosos persistentes en las primeras 24 horas de vida. Las radiografías de abdomen muestran dilatación gaseosa del estómago y el duodeno («doble burbuja») sin gas distal. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Recién nacido con vómitos biliosos persistentes en las primeras 24 horas de vida. Se muestran las radiografías de abdomen. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case038",
@@ -3777,8 +3962,13 @@
         "Atresia yeyunal"
       ],
       "correcta": 1,
-      "explicacion": "- El estómago y el duodeno dilatados, con ausencia completa de gas intestinal distal, son clásicos de la atresia duodenal.\n- El vólvulo del intestino medio también puede obstruir el duodeno, pero no lo dilata tanto.",
+      "explicacion": "- **Hallazgos:** estómago y duodeno dilatados por gas («doble burbuja»), sin gas distal.\n- El vólvulo del intestino medio también puede obstruir el duodeno, pero no lo dilata tanto.",
       "perla": "La atresia duodenal se asocia con frecuencia al síndrome de Down (30 %) y se presenta de forma clásica con el signo de la «doble burbuja».",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Atresia duodenal con doble burbuja: la fuente lo llama clásico; diagnóstico de vista, ETC I temprano",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3804,7 +3994,7 @@
         "vómitos en proyectil"
       ],
       "tipo": "imagen",
-      "enunciado": "Un lactante de 4 semanas presenta vómitos en proyectil. La ecografía muestra un canal pilórico alargado, de más de 16 mm de longitud y más de 15 mm de diámetro total. ¿Qué alteración ácido-base se asocia de forma clásica a esta entidad?",
+      "enunciado": "Lactante de 4 semanas con vómitos en proyectil. Se muestra la ecografía. ¿Qué alteración ácido-base se asocia de forma clásica a la entidad que se ve?",
       "imagenes": [
         {
           "ref": "case039",
@@ -3819,8 +4009,13 @@
         "Alcalosis respiratoria hipopotasémica"
       ],
       "correcta": 1,
-      "explicacion": "- El cuadro clínico clásico de la estenosis hipertrófica de píloro incluye deshidratación y alcalosis metabólica hipoclorémica.\n- Se debe a la pérdida de ácido gástrico (ácido clorhídrico) por los vómitos en proyectil repetidos.",
+      "explicacion": "- **Hallazgos:** canal pilórico alargado, de más de 16 mm de longitud y más de 15 mm de diámetro total: estenosis hipertrófica de píloro.\n- El cuadro clínico clásico de la estenosis hipertrófica de píloro incluye deshidratación y alcalosis metabólica hipoclorémica.\n- Se debe a la pérdida de ácido gástrico (ácido clorhídrico) por los vómitos en proyectil repetidos.",
       "perla": "El cuadro clínico clásico de la estenosis hipertrófica de píloro es la deshidratación con alcalosis metabólica hipoclorémica.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Estenosis de píloro: alcalosis hipoclorémica, dato clínico clásico según la fuente, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3846,7 +4041,7 @@
         "escroto"
       ],
       "tipo": "imagen",
-      "enunciado": "Un lactante irritable presenta vómitos biliosos. La radiografía de abdomen muestra asas intestinales dilatadas en todo el abdomen y asas dilatadas con gas dentro del escroto. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Lactante irritable con vómitos biliosos. Se muestra la radiografía de abdomen. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case040",
@@ -3861,8 +4056,13 @@
         "Torsión testicular"
       ],
       "correcta": 3,
-      "explicacion": "- En la radiografía simple, el gas en el escroto es prácticamente diagnóstico de hernias inguinales con contenido intestinal.\n- Las hernias inguinales incarceradas pueden causar una obstrucción intestinal mecánica con vómitos biliosos.",
+      "explicacion": "- **Hallazgos:** asas intestinales dilatadas en todo el abdomen y asas con gas dentro del escroto.\n- En la radiografía simple, el gas en el escroto es prácticamente diagnóstico de hernias inguinales con contenido intestinal.\n- Las hernias inguinales incarceradas pueden causar una obstrucción intestinal mecánica con vómitos biliosos.",
       "perla": "Las hernias inguinales del lactante se relacionan mucho con la prematuridad y la persistencia del proceso vaginal. Ante una masa escrotal, la ecografía es la prueba de elección.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Hernias inguinales con gas en el escroto: hallazgo evidente que la fuente llama esencialmente diagnóstico, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3905,6 +4105,11 @@
       "correcta": 2,
       "explicacion": "- La unión duodenoyeyunal malposicionada y el aspecto en 'sacacorchos' del duodeno son diagnósticos de malrotación con vólvulo del intestino medio.\n- En los estudios transversales se puede observar una relación anormal entre la arteria mesentérica superior (SMA) y la vena mesentérica superior (SMV).",
       "perla": "La malrotación se asocia a un alto riesgo de vólvulo e isquemia intestinal y es una urgencia radiológica.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Malrotación con vólvulo: urgencia común; reconocer la unión duodenoyeyunal anómala y el sacacorchos, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3947,6 +4152,11 @@
       "correcta": 2,
       "explicacion": "- El hallazgo de lucencias lineales y burbujeantes superpuestas al gas intestinal es característico de neumatosis intestinal.\n- Es el signo patognomónico de enterocolitis necrotizante en el contexto clínico adecuado.",
       "perla": "La neumatosis intestinal es un signo clave en la enterocolitis necrotizante, la cual es más común en recién nacidos prematuros.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Enterocolitis necrotizante: entidad común en el prematuro; la neumatosis hay que buscarla en la placa, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3988,6 +4198,11 @@
       "correcta": 2,
       "explicacion": "- El hallazgo de una estructura tubular dilatada, llena de líquido, con un engrosamiento de pared que realza y cambios inflamatorios circundantes es típico de la apendicitis.\n- Es la causa más común de cirugía abdominal urgente en pacientes pediátricos.",
       "perla": "La apendicitis puede ser difícil de diagnosticar clínicamente en niños pequeños, y puede cursar con una presentación atípica.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Apendicitis aguda: entidad muy común con hallazgos típicos según la fuente, ETC I temprano",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4030,6 +4245,11 @@
       "correcta": 0,
       "explicacion": "- La presencia de múltiples quistes no comunicantes en un riñón que no muestra función (sin captación ni excreción en la gammagrafía con MAG3) es indicativa de riñón displásico multiquístico.\n- La hidronefrosis típicamente mostraría quistes comunicantes y algún grado de función.",
       "perla": "Es imperativo evaluar siempre el riñón contralateral, dado que hasta un 40% de los casos de MCDK presentan anomalías en el riñón opuesto.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Riñón displásico multiquístico: entidad común; diferencial frecuente con hidronefrosis por la función en MAG3, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4072,6 +4292,11 @@
       "correcta": 1,
       "explicacion": "- El hallazgo de estriación inflamatoria en un área focal de inflamación del omento mayor con contenido de densidad grasa es típico de infarto omental.\n- A diferencia de la apendicitis, el infarto omental es una afección de tratamiento médico conservador.",
       "perla": "El infarto omental suele localizarse en la porción derecha del abdomen, a menudo anterior al colon ascendente o transverso.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Infarto omental: entidad poco común, diferencial fino con apendagitis y apendicitis; ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4097,7 +4322,7 @@
         "lactante"
       ],
       "tipo": "imagen",
-      "enunciado": "Lactante masculino de 6 meses con masa abdominal palpable. Se muestra una masa renal quística multilocular que reemplaza solo una porción del riñón. ¿Cuál es el diagnóstico más sugerente?",
+      "enunciado": "Lactante varón de 6 meses con una masa abdominal palpable. Se muestran las imágenes. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case046",
@@ -4112,8 +4337,13 @@
         "Carcinoma de células renales"
       ],
       "correcta": 2,
-      "explicacion": "- Una masa consistente en quistes no comunicantes que reemplaza solo una porción del riñón sugiere un nefroma quístico multilocular.\n- El riñón displásico multiquístico suele afectar la totalidad del riñón y carece de tejido renal funcional en los estudios de imagen.",
+      "explicacion": "- **Hallazgos:** masa renal quística multilocular, de quistes no comunicantes, que reemplaza solo una porción del riñón.\n- El riñón displásico multiquístico suele afectar la totalidad del riñón y carece de tejido renal funcional en los estudios de imagen.",
       "perla": "El nefroma quístico multilocular tiene una distribución de edad y sexo bifásica: es más común en lactantes masculinos y en mujeres mayores de 40 años.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Nefroma quístico multilocular: tumor renal poco frecuente; diferencial con displasia multiquística, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4139,7 +4369,7 @@
         "masas renales"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño de 3 años con dolor abdominal al que se le realiza una tomografía y ultrasonido, mostrando múltiples masas sólidas y homogéneas en la periferia de los riñones. ¿Cuál es el diagnóstico?",
+      "enunciado": "Niño de 3 años con dolor abdominal. Se muestran la TC y la ecografía. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case047",
@@ -4154,8 +4384,13 @@
         "Metástasis de neuroblastoma"
       ],
       "correcta": 3,
-      "explicacion": "- Las múltiples masas renales sólidas y homogéneas, particularmente en la corteza periférica, son consistentes con nefroblastomatosis.\n- Estos focos de tejido nefrogénico son precursores de tumor de Wilms en un porcentaje importante de los pacientes.",
+      "explicacion": "- **Hallazgos:** múltiples masas sólidas y homogéneas en la periferia de ambos riñones.\n- Las múltiples masas renales sólidas y homogéneas, particularmente en la corteza periférica, son consistentes con nefroblastomatosis.\n- Estos focos de tejido nefrogénico son precursores de tumor de Wilms en un porcentaje importante de los pacientes.",
       "perla": "La nefroblastomatosis da origen a un tercio de los tumores de Wilms y se asocia fuertemente con la forma bilateral de la enfermedad.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Nefroblastomatosis: entidad poco frecuente, precursora de Wilms; diferencial con Wilms bilateral, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4181,7 +4416,7 @@
         "dolor abdominal"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño con episodios intermitentes de dolor abdominal y heces en jalea de grosella. Al realizar el estudio ecográfico, se identifica el signo de la diana en la fosa iliaca derecha. ¿Cuál es el diagnóstico correcto?",
+      "enunciado": "Niño con episodios intermitentes de dolor abdominal. Se muestra la ecografía de la fosa ilíaca derecha. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case048",
@@ -4196,8 +4431,13 @@
         "Malrotación intestinal"
       ],
       "correcta": 1,
-      "explicacion": "- El hallazgo de un signo de 'diana' o 'tiro al blanco' con anillos concéntricos hiperecogénicos e hipoecogénicos es diagnóstico de invaginación intestinal.\n- Es la urgencia abdominal más común en niños pequeños, típicamente de etiología ileocólica idiopática.",
+      "explicacion": "- **Hallazgos:** signo de la «diana»: anillos concéntricos hiperecogénicos e hipoecogénicos en la fosa ilíaca derecha, en un niño con heces en jalea de grosella.\n- El hallazgo de un signo de 'diana' o 'tiro al blanco' con anillos concéntricos hiperecogénicos e hipoecogénicos es diagnóstico de invaginación intestinal.\n- Es la urgencia abdominal más común en niños pequeños, típicamente de etiología ileocólica idiopática.",
       "perla": "La reducción con enema neumático tiene una tasa de éxito del 90%, pero está contraindicada si hay peritonitis o neumoperitoneo.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Invaginación con signo de la diana: urgencia pediátrica común y signo que la fuente llama diagnóstico, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4223,7 +4463,7 @@
         "obesidad"
       ],
       "tipo": "imagen",
-      "enunciado": "Adolescente de 13 años con dolor en hipocondrio derecho. En el US, se aprecian imágenes ecogénicas con sombra acústica que cambian de posición con los movimientos de la paciente. ¿Qué se diagnóstica?",
+      "enunciado": "Adolescente de 13 años con dolor en el hipocondrio derecho. Se muestra la ecografía. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case049",
@@ -4238,8 +4478,13 @@
         "Quiste de colédoco"
       ],
       "correcta": 3,
-      "explicacion": "- El hallazgo de focos ecogénicos, que generan sombra acústica en el interior de la vesícula biliar y se mueven con los cambios en la posición del paciente, es diagnóstico de colelitiasis.\n- El barro biliar no suele causar sombra acústica.",
+      "explicacion": "- **Hallazgos:** imágenes ecogénicas con sombra acústica en la vesícula, que cambian de posición con los movimientos de la paciente.\n- El hallazgo de focos ecogénicos, que generan sombra acústica en el interior de la vesícula biliar y se mueven con los cambios en la posición del paciente, es diagnóstico de colelitiasis.\n- El barro biliar no suele causar sombra acústica.",
       "perla": "La incidencia de colelitiasis en niños está aumentando debido a la creciente prevalencia de la obesidad infantil.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Colelitiasis en ecografía: hallazgo evidente y común, diagnóstico de vista ETC I temprano",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4265,7 +4510,7 @@
         "dolor epigástrico"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño con leucemia linfocítica aguda en tratamiento con quimioterapia que presenta dolor epigástrico intenso. En la TC post-contraste, el páncreas se observa edematoso con cambios inflamatorios. ¿Qué condición debe considerarse?",
+      "enunciado": "Niño con leucemia linfocítica aguda en quimioterapia que presenta dolor epigástrico intenso. Se muestra la TC con contraste. ¿Qué condición debe considerarse?",
       "imagenes": [
         {
           "ref": "case050",
@@ -4280,8 +4525,13 @@
         "Colecistitis aguda"
       ],
       "correcta": 2,
-      "explicacion": "- Los cambios inflamatorios y de edema en el páncreas confirman el diagnóstico de pancreatitis aguda.\n- En pacientes en edad pediátrica con enfermedades de base, el uso de ciertos medicamentos (como fármacos quimioterapéuticos) es una causa conocida de pancreatitis aguda, en ausencia de litiasis biliar o consumo de alcohol.",
+      "explicacion": "- **Hallazgos:** páncreas edematoso con cambios inflamatorios.\n- Los cambios inflamatorios y de edema en el páncreas confirman el diagnóstico de pancreatitis aguda.\n- En pacientes en edad pediátrica con enfermedades de base, el uso de ciertos medicamentos (como fármacos quimioterapéuticos) es una causa conocida de pancreatitis aguda, en ausencia de litiasis biliar o consumo de alcohol.",
       "perla": "A diferencia de los adultos, donde el consumo de alcohol y los cálculos biliares son las principales causas de pancreatitis, en niños es esencial considerar medicamentos, trauma, anomalías anatómicas y trastornos hereditarios.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Pancreatitis aguda por quimioterapia: entidad común con hallazgo evidente en TC, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4323,6 +4573,11 @@
       "correcta": 0,
       "explicacion": "- El tumor de Wilms es la neoplasia renal maligna más frecuente y la masa abdominal sólida más frecuente en los niños.\n- Suele presentarse hacia los 3 años como una masa abdominal grande.\n- A diferencia del neuroblastoma, sustituye el parénquima renal en lugar de solo desplazar el riñón.",
       "perla": "El tumor de Wilms es la neoplasia renal maligna más frecuente en los niños; suele presentarse a los 3 años como una masa abdominal grande que sustituye el parénquima renal.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Tumor de Wilms: masa abdominal sólida más frecuente en niños con presentación típica según la fuente, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4348,7 +4603,7 @@
         "hígado"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño de 1 año presenta una masa abdominal en el lado derecho. Las imágenes muestran una lesión hepática grande, bien delimitada e hipervascular. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño de 1 año con una masa abdominal en el lado derecho. Se muestran las imágenes. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case052",
@@ -4363,8 +4618,13 @@
         "Hamartoma mesenquimal"
       ],
       "correcta": 2,
-      "explicacion": "- El hepatoblastoma es una neoplasia hepática maligna frecuente en lactantes y niños muy pequeños (en general, menores de 3 años).\n- Se asocia a la elevación de la alfafetoproteína.\n- Suele presentarse como una masa grande y bien delimitada.",
+      "explicacion": "- **Hallazgos:** lesión hepática grande, bien delimitada e hipervascular.\n- El hepatoblastoma es una neoplasia hepática maligna frecuente en lactantes y niños muy pequeños (en general, menores de 3 años).\n- Se asocia a la elevación de la alfafetoproteína.\n- Suele presentarse como una masa grande y bien delimitada.",
       "perla": "El hepatoblastoma es el tumor hepático primario más frecuente en los niños pequeños y suele presentarse como una masa grande con alfafetoproteína elevada.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Hepatoblastoma: tumor hepático primario más frecuente en niños pequeños; diferencial frecuente por edad, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4389,7 +4649,7 @@
         "masa epigástrica"
       ],
       "tipo": "imagen",
-      "enunciado": "Se estudia a una niña con dolor abdominal y una masa epigástrica. Las imágenes muestran una masa heterogénea que conserva la forma del estómago. ¿Cuál es el diagnóstico?",
+      "enunciado": "Niña con dolor abdominal y una masa epigástrica. Se muestran las imágenes. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case053",
@@ -4404,8 +4664,13 @@
         "Estado posprandial"
       ],
       "correcta": 1,
-      "explicacion": "- Los bezoares se deben a la retención y acumulación de material no digerido en el estómago.\n- La forma gástrica, la heterogeneidad y la ausencia de flujo sanguíneo ayudan a diferenciar un bezoar de una neoplasia verdadera.\n- Hay fitobezoares (material vegetal) y tricobezoares (pelo).",
+      "explicacion": "- **Hallazgos:** masa heterogénea que conserva la forma del estómago, sin flujo sanguíneo.\n- Los bezoares se deben a la retención y acumulación de material no digerido en el estómago.\n- La forma gástrica, la heterogeneidad y la ausencia de flujo sanguíneo ayudan a diferenciar un bezoar de una neoplasia verdadera.\n- Hay fitobezoares (material vegetal) y tricobezoares (pelo).",
       "perla": "En un niño, una masa heterogénea que se adapta a la forma del estómago suele ser un bezoar.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Bezoar: entidad poco común; diferencial con neoplasia gástrica por la forma y la falta de flujo, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4447,6 +4712,11 @@
       "correcta": 2,
       "explicacion": "- En la duplicación ureteral completa, según la regla de Meyer-Weigert, el uréter del polo superior desemboca en posición inferomedial.\n- Este uréter ectópico del polo superior termina con frecuencia en un ureterocele y causa obstrucción e hidronefrosis del polo superior.\n- El uréter del polo inferior suele desembocar en posición lateral y tiende al reflujo.",
       "perla": "Según la regla de Meyer-Weigert, en la duplicación completa el uréter ectópico del polo superior desemboca en posición inferomedial y tiende a obstruirse por un ureterocele.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Duplicación ureteral y regla de Meyer-Weigert: anomalía común y complicación conocida (ureterocele), ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4472,7 +4742,7 @@
         "hematuria"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño presenta dolor en el flanco derecho y hematuria. La ecografía muestra un foco ecogénico con sombra acústica. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño con dolor en el flanco derecho y hematuria. Se muestra la ecografía. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case055",
@@ -4487,8 +4757,13 @@
         "Angiomiolipoma"
       ],
       "correcta": 2,
-      "explicacion": "- Los cálculos renales son ecogénicos y dejan sombra acústica en la ecografía.\n- En los niños son menos frecuentes que en los adultos y se asocian a trastornos metabólicos, infecciones urinarias o anomalías estructurales.\n- Los coágulos y las bolas fúngicas pueden ser ecogénicos, pero no suelen dejar sombra.",
+      "explicacion": "- **Hallazgos:** foco ecogénico con sombra acústica.\n- Los cálculos renales son ecogénicos y dejan sombra acústica en la ecografía.\n- En los niños son menos frecuentes que en los adultos y se asocian a trastornos metabólicos, infecciones urinarias o anomalías estructurales.\n- Los coágulos y las bolas fúngicas pueden ser ecogénicos, pero no suelen dejar sombra.",
       "perla": "Los focos ecogénicos con sombra acústica en el sistema colector son característicos de la nefrolitiasis, que en los niños puede justificar un estudio metabólico.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Nefrolitiasis en ecografía: foco ecogénico con sombra, hallazgo evidente y común, ETC I temprano",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4530,6 +4805,11 @@
       "correcta": 1,
       "explicacion": "- La tríada de diarrea sanguinolenta, insuficiencia renal aguda y CID sugiere mucho un síndrome hemolítico urémico (SHU).\n- El SHU suele relacionarse con la infección por Escherichia coli enterohemorrágica O157.\n- Los hallazgos de imagen son inespecíficos, pero pueden mostrar riñones aumentados de tamaño y ecogénicos.",
       "perla": "El síndrome hemolítico urémico suele presentarse en niños pequeños con diarrea sanguinolenta, insuficiencia renal aguda y anemia hemolítica o CID.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Síndrome hemolítico urémico: diagnóstico típico que exige integrar la clínica; imagen inespecífica, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4554,7 +4834,7 @@
         "uropatía obstructiva"
       ],
       "tipo": "imagen",
-      "enunciado": "Un adolescente presenta fiebre alta y dolor en el flanco. La TC con contraste muestra un riñón derecho aumentado de tamaño, con zonas hipoatenuantes en cuña e hidronefrosis. ¿Qué indica este «nefrograma estriado»?",
+      "enunciado": "Adolescente con fiebre alta y dolor en el flanco. Se muestra la TC con contraste. ¿Qué indica el nefrograma del riñón derecho?",
       "imagenes": [
         {
           "ref": "case057",
@@ -4569,8 +4849,13 @@
         "Linfoma renal"
       ],
       "correcta": 2,
-      "explicacion": "- Un nefrograma estriado con fiebre alta y dolor en el flanco es prácticamente diagnóstico de pielonefritis aguda.\n- E. coli es el germen más frecuente.\n- La hidronefrosis indica un componente obstructivo: es un riñón obstruido e infectado, una urgencia urológica.",
+      "explicacion": "- **Hallazgos:** riñón derecho aumentado de tamaño, con zonas hipoatenuantes en cuña («nefrograma estriado») e hidronefrosis.\n- Un nefrograma estriado con fiebre alta y dolor en el flanco es prácticamente diagnóstico de pielonefritis aguda.\n- E. coli es el germen más frecuente.\n- La hidronefrosis indica un componente obstructivo: es un riñón obstruido e infectado, una urgencia urológica.",
       "perla": "En un paciente febril, un nefrograma estriado en la TC sugiere mucho una pielonefritis aguda.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Pielonefritis con nefrograma estriado: entidad común, la fuente lo llama esencialmente diagnóstico, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4595,7 +4880,7 @@
         "CUMS"
       ],
       "tipo": "imagen",
-      "enunciado": "La cistouretrografía miccional seriada (CUMS) de un niño con infecciones urinarias de repetición muestra reflujo de contraste hacia un uréter y un sistema colector dilatados, con un leve aplanamiento de los cálices. ¿Qué grado de reflujo vesicoureteral (RVU) representa?",
+      "enunciado": "Niño con infecciones urinarias de repetición. Se muestra la cistouretrografía miccional seriada. ¿Qué grado de reflujo vesicoureteral representa?",
       "imagenes": [
         {
           "ref": "case058",
@@ -4610,8 +4895,13 @@
         "Grado 5"
       ],
       "correcta": 2,
-      "explicacion": "- Grado 1: reflujo a un uréter no dilatado.\n- Grado 2: reflujo hasta la pelvis renal, sin dilatación.\n- Grado 3: dilatación leve o moderada del uréter y del sistema colector, con leve aplanamiento de los cálices.\n- Grado 4: dilatación y tortuosidad moderadas del uréter, con aplanamiento de los fórnices.\n- Grado 5: dilatación y tortuosidad importantes del uréter, con redondeamiento marcado de los fórnices.",
+      "explicacion": "- **Hallazgos:** reflujo de contraste a un uréter y un sistema colector dilatados, con leve aplanamiento de los cálices.\n- Grado 1: reflujo a un uréter no dilatado.\n- Grado 2: reflujo hasta la pelvis renal, sin dilatación.\n- Grado 3: dilatación leve o moderada del uréter y del sistema colector, con leve aplanamiento de los cálices.\n- Grado 4: dilatación y tortuosidad moderadas del uréter, con aplanamiento de los fórnices.\n- Grado 5: dilatación y tortuosidad importantes del uréter, con redondeamiento marcado de los fórnices.",
       "perla": "El reflujo vesicoureteral de grado 3 se caracteriza por un leve aplanamiento de los cálices y una dilatación leve o moderada del uréter y del sistema colector.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Gradación del reflujo vesicoureteral (grado 3 frente a 2 y 4): clasificación que cambia el manejo, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4636,7 +4926,7 @@
         "poliquistosis renal"
       ],
       "tipo": "imagen",
-      "enunciado": "Un recién nacido con antecedente prenatal de oligohidramnios presenta neumotórax bilateral y masas abdominales bilaterales enormes. La ecografía muestra riñones muy aumentados de tamaño, ecogénicos, con mala diferenciación corticomedular. ¿Cuál es el diagnóstico?",
+      "enunciado": "Recién nacido con oligohidramnios prenatal, neumotórax bilateral y masas abdominales bilaterales enormes. Se muestra la ecografía renal. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case059",
@@ -4651,8 +4941,13 @@
         "Tumor de Wilms bilateral"
       ],
       "correcta": 2,
-      "explicacion": "- La poliquistosis renal autosómica recesiva (PRAR) suele presentarse en el periodo neonatal con riñones muy grandes y oligohidramnios, que causa hipoplasia pulmonar y neumotórax.\n- En la ecografía, los riñones están aumentados de tamaño y son difusamente ecogénicos por los microquistes.\n- La poliquistosis autosómica dominante suele manifestarse más tarde.",
+      "explicacion": "- **Hallazgos:** riñones muy aumentados de tamaño, difusamente ecogénicos por los microquistes, con mala diferenciación corticomedular.\n- La poliquistosis renal autosómica recesiva (PRAR) suele presentarse en el periodo neonatal con riñones muy grandes y oligohidramnios, que causa hipoplasia pulmonar y neumotórax.\n- La poliquistosis autosómica dominante suele manifestarse más tarde.",
       "perla": "La PRAR suele presentarse en recién nacidos con riñones grandes y ecogénicos bilaterales, oligohidramnios e hipoplasia pulmonar.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Poliquistosis autosómica recesiva: entidad rara con presentación neonatal típica (oligohidramnios), ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4677,7 +4972,7 @@
         "poliquistosis renal"
       ],
       "tipo": "imagen",
-      "enunciado": "Se estudia a un niño de 10 años por una masa en el flanco. La ecografía muestra múltiples quistes renales grandes bilaterales. El padre tiene antecedentes de enfermedad renal. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño de 10 años en estudio por una masa en el flanco; el padre tiene una enfermedad renal. Se muestra la ecografía. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case060",
@@ -4692,8 +4987,13 @@
         "Enfermedad de von Hippel-Lindau"
       ],
       "correcta": 2,
-      "explicacion": "- La poliquistosis renal autosómica dominante (PRAD) se caracteriza por múltiples quistes renales grandes y bilaterales.\n- Aunque suele manifestarse en la edad adulta, cerca de la mitad de los pacientes tiene quistes detectables en los primeros 10 años de vida.\n- La PRAR produce microquistes que vuelven ecogénicos los riñones, no quistes grandes y aislados.",
+      "explicacion": "- **Hallazgos:** múltiples quistes renales grandes bilaterales.\n- La poliquistosis renal autosómica dominante (PRAD) se caracteriza por múltiples quistes renales grandes y bilaterales.\n- Aunque suele manifestarse en la edad adulta, cerca de la mitad de los pacientes tiene quistes detectables en los primeros 10 años de vida.\n- La PRAR produce microquistes que vuelven ecogénicos los riñones, no quistes grandes y aislados.",
       "perla": "La PRAD se caracteriza por múltiples quistes macroscópicos grandes y bilaterales; aunque da síntomas sobre todo en la edad adulta, los quistes pueden verse en la infancia.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Poliquistosis autosómica dominante: entidad común con quistes grandes bilaterales típicos e historia familiar, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4719,7 +5019,7 @@
         "masa abdominal"
       ],
       "tipo": "imagen",
-      "enunciado": "Se presenta un niño con una gran masa abdominal blanda en el lado derecho. En la TC de abdomen con contraste, se observa la lesión que desplaza las vísceras. ¿Cuál es el diagnóstico más probable dado el aspecto multiseptado y predominantemente de densidad de líquido?",
+      "enunciado": "Niño con una gran masa abdominal blanda en el lado derecho. Se muestra la TC de abdomen con contraste. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case061",
@@ -4734,8 +5034,13 @@
         "Tumor de Wilms"
       ],
       "correcta": 2,
-      "explicacion": "- La malformación linfática (higroma quístico) se presenta como una masa multiquística de densidad líquida.\n- Los abscesos tienen septos que no realzan y asocian inflamación clínica.\n- Las malformaciones venosas muestran estructuras tubulares y mayor realce progresivo.",
+      "explicacion": "- **Hallazgos:** lesión multiseptada, predominantemente de densidad líquida, que desplaza las vísceras.\n- La malformación linfática (higroma quístico) se presenta como una masa multiquística de densidad líquida.\n- Los abscesos tienen septos que no realzan y asocian inflamación clínica.\n- Las malformaciones venosas muestran estructuras tubulares y mayor realce progresivo.",
       "perla": "Las malformaciones linfáticas representan el 25% de todos los tumores vasculares benignos en la infancia y suelen llamarse higromas quísticos cuando afectan cabeza y cuello.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Malformación linfática abdominal: aspecto típico multiseptado; diferencial frecuente con absceso, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4761,7 +5066,7 @@
         "masa pélvica"
       ],
       "tipo": "imagen",
-      "enunciado": "Una adolescente presenta amenorrea primaria y una masa pélvica. En la TC pélvica contrastada, se observa una gran masa llena de líquido en el espacio rectovesical, no lográndose identificar el útero y vagina por separado. ¿Cuál es la etiología más probable?",
+      "enunciado": "Adolescente con amenorrea primaria y una masa pélvica. Se muestra la TC pélvica con contraste. ¿Cuál es la etiología más probable?",
       "imagenes": [
         {
           "ref": "case062",
@@ -4776,8 +5081,13 @@
         "Cistoadenoma mucinoso"
       ],
       "correcta": 2,
-      "explicacion": "- El hidrometrocolpos se debe a la acumulación de sangre menstrual en la vagina y útero obstruidos.\n- En esta entidad no es posible separar el útero de la masa, ya que esta última es la estructura uterovaginal distendida.\n- Una masa ovárica permitiría identificar el útero separado de la lesión.",
+      "explicacion": "- **Hallazgos:** gran masa llena de líquido en el espacio rectovesical, de la que no se separan el útero ni la vagina: es la estructura uterovaginal distendida.\n- El hidrometrocolpos se debe a la acumulación de sangre menstrual en la vagina y útero obstruidos.\n- Una masa ovárica permitiría identificar el útero separado de la lesión.",
       "perla": "El hidrometrocolpos puede causar efecto de masa provocando obstrucción del tracto de salida de la vejiga.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Hidrometrocolpos por amenorrea primaria: diagnóstico típico que integra clínica e imagen, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4803,7 +5113,7 @@
         "ecografía Doppler"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño de 12 años con vómitos y dolor escrotal agudo. La ecografía Doppler transversal revela un testículo izquierdo agrandado, heterogéneamente hipoecoico, sin flujo sanguíneo interno. ¿Qué deformidad anatómica predispone clásicamente a esta afección?",
+      "enunciado": "Niño de 12 años con vómitos y dolor escrotal agudo. Se muestra la ecografía Doppler transversal. ¿Qué deformidad anatómica predispone clásicamente a esta afección?",
       "imagenes": [
         {
           "ref": "case063",
@@ -4818,8 +5128,13 @@
         "Ectopia testicular"
       ],
       "correcta": 1,
-      "explicacion": "- La falta de fijación testicular adecuada permite que el testículo gire sobre su pedículo vascular, conocida como deformidad en badajo de campana.\n- El diagnóstico ecográfico clásico de torsión muestra un testículo agrandado sin flujo interno Doppler.\n- Si hay torsión, la fijación defectuosa suele ser bilateral.",
+      "explicacion": "- **Hallazgos:** testículo izquierdo agrandado, heterogéneamente hipoecoico y sin flujo interno en el Doppler: torsión testicular.\n- La falta de fijación testicular adecuada permite que el testículo gire sobre su pedículo vascular, conocida como deformidad en badajo de campana.\n- Si hay torsión, la fijación defectuosa suele ser bilateral.",
       "perla": "El diagnóstico temprano de la torsión (dentro de las primeras 6 horas) es fundamental para salvar el testículo.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Torsión testicular y deformidad en badajo de campana: urgencia común y dato clásico, ETC I temprano",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4845,7 +5160,7 @@
         "neonato"
       ],
       "tipo": "imagen",
-      "enunciado": "Una recién nacida presenta una masa abdominal. La ecografía pélvica longitudinal y Doppler muestra un ovario izquierdo de 6 cm de diámetro, marcadamente agrandado y heterogéneamente hipoecoico con múltiples quistes periféricos y flujo interno escaso. ¿Cuál es el diagnóstico más consistente con estos hallazgos?",
+      "enunciado": "Recién nacida con una masa abdominal. Se muestra la ecografía pélvica longitudinal con Doppler. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case064",
@@ -4860,8 +5175,13 @@
         "Absceso tubo-ovárico"
       ],
       "correcta": 2,
-      "explicacion": "- El agrandamiento ovárico con múltiples quistes periféricos por congestión venosa es típico de la torsión ovárica.\n- En neonatos, ocurre debido a la estimulación hormonal materna y el tamaño relativamente grande de los ovarios al nacer.\n- Las neoplasias ováricas son infrecuentes en neonatos y tendrían flujo normal a aumentado.",
+      "explicacion": "- **Hallazgos:** ovario izquierdo de 6 cm, marcadamente agrandado y heterogéneamente hipoecoico, con múltiples quistes periféricos y escaso flujo interno.\n- El agrandamiento ovárico con múltiples quistes periféricos por congestión venosa es típico de la torsión ovárica.\n- En neonatos, ocurre debido a la estimulación hormonal materna y el tamaño relativamente grande de los ovarios al nacer.\n- Las neoplasias ováricas son infrecuentes en neonatos y tendrían flujo normal a aumentado.",
       "perla": "El color Doppler tiene utilidad limitada en la torsión ovárica porque el ovario tiene un suministro de sangre dual, lo que permite cierto flujo venoso y arterial incluso cuando hay torsión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Torsión ovárica neonatal: complicación conocida con signo típico de quistes periféricos; la fuente advierte del Doppler",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4887,7 +5207,7 @@
         "TC de abdomen"
       ],
       "tipo": "imagen",
-      "enunciado": "Chica adolescente se presenta con dolor en fosa ilíaca derecha. Las imágenes axiales de TC poscontraste evidencian una masa quística en el espacio rectovesical que muestra niveles de calcio, líquido y grasa. ¿Cuál es el tumor de células germinales ovárico más probable?",
+      "enunciado": "Adolescente con dolor en la fosa ilíaca derecha. Se muestran imágenes axiales de TC con contraste. ¿Cuál es el tumor ovárico de células germinales más probable?",
       "imagenes": [
         {
           "ref": "case065",
@@ -4902,8 +5222,13 @@
         "Cistoadenoma seroso"
       ],
       "correcta": 1,
-      "explicacion": "- La presencia combinada de grasa, calcio y componente líquido es diagnóstica de un teratoma ovárico maduro.\n- Es el tumor de células germinales más frecuente del ovario y contiene elementos del ectodermo, mesodermo y endodermo.\n- Otras neoplasias de células germinales rara vez contienen densidad de grasa.",
+      "explicacion": "- **Hallazgos:** masa quística en el espacio rectovesical con niveles de calcio, líquido y grasa.\n- La presencia combinada de grasa, calcio y componente líquido es diagnóstica de un teratoma ovárico maduro.\n- Es el tumor de células germinales más frecuente del ovario y contiene elementos del ectodermo, mesodermo y endodermo.\n- Otras neoplasias de células germinales rara vez contienen densidad de grasa.",
       "perla": "El 10% de los teratomas ováricos son bilaterales y su ruptura puede ocasionar peritonitis química.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Teratoma ovárico maduro con grasa y calcio: tumor germinal más frecuente; la fuente lo llama diagnóstico, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4929,7 +5254,7 @@
         "neonato"
       ],
       "tipo": "imagen",
-      "enunciado": "Recién nacido con hidronefrosis prenatal. La ecografía longitudinal revela una gran masa avascular superior al riñón, predominantemente hipoecoica con borde periférico hiperecoico y detritos en su interior. Los controles seriados muestran reducción de su tamaño. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Recién nacido con hidronefrosis prenatal. Se muestran la ecografía longitudinal y los controles seriados. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case066",
@@ -4944,8 +5269,13 @@
         "Teratoma suprarrenal"
       ],
       "correcta": 1,
-      "explicacion": "- Una masa suprarrenal avascular de ecotextura mixta en un recién nacido es sugerente de hemorragia suprarrenal.\n- El neuroblastoma habitualmente muestra flujo vascular en la ecografía Doppler y no involuciona con el tiempo.\n- La involución seriada es clave para distinguir de un neuroblastoma en crecimiento.",
+      "explicacion": "- **Hallazgos:** gran masa avascular por encima del riñón, predominantemente hipoecoica, con borde hiperecoico y detritos; disminuye de tamaño en los controles.\n- Una masa suprarrenal avascular de ecotextura mixta en un recién nacido es sugerente de hemorragia suprarrenal.\n- El neuroblastoma habitualmente muestra flujo vascular en la ecografía Doppler y no involuciona con el tiempo.\n- La involución seriada es clave para distinguir de un neuroblastoma en crecimiento.",
       "perla": "Las ecografías seriadas que muestran involución del trombo permiten diferenciar una hemorragia de un neuroblastoma.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Hemorragia suprarrenal neonatal frente a neuroblastoma: diferencial frecuente resuelto por el control seriado, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4971,7 +5301,7 @@
         "arteria meníngea media"
       ],
       "tipo": "imagen",
-      "enunciado": "Adolescente que sufre un accidente de tránsito a alta velocidad. En la TC de cráneo sin contraste, se observa una colección de líquido extraaxial, de morfología biconvexa en el lóbulo frontal izquierdo, con zonas hiperdensas e isodensas en su interior. ¿Qué vaso sanguíneo suele estar implicado en la formación de este tipo de hematomas en la mayoría de los casos?",
+      "enunciado": "Adolescente que sufre un accidente de tráfico a alta velocidad. Se muestra la TC de cráneo sin contraste. ¿Qué vaso suele originar este tipo de hematoma?",
       "imagenes": [
         {
           "ref": "case067",
@@ -4986,8 +5316,13 @@
         "Arteria cerebral anterior"
       ],
       "correcta": 2,
-      "explicacion": "- Un hematoma epidural presenta una morfología biconvexa o lenticular típica.\n- Aproximadamente el 90% resulta de daño a un vaso arterial, más frecuentemente la arteria meníngea media.\n- Los hematomas subdurales son cóncavos con respecto al cerebro y se originan por desgarro de venas puente.",
+      "explicacion": "- **Hallazgos:** colección extraaxial biconvexa (lenticular) frontal izquierda, con zonas hiperdensas e isodensas: hematoma epidural.\n- Aproximadamente el 90% resulta de daño a un vaso arterial, más frecuentemente la arteria meníngea media.\n- Los hematomas subdurales son cóncavos con respecto al cerebro y se originan por desgarro de venas puente.",
       "perla": "Los hematomas epidurales pueden asociarse a un 'intervalo lúcido', en el que el paciente está consciente antes del deterioro neurológico subsecuente por efecto de masa.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Hematoma epidural por arteria meníngea media: entidad común y dato anatómico clásico, ETC I temprano",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5013,7 +5348,7 @@
         "tumor intraventricular"
       ],
       "tipo": "imagen",
-      "enunciado": "Lactante de 8 meses presenta aumento progresivo de la circunferencia cefálica. La RM cerebral muestra una masa bien definida, isointensa y lobulada en el ventrículo lateral derecho que realza fuertemente tras el contraste, y cursa con ventriculomegalia. ¿Cuál de las siguientes afirmaciones sobre esta lesión es correcta?",
+      "enunciado": "Lactante de 8 meses con aumento progresivo de la circunferencia cefálica. Se muestra la RM cerebral. ¿Cuál de estas afirmaciones sobre la lesión es correcta?",
       "imagenes": [
         {
           "ref": "case068",
@@ -5028,8 +5363,14 @@
         "No se asocia a hidrocefalia obstructiva."
       ],
       "correcta": 2,
-      "explicacion": "- El papiloma/carcinoma de plexo coroideo se presenta como masa intraventricular hipervascular lobulada, en pacientes jóvenes, con hidrocefalia secundaria.\n- El 25% de los casos pueden presentar áreas de calcificación.\n- El ependimoma es mucho más frecuente en el cuarto ventrículo, mientras que los papilomas coroideos se presentan comúnmente en los atrios de los ventrículos laterales.",
+      "requiere_opciones": true,
+      "explicacion": "- **Hallazgos:** masa bien definida, isointensa y lobulada en el ventrículo lateral derecho, con realce intenso y ventriculomegalia.\n- El papiloma/carcinoma de plexo coroideo se presenta como masa intraventricular hipervascular lobulada, en pacientes jóvenes, con hidrocefalia secundaria.\n- El 25% de los casos pueden presentar áreas de calcificación.\n- El ependimoma es mucho más frecuente en el cuarto ventrículo, mientras que los papilomas coroideos se presentan comúnmente en los atrios de los ventrículos laterales.",
       "perla": "La imagen no puede distinguir de forma fiable entre papiloma y carcinoma del plexo coroideo, aunque la invasión al parénquima y necrosis apuntan a malignidad.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Papiloma de plexo coroideo: tumor poco frecuente, pregunta datos finos (calcio en 25 %, siembra); ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5055,7 +5396,7 @@
         "ecografía"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño de 2 semanas presenta una masa firme en el cuello y la cabeza girada hacia la izquierda. La ecografía cervical longitudinal revela engrosamiento focal del músculo esternocleidomastoideo derecho, con alteración sutil de su ecotextura en comparación con el contralateral, pero planos fasciales intactos. ¿Cuál es el tratamiento de primera línea para esta patología?",
+      "enunciado": "Niño de 2 semanas con una masa firme en el cuello y la cabeza girada a la izquierda. Se muestra la ecografía cervical longitudinal. ¿Cuál es el tratamiento de primera línea?",
       "imagenes": [
         {
           "ref": "case069",
@@ -5070,8 +5411,13 @@
         "Terapia física y/o tratamiento conservador"
       ],
       "correcta": 4,
-      "explicacion": "- Los hallazgos son típicos de la fibromatosis colli, que ocurre comúnmente por una lesión perinatal.\n- En el 90% de los casos, los pacientes se recuperan por completo con tratamiento conservador o terapia física.\n- La cirugía se reserva para quienes presenten asimetría craneofacial o tortícolis refractaria.",
+      "explicacion": "- **Hallazgos:** engrosamiento focal del esternocleidomastoideo derecho, con ecotextura algo alterada respecto al contralateral y planos fasciales intactos.\n- Los hallazgos son típicos de la fibromatosis colli, que ocurre comúnmente por una lesión perinatal.\n- En el 90% de los casos, los pacientes se recuperan por completo con tratamiento conservador o terapia física.\n- La cirugía se reserva para quienes presenten asimetría craneofacial o tortícolis refractaria.",
       "perla": "Los niños afectados giran la cabeza en dirección contraria al lado afectado. La masa debe ser indolora al tacto.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Fibromatosis colli: entidad poco común con hallazgo típico; dato de manejo elemental (conservador), ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5097,7 +5443,7 @@
         "convulsiones"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño de 10 años presenta antecedentes de convulsiones. En la TC simple de cráneo se observan múltiples nódulos subependimarios calcificados, y la ecografía renal detecta pequeños nódulos hiperecoicos bilaterales (angiomiolipomas). ¿Qué trastorno autosómico dominante se caracteriza por esta presentación?",
+      "enunciado": "Niño de 10 años con convulsiones. Se muestran la TC de cráneo sin contraste y la ecografía renal. ¿Qué trastorno autosómico dominante explica la imagen?",
       "imagenes": [
         {
           "ref": "case070",
@@ -5112,8 +5458,13 @@
         "Heterotopía de sustancia gris"
       ],
       "correcta": 2,
-      "explicacion": "- La esclerosis tuberosa se manifiesta clásicamente por angiofibromas faciales, retraso mental y convulsiones, asociados a hamartomas multisistémicos.\n- La presencia de nódulos subependimarios calcificados y angiomiolipomas renales bilaterales ecogénicos es el sello distintivo.\n- El CMV causa calcificaciones periventriculares en el neonato, pero no lesiones renales características de este tipo.",
+      "explicacion": "- **Hallazgos:** múltiples nódulos subependimarios calcificados en la TC y pequeños nódulos hiperecoicos renales bilaterales (angiomiolipomas).\n- La esclerosis tuberosa se manifiesta clásicamente por angiofibromas faciales, retraso mental y convulsiones, asociados a hamartomas multisistémicos.\n- El CMV causa calcificaciones periventriculares en el neonato, pero no lesiones renales características de este tipo.",
       "perla": "El crecimiento progresivo de un nódulo subependimario, especialmente si obstruye el foramen de Monro, debe hacer sospechar la transformación a un astrocitoma subependimario de células gigantes (SEGA).",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Esclerosis tuberosa: facomatosis clásica; el enunciado da nódulos calcificados y angiomiolipomas, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5138,7 +5489,7 @@
         "pertecnetato"
       ],
       "tipo": "imagen",
-      "enunciado": "Un lactante presenta una masa en la boca. Las imágenes muestran una masa sublingual redondeada, bien delimitada y homogénea, ausencia de tejido tiroideo normal en el cuello y captación de pertecnetato en la base de la lengua. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Lactante con una masa en la boca. Se muestran las imágenes. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case071",
@@ -5153,8 +5504,13 @@
         "Teratoma"
       ],
       "correcta": 2,
-      "explicacion": "- El tiroides lingual se presenta con ausencia de tejido tiroideo normal en el cuello y una masa homogénea en la base de la lengua que capta pertecnetato.\n- El quiste del conducto tirogloso no capta pertecnetato y puede tener un componente quístico en la ecografía.\n- Una amígdala lingual aumentada no capta pertecnetato.",
+      "explicacion": "- **Hallazgos:** masa sublingual redondeada, bien delimitada y homogénea, sin tejido tiroideo normal en el cuello y con captación de pertecnetato en la base de la lengua.\n- El tiroides lingual se presenta con ausencia de tejido tiroideo normal en el cuello y una masa homogénea en la base de la lengua que capta pertecnetato.\n- El quiste del conducto tirogloso no capta pertecnetato y puede tener un componente quístico en la ecografía.\n- Una amígdala lingual aumentada no capta pertecnetato.",
       "perla": "En el 75 % de los casos, el tiroides lingual es el único tejido tiroideo funcionante.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Tiroides lingual: entidad poco frecuente que integra medicina nuclear y anatomía cervical, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5179,7 +5535,7 @@
         "cuarto ventrículo"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño de 3 años presenta ataxia. La TC muestra una masa sólida, hiperdensa, en el cuarto ventrículo, con calcificación. La RM con contraste muestra una masa que realza, causa hidrocefalia obstructiva y se acompaña de abundante tumor que realza en el canal raquídeo. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño de 3 años con ataxia. Se muestran la TC y la RM con contraste. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case072",
@@ -5194,8 +5550,13 @@
         "Tumor teratoide/rabdoide atípico"
       ],
       "correcta": 1,
-      "explicacion": "- El meduloblastoma suele presentarse como una masa hiperdensa que realza en el cuarto ventrículo, a menudo con metástasis «en gota» en el canal raquídeo.\n- Los ependimomas suelen ser más heterogéneos y nacer del suelo del cuarto ventrículo; los meduloblastomas, del techo.\n- El astrocitoma pilocítico suele ser más quístico, con un nódulo mural que realza.",
+      "explicacion": "- **Hallazgos:** masa sólida, hiperdensa y con calcificación en el cuarto ventrículo, que realza, causa hidrocefalia obstructiva y se acompaña de abundante tumor que realza en el canal raquídeo.\n- El meduloblastoma suele presentarse como una masa hiperdensa que realza en el cuarto ventrículo, a menudo con metástasis «en gota» en el canal raquídeo.\n- Los ependimomas suelen ser más heterogéneos y nacer del suelo del cuarto ventrículo; los meduloblastomas, del techo.\n- El astrocitoma pilocítico suele ser más quístico, con un nódulo mural que realza.",
       "perla": "El meduloblastoma y el ependimoma pueden ser difíciles de diferenciar: el meduloblastoma nace del techo del cuarto ventrículo, y el ependimoma, del suelo.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Meduloblastoma: tumor común de fosa posterior; diferencial frecuente con ependimoma y pilocítico, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5220,7 +5581,7 @@
         "masa supraselar"
       ],
       "tipo": "imagen",
-      "enunciado": "Una niña de 10 años presenta cefalea y vómitos ocasionales. La TC y la RM muestran una masa supraselar lobulada de baja densidad, con calcificaciones periféricas densas y realce periférico. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niña de 10 años con cefalea y vómitos ocasionales. Se muestran la TC y la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case073",
@@ -5235,8 +5596,13 @@
         "Glioma del nervio óptico"
       ],
       "correcta": 2,
-      "explicacion": "- El craneofaringioma se caracteriza por una masa supraselar quística con paredes que realzan y calcificaciones.\n- Los quistes de la hendidura de Rathke no suelen realzar ni calcificarse.\n- Los quistes aracnoideos tienen paredes finas sin realce y siguen la señal del LCR en todas las secuencias.",
+      "explicacion": "- **Hallazgos:** masa supraselar lobulada de baja densidad, con calcificaciones periféricas densas y realce periférico.\n- El craneofaringioma se caracteriza por una masa supraselar quística con paredes que realzan y calcificaciones.\n- Los quistes de la hendidura de Rathke no suelen realzar ni calcificarse.\n- Los quistes aracnoideos tienen paredes finas sin realce y siguen la señal del LCR en todas las secuencias.",
       "perla": "La «regla del 90» del craneofaringioma en TC: el 90 % es quístico, el 90 % tiene calcificaciones y el 90 % realza.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Craneofaringioma: masa supraselar típica (regla del 90); diferencial frecuente con quiste de Rathke, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5261,7 +5627,7 @@
         "masa nasal"
       ],
       "tipo": "imagen",
-      "enunciado": "Un adolescente de 15 años presenta obstrucción nasal. Las imágenes muestran una masa de partes blandas que ocupa la fosa nasal izquierda y se extiende a la nasofaringe, con realce intenso, originada en la fosa pterigopalatina. La angiografía muestra una mancha tumoral hipervascular. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Adolescente de 15 años con obstrucción nasal. Se muestran las imágenes y la angiografía. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case074",
@@ -5276,8 +5642,13 @@
         "Estesioneuroblastoma"
       ],
       "correcta": 1,
-      "explicacion": "- El angiofibroma nasofaríngeo juvenil (ANJ) suele presentarse como una masa con realce intenso que afecta la fosa pterigopalatina y el agujero esfenopalatino.\n- El rabdomiosarcoma y los pólipos no suelen realzar intensamente ni afectar la fosa pterigopalatina.\n- El ANJ se irriga de forma clásica por ramas de la arteria carótida externa.",
+      "explicacion": "- **Hallazgos:** masa de partes blandas que ocupa la fosa nasal izquierda y se extiende a la nasofaringe, con realce intenso, originada en la fosa pterigopalatina; en la angiografía, mancha tumoral hipervascular.\n- El angiofibroma nasofaríngeo juvenil (ANJ) suele presentarse como una masa con realce intenso que afecta la fosa pterigopalatina y el agujero esfenopalatino.\n- El rabdomiosarcoma y los pólipos no suelen realzar intensamente ni afectar la fosa pterigopalatina.\n- El ANJ se irriga de forma clásica por ramas de la arteria carótida externa.",
       "perla": "El ANJ se extiende lateralmente a la fosa pterigopalatina en el 90 % de los casos.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Angiofibroma nasofaríngeo juvenil: entidad poco frecuente, típica por la fosa pterigopalatina; cabeza y cuello ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5302,7 +5673,7 @@
         "recién nacido"
       ],
       "tipo": "imagen",
-      "enunciado": "Un recién nacido presenta convulsiones. La TC axial muestra ausencia de la mayor parte del cerebro, con LCR ocupando la bóveda craneal. La fosa posterior, los tálamos y la hoz están conservados. ¿Cuál es el diagnóstico?",
+      "enunciado": "Recién nacido con convulsiones. Se muestra la TC axial. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case075",
@@ -5317,8 +5688,13 @@
         "Porencefalia"
       ],
       "correcta": 2,
-      "explicacion": "- La hidranencefalia se caracteriza por la ausencia del cerebro con la hoz, los tálamos y las estructuras de la fosa posterior conservados.\n- En la holoprosencefalia alobar falta la hoz y las estructuras de la línea media están fusionadas.\n- La hidrocefalia grave muestra un manto fino de corteza rodeando el LCR.",
+      "explicacion": "- **Hallazgos:** falta la mayor parte del cerebro y el LCR ocupa la bóveda craneal; la fosa posterior, los tálamos y la hoz están conservados.\n- La hidranencefalia se caracteriza por la ausencia del cerebro con la hoz, los tálamos y las estructuras de la fosa posterior conservados.\n- En la holoprosencefalia alobar falta la hoz y las estructuras de la línea media están fusionadas.\n- La hidrocefalia grave muestra un manto fino de corteza rodeando el LCR.",
       "perla": "La hidranencefalia conserva la hoz; la holoprosencefalia alobar no.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Hidranencefalia: malformación rara; diferencial fino con holoprosencefalia alobar por la hoz, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5343,7 +5719,7 @@
         "sustancia blanca"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño de 5 años presenta retraso del aprendizaje y alteración de la marcha. La RM FLAIR muestra señal alta en la sustancia blanca peritrigonal y en el cuerpo calloso, y en el T1 con contraste hay un realce lineal en el borde de avance de la desmielinización, junto a las fibras en U subcorticales. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño de 5 años con retraso del aprendizaje y alteración de la marcha. Se muestra la RM (FLAIR y T1 con contraste). ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case076",
@@ -5358,8 +5734,13 @@
         "Enfermedad de Alexander"
       ],
       "correcta": 1,
-      "explicacion": "- La adrenoleucodistrofia ligada al X produce una degeneración de la mielina simétrica y confluente que empieza en la región occipital y avanza hacia delante.\n- El borde de avance de la degeneración suele realzar, lo que la distingue de otras entidades.\n- Las fibras en U subcorticales se respetan de forma clásica.",
+      "explicacion": "- **Hallazgos:** señal alta en la sustancia blanca peritrigonal y en el cuerpo calloso, con realce lineal en el borde de avance de la desmielinización y fibras en U subcorticales respetadas.\n- La adrenoleucodistrofia ligada al X produce una degeneración de la mielina simétrica y confluente que empieza en la región occipital y avanza hacia delante.\n- El borde de avance de la degeneración suele realzar, lo que la distingue de otras entidades.\n- Las fibras en U subcorticales se respetan de forma clásica.",
       "perla": "La degeneración de la mielina suele ser simétrica y confluente: empieza en la región occipital y se extiende hacia delante hasta los lóbulos frontales.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Adrenoleucodistrofia ligada al X: leucodistrofia poco frecuente; diferencial fino por el borde de avance que realza, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5384,7 +5765,7 @@
         "prematuro"
       ],
       "tipo": "imagen",
-      "enunciado": "Un recién nacido prematuro presenta convulsiones. La ecografía y la RM muestran una hendidura que va desde el ventrículo lateral derecho, a través de la corteza, hasta el líquido extraaxial. La hendidura está tapizada de sustancia gris. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Recién nacido prematuro con convulsiones. Se muestran la ecografía y la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case077",
@@ -5399,8 +5780,13 @@
         "Hidranencefalia"
       ],
       "correcta": 2,
-      "explicacion": "- La esquisencefalia es una hendidura tapizada de sustancia gris que va desde el ventrículo, a través de la corteza, hasta la superficie pial.\n- Los quistes porencefálicos están revestidos de sustancia blanca gliótica, no de sustancia gris.\n- La displasia septoóptica se asocia a menudo a la esquisencefalia, pero la hendidura tapizada de sustancia gris define la esquisencefalia.",
+      "explicacion": "- **Hallazgos:** hendidura tapizada de sustancia gris que va desde el ventrículo lateral derecho, a través de la corteza, hasta el espacio extraaxial.\n- Los quistes porencefálicos están revestidos de sustancia blanca gliótica, no de sustancia gris.\n- La displasia septoóptica se asocia a menudo a la esquisencefalia, pero la hendidura tapizada de sustancia gris define la esquisencefalia.",
       "perla": "En la esquisencefalia de labio cerrado, las paredes de la hendidura se tocan; en la de labio abierto, hay LCR dentro de la hendidura.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Esquisencefalia: malformación cortical poco frecuente; diferencial fino con porencefalia por el revestimiento gris, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5425,7 +5811,7 @@
         "aneurisma"
       ],
       "tipo": "imagen",
-      "enunciado": "Un recién nacido a término presenta insuficiencia cardíaca congestiva grave. La ecografía transfontanelar muestra una gran estructura quística ovoide en la línea media, por detrás del cuerpo calloso. El Doppler y la angio-TC confirman que contiene sangre en movimiento. ¿Cuál es el diagnóstico?",
+      "enunciado": "Recién nacido a término con insuficiencia cardíaca congestiva grave. Se muestran la ecografía transfontanelar, el Doppler y la angio-TC. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case078",
@@ -5440,8 +5826,13 @@
         "Fístula arteriovenosa"
       ],
       "correcta": 0,
-      "explicacion": "- La malformación de la vena de Galeno se presenta a menudo en recién nacidos con insuficiencia cardíaca grave por un cortocircuito arteriovenoso de alto flujo.\n- Un aneurisma verdadero no suele afectar estructuras venosas ni producir un compromiso cardíaco de alto flujo tan importante en un recién nacido.\n- Los quistes de plexos coroideos no contienen sangre en movimiento.",
+      "explicacion": "- **Hallazgos:** gran estructura quística ovoide en la línea media, por detrás del cuerpo calloso, con sangre en movimiento en el Doppler y la angio-TC.\n- La malformación de la vena de Galeno se presenta a menudo en recién nacidos con insuficiencia cardíaca grave por un cortocircuito arteriovenoso de alto flujo.\n- Un aneurisma verdadero no suele afectar estructuras venosas ni producir un compromiso cardíaco de alto flujo tan importante en un recién nacido.\n- Los quistes de plexos coroideos no contienen sangre en movimiento.",
       "perla": "La malformación de la vena de Galeno es una malformación arteriovenosa en la que la sangre pasa directamente de las arterias coroideas profundas a una vena persistente de Markowski.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Malformación de la vena de Galeno: entidad rara con presentación neonatal típica (insuficiencia cardiaca), ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5466,7 +5857,7 @@
         "hidrocefalia"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño pequeño con antecedente de craneotomía y derivación ventriculoperitoneal presenta cefalea y una masa en la región posterior de la cabeza. Las radiografías muestran una gran masa de partes blandas en semiluna en la parte posterior del cráneo y un segmento desconectado del catéter de derivación. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño pequeño con craneotomía y derivación ventriculoperitoneal previas presenta cefalea y una masa en la región occipital. Se muestran las radiografías. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case079",
@@ -5481,8 +5872,13 @@
         "Quiste epidermoide"
       ],
       "correcta": 3,
-      "explicacion": "- La desconexión del catéter de derivación produce una fuga de LCR («LCRoma») que se presenta como una masa de partes blandas junto al catéter desconectado.\n- Un catéter abandonado no indica desconexión si hay otra derivación funcionando, y no debería asociarse a una masa.\n- La seudodesconexión puede verse como segmentos radiotransparentes, pero no produce una colección de LCR tan grande.",
+      "explicacion": "- **Hallazgos:** gran masa de partes blandas en semiluna en la parte posterior del cráneo y un segmento del catéter de derivación desconectado.\n- La desconexión del catéter de derivación produce una fuga de LCR («LCRoma») que se presenta como una masa de partes blandas junto al catéter desconectado.\n- Un catéter abandonado no indica desconexión si hay otra derivación funcionando, y no debería asociarse a una masa.\n- La seudodesconexión puede verse como segmentos radiotransparentes, pero no produce una colección de LCR tan grande.",
       "perla": "Una masa de partes blandas junto a un segmento desconectado del catéter de derivación sugiere mucho una colección de LCR («LCRoma»).",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Desconexión de derivación con LCRoma: complicación conocida de un dispositivo común; diferencial con seudodesconexión, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5507,7 +5903,7 @@
         "enfermedad viral"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño de 7 años no puede caminar tras una enfermedad viral reciente. La RM muestra en FLAIR zonas parcheadas de señal alta, bilaterales y asimétricas, en la sustancia gris y la sustancia blanca subcortical, y aumento de señal en la porción central de la médula espinal. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño de 7 años que no puede caminar tras una enfermedad viral reciente. Se muestra la RM cerebral y medular. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case080",
@@ -5522,8 +5918,13 @@
         "Enfermedad de Alexander"
       ],
       "correcta": 1,
-      "explicacion": "- La encefalomielitis aguda diseminada (EMAD) aparece de forma clásica 1–2 semanas después de una infección viral, con hiperintensidades T2/FLAIR multifocales y asimétricas en la sustancia blanca y gris, y a menudo afecta la médula espinal.\n- La esclerosis múltiple puede verse igual, pero sus lesiones suelen tener forma más regular y ser más simétricas.\n- El síndrome de encefalopatía posterior reversible suele afectar la circulación posterior y los territorios frontera, y no afecta la médula espinal.",
+      "explicacion": "- **Hallazgos:** zonas parcheadas de señal alta en FLAIR, bilaterales y asimétricas, en la sustancia gris y la blanca subcortical, y aumento de señal en la porción central de la médula.\n- La encefalomielitis aguda diseminada (EMAD) aparece de forma clásica 1–2 semanas después de una infección viral, con hiperintensidades T2/FLAIR multifocales y asimétricas en la sustancia blanca y gris, y a menudo afecta la médula espinal.\n- La esclerosis múltiple puede verse igual, pero sus lesiones suelen tener forma más regular y ser más simétricas.\n- El síndrome de encefalopatía posterior reversible suele afectar la circulación posterior y los territorios frontera, y no afecta la médula espinal.",
       "perla": "Es difícil distinguir la EM de la EMAD, pero la EM tiene un curso en brotes y remisiones, mientras que la EMAD suele ser monofásica.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Encefalomielitis aguda diseminada: diagnóstico típico que integra el antecedente viral; diferencial frecuente con EM, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5566,6 +5967,11 @@
       "correcta": 1,
       "explicacion": "- La displasia tanatofórica se caracteriza por costillas y huesos largos muy cortos, cuerpos vertebrales aplanados y fémures «en auricular de teléfono».\n- La acondroplasia no suele ser letal al nacer y no tiene platispondilia ni fémures en auricular de teléfono.",
       "perla": "La displasia tanatofórica es la displasia esquelética letal más frecuente y se asocia a mutaciones del gen FGFR3.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Displasia tanatofórica: displasia esquelética rara aunque la letal más frecuente; reconocer el bebegrama, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5608,6 +6014,11 @@
       "correcta": 0,
       "explicacion": "- El raquitismo muestra metáfisis en copa y deshilachadas, ensanchamiento de las fisis, osteopenia y piernas arqueadas.\n- La leucemia puede mostrar bandas metafisarias radiotransparentes, pero no suele dar metáfisis en copa y deshilachadas.\n- La sífilis suele mostrar resorción de la cara medial de las metáfisis tibiales proximales (signo de Wimberger), no metáfisis en copa.",
       "perla": "En los niños pequeños, el cúbito distal es el hueso más sensible para detectar un raquitismo precoz; en los mayores, la rodilla.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Raquitismo: entidad común; leer metáfisis en copa y diferenciar de leucemia, sífilis y Blount, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5650,6 +6061,11 @@
       "correcta": 2,
       "explicacion": "- La discitis muestra en la radiografía estrechamiento del espacio discal e irregularidad de los platillos, y en la RM inflamación y destrucción del disco y de los platillos.\n- La enfermedad de Scheuermann afecta al menos tres niveles contiguos, se asocia a cifosis, suele ser dorsal y no muestra cambios inflamatorios agudos en la RM.\n- Neoplasias como la histiocitosis de células de Langerhans o las metástasis de neuroblastoma destruyen el cuerpo vertebral, pero no se centran en el disco.",
       "perla": "La radiografía en la discitis suele ser normal hasta que los síntomas llevan unas 2 semanas, por eso la RM es la prueba más sensible y específica al principio.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Discitis: entidad común en niños; diferencial frecuente con Scheuermann y lesiones vertebrales, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5675,7 +6091,7 @@
         "rodilla"
       ],
       "tipo": "imagen",
-      "enunciado": "Un adolescente presenta dolor de rodilla. Las radiografías lateral y frontal de la rodilla muestran una reacción perióstica agresiva con masa de partes blandas. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Adolescente con dolor de rodilla. Se muestran las radiografías lateral y frontal de la rodilla. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case084",
@@ -5690,8 +6106,13 @@
         "Histiocitosis de células de Langerhans"
       ],
       "correcta": 1,
-      "explicacion": "- La localización femoral distal, la reacción perióstica agresiva, la masa de partes blandas y la matriz osteoide son típicas del osteosarcoma.\n- El sarcoma de Ewing es más frecuente en las diáfisis y no tiene matriz osteoide.\n- La osteomielitis no puede producir matriz ósea nueva (osteoide).",
+      "explicacion": "- **Hallazgos:** reacción perióstica agresiva con masa de partes blandas y matriz osteoide en el fémur distal.\n- La localización femoral distal, la reacción perióstica agresiva, la masa de partes blandas y la matriz osteoide son típicas del osteosarcoma.\n- El sarcoma de Ewing es más frecuente en las diáfisis y no tiene matriz osteoide.\n- La osteomielitis no puede producir matriz ósea nueva (osteoide).",
       "perla": "El osteosarcoma es la neoplasia ósea maligna primaria más frecuente en la infancia y la juventud. Casi la mitad de los casos afecta el fémur.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Osteosarcoma: tumor óseo maligno primario más frecuente, hallazgos típicos según la fuente, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5717,7 +6138,7 @@
         "tumor óseo"
       ],
       "tipo": "imagen",
-      "enunciado": "Un preadolescente presenta dolor de hombro. Las radiografías muestran una lesión lítica en la epífisis humeral proximal. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Preadolescente con dolor de hombro. Se muestran las radiografías. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case085",
@@ -5732,8 +6153,13 @@
         "Quiste óseo aneurismático"
       ],
       "correcta": 1,
-      "explicacion": "- El condroblastoma tiene un origen epifisario típico, posición excéntrica, aspecto lítico y bordes nítidos.\n- El tumor de células gigantes puede aparecer en sitios parecidos, pero casi nunca en pacientes con el esqueleto inmaduro.\n- La osteomielitis puede verse igual y puede requerir biopsia para diferenciarlos.",
+      "explicacion": "- **Hallazgos:** lesión lítica, excéntrica y de bordes nítidos en la epífisis humeral proximal.\n- El condroblastoma tiene un origen epifisario típico, posición excéntrica, aspecto lítico y bordes nítidos.\n- El tumor de células gigantes puede aparecer en sitios parecidos, pero casi nunca en pacientes con el esqueleto inmaduro.\n- La osteomielitis puede verse igual y puede requerir biopsia para diferenciarlos.",
       "perla": "Ante cualquier lesión radiotransparente en una apófisis o una epífisis de un esqueleto inmaduro hay que sospechar mucho un condroblastoma.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Condroblastoma: lesión epifisaria típica; diferencial frecuente con tumor de células gigantes por la edad, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5759,7 +6185,7 @@
         "radiografía"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño pequeño se niega a apoyar la pierna derecha. La radiografía frontal de la tibia muestra una línea radiotransparente oblicua. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño pequeño que se niega a apoyar la pierna derecha. Se muestra la radiografía frontal de la tibia. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case086",
@@ -5774,8 +6200,13 @@
         "Sarcoma de Ewing"
       ],
       "correcta": 1,
-      "explicacion": "- La negativa a apoyar la pierna y una línea radiotransparente oblicua son clásicas de la fractura del niño que empieza a caminar.\n- La osteomielitis o la artritis séptica no tendrían línea de fractura y suelen dar signos locales y sistémicos de infección.\n- La sinovitis transitoria tiene radiografías normales; la ecografía puede mostrar un derrame en la cadera.",
+      "explicacion": "- **Hallazgos:** línea radiotransparente oblicua en la tibia.\n- La negativa a apoyar la pierna y una línea radiotransparente oblicua son clásicas de la fractura del niño que empieza a caminar.\n- La osteomielitis o la artritis séptica no tendrían línea de fractura y suelen dar signos locales y sistémicos de infección.\n- La sinovitis transitoria tiene radiografías normales; la ecografía puede mostrar un derrame en la cadera.",
       "perla": "Si las proyecciones frontal y lateral no muestran la fractura, una radiografía oblicua suele ser diagnóstica.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Fractura de toddler: la fuente llama clásica la presentación y la línea oblicua; entidad común, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5801,7 +6232,7 @@
         "signo de la almohadilla grasa"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño presenta dolor de codo tras un traumatismo. La radiografía lateral muestra las almohadillas grasas anterior y posterior elevadas. ¿Cuál es la lesión oculta más probable?",
+      "enunciado": "Niño con dolor de codo tras un traumatismo. Se muestra la radiografía lateral. ¿Cuál es la lesión oculta más probable?",
       "imagenes": [
         {
           "ref": "case087",
@@ -5816,8 +6247,13 @@
         "Fractura del olécranon"
       ],
       "correcta": 1,
-      "explicacion": "- En un traumatismo agudo de codo en un niño, las almohadillas grasas elevadas sin fractura visible sugieren mucho una fractura supracondílea oculta.\n- La fractura supracondílea es la fractura de codo más frecuente en los niños y a menudo no se ve en las primeras imágenes.",
+      "explicacion": "- **Hallazgos:** almohadillas grasas anterior y posterior elevadas, sin fractura visible.\n- En un traumatismo agudo de codo en un niño, las almohadillas grasas elevadas sin fractura visible sugieren mucho una fractura supracondílea oculta.\n- La fractura supracondílea es la fractura de codo más frecuente en los niños y a menudo no se ve en las primeras imágenes.",
       "perla": "En un traumatismo agudo de codo en un niño, un signo de la almohadilla grasa positivo justifica tratarlo como una fractura.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Signo de la almohadilla grasa y fractura supracondílea oculta: fractura de codo más frecuente, dato clásico ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5843,7 +6279,7 @@
         "esclerosis"
       ],
       "tipo": "imagen",
-      "enunciado": "Un joven deportista presenta dolor persistente en la pantorrilla. Las radiografías muestran una banda transversal de esclerosis en la tibia proximal con reacción perióstica. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Joven deportista con dolor persistente en la pantorrilla. Se muestran las radiografías. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case088",
@@ -5858,8 +6294,13 @@
         "Osteosarcoma"
       ],
       "correcta": 1,
-      "explicacion": "- La fractura de estrés de la tibia suele presentarse como una esclerosis transversal en la cara posterior de la tibia proximal.\n- El osteoma osteoide es una lesión esclerosa alrededor de un nidus radiotransparente, que no suele ser transversal, y produce dolor nocturno que cede con AINE.\n- El absceso de Brodie puede verse como una lesión esclerosa con un nidus radiotransparente, pero en general no es transversal.",
+      "explicacion": "- **Hallazgos:** banda transversal de esclerosis en la tibia proximal con reacción perióstica.\n- La fractura de estrés de la tibia suele presentarse como una esclerosis transversal en la cara posterior de la tibia proximal.\n- El osteoma osteoide es una lesión esclerosa alrededor de un nidus radiotransparente, que no suele ser transversal, y produce dolor nocturno que cede con AINE.\n- El absceso de Brodie puede verse como una lesión esclerosa con un nidus radiotransparente, pero en general no es transversal.",
       "perla": "La radiografía de una fractura de estrés puede seguir siendo normal 1 a 2 semanas después del inicio de los síntomas.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Fractura de estrés tibial: entidad común; diferencial frecuente con osteoma osteoide y absceso de Brodie, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5885,7 +6326,7 @@
         "lesión deportiva"
       ],
       "tipo": "imagen",
-      "enunciado": "Un adolescente deportista presenta dolor agudo de cadera tras un esfuerzo. Las radiografías muestran un fragmento óseo fino lateral a la espina ilíaca anterosuperior derecha. ¿Qué inserción muscular está afectada?",
+      "enunciado": "Adolescente deportista con dolor agudo de cadera tras un esfuerzo. Se muestran las radiografías. ¿Qué inserción muscular está afectada?",
       "imagenes": [
         {
           "ref": "case089",
@@ -5900,8 +6341,13 @@
         "Glúteo medio"
       ],
       "correcta": 1,
-      "explicacion": "- En la espina ilíaca anterosuperior (EIAS) se insertan el sartorio y el tensor de la fascia lata.\n- En la espina ilíaca anteroinferior se inserta el recto femoral.\n- En la tuberosidad isquiática se insertan los isquiotibiales.",
+      "explicacion": "- **Hallazgos:** fragmento óseo fino lateral a la espina ilíaca anterosuperior derecha: avulsión.\n- En la espina ilíaca anterosuperior (EIAS) se insertan el sartorio y el tensor de la fascia lata.\n- En la espina ilíaca anteroinferior se inserta el recto femoral.\n- En la tuberosidad isquiática se insertan los isquiotibiales.",
       "perla": "La fractura por avulsión de la EIAS es más frecuente en deportistas jóvenes, a menudo corredores, al extender la pierna con mucha fuerza.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Avulsión de la EIAS: lesión común del deportista; exige conocer inserciones musculares de la pelvis, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5927,7 +6373,7 @@
         "osteocondrosis"
       ],
       "tipo": "imagen",
-      "enunciado": "Un niño de 3 años presenta cojera y dolor a la palpación en la cara medial del pie derecho. Las radiografías muestran aplanamiento y esclerosis del escafoides tarsiano. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño de 3 años con cojera y dolor a la palpación en la cara medial del pie derecho. Se muestran las radiografías. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case090",
@@ -5942,8 +6388,13 @@
         "Osificación irregular normal"
       ],
       "correcta": 2,
-      "explicacion": "- La enfermedad de Köhler se presenta de forma clásica con aplanamiento y esclerosis del escafoides tarsiano en un niño con síntomas, con un pico hacia los 5 años.\n- La osificación irregular normal del escafoides puede simularla, pero se ve en niños sin síntomas.\n- La osteomielitis es rara en esta localización y debería dar signos locales o sistémicos de infección.",
+      "explicacion": "- **Hallazgos:** aplanamiento y esclerosis del escafoides tarsiano.\n- La enfermedad de Köhler se presenta de forma clásica con aplanamiento y esclerosis del escafoides tarsiano en un niño con síntomas, con un pico hacia los 5 años.\n- La osificación irregular normal del escafoides puede simularla, pero se ve en niños sin síntomas.\n- La osteomielitis es rara en esta localización y debería dar signos locales o sistémicos de infección.",
       "perla": "La enfermedad de Köhler es una osteocondrosis, probablemente por microtraumatismos repetidos con necrosis avascular, y su tratamiento es siempre conservador.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Enfermedad de Köhler: osteocondrosis poco frecuente; diferencial fino con osificación irregular normal, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5986,6 +6437,11 @@
       "correcta": 1,
       "explicacion": "- La epifisiólisis de la cabeza femoral (SCFE) se caracteriza por un ensanchamiento de la fisis y desplazamiento lateral de la metáfisis proximal con respecto a la epífisis.\n- Típicamente ocurre en la adolescencia temprana y se asocia frecuentemente con obesidad.\n- Representa una fractura Salter-Harris tipo I a través de la fisis proximal femoral.",
       "perla": "Una línea trazada a lo largo del aspecto lateral del cuello femoral normalmente debe intersecar la porción lateral de la epífisis; en un SCFE, esto no ocurre (signo de Klein).",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Epifisiólisis femoral: entidad común con hallazgos típicos (signo de Klein) según la fuente, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6011,7 +6467,7 @@
         "trauma no accidental"
       ],
       "tipo": "imagen",
-      "enunciado": "Lactante de 6 meses con letargo y antecedente de válvula ventriculoperitoneal. La radiografía de abdomen muestra fracturas costales bilaterales de distintas edades, tanto antiguas (con callo) como recientes. ¿Cuál es la etiología más probable de estas fracturas?",
+      "enunciado": "Lactante de 6 meses con letargo y una válvula ventriculoperitoneal. Se muestra la radiografía de abdomen. ¿Cuál es la etiología más probable de las fracturas que se ven?",
       "imagenes": [
         {
           "ref": "case092",
@@ -6026,8 +6482,13 @@
         "Complicación de la derivación VP"
       ],
       "correcta": 2,
-      "explicacion": "- La presencia de múltiples fracturas en diferentes etapas de curación (antiguas con callo de fractura y nuevas) es altamente sugerente de maltrato infantil.\n- Las fracturas costales por trauma en el momento del nacimiento habrían consolidado mucho antes de los 6 meses de edad.\n- El maltrato infantil debe considerarse siempre que se observen patrones de lesiones específicos como fracturas costales posteriores y lesiones metafisarias clásicas.",
+      "explicacion": "- **Hallazgos:** fracturas costales bilaterales de distintas edades: antiguas, con callo, y recientes.\n- La presencia de múltiples fracturas en diferentes etapas de curación (antiguas con callo de fractura y nuevas) es altamente sugerente de maltrato infantil.\n- Las fracturas costales por trauma en el momento del nacimiento habrían consolidado mucho antes de los 6 meses de edad.\n- El maltrato infantil debe considerarse siempre que se observen patrones de lesiones específicos como fracturas costales posteriores y lesiones metafisarias clásicas.",
       "perla": "Las fracturas costales posteriores, las de escápula, esternón y apófisis espinosas son altamente específicas para lesiones intencionales en niños.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Maltrato infantil por fracturas de distinta edad: la fuente lo llama esencialmente diagnóstico; integra clínica, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6053,7 +6514,7 @@
         "tumor óseo"
       ],
       "tipo": "imagen",
-      "enunciado": "Niña de 7 años con dolor, hinchazón en el tobillo izquierdo y cojera desde hace 2-3 meses. La radiografía muestra una lesión lítica expansiva y la RM (T2) revela niveles líquido-líquido. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niña de 7 años con dolor, hinchazón en el tobillo izquierdo y cojera desde hace 2-3 meses. Se muestran la radiografía y la RM T2. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case093",
@@ -6068,8 +6529,13 @@
         "Fibroma no osificante"
       ],
       "correcta": 1,
-      "explicacion": "- El quiste óseo aneurismático (QOA) se presenta como una lesión lítica bien definida y expansiva (aspecto de \"burbuja de jabón\").\n- La presencia de niveles líquido-líquido en secuencias sensibles a fluidos como la RM en T2 es muy sugestiva de esta patología, que consiste en cavidades quísticas llenas de sangre.\n- A diferencia del quiste óseo solitario, es excéntrico y más expansivo.",
+      "explicacion": "- **Hallazgos:** lesión lítica expansiva, con niveles líquido-líquido en la RM T2.\n- El quiste óseo aneurismático (QOA) se presenta como una lesión lítica bien definida y expansiva (aspecto de \"burbuja de jabón\").\n- La presencia de niveles líquido-líquido en secuencias sensibles a fluidos como la RM en T2 es muy sugestiva de esta patología, que consiste en cavidades quísticas llenas de sangre.\n- A diferencia del quiste óseo solitario, es excéntrico y más expansivo.",
       "perla": "Los niveles líquido-líquido son característicos pero no patognomónicos del quiste óseo aneurismático, pudiendo verse también en el osteosarcoma telangiectásico, aunque este último muestra mayor destrucción ósea.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Quiste óseo aneurismático: niveles líquido-líquido característicos; diferencial frecuente con quiste simple, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6095,7 +6561,7 @@
         "tumor pediátrico"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño de 9 años con dolor progresivo en la cadera. Se observa una lesión agresiva en la rama púbica izquierda con masa de partes blandas asociada en la radiografía, y destrucción del acetábulo en la TC, sin matriz tumoral evidente. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Niño de 9 años con dolor progresivo en la cadera. Se muestran la radiografía y la TC. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case094",
@@ -6110,8 +6576,13 @@
         "Metástasis de neuroblastoma"
       ],
       "correcta": 2,
-      "explicacion": "- El sarcoma de Ewing es una lesión ósea muy destructiva que con frecuencia involucra los huesos planos y la diáfisis de los huesos largos en la población pediátrica.\n- A menudo se presenta con una gran masa de tejidos blandos desproporcionada con la destrucción ósea y carece de la matriz de tumor osteoide del osteosarcoma.\n- Clásicamente demuestra destrucción ósea permeativa y reacción perióstica en capas de cebolla.",
+      "explicacion": "- **Hallazgos:** lesión agresiva en la rama púbica izquierda con masa de partes blandas asociada y destrucción del acetábulo en la TC, sin matriz tumoral evidente.\n- El sarcoma de Ewing es una lesión ósea muy destructiva que con frecuencia involucra los huesos planos y la diáfisis de los huesos largos en la población pediátrica.\n- A menudo se presenta con una gran masa de tejidos blandos desproporcionada con la destrucción ósea y carece de la matriz de tumor osteoide del osteosarcoma.\n- Clásicamente demuestra destrucción ósea permeativa y reacción perióstica en capas de cebolla.",
       "perla": "El sarcoma de Ewing se encuentra comúnmente en las diáfisis o en los huesos planos, no produce matriz tumoral y tiene reacción perióstica en 'piel de cebolla', lo que lo diferencia del osteosarcoma que es metafisario y forma matriz.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Sarcoma de Ewing en hueso plano: diferencial frecuente con osteosarcoma por la falta de matriz, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6137,7 +6608,7 @@
         "lesiones líticas"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño de 8 años con fatiga y dolor articular. Las radiografías de antebrazo muestran bandas radiolúcidas metafisarias transversas y un patrón de destrucción ósea 'apolillado' en la porción proximal de la banda, además de reacción perióstica. ¿Qué condición sistémica sugiere este hallazgo?",
+      "enunciado": "Niño de 8 años con fatiga y dolor articular. Se muestran las radiografías del antebrazo. ¿Qué condición sistémica sugiere la imagen?",
       "imagenes": [
         {
           "ref": "case095",
@@ -6152,8 +6623,13 @@
         "Sífilis congénita"
       ],
       "correcta": 2,
-      "explicacion": "- La leucemia linfoblástica aguda (LLA) es la leucemia más común en niños y puede presentarse con dolor articular, fiebre y fatiga.\n- Los hallazgos radiográficos incluyen bandas radiolúcidas metafisarias ('líneas leucémicas'), destrucción ósea apolillada, neoformación ósea subperióstica y esclerosis difusa.\n- Ocurre principalmente de 2 a 10 años de edad.",
+      "explicacion": "- **Hallazgos:** bandas radiolúcidas metafisarias transversas, destrucción ósea «apolillada» en la porción proximal de la banda y reacción perióstica.\n- La leucemia linfoblástica aguda (LLA) es la leucemia más común en niños y puede presentarse con dolor articular, fiebre y fatiga.\n- Los hallazgos radiográficos incluyen bandas radiolúcidas metafisarias ('líneas leucémicas'), destrucción ósea apolillada, neoformación ósea subperióstica y esclerosis difusa.\n- Ocurre principalmente de 2 a 10 años de edad.",
       "perla": "Las bandas transversales radiolúcidas a lo largo de las metáfisis, asociadas a dolor óseo difuso y fatiga, son signos clásicos de afectación ósea por leucemia en niños.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Leucemia con bandas metafisarias: entidad común con signos clásicos que integran la clínica, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6179,7 +6655,7 @@
         "huesos frágiles"
       ],
       "tipo": "imagen",
-      "enunciado": "Recién nacido con múltiples fracturas. Más tarde en su vida presenta protrusión acetabular, huesos wormianos (intrasuturales) en el cráneo y huesos largos finos y arqueados con varillas intramedulares. ¿Qué enfermedad del tejido conectivo es más probable?",
+      "enunciado": "Recién nacido con múltiples fracturas. Se muestran radiografías de años posteriores. ¿Qué enfermedad del tejido conectivo es la más probable?",
       "imagenes": [
         {
           "ref": "case096",
@@ -6194,8 +6670,13 @@
         "Acondroplasia"
       ],
       "correcta": 2,
-      "explicacion": "- La osteogénesis imperfecta es una condición caracterizada por fragilidad ósea debida a defectos en el colágeno tipo 1.\n- Clínicamente asocian escleróticas azules, hiperlaxitud y huesos finos y osteopénicos propensos a múltiples fracturas y arqueamientos.\n- Otros hallazgos incluyen huesos wormianos en el cráneo, cuerpos vertebrales bicóncavos y protrusio acetabuli.",
+      "explicacion": "- **Hallazgos:** protrusión acetabular, huesos wormianos en el cráneo y huesos largos finos y arqueados con varillas intramedulares.\n- La osteogénesis imperfecta es una condición caracterizada por fragilidad ósea debida a defectos en el colágeno tipo 1.\n- Clínicamente asocian escleróticas azules, hiperlaxitud y huesos finos y osteopénicos propensos a múltiples fracturas y arqueamientos.\n- Otros hallazgos incluyen huesos wormianos en el cráneo, cuerpos vertebrales bicóncavos y protrusio acetabuli.",
       "perla": "Los hallazgos de osteopenia severa, sobretubulación de huesos largos y presencia de múltiples fracturas con huesos intrasuturales (wormianos) apuntan característicamente hacia la osteogénesis imperfecta.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Osteogénesis imperfecta: displasia conocida; integra fracturas múltiples, huesos wormianos y protrusión, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6221,7 +6702,7 @@
         "lesión ósea benigna"
       ],
       "tipo": "imagen",
-      "enunciado": "Joven de 16 años con dolor tras torcerse la rodilla. La radiografía incidental de la tibia revela una lesión lítica excéntrica basada en la cortical posteromedial, con un margen esclerótico festoneado y sin matriz interna ni reacción perióstica. ¿Cuál es el diagnóstico más probable de este hallazgo incidental?",
+      "enunciado": "Joven de 16 años con dolor tras torcerse la rodilla. Se muestra la radiografía de la tibia, con un hallazgo incidental. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case097",
@@ -6236,8 +6717,13 @@
         "Osteosarcoma parosteal"
       ],
       "correcta": 1,
-      "explicacion": "- El fibroma no osificante es la lesión ósea benigna más común en niños, apareciendo como un defecto cortical lucente excéntrico en la metáfisis con márgenes escleróticos finos y lobulados.\n- Típicamente no produce dolor a menos que se asocie con fractura patológica, y no presenta periositis.\n- Con la maduración ósea tienden a esclerosarse y desaparecer.",
+      "explicacion": "- **Hallazgos:** lesión lítica excéntrica de base cortical posteromedial, con margen esclerótico festoneado, sin matriz interna ni reacción perióstica.\n- El fibroma no osificante es la lesión ósea benigna más común en niños, apareciendo como un defecto cortical lucente excéntrico en la metáfisis con márgenes escleróticos finos y lobulados.\n- Típicamente no produce dolor a menos que se asocie con fractura patológica, y no presenta periositis.\n- Con la maduración ósea tienden a esclerosarse y desaparecer.",
       "perla": "Un defecto lucente cortical asintomático con bordes escleróticos festoneados en un paciente menor de 30 años alrededor de la rodilla es casi patognomónico de un fibroma no osificante.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Fibroma no osificante: lesión ósea benigna más común; la fuente lo llama casi patognomónico, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6263,7 +6749,7 @@
         "dolor nocturno"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño de 6 años con dolor de cadera que empeora por la noche y mejora con aspirina. La TC muestra un nido lítico central bien definido rodeado por una extensa formación de hueso nuevo subperióstico denso (esclerosis reactiva) en el fémur. ¿Cuál es el diagnóstico clínico-radiológico?",
+      "enunciado": "Niño de 6 años con dolor de cadera. Se muestra la TC del fémur. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case098",
@@ -6278,8 +6764,13 @@
         "Sarcoma de Ewing cortical"
       ],
       "correcta": 1,
-      "explicacion": "- El osteoma osteoide se caracteriza por tener un nido tumoral central hipervascular (usualmente < 2 cm) envuelto por un área desproporcionadamente amplia de esclerosis reactiva gruesa.\n- La historia clásica es un dolor intenso en el sitio afectado, característicamente peor por la noche y que se alivia marcadamente con los AINEs (aspirina).\n- La TC es la modalidad de elección para identificar el nido central radiolúcido.",
+      "explicacion": "- **Hallazgos:** nido lítico central bien definido, rodeado por una extensa formación de hueso subperióstico denso (esclerosis reactiva), en un niño con dolor nocturno que mejora con aspirina.\n- El osteoma osteoide se caracteriza por tener un nido tumoral central hipervascular (usualmente < 2 cm) envuelto por un área desproporcionadamente amplia de esclerosis reactiva gruesa.\n- La historia clásica es un dolor intenso en el sitio afectado, característicamente peor por la noche y que se alivia marcadamente con los AINEs (aspirina).\n- La TC es la modalidad de elección para identificar el nido central radiolúcido.",
       "perla": "El osteoblastoma puede tener un aspecto histológico y radiográfico muy similar, pero por definición su nido es mayor a 2 cm.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Osteoma osteoide: presentación clínica y nido en TC clásicos según la fuente; entidad común, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6305,7 +6796,7 @@
         "cojera infantil"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño de 5 años que presenta cojera de reciente inicio. Las radiografías simples son normales. La gammagrafía muestra un defecto fotopénico (frío) focal en la cabeza femoral derecha, y la RM (T1) muestra irregularidad hipointensa periférica en la epífisis. ¿Qué diagnóstico es más consistente con estos hallazgos?",
+      "enunciado": "Niño de 5 años con cojera de reciente inicio y radiografías normales. Se muestran la gammagrafía y la RM T1. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case099",
@@ -6320,8 +6811,13 @@
         "Epifisiólisis de cadera"
       ],
       "correcta": 1,
-      "explicacion": "- La enfermedad de Legg-Calvé-Perthes es una necrosis avascular idiopática de la epífisis femoral capital.\n- Ocurre característicamente en niños de 3 a 10 años, predominantemente en varones.\n- En etapas muy tempranas las radiografías son normales, pero estudios sensibles como la gammagrafía revelarán isquemia epifisaria y la RM edema o infarto subcondral antes del colapso radiológico.",
+      "explicacion": "- **Hallazgos:** defecto fotopénico (frío) focal en la cabeza femoral derecha en la gammagrafía, e irregularidad hipointensa periférica en la epífisis en T1.\n- La enfermedad de Legg-Calvé-Perthes es una necrosis avascular idiopática de la epífisis femoral capital.\n- Ocurre característicamente en niños de 3 a 10 años, predominantemente en varones.\n- En etapas muy tempranas las radiografías son normales, pero estudios sensibles como la gammagrafía revelarán isquemia epifisaria y la RM edema o infarto subcondral antes del colapso radiológico.",
       "perla": "La enfermedad de Perthes a menudo se presenta con dolor insidioso y cojera en un niño de 4 a 8 años; la gammagrafía ósea y la RM superan a las radiografías para un diagnóstico temprano.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Perthes precoz con radiografía normal: entidad común; integra gammagrafía y RM antes del colapso, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6347,7 +6843,7 @@
         "hombro pediátrico"
       ],
       "tipo": "imagen",
-      "enunciado": "Niño de 12 años con dolor en el hombro derecho después de un traumatismo. Las radiografías AP muestran ensanchamiento asimétrico de la placa de crecimiento en el lado lateral, sin fractura aparente en la metáfisis o epífisis. Una semana después, aparece reacción perióstica en el margen lateral. ¿Qué tipo de lesión describe esto?",
+      "enunciado": "Niño de 12 años con dolor en el hombro derecho tras un traumatismo. Se muestran las radiografías AP iniciales y a la semana. ¿Qué tipo de lesión es?",
       "imagenes": [
         {
           "ref": "case100",
@@ -6362,8 +6858,13 @@
         "Fractura Salter-Harris tipo III"
       ],
       "correcta": 2,
-      "explicacion": "- Una fractura que involucra única y exclusivamente la placa de crecimiento (fisis) sin extenderse al tejido óseo adyacente corresponde a una clasificación de Salter-Harris tipo I.\n- Radiográficamente puede ser sutil o invisible inicialmente, manifestándose solo por el ensanchamiento o desplazamiento de la fisis.\n- La aparición de reacción perióstica de consolidación en los días posteriores (7-10 días) confirma el diagnóstico retrospectivamente.",
+      "explicacion": "- **Hallazgos:** ensanchamiento asimétrico de la fisis en el lado lateral, sin fractura visible en la metáfisis ni en la epífisis; a la semana aparece reacción perióstica en el margen lateral.\n- Una fractura que involucra única y exclusivamente la placa de crecimiento (fisis) sin extenderse al tejido óseo adyacente corresponde a una clasificación de Salter-Harris tipo I.\n- Radiográficamente puede ser sutil o invisible inicialmente, manifestándose solo por el ensanchamiento o desplazamiento de la fisis.\n- La aparición de reacción perióstica de consolidación en los días posteriores (7-10 días) confirma el diagnóstico retrospectivamente.",
       "perla": "Si se sospecha una lesión de Salter-Harris I por dolor focal intenso sobre una fisis y los rayos X iniciales son equívocos, la inmovilización empírica está indicada, y las radiografías de seguimiento revelarán reparación perióstica.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Salter-Harris I con ensanchamiento sutil de la fisis: clasificación básica, hallazgo que hay que buscar, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",

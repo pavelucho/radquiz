@@ -11,7 +11,7 @@
     "Rx"
   ],
   "idioma": "es",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -2233,7 +2233,7 @@
         "osteoporosis"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer anciana en tratamiento prolongado con bifosfonatos por osteoporosis presenta dolor crónico de cadera. La radiografía y la TC muestran engrosamiento cortical lateral subtrocantérico con un pico cortical. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Una mujer anciana con osteoporosis presenta dolor crónico de cadera. Se muestran la radiografía y la TC. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case001",
@@ -2248,8 +2248,13 @@
         "Enfermedad de Paget"
       ],
       "correcta": 2,
-      "explicacion": "- Las fracturas femorales asociadas a bifosfonatos son fracturas por insuficiencia relacionadas con el uso prolongado de estos fármacos.\n- Suelen localizarse en la cortical lateral del fémur proximal, con frecuencia en la región subtrocantérica.\n- Es característico el pico o «pico de pájaro» de la cortical en los bordes de la fractura.",
+      "explicacion": "- **Hallazgos:** engrosamiento cortical lateral subtrocantérico con un pico cortical, en una paciente en tratamiento prolongado con bifosfonatos.\n- Las fracturas femorales asociadas a bifosfonatos son fracturas por insuficiencia relacionadas con el uso prolongado de estos fármacos.\n- Suelen localizarse en la cortical lateral del fémur proximal, con frecuencia en la región subtrocantérica.\n- Es característico el pico o «pico de pájaro» de la cortical en los bordes de la fractura.",
       "perla": "Más del 50 % de estas fracturas son bilaterales, y más del 50 % asientan en la diáfisis femoral a menos de 5 cm del trocánter menor.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Fractura atípica por bifosfonatos con pico cortical lateral: complicación conocida de un tratamiento común, cuadro típico (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2285,14 +2290,19 @@
       ],
       "opciones": [
         "Absceso subcutáneo",
-        "Cuerpo extraño lineal ecogénico",
+        "Cuerpo extraño",
         "Calcificación distrófica de partes blandas",
         "Quiste de inclusión epidérmico",
         "Tumor de células gigantes de la vaina tendinosa"
       ],
       "correcta": 1,
-      "explicacion": "- Una estructura extraña lineal, ecogénica y no anatómica, rodeada de líquido, en un paciente con antecedente de herida penetrante es diagnóstica de cuerpo extraño.\n- En la ecografía se ve como una estructura lineal ecogénica, con o sin sombra acústica.\n- Todos los cuerpos extraños superficiales son ecogénicos y pueden detectarse con ecografía.",
+      "explicacion": "- **Hallazgos:** estructura lineal, ecogénica y no anatómica, rodeada de líquido; con el antecedente de herida penetrante es diagnóstica de cuerpo extraño.\n- En la ecografía se ve como una estructura lineal ecogénica, con o sin sombra acústica.\n- Todos los cuerpos extraños superficiales son ecogénicos y pueden detectarse con ecografía.",
       "perla": "Las calcificaciones distróficas de partes blandas pueden dar un falso positivo en la ecografía cuando se busca un cuerpo extraño.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Cuerpo extraño ecogénico lineal con antecedente de herida penetrante: hallazgo evidente y diagnóstico elemental (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2319,7 +2329,7 @@
         "variante normal"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente presenta aumento de volumen y dolor de rodilla. Las secuencias sagitales de RM sensibles a líquido y a grasa muestran un aspecto particular del menisco lateral. ¿Cuál es el término más adecuado para este hallazgo?",
+      "enunciado": "Un paciente presenta aumento de volumen y dolor de rodilla. RM sagital, secuencias sensibles a líquido y a grasa. ¿Cuál es el término más adecuado para el aspecto del menisco lateral?",
       "imagenes": [
         {
           "ref": "case003",
@@ -2334,8 +2344,13 @@
         "Separación meniscocapsular"
       ],
       "correcta": 2,
-      "explicacion": "- El menisco ondulado («flounce») es una ondulación transitoria que adopta el menisco según la posición.\n- Se debe a una distorsión posicional transitoria que depende de la flexión y la rotación externa.\n- Se considera una variante normal; su incidencia en RM va del 0,1 al 6 %.",
+      "explicacion": "- **Hallazgos:** el menisco lateral está ondulado: es el menisco ondulado («flounce»), una ondulación transitoria que adopta el menisco según la posición.\n- Se debe a una distorsión posicional transitoria que depende de la flexión y la rotación externa.\n- Se considera una variante normal; su incidencia en RM va del 0,1 al 6 %.",
       "perla": "El menisco ondulado es más frecuente en el menisco medial, aunque puede verse en el lateral, y algunas roturas verdaderas pueden simularlo.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Menisco ondulado (flounce): variante poco frecuente (0,1 a 6 %) que la fuente señala que puede simular una rotura (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2376,8 +2391,13 @@
         "Tendinitis del extensor cubital del carpo"
       ],
       "correcta": 2,
-      "explicacion": "- El paso de contraste a la articulación radiocubital distal durante una artrografía radiocarpiana indica una rotura del fibrocartílago triangular (FCT).\n- La artro-RM coronal muestra la ausencia del segmento membranoso central del FCT.\n- Las roturas del FCT pueden ser degenerativas o traumáticas, y se asocian mucho a la varianza cubital positiva.",
+      "explicacion": "- **Hallazgos:** el contraste pasa de la radiocarpiana a la articulación radiocubital distal, y en la artro-RM coronal falta el segmento membranoso central del fibrocartílago triangular (FCT).\n- El paso de contraste a la articulación radiocubital distal durante una artrografía radiocarpiana indica una rotura del fibrocartílago triangular (FCT).\n- Las roturas del FCT pueden ser degenerativas o traumáticas, y se asocian mucho a la varianza cubital positiva.",
       "perla": "Después de los 35–40 años son frecuentes las perforaciones membranosas asintomáticas del FCT, por lo que la correlación clínica es esencial.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Rotura del FCT por paso de contraste a la radiocubital distal: entidad común, integrar artrografía y clínica (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2404,7 +2424,7 @@
         "neoplasia fibrosa"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer de 35 años presenta una masa en el flanco izquierdo que crece lentamente. La RM muestra una masa sólida adyacente a la fascia paraespinal, hipointensa en T1 y T2, con bordes espiculados e infiltrantes y realce heterogéneo. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Una mujer de 35 años presenta una masa en el flanco izquierdo que crece lentamente. Se muestra la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case005",
@@ -2419,8 +2439,13 @@
         "Hemangioma intramuscular"
       ],
       "correcta": 3,
-      "explicacion": "- Los tumores desmoides son neoplasias fibrosas benignas pero localmente agresivas, frecuentes en mujeres.\n- Son hipointensos en T1 y T2 por la abundancia de tejido fibroso y colágeno.\n- Los bordes espiculados e infiltrantes son frecuentes; los desmoides extraabdominales afectan a menudo la pared torácica, el flanco y la parte proximal de las extremidades superiores.",
+      "explicacion": "- **Hallazgos:** masa sólida adyacente a la fascia paraespinal, hipointensa en T1 y T2, con bordes espiculados e infiltrantes y realce heterogéneo.\n- Los tumores desmoides son neoplasias fibrosas benignas pero localmente agresivas, frecuentes en mujeres.\n- Son hipointensos en T1 y T2 por la abundancia de tejido fibroso y colágeno.\n- Los bordes espiculados e infiltrantes son frecuentes; los desmoides extraabdominales afectan a menudo la pared torácica, el flanco y la parte proximal de las extremidades superiores.",
       "perla": "Los desmoides extraabdominales tienen su pico entre los 25 y los 35 años, con predominio femenino 2:1, y su señal T2 interna aumenta cuanto menos colágeno tienen.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Tumor desmoide extraabdominal: entidad poco frecuente, diferencial entre masas de partes blandas hipointensas en T2 (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2446,7 +2471,7 @@
         "hiperparatiroidismo"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer de 24 años presenta un trastorno metabólico crónico. Las radiografías muestran una lesión lítica expansiva que sustituye la tibia proximal y erosiones en los márgenes articulares de la articulación acromioclavicular. ¿Cuál es el diagnóstico más adecuado?",
+      "enunciado": "Una mujer de 24 años. Se muestran radiografías de la tibia proximal y de la articulación acromioclavicular. ¿Cuál es el diagnóstico más adecuado?",
       "imagenes": [
         {
           "ref": "case006",
@@ -2461,8 +2486,13 @@
         "Quiste óseo aneurismático"
       ],
       "correcta": 2,
-      "explicacion": "- La osteodistrofia renal produce osteopenia difusa, erosiones periarticulares (como en la articulación acromioclavicular) y lesiones líticas multifocales (tumores pardos).\n- Los tumores pardos son lesiones líticas formadas por productos hemáticos, tejido fibroso y osteoclastos; suelen deberse a un hiperparatiroidismo secundario.\n- La edad joven y las erosiones acromioclaviculares hacen mucho menos probables las metástasis y el mieloma múltiple.",
+      "explicacion": "- **Hallazgos:** lesión lítica expansiva que sustituye la tibia proximal y erosiones en los márgenes de la articulación acromioclavicular, en una paciente con un trastorno metabólico crónico.\n- La osteodistrofia renal produce osteopenia difusa, erosiones periarticulares (como en la articulación acromioclavicular) y lesiones líticas multifocales (tumores pardos).\n- Los tumores pardos son lesiones líticas formadas por productos hemáticos, tejido fibroso y osteoclastos; suelen deberse a un hiperparatiroidismo secundario.\n- La edad joven y las erosiones acromioclaviculares hacen mucho menos probables las metástasis y el mieloma múltiple.",
       "perla": "La acroosteólisis y la resorción subperióstica del lado radial de las falanges medias del segundo y tercer dedos son diagnósticas de hiperparatiroidismo.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Osteodistrofia renal con tumor pardo y erosiones acromioclaviculares: cuadro clásico que exige integrar clínica (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2489,7 +2519,7 @@
         "artroplastia de cadera"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer de 53 años con una artroplastia total de cadera izquierda metal-metal presenta dolor y sensación de plenitud. La RM muestra una masa de partes blandas quística y sólida alrededor del material protésico, con líquido que se extiende más allá de la cápsula articular. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Una mujer de 53 años con una artroplastia total de cadera izquierda presenta dolor y sensación de plenitud. Se muestra la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case007",
@@ -2504,8 +2534,13 @@
         "Fractura periprotésica"
       ],
       "correcta": 2,
-      "explicacion": "- El pseudotumor es una lesión expansiva quística y sólida asociada a las artroplastias metal-metal; es una reacción adversa a los detritos metálicos.\n- Se atribuye a una respuesta inmunitaria a las partículas de desgaste metálico, parecida a una hipersensibilidad de tipo IV.\n- Son característicos la extensión del líquido articular fuera de la cápsula, las roturas musculares adyacentes y un borde hipointenso en T1 y T2.",
+      "explicacion": "- **Hallazgos:** masa de partes blandas quística y sólida alrededor del material protésico, con líquido que se extiende más allá de la cápsula articular; la prótesis es metal-metal.\n- El pseudotumor es una lesión expansiva quística y sólida asociada a las artroplastias metal-metal; es una reacción adversa a los detritos metálicos.\n- Se atribuye a una respuesta inmunitaria a las partículas de desgaste metálico, parecida a una hipersensibilidad de tipo IV.\n- Son característicos la extensión del líquido articular fuera de la cápsula, las roturas musculares adyacentes y un borde hipointenso en T1 y T2.",
       "perla": "En la RM, la dehiscencia capsular y el aspecto mixto de sinovitis con herniación sinovial extracapsular se correlacionan bien con el daño tisular que se encuentra en la cirugía.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Pseudotumor por reacción a detritos metálicos en prótesis metal-metal: complicación protésica poco común (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2531,7 +2566,7 @@
         "dolor de cadera"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer de 37 años presenta dolor en la cara posterior de la cadera derecha sin antecedente de trauma. La RM axial sensible a líquido muestra edema moderado en la porción central del músculo cuadrado femoral, sin interrupción de las fibras. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Una mujer de 37 años presenta dolor en la cara posterior de la cadera derecha sin antecedente de trauma. RM axial, secuencia sensible a líquido. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case008",
@@ -2546,8 +2581,13 @@
         "Síndrome piriforme"
       ],
       "correcta": 3,
-      "explicacion": "- El pinzamiento isquiofemoral es el atrapamiento del vientre del cuadrado femoral entre el isquion o los tendones isquiotibiales y la cara posteromedial del fémur.\n- De forma clásica produce edema central del cuadrado femoral sin antecedente de trauma, típicamente en mujeres de mediana edad o mayores.\n- Se ha descrito una correlación con el estrechamiento del espacio isquiofemoral a 13 mm o menos.",
+      "explicacion": "- **Hallazgos:** edema moderado en la porción central del músculo cuadrado femoral, sin interrupción de las fibras.\n- El pinzamiento isquiofemoral es el atrapamiento del vientre del cuadrado femoral entre el isquion o los tendones isquiotibiales y la cara posteromedial del fémur.\n- De forma clásica produce edema central del cuadrado femoral sin antecedente de trauma, típicamente en mujeres de mediana edad o mayores.\n- Se ha descrito una correlación con el estrechamiento del espacio isquiofemoral a 13 mm o menos.",
       "perla": "En el pinzamiento isquiofemoral, el edema se centra en el vientre muscular del cuadrado femoral, a diferencia de las distensiones miotendinosas o del edema global por denervación.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Pinzamiento isquiofemoral: entidad poco frecuente, diferencial fino con distensión y edema por denervación (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2574,7 +2614,7 @@
         "rodilla"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente presenta un bloqueo de la extensión de la rodilla unos meses después de una reconstrucción del LCA. La RM sagital muestra un nódulo de señal intermedia en la escotadura intercondílea, íntimamente relacionado con las fibras anteriores y distales del injerto del LCA. ¿Cómo se llama esta lesión?",
+      "enunciado": "Un paciente consulta unos meses después de una reconstrucción del LCA. Se muestra la RM sagital. ¿Qué lesión hay en la escotadura intercondílea?",
       "imagenes": [
         {
           "ref": "case009",
@@ -2589,8 +2629,13 @@
         "Hemangioma sinovial"
       ],
       "correcta": 1,
-      "explicacion": "- La lesión cíclope es una formación localizada de tejido fibroso, típicamente relacionada con la cirugía del LCA.\n- Es una masa firme adherida a las fibras anteriores y distales del injerto, de señal intermedia en RM.\n- Suele causar un bloqueo de la extensión por efecto de masa en la porción anterior de la escotadura intercondílea.",
+      "explicacion": "- **Hallazgos:** nódulo de señal intermedia en la escotadura intercondílea, íntimamente relacionado con las fibras anteriores y distales del injerto del LCA, en un paciente con bloqueo de la extensión.\n- La lesión cíclope es una formación localizada de tejido fibroso, típicamente relacionada con la cirugía del LCA.\n- Es una masa firme adherida a las fibras anteriores y distales del injerto, de señal intermedia en RM.\n- Suele causar un bloqueo de la extensión por efecto de masa en la porción anterior de la escotadura intercondílea.",
       "perla": "Junto al LCA puede haber una cicatriz «ciclopoide», pero es compresible y no produce el bloqueo de la extensión típico de la lesión cíclope verdadera.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Lesión cíclope tras reconstrucción del LCA: complicación conocida de una cirugía común, presentación típica (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2617,7 +2662,7 @@
         "rotura del subescapular"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente presenta debilidad y dolor en el brazo izquierdo. La RM axial del hombro sensible a líquido muestra la corredera bicipital vacía, el tendón del bíceps luxado hacia medial en posición intraarticular y una rotura completa y retraída de un tendón anterior. ¿Qué rotura tendinosa permitió principalmente esta luxación?",
+      "enunciado": "Un paciente presenta debilidad y dolor en el brazo izquierdo. RM axial del hombro, secuencia sensible a líquido. ¿Qué rotura tendinosa permitió principalmente la luxación del bíceps?",
       "imagenes": [
         {
           "ref": "case010",
@@ -2632,8 +2677,13 @@
         "Tendón del coracobraquial"
       ],
       "correcta": 2,
-      "explicacion": "- La rotura completa de las fibras superiores del subescapular permite la luxación medial del bíceps entre la cabeza humeral y la glenoides.\n- El subescapular se inserta en el troquín, y sus fibras laterales ayudan a mantener el tendón del bíceps dentro de la corredera bicipital.\n- La luxación medial deja la corredera bicipital vacía.",
+      "explicacion": "- **Hallazgos:** corredera bicipital vacía, tendón del bíceps luxado hacia medial en posición intraarticular y rotura completa y retraída de un tendón anterior, el subescapular.\n- La rotura completa de las fibras superiores del subescapular permite la luxación medial del bíceps entre la cabeza humeral y la glenoides.\n- El subescapular se inserta en el troquín, y sus fibras laterales ayudan a mantener el tendón del bíceps dentro de la corredera bicipital.",
       "perla": "Una sustitución grasa marcada del músculo subescapular por una rotura crónica de su tendón debe hacer sospechar una subluxación o luxación del tendón del bíceps.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Luxación medial del bíceps por rotura del subescapular: asociación lesional del hombro que hay que razonar (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2659,7 +2709,7 @@
         "Columna en bambú"
       ],
       "tipo": "imagen",
-      "enunciado": "Un hombre joven latino presenta historia prolongada de dolor lumbar. Observando las radiografías provistas, que muestran fusión bilateral de las articulaciones sacroilíacas y formación de sindesmofitos ('columna en caña de bambú'), ¿cuál es el diagnóstico más probable?",
+      "enunciado": "Un hombre joven presenta una historia prolongada de dolor lumbar. Se muestran las radiografías. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case011",
@@ -2674,8 +2724,13 @@
         "Artritis reumatoide"
       ],
       "correcta": 0,
-      "explicacion": "- La espondilitis anquilosante (AS) es una espondiloartropatía seronegativa.\n- Causa fusión bilateral de las articulaciones sacroilíacas y formación difusa simétrica de sindesmofitos.\n- La formación de sindesmofitos a través del ligamento interespinoso da como resultado el signo de la 'daga' en radiografías frontales.",
+      "explicacion": "- **Hallazgos:** fusión bilateral de las articulaciones sacroilíacas y formación difusa y simétrica de sindesmofitos («columna en caña de bambú»).\n- La espondilitis anquilosante (AS) es una espondiloartropatía seronegativa.\n- La formación de sindesmofitos a través del ligamento interespinoso da como resultado el signo de la 'daga' en radiografías frontales.",
       "perla": "La esclerosis y erosión de la articulación sacroilíaca representan la primera manifestación de esta enfermedad y son bilaterales y simétricas.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Espondilitis anquilosante con columna en caña de bambú y sacroileítis bilateral: signo clásico tipo Aunt Minnie (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2701,7 +2756,7 @@
         "Erosiones periarticulares"
       ],
       "tipo": "imagen",
-      "enunciado": "Un hombre de 65 años se presenta con dolor en el pie. En la radiografía mostrada se observan erosiones periarticulares en la quinta y primera articulación metatarsofalángica, con bordes sobresalientes ('overhanging edges') y sin osteopenia. ¿Cuál es la etiología más probable de estos hallazgos?",
+      "enunciado": "Un hombre de 65 años se presenta con dolor en el pie. Se muestra la radiografía. ¿Cuál es la etiología más probable?",
       "imagenes": [
         {
           "ref": "case012",
@@ -2716,8 +2771,13 @@
         "Artropatía neuropática"
       ],
       "correcta": 0,
-      "explicacion": "- La artritis gotosa es causada por la deposición de cristales de urato monosódico.\n- Las erosiones gotosas típicas están bien marginadas, escleróticas, y tienen un aspecto de sacabocados con bordes colgantes.\n- Usualmente no se observa osteopenia, diferenciándola de la artritis reumatoide.",
+      "explicacion": "- **Hallazgos:** erosiones periarticulares en la primera y la quinta articulaciones metatarsofalángicas, con bordes colgantes («overhanging edges») y sin osteopenia.\n- La artritis gotosa es causada por la deposición de cristales de urato monosódico.\n- Las erosiones gotosas típicas están bien marginadas, escleróticas, y tienen un aspecto de sacabocados con bordes colgantes.\n- Usualmente no se observa osteopenia, diferenciándola de la artritis reumatoide.",
       "perla": "El ataque inicial de artritis gotosa suele ser monoarticular, y las erosiones afectan más comúnmente el margen medial de la primera articulación metatarsofalángica.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Gota con erosiones en sacabocados y bordes colgantes en la primera MTP: presentación clásica, la fuente la llama característica (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2743,7 +2803,7 @@
         "Trauma de tobillo"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente acude tras sufrir una lesión por torsión en el tobillo. En la radiografía se observa una avulsión ósea curvilínea en el maléolo lateral. En la RM se identifica subluxación lateral de los tendones peroneos, que se sitúan profundos al fragmento óseo avulsionado, con el retináculo adherido a este. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente acude tras sufrir una lesión por torsión en el tobillo. Se muestran la radiografía y la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case013",
@@ -2758,8 +2818,13 @@
         "Fractura del maléolo medial"
       ],
       "correcta": 0,
-      "explicacion": "- La avulsión del retináculo peroneo superior resulta de la dorsiflexión forzada y suele coexistir con luxación del tendón peroneo.\n- Se visualiza en RM la dislocación lateral y anterior de los tendones peroneos respecto al surco retromaleolar.\n- En RM el retináculo peroneo superior puede verse adherido al fragmento avulsionado.",
+      "explicacion": "- **Hallazgos:** avulsión ósea curvilínea en el maléolo lateral en la radiografía; en la RM, subluxación lateral de los tendones peroneos, que quedan profundos al fragmento avulsionado, con el retináculo adherido a él.\n- La avulsión del retináculo peroneo superior resulta de la dorsiflexión forzada y suele coexistir con luxación del tendón peroneo.\n- Se visualiza en RM la dislocación lateral y anterior de los tendones peroneos respecto al surco retromaleolar.\n- En RM el retináculo peroneo superior puede verse adherido al fragmento avulsionado.",
       "perla": "La lesión del complejo ligamentario lateral suele coexistir frecuentemente con este tipo de lesión del retináculo peroneo.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Avulsión del retináculo peroneo superior con subluxación de peroneos: lesión poco común que puede pasar por esguince (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2784,7 +2849,7 @@
         "Dolor de ingle"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer de 42 años se presenta con dolor y sensación de plenitud en la ingle derecha. En las secuencias de resonancia magnética mostradas, se observa una intensidad de señal heterogénea correspondiente a líquido a nivel de la unión miotendinosa del iliopsoas. ¿Cuál es la patología demostrada en las imágenes?",
+      "enunciado": "Una mujer de 42 años se presenta con dolor y sensación de plenitud en la ingle derecha. Se muestra la RM. ¿Cuál es la patología?",
       "imagenes": [
         {
           "ref": "case014",
@@ -2799,8 +2864,13 @@
         "Rotura del músculo glúteo medio"
       ],
       "correcta": 0,
-      "explicacion": "- La bursa del iliopsoas es la más grande del cuerpo humano, situada de manera profunda al tendón del iliopsoas.\n- La distensión por líquido puede ser postraumática o inflamatoria.\n- Un quiste paralabral típicamente colinda con el labrum y es contiguo a un desgarro del mismo, mientras que esta colección sigue el curso del iliopsoas.",
+      "explicacion": "- **Hallazgos:** señal heterogénea de líquido a nivel de la unión miotendinosa del iliopsoas, siguiendo el curso del músculo.\n- La bursa del iliopsoas es la más grande del cuerpo humano, situada de manera profunda al tendón del iliopsoas.\n- La distensión por líquido puede ser postraumática o inflamatoria.\n- Un quiste paralabral típicamente colinda con el labrum y es contiguo a un desgarro del mismo, mientras que esta colección sigue el curso del iliopsoas.",
       "perla": "Una masa inguinal con densidad mixta de líquido y tejido blando que se extiende a lo largo del músculo iliopsoas hacia la pelvis inferior probablemente se relacione con patología bursal del iliopsoas.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Bursitis del iliopsoas: entidad común, diferencial frecuente con quiste paralabral (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2826,7 +2896,7 @@
         "Muñeca"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente presenta dolor e hinchazón en el dorso de la muñeca. En las imágenes de resonancia magnética provistas se observa líquido distendiendo las vainas de los tendones del segundo y tercer compartimento extensor. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente presenta dolor e hinchazón en el dorso de la muñeca. Se muestra la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case015",
@@ -2841,8 +2911,13 @@
         "Tendinosis del carpi ulnaris"
       ],
       "correcta": 0,
-      "explicacion": "- El síndrome de intersección distal es una tenosinovitis inflamatoria focal en la intersección del segundo y tercer compartimento extensor.\n- Ocurre de forma distal a la articulación radiocarpiana.\n- El tubérculo de Lister parece ser un factor, actuando como polea e irritando el tendón del extensor pollicis longus.",
+      "explicacion": "- **Hallazgos:** líquido que distiende las vainas de los tendones del segundo y el tercer compartimento extensor, distal a la articulación radiocarpiana.\n- El síndrome de intersección distal es una tenosinovitis inflamatoria focal en la intersección del segundo y tercer compartimento extensor.\n- Ocurre de forma distal a la articulación radiocarpiana.\n- El tubérculo de Lister parece ser un factor, actuando como polea e irritando el tendón del extensor pollicis longus.",
       "perla": "Casos severos de síndrome de intersección distal pueden llevar a reacción perióstica de las estructuras óseas subyacentes, evidente en radiografías.",
+      "dificultad": {
+        "nivel": 4,
+        "motivo": "Síndrome de intersección distal (2.º y 3.er compartimentos extensores): entidad rara, diferencial de nicho con el proximal (ETC III)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2868,7 +2943,7 @@
         "Os styloideum"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente acude con una masa palpable en el dorso de la muñeca. Las imágenes muestran una prominencia ósea ('carpal boss') en la base del segundo y tercer metacarpiano y la porción dorsal distal del hueso grande (capitato). ¿A qué estructura osificada accesoria puede corresponder este hallazgo?",
+      "enunciado": "Un paciente acude con una masa palpable en el dorso de la muñeca. Se muestran las imágenes. ¿A qué estructura osificada accesoria puede corresponder el hallazgo?",
       "imagenes": [
         {
           "ref": "case016",
@@ -2883,8 +2958,13 @@
         "Os peroneum"
       ],
       "correcta": 0,
-      "explicacion": "- Un 'carpal boss' es una protuberancia ósea en la base del segundo y tercer metacarpiano.\n- Puede deberse a un osteofito en ese sitio o a un centro de osificación accesorio denominado os styloideum.\n- Los pacientes pueden presentar una masa firme, a veces dolorosa y con limitación de rango de movimiento.",
+      "explicacion": "- **Hallazgos:** prominencia ósea («carpal boss») en la base del segundo y el tercer metacarpiano y en la porción dorsal distal del hueso grande.\n- Puede deberse a un osteofito en ese sitio o a un centro de osificación accesorio denominado os styloideum.\n- Los pacientes pueden presentar una masa firme, a veces dolorosa y con limitación de rango de movimiento.",
       "perla": "El 'carpal boss' se visualiza mejor en una radiografía lateral de la muñeca utilizando 30 grados de supinación y desviación ulnar.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Carpal boss por os styloideum: osículo accesorio poco frecuente, dato de anatomía variante (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2910,7 +2990,7 @@
         "Cadera"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente con alergia al contraste se somete a un procedimiento terapéutico en la cadera. En la imagen fluoroscópica mostrada, se observa gas hiperlúcido delineando la cápsula articular, confirmando la posición intraarticular de la aguja. ¿Qué técnica se ha utilizado como alternativa al contraste iodado?",
+      "enunciado": "Un paciente con alergia al contraste se somete a un procedimiento terapéutico en la cadera. Se muestra la imagen fluoroscópica. ¿Qué técnica se ha utilizado como alternativa al contraste yodado?",
       "imagenes": [
         {
           "ref": "case017",
@@ -2925,8 +3005,13 @@
         "Infiltración con ozono"
       ],
       "correcta": 0,
-      "explicacion": "- La artrografía con aire implica la insuflación de la cápsula articular con aire de la habitación (aprox 10 mL).\n- Sirve como una alternativa útil y segura para confirmar el posicionamiento intraarticular en pacientes con alergia al contraste iodado.\n- El aire aparece como un anillo hiperlúcido intracapsular.",
+      "explicacion": "- **Hallazgos:** gas hiperlúcido que delinea la cápsula articular, como un anillo intracapsular, y confirma la posición intraarticular de la aguja.\n- La artrografía con aire implica la insuflación de la cápsula articular con aire de la habitación (aprox 10 mL).\n- Sirve como una alternativa útil y segura para confirmar el posicionamiento intraarticular en pacientes con alergia al contraste iodado.",
       "perla": "Realizar una artrografía con aire antes de una RM disminuye la sensibilidad y especificidad del examen debido al artefacto de susceptibilidad y debe evitarse.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Artrografía con aire como alternativa en alergia al contraste: técnica de procedimiento reconocible de vista (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2952,7 +3037,7 @@
         "Manguito rotador"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer de 50 años presenta dolor en el hombro izquierdo y limitación del movimiento. En la ecografía se observa un depósito ecogénico curvilíneo con sombra acústica en el tendón del supraespinoso, y la radiografía muestra calcificaciones adyacentes a la tuberosidad mayor. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Una mujer de 50 años presenta dolor en el hombro izquierdo y limitación del movimiento. Se muestran la ecografía y la radiografía. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case018",
@@ -2967,8 +3052,13 @@
         "Desgarro del manguito rotador"
       ],
       "correcta": 0,
-      "explicacion": "- La enfermedad por depósito de hidroxiapatita (HADD), o tendinitis calcificante, se caracteriza por calcificaciones en los tendones, usualmente cerca de sus inserciones óseas.\n- El sitio más frecuente de depósito es el tendón del supraespinoso.\n- La ecografía es ideal para mostrar los depósitos de calcio que generan sombra acústica posterior.",
+      "explicacion": "- **Hallazgos:** depósito ecogénico curvilíneo con sombra acústica en el tendón del supraespinoso en la ecografía, y calcificaciones adyacentes a la tuberosidad mayor en la radiografía.\n- La enfermedad por depósito de hidroxiapatita (HADD), o tendinitis calcificante, se caracteriza por calcificaciones en los tendones, usualmente cerca de sus inserciones óseas.\n- El sitio más frecuente de depósito es el tendón del supraespinoso.\n- La ecografía es ideal para mostrar los depósitos de calcio que generan sombra acústica posterior.",
       "perla": "El sitio más común para estos depósitos es el hombro, específicamente el tendón del supraespinoso, típicamente en regiones mal vascularizadas tras microtraumas.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Tendinitis calcificante (HADD) del supraespinoso: entidad común y presentación típica en radiografía y ecografía (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -2994,7 +3084,7 @@
         "Epicondilitis lateral"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente acude con dolor crónico en la cara lateral del codo. En la resonancia magnética coronal mostrada, se observa un aumento de señal T2 en el espesor del tendón extensor común proximal en su origen epicondilar lateral. ¿Cuál de los siguientes tendones suele ser el sitio primario de esta patología?",
+      "enunciado": "Un paciente acude con dolor crónico en la cara lateral del codo. Se muestra la RM coronal. ¿Cuál de estos tendones suele ser el sitio primario de la patología que se ve?",
       "imagenes": [
         {
           "ref": "case019",
@@ -3009,8 +3099,13 @@
         "Supinador"
       ],
       "correcta": 0,
-      "explicacion": "- La tendinopatía extensora común se conoce como 'codo de tenista' o epicondilitis lateral.\n- Es una tendinopatía crónica degenerativa por uso excesivo.\n- El tendón del extensor carpi radialis brevis es casi siempre el sitio primario de la patología.",
+      "explicacion": "- **Hallazgos:** aumento de señal T2 en el espesor del tendón extensor común proximal, en su origen epicondilar lateral.\n- La tendinopatía extensora común se conoce como 'codo de tenista' o epicondilitis lateral.\n- Es una tendinopatía crónica degenerativa por uso excesivo.\n- El tendón del extensor carpi radialis brevis es casi siempre el sitio primario de la patología.",
       "perla": "La tendinopatía extensora común (codo de tenista) es mucho más frecuente que la tendinopatía flexora común (codo de golfista).",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Epicondilitis lateral: entidad común, preguntar el tendón primario (extensor radial corto del carpo) es dato de ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3036,7 +3131,7 @@
         "Hombro"
       ],
       "tipo": "imagen",
-      "enunciado": "Un levantador de pesas presenta dolor en la región posterior del hombro. Las imágenes axiales de resonancia magnética muestran un aumento de la señal T2 que se extiende a través de la base del labrum posterior. ¿A qué alteración corresponde este hallazgo?",
+      "enunciado": "Un levantador de pesas presenta dolor en la región posterior del hombro. Se muestra la RM axial. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case020",
@@ -3051,8 +3146,13 @@
         "Desgarro del manguito rotador"
       ],
       "correcta": 0,
-      "explicacion": "- La imagen axial por RM que demuestra una hiperintensidad en T2 interrumpiendo la señal normalmente disminuida del fibrocartílago labral posterior es diagnóstica de desgarro del labrum posterior.\n- Esta lesión puede ser causada por microtraumatismo repetitivo, común en levantadores de pesas (press de banca) y linieros ofensivos.\n- Las variantes anatómicas como el foramen sublabral y receso sublabral ocurren típicamente en las porciones anterior superior y superior, respectivamente.",
+      "explicacion": "- **Hallazgos:** hiperintensidad T2 que atraviesa la base del labrum posterior e interrumpe la señal normalmente baja del fibrocartílago labral.\n- Esta lesión puede ser causada por microtraumatismo repetitivo, común en levantadores de pesas (press de banca) y linieros ofensivos.\n- Las variantes anatómicas como el foramen sublabral y receso sublabral ocurren típicamente en las porciones anterior superior y superior, respectivamente.",
       "perla": "El aumento de señal T2 en la articulación puede insinuarse entre la cápsula articular y el margen labral posteroinferior, simulando un desgarro del labrum posterior.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Desgarro del labrum posterior en levantador de pesas: diagnóstico típico, diferencial con variantes del labrum (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3078,7 +3178,7 @@
         "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer anciana presenta masas en la pared torácica posterior. La RM de tórax muestra masas bilaterales por debajo y por delante del borde inferior de las escápulas, isointensas al músculo esquelético en T1 y T2. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Una mujer anciana presenta masas en la pared torácica posterior. Se muestra la RM de tórax. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case021",
@@ -3093,8 +3193,13 @@
         "Hemangioma"
       ],
       "correcta": 1,
-      "explicacion": "- El elastofibroma es un pseudotumor fibroso reactivo y degenerativo causado por la fricción mecánica en la interfaz escapulotorácica.\n- Suele verse en pacientes de 55 años o más, que consultan por rigidez y dolor.\n- El abundante depósito de colágeno explica su baja señal en RM. Puede ser bilateral hasta en el 60 % de los pacientes.",
+      "explicacion": "- **Hallazgos:** masas bilaterales por debajo y por delante del borde inferior de las escápulas, isointensas al músculo esquelético en T1 y T2.\n- El elastofibroma es un pseudotumor fibroso reactivo y degenerativo causado por la fricción mecánica en la interfaz escapulotorácica.\n- Suele verse en pacientes de 55 años o más, que consultan por rigidez y dolor.\n- El abundante depósito de colágeno explica su baja señal en RM. Puede ser bilateral hasta en el 60 % de los pacientes.",
       "perla": "Los elastofibromas predominan en el lado derecho y pueden pasar inadvertidos en la RM porque se parecen al músculo esquelético.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Elastofibroma dorsi bilateral subescapular: entidad poco común pero de localización y aspecto clásicos, Aunt Minnie (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3120,7 +3225,7 @@
         "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer de mediana edad presenta dolor de rodilla de 1 mes de evolución. Las imágenes coronales de RM sensibles a líquido muestran señal líquida que atraviesa la inserción de la raíz del cuerno posterior del menisco medial, extrusión periférica del cuerpo del menisco medial mayor de 3 mm y edema medular subcondral en la meseta tibial medial. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Una mujer de mediana edad presenta dolor de rodilla de 1 mes de evolución. RM coronal, secuencia sensible a líquido. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case022",
@@ -3135,8 +3240,13 @@
         "Rotura de la raíz del cuerno posterior del menisco lateral"
       ],
       "correcta": 1,
-      "explicacion": "- La rotura de la raíz del menisco medial es una rotura radial que atraviesa la inserción de la raíz del cuerno posterior y provoca la extrusión periférica del cuerpo del menisco.\n- Altera la transmisión de cargas axiales y produce pérdida condral avanzada en el compartimento medial y fracturas subcondrales por insuficiencia.\n- Hay que sospecharla si en las imágenes sagitales no se ve tejido meniscal junto a la inserción tibial del LCP.",
+      "explicacion": "- **Hallazgos:** señal líquida que atraviesa la inserción de la raíz del cuerno posterior del menisco medial, extrusión periférica del cuerpo del menisco medial mayor de 3 mm y edema medular subcondral en la meseta tibial medial.\n- La rotura de la raíz del menisco medial es una rotura radial que atraviesa la inserción de la raíz del cuerno posterior y provoca la extrusión periférica del cuerpo del menisco.\n- Altera la transmisión de cargas axiales y produce pérdida condral avanzada en el compartimento medial y fracturas subcondrales por insuficiencia.\n- Hay que sospecharla si en las imágenes sagitales no se ve tejido meniscal junto a la inserción tibial del LCP.",
       "perla": "Una fractura subcondral por insuficiencia en una mujer mayor (antes llamada SONK) debe hacer buscar una rotura de la raíz del menisco medial.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Rotura de la raíz del menisco medial con extrusión mayor de 3 mm: hallazgos descritos y entidad frecuente (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3162,7 +3272,7 @@
         "ligamento colateral cubital"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente sufre una caída sobre la mano extendida con el pulgar en abducción. La RM del pulgar muestra la aponeurosis del aductor del pulgar por debajo de un ligamento colateral cubital roto, retraído hacia proximal y de aspecto redondeado. ¿Cómo se llama este hallazgo?",
+      "enunciado": "Un paciente sufre una caída sobre la mano extendida con el pulgar en abducción. Se muestra la RM del pulgar. ¿Cómo se llama el hallazgo?",
       "imagenes": [
         {
           "ref": "case023",
@@ -3177,8 +3287,13 @@
         "Pulgar del esquiador sin lesión de Stener"
       ],
       "correcta": 2,
-      "explicacion": "- La lesión de Stener se produce cuando el ligamento colateral cubital roto se retrae y la aponeurosis del aductor del pulgar queda interpuesta por debajo de él.\n- Esta mala posición de las estructuras impide la cicatrización normal.\n- El ensanchamiento medial o la subluxación radial de la articulación metacarpofalángica del pulgar son característicos del pulgar del guardabosques, que también puede asociarse a fracturas por avulsión.",
+      "explicacion": "- **Hallazgos:** el ligamento colateral cubital está roto, retraído hacia proximal y de aspecto redondeado, con la aponeurosis del aductor del pulgar interpuesta por debajo de él: lesión de Stener.\n- Esta mala posición de las estructuras impide la cicatrización normal.\n- El ensanchamiento medial o la subluxación radial de la articulación metacarpofalángica del pulgar son característicos del pulgar del guardabosques, que también puede asociarse a fracturas por avulsión.",
       "perla": "Los fragmentos de avulsión muy desplazados de la base medial de la falange proximal del pulgar suelen acompañarse de un ligamento roto desplazado o de una lesión de Stener.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Lesión de Stener: ligamento colateral cubital retraído sobre la aponeurosis del aductor, cambia el manejo a quirúrgico (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3204,7 +3319,7 @@
         "trauma de hombro"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente sufre un traumatismo en el hombro izquierdo. Las radiografías muestran un ensanchamiento de la articulación acromioclavicular mayor de 5 mm y del espacio coracoclavicular mayor de 11 mm, con desplazamiento superior de la clavícula del 100 % respecto del acromion. ¿Qué grado de lesión acromioclavicular es según la clasificación de Rockwood?",
+      "enunciado": "Un paciente sufre un traumatismo en el hombro izquierdo. Se muestran las radiografías. ¿Qué grado de lesión acromioclavicular es según la clasificación de Rockwood?",
       "imagenes": [
         {
           "ref": "case024",
@@ -3219,8 +3334,13 @@
         "Grado 5"
       ],
       "correcta": 2,
-      "explicacion": "- La luxación acromioclavicular de grado 3 de Rockwood implica la rotura de los ligamentos acromioclaviculares y coracoclaviculares.\n- En la radiografía hay un ensanchamiento acromioclavicular mayor de 5 mm y coracoclavicular mayor de 11 mm, con desplazamiento superior de la clavícula del 100 %.\n- En las lesiones de grado 3 puede verse la desinserción de los músculos deltoides y trapecio.",
+      "explicacion": "- **Hallazgos:** ensanchamiento de la articulación acromioclavicular mayor de 5 mm y del espacio coracoclavicular mayor de 11 mm, con desplazamiento superior de la clavícula del 100 % respecto del acromion.\n- La luxación acromioclavicular de grado 3 de Rockwood implica la rotura de los ligamentos acromioclaviculares y coracoclaviculares.\n- En las lesiones de grado 3 puede verse la desinserción de los músculos deltoides y trapecio.",
       "perla": "Las radiografías en carga permiten distinguir las lesiones de grado 2 y 3, porque muestran la separación de la articulación acromioclavicular y del espacio coracoclavicular.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Clasificación de Rockwood (grado 3) por medidas AC y CC: clasificación que decide el manejo (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3246,7 +3366,7 @@
         "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "Una triatleta sufre una caída de bicicleta. La RM coronal de pelvis sensible a líquido muestra un espacio lleno de líquido en lugar del tendón proximal de los isquiotibiales a nivel de su origen en el isquion, con retracción distal del tendón y edema muscular alrededor. ¿Cuál es el diagnóstico?",
+      "enunciado": "Una triatleta sufre una caída de bicicleta. RM coronal de pelvis, secuencia sensible a líquido. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case025",
@@ -3261,8 +3381,13 @@
         "Rotura del tendón del cuádriceps"
       ],
       "correcta": 2,
-      "explicacion": "- La avulsión del complejo tendinoso proximal de los isquiotibiales es la lesión aguda más grave de estos músculos en adultos; suele ocurrir en deportes que exigen aceleraciones rápidas.\n- La RM muestra señal líquida en lugar del tendón proximal en su origen isquiático, con retracción distal y edema.\n- La avulsión suele afectar a todo el complejo tendinoso proximal, aunque el tendón conjunto o el del semimembranoso pueden romperse aislados.",
+      "explicacion": "- **Hallazgos:** líquido en lugar del tendón proximal de los isquiotibiales en su origen isquiático, con retracción distal del tendón y edema muscular alrededor.\n- La avulsión del complejo tendinoso proximal de los isquiotibiales es la lesión aguda más grave de estos músculos en adultos; suele ocurrir en deportes que exigen aceleraciones rápidas.\n- La avulsión suele afectar a todo el complejo tendinoso proximal, aunque el tendón conjunto o el del semimembranoso pueden romperse aislados.",
       "perla": "En el adulto, la avulsión de los isquiotibiales suele ocurrir sin fragmento óseo; en el adolescente, la misma lesión puede arrancar la apófisis isquiática.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Avulsión proximal de los isquiotibiales con retracción: lesión deportiva conocida y hallazgo evidente (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3288,7 +3413,7 @@
         "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer de mediana edad presenta limitación de la movilidad del hombro que empeora por la noche. La RM muestra obliteración del triángulo graso subcoracoideo, con engrosamiento mayor de 4 mm del ligamento coracohumeral y de la cápsula articular inferior. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Una mujer de mediana edad presenta limitación de la movilidad del hombro que empeora por la noche. Se muestra la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case026",
@@ -3303,8 +3428,13 @@
         "Síndrome de Parsonage-Turner"
       ],
       "correcta": 2,
-      "explicacion": "- La capsulitis adhesiva, u hombro congelado, es una inflamación de la cápsula articular del hombro que la engrosa y la retrae.\n- En la RM hay engrosamiento del ligamento coracohumeral mayor de 4 mm, engrosamiento capsular y obliteración de la grasa subcoracoidea por edema.\n- Se asocia a enfermedades como la de Dupuytren y a la disfunción tiroidea.",
+      "explicacion": "- **Hallazgos:** obliteración del triángulo graso subcoracoideo, con engrosamiento mayor de 4 mm del ligamento coracohumeral y de la cápsula articular inferior.\n- La capsulitis adhesiva, u hombro congelado, es una inflamación de la cápsula articular del hombro que la engrosa y la retrae.\n- Se asocia a enfermedades como la de Dupuytren y a la disfunción tiroidea.",
       "perla": "En las imágenes sagitales sensibles a grasa puede verse un halo de edema alrededor del receso axilar en la capsulitis adhesiva.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Capsulitis adhesiva con LCH mayor de 4 mm y grasa subcoracoidea obliterada: entidad común que integra clínica y signos de RM (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3330,7 +3460,7 @@
         "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer de mediana edad presenta un pie plano progresivo. La RM axial a nivel del maléolo medial muestra el surco retromaleolar vacío, con una vaina tendinosa llena de líquido medial al tendón del flexor largo de los dedos y muñones tendinosos retraídos. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Una mujer de mediana edad presenta un pie plano progresivo. Se muestra la RM axial a nivel del maléolo medial. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case027",
@@ -3345,8 +3475,13 @@
         "Rotura del tendón del peroneo corto"
       ],
       "correcta": 3,
-      "explicacion": "- El tendón del tibial posterior es esencial para mantener el arco longitudinal del pie.\n- La rotura completa (tipo III) se caracteriza por una vaina del tibial posterior vacía en el surco retromaleolar, con los muñones retraídos.\n- Es una lesión crónica, frecuente en mujeres en la quinta y sexta décadas, que produce un pie plano progresivo.",
+      "explicacion": "- **Hallazgos:** surco retromaleolar vacío, con una vaina tendinosa llena de líquido medial al tendón del flexor largo de los dedos y muñones tendinosos retraídos.\n- El tendón del tibial posterior es esencial para mantener el arco longitudinal del pie.\n- La rotura completa (tipo III) se caracteriza por una vaina del tibial posterior vacía en el surco retromaleolar, con los muñones retraídos.\n- Es una lesión crónica, frecuente en mujeres en la quinta y sexta décadas, que produce un pie plano progresivo.",
       "perla": "Las roturas del ligamento calcaneonavicular plantar (ligamento en resorte) suelen acompañar a las del tibial posterior. En la RM axial, el tibial posterior normal no mide más del doble que el flexor largo de los dedos.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Rotura completa del tibial posterior con vaina vacía y pie plano progresivo: entidad común, cuadro típico (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3372,7 +3507,7 @@
         "paraneoplásico"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente con tos crónica y pérdida de peso presenta poliartralgias. Las radiografías de manos y caderas muestran una reacción perióstica difusa y simétrica en las diáfisis de las falanges, el radio y el cúbito distales y los fémures proximales. La radiografía de tórax muestra una opacidad redondeada en el lóbulo superior izquierdo. ¿Cuál es el diagnóstico más probable de los hallazgos óseos?",
+      "enunciado": "Un paciente presenta poliartralgias. Se muestran radiografías de manos, caderas y tórax. ¿Cuál es el diagnóstico más probable de los hallazgos óseos?",
       "imagenes": [
         {
           "ref": "case028",
@@ -3387,8 +3522,13 @@
         "Paquidermoperiostosis"
       ],
       "correcta": 2,
-      "explicacion": "- La osteoartropatía hipertrófica es un síndrome paraneoplásico de mecanismo sistémico que produce una reacción perióstica simétrica y extensa en los huesos tubulares.\n- El carcinoma broncogénico (sobre todo el adenocarcinoma) es una causa secundaria frecuente de periostitis difusa.\n- Los síntomas y los hallazgos radiográficos se resuelven tras resecar el tumor.",
+      "explicacion": "- **Hallazgos:** reacción perióstica difusa y simétrica en las diáfisis de las falanges, el radio y el cúbito distales y los fémures proximales, y una opacidad redondeada en el lóbulo superior izquierdo, en un paciente con tos crónica y pérdida de peso.\n- La osteoartropatía hipertrófica es un síndrome paraneoplásico de mecanismo sistémico que produce una reacción perióstica simétrica y extensa en los huesos tubulares.\n- El carcinoma broncogénico (sobre todo el adenocarcinoma) es una causa secundaria frecuente de periostitis difusa.\n- Los síntomas y los hallazgos radiográficos se resuelven tras resecar el tumor.",
       "perla": "La osteoartropatía hipertrófica asociada al cáncer de pulmón afecta de forma simétrica las diáfisis de los huesos tubulares y respeta las epífisis.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Osteoartropatía hipertrófica por carcinoma broncogénico: diagnóstico clásico que exige integrar tórax y huesos (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3414,7 +3554,7 @@
         "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "Un tenista aficionado presenta dolor en la cara dorsolateral de la muñeca. La RM de muñeca muestra engrosamiento difuso, distensión líquida y señal T2 alta alrededor de los tendones del abductor largo y el extensor corto del pulgar. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un tenista aficionado presenta dolor en la cara dorsolateral de la muñeca. Se muestra la RM de muñeca. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case029",
@@ -3429,8 +3569,13 @@
         "Rotura del ligamento escafolunar"
       ],
       "correcta": 1,
-      "explicacion": "- La enfermedad de De Quervain es una tenosinovitis estenosante del abductor largo y del extensor corto del pulgar, en el primer compartimento extensor.\n- Es una lesión por sobreuso, típica de mujeres embarazadas o en periodo de lactancia y de deportistas de raqueta.\n- La RM muestra engrosamiento de ambos tendones y líquido en su vaina.",
+      "explicacion": "- **Hallazgos:** engrosamiento difuso, distensión líquida y señal T2 alta alrededor de los tendones del abductor largo y del extensor corto del pulgar.\n- La enfermedad de De Quervain es una tenosinovitis estenosante del abductor largo y del extensor corto del pulgar, en el primer compartimento extensor.\n- Es una lesión por sobreuso, típica de mujeres embarazadas o en periodo de lactancia y de deportistas de raqueta.",
       "perla": "La radiografía de muñeca puede mostrar una reacción perióstica en la apófisis estiloides del radio por la inflamación vecina.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Tenosinovitis de De Quervain del primer compartimento: entidad común y presentación típica (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3456,7 +3601,7 @@
         "signo de la C"
       ],
       "tipo": "imagen",
-      "enunciado": "Un adolescente presenta dolor crónico del pie, rigidez y esguinces de tobillo repetidos. La radiografía lateral del tobillo muestra un signo de la «C» continua. La RM coronal a través de la articulación subastragalina muestra irregularidad ósea subcondral, estrechamiento del espacio articular y edema medular a través de la faceta media. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un adolescente presenta dolor crónico del pie, rigidez y esguinces de tobillo repetidos. Se muestran la radiografía lateral del tobillo y la RM coronal a través de la articulación subastragalina. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case030",
@@ -3471,8 +3616,13 @@
         "Síndrome del seno del tarso"
       ],
       "correcta": 1,
-      "explicacion": "- Las coaliciones tarsales son anomalías congénitas de segmentación de las articulaciones intertarsianas; la faceta media de la subastragalina es el sitio astragalocalcáneo más frecuente.\n- La fusión puede ser fibrosa, cartilaginosa u ósea. La coalición fibrosa muestra estrechamiento articular, esclerosis y edema medular.\n- El signo de la «C» continua se ve en la radiografía lateral porque la cortical medial de la cúpula astragalina se continúa con el sustentáculo del astrágalo.",
+      "explicacion": "- **Hallazgos:** signo de la «C» continua en la radiografía lateral; en la RM, irregularidad ósea subcondral, estrechamiento del espacio articular y edema medular a través de la faceta media.\n- Las coaliciones tarsales son anomalías congénitas de segmentación de las articulaciones intertarsianas; la faceta media de la subastragalina es el sitio astragalocalcáneo más frecuente.\n- La fusión puede ser fibrosa, cartilaginosa u ósea. La coalición fibrosa muestra estrechamiento articular, esclerosis y edema medular.\n- El signo de la «C» continua se ve en la radiografía lateral porque la cortical medial de la cúpula astragalina se continúa con el sustentáculo del astrágalo.",
       "perla": "Las coaliciones tarsales fibrosas pueden confundirse con artrosis por el estrechamiento articular con esclerosis. La coalición tarsal es bilateral en cerca del 50 % de los casos.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Coalición astragalocalcánea fibrosa con signo de la C: la forma fibrosa simula artrosis, diferencial fino (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3498,7 +3648,7 @@
         "Ligamento cruzado anterior"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente se presenta con dolor crónico de rodilla. La resonancia magnética muestra un ligamento cruzado anterior engrosado con señal aumentada y un patrón estriado que asemeja un \"tallo de apio\" (celery stalk). ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente se presenta con dolor crónico de rodilla. Se muestra la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case031",
@@ -3513,8 +3663,13 @@
         "Cuerpo libre intraarticular"
       ],
       "correcta": 0,
-      "explicacion": "- La degeneración mucoide del ligamento cruzado anterior (LCA) resulta en un LCA agrandado que contiene un aumento lineal de la intensidad de la señal en la RM.\n- El aspecto de tallo de apio (celery stalk) se debe a la degeneración mucinosa intersticial que causa una apariencia estriada.\n- No hay discontinuidad o ruptura de las fibras, y los pacientes típicamente no exhiben inestabilidad ligamentosa.",
+      "explicacion": "- **Hallazgos:** ligamento cruzado anterior engrosado, con señal aumentada y un patrón estriado en «tallo de apio» («celery stalk»).\n- La degeneración mucoide del ligamento cruzado anterior (LCA) resulta en un LCA agrandado que contiene un aumento lineal de la intensidad de la señal en la RM.\n- El aspecto de tallo de apio (celery stalk) se debe a la degeneración mucinosa intersticial que causa una apariencia estriada.\n- No hay discontinuidad o ruptura de las fibras, y los pacientes típicamente no exhiben inestabilidad ligamentosa.",
       "perla": "La degeneración mucoide del LCA se manifiesta como un ligamento engrosado con un patrón estriado de \"tallo de apio\" en RM, sin causar inestabilidad ligamentosa.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Degeneración mucoide del LCA en tallo de apio: signo clásico, diferencial frecuente con rotura parcial (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3540,7 +3695,7 @@
         "Gas en tejidos blandos"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente se presenta con historia de 2 semanas de hinchazón y enrojecimiento en la rodilla tras una artroplastia. Las radiografías revelan derrame articular, inflamación de tejidos blandos y gas sobre la línea articular medial. ¿Cuál de los siguientes hallazgos es extremadamente específico para el diagnóstico de infección articular en este contexto?",
+      "enunciado": "Un paciente presenta hinchazón y enrojecimiento de la rodilla de 2 semanas de evolución tras una artroplastia. Se muestran las radiografías. ¿Cuál de estos hallazgos es muy específico de infección articular en este contexto?",
       "imagenes": [
         {
           "ref": "case032",
@@ -3555,8 +3710,13 @@
         "Reacción perióstica a lo largo del fémur distal"
       ],
       "correcta": 2,
-      "explicacion": "- El gas en los tejidos blandos o intraarticular en el contexto de una articulación infectada es extremadamente específico.\n- Las características radiográficas cardinales de la infección de material de osteosíntesis o prótesis incluyen gas en tejidos blandos, osteólisis irregular en la interfaz hueso-implante e hinchazón de tejidos blandos.\n- Otros hallazgos como el derrame o la lucencia leve no son tan específicos para confirmar una infección activa de forma aislada.",
+      "explicacion": "- **Hallazgos:** derrame articular, inflamación de partes blandas y gas sobre la línea articular medial.\n- El gas en los tejidos blandos o intraarticular en el contexto de una articulación infectada es extremadamente específico.\n- Las características radiográficas cardinales de la infección de material de osteosíntesis o prótesis incluyen gas en tejidos blandos, osteólisis irregular en la interfaz hueso-implante e hinchazón de tejidos blandos.\n- Otros hallazgos como el derrame o la lucencia leve no son tan específicos para confirmar una infección activa de forma aislada.",
       "perla": "La presencia de gas en los tejidos blandos o gas intraarticular en el contexto de un dolor agudo tras una artroplastia es un hallazgo radiográfico extremadamente específico de infección.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Infección de artroplastia: el gas es el hallazgo radiográfico más específico, complicación conocida de cirugía común (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3582,7 +3742,7 @@
         "Trauma de pie"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente se presenta con dolor e inflamación después de torcerse el pie. La radiografía frontal muestra una subluxación lateral de la base del segundo metatarsiano en relación con el cuneiforme intermedio. ¿Qué estructura ligamentosa es la principal afectada en esta lesión?",
+      "enunciado": "Un paciente se presenta con dolor e inflamación después de torcerse el pie. Se muestra la radiografía frontal. ¿Qué estructura ligamentosa es la principal afectada?",
       "imagenes": [
         {
           "ref": "case033",
@@ -3597,8 +3757,13 @@
         "Ligamento deltoideo"
       ],
       "correcta": 2,
-      "explicacion": "- El ligamento de Lisfranc ancla la base del segundo metatarsiano al cuneiforme medial.\n- En la proyección frontal, la corteza medial de la base del segundo metatarsiano debe alinearse con la corteza medial del cuneiforme intermedio; la desalineación implica una interrupción del ligamento de Lisfranc.\n- Estas lesiones requieren corrección quirúrgica para prevenir complicaciones como la osteoartrosis degenerativa.",
+      "explicacion": "- **Hallazgos:** subluxación lateral de la base del segundo metatarsiano respecto del cuneiforme intermedio.\n- El ligamento de Lisfranc ancla la base del segundo metatarsiano al cuneiforme medial.\n- En la proyección frontal, la corteza medial de la base del segundo metatarsiano debe alinearse con la corteza medial del cuneiforme intermedio; la desalineación implica una interrupción del ligamento de Lisfranc.\n- Estas lesiones requieren corrección quirúrgica para prevenir complicaciones como la osteoartrosis degenerativa.",
       "perla": "La desalineación de la corteza medial de la base del segundo metatarsiano con el cuneiforme intermedio en una radiografía frontal del pie indica una rotura del ligamento de Lisfranc.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Lesión de Lisfranc por desalineación de la base del 2.º metatarsiano en radiografía: lesión que no hay que pasar por alto (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3624,7 +3789,7 @@
         "Niveles líquido-líquido"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente de 18 años presenta dolor e hinchazón en la rodilla. Las imágenes muestran una lesión lítica circunscrita centrada en la epífisis tibial proximal, con un intenso edema perilesional y pequeños niveles líquido-líquido en la RM sensible a fluidos. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente de 18 años presenta dolor e hinchazón en la rodilla. Se muestran las imágenes. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case034",
@@ -3639,8 +3804,13 @@
         "Osteosarcoma"
       ],
       "correcta": 1,
-      "explicacion": "- El condroblastoma es una neoplasia cartilaginosa benigna de base epifisaria observada en el esqueleto adolescente (segunda y tercera década).\n- Las características de la RM incluyen a menudo un marcado edema perilesional y puede presentar áreas con intensidad de señal T2 intermedia a baja.\n- Hasta un 15% de los condroblastomas pueden mostrar niveles líquido-líquido secundarios, simulando un quiste óseo aneurismático.",
+      "explicacion": "- **Hallazgos:** lesión lítica circunscrita centrada en la epífisis tibial proximal, con intenso edema perilesional y pequeños niveles líquido-líquido en la RM sensible a líquido.\n- El condroblastoma es una neoplasia cartilaginosa benigna de base epifisaria observada en el esqueleto adolescente (segunda y tercera década).\n- Las características de la RM incluyen a menudo un marcado edema perilesional y puede presentar áreas con intensidad de señal T2 intermedia a baja.\n- Hasta un 15% de los condroblastomas pueden mostrar niveles líquido-líquido secundarios, simulando un quiste óseo aneurismático.",
       "perla": "El condroblastoma es la lesión lítica epifisaria benigna más característica en adolescentes, y a menudo se acompaña de un edema perilesional extenso y a veces niveles líquido-líquido en RM.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Condroblastoma epifisario en adolescente con edema perilesional: lesión clásica por localización y edad (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3666,7 +3836,7 @@
         "Artefacto ecográfico"
       ],
       "tipo": "imagen",
-      "enunciado": "En la evaluación ecográfica del hombro de un paciente con dolor, se observa en una imagen transversal un surco bicipital que parece vacío o con un tendón marcadamente hipoecoico. Al corregir la angulación de la sonda, el tendón del bíceps se visualiza normal. ¿Qué nombre recibe este artefacto ecográfico?",
+      "enunciado": "Ecografía transversal del surco bicipital en un paciente con dolor de hombro. ¿Qué artefacto explica el aspecto del tendón del bíceps?",
       "imagenes": [
         {
           "ref": "case035",
@@ -3681,8 +3851,13 @@
         "Artefacto de cola de cometa"
       ],
       "correcta": 2,
-      "explicacion": "- La anisotropía es un artefacto ecográfico en el que la falta de perpendicularidad del haz de ultrasonido con las fibras del tendón hace que éste no refleje los ecos de vuelta a la sonda, aparentando ser hipoecoico o no visualizándose.\n- El haz de ultrasonido debe estar perpendicular a las fibras del tendón para maximizar la recepción de ondas reflejadas.\n- Mover o bascular el transductor elimina el artefacto demostrando que el tendón está intacto.",
+      "explicacion": "- **Hallazgos:** en la imagen transversal, el surco bicipital parece vacío o con un tendón muy hipoecoico; al corregir la angulación de la sonda, el tendón del bíceps se ve normal.\n- La anisotropía es un artefacto ecográfico en el que la falta de perpendicularidad del haz de ultrasonido con las fibras del tendón hace que éste no refleje los ecos de vuelta a la sonda, aparentando ser hipoecoico o no visualizándose.\n- El haz de ultrasonido debe estar perpendicular a las fibras del tendón para maximizar la recepción de ondas reflejadas.\n- Mover o bascular el transductor elimina el artefacto demostrando que el tendón está intacto.",
       "perla": "La anisotropía tendinosa ocurre cuando el haz ecográfico no incide perpendicularmente sobre el tendón, haciéndolo parecer patológicamente hipoecoico o ausente.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Anisotropía tendinosa en ecografía: artefacto básico de técnica que se corrige angulando la sonda (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3708,7 +3883,7 @@
         "Lesión metafisaria"
       ],
       "tipo": "imagen",
-      "enunciado": "Un adolescente presenta dolor en la rodilla. La resonancia magnética coronal revela una lesión circunscrita e intramedular dentro de la metáfisis tibial proximal medial, observándose múltiples niveles líquido-líquido en las secuencias sensibles a fluidos. ¿Cuál es el diagnóstico principal?",
+      "enunciado": "Un adolescente presenta dolor en la rodilla. Se muestra la RM coronal. ¿Cuál es el diagnóstico principal?",
       "imagenes": [
         {
           "ref": "case036",
@@ -3723,8 +3898,13 @@
         "Osteosarcoma telangiectásico"
       ],
       "correcta": 3,
-      "explicacion": "- El quiste óseo aneurismático (QOA) es una lesión lítica expansiva, benigna, que afecta la metáfisis de los huesos largos y muestra característicamente niveles líquido-líquido en RM.\n- Más del 80% ocurren en pacientes menores de 20 años.\n- Se relacionan con un proceso vascular reactivo y su tratamiento suele consistir en curetaje intralesional.",
+      "explicacion": "- **Hallazgos:** lesión circunscrita e intramedular en la metáfisis tibial proximal medial, con múltiples niveles líquido-líquido en las secuencias sensibles a líquido.\n- El quiste óseo aneurismático (QOA) es una lesión lítica expansiva, benigna, que afecta la metáfisis de los huesos largos y muestra característicamente niveles líquido-líquido en RM.\n- Más del 80% ocurren en pacientes menores de 20 años.\n- Se relacionan con un proceso vascular reactivo y su tratamiento suele consistir en curetaje intralesional.",
       "perla": "Una lesión ósea expansiva, lítica y metafisaria en un paciente menor de 20 años que muestra múltiples niveles líquido-líquido en la RM es el aspecto clásico de un quiste óseo aneurismático.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Quiste óseo aneurismático metafisario con niveles líquido-líquido: la fuente lo llama clásico; diferencial con telangiectásico (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3750,7 +3930,7 @@
         "Engrosamiento sinovial"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente se queja de dolor crónico en la rodilla medial, que se acompaña de un chasquido sobre la articulación patelofemoral durante la flexión y extensión. La RM muestra una estructura en forma de banda engrosada de baja señal en T2 que se origina en la pared medial de la articulación, parcialmente encarcelada. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente se queja de dolor crónico en la rodilla medial, con un chasquido sobre la articulación patelofemoral durante la flexión y la extensión. Se muestra la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case037",
@@ -3765,8 +3945,13 @@
         "Tendinopatía patelar"
       ],
       "correcta": 1,
-      "explicacion": "- El síndrome de la plica medial se refiere al dolor asociado a una plica sinovial engrosada que se palpa como un cordón y causa chasquido con los movimientos patelofemorales.\n- En RM, la plica engrosada y fibrótica se observa como una banda de baja señal.\n- La fricción repetitiva puede causar la pérdida progresiva del cartílago condral subyacente.",
+      "explicacion": "- **Hallazgos:** estructura en banda, engrosada y de baja señal en T2, que se origina en la pared medial de la articulación y queda parcialmente atrapada: una plica sinovial fibrótica.\n- El síndrome de la plica medial se refiere al dolor asociado a una plica sinovial engrosada que se palpa como un cordón y causa chasquido con los movimientos patelofemorales.\n- La fricción repetitiva puede causar la pérdida progresiva del cartílago condral subyacente.",
       "perla": "El síndrome de la plica medial de la rodilla se presenta típicamente como dolor medial con chasquidos patelofemorales y aparece en la RM como una banda sinovial hipointensa y engrosada.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Síndrome de plica medial de la rodilla: entidad poco frecuente y diagnóstico de exclusión clínico-radiológico (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3792,7 +3977,7 @@
         "Luxación anterior"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente presenta dolor en el hombro después de una caída. La RM muestra edema que delinea la cápsula de la articulación glenohumeral inferior y los tejidos blandos axilares, y el ligamento glenohumeral inferior aparece desprendido de su inserción humeral proximal con retracción medial. ¿Qué lesión describe este hallazgo?",
+      "enunciado": "Un paciente presenta dolor en el hombro después de una caída. Se muestra la RM. ¿Qué lesión es?",
       "imagenes": [
         {
           "ref": "case038",
@@ -3807,8 +3992,13 @@
         "Rotura del tendón subescapular"
       ],
       "correcta": 2,
-      "explicacion": "- La avulsión humeral del ligamento glenohumeral (HAGL) es una lesión por avulsión ligamentosa traumática.\n- La RM muestra el ligamento glenohumeral inferior engrosado, edematoso y desprendido del cuello quirúrgico del húmero, frecuentemente con edema periarticular en la axila.\n- Suele ocurrir en el contexto de dislocaciones anteriores de hombro.",
+      "explicacion": "- **Hallazgos:** edema que delinea la cápsula glenohumeral inferior y los tejidos blandos axilares, y el ligamento glenohumeral inferior desprendido de su inserción humeral proximal, con retracción medial.\n- La avulsión humeral del ligamento glenohumeral (HAGL) es una lesión por avulsión ligamentosa traumática.\n- Suele ocurrir en el contexto de dislocaciones anteriores de hombro.",
       "perla": "La lesión HAGL consiste en la avulsión de la inserción humeral del ligamento glenohumeral inferior y cursa con acúmulo de líquido y edema en el receso axilar en la RM.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Lesión HAGL: avulsión humeral del LGHI, poco frecuente en la inestabilidad anterior y fácil de pasar por alto (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3834,7 +4024,7 @@
         "Rótula"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente asintomático es evaluado por un hallazgo en la radiografía de rodilla. Se observa una lesión radiolúcida redonda y bien circunscrita a lo largo de la superficie superolateral de la faceta rotuliana. La RM revela la invaginación del cartílago articular en la placa ósea subcondral, estando el cartílago suprayacente intacto. ¿Cuál es el diagnóstico?",
+      "enunciado": "Un paciente asintomático es evaluado por un hallazgo en la radiografía de rodilla. Se muestran la radiografía y la RM. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case039",
@@ -3849,8 +4039,13 @@
         "Encondroma"
       ],
       "correcta": 1,
-      "explicacion": "- El defecto dorsal de la patela (DDP) es una variante congénita benigna observada en 0.5 a 1% de la población.\n- Generalmente es un hallazgo incidental localizado en la faceta patelar superolateral.\n- A diferencia de un defecto osteocondral traumático, el cartílago que recubre el DDP suele estar intacto en la resonancia magnética.",
+      "explicacion": "- **Hallazgos:** lesión radiolúcida redonda y bien circunscrita en la faceta superolateral de la rótula; en la RM, el cartílago articular se invagina en la placa ósea subcondral y el cartílago suprayacente está intacto.\n- El defecto dorsal de la patela (DDP) es una variante congénita benigna observada en 0.5 a 1% de la población.\n- Generalmente es un hallazgo incidental localizado en la faceta patelar superolateral.\n- A diferencia de un defecto osteocondral traumático, el cartílago que recubre el DDP suele estar intacto en la resonancia magnética.",
       "perla": "El defecto dorsal de la patela es una variante congénita benigna superolateral que simula una lesión osteolítica, pero se caracteriza por un cartílago suprayacente típicamente intacto.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Defecto dorsal de la patela: variante rara (0,5 a 1 %) que simula lesión osteocondral, diferencial por cartílago intacto (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3876,7 +4071,7 @@
         "Adulta"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente de 40 años presenta dolor en la rodilla. Las imágenes revelan una lesión lítica geográfica excéntrica y expansiva centrada en la meta-epífisis del cóndilo femoral lateral que se extiende hasta el hueso subcondral, causando marcado adelgazamiento de la corteza. ¿Cuál es la entidad más probable?",
+      "enunciado": "Un paciente de 40 años presenta dolor en la rodilla. Se muestran las imágenes. ¿Cuál es la entidad más probable?",
       "imagenes": [
         {
           "ref": "case040",
@@ -3891,8 +4086,13 @@
         "Sarcoma de Ewing"
       ],
       "correcta": 2,
-      "explicacion": "- El tumor de células gigantes es una neoplasia benigna pero localmente agresiva que típicamente ocurre en el esqueleto adulto (fisis cerradas) y afecta la región meta-epifisaria.\n- Casi siempre se extienden a menos de 1 cm de la superficie articular subcondral.\n- Causan adelgazamiento de la corteza y presentan características de RM con señal intermedia-baja en T1 y T2 debido a depósitos de hemosiderina.",
+      "explicacion": "- **Hallazgos:** lesión lítica geográfica, excéntrica y expansiva, centrada en la metaepífisis del cóndilo femoral lateral, que llega al hueso subcondral y adelgaza mucho la cortical.\n- El tumor de células gigantes es una neoplasia benigna pero localmente agresiva que típicamente ocurre en el esqueleto adulto (fisis cerradas) y afecta la región meta-epifisaria.\n- Casi siempre se extienden a menos de 1 cm de la superficie articular subcondral.\n- Causan adelgazamiento de la corteza y presentan características de RM con señal intermedia-baja en T1 y T2 debido a depósitos de hemosiderina.",
       "perla": "Una lesión ósea lítica, expansiva y excéntrica que se extiende desde la metáfisis hasta el hueso subarticular en un paciente con las fisis cerradas es muy característica de un tumor de células gigantes.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Tumor de células gigantes metaepifisario excéntrico con fisis cerradas: presentación típica de tumor óseo (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3918,7 +4118,7 @@
         "Quiste"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente joven presenta una masa en el dorso de la muñeca. En base a las imágenes de RM con secuencias sensibles a fluidos y post-gadolinio, ¿cuál es el diagnóstico más probable de esta lesión quística con realce periférico adyacente al ligamento escafosemilunar?",
+      "enunciado": "Un paciente joven presenta una masa en el dorso de la muñeca. Se muestra la RM con secuencias sensibles a líquido y poscontraste. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case041",
@@ -3933,8 +4133,13 @@
         "Schwannoma"
       ],
       "correcta": 2,
-      "explicacion": "- Los quistes de ganglión son masas de partes blandas degenerativas yuxtaarticulares con características de señal de fluido en RM y realce periférico tras la administración de gadolinio.\n- Suelen ubicarse en el dorso del carpo, por encima del ligamento escafosemilunar.\n- A diferencia de los quistes sinoviales, no están recubiertos de sinovial sino de tejido fibroso.",
+      "explicacion": "- **Hallazgos:** lesión quística con realce periférico, adyacente al ligamento escafosemilunar.\n- Los quistes de ganglión son masas de partes blandas degenerativas yuxtaarticulares con características de señal de fluido en RM y realce periférico tras la administración de gadolinio.\n- Suelen ubicarse en el dorso del carpo, por encima del ligamento escafosemilunar.\n- A diferencia de los quistes sinoviales, no están recubiertos de sinovial sino de tejido fibroso.",
       "perla": "La masa de partes blandas palpable más común alrededor de la muñeca es el quiste de ganglión y característicamente no se calcifica.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Ganglión dorsal de muñeca junto al escafosemilunar: la masa palpable más común de la muñeca, presentación típica (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -3960,7 +4165,7 @@
         "LCA"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente acude tras un esguince de rodilla con dolor en la interlínea lateral e inestabilidad rotacional. Las radiografías y la RM muestran una avulsión ósea cortical elíptica adyacente a la meseta tibial lateral. ¿Con cuál de las siguientes lesiones se asocia más frecuentemente esta fractura por avulsión (fractura de Segond)?",
+      "enunciado": "Un paciente acude tras un esguince de rodilla con dolor en la interlínea lateral e inestabilidad rotacional. Se muestran las radiografías y la RM. ¿Con cuál de estas lesiones se asocia con más frecuencia la fractura que se ve?",
       "imagenes": [
         {
           "ref": "case042",
@@ -3975,8 +4180,13 @@
         "Rotura del ligamento colateral medial"
       ],
       "correcta": 1,
-      "explicacion": "- La fractura de Segond representa una avulsión de la cápsula lateral desde la tibia proximal justo distal a la meseta tibial lateral.\n- Existe una asociación del 75 al 100% con roturas del ligamento cruzado anterior (LCA).\n- Se produce por una rotación interna forzada y estrés en varo.",
+      "explicacion": "- **Hallazgos:** avulsión ósea cortical elíptica adyacente a la meseta tibial lateral: fractura de Segond.\n- La fractura de Segond representa una avulsión de la cápsula lateral desde la tibia proximal justo distal a la meseta tibial lateral.\n- Existe una asociación del 75 al 100% con roturas del ligamento cruzado anterior (LCA).\n- Se produce por una rotación interna forzada y estrés en varo.",
       "perla": "La morfología del fragmento avulsivo de Segond es típicamente elíptica y paralela al eje longitudinal tibial.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Fractura de Segond y su asociación del 75 al 100 % con rotura del LCA: signo clásico que se enseña temprano (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4002,7 +4212,7 @@
         "Esclerosis"
       ],
       "tipo": "imagen",
-      "enunciado": "Varón que consulta por dolor de cadera. Las imágenes de RM coronal T2 y axial T1 de la pelvis muestran innumerables lesiones ovoideas simétricas de baja señal alrededor de ambas articulaciones coxofemorales. ¿Cuál de los siguientes diagnósticos es más probable para esta distrofia ósea formadora simétrica?",
+      "enunciado": "Un varón consulta por dolor de cadera. Se muestran la RM coronal T2 y axial T1 de la pelvis. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case043",
@@ -4017,8 +4227,13 @@
         "Enfermedad de Paget"
       ],
       "correcta": 2,
-      "explicacion": "- La osteopoiquilosis es una distrofia ósea formadora benigna asintomática.\n- Se caracteriza por lesiones escleróticas múltiples, ovoideas y simétricas (islotes óseos) con distribución periarticular.\n- A diferencia de las metástasis, las lesiones son simétricas, uniformes y predominantemente alrededor de las articulaciones.",
+      "explicacion": "- **Hallazgos:** innumerables lesiones ovoideas, simétricas y de baja señal alrededor de ambas articulaciones coxofemorales: islotes óseos múltiples de distribución periarticular.\n- La osteopoiquilosis es una distrofia ósea formadora benigna asintomática.\n- A diferencia de las metástasis, las lesiones son simétricas, uniformes y predominantemente alrededor de las articulaciones.",
       "perla": "La osteopoiquilosis es rara en la columna y cráneo, y típicamente no muestra aumento de captación en la gammagrafía ósea.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Osteopoiquilosis: entidad rara pero con patrón periarticular simétrico patognomónico, se reconoce de vista (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4044,7 +4259,7 @@
         "Nervio plantar"
       ],
       "tipo": "imagen",
-      "enunciado": "Mujer de mediana edad se presenta con hinchazón, plenitud y dolor en el dorso del antepié, entre la segunda y tercera cabeza de los metatarsianos. La RM muestra una masa de forma de mancuerna entre el segundo y tercer metatarsiano, con señal baja en T1 y heterogénea en T2. ¿Cuál es la causa más probable de esta lesión fibrótica perineural?",
+      "enunciado": "Una mujer de mediana edad presenta hinchazón, plenitud y dolor en el dorso del antepié, entre la segunda y la tercera cabeza metatarsiana. Se muestra la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case044",
@@ -4059,8 +4274,13 @@
         "Osteomielitis metatarsiana"
       ],
       "correcta": 2,
-      "explicacion": "- El neuroma de Morton es un proceso proliferativo fibroso no neoplásico centrado alrededor de los nervios digitales plantares del antepié.\n- Típicamente ocurre en mujeres de mediana edad con historia de calzado ajustado, atrapando el nervio entre las cabezas metatarsianas.\n- Ocurre más comúnmente en el segundo y tercer espacio intermetatarsiano.",
+      "explicacion": "- **Hallazgos:** masa en forma de mancuerna entre el segundo y el tercer metatarsiano, de señal baja en T1 y heterogénea en T2.\n- El neuroma de Morton es un proceso proliferativo fibroso no neoplásico centrado alrededor de los nervios digitales plantares del antepié.\n- Típicamente ocurre en mujeres de mediana edad con historia de calzado ajustado, atrapando el nervio entre las cabezas metatarsianas.\n- Ocurre más comúnmente en el segundo y tercer espacio intermetatarsiano.",
       "perla": "Los neuromas de Morton ocurren más comúnmente en el segundo y tercer espacio intermetatarsiano.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Neuroma de Morton en el 2.º-3.er espacio intermetatarsiano: entidad común con presentación típica (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4086,7 +4306,7 @@
         "Alcalina Fosfatasa"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente presenta elevación de la fosfatasa alcalina sérica. La radiografía lateral del cráneo muestra ensanchamiento del espacio diploico y áreas redondeadas de esclerosis con aspecto de algodón. ¿Cuál es el diagnóstico más probable para esta alteración ósea en su fase blástica?",
+      "enunciado": "Un paciente presenta elevación de la fosfatasa alcalina sérica. Se muestra la radiografía lateral del cráneo. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case045",
@@ -4101,8 +4321,13 @@
         "Osteítis fibrosa quística"
       ],
       "correcta": 1,
-      "explicacion": "- La enfermedad de Paget del hueso afecta al 3-4% de la población mayor de 40 años, predominando en el esqueleto axial.\n- Produce una elevación de la fosfatasa alcalina sérica debido al aumento de formación ósea.\n- En el cráneo, la fase blástica es responsable del aspecto 'en copos de algodón' y el engrosamiento desproporcionado de la tabla interna.",
+      "explicacion": "- **Hallazgos:** ensanchamiento del espacio diploico y áreas redondeadas de esclerosis en «copos de algodón»: fase blástica.\n- La enfermedad de Paget del hueso afecta al 3-4% de la población mayor de 40 años, predominando en el esqueleto axial.\n- Produce una elevación de la fosfatasa alcalina sérica debido al aumento de formación ósea.\n- En el cráneo, la fase blástica es responsable del aspecto 'en copos de algodón' y el engrosamiento desproporcionado de la tabla interna.",
       "perla": "En la enfermedad de Paget, la preservación de la señal de grasa de la médula ósea en la RM ayuda a distinguirla de procesos malignos.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Enfermedad de Paget del cráneo con aspecto en copos de algodón: signo clásico tipo Aunt Minnie (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4128,7 +4353,7 @@
         "Trauma"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente con antecedente de accidente de tráfico hace 6 meses presenta plenitud en la cara lateral del muslo. La RM muestra una colección de fluidos subcutánea, bien circunscrita, superficial al músculo cuádriceps, con lóbulos de grasa interna. ¿Qué diagnóstico corresponde a esta lesión postraumática por degloving interno?",
+      "enunciado": "Un paciente con un accidente de tráfico hace 6 meses presenta plenitud en la cara lateral del muslo. Se muestra la RM. ¿Cuál es el diagnóstico?",
       "imagenes": [
         {
           "ref": "case046",
@@ -4143,8 +4368,13 @@
         "Celulitis necrosante"
       ],
       "correcta": 2,
-      "explicacion": "- La lesión de Morel-Lavallée es un proceso postraumático por cizallamiento (degloving interno) que causa dehiscencia de la fascia muscular respecto a la grasa subcutánea.\n- El espacio creado acumula fluido serosanguinolento, productos de degradación sanguínea, grasa necrótica o detritos linfáticos.\n- Es común observarla cerca del trocánter mayor y típicamente se asocia con un trauma pélvico contuso.",
+      "explicacion": "- **Hallazgos:** colección de líquido subcutánea, bien circunscrita, superficial al cuádriceps, con lóbulos de grasa en su interior.\n- La lesión de Morel-Lavallée es un proceso postraumático por cizallamiento (degloving interno) que causa dehiscencia de la fascia muscular respecto a la grasa subcutánea.\n- El espacio creado acumula fluido serosanguinolento, productos de degradación sanguínea, grasa necrótica o detritos linfáticos.\n- Es común observarla cerca del trocánter mayor y típicamente se asocia con un trauma pélvico contuso.",
       "perla": "La localización más común de una lesión de Morel-Lavallée es adyacente al trocánter mayor.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Lesión de Morel-Lavallée tras trauma: entidad conocida de presentación típica con grasa interna (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4170,7 +4400,7 @@
         "Reconstrucción"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente con estado posreconstrucción del ligamento cruzado anterior (LCA) presenta limitación de la extensión. La RM sagital muestra el túnel tibial posicionado anterior al techo de la escotadura intercondílea (línea de Blumensaat), con arqueamiento posterior del injerto del LCA. ¿Cuál es la causa de este hallazgo?",
+      "enunciado": "Un paciente con una reconstrucción del ligamento cruzado anterior (LCA) presenta limitación de la extensión. Se muestra la RM sagital. ¿Cuál es la causa?",
       "imagenes": [
         {
           "ref": "case047",
@@ -4185,8 +4415,13 @@
         "Aflojamiento del túnel tibial"
       ],
       "correcta": 2,
-      "explicacion": "- El pinzamiento del techo (roof impingement) ocurre cuando el túnel tibial se posiciona demasiado anterior relativo al techo de la escotadura intercondílea.\n- Esto produce que el injerto choque durante la extensión de la rodilla, causando dolor y limitación de la extensión.\n- En RM se observa un arqueamiento posterior del injerto del LCA y un túnel anterior a la línea de Blumensaat extendida.",
+      "explicacion": "- **Hallazgos:** el túnel tibial está por delante del techo de la escotadura intercondílea (línea de Blumensaat extendida) y el injerto del LCA se arquea hacia posterior.\n- El pinzamiento del techo (roof impingement) ocurre cuando el túnel tibial se posiciona demasiado anterior relativo al techo de la escotadura intercondílea.\n- Esto produce que el injerto choque durante la extensión de la rodilla, causando dolor y limitación de la extensión.",
       "perla": "Una alteración de señal en RM que involucra los dos tercios anteriores del injerto del LCA es típica para este tipo de pinzamiento.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Pinzamiento del techo del injerto del LCA por túnel tibial anterior a Blumensaat: rodilla posquirúrgica (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4212,7 +4447,7 @@
         "Fémur"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente pediátrico presenta dolor localizado y masa en la cadera y muslo izquierdos de varios meses de evolución. Las radiografías revelan una masa de base medular en la metáfisis femoral con un componente de partes blandas y matriz osteoide. ¿Cuál es el tumor óseo maligno primario formador de hueso más probable?",
+      "enunciado": "Un paciente pediátrico presenta dolor localizado y una masa en la cadera y el muslo izquierdos de varios meses de evolución. Se muestran las radiografías. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case048",
@@ -4227,8 +4462,13 @@
         "Granuloma eosinófilo"
       ],
       "correcta": 2,
-      "explicacion": "- El osteosarcoma convencional es el tumor formador de hueso maligno primario más común en adolescentes y adultos jóvenes.\n- Se caracteriza por la producción de osteoide o hueso inmaduro por células malignas, visible como matriz ósea.\n- Suele aparecer en las metáfisis de huesos largos, predominantemente el fémur distal, tibia proximal y húmero proximal.",
+      "explicacion": "- **Hallazgos:** masa de base medular en la metáfisis femoral, con componente de partes blandas y matriz osteoide.\n- El osteosarcoma convencional es el tumor formador de hueso maligno primario más común en adolescentes y adultos jóvenes.\n- Se caracteriza por la producción de osteoide o hueso inmaduro por células malignas, visible como matriz ósea.\n- Suele aparecer en las metáfisis de huesos largos, predominantemente el fémur distal, tibia proximal y húmero proximal.",
       "perla": "Las metástasis pulmonares del osteosarcoma pueden manifestarse como un neumotórax espontáneo.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Osteosarcoma convencional metafisario con matriz osteoide en paciente joven: diagnóstico clásico (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4254,7 +4494,7 @@
         "Lecho ungueal"
       ],
       "tipo": "imagen",
-      "enunciado": "Mujer de 45 años con antecedentes de dolor en el dedo anular. La radiografía muestra remodelación cortical de la falange distal y la RM revela una lesión ovoidea, hipointensa en T1 e hiperintensa en T2, subungueal, con realce ávido y homogéneo post-gadolinio. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Una mujer de 45 años presenta dolor en el dedo anular. Se muestran la radiografía y la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case049",
@@ -4269,8 +4509,13 @@
         "Encondroma"
       ],
       "correcta": 1,
-      "explicacion": "- El tumor glómico es una neoplasia dolorosa de tejidos blandos que surge de la célula glómica, típicamente en el lecho ungueal.\n- Causa dolor focal, sensibilidad y sensibilidad al frío.\n- Es una lesión hipervascular, por lo que demuestra un realce ávido y homogéneo en la RM post-gadolinio.",
+      "explicacion": "- **Hallazgos:** remodelación cortical de la falange distal; en la RM, lesión subungueal ovoidea, hipointensa en T1 e hiperintensa en T2, con realce ávido y homogéneo tras el gadolinio.\n- El tumor glómico es una neoplasia dolorosa de tejidos blandos que surge de la célula glómica, típicamente en el lecho ungueal.\n- Causa dolor focal, sensibilidad y sensibilidad al frío.\n- Es una lesión hipervascular, por lo que demuestra un realce ávido y homogéneo en la RM post-gadolinio.",
       "perla": "La naturaleza hipervascular de esta lesión se manifiesta con ávido realce post-gadolinio en RM y aumento de flujo Doppler color en ecografía.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Tumor glómico subungueal hipervascular: entidad poco común pero de localización y clínica clásicas (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4296,7 +4541,7 @@
         "Muñeca"
       ],
       "tipo": "imagen",
-      "enunciado": "Adulto joven presenta dolor en la cara cubital de la muñeca. La RM axial muestra engrosamiento del tendón extensor carpi ulnaris (ECU) en el sexto compartimento extensor, con aumento de la señal intersticial y líquido que rodea la vaina tendinosa. ¿Qué patología explica estos hallazgos debidos frecuentemente al sobreuso?",
+      "enunciado": "Un adulto joven presenta dolor en el lado cubital de la muñeca. Se muestra la RM axial. ¿Qué patología explica la imagen?",
       "imagenes": [
         {
           "ref": "case050",
@@ -4311,8 +4556,13 @@
         "Tendinopatía del flexor carpi ulnaris"
       ],
       "correcta": 1,
-      "explicacion": "- El tendón extensor carpi ulnaris (ECU) ocupa el sexto compartimento extensor de la muñeca.\n- La tendinopatía o tenosinovitis de este compartimento es una de las causas más comunes de tendinopatía en la muñeca de los atletas debido a microtraumatismos repetitivos.\n- Se presenta característicamente con dolor cubital, engrosamiento del tendón y líquido circundante en la RM.",
+      "explicacion": "- **Hallazgos:** engrosamiento del tendón extensor cubital del carpo (ECU) en el sexto compartimento extensor, con aumento de la señal intersticial y líquido alrededor de la vaina.\n- El tendón extensor carpi ulnaris (ECU) ocupa el sexto compartimento extensor de la muñeca.\n- La tendinopatía o tenosinovitis de este compartimento es una de las causas más comunes de tendinopatía en la muñeca de los atletas debido a microtraumatismos repetitivos.",
       "perla": "La tenosinovitis/tendinopatía de larga data del ECU puede exhibir reacción perióstica focal y remodelación de la estiloides cubital en radiografías.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Tendinopatía y tenosinovitis del ECU por sobreuso: entidad común, causa frecuente de dolor cubital (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4338,7 +4588,7 @@
         "radiografía"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente joven corredor presenta dolor crónico bilateral en piernas. Las radiografías muestran lucencias corticales transversales con remodelación perióstica en las tibias. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un corredor joven presenta dolor crónico bilateral en las piernas. Se muestran las radiografías. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case051",
@@ -4353,8 +4603,13 @@
         "Tumor de Ewing"
       ],
       "correcta": 1,
-      "explicacion": "- Las fracturas por estrés ocurren cuando el hueso normal se somete a estrés suprafisiológico repetitivo.\n- En las tibias, se presentan característicamente como lucencias orientadas transversalmente con remodelación perióstica crónica.",
+      "explicacion": "- **Hallazgos:** lucencias corticales transversales con remodelación perióstica en las tibias.\n- Las fracturas por estrés ocurren cuando el hueso normal se somete a estrés suprafisiológico repetitivo.\n- En las tibias, se presentan característicamente como lucencias orientadas transversalmente con remodelación perióstica crónica.",
       "perla": "El margen cortical medial de la diáfisis media de la tibia es el sitio más favorecido para lesiones por estrés en el esqueleto humano.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Fractura por estrés tibial en corredor: entidad común con lucencia transversa y remodelación perióstica típicas (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4380,7 +4635,7 @@
         "peroné"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente con trauma de rodilla tras accidente de vehículo. La radiografía frontal muestra un fragmento óseo orientado horizontalmente en la cabeza del peroné proximal. ¿A qué se asocia esta lesión (signo del arqueado)?",
+      "enunciado": "Un paciente sufre un traumatismo de rodilla en un accidente de tráfico. Se muestra la radiografía frontal. ¿A qué se asocia la lesión que se ve?",
       "imagenes": [
         {
           "ref": "case052",
@@ -4395,8 +4650,13 @@
         "Osteocondritis disecante"
       ],
       "correcta": 0,
-      "explicacion": "- El signo del arqueado es una avulsión ósea traumática de la porción proximal del peroné que resulta en un fragmento orientado horizontalmente.\n- Se asocia de manera importante a daño en el complejo arqueado posterolateral y los ligamentos cruzados.",
+      "explicacion": "- **Hallazgos:** fragmento óseo orientado horizontalmente en la cabeza del peroné: signo del arqueado, una avulsión traumática de la porción proximal del peroné.\n- Se asocia de manera importante a daño en el complejo arqueado posterolateral y los ligamentos cruzados.",
       "perla": "Los hallazgos en RM de contusión en la cabeza del peroné y edema severo del músculo poplíteo deben hacer sospechar de una lesión del ligamento del rincón posterolateral.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Signo del arqueado: avulsión de la cabeza del peroné asociada a lesión del ángulo posterolateral y cruzados (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4422,7 +4682,7 @@
         "tumor óseo"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente de 30 años presenta dolor crónico y plenitud sobre la rodilla posterior. Se observa una masa osificada lobulada en forma de champiñón surgiendo de la cortical posterior de la tibia/fémur. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente de 30 años presenta dolor crónico y plenitud en la cara posterior de la rodilla. Se muestran las imágenes. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case053",
@@ -4437,8 +4697,13 @@
         "Condrosarcoma periférico"
       ],
       "correcta": 3,
-      "explicacion": "- El osteosarcoma parosteal es una variante de superficie (típicamente de bajo grado) que se presenta como una masa cortical osteoblástica en las décadas 3 y 4 de la vida.\n- Presenta una osificación densa que surge exofíticamente de la cortical sin compromiso medular inicial evidente.",
+      "explicacion": "- **Hallazgos:** masa osificada, lobulada, en forma de champiñón, que surge de la cortical posterior del hueso.\n- El osteosarcoma parosteal es una variante de superficie (típicamente de bajo grado) que se presenta como una masa cortical osteoblástica en las décadas 3 y 4 de la vida.\n- Presenta una osificación densa que surge exofíticamente de la cortical sin compromiso medular inicial evidente.",
       "perla": "Esta lesión afecta comúnmente la cara posterior de la metáfisis femoral distal.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Osteosarcoma parosteal: variante de superficie poco frecuente, diferencial fino con osteocondroma y miositis osificante (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4464,7 +4729,7 @@
         "degenerativo"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente presenta dolor crónico en el lado ulnar de la muñeca. Las radiografías muestran varianza ulnar positiva y cambios escleróticos/quísticos en la superficie proximal medial del semilunar. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente presenta dolor crónico en el lado cubital de la muñeca. Se muestran las radiografías. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case054",
@@ -4479,8 +4744,13 @@
         "Inestabilidad lunopiramidal"
       ],
       "correcta": 1,
-      "explicacion": "- La impactación ulnar es un proceso degenerativo crónico por contacto/abutamiento prematuro entre la cabeza del cúbito (ulna) y el semilunar.\n- Está característicamente asociado a una varianza ulnar positiva (ulna plus).",
+      "explicacion": "- **Hallazgos:** varianza cubital positiva y cambios escleróticos y quísticos en la superficie proximal medial del semilunar.\n- La impactación ulnar es un proceso degenerativo crónico por contacto/abutamiento prematuro entre la cabeza del cúbito (ulna) y el semilunar.\n- Está característicamente asociado a una varianza ulnar positiva (ulna plus).",
       "perla": "Cambios avanzados de impactación ulnar pueden coexistir con desgarros del fibrocartílago triangular y del ligamento lunopiramidal (lunotriquetral).",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Impactación cubitocarpiana con varianza cubital positiva y cambios del semilunar: diferencial frecuente con Kienböck (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4506,7 +4776,7 @@
         "seronegativa"
       ],
       "tipo": "imagen",
-      "enunciado": "Hombre de 42 años con dolor lumbar y placas cutáneas. La TC muestra esclerosis asimétrica y erosiones en las articulaciones sacroilíacas. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un hombre de 42 años presenta dolor lumbar y placas cutáneas. Se muestra la TC de las sacroilíacas. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case055",
@@ -4521,8 +4791,13 @@
         "Osteoartritis"
       ],
       "correcta": 2,
-      "explicacion": "- La artritis psoriásica es una espondiloartropatía seronegativa que puede causar cambios erosivos y proliferativos asimétricos en las articulaciones sacroilíacas, sumado a hallazgos en piel.\n- A diferencia de la espondilitis anquilosante, la presentación sacroilíaca tiende a ser asimétrica y con erosiones más grandes.",
+      "explicacion": "- **Hallazgos:** esclerosis asimétrica y erosiones en las articulaciones sacroilíacas.\n- La artritis psoriásica es una espondiloartropatía seronegativa que puede causar cambios erosivos y proliferativos asimétricos en las articulaciones sacroilíacas, sumado a hallazgos en piel.\n- A diferencia de la espondilitis anquilosante, la presentación sacroilíaca tiende a ser asimétrica y con erosiones más grandes.",
       "perla": "Las características asimétricas de la articulación sacroilíaca en la artritis psoriásica permiten distinguirla de la espondilitis anquilosante.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Artritis psoriásica con sacroileítis asimétrica: diferencial frecuente entre espondiloartropatías que integra la piel (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4548,7 +4823,7 @@
         "posquirúrgico"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente con historia remota de reconstrucción del ligamento cruzado anterior (LCA). La RM de rodilla revela expansión quística hiperintensa en T2 de los túneles óseos femoral y tibial. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente con una reconstrucción remota del ligamento cruzado anterior (LCA). Se muestra la RM de rodilla. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case056",
@@ -4563,8 +4838,13 @@
         "Rechazo agudo del injerto"
       ],
       "correcta": 2,
-      "explicacion": "- La formación de quistes en el túnel del LCA es una complicación conocida secundaria a necrosis, reacción a cuerpo extraño, integración incompleta o extravasación de líquido sinovial.\n- Se manifiesta por ensanchamiento quístico expansible de los túneles en RM y Rx.",
+      "explicacion": "- **Hallazgos:** expansión quística, hiperintensa en T2, de los túneles óseos femoral y tibial.\n- La formación de quistes en el túnel del LCA es una complicación conocida secundaria a necrosis, reacción a cuerpo extraño, integración incompleta o extravasación de líquido sinovial.",
       "perla": "Los quistes del túnel femoral son menos comunes que los quistes del túnel tibial.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Quistes de los túneles del injerto del LCA: complicación conocida de una cirugía común, hallazgo evidente (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4590,7 +4870,7 @@
         "complicación"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente con historia remota de hemiartroplastia de cadera presenta dolor crónico. Radiografías seriadas demuestran que el componente femoral se ha hundido progresivamente más de 10 mm en el canal medular al cabo de 2 años. ¿Cómo se le denomina a este hallazgo?",
+      "enunciado": "Un paciente con una hemiartroplastia de cadera antigua presenta dolor crónico. Se muestran radiografías seriadas a lo largo de 2 años. ¿Cómo se denomina el hallazgo?",
       "imagenes": [
         {
           "ref": "case057",
@@ -4605,8 +4885,13 @@
         "Fractura de estrés protésica"
       ],
       "correcta": 1,
-      "explicacion": "- La subsidencia es el hundimiento progresivo del componente femoral en el canal medular.\n- Un asentamiento superior a los 5 a 10 mm después del primer año se considera anormal.",
+      "explicacion": "- **Hallazgos:** el componente femoral se ha hundido progresivamente más de 10 mm en el canal medular.\n- La subsidencia es el hundimiento progresivo del componente femoral en el canal medular.\n- Un asentamiento superior a los 5 a 10 mm después del primer año se considera anormal.",
       "perla": "El posicionamiento radiográfico del collar protésico medial femoral respecto al trocánter menor ayuda en la detección temprana de la subsidencia.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Subsidencia del componente femoral mayor de 10 mm: complicación conocida de artroplastia común, dato de medida (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4632,7 +4917,7 @@
         "húmero"
       ],
       "tipo": "imagen",
-      "enunciado": "Hombre de 65 años con hallazgo incidental en la radiografía de tórax. Hay una matriz densamente calcificada y lobulada con aspecto de 'anillos y arcos' dentro de la cavidad medular del húmero proximal, sin signos de agresividad. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Hombre de 65 años con un hallazgo incidental en la radiografía de tórax. ¿Cuál es el diagnóstico más probable de la lesión del húmero proximal?",
       "imagenes": [
         {
           "ref": "case058",
@@ -4647,8 +4932,13 @@
         "Metástasis calcificada"
       ],
       "correcta": 2,
-      "explicacion": "- El encondroma es un tumor intramedular benigno derivado del cartílago que exhibe clásicamente calcificaciones en forma de 'anillos y arcos' o punteadas.\n- Son típicamente diagnosticados incidentalmente sin presentar hallazgos de destrucción cortical agresiva.",
+      "explicacion": "- **Hallazgos:** matriz densamente calcificada y lobulada en «anillos y arcos» dentro de la cavidad medular del húmero proximal, sin signos de agresividad.\n- El encondroma es un tumor intramedular benigno derivado del cartílago que exhibe clásicamente calcificaciones en forma de 'anillos y arcos' o punteadas.\n- Son típicamente diagnosticados incidentalmente sin presentar hallazgos de destrucción cortical agresiva.",
       "perla": "Los infartos óseos pequeños (menores a 1.5 - 2.0 cm) pueden ser indistinguibles de un encondroma sólo con radiografía.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Encondroma con calcificación en anillos y arcos: lesión común y clásica, hallazgo incidental típico (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4674,7 +4964,7 @@
         "artroplastia"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente con artroplastia de cadera presenta empeoramiento de dolor. Las radiografías demuestran una osteólisis periprotésica agresiva con bordes festoneados, sin márgenes escleróticos y con migración superior de la cabeza femoral. ¿Cuál es el diagnóstico sospechado?",
+      "enunciado": "Un paciente con una artroplastia de cadera presenta empeoramiento del dolor. Se muestran las radiografías. ¿Cuál es el diagnóstico sospechado?",
       "imagenes": [
         {
           "ref": "case059",
@@ -4689,8 +4979,13 @@
         "Tumor recurrente"
       ],
       "correcta": 1,
-      "explicacion": "- La enfermedad de partículas es una reacción inflamatoria a partículas de desgaste (por ej. polietileno) del hardware ortopédico.\n- Se evidencia mediante una marcada osteólisis peri-implante festoneada y excéntrica posición del componente femoral por desgaste del revestimiento de polietileno.",
+      "explicacion": "- **Hallazgos:** osteólisis periprotésica agresiva de bordes festoneados, sin márgenes escleróticos, con migración superior de la cabeza femoral por desgaste del polietileno.\n- La enfermedad de partículas es una reacción inflamatoria a partículas de desgaste (por ej. polietileno) del hardware ortopédico.",
       "perla": "Las lucencias periprotésicas festoneadas asociadas con la enfermedad de partículas rara vez contienen márgenes escleróticos.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Enfermedad de partículas con osteólisis festoneada: complicación conocida de artroplastia, diferencial con aflojamiento (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4716,7 +5011,7 @@
         "osificación heterotópica"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente de 25 años que asiste por trauma. Incidentalmente, las imágenes (Rx y TC) demuestran formación extensa y abultada de hueso periarticular e intramuscular extendiéndose desde la base del cráneo hacia la columna cervical posterior y tronco de forma craneocaudal. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente de 25 años consulta por un traumatismo. Se muestran radiografías y TC, con un hallazgo incidental. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case060",
@@ -4731,8 +5026,13 @@
         "Melorreostosis"
       ],
       "correcta": 2,
-      "explicacion": "- FOP es una enfermedad genética hereditaria rara caracterizada por formación progresiva y extensa de depósitos de osificación heterotópica alrededor de múltiples articulaciones, típicamente con progresión craneocaudal.",
+      "explicacion": "- **Hallazgos:** formación extensa y abultada de hueso periarticular e intramuscular, desde la base del cráneo hacia la columna cervical posterior y el tronco.\n- FOP es una enfermedad genética hereditaria rara caracterizada por formación progresiva y extensa de depósitos de osificación heterotópica alrededor de múltiples articulaciones, típicamente con progresión craneocaudal.",
       "perla": "Las radiografías de manos y pies en pacientes con FOP pueden revelar dedos gordos del pie y pulgares cortos.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Fibrodisplasia osificante progresiva: entidad rara, reconocible por la osificación heterotópica craneocaudal (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4758,7 +5058,7 @@
         "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "Mujer de 40 años presenta una masa indolora de larga evolución en el dedo índice. En la resonancia magnética ponderada en T1 y T2, se observa una masa lobulada de baja señal íntimamente asociada al tendón flexor. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Una mujer de 40 años presenta una masa indolora de larga evolución en el dedo índice. Se muestra la RM ponderada en T1 y T2. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case061",
@@ -4773,8 +5073,13 @@
         "Sarcoma sinovial"
       ],
       "correcta": 1,
-      "explicacion": "- El tumor de células gigantes de la vaina tendinosa se caracteriza por ser una masa lobulada benigna, con baja señal en T1 y T2, y afinidad por los tendones flexores de la mano.\n- La baja señal se debe a la deposición celular de hemosiderina, lo que también genera un artefacto de 'blooming' (caída de señal) en secuencias eco de gradiente.",
+      "explicacion": "- **Hallazgos:** masa lobulada de baja señal, íntimamente asociada al tendón flexor.\n- El tumor de células gigantes de la vaina tendinosa se caracteriza por ser una masa lobulada benigna, con baja señal en T1 y T2, y afinidad por los tendones flexores de la mano.\n- La baja señal se debe a la deposición celular de hemosiderina, lo que también genera un artefacto de 'blooming' (caída de señal) en secuencias eco de gradiente.",
       "perla": "El tumor de células gigantes de la vaina tendinosa demuestra típicamente un artefacto de 'blooming' en las secuencias de eco de gradiente debido al depósito de hemosiderina.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Tumor de células gigantes de la vaina tendinosa: masa común de la mano con baja señal típica en T1 y T2 (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4800,7 +5105,7 @@
         "hemosiderina"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente de 45 años con dolor en la rodilla. La resonancia magnética revela una masa focal intraarticular sobre la tróclea medial con disminución general de la señal en secuencias T1 y T2. ¿Cuál de los siguientes es el diagnóstico más probable?",
+      "enunciado": "Un paciente de 45 años presenta dolor en la rodilla. Se muestra la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case062",
@@ -4815,8 +5120,13 @@
         "Condrosarcoma"
       ],
       "correcta": 2,
-      "explicacion": "- La sinovitis villonodular pigmentada (SVNP) focal es una masa benigna de base sinovial, rica en hemosiderina, que demuestra baja intensidad de señal en T1 y T2.\n- Típicamente no presenta calcificaciones en la radiografía, lo que ayuda a excluir diagnósticos como la osteocondromatosis sinovial.",
+      "explicacion": "- **Hallazgos:** masa focal intraarticular sobre la tróclea medial, con señal baja en T1 y T2.\n- La sinovitis villonodular pigmentada (SVNP) focal es una masa benigna de base sinovial, rica en hemosiderina, que demuestra baja intensidad de señal en T1 y T2.\n- Típicamente no presenta calcificaciones en la radiografía, lo que ayuda a excluir diagnósticos como la osteocondromatosis sinovial.",
       "perla": "La deposición de hemosiderina en la sinovitis villonodular pigmentada se acentúa y es más evidente en secuencias de resonancia magnética de eco de gradiente.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Sinovitis villonodular pigmentada focal: forma poco frecuente, diferencial entre masas sinoviales hipointensas (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4842,7 +5152,7 @@
         "codo"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente presenta dolor y debilidad en el antebrazo. La RM axial sensible al líquido muestra un aumento geográfico de señal en el músculo supinador y la musculatura extensora proximal. El músculo extensor radial del carpo está respetado. ¿Qué patología explica estos hallazgos?",
+      "enunciado": "Un paciente presenta dolor y debilidad en el antebrazo. RM axial, secuencia sensible a líquido. ¿Qué patología explica la imagen?",
       "imagenes": [
         {
           "ref": "case063",
@@ -4857,8 +5167,13 @@
         "Síndrome del pronador redondo"
       ],
       "correcta": 3,
-      "explicacion": "- El síndrome del nervio interóseo posterior es una neuropatía por atrapamiento que afecta la rama motora del nervio radial.\n- Esto produce edema por denervación (fase aguda/subaguda) en los músculos inervados: el supinador y los extensores del antebrazo, respetando el extensor radial del carpo.",
+      "explicacion": "- **Hallazgos:** aumento geográfico de señal en el supinador y en la musculatura extensora proximal, con el extensor radial del carpo respetado.\n- El síndrome del nervio interóseo posterior es una neuropatía por atrapamiento que afecta la rama motora del nervio radial.\n- Esto produce edema por denervación (fase aguda/subaguda) en los músculos inervados: el supinador y los extensores del antebrazo, respetando el extensor radial del carpo.",
       "perla": "El sitio más común de compresión del nervio interóseo posterior ocurre en el borde proximal tendinoso del músculo supinador, en la región de la arcada de Frohse.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Síndrome del interóseo posterior por patrón de edema por denervación: neuropatía por atrapamiento poco frecuente (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4884,7 +5199,7 @@
         "física"
       ],
       "tipo": "imagen",
-      "enunciado": "En un estudio de RM de rodilla, se observan imágenes fantasma superpuestas que se repiten a intervalos regulares a lo largo del eje Y. Estos artefactos parecen originarse de la arteria poplítea. ¿Cuál es el mecanismo y dirección en la que se propaga este artefacto?",
+      "enunciado": "RM de rodilla. ¿Cuál es el mecanismo del artefacto que se ve y en qué dirección se propaga?",
       "imagenes": [
         {
           "ref": "case064",
@@ -4899,8 +5214,13 @@
         "Artefacto de pulsación, propagado en la dirección de codificación de fase"
       ],
       "correcta": 4,
-      "explicacion": "- El artefacto de pulsación se genera por el movimiento de estructuras vasculares, lo que crea imágenes 'fantasma' a intervalos regulares.\n- Este artefacto siempre se reproduce a lo largo de la dirección de codificación de fase (en este caso el eje Y).",
+      "explicacion": "- **Hallazgos:** imágenes fantasma superpuestas que se repiten a intervalos regulares a lo largo del eje Y y parecen originarse en la arteria poplítea.\n- El artefacto de pulsación se genera por el movimiento de estructuras vasculares, lo que crea imágenes 'fantasma' a intervalos regulares.\n- Este artefacto siempre se reproduce a lo largo de la dirección de codificación de fase (en este caso el eje Y).",
       "perla": "El artefacto de pulsación puede resolverse o minimizarse usando sincronización electrocardiográfica (ECG gating), pulsos de saturación o anulación del momento de gradiente.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Artefacto de pulsación en la dirección de codificación de fase: física de RM que se enseña en ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4926,7 +5246,7 @@
         "vidrio deslustrado"
       ],
       "tipo": "imagen",
-      "enunciado": "Un adulto joven presenta deformidades óseas. Las radiografías de fémur y tibia derecha muestran deformidad en varo del fémur proximal y una matriz intramedular en \"vidrio deslustrado\" con expansión del canal medular. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un adulto joven presenta deformidades óseas. Se muestran radiografías del fémur y de la tibia derechos. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case065",
@@ -4941,8 +5261,13 @@
         "Encondromatosis"
       ],
       "correcta": 1,
-      "explicacion": "- La displasia fibrosa se caracteriza por el reemplazo medular por tejido fibroóseo, dando una apariencia de 'vidrio deslustrado' en radiografías.\n- La alteración biomecánica resultante a menudo conduce a una deformidad en varo del fémur proximal conocida como deformidad en 'cayado de pastor'.",
+      "explicacion": "- **Hallazgos:** deformidad en varo del fémur proximal y matriz intramedular en «vidrio deslustrado» con expansión del canal medular.\n- La displasia fibrosa se caracteriza por el reemplazo medular por tejido fibroóseo, dando una apariencia de 'vidrio deslustrado' en radiografías.\n- La alteración biomecánica resultante a menudo conduce a una deformidad en varo del fémur proximal conocida como deformidad en 'cayado de pastor'.",
       "perla": "No debe observarse reacción perióstica en la displasia fibrosa a menos que exista una fractura superpuesta o degeneración maligna.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Displasia fibrosa en vidrio deslustrado con cayado de pastor: signo clásico tipo Aunt Minnie (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -4968,7 +5293,7 @@
         "contusión ósea"
       ],
       "tipo": "imagen",
-      "enunciado": "Mujer de 25 años tras lesión por torsión de la rodilla. La RM muestra edema óseo trabecular (contusiones en beso) en la periferia del cóndilo femoral lateral y en la faceta patelar medial, con un engrosamiento y desgarro del retináculo patelofemoral medial. ¿A qué mecanismo de lesión corresponde este patrón?",
+      "enunciado": "Una mujer de 25 años sufre una lesión por torsión de la rodilla. Se muestra la RM. ¿A qué mecanismo de lesión corresponde el patrón que se ve?",
       "imagenes": [
         {
           "ref": "case066",
@@ -4983,8 +5308,13 @@
         "Impacto directo anterior sobre la rótula"
       ],
       "correcta": 2,
-      "explicacion": "- El patrón de contusión ósea descrito (cóndilo femoral lateral y rótula medial) es patognomónico de una luxación patelofemoral lateral transitoria.\n- A esto se asocia característicamente la lesión del principal estabilizador medial, el ligamento o retináculo patelofemoral medial.",
+      "explicacion": "- **Hallazgos:** edema óseo trabecular (contusiones «en beso») en la periferia del cóndilo femoral lateral y en la faceta rotuliana medial, con engrosamiento y desgarro del retináculo patelofemoral medial.\n- El patrón de contusión ósea descrito (cóndilo femoral lateral y rótula medial) es patognomónico de una luxación patelofemoral lateral transitoria.\n- A esto se asocia característicamente la lesión del principal estabilizador medial, el ligamento o retináculo patelofemoral medial.",
       "perla": "Las radiografías axiales de la articulación patelofemoral pueden mostrar restos óseos curvilíneos adyacentes al cóndilo femoral lateral o facetas rotulianas tras esta lesión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Luxación lateral transitoria de la rótula: patrón de contusiones que la fuente llama patognomónico, entidad común (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5010,7 +5340,7 @@
         "erosiones"
       ],
       "tipo": "imagen",
-      "enunciado": "Mujer de mediana edad que se presenta con poliartralgias. La radiografía frontal de ambas rodillas muestra marcada osteopenia periarticular, estrechamiento simétrico de los compartimentos medial y lateral femorotibiales, y cambios erosivos subcondrales, sin formación significativa de osteofitos. ¿Qué tipo de artritis es más consistente con estos hallazgos?",
+      "enunciado": "Una mujer de mediana edad presenta poliartralgias. Se muestra la radiografía frontal de ambas rodillas. ¿Qué tipo de artritis es la más probable?",
       "imagenes": [
         {
           "ref": "case067",
@@ -5025,8 +5355,13 @@
         "Artropatía neuropática"
       ],
       "correcta": 3,
-      "explicacion": "- La artritis reumatoide en la rodilla clásicamente se presenta con pérdida de espacio articular uniforme (compartimentos medial y lateral) y osteopenia.\n- La ausencia de osteofitos y la presencia de erosiones marginales o subcondrales la diferencian de la artrosis, que típicamente presenta esclerosis y afecta preferentemente el compartimento medial.",
+      "explicacion": "- **Hallazgos:** marcada osteopenia periarticular, estrechamiento simétrico de los compartimentos femorotibiales medial y lateral y cambios erosivos subcondrales, sin osteofitos significativos.\n- La artritis reumatoide en la rodilla clásicamente se presenta con pérdida de espacio articular uniforme (compartimentos medial y lateral) y osteopenia.\n- La ausencia de osteofitos y la presencia de erosiones marginales o subcondrales la diferencian de la artrosis, que típicamente presenta esclerosis y afecta preferentemente el compartimento medial.",
       "perla": "Grandes quistes subcorticales aislados en pacientes con artritis reumatoide pueden llegar a imitar a una neoplasia lítica.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Artritis reumatoide de rodilla: estrechamiento simétrico, osteopenia y sin osteofitos, patrón clásico (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5052,7 +5387,7 @@
         "RM"
       ],
       "tipo": "imagen",
-      "enunciado": "Joven atleta con dolor anterior de rodilla. La RM sagital revela un engrosamiento y alteración de señal del tercio proximal del tendón rotuliano, con edema en el polo inferior de la rótula y en el tejido graso infrapatelar profundo. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un atleta joven presenta dolor anterior de rodilla. Se muestra la RM sagital. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case068",
@@ -5067,8 +5402,13 @@
         "Desgarro del tendón del cuádriceps"
       ],
       "correcta": 2,
-      "explicacion": "- La 'rodilla de saltador' es una lesión por sobreuso que representa tendinosis/desgarros intersticiales en el tendón rotuliano proximal.\n- A diferencia del síndrome de Sinding-Larsen-Johansson (que ocurre en esqueleto inmaduro), esto afecta el tendón en sí mismo en individuos maduros esqueléticamente.",
+      "explicacion": "- **Hallazgos:** engrosamiento y alteración de señal del tercio proximal del tendón rotuliano, con edema en el polo inferior de la rótula y en la grasa infrarrotuliana profunda.\n- La 'rodilla de saltador' es una lesión por sobreuso que representa tendinosis/desgarros intersticiales en el tendón rotuliano proximal.\n- A diferencia del síndrome de Sinding-Larsen-Johansson (que ocurre en esqueleto inmaduro), esto afecta el tendón en sí mismo en individuos maduros esqueléticamente.",
       "perla": "La tendinopatía típica afecta al tercio proximal y medial del tendón rotuliano, con ensanchamiento que supera los 7 mm de espesor normal.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Rodilla de saltador: tendinosis rotuliana proximal común, diferencial frecuente con Sinding-Larsen-Johansson (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5094,7 +5434,7 @@
         "metástasis"
       ],
       "tipo": "imagen",
-      "enunciado": "Un hombre de 75 años consulta por dolor en la cadera izquierda sin antecedente de trauma. Las radiografías muestran una fractura por avulsión aislada del trocánter menor, desplazada medialmente, con cambios líticos mal definidos en el lecho de la fractura. ¿Cuál es la sospecha diagnóstica principal?",
+      "enunciado": "Un hombre de 75 años consulta por dolor en la cadera izquierda sin antecedente de trauma. Se muestran las radiografías. ¿Cuál es la sospecha diagnóstica principal?",
       "imagenes": [
         {
           "ref": "case069",
@@ -5109,8 +5449,13 @@
         "Tumor de células gigantes"
       ],
       "correcta": 1,
-      "explicacion": "- Las fracturas por avulsión del trocánter menor (inserción del psoas-ilíaco) en adultos mayores, especialmente sin un traumatismo grave, son altamente sugestivas de fracturas patológicas.\n- La causa más común de lesión ósea subyacente en este escenario clínico es una metástasis.",
+      "explicacion": "- **Hallazgos:** fractura por avulsión aislada del trocánter menor, desplazada hacia medial, con cambios líticos mal definidos en el lecho de la fractura.\n- Las fracturas por avulsión del trocánter menor (inserción del psoas-ilíaco) en adultos mayores, especialmente sin un traumatismo grave, son altamente sugestivas de fracturas patológicas.\n- La causa más común de lesión ósea subyacente en este escenario clínico es una metástasis.",
       "perla": "En RM, la alteración profunda de la señal en secuencias ponderadas en T1 es más sensible y específica que los cambios en T2 para discriminar entre una fractura patológica y una osteoporótica benigna.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Avulsión aislada del trocánter menor en adulto mayor = fractura patológica por metástasis: perla conocida (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5136,7 +5481,7 @@
         "masa de tejidos blandos"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente de 14 años con dolor en la pierna. Las imágenes muestran una lesión osteolítica permeativa en la metadiáfisis tibial proximal, sin matriz osteoide, pero con extensa reacción perióstica, niveles líquido-líquido intralesionales y una masa de partes blandas asociada. ¿Cuál es el diagnóstico principal a considerar?",
+      "enunciado": "Un paciente de 14 años presenta dolor en la pierna. Se muestran las imágenes. ¿Cuál es el diagnóstico principal a considerar?",
       "imagenes": [
         {
           "ref": "case070",
@@ -5151,8 +5496,13 @@
         "Condrosarcoma"
       ],
       "correcta": 2,
-      "explicacion": "- El osteosarcoma telangiectásico es un variante maligno que se presenta como lesión destructiva y permeativa, con niveles líquido-líquido debido a cavidades hemorrágicas.\n- La presencia de destrucción cortical y masa de tejidos blandos asociada lo diferencian de lesiones benignas que también tienen niveles líquido-líquido, como el quiste óseo aneurismático.",
+      "explicacion": "- **Hallazgos:** lesión osteolítica permeativa en la metadiáfisis tibial proximal, sin matriz osteoide, con extensa reacción perióstica, niveles líquido-líquido y masa de partes blandas asociada.\n- El osteosarcoma telangiectásico es un variante maligno que se presenta como lesión destructiva y permeativa, con niveles líquido-líquido debido a cavidades hemorrágicas.\n- La presencia de destrucción cortical y masa de tejidos blandos asociada lo diferencian de lesiones benignas que también tienen niveles líquido-líquido, como el quiste óseo aneurismático.",
       "perla": "Una masa de partes blandas con frecuencia coexiste con el osteosarcoma telangiectásico, característica que ayuda a distinguirlo de un quiste óseo aneurismático no complicado.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Osteosarcoma telangiectásico: variante poco frecuente, diferencial fino con quiste óseo aneurismático (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5179,7 +5529,7 @@
         "radiografia"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente que se presenta con una lesión por torsión, dolor de rodilla e hinchazón. Se muestran radiografías y resonancia magnética en las que se aprecia un surco condilopatelar lateral profundo. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente presenta dolor e hinchazón de rodilla tras una lesión por torsión. Se muestran la radiografía y la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case071",
@@ -5194,8 +5544,13 @@
         "Fractura por avulsión de la meseta tibial"
       ],
       "correcta": 2,
-      "explicacion": "- Un surco condilopatelar lateral anormalmente profundo (signo de la muesca femoral lateral) resulta de una lesión por impactación del margen posterior de la meseta tibial lateral relacionada con la rotura del LCA.\n- El edema en el cóndilo femoral lateral y la meseta tibial lateral en la resonancia magnética representan contusiones óseas de \"beso\" como resultado de esta lesión.",
+      "explicacion": "- **Hallazgos:** surco condilopatelar lateral anormalmente profundo (signo de la muesca femoral lateral), con edema en el cóndilo femoral lateral y en la meseta tibial lateral.\n- Un surco condilopatelar lateral anormalmente profundo (signo de la muesca femoral lateral) resulta de una lesión por impactación del margen posterior de la meseta tibial lateral relacionada con la rotura del LCA.\n- El edema en el cóndilo femoral lateral y la meseta tibial lateral en la resonancia magnética representan contusiones óseas de \"beso\" como resultado de esta lesión.",
       "perla": "Una depresión osteocondral del cóndilo femoral lateral > 2,0 mm de profundidad es muy sugestiva de una lesión del LCA y se denomina signo de la muesca femoral lateral.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Signo de la muesca femoral lateral como signo indirecto de rotura del LCA: signo conocido de lesión común (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5224,7 +5579,7 @@
         "rm"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente de 65 años con antecedentes de caída desde su propia altura y síntomas neurológicos. Las radiografías y TC muestran formación de sindesmofitos puenteando múltiples cuerpos vertebrales. ¿Qué complicación aguda se observa con mayor frecuencia en estos pacientes a nivel cervical, como se ilustra en C6-C7?",
+      "enunciado": "Un paciente de 65 años presenta síntomas neurológicos tras una caída desde su propia altura. Se muestran radiografías y TC de la columna cervical. ¿Qué lesión se ve en C6-C7?",
       "imagenes": [
         {
           "ref": "case072",
@@ -5239,8 +5594,13 @@
         "Hernia de disco aguda aislada"
       ],
       "correcta": 2,
-      "explicacion": "- En la espondilitis anquilosante, las fracturas espinales ocurren con mecanismos de baja energía y frecuentemente atraviesan el espacio del disco intervertebral, similar a una fractura por cinturón de seguridad, abarcando las tres columnas.\n- La columna cervical es la ubicación más común de fracturas en pacientes con EA, especialmente en C5-C6 y C6-C7.",
+      "explicacion": "- **Hallazgos:** sindesmofitos que puentean múltiples cuerpos vertebrales (columna anquilosada) y una disrupción en C6-C7 que atraviesa el espacio discal.\n- En la espondilitis anquilosante, las fracturas espinales ocurren con mecanismos de baja energía y frecuentemente atraviesan el espacio del disco intervertebral, similar a una fractura por cinturón de seguridad, abarcando las tres columnas.\n- La columna cervical es la ubicación más común de fracturas en pacientes con EA, especialmente en C5-C6 y C6-C7.",
       "perla": "Los pacientes con espondilitis anquilosante tienen un umbral bajo para sufrir fracturas espinales severas, a menudo a través de espacios discales o cuerpos vertebrales fusionados, incluso con trauma mínimo.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Fractura transdiscal de tres columnas en espondilitis anquilosante: complicación conocida de entidad común (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5267,7 +5627,7 @@
         "realce en anillo"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente con sobredosis de drogas que fue encontrado inconsciente boca abajo en el suelo por un tiempo prolongado. La RM del hombro muestra áreas parcheadas de aumento de señal T2 intramuscular con realce periférico en varios músculos de la cintura escapular. ¿Cuál es el diagnóstico principal?",
+      "enunciado": "Un paciente con una sobredosis de drogas fue encontrado inconsciente, boca abajo en el suelo, tras un tiempo prolongado. Se muestra la RM del hombro. ¿Cuál es el diagnóstico principal?",
       "imagenes": [
         {
           "ref": "case073",
@@ -5282,8 +5642,13 @@
         "Fascitis necrotizante"
       ],
       "correcta": 2,
-      "explicacion": "- El infarto muscular puede ser secundario a presión extrínseca persistente sobre la musculatura, lo que aumenta la presión en un espacio fascial cerrado y produce oclusión venosa e isquemia.\n- Los hallazgos en la RM incluyen edema intramuscular irregular y realce periférico (en anillo) o en mosaico parcheado tras la administración de gadolinio, relacionado con hipoperfusión.",
+      "explicacion": "- **Hallazgos:** áreas parcheadas de aumento de señal T2 intramuscular, con realce periférico, en varios músculos de la cintura escapular.\n- El infarto muscular puede ser secundario a presión extrínseca persistente sobre la musculatura, lo que aumenta la presión en un espacio fascial cerrado y produce oclusión venosa e isquemia.\n- Los hallazgos en la RM incluyen edema intramuscular irregular y realce periférico (en anillo) o en mosaico parcheado tras la administración de gadolinio, relacionado con hipoperfusión.",
       "perla": "El realce en anillo parcheado con edema intramuscular tras un periodo de inmovilidad prolongada o presión extrínseca es altamente sospechoso de infarto muscular.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Infarto muscular por compresión prolongada: entidad poco frecuente, diferencial con piomiositis y fascitis (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5309,7 +5674,7 @@
         "radiografia"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente presenta ausencia de pulso en la extremidad superior derecha tras un accidente automovilístico con eyección. La radiografía muestra un desplazamiento lateral severo de la escápula con dislocación acromioclavicular. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente no tiene pulso en el miembro superior derecho tras un accidente de tráfico con eyección. Se muestra la radiografía. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case074",
@@ -5324,8 +5689,13 @@
         "Avulsión aislada del plexo braquial"
       ],
       "correcta": 3,
-      "explicacion": "- La disociación escapulotorácica es una \"amputación cerrada de un cuarto delantero\" con interrupción completa de las uniones musculotendinosas de la pared torácica.\n- Frecuentemente se asocia con avulsión de la arteria subclavia y/o axilar, creando una extremidad sin pulso y grave lesión del plexo braquial, con altas tasas de mortalidad o amputación secundaria.",
+      "explicacion": "- **Hallazgos:** desplazamiento lateral marcado de la escápula con luxación acromioclavicular.\n- La disociación escapulotorácica es una \"amputación cerrada de un cuarto delantero\" con interrupción completa de las uniones musculotendinosas de la pared torácica.\n- Frecuentemente se asocia con avulsión de la arteria subclavia y/o axilar, creando una extremidad sin pulso y grave lesión del plexo braquial, con altas tasas de mortalidad o amputación secundaria.",
       "perla": "En la TC axial, una proporción escapulotorácica superior al rango normal de 1.07-1.15 entre las dos escápulas indica desplazamiento lateral anormal que sugiere disociación escapulotorácica.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Disociación escapulotorácica: lesión rara y grave, se reconoce por el desplazamiento lateral de la escápula (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5351,7 +5721,7 @@
         "articulaciones interfalangicas"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente masculino adulto joven presenta artralgias. Las radiografías de las manos muestran erosiones periarticulares marginales mezcladas con proliferación ósea irregular a lo largo de las articulaciones MCF, IFP e IFD, preservando la mineralización ósea. ¿Qué condición inflamatoria se ilustra de manera más probable?",
+      "enunciado": "Un hombre adulto joven presenta artralgias. Se muestran las radiografías de las manos. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case075",
@@ -5366,8 +5736,13 @@
         "Osteodistrofia renal"
       ],
       "correcta": 3,
-      "explicacion": "- La proliferación ósea irregular (aspecto de \"bigotes\" o \"deshilachado\") junto a erosiones en las radiografías es una de las características distintivas de la artritis psoriásica en las manos.\n- A diferencia de la artritis reumatoide, la artritis psoriásica suele afectar las articulaciones IFD y característicamente conserva la densidad mineral ósea (no hay osteopenia severa periarticular).",
+      "explicacion": "- **Hallazgos:** erosiones periarticulares marginales mezcladas con proliferación ósea irregular en las articulaciones MCF, IFP e IFD, con la mineralización ósea conservada.\n- La proliferación ósea irregular (aspecto de \"bigotes\" o \"deshilachado\") junto a erosiones en las radiografías es una de las características distintivas de la artritis psoriásica en las manos.\n- A diferencia de la artritis reumatoide, la artritis psoriásica suele afectar las articulaciones IFD y característicamente conserva la densidad mineral ósea (no hay osteopenia severa periarticular).",
       "perla": "La coexistencia de erosiones articulares destructivas, formación de hueso nuevo adyacente y afectación de las articulaciones interfalángicas distales (IFD) son signos clave de la artritis psoriásica.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Artritis psoriásica de la mano con erosiones y proliferación ósea sin osteopenia: patrón clásico (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5393,7 +5768,7 @@
         "radiografia"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente con artroplastia total de rodilla realizada hace 12 años presenta plenitud articular y claudicación. Las radiografías muestran angulación en varo con desgaste asimétrico y restos radiopacos densos delineando la bolsa suprarrotuliana y cápsula posterior. ¿A qué condición corresponden estos hallazgos?",
+      "enunciado": "Un paciente con una artroplastia total de rodilla de hace 12 años presenta plenitud articular y cojera. Se muestran las radiografías. ¿A qué condición corresponde la imagen?",
       "imagenes": [
         {
           "ref": "case076",
@@ -5408,8 +5783,13 @@
         "Sinovitis villonodular pigmentada"
       ],
       "correcta": 2,
-      "explicacion": "- La metalosis ocurre cuando hay un fracaso o desgaste del polietileno interpuesto, lo que permite un contacto metal-metal entre los componentes de la prótesis.\n- La abrasión libera fragmentos metálicos que se depositan en el revestimiento sinovial articular, creando un \"signo de la línea de metal\" radiopaco característico y un derrame articular tenso y oscuro.",
+      "explicacion": "- **Hallazgos:** angulación en varo con desgaste asimétrico y restos radiopacos densos que delinean la bolsa suprarrotuliana y la cápsula posterior («signo de la línea de metal»).\n- La metalosis ocurre cuando hay un fracaso o desgaste del polietileno interpuesto, lo que permite un contacto metal-metal entre los componentes de la prótesis.\n- La abrasión libera fragmentos metálicos que se depositan en el revestimiento sinovial articular, creando un \"signo de la línea de metal\" radiopaco característico y un derrame articular tenso y oscuro.",
       "perla": "La opacificación radiológica de la cápsula sinovial tras una artroplastia articular antigua es indicativa del depósito de detritos metálicos (\"signo de línea metálica\").",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Metalosis con signo de la línea metálica: la fuente la llama complicación tardía poco común de la artroplastia (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5435,7 +5815,7 @@
         "aumento de volumen"
       ],
       "tipo": "imagen",
-      "enunciado": "Un paciente se presenta con plenitud crónica en la región posterior del codo y leve sensibilidad. La radiografía lateral muestra un aumento de las partes blandas localizado de forma superficial al olécranon sin alteraciones óseas subyacentes. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un paciente presenta plenitud crónica en la región posterior del codo y leve dolor a la palpación. Se muestra la radiografía lateral. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case077",
@@ -5450,8 +5830,13 @@
         "Artritis reumatoide temprana"
       ],
       "correcta": 0,
-      "explicacion": "- La bursa olecraniana es un espacio subcutáneo posterior al olécranon. Su distensión y ensanchamiento en imágenes se deben a su inflamación por trauma repetitivo, gota, infección u otras condiciones.\n- La mayoría de los casos son postraumáticos, aunque la inflamación de la bursa olecraniana también es frecuentemente la presentación inicial de artritis gotosa.",
+      "explicacion": "- **Hallazgos:** aumento de partes blandas superficial al olécranon, sin alteraciones óseas subyacentes.\n- La bursa olecraniana es un espacio subcutáneo posterior al olécranon. Su distensión y ensanchamiento en imágenes se deben a su inflamación por trauma repetitivo, gota, infección u otras condiciones.\n- La mayoría de los casos son postraumáticos, aunque la inflamación de la bursa olecraniana también es frecuentemente la presentación inicial de artritis gotosa.",
       "perla": "La plenitud focal del tejido blando superficial a la cortical posterior del olécranon en una radiografía lateral sin lesión ósea es el hallazgo patognomónico de la bursitis olecraniana.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Bursitis olecraniana: entidad común, aumento de partes blandas superficial al olécranon evidente (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5477,7 +5862,7 @@
         "hombro"
       ],
       "tipo": "imagen",
-      "enunciado": "Un hombre joven acude por dolor lumbar crónico y dolor bilateral de hombros sin antecedente traumático. Las radiografías de hombros revelan erosiones óseas simétricas marginadas por esclerosis a lo largo de las tuberosidades mayores de las cabezas humerales. ¿A qué se asocia de forma patognomónica este patrón radiográfico?",
+      "enunciado": "Un hombre joven presenta dolor bilateral de hombros sin antecedente traumático. Se muestran las radiografías de los hombros. ¿A qué enfermedad se asocia el patrón que se ve?",
       "imagenes": [
         {
           "ref": "case078",
@@ -5492,8 +5877,13 @@
         "Condrocalcinosis grave"
       ],
       "correcta": 3,
-      "explicacion": "- En la espondilitis anquilosante, la inflamación periférica de la articulación glenohumeral o la entesitis provocan erosiones destructivas en la tuberosidad mayor.\n- Estos cambios característicos causan que la cabeza humeral adquiera una apariencia descrita como \"deformidad en hacha\" (hatchet deformity) en las radiografías.",
+      "explicacion": "- **Hallazgos:** erosiones óseas simétricas, marginadas por esclerosis, en las tuberosidades mayores de ambas cabezas humerales («deformidad en hacha»), en un paciente con dolor lumbar crónico.\n- En la espondilitis anquilosante, la inflamación periférica de la articulación glenohumeral o la entesitis provocan erosiones destructivas en la tuberosidad mayor.\n- Estos cambios característicos causan que la cabeza humeral adquiera una apariencia descrita como \"deformidad en hacha\" (hatchet deformity) en las radiografías.",
       "perla": "Las erosiones simétricas de la tuberosidad mayor humeral que configuran la 'deformidad en hacha', particularmente en hombres jóvenes con dolor lumbar, son fuertemente sugestivas de espondilitis anquilosante.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Deformidad en hacha de la cabeza humeral en espondilitis anquilosante: manifestación periférica poco conocida (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5519,7 +5909,7 @@
         "osteopenia"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer mayor activa presenta dolor de talón que comenzó hace semanas. La radiografía lateral de tobillo demuestra esclerosis curvilínea a través del calcáneo posterior, paralela a la faceta posterior de la articulación subastragalina, así como osteopenia difusa. ¿Cuál es la etiología más probable del hallazgo calcáneo?",
+      "enunciado": "Una mujer mayor y activa presenta dolor de talón desde hace semanas. Se muestra la radiografía lateral del tobillo. ¿Cuál es la etiología más probable del hallazgo del calcáneo?",
       "imagenes": [
         {
           "ref": "case079",
@@ -5534,8 +5924,13 @@
         "Fractura de avulsión aguda del tendón de Aquiles"
       ],
       "correcta": 3,
-      "explicacion": "- Las fracturas por insuficiencia se observan en pacientes con densidad mineral ósea disminuida (como mujeres posmenopáusicas osteoporóticas) cuando se aplican fuerzas o cargas fisiológicas normales al hueso debilitado.\n- El patrón esclerótico curvilíneo radiográfico en banda orientado paralelo a la articulación subastragalina es típico de una fractura por estrés curativa o subaguda del calcáneo posterior.",
+      "explicacion": "- **Hallazgos:** esclerosis curvilínea en el calcáneo posterior, paralela a la faceta posterior de la subastragalina, con osteopenia difusa.\n- Las fracturas por insuficiencia se observan en pacientes con densidad mineral ósea disminuida (como mujeres posmenopáusicas osteoporóticas) cuando se aplican fuerzas o cargas fisiológicas normales al hueso debilitado.\n- El patrón esclerótico curvilíneo radiográfico en banda orientado paralelo a la articulación subastragalina es típico de una fractura por estrés curativa o subaguda del calcáneo posterior.",
       "perla": "En etapas tempranas, las fracturas por insuficiencia del calcáneo pueden no ser visibles en radiografías, requiriendo aproximadamente 2 semanas tras el inicio del dolor para manifestarse como una banda esclerótica.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Fractura por insuficiencia del calcáneo con esclerosis curvilínea: diferenciar insuficiencia de fatiga integrando la osteopenia (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5561,7 +5956,7 @@
         "protrusion acetabular"
       ],
       "tipo": "imagen",
-      "enunciado": "Una mujer de 55 años con antecedentes de poliartralgias presenta dolor en caderas. La radiografía de pelvis muestra osteopenia difusa, pérdida bilateral y uniforme del espacio articular, protrusión medial de la pared acetabular en ambas caderas y escasa formación de osteofitos. ¿Cuál es el diagnóstico subyacente más probable?",
+      "enunciado": "Una mujer de 55 años con poliartralgias presenta dolor en las caderas. Se muestra la radiografía de pelvis. ¿Cuál es el diagnóstico subyacente más probable?",
       "imagenes": [
         {
           "ref": "case080",
@@ -5576,8 +5971,13 @@
         "Enfermedad de Paget pélvica"
       ],
       "correcta": 1,
-      "explicacion": "- La afectación de la cadera en la artritis reumatoide (AR) suele presentarse de manera bilateral, concéntrica y simétrica, provocando pérdida del espacio articular con protrusión acetabular (protrusio acetabuli).\n- La ausencia de esclerosis marginal significativa y osteofitosis (características más propias de la osteoartritis degenerativa), junto a la osteopenia periarticular difusa, apuntan fuertemente a una artropatía inflamatoria crónica como la AR.",
+      "explicacion": "- **Hallazgos:** osteopenia difusa, pérdida bilateral y uniforme del espacio articular, protrusión acetabular medial en ambas caderas y escasos osteofitos.\n- La afectación de la cadera en la artritis reumatoide (AR) suele presentarse de manera bilateral, concéntrica y simétrica, provocando pérdida del espacio articular con protrusión acetabular (protrusio acetabuli).\n- La ausencia de esclerosis marginal significativa y osteofitosis (características más propias de la osteoartritis degenerativa), junto a la osteopenia periarticular difusa, apuntan fuertemente a una artropatía inflamatoria crónica como la AR.",
       "perla": "El patrón de estrechamiento uniforme del espacio articular en la cadera con migración medial de la cabeza femoral sin osteofitos exuberantes sugiere fuertemente artritis reumatoide.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Artritis reumatoide de cadera con protrusión acetabular concéntrica: patrón típico que exige diferenciar de artrosis (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5620,6 +6020,11 @@
       "correcta": 1,
       "explicacion": "- El caso ilustra un mal alineamiento patelofemoral con pinzamiento de la almohadilla grasa de Hoffa.\n- La rótula alta está frecuentemente presente, provocando mal alineamiento rotuliano y eventual pérdida condral severa en la faceta lateral.",
       "perla": "La rótula alta predispone al mal tracking rotuliano lateral, y su diagnóstico por RM se establece cuando la longitud del tendón rotuliano supera 1.3 veces la altura de la rótula.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Mal alineamiento patelofemoral con pinzamiento de la grasa de Hoffa: hay que reconocerlo sin que el enunciado lo nombre y asociarlo a rótula alta (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5662,6 +6067,11 @@
       "correcta": 3,
       "explicacion": "- El diagnóstico es edema transitorio de médula ósea, un proceso idiopático y autolimitado.\n- Se caracteriza por edema confinado a la cabeza y cuello femorales, y se diferencia de la artritis séptica en que no hay pérdida del espacio articular ni erosiones.",
       "perla": "El edema transitorio de médula ósea típicamente respeta el espacio articular, afectando la cabeza y cuello femoral hasta la inserción capsular.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Edema transitorio de médula ósea de la cadera en embarazada: diagnóstico típico que integra clínica e imagen (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5704,6 +6114,11 @@
       "correcta": 0,
       "explicacion": "- La enfermedad por depósito de pirofosfato cálcico (CPPD) se asocia con depósitos cristalinos intra y periarticulares.\n- Clásicamente produce condrocalcinosis de los meniscos y calcificación del tendón del gastrocnemio, además de un patrón artrósico predominante en el compartimento patelofemoral.",
       "perla": "La condrocalcinosis meniscal lateral y la artropatía patelofemoral en pacientes mayores son prácticamente sinónimos de enfermedad por depósito de pirofosfato cálcico (CPPD).",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Enfermedad por depósito de pirofosfato con condrocalcinosis meniscal: hallazgo clásico, la fuente la llama sinónimo (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5746,6 +6161,11 @@
       "correcta": 1,
       "explicacion": "- El caso corresponde a la infracción de Freiberg, que representa una osteonecrosis de la cabeza del metatarsiano (típicamente el segundo).\n- La fisiopatología está relacionada con traumatismo repetitivo, como en el baile o por el uso prolongado de calzado de tacón alto, que lleva a compromiso vascular y fractura osteocondral.",
       "perla": "La infracción de Freiberg afecta con mayor frecuencia el segundo o tercer metatarsiano y se debe a sobrecarga mecánica y microtraumas repetidos.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Infracción de Freiberg en bailarina: osteonecrosis típica del 2.º metatarsiano, fisiopatología conocida (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5788,6 +6208,11 @@
       "correcta": 1,
       "explicacion": "- La sinovitis villonodular pigmentada (PVNS) es un proceso proliferativo benigno de la sinovial.\n- Su característica señal baja tanto en T1 como en T2 se debe al depósito de hemosiderina dentro de los macrófagos, producto del sangrado recurrente intraarticular.",
       "perla": "La preservación del espacio articular sin osteoporosis, combinada con una baja señal en T1/T2 en MRI por presencia de hemosiderina, es característica de la sinovitis villonodular pigmentada (PVNS).",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Sinovitis villonodular pigmentada: la hemosiderina explica la baja señal en T1 y T2, dato clásico (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5813,7 +6238,7 @@
         "atrofia"
       ],
       "tipo": "imagen",
-      "enunciado": "Mujer de 48 años con dolor crónico de hombro y debilidad. En base a los hallazgos de infiltración grasa y atrofia aislada observados en RM, ¿qué estructura nerviosa se encuentra comprometida a nivel del espacio cuadrilátero?",
+      "enunciado": "Una mujer de 48 años presenta dolor crónico de hombro y debilidad. Se muestra la RM. ¿Qué nervio está comprometido?",
       "imagenes": [
         {
           "ref": "case086",
@@ -5828,8 +6253,13 @@
         "Nervio radial"
       ],
       "correcta": 1,
-      "explicacion": "- El síndrome del espacio cuadrilátero es causado por la compresión del nervio axilar (y la arteria circunfleja humeral posterior).\n- Se manifiesta característicamente por atrofia e infiltración grasa de los músculos redondo menor y deltoides, ambos inervados por el nervio axilar.",
+      "explicacion": "- **Hallazgos:** atrofia e infiltración grasa aisladas del redondo menor y del deltoides, los músculos inervados por el nervio axilar en el espacio cuadrilátero.\n- El síndrome del espacio cuadrilátero es causado por la compresión del nervio axilar (y la arteria circunfleja humeral posterior).",
       "perla": "La atrofia selectiva del músculo redondo menor aislada o asociada al deltoides es el sello distintivo en RM del atrapamiento del nervio axilar en el espacio cuadrilátero.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Síndrome del espacio cuadrilátero con atrofia del redondo menor: neuropatía por atrapamiento poco frecuente (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5855,7 +6285,7 @@
         "Hip"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente femenina de 30 años que presenta dolor inguinal y de cadera. Las imágenes muestran una alteración del contorno superior de la unión cabeza-cuello femoral. ¿Cuál es el parámetro de medición más utilizado para evaluar esta deformidad en este síndrome de pinzamiento?",
+      "enunciado": "Una mujer de 30 años presenta dolor inguinal y de cadera. Se muestran las imágenes. ¿Qué medición es la más utilizada para evaluar la deformidad que se ve?",
       "imagenes": [
         {
           "ref": "case087",
@@ -5870,8 +6300,13 @@
         "Medición del espacio articular lateral superior"
       ],
       "correcta": 1,
-      "explicacion": "- El caso es un pinzamiento femoroacetabular (FAI) con deformidad tipo cam (asfericidad de la unión cabeza-cuello femoral).\n- El ángulo alfa se mide en la visión axial y su aumento por encima de 55 grados indica pérdida de esfericidad, que predispone al choque contra el reborde acetabular.",
+      "explicacion": "- **Hallazgos:** alteración del contorno superior de la unión cabeza-cuello femoral: deformidad tipo cam.\n- El caso es un pinzamiento femoroacetabular (FAI) con deformidad tipo cam (asfericidad de la unión cabeza-cuello femoral).\n- El ángulo alfa se mide en la visión axial y su aumento por encima de 55 grados indica pérdida de esfericidad, que predispone al choque contra el reborde acetabular.",
       "perla": "En el FAI tipo cam, el ángulo alfa supera los 55 grados y típicamente se asocia con desgarros de la base labral y del cartílago adyacente.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Pinzamiento femoroacetabular tipo cam y ángulo alfa mayor de 55 grados: entidad común y medida estándar (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5914,6 +6349,11 @@
       "correcta": 3,
       "explicacion": "- El caso corresponde a la artropatía de Charcot (osteoartropatía neuropática), frecuentemente asociada a diabetes de larga evolución.\n- La patogénesis involucra la pérdida de sensibilidad propioceptiva y dolorosa (neuropatía), lo que permite traumatismos repetidos que provocan destrucción ósea, luxaciones y formación de detritus.",
       "perla": "Las articulaciones tarsometatarsianas son el sitio más frecuentemente afectado por la artropatía de Charcot en pacientes diabéticos.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Artropatía de Charcot en diabético: entidad común y fisiopatología elemental de la articulación insensible (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5956,6 +6396,11 @@
       "correcta": 1,
       "explicacion": "- El cuadro clínico de dolor nocturno aliviado por salicilatos o AINEs, junto al hallazgo de un nido cortical lucente, es clásico del osteoma osteoide.\n- En la gammagrafía ósea, esta lesión presenta clásicamente el signo de la 'doble densidad', donde el nido es un foco intensamente captante rodeado de otra zona captante menos intensa producida por la esclerosis reactiva.",
       "perla": "La tomografía computarizada es la modalidad de elección para caracterizar y localizar el nido osteoblástico hipervascular de un osteoma osteoide, particularmente en el fémur proximal.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Osteoma osteoide con signo de la doble densidad en gammagrafía: cuadro clásico, signo conocido (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -5997,6 +6442,11 @@
       "correcta": 2,
       "explicacion": "- El cuadro agudo/subagudo con pérdida difusa del cartílago, derrame articular masivo, edema de médula ósea y erosiones es consistente con artritis séptica.\n- En adultos, la artritis séptica y osteomielitis suelen originarse principalmente por diseminación hematógena de estafilococos o estreptococos.",
       "perla": "La artritis séptica en adultos exige aspiración articular precoz, ya que las radiografías iniciales pueden ser completamente normales o sólo mostrar cambios inespecíficos como osteopenia periarticular.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Artritis séptica de cadera del adulto: reconocerla en la imagen y saber la vía hematógena, dato de manejo básico (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6022,7 +6472,7 @@
         "articulaciones interfalángicas"
       ],
       "tipo": "imagen",
-      "enunciado": "Mujer de edad avanzada presenta dolor e inflamación en las articulaciones interfalángicas proximales y distales de ambas manos. Al observar la radiografía frontal de las manos, ¿cuál es el diagnóstico más probable dado el patrón de las lesiones erosivas centrales y osteofitos?",
+      "enunciado": "Una mujer de edad avanzada presenta dolor e inflamación de las interfalángicas proximales y distales de ambas manos. Se muestra la radiografía frontal de las manos. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case091",
@@ -6037,8 +6487,13 @@
         "Artropatía por depósito de pirofosfato de calcio"
       ],
       "correcta": 2,
-      "explicacion": "- La osteoartritis erosiva se caracteriza por presentar disminución del espacio articular, esclerosis subcondral, formación de osteofitos y erosiones subarticulares centrales que dan el aspecto de 'alas de gaviota'.\n- Suele afectar típicamente a las articulaciones interfalángicas proximales (IFP) y distales (IFD) en mujeres posmenopáusicas.\n- A diferencia de la artritis reumatoide, la osteopenia es rara y no se suelen observar erosiones periarticulares.",
+      "explicacion": "- **Hallazgos:** erosiones centrales subarticulares con osteofitos en las IFP y las IFD («en alas de gaviota»), sin osteopenia.\n- La osteoartritis erosiva se caracteriza por presentar disminución del espacio articular, esclerosis subcondral, formación de osteofitos y erosiones subarticulares centrales que dan el aspecto de 'alas de gaviota'.\n- Suele afectar típicamente a las articulaciones interfalángicas proximales (IFP) y distales (IFD) en mujeres posmenopáusicas.\n- A diferencia de la artritis reumatoide, la osteopenia es rara y no se suelen observar erosiones periarticulares.",
       "perla": "La deformidad en 'ala de gaviota' (erosión central con proliferación ósea marginal) en las articulaciones interfalángicas es la presentación clásica de la osteoartritis erosiva.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Osteoartritis erosiva con alas de gaviota: diferencial frecuente con artritis psoriásica y reumatoide (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6064,7 +6519,7 @@
         "apofisitis por tracción"
       ],
       "tipo": "imagen",
-      "enunciado": "Adolescente masculino activo presenta dolor e inflamación en la región inferior a la rótula. La resonancia magnética en corte sagital muestra edema en la médula ósea y fragmentación ósea a nivel de la apófisis de la tuberosidad tibial, además de aumento de señal en la bursa infrarrotuliana profunda. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un adolescente activo presenta dolor e inflamación por debajo de la rótula. Se muestra la RM sagital. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case092",
@@ -6079,8 +6534,13 @@
         "Osteocondritis disecante de rodilla"
       ],
       "correcta": 2,
-      "explicacion": "- La enfermedad de Osgood-Schlatter es una apofisitis por tracción que afecta la tuberosidad tibial en la interfaz con el tendón rotuliano, típicamente en adolescentes activos.\n- Los hallazgos en RM incluyen edema en la apófisis de la tuberosidad tibial, posible fragmentación, engrosamiento del tendón rotuliano distal y distensión líquida de la bursa infrarrotuliana profunda.\n- La enfermedad de Sinding-Larsen-Johansson afecta el polo inferior de la rótula, no la tuberosidad tibial.\n- La rodilla de saltador afecta comúnmente el origen proximal del tendón rotuliano.",
+      "explicacion": "- **Hallazgos:** edema medular y fragmentación de la apófisis de la tuberosidad tibial, con aumento de señal en la bursa infrarrotuliana profunda.\n- La enfermedad de Osgood-Schlatter es una apofisitis por tracción que afecta la tuberosidad tibial en la interfaz con el tendón rotuliano, típicamente en adolescentes activos.\n- La enfermedad de Sinding-Larsen-Johansson afecta el polo inferior de la rótula, no la tuberosidad tibial.\n- La rodilla de saltador afecta comúnmente el origen proximal del tendón rotuliano.",
       "perla": "La enfermedad de Osgood-Schlatter representa una apofisitis por tracción en la interfaz entre el tendón rotuliano y la tuberosidad tibial, manifestándose radiológicamente con edema y fragmentación de la apófisis.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Enfermedad de Osgood-Schlatter en adolescente: entidad común con presentación típica (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6106,7 +6566,7 @@
         "columna cervical"
       ],
       "tipo": "imagen",
-      "enunciado": "Hombre de 48 años acude con dolor cervical de inicio insidioso, sin traumatismo previo, de 2 semanas de evolución. En la radiografía lateral de la columna cervical se observa pérdida del espacio discal intervertebral C4-C5, erosiones en los platillos terminales y marcado engrosamiento de los tejidos blandos prevertebrales. ¿Cuál es el diagnóstico de sospecha principal?",
+      "enunciado": "Un hombre de 48 años presenta dolor cervical de inicio insidioso, sin traumatismo, de 2 semanas de evolución. Se muestra la radiografía lateral de la columna cervical. ¿Cuál es el diagnóstico de sospecha principal?",
       "imagenes": [
         {
           "ref": "case093",
@@ -6121,8 +6581,13 @@
         "Metástasis vertebral blástica"
       ],
       "correcta": 2,
-      "explicacion": "- La espondilodiscitis es un proceso infeccioso del disco y los cuerpos vertebrales adyacentes.\n- Los hallazgos radiográficos clásicos incluyen la pérdida del espacio discal, la irregularidad/erosión de los platillos terminales y la inflamación de los tejidos blandos adyacentes (en este caso, prevertebrales).\n- Aunque la enfermedad degenerativa del disco puede causar disminución del espacio y esclerosis, no suele asociarse con destrucción agresiva del platillo ni con masas de tejidos blandos prevertebrales tan marcadas como en un proceso infeccioso.",
+      "explicacion": "- **Hallazgos:** pérdida del espacio discal C4-C5, erosiones de los platillos y marcado engrosamiento de las partes blandas prevertebrales.\n- La espondilodiscitis es un proceso infeccioso del disco y los cuerpos vertebrales adyacentes.\n- Los hallazgos radiográficos clásicos incluyen la pérdida del espacio discal, la irregularidad/erosión de los platillos terminales y la inflamación de los tejidos blandos adyacentes (en este caso, prevertebrales).\n- Aunque la enfermedad degenerativa del disco puede causar disminución del espacio y esclerosis, no suele asociarse con destrucción agresiva del platillo ni con masas de tejidos blandos prevertebrales tan marcadas como en un proceso infeccioso.",
       "perla": "El fenómeno de vacío discal (presencia de gas en el disco) es extremadamente raro en la espondilodiscitis aguda, por lo que su presencia sugeriría enfermedad degenerativa severa más que infección.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Espondilodiscitis cervical: la fuente describe hallazgos radiográficos clásicos de entidad común (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6148,7 +6613,7 @@
         "capa cartilaginosa"
       ],
       "tipo": "imagen",
-      "enunciado": "Hombre de 35 años presenta dolor en la región anterior y lateral de la rodilla. La resonancia magnética de la rodilla evidencia una protuberancia ósea que se extiende desde el epicóndilo lateral del fémur distal, mostrando continuidad tanto cortical como de la cavidad medular con el hueso huésped. Se observa un capuchón hiperintenso en T2 de menos de 1 cm sobre la lesión. ¿Cuál es el diagnóstico más probable?",
+      "enunciado": "Un hombre de 35 años presenta dolor en la región anterolateral de la rodilla. Se muestra la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case094",
@@ -6163,8 +6628,13 @@
         "Condrosarcoma periférico secundario"
       ],
       "correcta": 1,
-      "explicacion": "- El osteocondroma es la neoplasia ósea benigna más común y se caracteriza patognomónicamente por una excrecencia ósea con continuidad cortical y medular con el hueso subyacente.\n- Generalmente están recubiertos por una capa cartilaginosa o capuchón ('cartilage cap') que muestra señal alta en T2 en RM.\n- Un grosor del capuchón cartilaginoso menor a 1 cm en adultos sugiere benignidad; si es mayor (frecuentemente >1.5-2 cm en adultos), aumenta la sospecha de transformación maligna hacia un condrosarcoma secundario.",
+      "explicacion": "- **Hallazgos:** protuberancia ósea que sale del epicóndilo lateral del fémur distal, en continuidad cortical y medular con el hueso, con un capuchón hiperintenso en T2 de menos de 1 cm.\n- El osteocondroma es la neoplasia ósea benigna más común y se caracteriza patognomónicamente por una excrecencia ósea con continuidad cortical y medular con el hueso subyacente.\n- Generalmente están recubiertos por una capa cartilaginosa o capuchón ('cartilage cap') que muestra señal alta en T2 en RM.\n- Un grosor del capuchón cartilaginoso menor a 1 cm en adultos sugiere benignidad; si es mayor (frecuentemente >1.5-2 cm en adultos), aumenta la sospecha de transformación maligna hacia un condrosarcoma secundario.",
       "perla": "La continuidad de la corteza y del canal medular de la lesión con el hueso original es el hallazgo clave definitivo para el diagnóstico de osteocondroma.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Osteocondroma con continuidad cortical y medular: el tumor óseo benigno más común, hallazgo patognomónico (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6190,7 +6660,7 @@
         "tumor de tejidos blandos"
       ],
       "tipo": "imagen",
-      "enunciado": "Hombre de 50 años presenta una masa indolora en el muslo. Las secuencias de RM muestran una masa intramuscular profunda multilobulada. Menos del 50% de la lesión presenta señal compatible con grasa amorfa, mientras que la mayor parte muestra una señal líquida/quística (mixomatosa) con realce heterogéneo tras la administración de contraste. ¿Cuál es el diagnóstico más sugerido por estos hallazgos?",
+      "enunciado": "Un hombre de 50 años presenta una masa indolora en el muslo. Se muestra la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case095",
@@ -6205,8 +6675,13 @@
         "Hemangioma cavernoso"
       ],
       "correcta": 2,
-      "explicacion": "- El liposarcoma mixoide se presenta a menudo como una gran masa en los músculos del muslo. \n- En RM, la matriz mixoide abundante se muestra predominantemente hiperintensa en T2 (aspecto pseudoquístico), con realce intenso y heterogéneo tras el contraste.\n- La presencia intercalada de focos de grasa amorfa (generalmente ocupando un 10 a 25% de la masa) ayuda a diferenciarlo de un mixoma intramuscular benigno o de un quiste.",
+      "explicacion": "- **Hallazgos:** masa intramuscular profunda y multilobulada: menos del 50 % tiene señal de grasa amorfa y la mayor parte, señal líquida o quística (mixoide) con realce heterogéneo tras el contraste.\n- El liposarcoma mixoide se presenta a menudo como una gran masa en los músculos del muslo. \n- En RM, la matriz mixoide abundante se muestra predominantemente hiperintensa en T2 (aspecto pseudoquístico), con realce intenso y heterogéneo tras el contraste.\n- La presencia intercalada de focos de grasa amorfa (generalmente ocupando un 10 a 25% de la masa) ayuda a diferenciarlo de un mixoma intramuscular benigno o de un quiste.",
       "perla": "En ausencia de contraste con gadolinio, los liposarcomas mixoides pueden confundirse fácilmente con quistes benignos debido a su alta señal en T2 provocada por la matriz mixoide.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Liposarcoma mixoide con poca grasa: sarcoma poco frecuente, diferencial fino con mixoma y quiste (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6232,7 +6707,7 @@
         "fémur"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente con antecedente de artroplastia total de cadera derecha no cementada presenta dolor en la cadera derecha tras bajar un escalón. Las radiografías frontal y lateral muestran reacción perióstica focal a lo largo de la cortical femoral medial a nivel del componente femoral distal, con una fractura unicortical superpuesta. ¿Cuál de las siguientes afirmaciones es cierta sobre las fracturas periprotésicas femorales postoperatorias?",
+      "enunciado": "Un paciente con una artroplastia total de cadera derecha no cementada presenta dolor en la cadera tras bajar un escalón. Se muestran las radiografías frontal y lateral. ¿Cuál de estas afirmaciones es cierta sobre la lesión que se ve?",
       "imagenes": [
         {
           "ref": "case096",
@@ -6247,8 +6722,14 @@
         "El canal vascular normal en la corteza lateral suele simular este tipo de fractura."
       ],
       "correcta": 1,
-      "explicacion": "- Las fracturas femorales periprotésicas postoperatorias ocurren típicamente a nivel de la punta del vástago femoral (femoral stem tip), ya que esta región actúa como un concentrador de estrés (stress riser) debido a la diferencia de rigidez entre el metal y el hueso nativo.\n- Estas fracturas suelen producirse por traumatismos menores.\n- Un canal vascular normal se encuentra a lo largo de la cortical posteromedial (no lateral) y puede simular una fractura.",
+      "requiere_opciones": true,
+      "explicacion": "- **Hallazgos:** reacción perióstica focal en la cortical femoral medial a nivel del extremo distal del componente femoral, con una fractura unicortical superpuesta: fractura periprotésica.\n- Las fracturas femorales periprotésicas postoperatorias ocurren típicamente a nivel de la punta del vástago femoral (femoral stem tip), ya que esta región actúa como un concentrador de estrés (stress riser) debido a la diferencia de rigidez entre el metal y el hueso nativo.\n- Estas fracturas suelen producirse por traumatismos menores.\n- Un canal vascular normal se encuentra a lo largo de la cortical posteromedial (no lateral) y puede simular una fractura.",
       "perla": "La punta del componente femoral actúa como un elevador de tensión, por lo que es la ubicación más frecuente de fracturas femorales periprotésicas tras traumatismos menores.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Fractura periprotésica en la punta del vástago: complicación conocida de artroplastia común (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6275,7 +6756,7 @@
         "capa cartilaginosa"
       ],
       "tipo": "imagen",
-      "enunciado": "Mujer de 25 años con antecedente de \"trastorno óseo\" presenta dolor en la región posterior del muslo y sensación de masa de 2 meses de evolución. En la RM se observa una excrecencia ósea de base ancha en la diáfisis femoral distal en continuidad con el canal medular, sobre la cual asienta un capuchón cartilaginoso irregular y lobulado (hiperintenso en T2) de más de 2 cm de grosor. ¿Cuál es el diagnóstico más probable considerando la evolución clínica y los hallazgos en la RM?",
+      "enunciado": "Una mujer de 25 años con antecedente de «trastorno óseo» presenta dolor en la cara posterior del muslo y sensación de masa de 2 meses de evolución. Se muestra la RM. ¿Cuál es el diagnóstico más probable?",
       "imagenes": [
         {
           "ref": "case097",
@@ -6290,8 +6771,13 @@
         "Formación de bursa adventicia benigna"
       ],
       "correcta": 0,
-      "explicacion": "- La exostosis múltiple hereditaria (osteocondromatosis múltiple) predispone a múltiples osteocondromas.\n- La transformación maligna hacia condrosarcoma ocurre en aproximadamente 2-5% de los pacientes.\n- Clínicamente, se sospecha transformación maligna por un nuevo inicio de dolor de forma insidiosa después de alcanzar la madurez esquelética.\n- Radiológicamente, un capuchón cartilaginoso > 2 cm en un adulto, con patrón de crecimiento lobulado y periférico, sugiere fuertemente transformación a condrosarcoma secundario.",
+      "explicacion": "- **Hallazgos:** excrecencia ósea de base ancha en la diáfisis femoral distal, en continuidad con el canal medular, con un capuchón cartilaginoso irregular y lobulado, hiperintenso en T2, de más de 2 cm de grosor.\n- La exostosis múltiple hereditaria (osteocondromatosis múltiple) predispone a múltiples osteocondromas.\n- La transformación maligna hacia condrosarcoma ocurre en aproximadamente 2-5% de los pacientes.\n- Clínicamente, se sospecha transformación maligna por un nuevo inicio de dolor de forma insidiosa después de alcanzar la madurez esquelética.",
       "perla": "Un capuchón cartilaginoso (cartilage cap) mayor de 2 cm y la aparición de dolor de novo en un adulto con osteocondromas son signos clave de degeneración maligna a condrosarcoma.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Condrosarcoma secundario en exostosis múltiple hereditaria, capuchón mayor de 2 cm: criterio que cambia el manejo (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6317,7 +6803,7 @@
         "ecografía"
       ],
       "tipo": "imagen",
-      "enunciado": "Un futbolista de 31 años presenta dolor agudo e intenso en la parte posterior del tobillo mientras esprintaba. La ecografía longitudinal muestra pérdida de la arquitectura fibrilar normal del tendón de Aquiles, con un defecto hipoecoico trans-tendinoso y líquido circundante. ¿En qué región anatómica es más probable que haya ocurrido esta lesión?",
+      "enunciado": "Un futbolista de 31 años presenta dolor agudo e intenso en la parte posterior del tobillo mientras esprintaba. Se muestra la ecografía longitudinal del tendón de Aquiles. ¿En qué región es más probable que haya ocurrido la lesión?",
       "imagenes": [
         {
           "ref": "case098",
@@ -6332,8 +6818,13 @@
         "Exclusivamente en la bursa retrocalcánea."
       ],
       "correcta": 2,
-      "explicacion": "- Las roturas del tendón de Aquiles suelen ocurrir de 2 a 6 cm proximales a la inserción calcánea.\n- Esta región se conoce como 'zona crítica' debido a su hipovascularización relativa, lo que la hace susceptible a cambios degenerativos hipóxicos (isquemia) y posterior rotura durante maniobras de tracción repentina, típicas en actividades deportivas.\n- La ecografía muestra un defecto hipoecoico que interrumpe la continuidad del tendón.",
+      "explicacion": "- **Hallazgos:** pérdida de la arquitectura fibrilar normal del tendón de Aquiles, con un defecto hipoecoico transtendinoso y líquido alrededor: rotura.\n- Las roturas del tendón de Aquiles suelen ocurrir de 2 a 6 cm proximales a la inserción calcánea.\n- Esta región se conoce como 'zona crítica' debido a su hipovascularización relativa, lo que la hace susceptible a cambios degenerativos hipóxicos (isquemia) y posterior rotura durante maniobras de tracción repentina, típicas en actividades deportivas.",
       "perla": "La porción del tendón de Aquiles situada a 2-6 cm por encima del calcáneo (zona crítica) presenta una relativa hipovascularización, siendo el sitio más común de roturas agudas.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Rotura del Aquiles en la zona crítica a 2-6 cm de la inserción: dato anatómico elemental de lesión común (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6359,7 +6850,7 @@
         "tendones peroneos"
       ],
       "tipo": "imagen",
-      "enunciado": "En una resonancia magnética de tobillo realizada por otros motivos, las imágenes axiales revelan un vientre muscular accesorio situado de forma medial y posterior al tendón peroneo corto a nivel del maléolo lateral. ¿Cuál es el músculo accesorio más probable descrito en este hallazgo incidental?",
+      "enunciado": "RM de tobillo hecha por otro motivo. Imagen axial a nivel del maléolo lateral. ¿Cuál es el músculo accesorio más probable?",
       "imagenes": [
         {
           "ref": "case099",
@@ -6374,8 +6865,13 @@
         "Músculo plantar delgado"
       ],
       "correcta": 1,
-      "explicacion": "- El peroneus quartus es el músculo accesorio peroneo más reportado, con una incidencia estimada de 13 a 26%.\n- Se origina a nivel del peroné distal lateral y desciende medial y posterior a los tendones peroneos corto y largo, insertándose frecuentemente en la eminencia retrotroclear del calcáneo.\n- Generalmente es asintomático, aunque a veces puede provocar dolor, tenosinovitis o desgarros por compresión y falta de espacio en el compartimento lateral.",
+      "explicacion": "- **Hallazgos:** vientre muscular accesorio medial y posterior al tendón del peroneo corto, a nivel del maléolo lateral.\n- El peroneus quartus es el músculo accesorio peroneo más reportado, con una incidencia estimada de 13 a 26%.\n- Se origina a nivel del peroné distal lateral y desciende medial y posterior a los tendones peroneos corto y largo, insertándose frecuentemente en la eminencia retrotroclear del calcáneo.\n- Generalmente es asintomático, aunque a veces puede provocar dolor, tenosinovitis o desgarros por compresión y falta de espacio en el compartimento lateral.",
       "perla": "El peroneus quartus, visualizado típicamente posterior y medial al peroneo corto, es un hallazgo incidental frecuente en RM de tobillo que en ocasiones puede simular un desgarro del peroneo corto.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Peroneus quartus: músculo accesorio que puede simular desgarro del peroneo corto, anatomía variante (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",
@@ -6401,7 +6897,7 @@
         "osificación"
       ],
       "tipo": "imagen",
-      "enunciado": "Paciente con antecedente de traumatismo de rodilla antiguo acude por sospecha de alteración interna. La RM sagital (sensible a la grasa) muestra una estructura redondeada hiperintensa englobada dentro del cuerno posterior del menisco medial. La radiografía lateral revela una densidad ósea triangular superpuesta en la ubicación esperada del menisco medial. ¿Cuál es la entidad descrita?",
+      "enunciado": "Un paciente con un traumatismo de rodilla antiguo consulta por sospecha de alteración interna. Se muestran la RM sagital y la radiografía lateral. ¿Cuál es la entidad?",
       "imagenes": [
         {
           "ref": "case100",
@@ -6416,8 +6912,13 @@
         "Avulsión de la espina tibial"
       ],
       "correcta": 2,
-      "explicacion": "- El osículo meniscal representa formación ósea dentro del tejido meniscal, típicamente en el cuerno posterior del menisco medial.\n- A menudo se asocia con disrupción de la raíz del menisco medial posterior y antecedente de trauma.\n- La RM es fundamental para identificar la presencia de grasa/médula ósea en su interior (hiperintenso en T1 u otras secuencias que no suprimen la grasa) y para confirmar que la osificación está contenida *dentro* de la sustancia meniscal.\n- Los cuerpos libres intraarticulares suelen ubicarse adyacentes a los cuernos meniscales, no dentro de ellos.",
+      "explicacion": "- **Hallazgos:** estructura redondeada, hiperintensa en la secuencia sensible a la grasa, englobada en el cuerno posterior del menisco medial; en la radiografía, una densidad ósea triangular en la ubicación del menisco medial.\n- El osículo meniscal representa formación ósea dentro del tejido meniscal, típicamente en el cuerno posterior del menisco medial.\n- A menudo se asocia con disrupción de la raíz del menisco medial posterior y antecedente de trauma.\n- La RM es fundamental para identificar la presencia de grasa/médula ósea en su interior (hiperintenso en T1 u otras secuencias que no suprimen la grasa) y para confirmar que la osificación está contenida *dentro* de la sustancia meniscal.",
       "perla": "El osículo meniscal se localiza típicamente dentro del cuerno posterior del menisco medial y contiene médula ósea, lo que permite distinguirlo de un cuerpo libre extra-meniscal mediante secuencias de RM sensibles a la grasa.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Osículo meniscal: entidad poco frecuente, diferencial con cuerpo libre y condrocalcinosis (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "gunderman2010",

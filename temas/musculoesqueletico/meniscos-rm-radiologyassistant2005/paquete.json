@@ -8,7 +8,7 @@
     "RM"
   ],
   "idioma": "es",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -698,6 +698,11 @@
       "correcta": 0,
       "explicacion": "- En el menisco **medial**, el cuerno posterior es siempre mayor que el anterior; ambos cuernos son triangulares y de punta aguda.\n- En el menisco **lateral**, los dos cuernos tienen más o menos el mismo tamaño.\n- Si el medial no cumple esa relación, la forma es anormal: puede ser una rotura o una meniscectomía parcial.",
       "perla": "Un cuerno posterior medial que no es mayor que el anterior es una forma anormal: rotura o meniscectomía parcial.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Anatomía normal: el cuerno posterior medial mayor que el anterior y cuernos laterales similares (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -752,6 +757,11 @@
       "correcta": 3,
       "explicacion": "- La raíz posterior del menisco medial está **inmediatamente por delante del ligamento cruzado posterior**.\n- Si no se ve ahí en los cortes sagitales, hay una **rotura de la raíz meniscal**.\n- El ligamento intermeniscal (transverso) une los cuernos **anteriores**, no las raíces posteriores.",
       "perla": "Busque la raíz posterior medial justo delante del LCP en sagital: si falta, es una rotura de la raíz.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Anatomía normal: la raíz posterior medial está justo delante del LCP en sagital (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -805,6 +815,11 @@
       "correcta": 1,
       "explicacion": "- Por detrás, el menisco lateral **sube alto sobre la espina tibial** para insertarse cerca del LCP.\n- Esa posición ascendente **puede ser** la causa de que el cuerno posterior tenga señal más alta en todos los planos, por **efecto de ángulo mágico**.",
       "perla": "La señal algo más alta del cuerno posterior lateral puede ser ángulo mágico, por su trayecto ascendente.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Artefacto de ángulo mágico en el cuerno posterior lateral: técnica y trampa de interpretación de ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -849,6 +864,11 @@
       "correcta": 4,
       "explicacion": "- Los dos criterios más importantes son la **forma anormal** del menisco y la **señal alta que contacta inequívocamente la superficie** en imágenes DP.\n- Es un error pensar que el menisco tiene que ser homogéneamente negro en DP: la señal interna que no llega a la superficie no es rotura.\n- Si hay duda de que la señal toque la superficie, se miran los cortes vecinos; si la duda persiste, no se diagnostica rotura.",
       "perla": "Si duda de que la señal toque la superficie tras mirar los cortes vecinos, informe el menisco como normal.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Criterios básicos de rotura meniscal (forma anormal y señal que toca la superficie en DP): ETC I temprano",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -903,6 +923,11 @@
       "correcta": 2,
       "explicacion": "- La señal alta **no contacta inequívocamente la superficie**; solo hay una línea negra fina en el borde inferior.\n- Sin ese contacto inequívoco no se diagnostica rotura: en la artroscopia el menisco era **normal**.\n- Ante la duda, mirar los cortes vecinos; si sigue la duda, informar el menisco como normal.",
       "perla": "Señal que no toca sin duda la superficie no es rotura: ante la duda, menisco normal.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Señal intrameniscal que no toca sin duda la superficie: aplicar el criterio y evitar el falso positivo que la fuente señala (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -952,6 +977,11 @@
       "correcta": 0,
       "explicacion": "- El dibujo de la izquierda muestra una rotura **paralela al eje largo** del menisco, que lo divide en una parte interna y otra externa: es **longitudinal**.\n- Las tres formas básicas son longitudinal, horizontal y radial; las complejas combinan varias.",
       "perla": "Tres formas básicas —longitudinal, horizontal y radial—; las complejas las combinan.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Esquema de rotura longitudinal: forma básica de rotura meniscal, reconocimiento de vista (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1001,6 +1031,11 @@
       "correcta": 1,
       "explicacion": "- La rotura del dibujo central divide el menisco en una parte **superior** y otra **inferior** (como un pan pita): es **horizontal**.\n- Si llega desde el ápex hasta el borde externo, puede formar un **quiste meniscal**.",
       "perla": "La rotura horizontal parte el menisco en arriba y abajo, y es la que da quistes meniscales.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Esquema de rotura horizontal: forma básica de rotura meniscal, reconocimiento de vista (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1050,6 +1085,11 @@
       "correcta": 2,
       "explicacion": "- La rotura del dibujo de la derecha es **perpendicular al eje largo** del menisco y nace en el borde interno: es **radial**.\n- Rompe los haces de colágeno paralelos al eje largo: son roturas de **alta energía**.",
       "perla": "La rotura radial corta los haces de colágeno, empieza en el borde interno y es de alta energía.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Esquema de rotura radial: forma básica de rotura meniscal, reconocimiento de vista (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1104,6 +1144,11 @@
       "correcta": 0,
       "explicacion": "- El dibujo de la izquierda muestra la parte interna del menisco separada y desplazada: rotura en **asa de cubo**.\n- El asa de cubo es una **rotura longitudinal desplazada**.",
       "perla": "Asa de cubo = longitudinal desplazada; colgajo = horizontal desplazada; pico de loro = radial desplazada.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Esquema de asa de cubo: rotura desplazada clásica y la más conocida, reconocimiento de vista (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1153,6 +1198,11 @@
       "correcta": 1,
       "explicacion": "- El dibujo central muestra una hoja del menisco levantada y desplazada: rotura en **colgajo** (*flap*).\n- El colgajo es una **rotura horizontal desplazada**.",
       "perla": "Colgajo = rotura horizontal desplazada.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Esquema de rotura en colgajo (horizontal desplazada): tipo de rotura desplazada menos conocido que el asa de cubo (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1202,6 +1252,11 @@
       "correcta": 2,
       "explicacion": "- El dibujo de la derecha muestra un fragmento del borde interno levantado en forma de pico: rotura en **pico de loro**.\n- El pico de loro es una **rotura radial desplazada**.",
       "perla": "Pico de loro = rotura radial desplazada.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Esquema de rotura en pico de loro (radial desplazada): tipo de rotura desplazada menos conocido (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1250,6 +1305,11 @@
       "correcta": 3,
       "explicacion": "- La rotura longitudinal es paralela al eje largo y divide el menisco en una parte interna y otra externa.\n- Por eso la distancia entre la rotura y el borde externo es **siempre la misma**, y la rotura **nunca toca el borde interno**.\n- Sigue los haces de colágeno; si tiene otros componentes (horizontal o radial) es una rotura **compleja**, de mayor energía.",
       "perla": "La longitudinal sigue los haces de colágeno: misma distancia al borde externo y nunca toca el borde interno.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Geometría de la rotura longitudinal respecto a los haces de colágeno: concepto que diferencia entre tipos (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1304,6 +1364,11 @@
       "correcta": 1,
       "explicacion": "- El cuerno posterior tiene una **forma anormal: le falta un trozo**.\n- La forma anormal es uno de los dos criterios principales de rotura.\n- En esta rodilla, el trozo que falta está desplazado a la escotadura intercondílea (imagen derecha): rotura en asa de cubo.",
       "perla": "Si a un cuerno le falta un trozo, busque el fragmento desplazado.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Cuerno posterior al que le falta un trozo: forma anormal evidente, criterio básico de rotura (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1353,6 +1418,11 @@
       "correcta": 2,
       "explicacion": "- La flecha señala un **fragmento meniscal desplazado** en la escotadura intercondílea.\n- Con el cuerno posterior incompleto (imagen izquierda), es una rotura en **asa de cubo**: una rotura longitudinal desplazada.",
       "perla": "Cuerno al que le falta un trozo + estructura de más en la escotadura = asa de cubo.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Fragmento desplazado de asa de cubo en la escotadura en sagital: complicación conocida de una rotura común (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1402,6 +1472,11 @@
       "correcta": 2,
       "explicacion": "- El **3** es un **fragmento meniscal desplazado**.\n- Normalmente en la escotadura intercondílea solo hay dos estructuras: los ligamentos cruzados anterior y posterior.\n- Cualquier otra estructura ahí es anormal, y lo más probable es un fragmento meniscal desplazado.",
       "perla": "En coronal, una tercera estructura en la escotadura, además de los dos cruzados, es, lo más probable, un fragmento meniscal desplazado.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Tercera estructura en la escotadura en coronal = fragmento de asa de cubo: signo conocido de rotura común (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1451,6 +1526,11 @@
       "correcta": 0,
       "explicacion": "- El **1** es el **ligamento cruzado posterior**.\n- En la escotadura intercondílea normalmente solo están el LCA y el LCP; aquí hay además un fragmento meniscal desplazado.\n- En coronal, las roturas en asa de cubo son más fáciles de reconocer.",
       "perla": "Normalmente la escotadura solo tiene dos estructuras: el LCA y el LCP.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Identificar el LCP en la escotadura intercondílea en coronal: anatomía normal (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1500,6 +1580,11 @@
       "correcta": 1,
       "explicacion": "- El **2** es el **ligamento cruzado anterior**.\n- En la escotadura normalmente solo están el LCA y el LCP; cualquier otra estructura es anormal.",
       "perla": "En coronal, cuente las estructuras de la escotadura: más de dos obliga a buscar un fragmento meniscal.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Identificar el LCA en la escotadura intercondílea en coronal: anatomía normal (ETC I temprano)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1548,6 +1633,11 @@
       "correcta": 1,
       "explicacion": "- El menisco volteado es una forma de **rotura en asa de cubo**.\n- Hay una desinserción capsular o una rotura periférica, casi siempre del cuerno posterior.\n- El **cuerno posterior se voltea sobre el cuerno anterior**: en sagital falta el posterior porque está encima del anterior.",
       "perla": "Si en sagital falta el cuerno posterior, búsquelo volteado encima del cuerno anterior.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Menisco volteado: variante conocida de asa de cubo, el cuerno posterior encima del anterior (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1602,6 +1692,11 @@
       "correcta": 4,
       "explicacion": "- Es una **rotura horizontal con quiste meniscal**.\n- El líquido sinovial pasa por la rotura horizontal hacia la periferia, se acumula y forma el quiste.\n- Criterios: rotura horizontal, líquido brillante en T2 y forma aplanada contra la periferia del menisco.",
       "perla": "Un quiste meniscal exige rotura horizontal: el cirujano opera por fuera el quiste y por dentro el menisco.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Quiste meniscal con rotura horizontal: complicación conocida de una rotura común, diferencial con quiste de Baker (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1645,6 +1740,11 @@
       "correcta": 2,
       "explicacion": "- Tres criterios: **rotura horizontal**, **acumulación de líquido brillante en T2** y **forma aplanada contra la periferia** del menisco.\n- La comunicación con la articulación suele perderse: por eso no se llenan de contraste en la artro-RM.\n- Importa al cirujano: hace falta una operación por fuera de la rodilla para el quiste y otra por dentro para el menisco.",
       "perla": "Quiste meniscal = rotura horizontal + líquido en T2 + forma aplanada en la periferia.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Tres criterios del quiste meniscal en RM: complicación conocida de rotura común con implicancia quirúrgica (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1704,6 +1804,11 @@
       "correcta": 0,
       "explicacion": "- La flecha señala un **triángulo sin punta**: al cuerno le falta el vértice.\n- En la imagen derecha hay un **corbatín interrumpido**.\n- Un triángulo sin punta en un plano y un corbatín interrumpido en el otro son diagnósticos de **rotura radial**.",
       "perla": "Rotura radial: triángulo sin punta en un plano + corbatín interrumpido en el otro.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Triángulo sin punta de la rotura radial: signo conocido que hay que buscar (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1753,6 +1858,11 @@
       "correcta": 1,
       "explicacion": "- La flecha señala un **corbatín interrumpido**.\n- Las roturas radiales son difíciles de ver: hay que combinar los hallazgos de los cortes sagitales y coronales.\n- En las roturas radiales pequeñas, a veces el corbatín interrumpido es el único signo.",
       "perla": "En una rotura radial pequeña, el corbatín interrumpido puede ser el único signo.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Corbatín interrumpido: la fuente dice que las radiales son difíciles y a veces es el único signo; hallazgo sutil (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1807,6 +1917,11 @@
       "correcta": 2,
       "explicacion": "- La flecha señala un **menisco ausente o vacío**.\n- Aparece cuando el corte sagital cae justo a lo largo de una **rotura radial completa**: las partes se separan y parece que falta menisco.\n- No hay fragmento desplazado: solo se separan las partes del menisco.",
       "perla": "Menisco ausente sin fragmento desplazado: piense en una rotura radial completa cortada a lo largo.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Menisco ausente o vacío por rotura radial completa cortada a lo largo: signo sutil, fácil de confundir con fragmento desplazado (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1860,6 +1975,11 @@
       "correcta": 4,
       "explicacion": "- El corte axial muestra una **rotura radial completa** que deja un defecto en el menisco.\n- Las roturas radiales completas se abren y dan la impresión de que falta una parte, pero no hay fragmento desplazado.",
       "perla": "En axial, la rotura radial completa se ve como un defecto que corta el menisco de lado a lado.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Rotura radial completa en corte axial: defecto visible pero en plano menos habitual para el menisco (ETC I)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1909,6 +2029,11 @@
       "correcta": 2,
       "explicacion": "- Las flechas señalan un **menisco ausente o vacío** junto al ligamento cruzado posterior, donde debería estar la raíz.\n- Normalmente, en el corte del LCP (o el vecino) se ve buena parte del cuerno posterior; si no, es el signo del menisco ausente e indica una rotura radial.",
       "perla": "En el corte sagital del LCP o en el vecino debe verse el cuerno posterior: si no está, busque una rotura de la raíz.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Rotura de raíz por menisco ausente junto al LCP en sagital: hallazgo que puede pasar inadvertido (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -1957,6 +2082,11 @@
       "correcta": 0,
       "explicacion": "- El corte coronal **confirma la rotura de la raíz meniscal** que se sospechaba en sagital.\n- La rotura de la raíz es una **rotura radial situada en la raíz meniscal**.",
       "perla": "Rotura de la raíz = rotura radial en la raíz: se sospecha en sagital y se confirma en coronal.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Confirmar la rotura de la raíz posterior en coronal: diagnóstico de raíz con implicancia de manejo (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -2006,6 +2136,11 @@
       "correcta": 3,
       "explicacion": "- Tras una sutura, la cicatriz también da **señal alta en DP**: la señal en DP ya no es fiable.\n- Si además hay **señal alta en T2** (líquido sinovial que entra en la rotura), se puede diagnosticar una rotura; es un hallazgo poco frecuente.\n- Tras una meniscectomía parcial, la forma anormal tampoco es fiable: hay que saber qué se operó y comparar con estudios previos.",
       "perla": "En el menisco suturado, la señal en DP no sirve: solo la señal alta en T2 permite diagnosticar rotura.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Menisco suturado: solo la señal alta en T2 permite diagnosticar rotura; la fuente lo llama hallazgo poco frecuente (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -2054,6 +2189,11 @@
       "correcta": 1,
       "explicacion": "- En esos casos ayuda la **artro-RM con 40 cc de gadolinio diluido**.\n- Incluso poco gadolinio que entra en una rotura se ve bien en **T1 con supresión grasa**.\n- Comparar con los estudios posoperatorios previos también ayuda a reconocer una rotura nueva.",
       "perla": "Si la RM no distingue cicatriz de rotura nueva en un menisco operado, pida una artro-RM.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Artro-RM con gadolinio diluido para el menisco operado: decisión de técnica en posoperatorio (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -2103,6 +2243,11 @@
       "correcta": 1,
       "explicacion": "- La flecha amarilla señala una **rotura nueva**, que no estaba en el estudio anterior.\n- Comparar con los estudios previos sirvió para diagnosticarla.\n- En cambio, en este estudio **no se puede saber si la rotura antigua cicatrizó**.",
       "perla": "En el menisco operado, compare siempre con el estudio previo: así se reconoce una rotura nueva.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Rotura nueva en menisco operado reconocida por comparación con el estudio previo: posoperatorio (ETC II)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -2152,6 +2297,11 @@
       "correcta": 0,
       "explicacion": "- En la rotura **cicatrizada** la señal **no es tan brillante** como el líquido sinovial: es lo que señala la flecha azul.\n- En la rotura nueva, en cambio, la señal es tan brillante como el líquido sinovial.\n- La artro-RM mostró que la rotura antigua había cicatrizado.",
       "perla": "En artro-RM, rotura con señal tan brillante como el líquido = nueva; menos brillante = cicatrizada.",
+      "dificultad": {
+        "nivel": 4,
+        "motivo": "Rotura antigua cicatrizada en artro-RM, señal menos brillante que el líquido: distinción sutil propia de subespecialidad (ETC III)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",
@@ -2201,6 +2351,11 @@
       "correcta": 1,
       "explicacion": "- En la rotura **nueva** la señal es **tan brillante como el líquido sinovial** (la otra flecha amarilla señala el líquido).\n- En la rotura cicatrizada, la señal no es tan brillante.",
       "perla": "Gadolinio tan brillante como el líquido dentro del menisco operado = rotura nueva.",
+      "dificultad": {
+        "nivel": 4,
+        "motivo": "Rotura nueva en artro-RM posoperatoria, señal igual al líquido frente a cicatriz: criterio de subespecialidad (ETC III)",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "rubin2005",

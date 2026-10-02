@@ -8,7 +8,7 @@
     "RM"
   ],
   "idioma": "es",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -49,7 +49,8 @@
       "modificaciones": [
         "comprimida"
       ],
-      "notas": "Tabla completa (texto de protocolo, fotos de la bobina y del folio graduado, localizadores). Extraída entera del PDF en español: no se recortan sus columnas. Los números del folio graduado también aparecen cortados en el original. Contiene respuestas de atm-01 a atm-03: mostrar solo en la respuesta."
+      "notas": "Tabla completa (texto de protocolo, fotos de la bobina y del folio graduado, localizadores). Extraída entera del PDF en español: no se recortan sus columnas. Los números del folio graduado también aparecen cortados en el original. Contiene respuestas de atm-01 a atm-03: mostrar solo en la respuesta.",
+      "drive": "1IUrim8s8qJ9y3IohR8XbQk2agJsayhNO"
     },
     "fig01": {
       "archivo": "fig01.jpg",
@@ -125,7 +126,8 @@
         }
       ],
       "modificaciones": [],
-      "notas": "Bajo cada panel hay un esquema dibujado con los mismos números. La leyenda no indica secuencias."
+      "notas": "Bajo cada panel hay un esquema dibujado con los mismos números. La leyenda no indica secuencias.",
+      "drive": "1DXB7Cq1GPj5bKhlMtDsJqo4ZBTQbs83f"
     },
     "fig02": {
       "archivo": "fig02.jpg",
@@ -157,7 +159,8 @@
         }
       ],
       "modificaciones": [],
-      "notas": "Cada panel trae un recuadro con el localizador."
+      "notas": "Cada panel trae un recuadro con el localizador.",
+      "drive": "1UWTZdJBpQNjVOKezxGDa1t8rvS0fNFBn"
     },
     "fig03": {
       "archivo": "fig03.jpg",
@@ -188,7 +191,8 @@
           "senala": "disco: desplazado hacia anterior en A, en posición normal en B"
         }
       ],
-      "modificaciones": []
+      "modificaciones": [],
+      "drive": "140z9sV6s3wFbXiOmA5DoXSwtxJFDvkaF"
     },
     "fig04": {
       "archivo": "fig04.jpg",
@@ -219,7 +223,8 @@
           "senala": "disco desplazado hacia medial"
         }
       ],
-      "modificaciones": []
+      "modificaciones": [],
+      "drive": "1AvoZ6vcMdL41H1mHrAUXQz-Hp4luZwla"
     },
     "fig05": {
       "archivo": "fig05.jpg",
@@ -255,7 +260,8 @@
           "senala": "disco desplazado hacia lateral"
         }
       ],
-      "modificaciones": []
+      "modificaciones": [],
+      "drive": "14TcnHeD7Jqygs4SXOWWfnCdKtEEGSHTp"
     },
     "fig06": {
       "archivo": "fig06.jpg",
@@ -284,7 +290,8 @@
           "senala": "disco: anterior en A, reducido a su posición normal en B"
         }
       ],
-      "modificaciones": []
+      "modificaciones": [],
+      "drive": "12SLB6uoCOpISP5ejPr47_maue8vgXDT8"
     },
     "fig07": {
       "archivo": "fig07.jpg",
@@ -313,7 +320,8 @@
           "senala": "disco desplazado hacia anterior en ambas posiciones"
         }
       ],
-      "modificaciones": []
+      "modificaciones": [],
+      "drive": "1_3r-scVUuKTO3PyVeZtnGlYzJfxMCSc7"
     },
     "fig08": {
       "archivo": "fig08.jpg",
@@ -342,7 +350,8 @@
         }
       ],
       "modificaciones": [],
-      "notas": "La leyenda no indica la secuencia. El piloto decía «T2 con saturación grasa»: confirmar mirando la imagen."
+      "notas": "La leyenda no indica la secuencia. El piloto decía «T2 con saturación grasa»: confirmar mirando la imagen.",
+      "drive": "1Yuwjj3KrHSDnN75Tk75RWflFQW-SUVPK"
     },
     "fig09": {
       "archivo": "fig09.jpg",
@@ -371,7 +380,8 @@
           "senala": "remodelación e irregularidad articular, disminución del espacio articular y osteofitos marginales"
         }
       ],
-      "modificaciones": []
+      "modificaciones": [],
+      "drive": "1dkJKvKTWJJ_QaqLIBLCuXKzZHxrV-vNW"
     },
     "fig10": {
       "archivo": "fig10.jpg",
@@ -394,7 +404,8 @@
           "senala": "cóndilo trasladado por delante de la eminencia articular"
         }
       ],
-      "modificaciones": []
+      "modificaciones": [],
+      "drive": "19gaOuKxPdjyIhAjW2FjVLij4zlB8JNRt"
     },
     "fig11": {
       "archivo": "fig11.jpg",
@@ -428,7 +439,8 @@
           "senala": "cóndilo con traslación limitada"
         }
       ],
-      "modificaciones": []
+      "modificaciones": [],
+      "drive": "1yhrziTP9jWQaHDtxBZQt00C3clOrSVTV"
     },
     "fig12": {
       "archivo": "fig12.jpg",
@@ -453,7 +465,8 @@
         }
       ],
       "modificaciones": [],
-      "notas": "La leyenda no indica el plano; el localizador del recuadro sugiere sagital oblicuo. Confirmar."
+      "notas": "La leyenda no indica el plano; el localizador del recuadro sugiere sagital oblicuo. Confirmar.",
+      "drive": "14GUaBSF5SJsDbbYer0uMC23TqyAm8wLE"
     },
     "fig13": {
       "archivo": "fig13.jpg",
@@ -477,7 +490,8 @@
         }
       ],
       "modificaciones": [],
-      "notas": "La leyenda no indica el plano. El piloto decía «corte sagital», pero la imagen parece coronal. Confirmar."
+      "notas": "La leyenda no indica el plano. El piloto decía «corte sagital», pero la imagen parece coronal. Confirmar.",
+      "drive": "1NWTPLb97nPDKPhpyO1A1801B2bBQQFOd"
     },
     "fig14": {
       "archivo": "fig14.jpg",
@@ -501,7 +515,8 @@
         }
       ],
       "modificaciones": [],
-      "notas": "La leyenda no indica plano ni secuencia."
+      "notas": "La leyenda no indica plano ni secuencia.",
+      "drive": "1Iopea1jLjf-UArgtzqpqQqwkiV7xuHVc"
     },
     "fig15": {
       "archivo": "fig15.jpg",
@@ -540,7 +555,8 @@
           "senala": "edema retrodiscal"
         }
       ],
-      "modificaciones": []
+      "modificaciones": [],
+      "drive": "15Y_U-UAOToskW2BTGe_Toja19b36qouw"
     },
     "fig16": {
       "archivo": "fig16.jpg",
@@ -569,7 +585,8 @@
         }
       ],
       "modificaciones": [],
-      "notas": "La leyenda dice «asterisco», pero la imagen muestra dos."
+      "notas": "La leyenda dice «asterisco», pero la imagen muestra dos.",
+      "drive": "10EYSYkZ0F0CB6A3etKBC1tJOvlGNEKej"
     }
   },
   "casos": [
@@ -599,6 +616,11 @@
       "correcta": 3,
       "explicacion": "- El estudio dinámico se hace con **DP sagital oblicuo bilateral** en máxima intercuspidación (MIC) y con apertura interincisal de **10, 20, 30 y 40 mm**.\n- Esas aperturas se obtienen de forma incremental con un dispositivo de mordida (folio graduado de la Tabla 1).\n- Ambas ATM se adquieren a la vez con bobinas de superficie, con planos individualizados para cada lado.",
       "perla": "La apertura se mide desde el borde incisal maxilar hasta el borde incisal mandibular.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Detalle técnico del protocolo dinámico de la revisión (aperturas graduadas); RM de ATM es tema ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -646,6 +668,11 @@
       ],
       "correcta": 1,
       "explicacion": "- **Sagital oblicuo:** perpendicular al eje mayor axial del cóndilo mandibular, planificado por separado para cada lado.\n- **Coronal oblicuo:** paralelo al eje mayor del cóndilo; se adquiere en T1 con la boca cerrada.\n- El coronal oblicuo es importante para evaluar los desplazamientos discales mediales o laterales.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Planificación básica del sagital oblicuo perpendicular al cóndilo: técnica elemental del estudio, ETC II introductorio",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -695,6 +722,11 @@
       "correcta": 2,
       "explicacion": "- El estudio habitual **no requiere contraste**.\n- El gadolinio (T1 TSE post-Gd con supresión grasa) se reserva para la sospecha de patología inflamatoria de causa reumatológica, infecciosa o neoplásica.\n- En la patología inflamatoria, el contraste es fundamental para **diferenciar derrame de sinovitis**.",
       "perla": "Secuencias base del protocolo: T1 SE coronal oblicuo en MIC, T2 sagital oblicuo con supresión grasa, DP sagital oblicuo con supresión grasa y DP dinámico en MIC y apertura.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Indicación de gadolinio: dato de manejo elemental (solo inflamación, infección o tumor) según la fuente",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -748,6 +780,11 @@
       ],
       "correcta": 0,
       "explicacion": "- El disco tiene una **banda anterior** (3), una **zona intermedia** más delgada (2) y una **banda posterior** (1); por eso en sagital se ve bicóncavo.\n- La banda posterior es triangular y está centrada en el ápex del cóndilo.\n- Con la boca cerrada, la banda posterior debe cubrir la porción más superior del cóndilo, **a las 12 horas** en sagital (Fig. 1B).",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Anatomía normal del disco (banda posterior): reconocer anatomía, pero de una articulación de nicho, ETC I-II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -801,6 +838,11 @@
       ],
       "correcta": 1,
       "explicacion": "- Por detrás de la banda posterior está la **zona retrodiscal**, con un componente superior (4) y otro inferior (6), y tejido conectivo laxo con vasos y nervios entre ambos (5).\n- Estas estructuras se mezclan con la cápsula articular y el hueso temporal.\n- La **rotura de las capas retrodiscales** es uno de los signos que pueden sugerir un trastorno temporomandibular (TTM).",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Anatomía detallada de la zona retrodiscal (capas superior, inferior y tejido neurovascular), ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -854,6 +896,11 @@
       ],
       "correcta": 0,
       "explicacion": "- El número 8 es el **tendón del músculo pterigoideo lateral**.\n- La banda anterior del disco se continúa con la cápsula articular y con el pterigoideo lateral, que forman las uniones anteriores del disco.\n- El pterigoideo lateral contribuye a la **apertura** bucal; el pterigoideo medial, el masetero y el temporal, a la oclusión.\n- El aumento del grosor de la inserción del pterigoideo lateral es uno de los signos que pueden sugerir TTM.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Anatomía y función del pterigoideo lateral en la RM normal: reconocimiento anatómico, ETC I-II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -912,6 +959,11 @@
       ],
       "correcta": 2,
       "explicacion": "- En DP sagital oblicuo el disco es **bicóncavo y de baja señal homogénea**; por detrás, la zona retrodiscal tiene señal intermedia.\n- En ocasiones la banda posterior puede ser levemente hiperintensa.\n- En coronal el disco tiene forma de **semiluna** y no debe sobrepasar los límites de la cápsula articular (Fig. 1A).",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Señal y forma del disco normal en sagital y coronal: anatomía de la RM normal de ATM, ETC I-II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -960,6 +1012,11 @@
       ],
       "correcta": 2,
       "explicacion": "- La apertura tiene dos componentes: primero el cóndilo **rota** y luego se **traslada hacia anterior**.\n- Durante la traslación, el disco queda entre el cóndilo y la eminencia articular, en contacto completo con la **zona intermedia** (Fig. 1C).\n- Con la boca cerrada, la zona intermedia está entre la convexidad posterior del tubérculo articular y la convexidad anterosuperior del cóndilo.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Biomecánica normal de la apertura (rotación y traslación): concepto anatómico básico de la ATM, ETC I-II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1008,6 +1065,11 @@
       "correcta": 4,
       "explicacion": "- La flecha muestra el disco **por delante del cóndilo en los cortes laterales y mediales**: desplazamiento anterior completo.\n- En el desplazamiento parcial, solo un segmento del disco está por delante del cóndilo.\n- Los desplazamientos más frecuentes son el anterior completo y el anterolateral, parcial o completo.",
       "perla": "El desplazamiento discal se evalúa con la boca cerrada, en cortes sagitales y coronales oblicuos.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Desplazamiento discal anterior completo: hallazgo más frecuente en TTM según la fuente; reconocimiento típico",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1060,6 +1122,11 @@
       ],
       "correcta": 3,
       "explicacion": "- En el corte lateral (A) el disco está por delante del cóndilo; en el medial (B) está en posición normal.\n- Si solo un segmento del disco está por delante del cóndilo, el desplazamiento es **parcial**.\n- Se reconoce comparando los cortes laterales con los mediales.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Desplazamiento parcial: clasificación fina que exige comparar cortes laterales y mediales, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1102,6 +1169,11 @@
       ],
       "correcta": 1,
       "explicacion": "- En coronal (A) el disco está **medial a la cabeza del cóndilo**, y aparece en el corte sagital adquirido medial al cóndilo (B).\n- El coronal oblicuo, paralelo al eje mayor del cóndilo, es importante para evaluar los desplazamientos discales mediales o laterales.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Desplazamiento discal medial: variante menos frecuente que exige el coronal oblicuo, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1144,6 +1216,11 @@
       ],
       "correcta": 2,
       "explicacion": "- En coronal (A) el disco sobresale **lateral** al cóndilo, y aparece en el corte sagital adquirido lateral a la cabeza condilar (B).\n- En coronal, el disco normal tiene forma de semiluna y no debe sobrepasar los límites de la cápsula articular.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Desplazamiento discal lateral: variante menos frecuente, diferencial con medial en coronal, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1186,6 +1263,11 @@
       ],
       "correcta": 0,
       "explicacion": "- En máxima intercuspidación el disco está por delante del cóndilo; con la apertura vuelve a quedar entre las superficies articulares: **con reducción**.\n- La clasificación con o sin reducción depende del comportamiento del disco durante la **apertura bucal**.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Desplazamiento con reducción: clasificación central de los TTM por la dinámica de apertura, ETC I-II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1228,6 +1310,11 @@
       ],
       "correcta": 3,
       "explicacion": "- El disco sigue **por delante del cóndilo en máxima intercuspidación y en boca abierta**; la relación cóndilo-disco no se restablece.\n- En el desplazamiento con reducción, en cambio, el disco vuelve a su posición con la apertura.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Desplazamiento sin reducción: clasificación central de los TTM por la dinámica de apertura, ETC I-II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1265,7 +1352,13 @@
         "Puede verse en asintomáticos; hay que buscar otros signos de TTM"
       ],
       "correcta": 4,
+      "requiere_opciones": true,
       "explicacion": "- Las lesiones del disco son la causa más frecuente de TTM y el hallazgo más común en RM: hasta un **70 %** de los pacientes.\n- Sin embargo, hasta un **34 % de la población asintomática** tiene un disco desplazado.\n- Por eso hay que buscar otros signos de TTM: **derrame articular, rotura de las capas retrodiscales o aumento del grosor de la inserción del pterigoideo lateral**.\n- Los TTM afectan al 5-12 % de la población, con mayor prevalencia en mujeres.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Relevancia clínica del desplazamiento: hasta 34 % de asintomáticos lo tienen según la fuente; matiz interpretativo, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1319,6 +1412,11 @@
       ],
       "correcta": 0,
       "explicacion": "- Asterisco: **disco aplanado** (alteración morfológica). Flecha: **derrame articular**.\n- El derrame es una acumulación patológica de líquido en los espacios articulares, asociada a un proceso inflamatorio; se evalúa mejor en **T2 con supresión grasa**.\n- Es frecuente en pacientes con dolor articular.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Derrame articular y disco aplanado: hallazgos frecuentes en dolor articular según la fuente, ETC I-II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1367,6 +1465,11 @@
       ],
       "correcta": 2,
       "explicacion": "- Flecha continua: **disco redondeado**. Círculo: **edema subcondral**. Flecha punteada: **edema retrodiscal**. Además hay osteoartritis degenerativa con marcada irregularidad de la cabeza condilar.\n- La morfología discal se evalúa con la boca cerrada, en el plano sagital; el disco normal es bicóncavo.\n- Deformaciones posibles: aplanamiento uniforme, banda posterior aplanada, plegamiento, engrosamiento de la banda posterior y forma biconvexa o redondeada.\n- El tipo de deformación se relaciona con el grado de desplazamiento del disco y con la evolución.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Deformación discal redondeada con edema subcondral y retrodiscal: lectura detallada de morfología, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1420,6 +1523,11 @@
       "correcta": 0,
       "explicacion": "- Remodelación e irregularidad de la superficie articular, **disminución del espacio articular** y **osteofitos marginales** (círculo).\n- Otros hallazgos de artrosis: aplanamiento, erosiones, quistes y esclerosis subcondral.\n- Es la vía final común de cualquier lesión de la ATM; los desplazamientos discales pueden ser precursores.",
       "perla": "Si hay compromiso erosivo del disco, descartar la enfermedad por depósito de pirofosfato de calcio dihidrato, que produce una artrosis desmesurada para la edad.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Artrosis de ATM: entidad común con hallazgos típicos (osteofitos, pinzamiento), ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1473,6 +1581,11 @@
       ],
       "correcta": 0,
       "explicacion": "- La revisión indica descartar la **enfermedad por depósito de pirofosfato de calcio dihidrato** cuando hay compromiso erosivo del disco, porque genera una artrosis desmesurada para la edad del paciente.\n- La artrosis de ATM predomina en personas mayores, pero también puede verse en jóvenes, que suelen tener una clínica más sintomática.",
+      "dificultad": {
+        "nivel": 4,
+        "motivo": "Sospecha de CPPD ante artrosis erosiva desmesurada: dato de nicho que solo trae la literatura especializada, ETC III",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1511,6 +1624,11 @@
       ],
       "correcta": 1,
       "explicacion": "- La **TC** es de elección para la patología ósea: cambios degenerativos (erosiones, osteofitos), puentes óseos que anquilosan la articulación, remodelamiento y esclerosis subcortical, sospecha de trauma o dudas del componente óseo en la RM.\n- La **RM** es el examen de mayor rendimiento en los TTM: da información anatómica y funcional del hueso y las partes blandas, principalmente del disco.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Elección de TC para patología ósea frente a RM para el disco: dato elemental de técnica, ETC I",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1553,6 +1671,11 @@
       ],
       "correcta": 2,
       "explicacion": "- **Hipermovilidad:** en la apertura, el cóndilo se traslada más allá de la inserción anterior de la cápsula y queda **por delante del tubérculo articular**.\n- Si sobrepasa ese límite, puede quedar atrapado por delante de la eminencia y producir un **bloqueo mandibular**, sin poder volver a su posición normal.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Hipermovilidad condilar con riesgo de bloqueo: hallazgo evidente en boca abierta y complicación conocida, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1595,6 +1718,11 @@
       ],
       "correcta": 1,
       "explicacion": "- Hay desplazamiento anterior con deformación discal y **metaplasia fibrosa de la zona retrodiscal** (flecha), con atascamiento del disco que **limita la traslación condilar** (círculo).\n- **Hipomovilidad:** el cóndilo no alcanza el ápice del tubérculo articular.\n- Causas: atascamiento del disco por fibrosis retrodiscal, fractura del cóndilo, procesos infecciosos o inflamatorios, infiltración neoplásica de la musculatura masticatoria y degeneración avanzada.\n- El dolor articular también favorece la hipomovilidad.",
+      "dificultad": {
+        "nivel": 4,
+        "motivo": "Disco atascado con fibrosis retrodiscal e hipomovilidad: signo sutil y concepto de subespecialidad, ETC III",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1647,6 +1775,11 @@
       ],
       "correcta": 2,
       "explicacion": "- El cóndilo derecho tiene **menor desarrollo**, con fenómenos degenerativos (círculo).\n- Las alteraciones del desarrollo (aplasia, hipoplasia, hiperplasia y cóndilo bífido) se sospechan ante alteraciones de la simetría facial, que pueden ser progresivas.\n- Pueden asociarse a anomalías del conducto auditivo externo o del oído medio.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Hipoplasia condilar: alteración del desarrollo poco frecuente, sospechada por asimetría facial, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1689,6 +1822,11 @@
       ],
       "correcta": 4,
       "explicacion": "- **Cóndilo bífido:** morfología bífida de la cabeza condilar (flecha).\n- Es una de las alteraciones del desarrollo de la ATM, junto con la aplasia, la hipoplasia y la hiperplasia condilar; se sospechan ante alteraciones de la simetría facial.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Cóndilo bífido: entidad rara pero evidente de vista; alteración del desarrollo, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1731,6 +1869,11 @@
       ],
       "correcta": 4,
       "explicacion": "- **Expansión del espacio articular** con **múltiples cuerpos libres de baja señal** (círculo).\n- Trastorno poco frecuente: un proceso condrometaplásico de remanentes mesenquimales de la sinovial forma cuerpos cartilaginosos dentro del espacio articular.\n- Suele ser unilateral y con síntomas inespecíficos, parecidos a los de otros TTM.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Condromatosis sinovial de ATM: la fuente la llama trastorno poco frecuente; cuerpos libres típicos, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1779,6 +1922,11 @@
       ],
       "correcta": 1,
       "explicacion": "- **Osteítis:** hiperseñal de la médula ósea del cóndilo (comparar con el ángulo mandibular).\n- **Erosión** de la cabeza condilar (flecha) y **engrosamiento y realce sinovial** (asteriscos).\n- La patología inflamatoria más común de la ATM es la artritis reumatoide; le siguen la artritis idiopática juvenil, el depósito de pirofosfato de calcio, la artritis séptica, la espondilitis anquilosante y la artritis psoriásica.\n- El contraste es fundamental para diferenciar el derrame sinovial de la sinovitis.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Artritis idiopática juvenil en ATM: integrar osteítis, erosión y sinovitis con contraste; ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",
@@ -1821,6 +1969,11 @@
       ],
       "correcta": 0,
       "explicacion": "1. **Disco y sus uniones:** localización, morfología y desplazamiento; zona retrodiscal.\n2. **Espacio articular:** amplitud, derrame, anormalidades sinoviales y capsulares, cuerpos libres.\n3. **Hueso:** morfología condilar y temporal, señal de la médula ósea, lesiones traumáticas o tumorales.\n4. **Espacio masticatorio:** morfología, señal y grosor del músculo pterigoideo lateral.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Sistemática de lectura en cuatro etapas propia de la revisión: dato de la fuente especializada, ETC II",
+        "por": "ia"
+      },
       "evidencia": [
         {
           "fuente": "lopezramirez2024",

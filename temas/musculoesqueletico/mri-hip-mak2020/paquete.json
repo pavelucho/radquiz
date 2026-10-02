@@ -1,0 +1,3769 @@
+{
+  "$schema": "../../../schema/paquete.schema.json",
+  "id": "mri-hip-mak2020",
+  "titulo": "Magnetic resonance imaging of the hip: anatomy and pathology",
+  "descripcion": "Cuestionario de RM de cadera",
+  "segmento": "musculoesqueletico",
+  "modalidades": [
+    "RM"
+  ],
+  "idioma": "es",
+  "version": "0.2.0",
+  "personas": {
+    "pluna": "Pavel Luna"
+  },
+  "imagenes": {
+    "fig01": {
+      "archivo": "fig01.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 1",
+      "leyenda_original": "Figure 1.  Normal anatomy of the hip on magnetic resonance arthrogram  (MRA). Coronal T1-weighted, fat-saturated MRA image of the hip demon- strating the zona orbicularis (ZO), transverse ligament (TL), ligamentum  teres (LT), and peri-labral sulcus (PS). The articular cartilage (AC) of the  acetabulum is seen to be continuous with the labrum",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T1",
+          "condicion": "supresión grasa"
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1IJhKpN8XecOBuZhTQR7b6_NvVAIejSG_"
+    },
+    "fig02": {
+      "archivo": "fig02.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 2",
+      "leyenda_original": "Figure 2.  Normal anatomy of the hip on magnetic resonance arthrogram  (MRA). Coronal T1W MRA image demonstrating homogeneous high T1 bone  marrow signal. A normal low signal triangular acetabular labrum is seen  (arrow)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T1",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1znsCOa8pP248vZj7bcMcNo1YYAAPqzut"
+    },
+    "fig03": {
+      "archivo": "fig03.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 3",
+      "leyenda_original": "Figure 3.  Normal anatomy of the hip on sagittal T1W fat-saturated magnetic resonance arthrogram images.  A)  The transverse acetabular ligament denotes  the 6:00 position of the clock face, with the 3:00 position denoting the anterior midline aspect of the joint.  B)  Supraacetabular notch (arrow).  C)  Perilabral  recess anterior to the intact labrum (short arrow)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha corta",
+          "panel": "C",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1_2hd1q_PW8yxy9ijYUlTMXpXIhyj3NkL"
+    },
+    "fig04": {
+      "archivo": "fig04.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 4",
+      "leyenda_original": "Figure 4.  Normal bony and soft tissue variants on T1W fat-saturated magnetic resonance arthrogram images of the hip that can mimic pathology.  A)  Coro­ nal image shows a supracetabular fossa located at 12:00 (arrow), medially positioned stellate crease (arrowhead), ligamentous plica extending towards  the acetabular attachment of the ligamentum teres (open arrow), and a portion of the pectinofoveal fold (curved arrow).  B)  Axial oblique image shows  normal communication between the hip joint and the iliopsoas bursa (arrows).  C)  Axial oblique image shows normal communication between the hip joint  and the obturator externus bursa (arrows)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "axial",
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": "axial",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "punta de flecha",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha hueca",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha curva",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flechas",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flechas",
+          "panel": "C",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1yEpS3_wPpKU67gpsxkV2wNL-QS2YmAnt"
+    },
+    "fig05": {
+      "archivo": "fig05.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 5",
+      "leyenda_original": "Figure 5.  A)  Schematic diagram of the anterior and posterior capsular ligaments of the hip joint. Anterior hip: iliofemoral (purple) and pubofemoral (green)  ligaments. Posterior: ischiofemoral (green) and posterior iliofemoral (red) ligaments. The position of the zona orbicularis around the base of the femoral  neck is demonstrated (blue).  B)  Schematic diagram of the facets of the greater trochanter. Ant – anterior hip, Lat – lateral hip, and Post – posterior hip",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1_6DuW52i0XTLq3qWiiQwyxE5x1e1u4XT"
+    },
+    "fig06": {
+      "archivo": "fig06.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 6",
+      "leyenda_original": "Figure 6.  Compression type stress fracture at the medial aspect of the left femoral neck base in a 21-year-old runner.  A)  Coronal T1W magnetic resonance  (MR) image demonstrating low T1 signal (arrow) in the medial femoral neck.  B)  Coronal short-tau inversion recovery. MR image demonstrating an incom- plete fracture line perpendicular to the cortex with surrounding high signal bone marrow oedema (arrow)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T1",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "coronal",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "18TFaOJMQL8CjRwOLTjiOFFA0r7cUUiru"
+    },
+    "fig07": {
+      "archivo": "fig07.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 7",
+      "leyenda_original": "Figure 7.  Subchondral insufficiency fracture of the left femoral head.  A)  Coronal T1W magnetic resonance (MR) image demonstrating a band of subchondral  low signal intensity in the weight-bearing portion of the femoral head consistent with a fracture line (arrow).  B)  Coronal short-tau inversion recovery MR  image demonstrating subchondral low signal condensation/fracture line (arrow) with surrounding high signal intensity bone marrow oedema",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T1",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "coronal",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1xFetXKHEPhcMgC78HD_v41M_sXRiRAt8"
+    },
+    "fig08": {
+      "archivo": "fig08.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 8",
+      "leyenda_original": "Figure 8.  Osteonecrosis of the femoral head.  A)  Coronal T1W magnetic resonance (MR) image demonstrating a low/intermediate signal geographic lesion in  the subchondral region of the proximal femoral head surrounded by a low signal intensity rim (long arrow).  B)  Coronal short-tau inversion recovery MR image  demonstrating a geographic lesion of low signal intensity in the proximal aspect of the femoral head with an inner line of high signal on the necrotic side repre- senting reparative granulation tissue of the reactive interface and an outer line of low signal representing sclerosis, described as the “double line” sign (long arrow)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T1",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "coronal",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha larga",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha larga",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1dr-V3labuJWtvtts6kOm2ZH7o_bWmol1"
+    },
+    "fig09": {
+      "archivo": "fig09.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 9",
+      "leyenda_original": "Figure 9.  Osteonecrosis of the right femoral head in a 21-year-old male  treated with steroids for acute lymphoblastic leukaemia. Perfusion T1W  fat-saturated post-contrast coronal magnetic resonance angiogram image  demonstrating increased uptake of contrast in the lateral pillar (arrow),  suggesting a good prognosis",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T1",
+          "condicion": "supresión grasa, contraste"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1XynO4jtUxd8bfvZSI4TdndUTxuEFWP7L"
+    },
+    "fig10": {
+      "archivo": "fig10.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 10",
+      "leyenda_original": "Figure 10.  Osteonecrosis in a 21-year-old male treated with steroids for  acute lymphoblastic leukaemia (the same patient as in Figure 8). Diffu- sion-weighted magnetic resonance imaging of the right hip demonstrating  no restricted diffusion in the proximal femur on the axial apparent diffusion  coefficient map (arrows) indicating a good prognosis",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "axial",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1LF0tpneySNrTw0hiDIVsVz-NCqcr6kQZ"
+    },
+    "fig11": {
+      "archivo": "fig11.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 11",
+      "leyenda_original": "Figure 11.  Transient osteoporosis. Coronal short-tau inversion recovery  magnetic resonance image of the left hip demonstrating extensive bone  marrow oedema in the left femoral head and neck without discrete fracture  line or additional subchondral abnormality",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1SvDu8eCmgunuvOfxykhlb6L6OehBn3sT"
+    },
+    "fig12": {
+      "archivo": "fig12.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 12",
+      "leyenda_original": "Figure 12.  Ligamentum teres tear. Coronal proton density-weighted fat-  saturated magnetic resonance image demonstrating blurring, swelling, and  oedema of the ligamentum teres consistent with tearing (arrow)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "DP",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1Q5ZjFOwU5cpCOyCyEJahpewV1TEPF19Z"
+    },
+    "fig13": {
+      "archivo": "fig13.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 13",
+      "leyenda_original": "Figure 13.  Pathomechanisms of acetabular labral tears.  A)  Hip dysplasia: subluxation of the femoral head results in “inside-out” tears the hypertrophied  labrum from the acetabular rim together with a sleeve of cartilage. Typically, this results in an intrasubstance labral tear.  B)  Impingement: dynamic abutment  of the femur against the acetabular rim as seen with femoroacetabular impingement. Typically, this is results in an intersubstance tear.  C)  Levering out:  femoral torsional abnormality resulting in impingement against the ischium. Typically, this results in an intrasubstance tear",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1dnUOg8zr2b_qOLN6RuGU9B87ExWOIxUh"
+    },
+    "fig14": {
+      "archivo": "fig14.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 14",
+      "leyenda_original": "Figure 14.  Partial intersubstance tear. Coronal T1W fat-saturated magnetic  resonance arthrogram image of the hip demonstrating a contrast-filled par- tial intersubstance tear (arrow) at the chondrolabral junction",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T1",
+          "condicion": "supresión grasa, contraste"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1Sok8bFTBps4PctIRX4heKibTXOJ4cUVw"
+    },
+    "fig15": {
+      "archivo": "fig15.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 15",
+      "leyenda_original": "Figure 15.  Articular cartilage loss, herniation pit and chondrolabral separation on sagittal T1W fat-saturated magnetic resonance arthrogram images.  A)  Note partial-thickness articular cartilage loss at the acetabular margin (long arrow) and a synovial herniation pit (short arrow).  B)  There is an intersub- stance anterior chondrolabral junction tear (arrow)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha larga",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha corta",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1WXruizQwXwYeo7-khLzvxZKUs_kxX01t"
+    },
+    "fig16": {
+      "archivo": "fig16.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 16",
+      "leyenda_original": "Figure 16.  Cam morphology and acetabular labral tear. Coronal T1W fat-  saturated magnetic resonance arthrogram image showing a bone protu- berance at the lateral aspect of the femoral head and neck junction con- sistent with cam morphology (large arrow), and a chondrolabral junction  intersubstance tear (small arrow). Note thinning of the articular cartilage  at the acetabular margin",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T1",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha grande",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha pequeña",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1-QWYtchd8Y5V71GgB17ZSJfEIU6e8lpv"
+    },
+    "fig17": {
+      "archivo": "fig17.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 17",
+      "leyenda_original": "Figure 17.  Developmental hip dysplasia (DDH) with acetabular labral tear.  T1W fat-saturated magnetic resonance arthrogram image demonstrating  DDH with lateral uncovering of the femoral head. There is an “inside out”  intrasubstance labral tear (short arrow), and a small paralabral cyst that  has filled with contrast (long arrow)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": null,
+          "secuencia": "T1",
+          "condicion": "supresión grasa, contraste"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha corta",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha larga",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1jEf6ATo72MwsQHkPiJH0FpENg8NOfooY"
+    },
+    "fig18": {
+      "archivo": "fig18.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 18",
+      "leyenda_original": "Figure 18.  Complex acetabular labral tear with paralabral cyst. Sagittal  proton density fat-saturated magnetic resonance image demonstrating  a lobu­lated multiloculated fluid signal intensity lesion at the anterior aspect  of the hip consistent with a paralabral cyst (short arrows) in association with  a complex labral tear (long arrow)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": "supresión grasa"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas cortas",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha larga",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1PBX27iw0aqo4ub3gtsRV6wjQcd8K0Hs8"
+    },
+    "fig19": {
+      "archivo": "fig19.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 19",
+      "leyenda_original": "Figure 19.  Cartilage loss and labral tear. Sagittal proton density fat-satu- rated magnetic resonance image demonstrating an anterior superior labral  tear (short arrow) with > 50% articular cartilage loss at the acetabular  margin (long arrow) and subjacent high signal consistent with subarticular  stress change in the acetabulum",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha corta",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha larga",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1odjw5zix8vOxXgRgxjj0lwbs-KyvBfxa"
+    },
+    "fig20": {
+      "archivo": "fig20.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 20",
+      "leyenda_original": "Figure 20.  Schematic description of hyaline cartilage lesions",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1lNyH3dLHRi5h77-7kaG3FIfaLj03vIBk"
+    },
+    "fig21": {
+      "archivo": "fig21.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 21",
+      "leyenda_original": "Figure 21.  Cam morphology demonstrated on axial oblique T1W fat-saturated magnetic resonance arthrogram images of the hip.  A)  Axial oblique plane  at the level where the femoral neck is narrowest. Note bone protuberance at the anterior aspect of the femoral head and neck junction consistent with cam  deformity (long arrow). The alpha angle is formed by two intersecting lines: the longitudinal axis of the femoral neck and from the isocentre of the femoral  head to the point where sphericity of the femoral head is first lost. An angle greater than 55 degrees is considered abnormal. There is an anterior acetabular  labral tear (short arrow).  B)  Femoral head-neck offset is also measured on the axial oblique plane at the level where the femoral neck is narrowest. Two  parallel lines are drawn along the anterior aspect of the femoral head and neck. An offset of < 10 mm is consistent with cam type morphology",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "axial",
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "axial",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha larga",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha corta",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1wNZtnTW65zoNiebiOIZF2DyfmXv1Heik"
+    },
+    "fig22": {
+      "archivo": "fig22.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 22",
+      "leyenda_original": "Figure 22.  Mixed cam and pincer femoroacetabular impingement with acetabular rim fracture.  A)  Coronal proton density fat-saturated magnetic resonance  image demonstrating a chronic acetabular rim fracture (short arrow) with over-coverage of the femoral head and cam morphology (long arrow). There  is minor subarticular stress change with mild patchy bone marrow oedema at the periphery of the acetabulum and at the proximal aspect of the femoral  head.  B ) 3D computed tomography reformat demonstrating the chronic acetabular rim fracture configuration (arrows)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "DP",
+          "condicion": "supresión grasa"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha corta",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha larga",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flechas",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1UpyV_yL62TCEOQy-v8jkutqZB9WfhVAo"
+    },
+    "fig23": {
+      "archivo": "fig23.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 23",
+      "leyenda_original": "Figure 23.  Os acetabuli.  A)  Coronal T1W magnetic resonance (MR) and  (B)  proton density fat-saturated MR images demonstrating a large os acetabuli (long  arrow) and cam morphology of the femoral head and neck junction (short arrow). The acetabular labrum is hypotrophic",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T1",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": null,
+          "secuencia": "DP",
+          "condicion": "supresión grasa"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha larga",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha corta",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1jwRONgnGz6wiaRmCqvSVKJSBZQIj89aF"
+    },
+    "fig24": {
+      "archivo": "fig24.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 24",
+      "leyenda_original": "Figure 24.  Subspine impingement.  A)  Anteroposterior radiograph of the hip demonstrating a type 3 anterior inferior iliac spine (AIIS) configuration ex- tending below the level of the acetabular rim following an old avulsion injury (arrow).  B)  Sagittal proton density fat-saturated magnetic resonance image  demonstrating a malunited AIIS (large arrows). The small arrow indicates the rectus femoris tendon",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "anteroposterior",
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": "supresión grasa"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flechas grandes",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1xxQnvvA4Z2fSwx9yZ05UNtwyLOYLrny7"
+    },
+    "fig25": {
+      "archivo": "fig25.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 25",
+      "leyenda_original": "Figure 25.  Hip osteoarthritis. Coronal proton density fat-saturated magnetic  resonance image demonstrating substantial articular cartilage loss, a joint  effusion, and prominent marginal osteophytes (long arrow) with early  subchondral cyst-like formation in the femoral head (short arrow)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "DP",
+          "condicion": "supresión grasa"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha larga",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha corta",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1pMvQvmaG6t984ZNVKEYLEJleODAjXwF2"
+    },
+    "fig26": {
+      "archivo": "fig26.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 26",
+      "leyenda_original": "Figure 26.  Bilateral hip synovitis in a teenager with juvenile idiopathic  arthritis. Coronal short-tau inversion recovery magnetic resonance image  demonstrating hyperintense synovial thickening (arrows) of both hips",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1KBYxe4MnK10rsziRpVRB2dSV5w2NRQa-"
+    },
+    "fig27": {
+      "archivo": "fig27.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 27",
+      "leyenda_original": "Figure 27.  Septic arthritis and osteomyelitis involving the right hip in an intravenous drug user.  A)  Coronal T1W magnetic resonance (MR) image demon- strating extensive low T1 bone marrow signal in the proximal femur indicating osteomyelitis (arrows). Note normal bone marrow signal in the acetabulum  (asterisk).  B)  Coronal short-tau inversion recovery MR demonstrating a large hip joint effusion with marked synovitis (large arrows) and extensive hetero- geneous abnormal signal in the proximal right femur (small arrow) indicating osteomyelitis",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "T1",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": "coronal",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "asterisco",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flechas grandes",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha pequeña",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1omkeQ59ZQgc9RSEPqoNRt7Bd8bT4MUac"
+    },
+    "fig28": {
+      "archivo": "fig28.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 28",
+      "leyenda_original": "Figure 28.  Synovial chondromatosis.  A)  Coronal proton density (PD) fat-saturated (FS) magnetic resonance (MR) image demonstrating synovitis (arrows)  with multiple low signal foci in keeping with mineralised joint bodies.  B)  Axial PD FS MR image demonstrating florid synovial hypertrophy with distension  of the iliopsoas bursa (short arrow). Note heterogeneous signal within the synovium suggesting the diagnosis of synovial chondromatosis. There is severe  erosion of the femoral neck resulting in a classical “apple core” deformity (long arrows)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "DP",
+          "condicion": "supresión grasa"
+        },
+        {
+          "id": "B",
+          "plano": "axial",
+          "secuencia": "DP",
+          "condicion": "supresión grasa"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha corta",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flechas largas",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1zPc6qus8lGhF-5NYGzEqLeYYAfapuGTT"
+    },
+    "fig29": {
+      "archivo": "fig29.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 29",
+      "leyenda_original": "Figure 29.  Tenosynovial giant cell tumour of the right hip. Coronal  (A)  T1W and  (B)  short-tau inversion recovery magnetic resonance (MR) images demon- strating low signal synovial hypertrophy at the right hip (arrows).  C)  Sagittal gradient echo MR image demonstrating “blooming artefact” due to hemosiderin  deposition (arrows)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": null,
+          "secuencia": "T1",
+          "condicion": null
+        },
+        {
+          "id": "B",
+          "plano": null,
+          "secuencia": "STIR",
+          "condicion": null
+        },
+        {
+          "id": "C",
+          "plano": "sagital",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas",
+          "panel": "B",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flechas",
+          "panel": "C",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1LC371g-sL9ugKyxptklagN-EpxmgwbPa"
+    },
+    "fig33": {
+      "archivo": "fig33.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 33",
+      "leyenda_original": "Figure 33.  Severe gluteus medius tendinosis. Coronal short-tau inversion recov- ery magnetic resonance image demonstrating thickening and altered increased  signal of the left gluteus medius tendon in keeping with severe tendinosis with  interstitial partial-thickness tearing. Note surrounding soft tissue oedema",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1Vdphp6KAgUobQNCxSIiiuoRuQGZgGh0P"
+    },
+    "fig30": {
+      "archivo": "fig30.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 30",
+      "leyenda_original": "Figure 30.  Ischiofemoral impingement. Axial short-tau inversion recovery  magnetic resonance image demonstrating narrowing of the right ischiofem- oral and quadratus femoris spaces with oedema in the quadratus femoris  muscle (arrow). There is also minor narrowing of the left ischiofemoral space",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "axial",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "1DJOQbjtMis7RYRFABBQP_WLdQGnI_1EA"
+    },
+    "fig31": {
+      "archivo": "fig31.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 31",
+      "leyenda_original": "Figure 31.  Iliopsoas impingement with anterior labral tear in a 17-year- old female with atraumatic anterior right hip pain. Sagittal proton density  fat-saturated magnetic resonance image demonstrating oedema around  the iliopsoas tendon (arrows) with a small fluid cleft indicating a tear in the  anterior acetabular labrum at 3:00 position (arrowhead)",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "sagital",
+          "secuencia": "DP",
+          "condicion": "supresión grasa"
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "punta de flecha",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "11AvqTTNzxDcbJEs1Mfu2DH0-g_D6dkUX"
+    },
+    "fig32": {
+      "archivo": "fig32.jpg",
+      "fuente": "mak2020",
+      "figura": "Figura 32",
+      "leyenda_original": "Figure 32.  Trochanteric bursitis. Coronal short-tau inversion recovery magnetic  resonance image demonstrating distension of the greater trochanteric (short  arrows) and subgluteus medius (long arrow) bursae consistent with bursitis",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "A",
+          "plano": "coronal",
+          "secuencia": "STIR",
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flechas cortas",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        },
+        {
+          "marca": "flecha larga",
+          "panel": "A",
+          "senala": "hallazgo correspondiente"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "drive": "16lKctkYDkvqx0nrCD1ZmB8MZhcFKWd97"
+    }
+  },
+  "casos": [
+    {
+      "id": "caso-01a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, T1, supresión grasa). ¿Qué hallazgo principal se observa?",
+      "imagenes": [
+        {
+          "ref": "fig01",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Deformidad tipo cam",
+        "Ligamento redondo",
+        "Desgarro intersustancia",
+        "Edema óseo subcondral",
+        "Fosa de herniación sinovial"
+      ],
+      "correcta": 1,
+      "explicacion": "- El hallazgo principal corresponde a ligamento redondo.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Anatomía normal de la cadera (ligamento redondo) en RM; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 2, leyenda de la Figura 1",
+          "cita": "Figure 1.  Normal anatomy of the hip on magnetic r"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-01b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando los hallazgos en la imagen (coronal, T1, supresión grasa), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig01",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Tendinosis del glúteo medio",
+        "Ligamento redondo normal",
+        "Artrosis de cadera degenerativa",
+        "Pinzamiento isquiofemoral",
+        "Anatomía normal"
+      ],
+      "correcta": 4,
+      "explicacion": "- El diagnóstico más probable es anatomía normal.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Reconocer anatomía normal de la cadera en RM; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 2, leyenda de la Figura 1",
+          "cita": "Figure 1.  Normal anatomy of the hip on magnetic r"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-02a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, T1). ¿Qué hallazgo principal señala la flecha?",
+      "imagenes": [
+        {
+          "ref": "fig02",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Derrame articular extenso",
+        "Pérdida de cartílago articular",
+        "Labrum acetabular",
+        "Fosa supracetabular normal",
+        "Artefacto de susceptibilidad"
+      ],
+      "correcta": 2,
+      "explicacion": "- El hallazgo principal corresponde a labrum acetabular.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Anatomía normal: reconocer el labrum acetabular en RM; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 2, leyenda de la Figura 2",
+          "cita": "Figure 2.  Normal anatomy of the hip on magnetic r"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-02b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha en la imagen (coronal, T1), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig02",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Osteonecrosis de cadera",
+        "Pinzamiento femoroacetabular",
+        "Anatomía normal",
+        "Tendinosis del glúteo medio",
+        "Ligamento redondo normal"
+      ],
+      "correcta": 2,
+      "explicacion": "- El diagnóstico más probable es anatomía normal.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Reconocer anatomía normal (labrum) en RM coronal; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 2, leyenda de la Figura 2",
+          "cita": "Figure 2.  Normal anatomy of the hip on magnetic r"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-03a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen. En el panel B, ¿Qué hallazgo principal señala la flecha?",
+      "imagenes": [
+        {
+          "ref": "fig03",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Edema óseo difuso extenso",
+        "Receso perilabral",
+        "Pérdida de cartílago articular",
+        "Deformidad tipo cam",
+        "Fosa de herniación sinovial"
+      ],
+      "correcta": 1,
+      "explicacion": "- El hallazgo principal corresponde a receso perilabral.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Receso perilabral normal que puede simular un desgarro (pitfall); anatomía fina de RM de cadera, ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 2, leyenda de la Figura 3",
+          "cita": "Figure 3.  Normal anatomy of the hip on sagittal T"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-03b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha corta en la imagen (panel C), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig03",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Pinzamiento isquiofemoral",
+        "Tumor de células gigantes",
+        "Variante anatómica",
+        "Osteoporosis transitoria",
+        "Tendinosis del glúteo medio"
+      ],
+      "correcta": 2,
+      "explicacion": "- El diagnóstico más probable es variante anatómica.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Variante anatómica que simula patología en RM de cadera (pitfall); ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 2, leyenda de la Figura 3",
+          "cita": "Figure 3.  Normal anatomy of the hip on sagittal T"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-04a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen. En el panel A, ¿Qué hallazgo principal señala la flecha?",
+      "imagenes": [
+        {
+          "ref": "fig04",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Deformidad tipo cam",
+        "Derrame articular extenso",
+        "Pliegue pectinofoveal",
+        "Fosa supracetabular normal",
+        "Engrosamiento sinovial"
+      ],
+      "correcta": 2,
+      "explicacion": "- El hallazgo principal corresponde a pliegue pectinofoveal.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 4,
+        "motivo": "Pliegue pectinofoveal: detalle anatómico de nicho de la RM de cadera; ETC III",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 3, leyenda de la Figura 4",
+          "cita": "Figure 4.  Normal bony and soft tissue variants on"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-04b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flechas en la imagen (axial) (panel C), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig04",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Osteoporosis transitoria",
+        "Variante anatómica",
+        "Displasia del desarrollo",
+        "Tendinosis del glúteo medio",
+        "Tumor de células gigantes"
+      ],
+      "correcta": 1,
+      "explicacion": "- El diagnóstico más probable es variante anatómica.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Variante ósea o de partes blandas normal que hay que no confundir con lesión; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 3, leyenda de la Figura 4",
+          "cita": "Figure 4.  Normal bony and soft tissue variants on"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-05a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen. En el panel A, ¿Qué hallazgo principal se observa?",
+      "imagenes": [
+        {
+          "ref": "fig05",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Deformidad tipo cam",
+        "Desgarro intersustancia",
+        "Edema óseo difuso extenso",
+        "Ligamentos capsulares",
+        "Edema óseo subcondral"
+      ],
+      "correcta": 3,
+      "explicacion": "- El hallazgo principal corresponde a ligamentos capsulares.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Anatomía de los ligamentos capsulares de la cadera en esquema; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 4, leyenda de la Figura 5",
+          "cita": "Figure 5.  A)  Schematic diagram of the anterior a"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-05b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando los hallazgos en la imagen (panel B), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig05",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Desgarro del labrum",
+        "Anatomía normal",
+        "Artritis idiopática juvenil",
+        "Artritis séptica purulenta",
+        "Pinzamiento femoroacetabular"
+      ],
+      "correcta": 1,
+      "explicacion": "- El diagnóstico más probable es anatomía normal.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Reconocer como normales los ligamentos capsulares en RM; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 4, leyenda de la Figura 5",
+          "cita": "Figure 5.  A)  Schematic diagram of the anterior a"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-06a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, T1). En el panel A, ¿Qué hallazgo principal señala la flecha?",
+      "imagenes": [
+        {
+          "ref": "fig06",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Quiste paralabral complejo",
+        "Fosa supracetabular normal",
+        "Línea de fractura",
+        "Desgarro intersustancia",
+        "Engrosamiento sinovial"
+      ],
+      "correcta": 2,
+      "explicacion": "- El hallazgo principal corresponde a línea de fractura.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Hallazgo que hay que buscar: línea de fractura por estrés hipointensa en T1; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 6, leyenda de la Figura 6",
+          "cita": "Figure 6.  Compression type stress fracture at the"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-06b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha en la imagen (coronal, STIR) (panel B), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig06",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Fractura por estrés",
+        "Artrosis de cadera degenerativa",
+        "Artritis séptica purulenta",
+        "Artritis idiopática juvenil",
+        "Displasia del desarrollo"
+      ],
+      "correcta": 0,
+      "explicacion": "- El diagnóstico más probable es fractura por estrés.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Entidad común (fractura por estrés del cuello femoral) con hallazgo típico en STIR; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 6, leyenda de la Figura 6",
+          "cita": "Figure 6.  Compression type stress fracture at the"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-07a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, T1). En el panel A, ¿Qué hallazgo principal señala la flecha?",
+      "imagenes": [
+        {
+          "ref": "fig07",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Línea subcondral",
+        "Cuerpos intraarticulares",
+        "Pérdida de cartílago articular",
+        "Fractura del reborde",
+        "Engrosamiento sinovial"
+      ],
+      "correcta": 0,
+      "explicacion": "- El hallazgo principal corresponde a línea subcondral.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Línea subcondral de la fractura por insuficiencia, hallazgo fino frente a osteonecrosis; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 7, leyenda de la Figura 7",
+          "cita": "Figure 7.  Subchondral insufficiency fracture of t"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-07b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha en la imagen (coronal, STIR) (panel B), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig07",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Ligamento redondo normal",
+        "Fractura por estrés pélvico",
+        "Fractura por insuficiencia",
+        "Desgarro del labrum",
+        "Tendinosis del glúteo medio"
+      ],
+      "correcta": 2,
+      "explicacion": "- El diagnóstico más probable es fractura por insuficiencia.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Diferencial fino fractura subcondral por insuficiencia frente a estrés y osteonecrosis; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 7, leyenda de la Figura 7",
+          "cita": "Figure 7.  Subchondral insufficiency fracture of t"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-08a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, T1). En el panel A, ¿Qué hallazgo principal señala la flecha larga?",
+      "imagenes": [
+        {
+          "ref": "fig08",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Fosa de herniación sinovial",
+        "Pérdida de cartílago articular",
+        "Signo de doble línea",
+        "Edema óseo difuso extenso",
+        "Realce de pilar lateral"
+      ],
+      "correcta": 2,
+      "explicacion": "- El hallazgo principal corresponde a signo de doble línea.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Signo clásico de vista: doble línea de la osteonecrosis; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 8, leyenda de la Figura 8",
+          "cita": "Figure 8.  Osteonecrosis of the femoral head.  A) "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-08b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha larga en la imagen (coronal, STIR) (panel B), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig08",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Tendinosis del glúteo medio",
+        "Osteonecrosis de cadera",
+        "Variante anatómica normal",
+        "Pinzamiento isquiofemoral",
+        "Artrosis de cadera degenerativa"
+      ],
+      "correcta": 1,
+      "explicacion": "- El diagnóstico más probable es osteonecrosis de cadera.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Diagnóstico clásico (osteonecrosis de cabeza femoral con doble línea); ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 8, leyenda de la Figura 8",
+          "cita": "Figure 8.  Osteonecrosis of the femoral head.  A) "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-09a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, T1, supresión grasa, contraste). ¿Qué hallazgo principal señala la flecha?",
+      "imagenes": [
+        {
+          "ref": "fig09",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Artefacto de susceptibilidad",
+        "Realce de pilar lateral",
+        "Fosa de herniación sinovial",
+        "Fractura del reborde",
+        "Deformidad tipo cam"
+      ],
+      "correcta": 1,
+      "explicacion": "- El hallazgo principal corresponde a realce de pilar lateral.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Patrón de realce con contraste en la osteonecrosis, detalle técnico poco habitual; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 8, leyenda de la Figura 9",
+          "cita": "Figure 9.  Osteonecrosis of the right femoral head"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-09b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha en la imagen (coronal, T1, supresión grasa, contraste), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig09",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Pinzamiento isquiofemoral",
+        "Tendinosis del glúteo medio",
+        "Artrosis de cadera degenerativa",
+        "Osteonecrosis de cadera",
+        "Artritis idiopática juvenil"
+      ],
+      "correcta": 3,
+      "explicacion": "- El diagnóstico más probable es osteonecrosis de cadera.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Entidad común (osteonecrosis) vista en secuencia con contraste; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 8, leyenda de la Figura 9",
+          "cita": "Figure 9.  Osteonecrosis of the right femoral head"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-10a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (axial). ¿Qué hallazgo principal señala la flechas?",
+      "imagenes": [
+        {
+          "ref": "fig10",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Derrame articular extenso",
+        "Edema óseo subcondral",
+        "Fosa de herniación sinovial",
+        "Sin restricción de difusión",
+        "Realce de pilar lateral"
+      ],
+      "correcta": 3,
+      "explicacion": "- El hallazgo principal corresponde a sin restricción de difusión.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Hallazgo de difusión en la osteonecrosis, detalle técnico avanzado; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 9, leyenda de la Figura 10",
+          "cita": "Figure 10.  Osteonecrosis in a 21-year-old male tr"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-10b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flechas en la imagen (axial), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig10",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Pinzamiento femoroacetabular",
+        "Desgarro del labrum",
+        "Tendinosis del glúteo medio",
+        "Osteonecrosis de cadera",
+        "Variante anatómica normal"
+      ],
+      "correcta": 3,
+      "explicacion": "- El diagnóstico más probable es osteonecrosis de cadera.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Entidad común (osteonecrosis) en paciente joven que exige integrar hallazgos; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 9, leyenda de la Figura 10",
+          "cita": "Figure 10.  Osteonecrosis in a 21-year-old male tr"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-11a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, STIR). ¿Qué hallazgo principal se observa?",
+      "imagenes": [
+        {
+          "ref": "fig11",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Engrosamiento sinovial",
+        "Fractura del reborde",
+        "Deformidad tipo cam",
+        "Edema óseo difuso",
+        "Fosa de herniación sinovial"
+      ],
+      "correcta": 3,
+      "explicacion": "- El hallazgo principal corresponde a edema óseo difuso.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Hallazgo evidente: edema óseo difuso en STIR; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 9, leyenda de la Figura 11",
+          "cita": "Figure 11.  Transient osteoporosis. Coronal short-"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-11b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando los hallazgos en la imagen (coronal, STIR), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig11",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Pinzamiento isquiofemoral",
+        "Osteoporosis transitoria",
+        "Tendinosis del glúteo medio",
+        "Pinzamiento femoroacetabular",
+        "Artrosis de cadera degenerativa"
+      ],
+      "correcta": 1,
+      "explicacion": "- El diagnóstico más probable es osteoporosis transitoria.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Entidad poco frecuente (osteoporosis transitoria) con diferencial frente a osteonecrosis precoz; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 9, leyenda de la Figura 11",
+          "cita": "Figure 11.  Transient osteoporosis. Coronal short-"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-12a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, DP). ¿Qué hallazgo principal señala la flecha?",
+      "imagenes": [
+        {
+          "ref": "fig12",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Línea de fractura hipointensa",
+        "Deformidad tipo cam",
+        "Fractura del reborde",
+        "Artefacto de susceptibilidad",
+        "Edema del ligamento"
+      ],
+      "correcta": 4,
+      "explicacion": "- El hallazgo principal corresponde a edema del ligamento.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Edema del ligamento redondo, hallazgo que requiere buscarlo en RM de cadera; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 9, leyenda de la Figura 12",
+          "cita": "Figure 12.  Ligamentum teres tear. Coronal proton "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-12b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha en la imagen (coronal, DP), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig12",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Displasia del desarrollo",
+        "Desgarro de ligamento",
+        "Ligamento redondo normal",
+        "Bursitis trocantérea severa",
+        "Artritis idiopática juvenil"
+      ],
+      "correcta": 1,
+      "explicacion": "- El diagnóstico más probable es desgarro de ligamento.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 4,
+        "motivo": "Desgarro del ligamento redondo: lesión de nicho de la RM de cadera de subespecialidad; ETC III",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 9, leyenda de la Figura 12",
+          "cita": "Figure 12.  Ligamentum teres tear. Coronal proton "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-13a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen. En el panel A, ¿Qué hallazgo principal se observa?",
+      "imagenes": [
+        {
+          "ref": "fig13",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Fosa de herniación sinovial",
+        "Deformidad tipo cam",
+        "Fractura del reborde",
+        "Derrame articular extenso",
+        "Mecanismos de lesión"
+      ],
+      "correcta": 4,
+      "explicacion": "- El hallazgo principal corresponde a mecanismos de lesión.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Mecanismos de los desgarros del labrum en esquema: concepto de subespecialidad intermedia; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 10, leyenda de la Figura 13",
+          "cita": "Figure 13.  Pathomechanisms of acetabular labral t"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-13b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando los hallazgos en la imagen (panel C), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig13",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Artritis idiopática juvenil",
+        "Pinzamiento femoroacetabular",
+        "Desgarro del labrum",
+        "Condromatosis sinovial",
+        "Tendinosis del glúteo medio"
+      ],
+      "correcta": 2,
+      "explicacion": "- El diagnóstico más probable es desgarro del labrum.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Lesión frecuente (desgarro del labrum) reconocida en esquema; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 10, leyenda de la Figura 13",
+          "cita": "Figure 13.  Pathomechanisms of acetabular labral t"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-14a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, T1, supresión grasa, contraste). ¿Qué hallazgo principal señala la flecha?",
+      "imagenes": [
+        {
+          "ref": "fig14",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Signo de la doble línea",
+        "Desgarro intersustancia",
+        "Quiste paralabral complejo",
+        "Fractura del reborde",
+        "Línea de fractura hipointensa"
+      ],
+      "correcta": 1,
+      "explicacion": "- El hallazgo principal corresponde a desgarro intersustancia.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Desgarro intrasustancia parcial, hallazgo sutil en artro-RM; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 10, leyenda de la Figura 14",
+          "cita": "Figure 14.  Partial intersubstance tear. Coronal T"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-14b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha en la imagen (coronal, T1, supresión grasa, contraste), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig14",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Desgarro del labrum",
+        "Artritis séptica purulenta",
+        "Pinzamiento femoroacetabular",
+        "Condromatosis sinovial",
+        "Tendinosis del glúteo medio"
+      ],
+      "correcta": 0,
+      "explicacion": "- El diagnóstico más probable es desgarro del labrum.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Lesión frecuente (desgarro del labrum) en artro-RM; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 10, leyenda de la Figura 14",
+          "cita": "Figure 14.  Partial intersubstance tear. Coronal T"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-15a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen. En el panel A, ¿Qué hallazgo principal señala la flecha larga?",
+      "imagenes": [
+        {
+          "ref": "fig15",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Derrame articular extenso",
+        "Signo de la doble línea",
+        "Fosa de herniación",
+        "Deformidad tipo cam",
+        "Realce de pilar lateral"
+      ],
+      "correcta": 2,
+      "explicacion": "- El hallazgo principal corresponde a fosa de herniación.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Fosa de herniación sinovial, hallazgo incidental común del cuello femoral; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 10, leyenda de la Figura 15",
+          "cita": "Figure 15.  Articular cartilage loss, herniation p"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-15b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha en la imagen (panel B), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig15",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Bursitis trocantérea severa",
+        "Variante anatómica normal",
+        "Condromatosis sinovial",
+        "Pérdida de cartílago",
+        "Pinzamiento femoroacetabular"
+      ],
+      "correcta": 3,
+      "explicacion": "- El diagnóstico más probable es pérdida de cartílago.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Pérdida de cartílago articular que hay que buscar en RM; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 10, leyenda de la Figura 15",
+          "cita": "Figure 15.  Articular cartilage loss, herniation p"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-16a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, T1). ¿Qué hallazgo principal señala la flecha grande?",
+      "imagenes": [
+        {
+          "ref": "fig16",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Realce de pilar lateral",
+        "Derrame articular extenso",
+        "Cuerpos intraarticulares",
+        "Desgarro del labrum",
+        "Desgarro intersustancia"
+      ],
+      "correcta": 3,
+      "explicacion": "- El hallazgo principal corresponde a desgarro del labrum.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Lesión frecuente (desgarro del labrum) en RM coronal; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 11, leyenda de la Figura 16",
+          "cita": "Figure 16.  Cam morphology and acetabular labral t"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-16b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha pequeña en la imagen (coronal, T1), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig16",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Fractura por estrés pélvico",
+        "Pinzamiento tipo cam",
+        "Displasia del desarrollo",
+        "Pinzamiento isquiofemoral",
+        "Artritis idiopática juvenil"
+      ],
+      "correcta": 1,
+      "explicacion": "- El diagnóstico más probable es pinzamiento tipo cam.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Morfología cam, causa común de pinzamiento femoroacetabular; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 11, leyenda de la Figura 16",
+          "cita": "Figure 16.  Cam morphology and acetabular labral t"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-17a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (T1, supresión grasa, contraste). ¿Qué hallazgo principal señala la flecha corta?",
+      "imagenes": [
+        {
+          "ref": "fig17",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Signo de la doble línea",
+        "Artefacto de susceptibilidad",
+        "Edema óseo subcondral",
+        "Quiste paralabral",
+        "Quiste paralabral complejo"
+      ],
+      "correcta": 3,
+      "explicacion": "- El hallazgo principal corresponde a quiste paralabral.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Quiste paralabral, complicación conocida del desgarro del labrum; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 11, leyenda de la Figura 17",
+          "cita": "Figure 17.  Developmental hip dysplasia (DDH) with"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-17b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha larga en la imagen (T1, supresión grasa, contraste), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig17",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Pinzamiento isquiofemoral",
+        "Pinzamiento femoroacetabular",
+        "Displasia de cadera",
+        "Fractura por estrés pélvico",
+        "Artrosis de cadera degenerativa"
+      ],
+      "correcta": 2,
+      "explicacion": "- El diagnóstico más probable es displasia de cadera.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Displasia de cadera del adulto en artro-RM, diferencial con pinzamiento; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 11, leyenda de la Figura 17",
+          "cita": "Figure 17.  Developmental hip dysplasia (DDH) with"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-18a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (sagital, DP, supresión grasa). ¿Qué hallazgo principal señala la flechas cortas?",
+      "imagenes": [
+        {
+          "ref": "fig18",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Quiste paralabral",
+        "Derrame articular extenso",
+        "Pérdida de cartílago articular",
+        "Edema óseo subcondral",
+        "Edema óseo difuso extenso"
+      ],
+      "correcta": 0,
+      "explicacion": "- El hallazgo principal corresponde a quiste paralabral.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Quiste paralabral, complicación conocida del desgarro del labrum; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 11, leyenda de la Figura 18",
+          "cita": "Figure 18.  Complex acetabular labral tear with pa"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-18b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha larga en la imagen (sagital, DP, supresión grasa), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig18",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Artritis séptica purulenta",
+        "Artrosis de cadera degenerativa",
+        "Fractura por estrés pélvico",
+        "Pinzamiento femoroacetabular",
+        "Desgarro del labrum"
+      ],
+      "correcta": 4,
+      "explicacion": "- El diagnóstico más probable es desgarro del labrum.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Lesión frecuente (desgarro complejo del labrum) en RM sagital; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 11, leyenda de la Figura 18",
+          "cita": "Figure 18.  Complex acetabular labral tear with pa"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-19a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (sagital, DP). ¿Qué hallazgo principal señala la flecha corta?",
+      "imagenes": [
+        {
+          "ref": "fig19",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Cambio de estrés subarticular",
+        "Línea de fractura hipointensa",
+        "Cuerpos intraarticulares",
+        "Derrame articular extenso",
+        "Desgarro intersustancia"
+      ],
+      "correcta": 0,
+      "explicacion": "- El hallazgo principal corresponde a cambio de estrés subarticular.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Cambio de estrés subarticular, hallazgo sutil asociado al daño condral; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 11, leyenda de la Figura 19",
+          "cita": "Figure 19.  Cartilage loss and labral tear. Sagitt"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-19b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha larga en la imagen (sagital, DP), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig19",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Artrosis de cadera degenerativa",
+        "Pérdida de cartílago",
+        "Pinzamiento isquiofemoral",
+        "Condromatosis sinovial",
+        "Osteoporosis transitoria"
+      ],
+      "correcta": 1,
+      "explicacion": "- El diagnóstico más probable es pérdida de cartílago.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Pérdida de cartílago asociada a desgarro, hallazgo común; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 11, leyenda de la Figura 19",
+          "cita": "Figure 19.  Cartilage loss and labral tear. Sagitt"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-20a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen. ¿Qué hallazgo principal se observa?",
+      "imagenes": [
+        {
+          "ref": "fig20",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Fisura condral",
+        "Signo de la doble línea",
+        "Quiste paralabral complejo",
+        "Edema óseo difuso extenso",
+        "Engrosamiento sinovial"
+      ],
+      "correcta": 0,
+      "explicacion": "- El hallazgo principal corresponde a fisura condral.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Fisura condral en esquema de lesiones del cartílago hialino; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 11, leyenda de la Figura 20",
+          "cita": "Figure 20.  Schematic description of hyaline carti"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-20b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando los hallazgos en la imagen, ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig20",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Osteonecrosis de cadera",
+        "Fractura por estrés pélvico",
+        "Variante anatómica normal",
+        "Artritis idiopática juvenil",
+        "Lesión de cartílago"
+      ],
+      "correcta": 4,
+      "explicacion": "- El diagnóstico más probable es lesión de cartílago.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Lesión de cartílago en esquema, concepto común de RM articular; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 11, leyenda de la Figura 20",
+          "cita": "Figure 20.  Schematic description of hyaline carti"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-21a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (axial). En el panel A, ¿Qué hallazgo principal señala la flecha larga?",
+      "imagenes": [
+        {
+          "ref": "fig21",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Quiste paralabral complejo",
+        "Ángulo alfa anormal",
+        "Edema óseo difuso extenso",
+        "Engrosamiento sinovial",
+        "Signo de la doble línea"
+      ],
+      "correcta": 1,
+      "explicacion": "- El hallazgo principal corresponde a ángulo alfa anormal.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Ángulo alfa anormal: medición que define la morfología cam y cambia el manejo; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 13, leyenda de la Figura 21",
+          "cita": "Figure 21.  Cam morphology demonstrated on axial o"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-21b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha corta en la imagen (axial) (panel A), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig21",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Osteoporosis transitoria",
+        "Pinzamiento isquiofemoral",
+        "Pinzamiento tipo cam",
+        "Ligamento redondo normal",
+        "Condromatosis sinovial"
+      ],
+      "correcta": 2,
+      "explicacion": "- El diagnóstico más probable es pinzamiento tipo cam.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Pinzamiento tipo cam, entidad común del pinzamiento femoroacetabular; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 13, leyenda de la Figura 21",
+          "cita": "Figure 21.  Cam morphology demonstrated on axial o"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-22a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, DP, supresión grasa). ¿Qué hallazgo principal señala la flecha corta?",
+      "imagenes": [
+        {
+          "ref": "fig22",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Línea de fractura hipointensa",
+        "Fosa supracetabular normal",
+        "Engrosamiento sinovial",
+        "Deformidad tipo cam",
+        "Fractura de reborde"
+      ],
+      "correcta": 4,
+      "explicacion": "- El hallazgo principal corresponde a fractura de reborde.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Fractura del reborde acetabular en pinzamiento mixto, hallazgo que hay que buscar; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 13, leyenda de la Figura 22",
+          "cita": "Figure 22.  Mixed cam and pincer femoroacetabular "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-22b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flechas en la imagen (coronal, DP, supresión grasa), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig22",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Pinzamiento mixto",
+        "Pinzamiento isquiofemoral",
+        "Artritis séptica purulenta",
+        "Osteoporosis transitoria",
+        "Artritis idiopática juvenil"
+      ],
+      "correcta": 0,
+      "explicacion": "- El diagnóstico más probable es pinzamiento mixto.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Clasificación del pinzamiento femoroacetabular (mixto cam y pincer); ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 13, leyenda de la Figura 22",
+          "cita": "Figure 22.  Mixed cam and pincer femoroacetabular "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-23a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, T1). En el panel B, ¿Qué hallazgo principal señala la flecha larga?",
+      "imagenes": [
+        {
+          "ref": "fig23",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Os acetabuli grande",
+        "Signo de la doble línea",
+        "Fractura del reborde",
+        "Deformidad tipo cam",
+        "Pérdida de cartílago articular"
+      ],
+      "correcta": 0,
+      "explicacion": "- El hallazgo principal corresponde a os acetabuli grande.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Os acetabuli, variante poco frecuente asociada a pinzamiento; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 14, leyenda de la Figura 23",
+          "cita": "Figure 23.  Os acetabuli.  A)  Coronal T1W magneti"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-23b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha corta en la imagen (DP, supresión grasa) (panel B), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig23",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Pinzamiento tipo cam",
+        "Variante anatómica normal",
+        "Artritis séptica purulenta",
+        "Osteoporosis transitoria",
+        "Desgarro del labrum"
+      ],
+      "correcta": 0,
+      "explicacion": "- El diagnóstico más probable es pinzamiento tipo cam.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Integrar os acetabuli con morfología cam (subtipo de pinzamiento); ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 14, leyenda de la Figura 23",
+          "cita": "Figure 23.  Os acetabuli.  A)  Coronal T1W magneti"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-24a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (anteroposterior). En el panel A, ¿Qué hallazgo principal señala la flecha?",
+      "imagenes": [
+        {
+          "ref": "fig24",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Desgarro intersustancia",
+        "Espina ilíaca prominente",
+        "Realce de pilar lateral",
+        "Línea de fractura hipointensa",
+        "Edema óseo subcondral"
+      ],
+      "correcta": 1,
+      "explicacion": "- El hallazgo principal corresponde a espina ilíaca prominente.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Espina ilíaca anteroinferior prominente, hallazgo poco común; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 14, leyenda de la Figura 24",
+          "cita": "Figure 24.  Subspine impingement.  A)  Anteroposte"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-24b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flechas grandes en la imagen (sagital, DP, supresión grasa) (panel B), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig24",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Displasia del desarrollo",
+        "Artritis idiopática juvenil",
+        "Pinzamiento subespinal",
+        "Osteoporosis transitoria",
+        "Artrosis de cadera degenerativa"
+      ],
+      "correcta": 2,
+      "explicacion": "- El diagnóstico más probable es pinzamiento subespinal.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 4,
+        "motivo": "Pinzamiento subespinal: entidad de nicho propia de la subespecialidad de cadera; ETC III",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 14, leyenda de la Figura 24",
+          "cita": "Figure 24.  Subspine impingement.  A)  Anteroposte"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-25a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, DP, supresión grasa). ¿Qué hallazgo principal señala la flecha larga?",
+      "imagenes": [
+        {
+          "ref": "fig25",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Pérdida de cartílago",
+        "Desgarro intersustancia",
+        "Engrosamiento sinovial",
+        "Artefacto de susceptibilidad",
+        "Quiste paralabral complejo"
+      ],
+      "correcta": 0,
+      "explicacion": "- El hallazgo principal corresponde a pérdida de cartílago.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Pérdida de cartílago de la artrosis, hallazgo evidente de entidad común; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 15, leyenda de la Figura 25",
+          "cita": "Figure 25.  Hip osteoarthritis. Coronal proton den"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-25b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha corta en la imagen (coronal, DP, supresión grasa), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig25",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Pinzamiento isquiofemoral",
+        "Osteonecrosis de cadera",
+        "Artritis idiopática juvenil",
+        "Tumor de células gigantes",
+        "Artrosis de cadera"
+      ],
+      "correcta": 4,
+      "explicacion": "- El diagnóstico más probable es artrosis de cadera.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Entidad común con presentación típica (artrosis de cadera); ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 15, leyenda de la Figura 25",
+          "cita": "Figure 25.  Hip osteoarthritis. Coronal proton den"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-26a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, STIR). ¿Qué hallazgo principal señala la flechas?",
+      "imagenes": [
+        {
+          "ref": "fig26",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Engrosamiento sinovial",
+        "Artefacto de susceptibilidad",
+        "Desgarro intersustancia",
+        "Pérdida de cartílago articular",
+        "Fractura del reborde"
+      ],
+      "correcta": 0,
+      "explicacion": "- El hallazgo principal corresponde a engrosamiento sinovial.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Engrosamiento sinovial en STIR, hallazgo de sinovitis que hay que reconocer; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 16, leyenda de la Figura 26",
+          "cita": "Figure 26.  Bilateral hip synovitis in a teenager "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-26b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flechas en la imagen (coronal, STIR), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig26",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Artritis idiopática",
+        "Tendinosis del glúteo medio",
+        "Artrosis de cadera degenerativa",
+        "Pinzamiento femoroacetabular",
+        "Variante anatómica normal"
+      ],
+      "correcta": 0,
+      "explicacion": "- El diagnóstico más probable es artritis idiopática.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Entidad poco frecuente (artritis idiopática juvenil) con sinovitis bilateral en adolescente; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 16, leyenda de la Figura 26",
+          "cita": "Figure 26.  Bilateral hip synovitis in a teenager "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-27a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, T1). En el panel A, ¿Qué hallazgo principal señala la flechas?",
+      "imagenes": [
+        {
+          "ref": "fig27",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Osteomielitis asociada",
+        "Artefacto de susceptibilidad",
+        "Deformidad tipo cam",
+        "Quiste paralabral complejo",
+        "Edema óseo difuso extenso"
+      ],
+      "correcta": 0,
+      "explicacion": "- El hallazgo principal corresponde a osteomielitis asociada.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Osteomielitis asociada, complicación conocida de la artritis séptica; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 16, leyenda de la Figura 27",
+          "cita": "Figure 27.  Septic arthritis and osteomyelitis inv"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-27b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha pequeña en la imagen (coronal, STIR) (panel B), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig27",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Artritis séptica purulenta",
+        "Tendinosis del glúteo medio",
+        "Pinzamiento isquiofemoral",
+        "Variante anatómica normal",
+        "Artritis séptica"
+      ],
+      "correcta": 4,
+      "explicacion": "- El diagnóstico más probable es artritis séptica.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Entidad urgente común (artritis séptica) con complicación ósea conocida; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 16, leyenda de la Figura 27",
+          "cita": "Figure 27.  Septic arthritis and osteomyelitis inv"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-28a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, DP, supresión grasa). En el panel A, ¿Qué hallazgo principal señala la flechas?",
+      "imagenes": [
+        {
+          "ref": "fig28",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Deformidad tipo cam",
+        "Derrame articular extenso",
+        "Cuerpos libres osificados",
+        "Desgarro intersustancia",
+        "Engrosamiento sinovial"
+      ],
+      "correcta": 2,
+      "explicacion": "- El hallazgo principal corresponde a cuerpos libres osificados.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Cuerpos libres osificados intraarticulares, hallazgo visible en RM; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 17, leyenda de la Figura 28",
+          "cita": "Figure 28.  Synovial chondromatosis.  A)  Coronal "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-28b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flechas largas en la imagen (axial, DP, supresión grasa) (panel B), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig28",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Fractura por estrés pélvico",
+        "Tendinosis del glúteo medio",
+        "Artritis séptica purulenta",
+        "Condromatosis sinovial",
+        "Tumor de células gigantes"
+      ],
+      "correcta": 3,
+      "explicacion": "- El diagnóstico más probable es condromatosis sinovial.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Entidad poco frecuente (condromatosis sinovial) reconocida por cuerpos libres múltiples; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 17, leyenda de la Figura 28",
+          "cita": "Figure 28.  Synovial chondromatosis.  A)  Coronal "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-29a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (T1). En el panel B, ¿Qué hallazgo principal señala la flechas?",
+      "imagenes": [
+        {
+          "ref": "fig29",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Artefacto de susceptibilidad",
+        "Signo de la doble línea",
+        "Pérdida de cartílago articular",
+        "Cuerpos intraarticulares",
+        "Quiste paralabral complejo"
+      ],
+      "correcta": 0,
+      "explicacion": "- El hallazgo principal corresponde a artefacto de susceptibilidad.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Artefacto de susceptibilidad por hemosiderina, signo clave del tumor tenosinovial; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 17, leyenda de la Figura 29",
+          "cita": "Figure 29.  Tenosynovial giant cell tumour of the "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-29b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flechas en la imagen (sagital) (panel C), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig29",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Ligamento redondo normal",
+        "Pinzamiento isquiofemoral",
+        "Desgarro del labrum",
+        "Tumor de células gigantes",
+        "Fractura por estrés pélvico"
+      ],
+      "correcta": 3,
+      "explicacion": "- El diagnóstico más probable es tumor de células gigantes.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Entidad poco frecuente (tumor tenosinovial de células gigantes) de la cadera; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 17, leyenda de la Figura 29",
+          "cita": "Figure 29.  Tenosynovial giant cell tumour of the "
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-33a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, STIR). ¿Qué hallazgo principal se observa?",
+      "imagenes": [
+        {
+          "ref": "fig33",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Derrame articular extenso",
+        "Signo de la doble línea",
+        "Edema óseo difuso extenso",
+        "Desgarro de espesor parcial",
+        "Edema óseo subcondral"
+      ],
+      "correcta": 3,
+      "explicacion": "- El hallazgo principal corresponde a desgarro de espesor parcial.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Desgarro de espesor parcial del glúteo medio, diferencial fino con tendinosis; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 18, leyenda de la Figura 33",
+          "cita": "Figure 33.  Severe gluteus medius tendinosis. Coro"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-33b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando los hallazgos en la imagen (coronal, STIR), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig33",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Tendinosis del glúteo medio",
+        "Displasia del desarrollo",
+        "Condromatosis sinovial",
+        "Tendinosis del glúteo",
+        "Ligamento redondo normal"
+      ],
+      "correcta": 3,
+      "explicacion": "- El diagnóstico más probable es tendinosis del glúteo.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Entidad común (tendinosis del glúteo medio) en síndrome trocantéreo; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 18, leyenda de la Figura 33",
+          "cita": "Figure 33.  Severe gluteus medius tendinosis. Coro"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-30a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (axial, STIR). ¿Qué hallazgo principal señala la flecha?",
+      "imagenes": [
+        {
+          "ref": "fig30",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Fractura del reborde",
+        "Edema de cuadrado femoral",
+        "Signo de la doble línea",
+        "Línea de fractura hipointensa",
+        "Edema óseo difuso extenso"
+      ],
+      "correcta": 1,
+      "explicacion": "- El hallazgo principal corresponde a edema de cuadrado femoral.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Edema del cuadrado femoral, hallazgo que hay que buscar en el espacio isquiofemoral; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 18, leyenda de la Figura 30",
+          "cita": "Figure 30.  Ischiofemoral impingement. Axial short"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-30b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha en la imagen (axial, STIR), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig30",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Tendinosis del glúteo medio",
+        "Desgarro del labrum",
+        "Pinzamiento isquiofemoral",
+        "Pinzamiento femoroacetabular",
+        "Variante anatómica normal"
+      ],
+      "correcta": 2,
+      "explicacion": "- El diagnóstico más probable es pinzamiento isquiofemoral.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Entidad poco frecuente (pinzamiento isquiofemoral) por edema del cuadrado femoral; ETC II",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 18, leyenda de la Figura 30",
+          "cita": "Figure 30.  Ischiofemoral impingement. Axial short"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-31a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (sagital, DP, supresión grasa). ¿Qué hallazgo principal señala la flechas?",
+      "imagenes": [
+        {
+          "ref": "fig31",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Fosa supracetabular normal",
+        "Artefacto de susceptibilidad",
+        "Cuerpos intraarticulares",
+        "Edema óseo subcondral",
+        "Desgarro del labrum"
+      ],
+      "correcta": 4,
+      "explicacion": "- El hallazgo principal corresponde a desgarro del labrum.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Lesión frecuente (desgarro anterior del labrum) en RM sagital; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 18, leyenda de la Figura 31",
+          "cita": "Figure 31.  Iliopsoas impingement with anterior la"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-31b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la punta de flecha en la imagen (sagital, DP, supresión grasa), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig31",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Artrosis de cadera degenerativa",
+        "Fractura por estrés pélvico",
+        "Artritis idiopática juvenil",
+        "Pinzamiento del psoas",
+        "Bursitis trocantérea severa"
+      ],
+      "correcta": 3,
+      "explicacion": "- El diagnóstico más probable es pinzamiento del psoas.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 4,
+        "motivo": "Pinzamiento del psoas: entidad de nicho de la subespecialidad de cadera; ETC III",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 18, leyenda de la Figura 31",
+          "cita": "Figure 31.  Iliopsoas impingement with anterior la"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-32a",
+      "tema": "Reconocimiento de imagen",
+      "etiquetas": [
+        "reconocimiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Se presenta la imagen (coronal, STIR). ¿Qué hallazgo principal señala la flechas cortas?",
+      "imagenes": [
+        {
+          "ref": "fig32",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Edema óseo subcondral",
+        "Edema óseo difuso extenso",
+        "Engrosamiento sinovial",
+        "Quiste paralabral complejo",
+        "Distensión de bursa"
+      ],
+      "correcta": 4,
+      "explicacion": "- El hallazgo principal corresponde a distensión de bursa.\n- Esto es característico en este tipo de estudios.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Hallazgo evidente: bursa distendida con líquido en STIR; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 18, leyenda de la Figura 32",
+          "cita": "Figure 32.  Trochanteric bursitis. Coronal short-t"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-32b",
+      "tema": "Diagnóstico y análisis",
+      "etiquetas": [
+        "diagnóstico"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Considerando lo que señala la flecha larga en la imagen (coronal, STIR), ¿cuál es el diagnóstico más probable?",
+      "imagenes": [
+        {
+          "ref": "fig32",
+          "mostrar_en": "pregunta"
+        }
+      ],
+      "opciones": [
+        "Osteoporosis transitoria",
+        "Tendinosis del glúteo medio",
+        "Variante anatómica normal",
+        "Osteonecrosis de cadera",
+        "Bursitis trocantérea"
+      ],
+      "correcta": 4,
+      "explicacion": "- El diagnóstico más probable es bursitis trocantérea.\n- Los signos radiológicos sustentan esta conclusión.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Entidad común con presentación típica (bursitis trocantérea); ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 18, leyenda de la Figura 32",
+          "cita": "Figure 32.  Trochanteric bursitis. Coronal short-t"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-concepto-1",
+      "tema": "Conceptos teóricos",
+      "etiquetas": [
+        "teoría"
+      ],
+      "tipo": "concepto",
+      "enunciado": "¿Qué enfoque técnico suele ser fundamental en la resonancia magnética para identificar patología articular e inflamación en la cadera?",
+      "imagenes": [],
+      "opciones": [
+        "Resonancia magnética sin contraste siempre",
+        "Evaluación exclusiva con tomografía",
+        "Ecografía articular de rutina excluyente",
+        "Uso de secuencias sensibles a fluidos",
+        "Radiografía simple como estándar oro"
+      ],
+      "correcta": 3,
+      "explicacion": "- Las secuencias sensibles a fluidos permiten detectar edema óseo y de tejidos blandos.\n- Son críticas para identificar inflamación.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Técnica básica de RM: secuencias sensibles a líquido para inflamación articular; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 1, introducción",
+          "cita": "Magnetic resonance imaging (MRI) with its multiplanar capability"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "caso-concepto-2",
+      "tema": "Conceptos teóricos",
+      "etiquetas": [
+        "teoría"
+      ],
+      "tipo": "concepto",
+      "enunciado": "Para evaluar detalladamente las lesiones del labrum acetabular y el cartílago articular, ¿cuál es la técnica de imagen considerada como el estándar de oro?",
+      "imagenes": [],
+      "opciones": [
+        "Reconstrucción 3D con tomografía",
+        "Artrorresonancia magnética directa",
+        "Ecografía con Doppler color",
+        "Resonancia magnética de baja resolución",
+        "Gammagrafía ósea trifásica"
+      ],
+      "correcta": 1,
+      "explicacion": "- La artrorresonancia magnética (MRA) distiende la articulación y separa las superficies.\n- Mejora significativamente la detección de desgarros del labrum.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Dato técnico conocido: la artro-RM es el estándar de oro para labrum y cartílago según la fuente; ETC I",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "mak2020",
+          "ubicacion": "p. 3, Anatomy of the hip: Ligaments and capsule",
+          "cita": "Magnetic resonance arthrography (MRA) is the current gold standard for acetabular labral and hip hyaline articular cartilage assessment"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    }
+  ]
+}
