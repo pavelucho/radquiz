@@ -25,6 +25,7 @@ index.html, practica.html   app estática: lista de temas y práctica individual
 manual.html                 manual de uso para cada papel
 sala.html                   sala en vivo (presentador y jugadores)
 tablero.html                tablero por equipos en el proyector, al estilo Jeopardy, sin celulares
+tabu.html                   Tabú radiológico: describir la figura sin las palabras prohibidas, con un solo aparato
 estudio.html                estudio web: crear, revisar, aprobar y publicar cuestionarios
 app/                        código de la app; app/firebase-config.js apunta al proyecto de Firebase
 app/areas.js                áreas de cada segmento: la lista cerrada con que se clasifica cada caso
@@ -34,6 +35,8 @@ app/estilos.css             diseño de toda la web: fichas de color y tipografí
 app/avance.js               avance de la práctica, solo en el dispositivo (localStorage): respuestas y tanda en curso
 app/tablero.js              lógica del tablero (grupos, columnas, casos parecidos, apuestas), sin pantalla ni Firebase
 app/diapositivas.js         diapositivas de enseñanza de un caso, armadas con lo que el caso ya trae
+app/catalogo.js             temas publicados y sus casos para los juegos de varios temas (tablero y Tabú)
+app/tabu-logica.js          lógica del Tabú (qué casos son carta, palabras prohibidas, mazo), sin pantalla
 app/marca.svg               logo y favicon
 app/fuentes/                IBM Plex Sans y Mono (licencia OFL), alojadas en el sitio y no en Google Fonts
 database.rules.json         reglas de seguridad de la sala en vivo (Firebase Realtime Database)
@@ -236,6 +239,23 @@ así que no depende de la sala en vivo ni de sus reglas.
    y la perla. Una figura que usa otra casilla sin jugar sale sin la lista de marcas, o no sale si es de las que se
    muestran solo al responder: así la enseñanza no adelanta respuestas.
 4. La partida se guarda en `localStorage` del navegador que proyecta, con «Deshacer» para cada paso.
+
+## Tabú radiológico
+
+`tabu.html` + `app/tabu.js`: por equipos y con un solo aparato. Quien describe ve la figura y el diagnóstico y su
+equipo lo adivina sin oír las palabras prohibidas. Como el tablero, solo lee lo publicado y guarda la partida en
+`localStorage` (`radquiz.tabu`).
+
+1. Cartas (`esCarta` en `app/tabu-logica.js`): casos de `tipo` imagen con figura y una respuesta de hasta 5 palabras
+   con significado, que no sea un grado, un tipo, sí/no, una cifra o una oración. Una carta por respuesta distinta.
+   Con los temas de `temas/` salen 407 de 498 casos.
+2. Prohibidas: todas las palabras de la respuesta y, hasta cinco, las de `etiquetas` y la parte del `tema` después de
+   « · ». Dos palabras con las mismas 5 primeras letras cuentan como una; las modalidades y los rótulos genéricos
+   («RM», «diagnóstico», «anatomía») no se prohíben.
+3. Puntaje: adivinaron +1, tabú −1, pasar 0 (la carta vuelve al fondo). La carta en juego al sonar va al repaso como
+   «Sonó el tiempo» y al fondo del mazo; en el repaso se puede contar.
+4. Repaso: cada carta con su figura y la primera viñeta de la explicación (la de «**Hallazgos:**»), y el resultado se
+   corrige ahí.
 
 ## Validar
 

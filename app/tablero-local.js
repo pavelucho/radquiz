@@ -4,11 +4,11 @@
 // marca quién acertó: la app suma o resta, pasa el turno y proyecta la enseñanza del caso (app/diapositivas.js).
 // La partida (nombres de los equipos y puntajes) se guarda solo en este navegador, para aguantar una recarga.
 // De Firebase solo lee lo publicado (app/publicado.js), así que funciona aunque la sala en vivo no conecte.
-import { $, esc, md, cargarJSON, credito, barajar, SEGMENTOS, NIVELES, nivelDe } from "./comun.js";
-import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
+import { $, esc, md, credito, barajar, NIVELES, nivelDe } from "./comun.js";
 import { reportar } from "./reportar.js";
+import { cargarIndice as leerIndice, cargarTemas as leerTemas, armarCatalogo as catalogoDe } from "./catalogo.js";
 import {
-  MAX_COLUMNAS, MAX_COMPARAR, claveDe, valores, grupoDe, respuestaDe, normal, figurasDe, proponerGrupos, juntar,
+  MAX_COLUMNAS, MAX_COMPARAR, valores, respuestaDe, normal, figurasDe, proponerGrupos, juntar,
   armarColumnas, enTablero, sortearDobles, proponerFinal, proponerSimilares, reservasDe, maxApuestaDoble,
   maxApuestaFinal, minutos,
 } from "./tablero.js";
@@ -72,31 +72,12 @@ function cabecera() {
 
 // ------------------------------------------------------------------ temas y casos
 async function cargarIndice() {
-  if (indice.length) return;
-  const [estatico, vivo] = await Promise.all([cargarJSON("temas/indice.json").catch(() => null), indiceEnVivo()]);
-  const orden = Object.keys(SEGMENTOS);
-  indice = fusionarIndice(estatico?.paquetes || [], vivo)
-    .filter((p) => (p.casos?.publicado || 0) > 0)
-    .sort((a, b) => orden.indexOf(a.segmento) - orden.indexOf(b.segmento) || a.titulo.localeCompare(b.titulo));
+  if (!indice.length) indice = await leerIndice();
 }
 
-async function cargarTemas(rutas) {
-  const faltan = rutas.filter((ruta) => !datosDe.has(ruta));
-  const cargados = await Promise.all(faltan.map((ruta) => cargarPaquete(ruta).then((d) => [ruta, d], () => [ruta, null])));
-  for (const [ruta, datos] of cargados) if (datos) datosDe.set(ruta, datos);
-}
-
-// Solo casos publicados; sin «Incluir casos sin verificar», solo los que tienen el sello de un radiólogo.
+const cargarTemas = (rutas) => leerTemas(rutas, datosDe);
 function armarCatalogo(rutas, sinVerificar) {
-  catalogo = new Map();
-  for (const ruta of rutas) {
-    const datos = datosDe.get(ruta);
-    for (const caso of datos?.paquete.casos || []) {
-      if (caso.estado !== "publicado" || (!sinVerificar && !caso.revisor)) continue;
-      const clave = claveDe(datos.paquete.id, caso.id);
-      catalogo.set(clave, { clave, ruta, paquete: datos.paquete.id, caso, grupo: grupoDe(caso) });
-    }
-  }
+  catalogo = catalogoDe(rutas, datosDe, sinVerificar);
 }
 
 const datosDeClave = (clave) => datosDe.get(catalogo.get(clave)?.ruta);

@@ -41,7 +41,8 @@
         <li><a href="#crear-sala">Crear una sala</a></li>
         <li><a href="#conducir">Conducir la sesión</a></li>
         <li><a href="#cerrar">Cerrar la sala</a></li>
-        <li><a href="#tablero">Tablero por equipos</a></li></ul></div>
+        <li><a href="#tablero">Tablero por equipos</a></li>
+        <li><a href="#tabu">Tabú radiológico</a></li></ul></div>
       <div><p class="tema">Autores</p><ul>
         <li><a href="#entrar">Entrar al estudio</a></li>
         <li><a href="#zip">Subir un .zip ya hecho</a></li>
@@ -215,6 +216,44 @@
         mano. La partida se guarda en el navegador de esa computadora: si recargas la página, sigue donde estaba. Para
         que la enseñanza no adelante otra casilla, una figura que también usa una casilla sin jugar sale sin la lista de
         lo que señala cada marca, y no sale si es de las que se muestran solo al responder.</p>
+
+      <h3 id="tabu">Tabú radiológico</h3>
+      <p>Un juego de equipos con un solo aparato, celular o laptop. Alguien de un equipo ve la figura y el diagnóstico y
+        lo describe sin decir las palabras prohibidas, y su equipo tiene que adivinarlo antes de que suene el tiempo.
+        Entrena lo que más se usa en la lectura: describir lo que se ve antes de nombrarlo. No usa la sala en vivo; una
+        vez cargados los casos, no necesita red.</p>
+      <ol class="pasos">
+        <li>En la portada toca <b>Tabú radiológico</b>. Elige los temas, la dificultad, los equipos, el tiempo por turno
+          (45, 60 o 90 segundos), cuántos turnos le tocan a cada equipo y cuántos pases hay por turno. Como la sala, usa
+          solo casos verificados salvo que marques <b>Incluir casos sin verificar</b>.</li>
+        <li>Las cartas salen solas de los casos de imagen cuya respuesta es un diagnóstico corto; las respuestas que no
+          se pueden describir mirando la figura («Grado 3», una frase larga) quedan fuera. Las <b>palabras
+          prohibidas</b> son las de la respuesta y, hasta completar cinco, las etiquetas y el tema del caso.</li>
+        <li>Antes de cada turno la pantalla dice qué equipo describe y no muestra ninguna carta: así el aparato cambia de
+          manos sin que nadie vea la primera. Quien describe toca <b>Empezar el turno</b>; su equipo no mira la pantalla
+          y el otro equipo, sí, para vigilar las prohibidas.</li>
+        <li>Con cada carta, quien describe toca <b>Adivinaron</b> (+1), <b>Tabú</b> (−1: dijo una prohibida, y lo canta
+          el otro equipo) o <b>Pasar</b> (0; la carta vuelve al fondo del mazo). <b>Deshacer</b> corrige un toque
+          equivocado.</li>
+        <li>Al sonar viene el <b>repaso</b>: cada carta del turno con su figura y la descripción de la fuente («Así lo
+          describe la fuente»), para comparar con lo que se dijo. Ahí se corrige lo que se marcó mal, y la carta que
+          estaba en juego al sonar se puede contar si la adivinaron a tiempo.</li>
+        <li>Cuando se acaban los turnos, o el mazo, se ve el resultado.</li>
+      </ol>
+      <div class="tabla"><table>
+        <thead><tr><th>Tecla</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>1</kbd></td><td>Adivinaron.</td></tr>
+          <tr><td><kbd>2</kbd></td><td>Tabú.</td></tr>
+          <tr><td><kbd>3</kbd></td><td>Pasar.</td></tr>
+          <tr><td><kbd>Z</kbd></td><td>Deshace la última carta marcada.</td></tr>
+          <tr><td><kbd>P</kbd></td><td>Pausa el reloj, o lo sigue.</td></tr>
+          <tr><td><kbd>Espacio</kbd></td><td>Empieza el turno; en el repaso, pasa al siguiente.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="caja">La pantalla del celular queda encendida durante el turno, y al terminar suena un aviso. La partida
+        se guarda en ese navegador: si recargas en pleno turno, vuelve en pausa con el tiempo que quedaba. Algunas
+        respuestas son lugares o conceptos difíciles de describir con la figura: para eso está <b>Pasar</b>.</p>
     </section>
 
     <!-- ============================================================ AUTORES -->
@@ -477,7 +516,8 @@
         <li>No hay cuentas. En una sala solo se guardan el nombre o apodo, las respuestas y los puntajes, y se borran al
           cerrarla (o, si nadie la cierra, pasadas 24 horas). La práctica individual no guarda nada.</li>
         <li>El tablero por equipos guarda los nombres de los equipos y los puntajes solo en el navegador de la computadora
-          que proyecta, para aguantar una recarga. «Armar otra» o «Nueva partida» los borran.</li>
+          que proyecta, para aguantar una recarga. «Armar otra» o «Nueva partida» los borran. El Tabú hace lo mismo en el
+          aparato con que se juega.</li>
         <li>No se usan imágenes de pacientes del hospital. Cada imagen viene de una publicación o de un banco público y
           muestra su fuente y sus autores. Si tiene licencia abierta, la licencia va con su enlace; si no, dice
           «© titular · alojada por» quien la publicó.</li>

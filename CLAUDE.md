@@ -194,6 +194,17 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   por el presentador) y Clave (la perla). Para no adelantar respuestas, una figura que usa otra casilla sin jugar sale
   sin la lista de marcas, o no sale si es de «respuesta»; y nunca se compara con un caso que comparta figura o
   respuesta con una casilla. Probado de punta a punta en el navegador con ATM 4 × 4, no en un aula.
+- Tabú radiológico (2026-10-02): `tabu.html` + `app/tabu.js`, lógica sin pantalla en `app/tabu-logica.js`. Por equipos
+  y con un solo aparato que pasa de mano en mano: quien describe ve la figura y el diagnóstico y su equipo lo adivina
+  sin oír las prohibidas (las palabras de la respuesta y, hasta cinco, las de `etiquetas` y `tema`). Adivinaron +1,
+  Tabú −1, Pasar 0 (2 pases por turno por defecto). Entre turnos, una pantalla sin carta para cambiar de manos; al
+  sonar, un repaso con la figura y la primera viñeta de la explicación («Así lo describe la fuente»), donde se corrige
+  lo marcado. Carta = caso de imagen con respuesta corta (407 de 498 en `temas/`). Wake Lock y un pitido con WebAudio;
+  la partida va en `localStorage` y una recarga en pleno turno vuelve en pausa. La carga de temas del tablero pasó a
+  `app/catalogo.js`, compartido. Probado en el navegador (escritorio y 375 px) con ATM + RadCases MSK, no en un aula.
+  Ideas siguientes, ya planeadas con el autor: Supervivencia y Supervivencia con rescate en la sala en vivo (una vida;
+  si fallan todos no cae nadie; rescate cada 3 casos, uno por persona y no en el último tercio; responden todos), que
+  piden cambiar las reglas de `salas/`.
 - Servidor MCP (2026-10-01): `tools/mcp/servidor.mjs`, registrado en `.mcp.json`, para que Claude maneje el estudio en
   línea. Entra con Google como el autor (página en `localhost`, autorizado en Firebase Auth; sin cuenta de servicio),
   así que valen las mismas reglas. Reusa `app/validacion.js`, `app/instrucciones-ia.js` y `app/drive.js`; el ayudante

@@ -762,6 +762,55 @@ button.tb-puntos:not(:disabled):hover { background: none; color: #fff; text-deco
 label.tb-opcion { flex-wrap: nowrap; align-items: flex-start; }
 label.tb-opcion > input { margin-top: 3px; }
 
+/* ------------------------------------------------------------------ tabú radiológico */
+/* Lo mira quien describe, con el aparato en la mano: el diagnóstico y las prohibidas arriba y grandes, la figura al
+   lado (debajo en el celular) y los tres botones siempre a mano. Las prohibidas van en rojo con ✗, como lo que no se
+   puede hacer en el resto de la web. */
+.tabu-juego {
+  display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); grid-template-areas: "fig lado" "fig botones";
+  grid-template-rows: auto 1fr; gap: clamp(14px, 2vw, 24px); align-items: start;
+}
+.tabu-juego > .viewer { grid-area: fig; }
+.tabu-lado { grid-area: lado; display: grid; gap: 14px; }
+.tabu-juego > .tabu-botones { grid-area: botones; }
+.tabu-carta {
+  display: grid; gap: 10px; padding: clamp(14px, 2vw, 20px);
+  background: var(--panel); border: 1px solid var(--marca-borde); border-radius: var(--r-lg); box-shadow: inset 0 3px 0 var(--marca);
+}
+.tabu-respuesta {
+  margin-bottom: 6px; font-size: clamp(26px, 3.2vw, 40px); font-weight: 650; line-height: 1.15; letter-spacing: -.015em;
+  color: var(--marca); text-wrap: balance; overflow-wrap: anywhere;
+}
+.tabu-prohibidas { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.tabu-prohibidas li {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px 5px 8px;
+  font-size: clamp(16px, 1.5vw, 19px); font-weight: 600; line-height: 1.2; color: var(--mal);
+  background: var(--mal-suave); border: 1px solid var(--mal-borde); border-radius: 999px;
+}
+.tabu-prohibidas li::before { content: ""; width: 16px; height: 16px; flex: none; background: var(--i-mal) center / contain no-repeat; }
+.tabu-botones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.tabu-botones button { min-height: 64px; padding: 8px 10px; font-size: 17px; flex-direction: column; gap: 4px; }
+.tabu-botones kbd { font-size: 12px; opacity: .8; }
+.tabu-botones .si, .tabu-corregir .si { color: var(--ok); background: var(--ok-suave); border-color: var(--ok-borde); }
+.tabu-botones .no, .tabu-corregir .no { color: var(--mal); background: var(--mal-suave); border-color: var(--mal-borde); }
+.tabu-botones .si:not(:disabled):hover { color: var(--ok); background: rgba(67, 208, 142, .18); border-color: var(--ok); }
+.tabu-botones .no:not(:disabled):hover { color: var(--mal); background: rgba(244, 115, 133, .18); border-color: var(--mal); }
+.tabu-botones .tabu-deshacer { grid-column: 1 / -1; min-height: 40px; flex-direction: row; font-size: 14.5px; font-weight: 500; color: var(--mute); background: transparent; }
+.tabu-fila { display: grid; gap: 10px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--linea); border-left: 3px solid var(--linea-3); border-radius: 0 12px 12px 0; }
+.tabu-fila.si { border-left-color: var(--ok); }
+.tabu-fila.no { border-left-color: var(--mal); }
+.tabu-fila-cabeza { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.tabu-fila-cabeza b { font-size: 19px; font-weight: 650; line-height: 1.25; }
+.tabu-corregir { display: flex; flex-wrap: wrap; gap: 6px; }
+.tabu-corregir button { min-height: 34px; padding: 4px 11px; font-size: 13.5px; font-weight: 500; color: var(--tinta-2); background: transparent; border-color: var(--linea); }
+.tabu-corregir button:not(.elegido) { opacity: .62; }
+.tabu-corregir button.elegido { font-weight: 650; opacity: 1; box-shadow: inset 0 0 0 1px currentColor; }
+.tabu-corregir button.elegido:not(.si):not(.no) { color: var(--tinta); border-color: var(--linea-3); }
+.tabu-fila-cuerpo { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 14px; align-items: start; }
+.tabu-fila-cuerpo > .viewer img { max-height: 30vh; }
+.tabu-fila-cuerpo > :only-child { grid-column: 1 / -1; }
+.tabu-fuente { display: grid; gap: 4px; padding: 10px 14px; font-size: 16px; line-height: 1.5; background: var(--panel-2); border-radius: var(--r); }
+
 /* ------------------------------------------------------------------ estudio */
 .volver { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--tinta-2); text-decoration: none; }
 .volver:hover { color: var(--tinta); }
@@ -900,6 +949,16 @@ label.tb-opcion > input { margin-top: 3px; }
   .lobby { grid-template-columns: minmax(0, 1fr); }
   .diapo-dos, .diapo-comparar, .diapo-clave { grid-template-columns: minmax(0, 1fr); }
   .diapo-fig img { max-height: 48vh; }
+  /* Tabú en el celular: carta arriba, figura en medio y los botones pegados abajo, a mano del pulgar. */
+  .tabu-juego { grid-template-columns: minmax(0, 1fr); grid-template-areas: "lado" "fig" "botones"; grid-template-rows: none; }
+  .tabu-juego > .viewer img { max-height: 42vh; }
+  .tabu-juego > .tabu-botones {
+    position: sticky; bottom: 0; z-index: 5; margin-inline: -4px; padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
+    background: var(--fondo); border-top: 1px solid var(--linea);
+  }
+  .tabu-lado .reloj { grid-template-columns: auto minmax(0, 1fr); align-items: center; }
+  .tabu-lado .clock { font-size: 36px; }
+  .tabu-fila-cuerpo { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 640px) {
   header.bar { min-height: 0; row-gap: 8px; }
@@ -923,7 +982,7 @@ label.tb-opcion > input { margin-top: 3px; }
   .tema-card .acciones .boton { flex: 1 1 auto; }
 }
 @media (hover: none) {
-  .ctrl .teclas { display: none; }
+  .ctrl .teclas, .tabu-juego kbd, .tb-anuncio kbd, .ctrl kbd { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
