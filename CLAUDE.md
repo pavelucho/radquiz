@@ -211,9 +211,9 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
     clasificación: no entra en `contenido()` y no quita el sello. Sin ella cuenta como 2 y el validador solo avisa (y
     avisa si más del 70 % cae en un nivel). Panel «Dificultad y modo sin alternativas» en el paso 3 del estudio;
     herramienta MCP `casos_dificultad`; las instrucciones para la IA la piden siempre.
-  - El 2026-10-01 se asignó a los 1016 casos de los 13 temas del autor (siete agentes con la rúbrica) y se guardó en el
-    estudio; **falta volver a publicarlos** para que llegue a la web. Notas de casos dudosos en
-    `referencia/revision-dificultad-2026-10-01.md` (local).
+  - El 2026-10-01 se asignó a los 1016 casos de los 13 temas del autor (siete agentes con la rúbrica), y ese mismo día
+    se desplegó la web (`38ae714`) y se volvieron a publicar 11 temas; ATM conservó sus 27 sellos. Notas de casos
+    dudosos y errores de contenido en `referencia/revision-dificultad-2026-10-01.md` (local).
 - Manual de uso por papel: `manual.html`, en línea. Camino con Git (alternativo):
   `tools/aprobar <carpeta> --revisor <usuario> --todos|--casos a,b [--estado publicado]`.
 - `referencia/` y `PROMPT_INICIO.md` están en `.gitignore`: solo locales (el respaldo del piloto tiene recortes ND).
@@ -223,7 +223,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
    `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
-   2026-09-23 y la web a 2026-09-30, con las figuras pedidas a lh3 (desplegada con `main` en `03d4f52`). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
+   2026-09-23 y la web a 2026-10-01 (desplegada con `main` en `38ae714`). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
    sin commit; hay que desplegar con la carpeta limpia o desde una copia de `main` (`git worktree add … origin/main`).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
@@ -272,10 +272,10 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
     Desde el 2026-09-30 los prompts piden que una figura vaya en la respuesta de un solo caso y el comprobador del
     .zip lo avisa, pero los temas ya publicados siguen igual.
 
-11. Volver a publicar los 13 temas con dificultad (estudio o `tema_publicar`, con la declaración aceptada) y desplegar
-    la web con el código nuevo. `iip-hrct-dixon2010` e `ila-radiographics-hata2022` no se pueden volver a publicar
-    hasta corregir su licencia: dicen CC BY-NC-ND y la frase de la verificación no lo dice (mismo caso que el
-    pendiente 7).
+11. `iip-hrct-dixon2010` e `ila-radiographics-hata2022` tienen la dificultad en el estudio pero no publicada: no se
+    pueden volver a publicar hasta corregir su licencia (dicen CC BY-NC-ND y la frase de la verificación no lo dice;
+    mismo caso que el pendiente 7). Revisar también los errores de contenido de la nota de dificultad (cadera sobre
+    todo).
 12. Ids definitivos para los siete RadCases (`book-id`, `book-id-2-2-…`): el avance guardado usa el id del tema, así que
     renombrarlos después borra el avance de todos. Renombrar es crear el tema con el id nuevo y borrar el viejo.
 
