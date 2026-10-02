@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "gunderman2010": {
+    "cita": "Gunderman RB, Delaney LR, eds. Pediatric Imaging (RadCases). New York: Thieme Medical Publishers; 2010. ISBN 978-1-60406-181-9.",
+    "credito": "Gunderman RB, Delaney LR, eds. Pediatric Imaging (RadCases). Thieme, 2010",
+    "doi": "10.1055/b-002-66285",
+    "licencia": "Con copyright",
+    "modificaciones_permitidas": false,
+    "tipo": "libro",
+    "titular": "© 2010 Thieme Medical Publishers, Inc.",
+    "url": "https://doi.org/10.1055/b-002-66285",
+    "verificacion": {
+      "donde": "Página de créditos: «Copyright © 2010 by Thieme Medical Publishers, Inc.»",
+      "fecha": "2026-10-02",
+      "por": "Pavel Luna"
+    },
+    "licencia_url": null,
+    "alojada_por": "Pavel Luna"
+  }
+}
