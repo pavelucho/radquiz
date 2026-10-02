@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "bankier2024": {
+    "cita": "Bankier AA, MacMahon H, Colby T, Gevenois PA, Goo JM, Leung ANC, Lynch DA, Schaefer-Prokop CM, Tomiyama N, Travis WD, Verschakelen JA, White CS, Naidich DP. Fleischner Society: Glossary of Terms for Thoracic Imaging. Radiology. 2024;310(2):e232558. doi:10.1148/radiol.232558",
+    "credito": "Bankier AA, et al. Radiology. 2024",
+    "doi": "10.1148/radiol.232558",
+    "licencia": "Con copyright",
+    "licencia_url": null,
+    "modificaciones_permitidas": false,
+    "tipo": "articulo",
+    "titular": "© 2024 by the Radiological Society of North America, Inc.",
+    "url": "https://doi.org/10.1148/radiol.232558",
+    "verificacion": {
+      "donde": "PMC10902601, «Copyright and License information»: «© 2024 by the Radiological Society of North America, Inc.»; resumen: «© RSNA, 2024». No trae licencia Creative Commons.",
+      "fecha": "2026-10-02",
+      "por": "Claude, para pluna"
+    },
+    "alojada_por": "Pavel Luna"
+  }
+}
