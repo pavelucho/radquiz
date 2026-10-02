@@ -9,7 +9,7 @@
     "Rx"
   ],
   "idioma": "es",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -230,40 +230,6 @@
         "comprimida"
       ],
       "drive": "1IjC6TqukwUSiQgYjpzXSRLvM-zAZ4tXG"
-    },
-    "fig010": {
-      "archivo": "fig010.jpg",
-      "fuente": "bankier2024",
-      "figura": "Figura 10",
-      "leyenda_original": "Endobronchial: (A) Transverse and (B) coronal contrast-enhanced CT images through left lung of the same patient show endobronchial lesion in left upper lobe bronchus (arrow).",
-      "modalidad": "TC",
-      "paneles": [
-        {
-          "id": "A",
-          "lado": "izquierdo",
-          "plano": "transversal (axial)",
-          "secuencia": null,
-          "condicion": "con contraste"
-        },
-        {
-          "id": "B",
-          "lado": "izquierdo",
-          "plano": "coronal",
-          "secuencia": null,
-          "condicion": "con contraste"
-        }
-      ],
-      "marcas": [
-        {
-          "marca": "flecha blanca",
-          "panel": "A y B",
-          "senala": "lesión endobronquial en el bronquio del lóbulo superior izquierdo"
-        }
-      ],
-      "modificaciones": [
-        "comprimida"
-      ],
-      "drive": "1gGeJWDKU_Vms_bUGQX-SI945kxNp6mJL"
     },
     "fig011": {
       "archivo": "fig011.jpg",
@@ -3744,58 +3710,6 @@
       "revisor": null
     },
     {
-      "id": "dis-13",
-      "tema": "Distribución anatómica · Endobronquial",
-      "clasificacion": [
-        {
-          "segmento": "torax",
-          "area": "signos"
-        }
-      ],
-      "etiquetas": [
-        "anatomía bronquial",
-        "endobronquial"
-      ],
-      "tipo": "imagen",
-      "enunciado": "TC axial (A) y coronal (B) con contraste del pulmón izquierdo. ¿En qué bronquio está la lesión que señala la flecha?",
-      "imagenes": [
-        {
-          "ref": "fig010",
-          "mostrar_en": "pregunta"
-        }
-      ],
-      "opciones": [
-        "Bronquio del lóbulo inferior izquierdo",
-        "Bronquio principal izquierdo",
-        "Bronquio del lóbulo superior izquierdo",
-        "Bronquio de la língula",
-        "Bronquio intermediario"
-      ],
-      "correcta": 2,
-      "explicacion": "- **Hallazgos:** lesión endobronquial en el **bronquio del lóbulo superior izquierdo** (flecha en A y B).\n- Endobronquial: situada dentro de la luz de un bronquio.",
-      "perla": "Una reconstrucción coronal ayuda a ubicar la lesión en su bronquio.",
-      "dificultad": {
-        "nivel": 2,
-        "motivo": "ETC I: anatomía bronquial lobar en TC aplicada a una lesión",
-        "por": "ia"
-      },
-      "evidencia": [
-        {
-          "fuente": "bankier2024",
-          "ubicacion": "Leyenda de la Figura 10",
-          "cita": "Endobronchial: (A) Transverse and (B) coronal contrast-enhanced CT images through left lung of the same patient show endobronchial lesion in left upper lobe bronchus (arrow)."
-        },
-        {
-          "fuente": "bankier2024",
-          "ubicacion": "Entrada «Anatomic Distribution»",
-          "cita": "Endobronchial: located within the lumen of a bronchus (Figs 9, 10)."
-        }
-      ],
-      "estado": "publicado",
-      "autor": "pluna",
-      "revisor": null
-    },
-    {
       "id": "dis-14",
       "tema": "Distribución anatómica · Extrapleural",
       "clasificacion": [
@@ -4648,10 +4562,11 @@
       ],
       "etiquetas": [
         "signo del halo",
-        "hemorragia"
+        "hemorragia",
+        "aspergilosis"
       ],
       "tipo": "concepto",
-      "enunciado": "Según el glosario, ¿qué refleja con frecuencia el halo de vidrio deslustrado que rodea a un nódulo?",
+      "enunciado": "En la aspergilosis invasiva, ¿qué refleja con frecuencia el halo de vidrio deslustrado que rodea al nódulo, según el glosario?",
       "imagenes": [
         {
           "ref": "fig075",
@@ -4666,11 +4581,11 @@
         "Extensión linfangítica"
       ],
       "correcta": 3,
-      "explicacion": "- El halo es inespecífico, pero a menudo refleja **hemorragia local** alrededor de una lesión infecciosa o neoplásica (por ejemplo, aspergilosis invasiva).\n- También puede reflejar crecimiento tumoral lepídico (por ejemplo, adenocarcinoma primario).",
-      "perla": "Halo alrededor de un nódulo: piense en hemorragia (aspergilosis invasiva) o crecimiento lepídico.",
+      "explicacion": "- En la aspergilosis invasiva, el halo suele reflejar **hemorragia local** alrededor de la lesión infecciosa.\n- El halo es inespecífico: en otras lesiones (por ejemplo, el adenocarcinoma primario) puede reflejar crecimiento tumoral lepídico.",
+      "perla": "Nódulo con halo en un paciente con aspergilosis invasiva: el halo es hemorragia.",
       "dificultad": {
         "nivel": 3,
-        "motivo": "ETC II: significado fisiopatológico de un signo y su diferencial",
+        "motivo": "ETC II: significado fisiopatológico de un signo en una infección oportunista",
         "por": "ia"
       },
       "evidencia": [
@@ -6773,62 +6688,6 @@
           "fuente": "bankier2024",
           "ubicacion": "Entrada «Bronchocele»",
           "cita": "At CT, bronchoceles are typically branching V- or Y-shaped structures that may have a finger-like appearance."
-        }
-      ],
-      "estado": "publicado",
-      "autor": "pluna",
-      "revisor": null
-    },
-    {
-      "id": "via-06",
-      "tema": "Vía aérea · Broncocele",
-      "clasificacion": [
-        {
-          "segmento": "torax",
-          "area": "via-aerea"
-        }
-      ],
-      "etiquetas": [
-        "atresia bronquial"
-      ],
-      "tipo": "imagen",
-      "enunciado": "TC axial del pulmón derecho de dos pacientes (A y B). ¿Cuál es el diagnóstico más probable?",
-      "imagenes": [
-        {
-          "ref": "fig046",
-          "mostrar_en": "pregunta"
-        }
-      ],
-      "opciones": [
-        "Tumor endobronquial proximal",
-        "Atresia bronquial congénita",
-        "Retención de secreciones",
-        "Enfisema panlobulillar",
-        "Bronquiectasia por tracción"
-      ],
-      "correcta": 1,
-      "explicacion": "- **Hallazgos:** broncocele (flecha) dentro de un lóbulo hiperlucente; la leyenda lo atribuye a **atresia bronquial congénita**.\n- Los broncoceles pueden ser congénitos (atresia bronquial) o deberse a secreciones retenidas u obstrucción proximal (tumor endobronquial).\n- En la atresia, el parénquima alrededor puede tener baja atenuación por menor ventilación y, por eso, menor perfusión.",
-      "perla": "Broncocele + lóbulo hiperlucente alrededor: piense en atresia bronquial congénita.",
-      "dificultad": {
-        "nivel": 3,
-        "motivo": "ETC II: entidad poco frecuente; diferencial fino entre causas de broncocele",
-        "por": "ia"
-      },
-      "evidencia": [
-        {
-          "fuente": "bankier2024",
-          "ubicacion": "Leyenda de la Figura 46",
-          "cita": "Bronchocele: Transverse CT images of the right lung in two different patients show localized bronchial dilatation (A) with and (B) without mucoid impaction within a hyperlucent lobe, due to congenital bronchial atresia (arrow)."
-        },
-        {
-          "fuente": "bankier2024",
-          "ubicacion": "Entrada «Bronchocele»",
-          "cita": "A bronchocele is a focal bronchial dilatation, often with mucoid impaction*. Bronchoceles can be either congenital (eg, in bronchial atresia) or caused by retained secretions or proximal obstruction (eg, by an endobronchial tumor)."
-        },
-        {
-          "fuente": "bankier2024",
-          "ubicacion": "Entrada «Bronchocele»",
-          "cita": "In bronchial atresia, the surrounding lung parenchyma* can have low attenuation because of reduced ventilation and, thus, decreased perfusion (3,47,48)."
         }
       ],
       "estado": "publicado",
@@ -10730,13 +10589,13 @@
       ],
       "opciones": [
         "Neumotórax anterior",
-        "Aire en el pericardio",
+        "Enfisema subcutáneo",
         "Bulla subpleural",
         "Enfisema paraseptal",
         "Aire extrapleural"
       ],
       "correcta": 4,
-      "explicacion": "- **Hallazgos:** aire mediastínico (flecha llena) y **aire extrapleural** (flecha abierta).\n- El aire puede llegar al mediastino a lo largo del intersticio axial tras la rotura alveolar.",
+      "explicacion": "- **Hallazgos:** aire mediastínico (flecha llena) y **aire extrapleural** (flecha abierta).\n- El aire puede llegar al mediastino a lo largo del intersticio axial tras la rotura alveolar.\n- El «enfisema subcutáneo» es aire en las partes blandas, fuera del tórax.",
       "perla": "En un neumomediastino, busque también aire extrapleural.",
       "dificultad": {
         "nivel": 3,
@@ -10753,6 +10612,11 @@
           "fuente": "bankier2024",
           "ubicacion": "Entrada «Pneumomediastinum»",
           "cita": "It can be caused by spontaneous rupture of alveoli, by trauma, or by esophageal rupture with a subsequent incursion of air along the axial interstitium* into the mediastinum*."
+        },
+        {
+          "fuente": "bankier2024",
+          "ubicacion": "Entrada «Emphysema»",
+          "cita": "The terms “interstitial emphysema” and “subcutaneous emphysema” are sometimes used to designate abnormal air collections in the pulmonary interstitium* and the soft tissues, respectively, as may result from barotrauma."
         }
       ],
       "estado": "publicado",
@@ -11580,21 +11444,21 @@
       ],
       "etiquetas": [
         "espacio aéreo",
-        "parénquima"
+        "bronquiolo terminal"
       ],
       "tipo": "concepto",
-      "enunciado": "Según el glosario, ¿qué estructuras quedan fuera del «espacio aéreo» (airspace)?",
+      "enunciado": "Según el glosario, ¿cuál es la vía aérea más distal que queda fuera del «espacio aéreo» (airspace) por ser solo conductora?",
       "imagenes": [],
       "opciones": [
-        "Bronquiolos terminales",
-        "Bronquiolos respiratorios",
-        "Conductos alveolares",
-        "Alvéolos",
-        "Sacos alveolares"
+        "Bronquiolo terminal",
+        "Bronquiolo respiratorio",
+        "Conducto alveolar",
+        "Bronquio segmentario",
+        "Bronquio subsegmentario"
       ],
       "correcta": 0,
-      "explicacion": "- El **espacio aéreo** es la parte del parénquima que contiene aire: bronquiolos respiratorios, conductos alveolares y alvéolos.\n- Excluye la vía aérea solo conductora, como los **bronquiolos terminales**.",
-      "perla": "El bronquiolo terminal conduce aire pero no forma parte del espacio aéreo.",
+      "explicacion": "- El **espacio aéreo** es la parte del parénquima que contiene aire: incluye los **bronquiolos respiratorios**, los conductos alveolares y los alvéolos.\n- Excluye la vía aérea solo conductora; el **bronquiolo terminal** es la más distal de ellas.\n- El bronquiolo respiratorio sí queda dentro: permite el intercambio gaseoso y de él salen alvéolos.",
+      "perla": "El bronquiolo terminal es el último que solo conduce; desde el respiratorio ya hay intercambio gaseoso.",
       "dificultad": {
         "nivel": 3,
         "motivo": "ETC II: anatomía microscópica que define otros términos",
@@ -11605,6 +11469,11 @@
           "fuente": "bankier2024",
           "ubicacion": "Entrada «Airspace»",
           "cita": "An airspace is the air- or gas-containing part of the lung parenchyma*, including the respiratory bronchioles (bronchiole*), alveolar ducts, and alveoli, but excluding purely conductive airways* such as terminal bronchioles."
+        },
+        {
+          "fuente": "bankier2024",
+          "ubicacion": "Entrada «Bronchiole»",
+          "cita": "Terminal bronchioles are the most distal of the purely conducting airways. They give rise to respiratory bronchioles, from which alveoli arise. Respiratory bronchioles allow gas exchange, and branch into multiple alveolar ducts."
         }
       ],
       "estado": "publicado",
@@ -11732,39 +11601,39 @@
         "infarto pulmonar",
         "embolia"
       ],
-      "tipo": "concepto",
-      "enunciado": "¿Qué forma típica tiene un infarto pulmonar en la imagen?",
+      "tipo": "imagen",
+      "enunciado": "TC con contraste en ventana de partes blandas (A) y pulmonar (B), reconstrucción coronal (C) y radiografía PA (D). ¿Qué señalan las flechas abiertas?",
       "imagenes": [
         {
           "ref": "fig056",
-          "mostrar_en": "respuesta"
+          "mostrar_en": "pregunta"
         }
       ],
       "opciones": [
-        "Nódulo con halo",
-        "Anillo de consolidación",
-        "Banda paralela a la pleura",
-        "Cuña con base pleural",
-        "Masa con broncograma"
+        "Infartos pulmonares",
+        "Atelectasias redondas",
+        "Consolidaciones por neumonía",
+        "Masas pulmonares",
+        "Bandas parenquimatosas"
       ],
-      "correcta": 3,
-      "explicacion": "- El infarto pulmonar es típicamente una opacidad **triangular, en cúpula o en cuña, con la base en la pleura** y el vértice hacia el hilio.\n- Refleja edema, hemorragia, necrosis, organización o cicatriz, según el momento de la imagen.",
-      "perla": "Infarto: cuña con base pleural y vértice hacia el hilio.",
+      "correcta": 0,
+      "explicacion": "- **Hallazgos:** émbolos (flechas llenas) y opacidades periféricas apoyadas en la pleura que les corresponden: **infartos pulmonares** (flechas abiertas).\n- El infarto pulmonar es típicamente una opacidad triangular, en cúpula o en cuña, con la base en la pleura y el vértice hacia el hilio.\n- Refleja edema, hemorragia, necrosis, organización o cicatriz, según el momento de la imagen.",
+      "perla": "Infarto: cuña con base pleural y vértice hacia el hilio, distal a un émbolo.",
       "dificultad": {
         "nivel": 2,
-        "motivo": "ETC I: forma típica de una complicación común",
+        "motivo": "ETC I: complicación típica de una entidad común, con émbolo visible",
         "por": "ia"
       },
       "evidencia": [
         {
           "fuente": "bankier2024",
-          "ubicacion": "Entrada «Infarction»",
-          "cita": "At imaging, a pulmonary infarct is typically a triangular, dome-, or wedge-shaped opacity*, with the base abutting the pleura* and the apex directed toward the hilum*. The opacity reflects local edema, hemorrhage, necrosis, late organization and/or scarring, or a combination of these, depending on the timing of imaging during the natural history of the vascular occlusion (embolus*)."
+          "ubicacion": "Leyenda de la Figura 56",
+          "cita": "Embolism with infarction: Transverse contrast-enhanced CT images in (A) soft tissue and (B) lung window show emboli (solid arrows) and corresponding infarction (open arrows). (C) Coronal CT image reconstruction and (D) frontal chest radiograph in the same patient show central embolus (solid arrow) and peripheral infarction (open arrow). Emphysema."
         },
         {
           "fuente": "bankier2024",
-          "ubicacion": "Leyenda de la Figura 56",
-          "cita": "Embolism with infarction: Transverse contrast-enhanced CT images in (A) soft tissue and (B) lung window show emboli (solid arrows) and corresponding infarction (open arrows). (C) Coronal CT image reconstruction and (D) frontal chest radiograph in the same patient show central embolus (solid arrow) and peripheral infarction (open arrow). Emphysema."
+          "ubicacion": "Entrada «Infarction»",
+          "cita": "At imaging, a pulmonary infarct is typically a triangular, dome-, or wedge-shaped opacity*, with the base abutting the pleura* and the apex directed toward the hilum*. The opacity reflects local edema, hemorrhage, necrosis, late organization and/or scarring, or a combination of these, depending on the timing of imaging during the natural history of the vascular occlusion (embolus*)."
         }
       ],
       "estado": "publicado",
