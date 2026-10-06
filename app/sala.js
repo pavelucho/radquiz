@@ -263,7 +263,7 @@ async function pantallaCrear() {
         <input type="radio" name="vidas" value="${n}" ${n === 1 ? "checked" : ""}>
         <span class="vidas" aria-hidden="true">${"<i class=\"vida\"></i>".repeat(n)}</span><span>${n === 1 ? "1 vida" : `${n} vidas`}</span></label>`).join("")}</div>
     </div>
-    <label class="grid-label">Equipos <select id="equipos">${Object.entries(FORMAS_EQUIPO).map(([v, t]) => `<option value="${v}">${esc(t)}</option>`).join("")}</select></label>
+    <label class="grid-label">Equipos <select id="equipos">${FORMAS_EQUIPO.map(([v, t]) => `<option value="${v}">${esc(t)}</option>`).join("")}</select></label>
     <p class="src" id="nota-equipos"></p>
     <div class="campos">
       <label class="grid-label">Tiempo por caso <select id="duracion">${DURACIONES.map((s) => `<option value="${s}" ${s === 45 ? "selected" : ""}>${s} s</option>`).join("")}</select></label>

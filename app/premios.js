@@ -107,13 +107,15 @@ export function asignarTitulos(stats = {}, { jugadores = {}, enPie = () => true,
 
 // ------------------------------------------------------------------ equipos
 // Por año de residencia, o por colores (de la paleta de las letras A–E). El valor va en info.equipos.
-export const FORMAS_EQUIPO = {
-  "": "Sin equipos",
-  anio: "Por año de residencia",
-  2: "2 equipos",
-  3: "3 equipos",
-  4: "4 equipos",
-};
+// Es una lista y no un objeto: en un objeto, las claves «2», «3» y «4» irían primero y «Sin equipos» dejaría de ser
+// la opción por defecto.
+export const FORMAS_EQUIPO = [
+  ["", "Sin equipos"],
+  ["anio", "Por año de residencia"],
+  ["2", "2 equipos"],
+  ["3", "3 equipos"],
+  ["4", "4 equipos"],
+];
 const POR_ANIO = [
   { id: "r1", nombre: "R1", color: "var(--a)" },
   { id: "r2", nombre: "R2", color: "var(--c)" },
