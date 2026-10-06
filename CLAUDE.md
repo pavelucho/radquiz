@@ -215,6 +215,16 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   Vidas (2026-10-05): en Supervivencia con rescate se eligen de 1 a 3 corazones de pixel art (`info.vidas`,
   `fallos/<uid>`, `tocados/<uid>`); cada fallo quita uno y se cae al perder el último; el rescatado vuelve con uno.
   Reglas desplegadas ese día. Probado con dos jugadores y 2 vidas: pierde un corazón, cae, vuelve con uno.
+- Puntaje (2026-10-05): 900 por acierto + hasta 100 por rapidez (antes 500 + 500): pesa acertar, no el reflejo.
+- Ambiente, rachas, avatares y equipos en la sala (2026-10-05), decididos con el autor como capas 1, 2 y 5 de una lista
+  de ideas (las otras: eventos sorpresa como caso relámpago, duelo final y caso jefe; y comodines 50:50, escudo y doble
+  o nada, para cuando el grupo pida más). Sonido suave en el proyector (`app/efectos.js`, botón «Sonido»: notas de seno y
+  triángulo a volumen bajo; la primera versión, de onda cuadrada y con redoble de ruido, al autor le pareció
+  estruendosa), revelado con suspenso, podio con confeti; racha ×1,5 desde el 3.º acierto, 200 a quien acierta solo, datos al revelar y
+  títulos al final (`app/premios.js`; `stats/`, `premio/`, `titulos/`); avatares de pixel art de radiología, 10 × 10 (`app/avatares.js`; el
+  trébol de radiación se descartó porque a esa resolución parecía una cara) y
+  equipos por año o por color con promedio por persona. Reglas desplegadas ese día. Probado contra producción con
+  presentador y tres jugadores en una sala clásica por equipos y en una supervivencia, no en un aula.
 - Servidor MCP (2026-10-01): `tools/mcp/servidor.mjs`, registrado en `.mcp.json`, para que Claude maneje el estudio en
   línea. Entra con Google como el autor (página en `localhost`, autorizado en Firebase Auth; sin cuenta de servicio),
   así que valen las mismas reglas. Reusa `app/validacion.js`, `app/instrucciones-ia.js` y `app/drive.js`; el ayudante

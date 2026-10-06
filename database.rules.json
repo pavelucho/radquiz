@@ -45,6 +45,9 @@
           "modo": {
             ".validate": "newData.isString() && newData.val().matches(/^(clasico|supervivencia|rescate)$/)"
           },
+          "equipos": {
+            ".validate": "newData.isString() && newData.val().matches(/^(anio|2|3|4)$/)"
+          },
           "vidas": {
             ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 3"
           },
@@ -93,6 +96,12 @@
             "unido": {
               ".validate": "newData.isNumber() && (newData.val() == data.val() || newData.val() == now)"
             },
+            "avatar": {
+              ".validate": "newData.isString() && newData.val().matches(/^[a-z]{2,20}$/)"
+            },
+            "equipo": {
+              ".validate": "newData.isString() && newData.val().matches(/^[a-z0-9]{1,8}$/) && (newData.val() == data.val() || root.child('salas').child($codigo).child('estado/fase').val() == 'lobby')"
+            },
             "$otro": {
               ".validate": false
             }
@@ -133,6 +142,35 @@
           ".read": "auth != null",
           "$uid": {
             ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 3"
+          }
+        },
+        "stats": {
+          ".read": "auth != null",
+          "$uid": {
+            "r": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
+            "mr": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
+            "a": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
+            "f": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
+            "k": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
+            "s": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 100000" },
+            "$otro": { ".validate": false }
+          }
+        },
+        "premio": {
+          ".read": "auth != null",
+          "$uid": {
+            ".validate": "newData.hasChildren(['i', 'pts'])",
+            "i": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
+            "pts": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 5000" },
+            "racha": { ".validate": "newData.isBoolean()" },
+            "solo": { ".validate": "newData.isBoolean()" },
+            "$otro": { ".validate": false }
+          }
+        },
+        "titulos": {
+          ".read": "auth != null",
+          "$uid": {
+            ".validate": "newData.isString() && newData.val().matches(/^[a-z-]{2,24}$/)"
           }
         },
         "tocados": {

@@ -89,6 +89,8 @@
   /* corazones de las vidas, en pixel art: lleno (rojo, con un brillo) y perdido */
   --i-corazon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z' fill='%23f47385'/%3E%3Cpath d='M1 1h1v1H1z' fill='%23ffd3da'/%3E%3C/svg%3E");
   --i-corazon-vacio: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z' fill='%2334445a'/%3E%3C/svg%3E");
+  /* llama de la racha, en pixel art como los corazones */
+  --i-llama: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 8' shape-rendering='crispEdges'%3E%3Crect x='3' y='0' width='1' height='1' fill='%23f5a24f'/%3E%3Crect x='2' y='1' width='2' height='1' fill='%23f5a24f'/%3E%3Crect x='2' y='2' width='2' height='1' fill='%23f5a24f'/%3E%3Crect x='4' y='2' width='1' height='1' fill='%23f2c14e'/%3E%3Crect x='1' y='3' width='2' height='1' fill='%23f5a24f'/%3E%3Crect x='3' y='3' width='2' height='1' fill='%23f2c14e'/%3E%3Crect x='5' y='3' width='1' height='1' fill='%23f5a24f'/%3E%3Crect x='1' y='4' width='1' height='1' fill='%23f5a24f'/%3E%3Crect x='2' y='4' width='3' height='1' fill='%23f2c14e'/%3E%3Crect x='5' y='4' width='1' height='1' fill='%23f5a24f'/%3E%3Crect x='0' y='5' width='2' height='1' fill='%23f5a24f'/%3E%3Crect x='2' y='5' width='1' height='1' fill='%23f2c14e'/%3E%3Crect x='3' y='5' width='1' height='1' fill='%23fff3c4'/%3E%3Crect x='4' y='5' width='1' height='1' fill='%23f2c14e'/%3E%3Crect x='5' y='5' width='2' height='1' fill='%23f5a24f'/%3E%3Crect x='0' y='6' width='2' height='1' fill='%23f5a24f'/%3E%3Crect x='2' y='6' width='3' height='1' fill='%23f2c14e'/%3E%3Crect x='5' y='6' width='2' height='1' fill='%23f5a24f'/%3E%3Crect x='1' y='7' width='5' height='1' fill='%23f5a24f'/%3E%3C/svg%3E");
   --i-ampliar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M3 7.5V3h4.5M12.5 3H17v4.5M17 12.5V17h-4.5M7.5 17H3v-4.5' fill='none' stroke='%238f9cad' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
@@ -668,7 +670,7 @@ button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
 .rk:nth-child(2) .pos { color: #cfd8e3; }
 .rk:nth-child(3) .pos { color: #e3a26c; }
 .rk.me { border-color: var(--marca); box-shadow: inset 0 0 0 1px var(--marca); }
-.rk.me span:nth-child(2)::after { content: "  · tú"; color: var(--marca); font-weight: 600; }
+.rk.me > span:nth-child(2)::after { content: "  · tú"; color: var(--marca); font-weight: 600; }
 
 /* supervivencia: en pie (verde, con ✓), eliminado (apagado y tachado, con ✗) y la ronda de rescate en el amarillo
    de la marca. El ícono dice lo mismo que el color. */
@@ -702,6 +704,94 @@ button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
 .pl.caido small { text-decoration: none; }
 .pl.caido::before { filter: grayscale(1); opacity: .6; }
 .pl.yo { box-shadow: inset 0 0 0 1px var(--marca); border-color: var(--marca); }
+/* ------------------------------------------------------------------ sala: ambiente, rachas, avatares y equipos */
+/* botón de sonido del presentador, en la cabecera */
+.bar button.sonido { min-height: 32px; padding: 4px 11px; font-size: 13.5px; font-weight: 500; }
+.bar button.sonido[aria-pressed="false"] { color: var(--mute); text-decoration: line-through; text-decoration-color: var(--linea-3); }
+.confeti { position: fixed; inset: 0; z-index: 60; width: 100vw; height: 100vh; pointer-events: none; }
+
+/* avatares de pixel art */
+.avatar { width: 24px; height: 24px; flex: none; image-rendering: pixelated; border-radius: 6px; background: var(--panel-3); padding: 2px; vertical-align: middle; }
+.avatar.grande { width: 48px; height: 48px; padding: 4px; border-radius: 10px; }
+.pl.con-avatar { padding-left: 6px; }
+.pl.con-avatar::before { display: none; }
+.big.nombre { display: flex; align-items: center; gap: 14px; }
+.rk-nombre { display: inline-flex; align-items: center; gap: 9px; min-width: 0; overflow-wrap: anywhere; }
+.elegir-avatar { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+.opcion-avatar { min-height: 0; aspect-ratio: 1; padding: 6px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--linea-2); }
+.opcion-avatar .avatar { width: 100%; height: auto; padding: 0; background: none; }
+.opcion-avatar.elegido { border-color: var(--marca); box-shadow: inset 0 0 0 2px var(--marca); background: var(--marca-suave); }
+.elegir-equipo { display: flex; flex-wrap: wrap; gap: 8px; }
+.opcion-equipo { border-left: 5px solid var(--color); }
+.opcion-equipo.elegido { border-color: var(--color); box-shadow: inset 0 0 0 2px var(--color); color: var(--tinta); background: var(--panel-3); }
+.mi-equipo { justify-self: start; padding: 4px 12px; font-weight: 600; border-left: 5px solid var(--color); background: var(--panel-2); border-radius: 0 999px 999px 0; }
+.equipo-lobby { display: grid; gap: 8px; padding-left: 12px; border-left: 4px solid var(--color); }
+.equipo-lobby + .equipo-lobby { margin-top: 10px; }
+
+/* racha: la llama, desde el 3.º acierto seguido */
+.llama { display: inline-block; width: 14px; height: 16px; flex: none; vertical-align: -2px; background: var(--i-llama) center / contain no-repeat; image-rendering: pixelated; }
+.racha { display: inline-flex; align-items: center; gap: 3px; font-size: 14px; font-weight: 700; color: var(--b); font-variant-numeric: tabular-nums; }
+.chip.racha-propia { justify-self: start; white-space: normal; color: var(--b); border-color: rgba(245, 162, 79, .5); background: rgba(245, 162, 79, .1); }
+.chip.racha-propia.casi { color: var(--tinta-2); border-color: var(--linea-2); background: var(--panel-2); }
+
+/* datos al revelar */
+.datos-revelado { display: flex; flex-wrap: wrap; gap: 8px; }
+.datos-revelado .chip { white-space: normal; font-size: 14px; }
+.chip.dato-solo { color: var(--marca); border-color: var(--marca-borde); background: var(--marca-suave); }
+.chip.dato-trampa { color: var(--mal); border-color: var(--mal-borde); background: var(--mal-suave); }
+.chip.dato-racha { color: var(--b); border-color: rgba(245, 162, 79, .5); background: rgba(245, 162, 79, .1); }
+
+/* Suspenso al revelar: las barras suben una por una, después se marca la correcta y al final aparece lo demás.
+   --pasado deja seguir la animación donde iba si la pantalla se redibuja. */
+.suspenso .opt .fill { animation: crecer-barra .55s ease-out both; animation-delay: calc(var(--i) * .3s - var(--pasado, 0s)); }
+.suspenso .opt .n { animation: aparecer-suave .3s ease-out both; animation-delay: calc(var(--i) * .3s + .3s - var(--pasado, 0s)); }
+.suspenso .opt.right { animation: destacar-correcta .6s ease-out both; animation-delay: calc(var(--n) * .3s + .3s - var(--pasado, 0s)); }
+.suspenso .opt.right::after { animation: aparecer-suave .3s ease-out both; animation-delay: calc(var(--n) * .3s + .3s - var(--pasado, 0s)); }
+.suspenso .opt.wrong { animation: apagar-opcion .4s ease-out both; animation-delay: calc(var(--n) * .3s + .3s - var(--pasado, 0s)); }
+.suspenso .exp, .suspenso .pearl, .suspenso .datos-revelado, .suspenso .sv-aviso, .suspenso .qhead .tema {
+  animation: aparecer-suave .4s ease-out both; animation-delay: calc(var(--n) * .3s + .7s - var(--pasado, 0s));
+}
+@keyframes crecer-barra { from { width: 0; } }
+@keyframes aparecer-suave { from { opacity: 0; } }
+@keyframes destacar-correcta {
+  from { background: var(--panel-2); border-color: var(--linea); box-shadow: none; transform: scale(1); }
+  45% { transform: scale(1.035); }
+}
+@keyframes apagar-opcion { from { opacity: 1; } }
+
+/* podio del final: sube el 3.º, después el 2.º, y el 1.º al último */
+.podio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; gap: clamp(8px, 1.6vw, 20px); max-width: 760px; width: 100%; margin: 6px auto 4px; }
+.escalon { display: grid; gap: 10px; justify-items: center; text-align: center; animation: subir-podio .7s cubic-bezier(.2, .9, .3, 1.3) both; animation-delay: var(--espera, 0s); }
+.escalon.vacio { animation: none; }
+.escalon-quien { display: grid; gap: 4px; justify-items: center; min-width: 0; }
+.escalon-quien b { font-size: clamp(17px, 2vw, 26px); line-height: 1.2; overflow-wrap: anywhere; }
+.escalon-quien span { font-size: 14.5px; color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+.escalon-bloque {
+  display: grid; place-items: center; width: 100%; border-radius: 12px 12px 0 0;
+  font-size: clamp(36px, 5vw, 64px); font-weight: 700; font-stretch: 85%; color: var(--marca-tinta);
+}
+.e1 .escalon-bloque { height: clamp(120px, 22vh, 200px); background: var(--marca); }
+.e2 .escalon-bloque { height: clamp(90px, 16vh, 150px); background: #cfd8e3; }
+.e3 .escalon-bloque { height: clamp(66px, 11vh, 110px); background: #e3a26c; }
+.e1 .avatar.grande { width: 64px; height: 64px; }
+.escalon.yo .escalon-quien b { color: var(--marca); }
+@keyframes subir-podio { from { opacity: 0; transform: translateY(40px); } }
+
+/* títulos y equipos */
+.titulos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 10px; }
+.titulo { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; }
+.titulo > div { display: grid; gap: 2px; min-width: 0; }
+.titulo b { color: var(--marca); }
+.titulo.yo { border-color: var(--marca); }
+.titulo.propio { display: grid; gap: 4px; justify-items: start; padding: 14px 16px; background: var(--marca-suave); border-color: var(--marca-borde); }
+.titulo.propio b { font-size: 22px; }
+.equipos-sala { display: grid; gap: 8px; }
+.equipo-fila { display: grid; grid-template-columns: minmax(0, 12em) minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 8px 12px; background: var(--panel); border: 1px solid var(--linea); border-left: 5px solid var(--color); border-radius: 10px; }
+.equipo-nombre { font-weight: 650; }
+.equipo-barra { height: 12px; border-radius: 99px; background: var(--panel-3); overflow: hidden; }
+.equipo-barra i { display: block; height: 100%; border-radius: inherit; background: var(--color); }
+.equipo-dato { font-size: 14.5px; color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+
 /* vidas: corazones de pixel art, como en un videojuego. El que se pierde tiembla y cae; el último late. */
 .vidas { display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; }
 .vida {
@@ -1037,6 +1127,8 @@ label.tb-opcion > input { margin-top: 3px; }
   .tabu-lado .reloj { grid-template-columns: auto minmax(0, 1fr); align-items: center; }
   .tabu-lado .clock { font-size: 36px; }
   .tabu-fila-cuerpo { grid-template-columns: minmax(0, 1fr); }
+  .equipo-fila { grid-template-columns: minmax(0, 1fr) auto; }
+  .equipo-barra { grid-column: 1 / -1; grid-row: 2; }
 }
 @media (max-width: 640px) {
   header.bar { min-height: 0; row-gap: 8px; }
@@ -1066,6 +1158,7 @@ label.tb-opcion > input { margin-top: 3px; }
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
   /* el fondo de la portada queda quieto: sin el punto que da la vuelta ni la banda que baja */
   .fv-orbita, .fv-barrido { display: none !important; }
+  .escalon { animation: none; }
   /* sin animación, el corazón perdido se ve vacío de una vez */
   .vida.rota::after { display: none; }
 }

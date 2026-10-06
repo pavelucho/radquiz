@@ -208,9 +208,30 @@ Sin secreto los workflows avisan y no fallan, y queda el camino a mano: `tools/d
 1. El presentador abre `sala.html`, pulsa «Crear sala», elige tema y tiempo, y proyecta el código de 4 letras.
 2. Los residentes abren la web en el celular, escriben el código y su nombre. No hay cuentas: cada navegador recibe
    una identidad anónima de Firebase.
-3. Puntaje: 500 por acierto + hasta 500 por rapidez, con la hora del servidor. Una respuesta por pregunta.
+3. Puntaje: 900 por acierto + hasta 100 por rapidez (`PUNTOS_ACIERTO` y `PUNTOS_RAPIDEZ` en `app/sala.js`), con la
+   hora del servidor. En un caso la rapidez mueve como mucho 100: para compensar un acierto de diferencia hay que
+   haber sido más rápido en unos diez casos. Hasta el 2026-10-05 era 500 + hasta 500, y premiaba el reflejo. Una respuesta por pregunta.
 4. Al cerrar la sala se borran nombres, respuestas y puntajes. Las salas abandonadas se borran solas después de 24 h,
    cuando alguien crea una sala nueva.
+
+### Ambiente, rachas, avatares y equipos
+
+- `app/efectos.js`: sonidos suaves sintetizados con WebAudio (notas de seno y triángulo, como marimba o campanita, a
+  volumen bajo; sin archivos), solo en el proyector y con botón «Sonido»
+  (`localStorage` `radquiz.sonido`); vibración en el celular (Android) y confeti en un canvas. Con «reducir
+  movimiento» no hay confeti ni animaciones.
+- Revelado con suspenso: `.suspenso` en `#app` y `--pasado`, así la animación sigue donde iba si la pantalla se
+  redibuja. Podio del final con `PODIO_TIEMPOS`.
+- `app/premios.js` (sin pantalla): racha ×1,5 desde el 3.º acierto seguido, bono de 200 a quien acierta solo (con 3 o
+  más respuestas), datos del revelado, títulos del final y equipos. El presentador escribe al revelar
+  `stats/<uid>` (racha, mejor racha, aciertos, segundos, fallos, «kamikaze») y `premio/<uid>` (lo que ganó en el caso),
+  y al terminar `titulos/<uid>`.
+- `app/avatares.js`: 12 avatares de pixel art de radiología (cráneo, hueso, cerebro, pulmones, columna, riñón, placa
+  de tórax, imán de RM, tomógrafo, ecógrafo, contraste y la mano de Röntgen), 10 × 10, en SVG (no emojis: Chrome en
+  Windows 7 no los muestra), en
+  `jugadores/<uid>/avatar`; el celular recuerda el último (`radquiz.avatar`).
+- Equipos: `info.equipos` (`anio` o 2–4) y `jugadores/<uid>/equipo`, que las reglas solo dejan cambiar en el lobby. Se
+  compara el promedio por persona.
 
 Las reglas (`database.rules.json`) impiden que un jugador cambie el estado, toque puntajes, escriba por otro, responda
 dos veces, responda fuera de tiempo o lea las respuestas ajenas antes de revelarlas; en supervivencia, también que

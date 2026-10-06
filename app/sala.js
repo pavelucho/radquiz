@@ -15,6 +15,12 @@ import {
   MODOS, modoDe, esSupervivencia, esRescate, armarSecuencia, vivos, puedeVolver, puedeResponder, habilitados,
   resolverRonda, decidida, siguiente, faltanParaRescate, numeroDe, clasificacion, MAX_VIDAS, vidasDe, quedan,
 } from "./supervivencia.js";
+import {
+  cuentasRonda, datosRevelado, asignarTitulos, TITULOS, formatoSegundos, multiplicador, BONO_SOLO, RACHA_MIN,
+  FORMAS_EQUIPO, equiposDe, resumenEquipos,
+} from "./premios.js";
+import { AVATARES, avatarImg, avatarAleatorio, esAvatar, nombreAvatar } from "./avatares.js";
+import { sonar, vibrar, confeti, prepararAudio, sonidoActivo, alternarSonido } from "./efectos.js";
 
 const LETRAS = "ABCDE";
 const LETRAS_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -36,6 +42,12 @@ let eliminados = {};           // supervivencia: uid → caso en que cayó
 let rescatados = {};           // supervivencia con rescate: uid → caso en que volvió
 let fallos = {};               // con vidas: uid → corazones perdidos
 let tocados = {};              // con vidas: uid → caso en que perdió el último corazón
+let stats = {};                // uid → { r racha, mr mejor racha, a aciertos, s segundos, f fallos, k kamikaze }
+let premios = {};              // uid → { i caso, pts, racha, solo }: lo que ganó en el último caso revelado
+let titulos = {};              // uid → id del título, al terminar
+let reveladoEn = 0;            // cuándo se reveló el caso en pantalla: el suspenso sigue aunque se redibuje
+let finEn = 0;                 // cuándo empezó el final: el podio sube por partes
+const efectosHechos = new Set();  // celular: vibraciones ya hechas, para no repetirlas al redibujar
 const marcandoTarde = new Set();  // presentador: quienes entraron con la partida empezada, mientras se escribe
 let respuestasActual = {};     // solo el presentador: respuestas de la pregunta en curso
 let paquete = null;
@@ -65,6 +77,14 @@ function guardarSesion(datos) {
 function borrarSesion() {
   try { localStorage.removeItem(CLAVE_SESION); } catch { /* idem */ }
 }
+// El avatar elegido se recuerda en este celular para las salas siguientes.
+const CLAVE_AVATAR = "radquiz.avatar";
+function avatarPreferido() {
+  try { const a = localStorage.getItem(CLAVE_AVATAR); return esAvatar(a) ? a : null; } catch { return null; }
+}
+function guardarAvatar(id) {
+  try { localStorage.setItem(CLAVE_AVATAR, id); } catch { /* sin almacenamiento */ }
+}
 
 // ------------------------------------------------------------------ utilidades de vista
 function aviso(texto) {
@@ -91,6 +111,15 @@ function corazones(quedanN, total, { rompe = false } = {}) {
   return `<span class="vidas" role="img" aria-label="${quedanN} de ${total} vidas">${lista}</span>`;
 }
 
+// Un jugador en las listas (lobby, quién sigue): su avatar o, si no tiene, la inicial en un círculo de color.
+function chipJugador(id, extra = "", clase = "") {
+  const j = jugadores[id] || {};
+  const avatar = avatarImg(j.avatar);
+  return `<span class="pl ${avatar ? "con-avatar" : ""} ${clase} ${id === uid ? "yo" : ""}" data-inicial="${esc(inicial(j.nombre))}">${avatar}${esc(j.nombre || "?")}${extra}</span>`;
+}
+const nombreDe = (id) => esc(jugadores[id]?.nombre || "?");
+const equipoDe = (id) => equiposDe(info).find((e) => e.id === jugadores[id]?.equipo) || null;
+
 function casoEn(indice) {
   return casoPorId.get(info.casos[indice]);
 }
@@ -112,10 +141,15 @@ function visor(caso, conRespuesta) {
   }).join("")}</div>`;
 }
 
+// Lo que más vale es acertar: 900 por acierto y hasta 100 más por rapidez (antes era 500 + hasta 500 y premiaba el
+// reflejo). En un caso, la rapidez mueve como mucho 100; para compensar un acierto de diferencia hay que haber sido
+// más rápido en unos diez casos.
+const PUNTOS_ACIERTO = 900;
+const PUNTOS_RAPIDEZ = 100;
 function puntos(respuesta, caso) {
   if (!respuesta || respuesta.opcion !== caso.correcta || typeof estado.inicio !== "number") return 0;
   const segundos = Math.max(0, (respuesta.t - estado.inicio) / 1000);
-  return Math.round(500 + 500 * Math.max(0, 1 - segundos / info.duracion));
+  return Math.round(PUNTOS_ACIERTO + PUNTOS_RAPIDEZ * Math.max(0, 1 - segundos / info.duracion));
 }
 
 function ranking() {
@@ -124,11 +158,17 @@ function ranking() {
     .sort((a, b) => b.pts - a.pts || a.nombre.localeCompare(b.nombre));
 }
 
-function listaRanking(maximo) {
-  const filas = ranking().slice(0, maximo);
-  if (!filas.length) return `<p class="muted">Nadie respondió.</p>`;
+function listaRanking(maximo, desde = 0) {
+  const filas = ranking().slice(desde, maximo);
+  if (!filas.length) return desde ? "" : `<p class="muted">Nadie respondió.</p>`;
   return `<div class="rank">${filas.map((r, i) => `<div class="rk ${r.id === uid ? "me" : ""}">
-    <span class="pos">${i + 1}</span><span>${esc(r.nombre)}</span><span class="pts">${r.pts}</span></div>`).join("")}</div>`;
+    <span class="pos">${desde + i + 1}</span><span class="rk-nombre">${avatarImg(jugadores[r.id]?.avatar)}${esc(r.nombre)}${rachaChip(r.id)}</span><span class="pts">${r.pts}</span></div>`).join("")}</div>`;
+}
+
+// La llama de la racha, desde el 3.º acierto seguido.
+function rachaChip(id) {
+  const r = stats[id]?.r || 0;
+  return r >= RACHA_MIN ? ` <span class="racha" title="${r} aciertos seguidos"><i class="llama"></i>${r}</span>` : "";
 }
 
 function encabezado() {
@@ -139,6 +179,11 @@ function encabezado() {
   const n = Object.keys(jugadores).length;
   $("#conteo").hidden = false;
   $("#conteo").textContent = `${n} en la sala`;
+  // El sonido es del proyector: solo el presentador tiene el botón.
+  const boton = $("#sonido");
+  boton.hidden = !soyHost;
+  boton.textContent = sonidoActivo() ? "Sonido: sí" : "Sonido: no";
+  boton.setAttribute("aria-pressed", String(sonidoActivo()));
 }
 
 // ------------------------------------------------------------------ pantallas sin sala
@@ -218,6 +263,8 @@ async function pantallaCrear() {
         <input type="radio" name="vidas" value="${n}" ${n === 1 ? "checked" : ""}>
         <span class="vidas" aria-hidden="true">${"<i class=\"vida\"></i>".repeat(n)}</span><span>${n === 1 ? "1 vida" : `${n} vidas`}</span></label>`).join("")}</div>
     </div>
+    <label class="grid-label">Equipos <select id="equipos">${Object.entries(FORMAS_EQUIPO).map(([v, t]) => `<option value="${v}">${esc(t)}</option>`).join("")}</select></label>
+    <p class="src" id="nota-equipos"></p>
     <div class="campos">
       <label class="grid-label">Tiempo por caso <select id="duracion">${DURACIONES.map((s) => `<option value="${s}" ${s === 45 ? "selected" : ""}>${s} s</option>`).join("")}</select></label>
       <label class="grid-label">Cuántos casos <input type="number" id="cuantos" min="1" step="1" inputmode="numeric"></label>
@@ -252,6 +299,8 @@ async function pantallaCrear() {
     $("#fila-mezclar").hidden = modo !== "clasico";
     $("#fila-vidas").hidden = modo !== "rescate";
     const vidas = Number(app.querySelector('input[name="vidas"]:checked').value);
+    $("#nota-equipos").textContent = !$("#equipos").value ? "Cada uno juega por su cuenta."
+      : `Cada residente elige su equipo al entrar. El proyector compara el promedio de puntos por persona, así que no importa que un equipo tenga más gente${modo !== "clasico" ? ", y en supervivencia cuántos siguen en pie" : ""}.`;
     $("#nota-modo").textContent = {
       clasico: "Todos responden todos los casos y gana quien suma más puntos.",
       supervivencia: "Una vida: quien falla o no responde queda eliminado. Si fallan todos los que siguen, no cae nadie. Gana el último en pie; los casos van del más fácil al más difícil.",
@@ -266,7 +315,7 @@ async function pantallaCrear() {
       : cuantos === 1 ? `El primero de los ${total} casos del tema; con «Mezclar» sale uno al azar.`
       : `Los primeros ${cuantos} de los ${total} casos del tema; con «Mezclar» salen al azar.`;
   }
-  ["#tema", "#modo", "#mezclar", "#sin-verificar", "#borradores"].forEach((sel) => {
+  ["#tema", "#modo", "#equipos", "#mezclar", "#sin-verificar", "#borradores"].forEach((sel) => {
     const control = $(sel);
     if (control) control.onchange = refrescar;
   });
@@ -292,6 +341,7 @@ async function pantallaCrear() {
       mezclar: $("#mezclar").checked,
       modo: $("#modo").value,
       vidas: Number(app.querySelector('input[name="vidas"]:checked').value),
+      equipos: $("#equipos").value,
       sinVerificar: $("#sin-verificar").checked,
       borradores: Boolean($("#borradores") && $("#borradores").checked),
     }).catch((err) => aviso("No se pudo crear la sala: " + err.message));
@@ -316,7 +366,7 @@ async function limpiarSalasViejas() {
   } catch { /* la limpieza es un extra: si falla, se intenta en la próxima sala */ }
 }
 
-async function crearSala({ tema, duracion, cuantos, mezclar, modo, vidas, borradores, sinVerificar }) {
+async function crearSala({ tema, duracion, cuantos, mezclar, modo, vidas, equipos, borradores, sinVerificar }) {
   const { paquete: pkg } = await cargarPaquete(tema);
   let casos = pkg.casos.filter((c) => c.estado === "publicado" || borradores);
   if (!sinVerificar && !borradores) casos = casos.filter((c) => c.revisor);
@@ -347,7 +397,7 @@ async function crearSala({ tema, duracion, cuantos, mezclar, modo, vidas, borrad
         info: {
           host: uid, creada: serverTimestamp(), tema, titulo: pkg.titulo, duracion, casos: casos.map((c) => c.id), orden,
           ...(modo !== "clasico" ? { modo } : {}), ...(rescates.length ? { rescates } : {}),
-          ...(modo === "rescate" && vidas > 1 ? { vidas } : {}),
+          ...(modo === "rescate" && vidas > 1 ? { vidas } : {}), ...(equipos ? { equipos } : {}),
         },
         estado: { fase: "lobby", indice: 0 },
       });
@@ -369,8 +419,9 @@ async function unirse(codigoEscrito, nombreEscrito) {
   if (!nombre) return aviso("Escribe tu nombre o un apodo.");
   const existe = await get(ref(db, `salas/${c}/info`)).catch(() => null);
   if (!existe || !existe.exists()) return aviso("No hay una sala con ese código.");
+  // update y no set: quien vuelve a entrar conserva su avatar y su equipo.
   try {
-    await set(ref(db, `salas/${c}/jugadores/${uid}`), { nombre, unido: serverTimestamp() });
+    await update(ref(db, `salas/${c}/jugadores/${uid}`), { nombre, unido: serverTimestamp(), avatar: avatarPreferido() || avatarAleatorio() });
   } catch (e) {
     return aviso("No se pudo entrar a la sala: " + e.message);
   }
@@ -429,6 +480,9 @@ function suscribir() {
     }, () => confirmarCierre()),
     onValue(salaRef("jugadores"), (s) => { jugadores = s.val() || {}; jugadoresListos = true; marcarTarde(); render(); }),
     onValue(salaRef("puntajes"), (s) => { puntajes = s.val() || {}; render(); }),
+    onValue(salaRef("stats"), (s) => { stats = s.val() || {}; render(true); }),
+    onValue(salaRef("premio"), (s) => { premios = s.val() || {}; render(true); }),
+    onValue(salaRef("titulos"), (s) => { titulos = s.val() || {}; render(true); }),
   ];
   if (esSupervivencia(info)) {
     suscripciones.push(
@@ -507,9 +561,93 @@ function render(forzar = false) {
   const cambio = clave !== vistaActual;
   vistaActual = clave;
   if (!cambio && !forzar && estado.fase === "pregunta") return actualizarPregunta();
-  if (cambio) revelando = false;
+  if (cambio) {
+    revelando = false;
+    alCambiarFase();
+  }
   clearInterval(reloj);
+  app.classList.remove("suspenso");
   if (soyHost) vistaHost(); else vistaJugador();
+  if (!soyHost && estado.fase === "revelar") efectosJugador();
+}
+
+// ------------------------------------------------------------------ ambiente: sonido, suspenso, vibración
+// Al revelar, las barras de votos suben una por una (SUSPENSO_PASO segundos cada una) y recién después se marca la
+// correcta, con redoble y golpe en el proyector. La explicación y los avisos aparecen al final.
+const SUSPENSO_PASO = 0.3;
+const duracionSuspenso = () => ordenEn(estado.indice).length * SUSPENSO_PASO + 0.3;
+
+function alCambiarFase() {
+  if (estado.fase === "revelar") {
+    reveladoEn = Date.now();
+    if (soyHost) efectosRevelado();
+  } else if (estado.fase === "fin") {
+    finEn = Date.now();
+    if (soyHost) efectosFin();
+  } else if (estado.fase === "pregunta" && soyHost && estado.rescate) {
+    sonar("rescate");
+  }
+}
+
+// Quienes están en racha después de este caso, de la más larga a la más corta.
+function enRacha() {
+  return Object.keys(premios).filter((id) => premios[id]?.i === estado.indice && premios[id].racha && jugadores[id])
+    .sort((a, b) => (stats[b]?.r || 0) - (stats[a]?.r || 0));
+}
+
+function efectosRevelado() {
+  const indice = estado.indice;
+  const caso = casoEn(indice);
+  const espera = duracionSuspenso();
+  const sigueAqui = () => estado && estado.fase === "revelar" && estado.indice === indice;
+  sonar("redoble", espera);
+  setTimeout(() => {
+    if (!sigueAqui()) return;
+    sonar("golpe");
+    setTimeout(() => {
+      if (!sigueAqui()) return;
+      if (esSupervivencia(info)) {
+        const { caen, vuelven, pierden, salvados } = resultadoRonda();
+        if (caen.length) sonar("caida");
+        else if (pierden.length) sonar("corazon");
+        else if (vuelven.length) sonar("rescate");
+        else if (salvados) sonar("salvados");
+        else sonar("acierto");
+      } else if (Object.values(respuestasActual).some((r) => r.opcion === caso.correcta)) {
+        sonar("acierto");
+      }
+      if (enRacha().length) setTimeout(() => sigueAqui() && sonar("racha"), 700);
+    }, 250);
+  }, espera * 1000);
+}
+
+// El final: en la sala clásica el podio sube del 3.º al 1.º; en supervivencia, fanfarria directa.
+const PODIO_TIEMPOS = [0.4, 1.6, 3];
+function efectosFin() {
+  if (esSupervivencia(info)) {
+    setTimeout(() => { sonar("fanfarria"); confeti(); }, 300);
+    return;
+  }
+  setTimeout(() => sonar("puesto"), PODIO_TIEMPOS[0] * 1000);
+  setTimeout(() => sonar("puesto"), PODIO_TIEMPOS[1] * 1000);
+  setTimeout(() => { sonar("fanfarria"); confeti(); }, PODIO_TIEMPOS[2] * 1000);
+}
+
+// El celular vibra con lo que le pasó a uno (solo Android). Cada cosa, una vez por caso.
+function efectosJugador() {
+  const i = estado.indice;
+  const una = (clave, accion) => {
+    if (efectosHechos.has(`${i}:${clave}`)) return;
+    efectosHechos.add(`${i}:${clave}`);
+    accion();
+  };
+  if (esSupervivencia(info)) {
+    if (eliminados[uid] === i) una("cae", () => vibrar([200, 80, 200, 80, 400]));
+    else if (tocados[uid] === i) una("corazon", () => vibrar([150, 60, 150]));
+    else if (rescatados[uid] === i) una("vuelve", () => vibrar([60, 40, 60, 40, 200]));
+  }
+  const p = premios[uid];
+  if (p && p.i === i && p.pts > 0) una("ok", () => vibrar(p.racha || p.solo ? [60, 40, 60, 40, 60] : 60));
 }
 
 // ------------------------------------------------------------------ presentador
@@ -541,8 +679,16 @@ const inicial = (nombre) => ([...String(nombre || "?").trim()][0] || "?").toUppe
 
 function hostLobby() {
   const enlace = `${location.origin}${location.pathname}?c=${codigo}`;
-  const nombres = Object.values(jugadores)
-    .map((j) => `<span class="pl" data-inicial="${esc(inicial(j.nombre))}">${esc(j.nombre)}</span>`).join("");
+  const ids = Object.keys(jugadores);
+  const equipos = equiposDe(info);
+  // Con equipos, cada uno en su columna; quien todavía no eligió, aparte.
+  const nombres = !equipos.length ? ids.map((id) => chipJugador(id)).join("")
+    : [...equipos, { id: "", nombre: "Sin equipo todavía", color: "var(--linea-3)" }].map((e) => {
+      const miembros = ids.filter((id) => (jugadores[id].equipo || "") === e.id);
+      if (!miembros.length) return "";
+      return `<div class="equipo-lobby" style="--color:${e.color}"><h3>${esc(e.nombre)} <span class="src">${miembros.length}</span></h3>
+        <div class="players">${miembros.map((id) => chipJugador(id)).join("")}</div></div>`;
+    }).join("");
   app.innerHTML = `<section class="lobby">
     <div class="panel">
       <p class="tema">Código de la sala</p>
@@ -562,7 +708,7 @@ function hostLobby() {
     </div>
     <div class="panel">
       <h2>En la sala: <span class="cuenta">${Object.keys(jugadores).length}</span></h2>
-      <div class="players">${nombres || `<p class="esperando"><i><b></b></i>Esperando residentes…</p>`}</div>
+      ${nombres ? (equipos.length ? nombres : `<div class="players">${nombres}</div>`) : `<p class="esperando"><i><b></b></i>Esperando residentes…</p>`}
       <p class="src">Sin celulares o sin red, se puede empezar igual y responder a mano alzada.</p>
     </div>
   </section>`;
@@ -622,7 +768,7 @@ function hostCaso() {
   const total = Object.keys(respuestasActual).length;
   const sigue = proximo();
   const fin = sigue === null || terminada();
-  const opciones = orden.map((original, pos) => `<div class="opt ${revelado ? (original === caso.correcta ? "right" : "wrong") : ""}" data-k="${pos}">
+  const opciones = orden.map((original, pos) => `<div class="opt ${revelado ? (original === caso.correcta ? "right" : "wrong") : ""}" data-k="${pos}" style="--i:${pos}">
       <span class="fill" style="width:${revelado && total ? Math.round((100 * conteo[original]) / total) : 0}%"></span>
       <span class="k">${LETRAS[pos]}</span><span>${esc(caso.opciones[original])}</span><span class="n">${revelado ? conteo[original] : ""}</span></div>`).join("");
   const letra = LETRAS[orden.indexOf(caso.correcta)];
@@ -638,7 +784,8 @@ function hostCaso() {
         ${revelado ? "" : `<div class="reloj" id="reloj"><div class="row"><span class="clock" id="clock">${info.duracion}</span>
           <span class="chip" id="respondieron">${total}/${cuantosResponden()} respondieron</span></div><div class="timer"><i id="bar"></i></div></div>`}
         <div class="opts">${opciones}</div>
-        ${revelado ? `<div class="exp md"><div class="ans">Respuesta: ${letra}. ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>
+        ${revelado ? `${datosDelCaso(caso, orden)}
+          <div class="exp md"><div class="ans">Respuesta: ${letra}. ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>
           ${caso.perla ? `<div class="pearl md"><b>Perla:</b> ${md(caso.perla)}</div>` : ""}
           <div class="row">${sello(caso, paquete.personas)}<span class="spacer"></span>
             <button id="reportar" class="reportar">Reportar un error</button></div>` : ""}
@@ -652,12 +799,19 @@ function hostCaso() {
         : `<button class="primary" id="revelar">Revelar respuesta</button>`}
       <span class="spacer"></span><button id="cerrar">Cerrar sala</button>
     </div>`;
+  // El suspenso sigue donde iba aunque la pantalla se redibuje (llegan los puntajes, los eliminados…).
+  const pasado = (Date.now() - reveladoEn) / 1000;
+  if (revelado && pasado < duracionSuspenso() + 1.5) {
+    app.classList.add("suspenso");
+    app.style.setProperty("--pasado", `${pasado}s`);
+    app.style.setProperty("--n", String(orden.length));
+  }
   if (!revelado) {
     $("#revelar").onclick = revelar;
     iniciarReloj();
   } else {
     $("#ranking").onclick = () => set(salaRef("estado/fase"), "ranking");
-    if (fin) $("#fin").onclick = () => set(salaRef("estado/fase"), "fin");
+    if (fin) $("#fin").onclick = terminar;
     else $("#siguiente").onclick = () => irA(sigue);
   }
   $("#cerrar").onclick = cerrarSala;
@@ -665,9 +819,38 @@ function hostCaso() {
   if (botonReporte) botonReporte.onclick = () => reportar(info.tema, caso.id, botonReporte);
 }
 
-// Cuántos pueden responder este caso: en la sala clásica y en un rescate, todos; si no, los que siguen en pie.
-const cuantosResponden = () => (esSupervivencia(info)
-  ? habilitados(jugadores, eliminados, Boolean(estado.rescate)).length : Object.keys(jugadores).length);
+// Quiénes pueden responder este caso: en la sala clásica y en un rescate, todos; si no, los que siguen en pie.
+const cuantosPuedenIds = () => (esSupervivencia(info)
+  ? habilitados(jugadores, eliminados, Boolean(estado.rescate)) : Object.keys(jugadores));
+const cuantosResponden = () => cuantosPuedenIds().length;
+
+// Terminar: se reparten los títulos (uno por persona como mucho) y se pasa al final.
+function terminar() {
+  const nuevos = asignarTitulos(stats, {
+    jugadores,
+    enPie: (id) => !esSupervivencia(info) || !(id in eliminados),
+    volvio: (id) => id in rescatados,
+  });
+  const cambios = { "estado/fase": "fin" };
+  for (const [id, t] of Object.entries(nuevos)) cambios[`titulos/${id}`] = t;
+  return update(salaRef(), cambios).catch((e) => aviso("No se pudo terminar: " + e.message));
+}
+
+// En el proyector, después de revelar: cuántos acertaron, quién lo vio solo, el más rápido, la opción trampa y
+// quiénes van en racha.
+function datosDelCaso(caso, orden) {
+  const d = datosRevelado({ respuestas: respuestasActual, correcta: caso.correcta, inicio: estado.inicio });
+  if (!d.total) return "";
+  const chips = [`<span class="chip">Acertaron ${d.aciertos} de ${d.total}</span>`];
+  if (d.solo) chips.push(`<span class="chip dato-solo">Solo ${nombreDe(d.solo)} lo vio · +${BONO_SOLO}</span>`);
+  if (d.rapido && d.aciertos > 1) chips.push(`<span class="chip">Más rápido: ${nombreDe(d.rapido.uid)} · ${formatoSegundos(d.rapido.segundos)}</span>`);
+  if (d.trampa) chips.push(`<span class="chip dato-trampa">Trampa: el ${Math.round(d.trampa.pct * 100)} % eligió la ${LETRAS[orden.indexOf(d.trampa.opcion)]}</span>`);
+  const rachas = enRacha().slice(0, 3);
+  if (rachas.length) {
+    chips.push(`<span class="chip dato-racha"><i class="llama"></i>En racha: ${rachas.map((id) => `${nombreDe(id)} (${stats[id]?.r})`).join(", ")} · ×${String(multiplicador(RACHA_MIN)).replace(".", ",")}</span>`);
+  }
+  return `<div class="datos-revelado">${chips.join("")}</div>`;
+}
 
 // En el proyector, después de revelar: quiénes cayeron o volvieron.
 function avisoRonda() {
@@ -692,8 +875,10 @@ function actualizarPregunta() {
   if (n > 0 && total >= n) revelar();
 }
 
+let ultimoTic = null;
 function iniciarReloj() {
   clearInterval(reloj);
+  ultimoTic = null;
   const tic = () => {
     if (!estado || estado.fase !== "pregunta") return clearInterval(reloj);
     const inicio = typeof estado.inicio === "number" ? estado.inicio : ahora();
@@ -701,6 +886,14 @@ function iniciarReloj() {
     const clock = $("#clock");
     const bar = $("#bar");
     if (clock) clock.textContent = Math.ceil(restante);
+    // Tic-tac en el proyector los últimos 5 segundos.
+    const segundo = Math.ceil(restante);
+    if (soyHost && segundo <= 5 && segundo > 0 && segundo !== ultimoTic) {
+      if (ultimoTic !== null) sonar(segundo === 1 ? "ultimoTic" : "tic");
+      ultimoTic = segundo;
+    } else if (soyHost && segundo > 5) {
+      ultimoTic = segundo;
+    }
     if (bar) bar.style.width = `${(100 * restante) / info.duracion}%`;
     // Los últimos segundos (10, o la cuarta parte si el tiempo es corto) el reloj se pone rojo.
     const caja = $("#reloj") || (bar && bar.parentElement);
@@ -720,9 +913,16 @@ async function revelar() {
   const caso = casoEn(estado.indice);
   const cambios = { "estado/fase": "revelar" };
   const respuestas = (await get(salaRef(`respuestas/${estado.indice}`)).catch(() => null))?.val() || {};
-  for (const [jugador, respuesta] of Object.entries(respuestas)) {
-    const ganados = puntos(respuesta, caso);
-    if (ganados) cambios[`puntajes/${jugador}`] = (puntajes[jugador] || 0) + ganados;
+  // Puntos con la racha (×1,5 desde el 3.º acierto seguido) y el bono por acertar cuando nadie más acertó. Cuentan
+  // los que podían responder: en supervivencia, los que seguían en pie (o todos, en un rescate).
+  const { cuentas } = cuentasRonda({
+    habilitados: cuantosPuedenIds(), stats, respuestas, correcta: caso.correcta, inicio: estado.inicio,
+    base: (id) => puntos(respuestas[id], caso), indice: estado.indice,
+  });
+  for (const [id, c] of Object.entries(cuentas)) {
+    cambios[`stats/${id}`] = c.stats;
+    cambios[`premio/${id}`] = c.premio;
+    if (c.premio.pts) cambios[`puntajes/${id}`] = (puntajes[id] || 0) + c.premio.pts;
   }
   if (esSupervivencia(info)) {
     const vidas = vidasDe(info);
@@ -750,9 +950,13 @@ async function revelar() {
 function hostRanking(final) {
   const sigue = proximo();
   const fin = sigue === null || terminada();
-  app.innerHTML = `<section class="stack ${esSupervivencia(info) ? "" : "angosto"}">
+  app.innerHTML = `<section class="stack ${esSupervivencia(info) || final ? "" : "angosto"}">
     <p class="eyebrow">${esc(info.titulo)}</p>
-    ${esSupervivencia(info) ? sobrevivientes(final) : `<h1>${final ? "Resultado final" : "Ranking"}</h1>${listaRanking(final ? 10 : 5)}`}
+    ${esSupervivencia(info) ? sobrevivientes(final)
+      : final ? `<h1>Resultado final</h1>${podio()}${listaRanking(10, 3)}`
+        : `<h1>Ranking</h1>${listaRanking(5)}`}
+    ${final ? bloqueTitulos() : ""}
+    ${bloqueEquipos()}
     <div class="ctrl">
       ${final ? `<button class="primary" id="cerrar">Cerrar sala</button>`
         : fin ? `<button class="primary" id="fin">${terminada() ? "Ver al ganador" : "Terminar"}</button>`
@@ -760,7 +964,7 @@ function hostRanking(final) {
       <span class="spacer"></span>${final ? "" : `<button id="cerrar">Cerrar sala</button>`}
     </div></section>`;
   if (!final) {
-    if (fin) $("#fin").onclick = () => set(salaRef("estado/fase"), "fin");
+    if (fin) $("#fin").onclick = terminar;
     else $("#siguiente").onclick = () => irA(sigue);
   }
   $("#cerrar").onclick = cerrarSala;
@@ -775,12 +979,43 @@ function sobrevivientes(final) {
   const titulo = !final ? `Siguen en pie: ${enPie.length} de ${lista.length}`
     : enPie.length === 1 ? `Gana ${esc(enPie[0].nombre)}`
       : enPie.length ? `Llegaron al final: ${enPie.length}` : "Resultado final";
-  const tarjeta = (r, clase) => `<span class="pl ${clase} ${r.id === uid ? "yo" : ""}" data-inicial="${esc(inicial(r.nombre))}">${esc(r.nombre)}
-    ${r.cayo === null ? corazones(quedan(r.id, info, fallos), vidasDe(info)) : ""}
-    <small>${r.cayo === null ? `${r.pts} pts` : `cayó en el caso ${numeroDe(r.cayo, info).numero}`}</small></span>`;
+  const tarjeta = (r, clase) => chipJugador(r.id, `${r.cayo === null ? corazones(quedan(r.id, info, fallos), vidasDe(info)) : ""}
+    <small>${r.cayo === null ? `${r.pts} pts` : `cayó en el caso ${numeroDe(r.cayo, info).numero}`}</small>`, clase);
   return `<h1 class="${final && enPie.length === 1 ? "sv-ganador" : ""}">${titulo}</h1>
     ${enPie.length ? `<div class="players sv-en-pie">${enPie.map((r) => tarjeta(r, "")).join("")}</div>` : ""}
     ${caidos.length ? `<h3>Eliminados</h3><div class="players">${caidos.map((r) => tarjeta(r, "caido")).join("")}</div>` : ""}`;
+}
+
+// El podio de la sala clásica: sube el 3.º, después el 2.º y por último el 1.º (PODIO_TIEMPOS, con su sonido).
+function podio() {
+  const top = ranking().slice(0, 3);
+  if (!top.length) return `<p class="muted">Nadie respondió.</p>`;
+  const pasado = (Date.now() - finEn) / 1000;
+  const escalon = (r, puesto) => (!r ? `<div class="escalon e${puesto} vacio"></div>`
+    : `<div class="escalon e${puesto} ${r.id === uid ? "yo" : ""}" style="--espera:${Math.max(0, PODIO_TIEMPOS[3 - puesto] - pasado)}s">
+      <div class="escalon-quien">${avatarImg(jugadores[r.id]?.avatar, "avatar grande")}<b>${esc(r.nombre)}</b><span>${r.pts} pts</span></div>
+      <div class="escalon-bloque">${puesto}</div></div>`);
+  return `<div class="podio">${escalon(top[1], 2)}${escalon(top[0], 1)}${escalon(top[2], 3)}</div>`;
+}
+
+// Los títulos del final, uno por persona.
+function bloqueTitulos() {
+  const lista = Object.entries(titulos).filter(([id, t]) => jugadores[id] && TITULOS[t]);
+  if (!lista.length) return "";
+  return `<h3>Títulos</h3><div class="titulos">${lista.map(([id, t]) => `<div class="titulo ${id === uid ? "yo" : ""}">
+    ${avatarImg(jugadores[id].avatar)}<div><b>${esc(TITULOS[t].nombre)}</b><span>${nombreDe(id)}</span>
+    <span class="src">${esc(TITULOS[t].texto({ r: 0, mr: 0, a: 0, s: 0, f: 0, k: 0, ...stats[id] }))}</span></div></div>`).join("")}</div>`;
+}
+
+// Equipos: promedio de puntos por persona (y en supervivencia, cuántos siguen en pie), con una barra.
+function bloqueEquipos() {
+  const lista = resumenEquipos(info, jugadores, puntajes, esSupervivencia(info) ? eliminados : null);
+  if (!lista.length) return "";
+  const max = Math.max(1, ...lista.map((e) => e.promedio));
+  return `<h3>Equipos</h3><div class="equipos-sala">${lista.map((e) => `<div class="equipo-fila" style="--color:${e.color}">
+    <span class="equipo-nombre">${esc(e.nombre)} <span class="src">${e.n} ${e.n === 1 ? "persona" : "personas"}</span></span>
+    <span class="equipo-barra"><i style="width:${Math.round((100 * e.promedio) / max)}%"></i></span>
+    <span class="equipo-dato">${e.enPie !== null ? `${e.enPie} en pie · ` : ""}${e.promedio} pts de promedio</span></div>`).join("")}</div>`;
 }
 
 async function cerrarSala() {
@@ -799,28 +1034,70 @@ function vistaJugador() {
     return;
   }
   if (fase === "lobby") {
+    const equipos = equiposDe(info);
     app.innerHTML = `<section class="panel stack angosto">
-      <span class="tema">Conectado como</span><div class="big nombre">${esc(yo.nombre)}</div>
+      <span class="tema">Conectado como</span><div class="big nombre">${avatarImg(yo.avatar, "avatar grande")}${esc(yo.nombre)}</div>
+      ${equipos.length ? `<div class="grid-label" role="radiogroup" aria-labelledby="titulo-equipo"><span id="titulo-equipo">Tu equipo</span>
+        <div class="elegir-equipo">${equipos.map((e) => `<button type="button" class="opcion-equipo ${yo.equipo === e.id ? "elegido" : ""}"
+          data-equipo="${e.id}" role="radio" aria-checked="${yo.equipo === e.id}" style="--color:${e.color}">${esc(e.nombre)}</button>`).join("")}</div>
+        ${yo.equipo ? "" : `<span class="nota">Elige tu equipo antes de que empiece.</span>`}</div>` : ""}
+      <div class="grid-label" role="radiogroup" aria-labelledby="titulo-avatar"><span id="titulo-avatar">Tu avatar</span>
+        <div class="elegir-avatar">${AVATARES.map((a) => `<button type="button" class="opcion-avatar ${yo.avatar === a.id ? "elegido" : ""}"
+          data-avatar="${a.id}" role="radio" aria-checked="${yo.avatar === a.id}" aria-label="${esc(a.nombre)}" title="${esc(a.nombre)}">${avatarImg(a.id)}</button>`).join("")}</div></div>
       <p class="esperando"><i><b></b></i>Listo. La partida empieza cuando el presentador pulse Empezar.</p>
       ${esSupervivencia(info) ? `<p class="sv-aviso"><b>${esc(MODOS[modoDe(info)])}.</b> ${vidasDe(info) > 1
         ? `Tienes ${vidasDe(info)} vidas ${corazones(vidasDe(info), vidasDe(info))}: cada fallo (o no responder) te quita una, y al perder la última quedas eliminado.`
         : "Una vida: si fallas o no respondes, quedas eliminado."}${info.rescates?.length ? ` Cada tanto hay una ronda de rescate: si aciertas, vuelves${vidasDe(info) > 1 ? " con un corazón" : ""} (una vez).` : ""}</p>` : ""}
       <div class="row"><button id="salir">Salir de la sala</button></div></section>`;
     $("#salir").onclick = salir;
+    app.querySelectorAll("[data-avatar]").forEach((b) => {
+      b.onclick = () => {
+        guardarAvatar(b.dataset.avatar);
+        update(salaRef(`jugadores/${uid}`), { avatar: b.dataset.avatar }).catch((e) => aviso("No se pudo cambiar: " + e.message));
+      };
+    });
+    app.querySelectorAll("[data-equipo]").forEach((b) => {
+      b.onclick = () => update(salaRef(`jugadores/${uid}`), { equipo: b.dataset.equipo })
+        .catch(() => aviso("El equipo solo se elige antes de empezar."));
+    });
     return;
   }
   if (fase === "pregunta" || fase === "revelar") return jugadorCaso();
+  const final = fase === "fin";
+  const titulo = final && TITULOS[titulos[uid]]
+    ? `<div class="titulo propio"><b>${esc(TITULOS[titulos[uid]].nombre)}</b><span>${esc(TITULOS[titulos[uid]].texto({ r: 0, mr: 0, a: 0, s: 0, f: 0, k: 0, ...stats[uid] }))}</span></div>` : "";
+  const equipo = equipoDe(uid);
+  const miEquipo = equipo ? `<p class="mi-equipo" style="--color:${equipo.color}">${esc(equipo.nombre)}</p>` : "";
   if (esSupervivencia(info)) {
-    app.innerHTML = `<section class="stack">${miEstado(false)}${sobrevivientes(fase === "fin")}</section>`;
+    app.innerHTML = `<section class="stack">${miEstado(false)}${titulo}${miEquipo}${sobrevivientes(final)}${bloqueEquipos()}</section>`;
+    if (final && !(uid in eliminados)) festejar();
     return;
   }
   const lista = ranking();
   const posicion = lista.findIndex((r) => r.id === uid) + 1;
   app.innerHTML = `<section class="stack angosto">
-    <span class="tema">${fase === "fin" ? "Resultado final" : "Ranking"}</span>
+    <span class="tema">${final ? "Resultado final" : "Ranking"}</span>
     <div class="big">${posicion ? `${posicion}.º` : "—"}</div>
-    <p class="muted">${puntajes[uid] || 0} puntos · ${lista.length} ${lista.length === 1 ? "participante" : "participantes"}</p>
-    ${listaRanking(fase === "fin" ? 10 : 5)}</section>`;
+    <p class="muted">${puntajes[uid] || 0} puntos · ${lista.length} ${lista.length === 1 ? "participante" : "participantes"}${rachaChip(uid)}</p>
+    ${titulo}${miEquipo}
+    ${listaRanking(final ? 10 : 5)}${bloqueEquipos()}</section>`;
+  if (final && posicion >= 1 && posicion <= 3) festejar();
+}
+
+// Confeti y vibración en el celular de quien quedó en el podio (o llegó en pie), una sola vez.
+function festejar() {
+  if (efectosHechos.has("fin")) return;
+  efectosHechos.add("fin");
+  confeti({ cantidad: 90 });
+  vibrar([80, 50, 80, 50, 240]);
+}
+
+// La racha en el celular: el aviso de que el próximo acierto multiplica, y la llama cuando ya multiplica.
+function miRacha() {
+  const r = stats[uid]?.r || 0;
+  if (r >= RACHA_MIN) return `<p class="chip racha-propia"><i class="llama"></i>Racha de ${r}: tus aciertos valen ×${String(multiplicador(r)).replace(".", ",")}</p>`;
+  if (r === RACHA_MIN - 1) return `<p class="chip racha-propia casi">${r} seguidas: un acierto más y entras en racha</p>`;
+  return "";
 }
 
 // Supervivencia: cómo está este jugador. Durante el caso, si puede responder y qué arriesga; al revelar, qué le pasó.
@@ -873,11 +1150,18 @@ function jugadorCaso() {
   } else if (revelado) {
     const resultado = miResultado.get(indice);
     const acierto = elegida === caso.correcta;
+    // Lo que de verdad sumó (con la racha y el bono) lo escribe el presentador; mientras llega, la cuenta base.
+    const premio = premios[uid]?.i === indice ? premios[uid] : null;
+    const ganados = premio ? premio.pts : resultado ? puntos(resultado, caso) : 0;
+    const extras = premio ? [premio.racha ? `racha ×${String(multiplicador(RACHA_MIN)).replace(".", ",")}` : "", premio.solo ? `solo tú lo viste +${BONO_SOLO}` : ""].filter(Boolean) : [];
     arriba = elegida === undefined
       ? `<div class="verdict no">Sin respuesta</div>`
-      : `<div class="verdict ${acierto ? "ok" : "no"}">${acierto ? `Correcto${resultado ? ` · +${puntos(resultado, caso)}` : ""}` : "Incorrecto"}</div>`;
+      : `<div class="verdict ${acierto ? "ok" : "no"}">${acierto ? `Correcto${ganados ? ` · +${ganados}` : ""}` : "Incorrecto"}</div>
+        ${acierto && extras.length ? `<p class="chip racha-propia"><i class="llama"></i>${esc(extras.join(" · "))}</p>` : ""}`;
   } else if (elegida !== undefined) {
     arriba = `<div class="chip live enviada">Respuesta enviada: ${LETRAS[orden.indexOf(elegida)]}</div>`;
+  } else {
+    arriba = miRacha();
   }
   const opciones = orden.map((original, pos) => {
     let clase = "";
@@ -938,6 +1222,12 @@ document.addEventListener("click", (e) => {
 });
 $("#zoom").onclick = () => { $("#zoom").hidden = true; };
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") $("#zoom").hidden = true; });
+// El navegador solo deja sonar después de un toque: el primero del presentador habilita el audio.
+document.addEventListener("pointerdown", () => { if (soyHost) prepararAudio(); });
+$("#sonido").onclick = () => {
+  alternarSonido();
+  if (info) encabezado();
+};
 
 async function iniciar() {
   if (!firebaseConfig) {
