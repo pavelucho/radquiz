@@ -212,6 +212,9 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   eliminado responda fuera de un rescate; se desplegaron el 2026-10-02 y son compatibles con las salas clásicas.
   Probado de punta a punta contra producción con presentador y tres jugadores (caídas, «se salvan todos», rescate,
   entrada tardía, ganador, rechazo de la base) y una sala clásica, no en un aula.
+  Vidas (2026-10-05): en Supervivencia con rescate se eligen de 1 a 3 corazones de pixel art (`info.vidas`,
+  `fallos/<uid>`, `tocados/<uid>`); cada fallo quita uno y se cae al perder el último; el rescatado vuelve con uno.
+  Reglas desplegadas ese día. Probado con dos jugadores y 2 vidas: pierde un corazón, cae, vuelve con uno.
 - Servidor MCP (2026-10-01): `tools/mcp/servidor.mjs`, registrado en `.mcp.json`, para que Claude maneje el estudio en
   línea. Entra con Google como el autor (página en `localhost`, autorizado en Firebase Auth; sin cuenta de servicio),
   así que valen las mismas reglas. Reusa `app/validacion.js`, `app/instrucciones-ia.js` y `app/drive.js`; el ayudante
@@ -248,7 +251,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
    `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
-   2026-10-02 (supervivencia) y la web a 2026-10-02 (desplegada con el código de `b2c1ae9`, la supervivencia). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
+   2026-10-05 (vidas) y la web a 2026-10-02 (desplegada con el código de `b2c1ae9`, la supervivencia). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
    sin commit; hay que desplegar con la carpeta limpia o desde una copia de `main` (`git worktree add … origin/main`).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles

@@ -45,6 +45,9 @@
           "modo": {
             ".validate": "newData.isString() && newData.val().matches(/^(clasico|supervivencia|rescate)$/)"
           },
+          "vidas": {
+            ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 3"
+          },
           "rescates": {
             "$i": {
               ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200"
@@ -121,6 +124,18 @@
           }
         },
         "eliminados": {
+          ".read": "auth != null",
+          "$uid": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200"
+          }
+        },
+        "fallos": {
+          ".read": "auth != null",
+          "$uid": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 3"
+          }
+        },
+        "tocados": {
           ".read": "auth != null",
           "$uid": {
             ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200"

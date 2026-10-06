@@ -229,6 +229,9 @@ está en `app/supervivencia.js`.
 - En un rescate responden todos; el eliminado que acierta sale de `eliminados` y queda en `rescatados/<uid>` (una vez
   por persona). Un rescate sin nadie que pueda volver se salta, y la partida no termina mientras quede uno con alguien
   que pueda volver.
+- Vidas, solo con rescate: `info.vidas` (1 a 3; sin la clave, 1). `fallos/<uid>` cuenta los corazones perdidos y
+  `tocados/<uid>` dice en qué caso se perdió el último (para anunciarlo); se cae al perder el último, y quien vuelve
+  en un rescate queda con uno (`fallos = vidas − 1`). Corazones en pixel art (`--i-corazon` en `app/estilos.css`).
 - `info.empezo` es cuándo se pulsó Empezar: el presentador marca como eliminado a quien entra después.
 - Todo lo escribe el presentador al revelar (igual que los puntajes).
 

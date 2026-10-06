@@ -13,7 +13,7 @@ import { reportar } from "./reportar.js";
 import { qrDataURI } from "./qr.js";
 import {
   MODOS, modoDe, esSupervivencia, esRescate, armarSecuencia, vivos, puedeVolver, puedeResponder, habilitados,
-  resolverRonda, decidida, siguiente, faltanParaRescate, numeroDe, clasificacion,
+  resolverRonda, decidida, siguiente, faltanParaRescate, numeroDe, clasificacion, MAX_VIDAS, vidasDe, quedan,
 } from "./supervivencia.js";
 
 const LETRAS = "ABCDE";
@@ -34,6 +34,8 @@ let jugadores = {};
 let puntajes = {};
 let eliminados = {};           // supervivencia: uid → caso en que cayó
 let rescatados = {};           // supervivencia con rescate: uid → caso en que volvió
+let fallos = {};               // con vidas: uid → corazones perdidos
+let tocados = {};              // con vidas: uid → caso en que perdió el último corazón
 const marcandoTarde = new Set();  // presentador: quienes entraron con la partida empezada, mientras se escribe
 let respuestasActual = {};     // solo el presentador: respuestas de la pregunta en curso
 let paquete = null;
@@ -76,6 +78,17 @@ function aviso(texto) {
 function panel(titulo, texto, extra = "") {
   return `<section class="panel stack angosto">
     <h2>${esc(titulo)}</h2><p class="muted">${esc(texto)}</p>${extra}</section>`;
+}
+
+// Corazones, como en un videojuego: llenos los que quedan, vacíos los perdidos. `rompe` anima el que se acaba de perder.
+function corazones(quedanN, total, { rompe = false } = {}) {
+  if (total <= 1) return "";
+  const lista = Array.from({ length: total }, (_, k) => {
+    const lleno = k < quedanN;
+    // El último corazón late, como en los juegos cuando queda poca vida.
+    return `<i class="vida ${lleno ? "" : "perdida"} ${rompe && k === quedanN ? "rota" : ""} ${lleno && quedanN === 1 ? "late" : ""}"></i>`;
+  }).join("");
+  return `<span class="vidas" role="img" aria-label="${quedanN} de ${total} vidas">${lista}</span>`;
 }
 
 function casoEn(indice) {
@@ -200,6 +213,11 @@ async function pantallaCrear() {
     <label class="grid-label">Tema <select id="tema">${opciones}</select></label>
     <label class="grid-label">Modo <select id="modo">${Object.entries(MODOS).map(([v, t]) => `<option value="${v}">${esc(t)}</option>`).join("")}</select></label>
     <p class="src" id="nota-modo"></p>
+    <div class="grid-label" role="radiogroup" aria-labelledby="titulo-vidas" id="fila-vidas" hidden><span id="titulo-vidas">Vidas</span>
+      <div class="elegir-vidas">${Array.from({ length: MAX_VIDAS }, (_, k) => k + 1).map((n) => `<label class="opcion-vidas">
+        <input type="radio" name="vidas" value="${n}" ${n === 1 ? "checked" : ""}>
+        <span class="vidas" aria-hidden="true">${"<i class=\"vida\"></i>".repeat(n)}</span><span>${n === 1 ? "1 vida" : `${n} vidas`}</span></label>`).join("")}</div>
+    </div>
     <div class="campos">
       <label class="grid-label">Tiempo por caso <select id="duracion">${DURACIONES.map((s) => `<option value="${s}" ${s === 45 ? "selected" : ""}>${s} s</option>`).join("")}</select></label>
       <label class="grid-label">Cuántos casos <input type="number" id="cuantos" min="1" step="1" inputmode="numeric"></label>
@@ -232,10 +250,12 @@ async function pantallaCrear() {
     const modo = $("#modo").value;
     // En supervivencia el orden lo pone la dificultad (de fácil a difícil): «Mezclar» no se aplica.
     $("#fila-mezclar").hidden = modo !== "clasico";
+    $("#fila-vidas").hidden = modo !== "rescate";
+    const vidas = Number(app.querySelector('input[name="vidas"]:checked').value);
     $("#nota-modo").textContent = {
       clasico: "Todos responden todos los casos y gana quien suma más puntos.",
       supervivencia: "Una vida: quien falla o no responde queda eliminado. Si fallan todos los que siguen, no cae nadie. Gana el último en pie; los casos van del más fácil al más difícil.",
-      rescate: `Como Supervivencia, y cada 3 casos uno de rescate, más fácil: el eliminado que acierta vuelve (una vez por persona; en el último tercio ya no hay rescates).`,
+      rescate: `${vidas === 1 ? "Como Supervivencia" : `Como Supervivencia, pero con ${vidas} vidas: cada fallo quita un corazón y se cae al perder el último`}. Cada 3 casos, uno de rescate, más fácil: el eliminado que acierta vuelve${vidas === 1 ? "" : " con un corazón"} (una vez por persona; en el último tercio ya no hay rescates).`,
     }[modo];
     $("#nota-tanda").textContent = !total
       ? "Ningún caso cumple el filtro: marca «Incluir casos sin verificar»."
@@ -250,6 +270,7 @@ async function pantallaCrear() {
     const control = $(sel);
     if (control) control.onchange = refrescar;
   });
+  app.querySelectorAll('input[name="vidas"]').forEach((radio) => { radio.onchange = refrescar; });
   // La nota sigue lo que se escribe; al soltar el campo, lo que quedó fuera de rango se muestra como todos.
   campo.oninput = refrescar;
   campo.onchange = () => {
@@ -270,6 +291,7 @@ async function pantallaCrear() {
       cuantos: leerTanda(campo),
       mezclar: $("#mezclar").checked,
       modo: $("#modo").value,
+      vidas: Number(app.querySelector('input[name="vidas"]:checked').value),
       sinVerificar: $("#sin-verificar").checked,
       borradores: Boolean($("#borradores") && $("#borradores").checked),
     }).catch((err) => aviso("No se pudo crear la sala: " + err.message));
@@ -294,7 +316,7 @@ async function limpiarSalasViejas() {
   } catch { /* la limpieza es un extra: si falla, se intenta en la próxima sala */ }
 }
 
-async function crearSala({ tema, duracion, cuantos, mezclar, modo, borradores, sinVerificar }) {
+async function crearSala({ tema, duracion, cuantos, mezclar, modo, vidas, borradores, sinVerificar }) {
   const { paquete: pkg } = await cargarPaquete(tema);
   let casos = pkg.casos.filter((c) => c.estado === "publicado" || borradores);
   if (!sinVerificar && !borradores) casos = casos.filter((c) => c.revisor);
@@ -325,6 +347,7 @@ async function crearSala({ tema, duracion, cuantos, mezclar, modo, borradores, s
         info: {
           host: uid, creada: serverTimestamp(), tema, titulo: pkg.titulo, duracion, casos: casos.map((c) => c.id), orden,
           ...(modo !== "clasico" ? { modo } : {}), ...(rescates.length ? { rescates } : {}),
+          ...(modo === "rescate" && vidas > 1 ? { vidas } : {}),
         },
         estado: { fase: "lobby", indice: 0 },
       });
@@ -412,6 +435,12 @@ function suscribir() {
       onValue(salaRef("eliminados"), (s) => { eliminados = s.val() || {}; render(true); }),
       onValue(salaRef("rescatados"), (s) => { rescatados = s.val() || {}; render(true); }),
     );
+    if (vidasDe(info) > 1) {
+      suscripciones.push(
+        onValue(salaRef("fallos"), (s) => { fallos = s.val() || {}; render(true); }),
+        onValue(salaRef("tocados"), (s) => { tocados = s.val() || {}; render(true); }),
+      );
+    }
   }
 }
 
@@ -527,7 +556,7 @@ function hostLobby() {
         ${bloqueQR(enlace)}
       </div>
       <p class="src">Enlace directo: ${esc(enlace)}</p>
-      <p class="muted">${esc(info.titulo)} · ${esSupervivencia(info) ? `${esc(MODOS[modoDe(info)])} · ${numeroDe(0, info).total} casos${info.rescates?.length ? ` y ${info.rescates.length} de rescate` : ""}`
+      <p class="muted">${esc(info.titulo)} · ${esSupervivencia(info) ? `${esc(MODOS[modoDe(info)])} · ${numeroDe(0, info).total} casos${info.rescates?.length ? ` y ${info.rescates.length} de rescate` : ""}${vidasDe(info) > 1 ? ` · ${vidasDe(info)} vidas` : ""}`
         : `${info.casos.length} casos`} · ${info.duracion} s por caso</p>
       <div class="row"><button class="primary lg" id="empezar">Empezar</button><button class="lg" id="cerrar">Cerrar sala</button></div>
     </div>
@@ -575,7 +604,8 @@ function resultadoRonda() {
   const caen = Object.keys(eliminados).filter((id) => eliminados[id] === i && jugadores[id]
     && !(jugadores[id].unido > (typeof estado.inicio === "number" ? estado.inicio : Infinity)));
   const vuelven = Object.keys(rescatados).filter((id) => rescatados[id] === i && jugadores[id]);
-  return { caen, vuelven, salvados: Boolean(estado.salvados), nombres };
+  const pierden = Object.keys(tocados).filter((id) => tocados[id] === i && jugadores[id] && !caen.includes(id));
+  return { caen, vuelven, pierden, salvados: Boolean(estado.salvados), nombres };
 }
 
 function conteoPorOpcion() {
@@ -641,14 +671,16 @@ const cuantosResponden = () => (esSupervivencia(info)
 
 // En el proyector, después de revelar: quiénes cayeron o volvieron.
 function avisoRonda() {
-  const { caen, vuelven, salvados, nombres } = resultadoRonda();
+  const { caen, vuelven, pierden, salvados, nombres } = resultadoRonda();
   if (estado.rescate) {
     return vuelven.length ? `<p class="sv-aviso ok">Vuelven al juego: ${nombres(vuelven)}</p>`
       : `<p class="sv-aviso">Nadie vuelve en este rescate.</p>`;
   }
   if (salvados) return `<p class="sv-aviso ok">Fallaron todos los que seguían en pie: ¡se salvan todos!</p>`;
-  return caen.length ? `<p class="sv-aviso mal">${caen.length === 1 ? "Cae" : `Caen ${caen.length}`}: ${nombres(caen)}</p>`
-    : `<p class="sv-aviso ok">Nadie cae en este caso.</p>`;
+  const golpe = pierden.length
+    ? `<p class="sv-aviso golpe"><i class="vida rota"></i> ${pierden.length === 1 ? "Pierde un corazón" : `Pierden un corazón (${pierden.length})`}: ${nombres(pierden)}</p>` : "";
+  if (caen.length) return `${golpe}<p class="sv-aviso mal">${caen.length === 1 ? "Cae" : `Caen ${caen.length}`}: ${nombres(caen)}</p>`;
+  return golpe || `<p class="sv-aviso ok">Nadie ${vidasDe(info) > 1 ? "pierde un corazón" : "cae"} en este caso.</p>`;
 }
 
 function actualizarPregunta() {
@@ -693,14 +725,22 @@ async function revelar() {
     if (ganados) cambios[`puntajes/${jugador}`] = (puntajes[jugador] || 0) + ganados;
   }
   if (esSupervivencia(info)) {
-    const { caen, vuelven, salvados } = resolverRonda({
-      jugadores, eliminados, rescatados, rescate: Boolean(estado.rescate),
+    const vidas = vidasDe(info);
+    const { pierden, caen, vuelven, salvados } = resolverRonda({
+      jugadores, eliminados, rescatados, fallos, vidas, rescate: Boolean(estado.rescate),
       acerto: (id) => respuestas[id]?.opcion === caso.correcta,
     });
+    if (vidas > 1) {
+      pierden.forEach((id) => {
+        cambios[`fallos/${id}`] = Math.min(vidas, (fallos[id] || 0) + 1);
+        cambios[`tocados/${id}`] = estado.indice;
+      });
+    }
     caen.forEach((id) => { cambios[`eliminados/${id}`] = estado.indice; });
     vuelven.forEach((id) => {
       cambios[`eliminados/${id}`] = null;
       cambios[`rescatados/${id}`] = estado.indice;
+      if (vidas > 1) cambios[`fallos/${id}`] = vidas - 1;   // vuelve con un corazón
     });
     if (salvados) cambios["estado/salvados"] = true;
   }
@@ -736,6 +776,7 @@ function sobrevivientes(final) {
     : enPie.length === 1 ? `Gana ${esc(enPie[0].nombre)}`
       : enPie.length ? `Llegaron al final: ${enPie.length}` : "Resultado final";
   const tarjeta = (r, clase) => `<span class="pl ${clase} ${r.id === uid ? "yo" : ""}" data-inicial="${esc(inicial(r.nombre))}">${esc(r.nombre)}
+    ${r.cayo === null ? corazones(quedan(r.id, info, fallos), vidasDe(info)) : ""}
     <small>${r.cayo === null ? `${r.pts} pts` : `cayó en el caso ${numeroDe(r.cayo, info).numero}`}</small></span>`;
   return `<h1 class="${final && enPie.length === 1 ? "sv-ganador" : ""}">${titulo}</h1>
     ${enPie.length ? `<div class="players sv-en-pie">${enPie.map((r) => tarjeta(r, "")).join("")}</div>` : ""}
@@ -761,8 +802,9 @@ function vistaJugador() {
     app.innerHTML = `<section class="panel stack angosto">
       <span class="tema">Conectado como</span><div class="big nombre">${esc(yo.nombre)}</div>
       <p class="esperando"><i><b></b></i>Listo. La partida empieza cuando el presentador pulse Empezar.</p>
-      ${esSupervivencia(info) ? `<p class="sv-aviso"><b>${esc(MODOS[modoDe(info)])}.</b> Una vida: si fallas o no respondes,
-        quedas eliminado.${info.rescates?.length ? " Cada tanto hay una ronda de rescate: si aciertas, vuelves (una vez)." : ""}</p>` : ""}
+      ${esSupervivencia(info) ? `<p class="sv-aviso"><b>${esc(MODOS[modoDe(info)])}.</b> ${vidasDe(info) > 1
+        ? `Tienes ${vidasDe(info)} vidas ${corazones(vidasDe(info), vidasDe(info))}: cada fallo (o no responder) te quita una, y al perder la última quedas eliminado.`
+        : "Una vida: si fallas o no respondes, quedas eliminado."}${info.rescates?.length ? ` Cada tanto hay una ronda de rescate: si aciertas, vuelves${vidasDe(info) > 1 ? " con un corazón" : ""} (una vez).` : ""}</p>` : ""}
       <div class="row"><button id="salir">Salir de la sala</button></div></section>`;
     $("#salir").onclick = salir;
     return;
@@ -787,7 +829,9 @@ function miEstado(revelado) {
   const i = estado.indice;
   const fuera = uid in eliminados;
   const tarde = (jugadores[uid]?.unido || 0) > (info.empezo ?? Infinity);
-  const caja = (clase, texto) => `<p class="sv-estado ${clase}">${texto}</p>`;
+  const mios = quedan(uid, info, fallos);
+  const caja = (clase, texto, opciones = {}) => `<p class="sv-estado ${clase}"><span>${texto}</span>${!fuera || clase === "vuelve"
+    ? corazones(clase === "vuelve" ? Math.max(1, mios) : mios, vidasDe(info), opciones) : ""}</p>`;
   if (estado.fase === "ranking" || estado.fase === "fin") {
     const solo = vivos(jugadores, eliminados).length === 1;
     if (!fuera) return caja("vivo", estado.fase !== "fin" ? "Sigues en pie" : solo ? "¡Ganaste!" : "Llegaste en pie hasta el final");
@@ -798,6 +842,7 @@ function miEstado(revelado) {
     if (rescatados[uid] === i) return caja("vuelve", "¡Vuelves al juego!");
     if (fuera && eliminados[uid] === i && !((jugadores[uid]?.unido || 0) > (estado.inicio ?? Infinity))) return caja("caido", "Caíste");
     if (!fuera && estado.salvados) return caja("vivo", "Fallaron todos: ¡se salvan todos!");
+    if (!fuera && tocados[uid] === i) return caja("golpe", mios === 1 ? "Perdiste un corazón: te queda uno" : "Perdiste un corazón", { rompe: true });
     if (!fuera) return caja("vivo", "Sigues en pie");
     if (estado.rescate) {
       const otro = puedeVolver(uid, eliminados, rescatados) ? faltanParaRescate(i, info) : null;

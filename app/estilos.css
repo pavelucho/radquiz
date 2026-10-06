@@ -86,6 +86,9 @@
   --i-ok-oscuro: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4.5 10.5 8 14l7.5-8' fill='none' stroke='%230b0f14' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --i-mal-oscuro: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='m5.5 5.5 9 9m0-9-9 9' fill='none' stroke='%230b0f14' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E");
   --i-marcada: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='none' stroke='%23f2c14e' stroke-width='2'/%3E%3Ccircle cx='10' cy='10' r='4' fill='%23f2c14e'/%3E%3C/svg%3E");
+  /* corazones de las vidas, en pixel art: lleno (rojo, con un brillo) y perdido */
+  --i-corazon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z' fill='%23f47385'/%3E%3Cpath d='M1 1h1v1H1z' fill='%23ffd3da'/%3E%3C/svg%3E");
+  --i-corazon-vacio: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z' fill='%2334445a'/%3E%3C/svg%3E");
   --i-ampliar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M3 7.5V3h4.5M12.5 3H17v4.5M17 12.5V17h-4.5M7.5 17H3v-4.5' fill='none' stroke='%238f9cad' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
@@ -699,6 +702,47 @@ button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
 .pl.caido small { text-decoration: none; }
 .pl.caido::before { filter: grayscale(1); opacity: .6; }
 .pl.yo { box-shadow: inset 0 0 0 1px var(--marca); border-color: var(--marca); }
+/* vidas: corazones de pixel art, como en un videojuego. El que se pierde tiembla y cae; el último late. */
+.vidas { display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; }
+.vida {
+  position: relative; display: inline-block; width: 21px; height: 18px; flex: none;
+  background: var(--i-corazon) center / contain no-repeat; image-rendering: pixelated;
+}
+.vida.perdida { background-image: var(--i-corazon-vacio); }
+.vida.rota::after {
+  content: ""; position: absolute; inset: 0; background: var(--i-corazon) center / contain no-repeat;
+  animation: romper-corazon 1s ease-in .15s forwards;
+}
+.vida.late { animation: latir-corazon 1s steps(2, jump-none) infinite; }
+@keyframes romper-corazon {
+  0% { transform: scale(1); }
+  18% { transform: scale(1.45); }
+  30% { transform: scale(1.3) translateX(-3px) rotate(-10deg); }
+  42% { transform: scale(1.3) translateX(3px) rotate(10deg); }
+  54% { transform: scale(1.3) translateX(-2px) rotate(-6deg); opacity: 1; }
+  100% { transform: translateY(14px) scale(.5) rotate(25deg); opacity: 0; }
+}
+@keyframes latir-corazon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.22); } }
+.sv-estado > span:first-child { flex: 1; }
+.sv-estado .vida { width: 25px; height: 21px; }
+.sv-estado.golpe { color: var(--mal); background: var(--mal-suave); border: 1px solid var(--mal-borde); }
+.sv-estado.golpe::before { display: none; }
+.sv-aviso.golpe { display: flex; align-items: center; gap: 10px; font-size: clamp(17px, 1.7vw, 22px); font-weight: 600; background: var(--mal-suave); border-color: var(--mal-borde); }
+.sv-aviso .vidas { margin-left: 4px; }
+.sv-en-pie .pl .vidas { margin-left: 2px; }
+.sv-en-pie .vida { width: clamp(22px, 2vw, 30px); height: clamp(19px, 1.7vw, 26px); }
+.elegir-vidas { display: flex; flex-wrap: wrap; gap: 10px; }
+.opcion-vidas {
+  position: relative; display: grid; justify-items: center; gap: 8px; min-width: 104px; padding: 12px 16px;
+  font-size: 14.5px; font-weight: 600; color: var(--tinta-2); cursor: pointer;
+  background: var(--panel-2); border: 1px solid var(--linea-2); border-radius: 12px;
+  transition: border-color var(--t), box-shadow var(--t), color var(--t);
+}
+.opcion-vidas input { position: absolute; opacity: 0; pointer-events: none; }
+.opcion-vidas:hover { border-color: var(--linea-3); color: var(--tinta); }
+.opcion-vidas:has(input:checked) { color: var(--tinta); border-color: var(--marca); box-shadow: inset 0 0 0 1px var(--marca); }
+.opcion-vidas:has(input:focus-visible) { box-shadow: var(--anillo); }
+.opcion-vidas:not(:has(input:checked)) .vida { filter: grayscale(.85) brightness(.8); }
 .sv-ganador { font-size: clamp(40px, 6vw, 76px); font-stretch: 85%; color: var(--marca); }
 
 /* ------------------------------------------------------------------ tablero por equipos */
@@ -1022,6 +1066,8 @@ label.tb-opcion > input { margin-top: 3px; }
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
   /* el fondo de la portada queda quieto: sin el punto que da la vuelta ni la banda que baja */
   .fv-orbita, .fv-barrido { display: none !important; }
+  /* sin animación, el corazón perdido se ve vacío de una vez */
+  .vida.rota::after { display: none; }
 }
 @media print {
   .fondo-vivo { display: none; }

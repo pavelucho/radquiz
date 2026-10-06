@@ -9,9 +9,13 @@
 // arriesgar nada, y el eliminado que acierta vuelve. Cada persona se rescata una vez, y en el último tercio no hay
 // rescates. Un rescate sin nadie que pueda volver se salta.
 //
-// En la base: info.modo, info.rescates (posiciones de los casos de rescate en info.casos), info.empezo (cuándo se
-// pulsó Empezar: quien entra después entra eliminado), estado.rescate (ronda de rescate), estado.salvados,
-// eliminados/<uid> = caso en que cayó y rescatados/<uid> = caso en que volvió.
+// Vidas (solo con rescate): de 1 a 3 corazones, como en un videojuego. Cada fallo quita uno y al perder el último se
+// cae; quien vuelve en un rescate vuelve con un corazón. Si fallan todos los que siguen en pie, nadie pierde corazón.
+//
+// En la base: info.modo, info.vidas, info.rescates (posiciones de los casos de rescate en info.casos), info.empezo
+// (cuándo se pulsó Empezar: quien entra después entra eliminado), estado.rescate (ronda de rescate), estado.salvados,
+// fallos/<uid> = corazones perdidos, tocados/<uid> = caso en que perdió el último, eliminados/<uid> = caso en que
+// cayó y rescatados/<uid> = caso en que volvió.
 
 export const MODOS = {
   clasico: "Clásico",
@@ -19,6 +23,12 @@ export const MODOS = {
   rescate: "Supervivencia con rescate",
 };
 export const RESCATE_CADA = 3;
+export const MAX_VIDAS = 3;
+
+// Corazones con que empieza cada uno; las salas de antes de las vidas, y la Supervivencia sin rescate, tienen uno.
+export const vidasDe = (info) => (Number.isInteger(info?.vidas) && info.vidas >= 1 && info.vidas <= MAX_VIDAS ? info.vidas : 1);
+// Corazones que le quedan a alguien en pie.
+export const quedan = (uid, info, fallos = {}) => Math.max(0, vidasDe(info) - ((fallos || {})[uid] || 0));
 
 export const modoDe = (info) => (MODOS[info?.modo] ? info.modo : "clasico");
 export const esSupervivencia = (info) => modoDe(info) !== "clasico";
@@ -83,16 +93,18 @@ export const habilitados = (jugadores, eliminados, enRescate) =>
   (enRescate ? Object.keys(jugadores || {}) : vivos(jugadores, eliminados));
 
 // El resultado de una ronda. `acerto(uid)` dice si esa persona respondió bien.
-// Devuelve { caen: [uid], vuelven: [uid], salvados: bool }.
-export function resolverRonda({ jugadores, eliminados = {}, rescatados = {}, acerto, rescate = false }) {
+// Devuelve { pierden: [uid] (pierden un corazón), caen: [uid] (era el último), vuelven: [uid], salvados: bool }.
+// `fallos` cuenta los corazones perdidos; quien vuelve en un rescate queda con uno solo.
+export function resolverRonda({ jugadores, eliminados = {}, rescatados = {}, fallos = {}, vidas = 1, acerto, rescate = false }) {
   if (rescate) {
     const vuelven = Object.keys(jugadores || {}).filter((uid) => puedeVolver(uid, eliminados, rescatados) && acerto(uid));
-    return { caen: [], vuelven, salvados: false };
+    return { pierden: [], caen: [], vuelven, salvados: false };
   }
   const enPie = vivos(jugadores, eliminados);
   const fallan = enPie.filter((uid) => !acerto(uid));
-  if (enPie.length && fallan.length === enPie.length) return { caen: [], vuelven: [], salvados: true };
-  return { caen: fallan, vuelven: [], salvados: false };
+  if (enPie.length && fallan.length === enPie.length) return { pierden: [], caen: [], vuelven: [], salvados: true };
+  const caen = fallan.filter((uid) => ((fallos || {})[uid] || 0) + 1 >= vidas);
+  return { pierden: fallan, caen, vuelven: [], salvados: false };
 }
 
 // La partida está decidida cuando queda uno solo en pie (y empezaron al menos dos), salvo que todavía venga un
