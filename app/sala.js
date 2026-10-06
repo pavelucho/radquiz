@@ -234,7 +234,10 @@ async function pantallaCrear() {
       "No pude leer la lista del sitio ni la del estudio. Revisa la conexión y vuelve a intentarlo.");
     return;
   }
-  const disponibles = fusionarIndice(indice?.paquetes || [], vivo).map((p) => ({
+  // «Presentar en una sala», en el estudio, abre sala.html?crear=1&tema=<ruta>: ese tema sale elegido
+  // y aparece aunque esté oculto.
+  const pedido = params.get("tema") || "";
+  const disponibles = fusionarIndice(indice?.paquetes || [], vivo, { mostrar: pedido }).map((p) => ({
     ...p,
     publicados: p.casos.publicado || 0,
     verificados: p.casos.verificado || 0,
@@ -244,7 +247,7 @@ async function pantallaCrear() {
   const porRuta = new Map(disponibles.map((p) => [p.ruta, p]));
   const opciones = disponibles
     .filter((p) => p.publicados || hayBorradores)
-    .map((p) => `<option value="${esc(p.ruta)}">${esc(p.titulo)} · ${p.verificados} verificados de ${p.publicados}${p.sinPublicar ? ` · ${p.sinPublicar} sin publicar` : ""}</option>`)
+    .map((p) => `<option value="${esc(p.ruta)}" ${p.ruta === pedido ? "selected" : ""}>${p.oculto ? "(oculto) " : ""}${esc(p.titulo)} · ${p.verificados} verificados de ${p.publicados}${p.sinPublicar ? ` · ${p.sinPublicar} sin publicar` : ""}</option>`)
     .join("");
   if (!opciones) {
     app.innerHTML = panel("Todavía no hay casos publicados",
@@ -367,7 +370,7 @@ async function limpiarSalasViejas() {
 }
 
 async function crearSala({ tema, duracion, cuantos, mezclar, modo, vidas, equipos, borradores, sinVerificar }) {
-  const { paquete: pkg } = await cargarPaquete(tema);
+  const { paquete: pkg } = await cargarPaquete(tema, { ocultos: true });
   let casos = pkg.casos.filter((c) => c.estado === "publicado" || borradores);
   if (!sinVerificar && !borradores) casos = casos.filter((c) => c.revisor);
   let rescates = [];
@@ -444,7 +447,7 @@ async function entrar(c, rol) {
     if (!yo || !yo.exists()) return pantallaInicio(c);
   }
   try {
-    ({ paquete, fuentes, imagen: srcImagen } = await cargarPaquete(info.tema));
+    ({ paquete, fuentes, imagen: srcImagen } = await cargarPaquete(info.tema, { ocultos: true }));
   } catch {
     return salaSinTema(`La sala ${c} usa un tema que ya no está publicado (${info.tema}).`);
   }

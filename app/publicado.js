@@ -57,7 +57,8 @@ function sellar(paquete, actualizados, verificacion) {
 }
 
 // La lista de temas publicados, con el mismo formato que temas/indice.json.
-// Un tema retirado viene con «retirado», para poder quitarlo de la lista del sitio.
+// Un tema retirado viene con «retirado», para poder quitarlo de la lista del sitio. Uno oculto viene
+// con «oculto»: está publicado, pero solo se juega en una sala que el autor abre desde el estudio.
 export async function indiceEnVivo() {
   const [indice, verificacion] = await Promise.all([leer("indice_publicado"), leer("verificacion")]);
   if (!indice || typeof indice !== "object") return [];
@@ -85,6 +86,7 @@ export async function indiceEnVivo() {
       version: entrada.version,
       casos: { borrador: 0, publicado, verificado: Math.min(verificado, publicado) },
       enVivo: true,
+      ...(entrada.oculto ? { oculto: true } : {}),
     });
   }
   return salida;
@@ -92,11 +94,15 @@ export async function indiceEnVivo() {
 
 // Junta la lista del sitio con la del estudio. Gana el estudio cuando la versión no coincide;
 // si coincide, se queda la del sitio pero con la cuenta de sellos al día.
-export function fusionarIndice(estatico, vivo) {
+// Los ocultos salen de la lista, salvo la ruta que se pase en `mostrar` (la sala que abre el autor).
+export function fusionarIndice(estatico, vivo, { mostrar = null } = {}) {
   const porRuta = new Map((estatico || []).map((p) => [p.ruta, p]));
   for (const p of vivo || []) {
-    if (p.retirado) {
+    if (p.retirado || (p.oculto && p.ruta !== mostrar)) {
       porRuta.delete(p.ruta);
+    } else if (p.oculto) {
+      const previo = porRuta.get(p.ruta);
+      porRuta.set(p.ruta, previo && previo.version === p.version ? { ...previo, casos: { ...previo.casos, ...p.casos }, oculto: true } : p);
     } else if (!porRuta.has(p.ruta) || porRuta.get(p.ruta).version !== p.version) {
       porRuta.set(p.ruta, p);
     } else {
@@ -107,11 +113,14 @@ export function fusionarIndice(estatico, vivo) {
   return [...porRuta.values()];
 }
 
-async function temaEnVivo(ruta, versionDelSitio) {
+const OCULTO = "Este tema está oculto: solo se puede jugar en la sala que abre su autor.";
+
+async function temaEnVivo(ruta, versionDelSitio, ocultos) {
   const id = ruta.split("/").pop();
   if (!ID.test(id)) return null;
   const entrada = await leer(`indice_publicado/${id}`);
   if (!entrada || entrada.retirado) return null;
+  if (entrada.oculto && !ocultos) throw new Error(OCULTO);
   if (versionDelSitio && entrada.version === versionDelSitio) return null; // el sitio ya está al día
 
   const [publicacion, verificacion] = await Promise.all([leer(`publicacion/${id}`), leer(`verificacion/${id}`)]);
@@ -144,8 +153,9 @@ async function temaEnVivo(ruta, versionDelSitio) {
 }
 
 // Carga un tema para practicar o para la sala, del sitio o del estudio, lo que esté más al día.
-// Devuelve { paquete, fuentes, imagen(ref) }.
-export async function cargarPaquete(ruta) {
+// Devuelve { paquete, fuentes, imagen(ref) }. Un tema oculto solo carga con `ocultos` (la sala: el código
+// de la sala hace de llave); si la base no responde no se sabe si está oculto y carga lo del sitio.
+export async function cargarPaquete(ruta, { ocultos = false } = {}) {
   const carpeta = `temas/${ruta}`;
   let delSitio = null;
   try {
@@ -165,7 +175,7 @@ export async function cargarPaquete(ruta) {
   } catch {
     // El tema puede ser tan nuevo que el sitio todavía no lo tiene: se intenta con el estudio.
   }
-  const vivo = await temaEnVivo(ruta, delSitio?.paquete?.version);
+  const vivo = await temaEnVivo(ruta, delSitio?.paquete?.version, ocultos);
   if (vivo) return vivo;
   if (delSitio) return delSitio;
   throw new Error("No se pudo cargar el tema");

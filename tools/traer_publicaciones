@@ -182,9 +182,17 @@ def main():
     try:
         claves = traer("publicacion.json?shallow=true") or {}
         verificaciones = traer("verificacion.json") or {}
+        indice = traer("indice_publicado.json") or {}
     except Exception as e:  # sin red: el sitio se publica igual con lo que ya está en el repositorio
         print("No pude leer el estudio: %s" % e)
         return 0
+
+    # Un tema oculto está publicado solo para una sala: no va al repositorio público ni al sitio
+    # hasta que el autor lo muestre en la web (y si ya estaba, sale, como uno retirado).
+    ocultos = {c for c, e in indice.items() if isinstance(e, dict) and e.get("oculto")}
+    for clave in sorted(ocultos & set(claves)):
+        print("  · %s: oculto, no se archiva" % clave)
+    claves = {c: v for c, v in claves.items() if c not in ocultos}
 
     cambios = False
     print("Temas publicados en el estudio: %d" % len(claves))

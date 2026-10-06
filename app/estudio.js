@@ -1113,12 +1113,20 @@ function pasoPublicar(t, v) {
       <button class="primary" id="publicar" ${v.errores || publicando ? "disabled" : ""}>
         ${publicando ? esc(publicando) : publicado ? (sinPublicar(t) ? "Publicar cambios" : "Volver a publicar") : "Publicar"}</button>
       <button id="descargar-zip">Descargar .zip</button>
+      ${publicado && (soyAutor(t) || esCoord()) ? `<button id="ocultar">${t.meta.oculto ? "Mostrar en la web" : "Ocultar de la web"}</button>` : ""}
       ${publicado && esCoord() ? `<button id="despublicar">Quitar de la web</button>` : ""}
       <button class="peligrosa" id="borrar-tema">Borrar este cuestionario</button>
     </div>
+    ${publicado && t.meta.oculto
+      ? `<p class="caja"><b>Oculto.</b> No sale en la portada, ni en la práctica, el tablero o el Tabú: solo se juega en
+          una sala que abras desde aquí, y quien entra con el código lo ve en su celular.
+          <a class="boton" href="${esc(enlaceSala(t))}" target="_blank" rel="noopener">Presentar en una sala</a>
+          Cuando termines, pulsa «Mostrar en la web» y queda libre para todos.</p>` : ""}
     <p class="src">El .zip lleva lo mismo que se publica —paquete.json, fuentes.json e img/— y se puede volver a
       subir aquí o mandar al repositorio. Descarga uno antes de borrar si quieres conservarlo.</p>
-    ${publicado ? `<p class="src">Publicado el ${new Date(t.meta.publicado_en || Date.now()).toLocaleDateString("es-PE")}. Ya se puede practicar en la web.</p>` : ""}
+    ${publicado ? `<p class="src">Publicado el ${new Date(t.meta.publicado_en || Date.now()).toLocaleDateString("es-PE")}.${t.meta.oculto ? "" : " Ya se puede practicar en la web."}</p>` : ""}
+    ${!publicado ? `<label class="row"><input type="checkbox" id="publicar-oculto" ${t.meta.oculto ? "checked" : ""}> Publicar oculto: solo para
+      presentarlo en una sala; después lo muestras en la web</label>` : ""}
     ${driveEsMio(t)
       ? `<p class="src">Las figuras publicadas están en tu Google Drive: <a href="${esc(enlaceCarpeta(t.meta.drive_carpeta))}" target="_blank" rel="noopener">abrir la carpeta</a>.
           Si las borras de ahí, el tema se queda sin imágenes.</p>`
@@ -1265,6 +1273,10 @@ function enlazarEditor(t) {
   if (paso === "publicar") {
     $("#publicar").onclick = () => publicar(t);
     $("#descargar-zip").onclick = () => descargarZip(t);
+    const casillaOculto = $("#publicar-oculto");
+    if (casillaOculto) casillaOculto.onchange = () => guardarMeta(id, { oculto: casillaOculto.checked || null });
+    const ocultar = $("#ocultar");
+    if (ocultar) ocultar.onclick = () => cambiarOculto(t, !t.meta.oculto);
     const quitar = $("#despublicar");
     if (quitar) quitar.onclick = async () => {
       if (!confirm("¿Quitar este tema de la web? Los casos siguen guardados en el estudio.")) return;
@@ -1334,6 +1346,24 @@ async function anotarEnIndice(id, entrada) {
   }
 }
 
+// La sala que presenta un tema oculto: sala.html lo muestra elegido aunque no esté en la lista.
+const enlaceSala = (t) => `sala.html?crear=1&tema=${t.meta.segmento}/${t.id}`;
+
+// Ocultar deja el tema publicado pero fuera de las listas de la web; la sala lo carga con el código.
+// Va en una sola escritura, para que el estudio y la web no queden en desacuerdo.
+async function cambiarOculto(t, oculto) {
+  if (oculto && !confirm("¿Ocultar este tema? Deja de salir en la web hasta que pulses «Mostrar en la web»; solo se podrá jugar en una sala que abras desde aquí.")) return;
+  try {
+    await update(ref(db), {
+      [`indice_publicado/${t.id}/oculto`]: oculto || null,
+      [`estudio/${t.id}/meta/oculto`]: oculto || null,
+    });
+  } catch (e) {
+    return aviso(`No se pudo cambiar: ${e.code || e.message}. Si dice «permission-denied», falta desplegar las reglas.`, true);
+  }
+  aviso(oculto ? "Oculto. Ya no sale en la web; preséntalo con «Presentar en una sala»." : "Listo: el tema ya sale en la web para todos.");
+}
+
 // Publicar: las figuras van al Drive del autor y a la base solo el texto, con el id de cada figura.
 // «publicacion_img», donde antes iban las figuras en base64, se vacía.
 async function publicar(t) {
@@ -1400,8 +1430,10 @@ async function publicar(t) {
     version,
     casos: paquete.casos.length,
     actualizados,
+    ...(t.meta.oculto ? { oculto: true } : {}),
   });
-  aviso(alIndice ? "Publicado. Ya está en la web." : "Publicado. Tarda unos minutos en aparecer en la web.");
+  if (t.meta.oculto) aviso(alIndice ? "Publicado y oculto: no sale en la web hasta que pulses «Mostrar en la web»." : "No se pudo marcar como oculto: revisa que las reglas estén desplegadas.", !alIndice);
+  else aviso(alIndice ? "Publicado. Ya está en la web." : "Publicado. Tarda unos minutos en aparecer en la web.");
 }
 
 // Borrar no se puede deshacer, así que además de avisar qué desaparece hay que escribir «BORRAR».

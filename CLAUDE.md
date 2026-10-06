@@ -150,6 +150,14 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   válido; un artículo sin DOI da aviso, nunca error (estudio, `tools/validar` y comprobador del .zip). Sin DOI, la web
   enlaza a `url`. Antes, `dePaquete()` y `guardarFuente()` dejaban toda fuente como `articulo` y exigían DOI, y
   páginas como The Radiology Assistant no se podían publicar.
+- Temas ocultos (2026-10-05): publicados pero fuera de la web, para estrenarlos en una clase. `oculto: true` en
+  `indice_publicado/<tema>` (lo que lee la web) y en `estudio/<tema>/meta` (lo que ve el estudio), escritos juntos;
+  casilla «Publicar oculto» y botones «Ocultar de la web» / «Mostrar en la web» en el paso 4 (autor o coordinador).
+  `fusionarIndice` los quita de la portada, la práctica, el tablero y el Tabú; `cargarPaquete` los rechaza salvo con
+  `{ ocultos: true }`, que pasa la sala (el código de la sala hace de llave). «Presentar en una sala» abre
+  `sala.html?crear=1&tema=<ruta>`, que lo deja elegido y lo muestra con «(oculto)». Publicar (estudio y MCP) conserva
+  la marca; `tools/traer_publicaciones` no archiva los ocultos y quita del repositorio los que ya estaban. Oculto no es
+  secreto: `publicacion/` es de lectura pública y las figuras están compartidas por enlace.
 - Borrar un cuestionario se hace desde el estudio (botón en la tarjeta y en el paso 4), escribiendo `BORRAR` en un
   aviso que dice qué se pierde. El orden de borrado importa: `publicacion`, `publicacion_img`, `verificacion`,
   `reportes`, `estudio_img` y por último `estudio`, porque las reglas dan permiso mirando

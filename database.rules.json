@@ -344,6 +344,9 @@
         "retirado": {
           ".validate": "newData.isBoolean()"
         },
+        "oculto": {
+          ".validate": "newData.isBoolean()"
+        },
         "fecha": {
           ".validate": "newData.isNumber()"
         },

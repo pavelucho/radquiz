@@ -726,7 +726,7 @@ herramienta("tema_publicar",
     try {
       await escribir(`indice_publicado/${tema}`, {
         titulo: paquete.titulo, segmento: paquete.segmento, modalidades: paquete.modalidades || [], version,
-        casos: paquete.casos.length, actualizados, fecha: AHORA,
+        casos: paquete.casos.length, actualizados, fecha: AHORA, ...(t.meta.oculto ? { oculto: true } : {}),
       });
     } catch (e) {
       indice = `no se pudo anotar (${e.message}); el tema saldrá cuando el repositorio se ponga al día`;
