@@ -68,7 +68,11 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   entra con el código puesto). Lo dibuja `app/qr.js`, generador propio sin dependencias ni CDN —la red del
   hospital puede no dejar salir— modo byte, corrección M, versiones 1 a 10.
 - En línea: repositorio público `pavelucho/radquiz` y **una sola web, en Firebase Hosting**:
-  https://radquiz-shpn2.web.app (también `radquiz-shpn2.firebaseapp.com`). Solo los casos `publicado` salen a la
+  **https://radquiz-shpn2.firebaseapp.com, la dirección oficial desde el 2026-10-05** porque es la que el autor vio
+  entrar en el hospital (`radquiz-shpn2.web.app` es el mismo sitio y sigue funcionando). El QR y la dirección del
+  lobby apuntan siempre a ella (`URL_OFICIAL` y `origenPublico()` en `app/comun.js`), salvo en una copia de ensayo
+  local; la redirección de GitHub Pages también. No se redirige `web.app` a `firebaseapp.com`: el avance de la práctica,
+  el avatar y la partida del tablero viven en el navegador por dirección, y se verían perdidos. Solo los casos `publicado` salen a la
   web (decisión del autor: nunca borradores en la web). Se despliega con `tools/desplegar web`, que arma `_site`
   con `tools/construir_sitio` y lo sube; fuera de GitHub usa la sesión de la CLI si no hay credencial. Lo publicado
   en el estudio aparece al instante sin desplegar: redesplegar solo hace falta cuando cambia el código.
@@ -281,7 +285,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
    Fig. 13 (¿coronal o sagital?) y Fig. 14. Dejarlas en `null` es correcto mientras nadie las confirme: el
    validador no se queja.
 3. Probar la red de HNERM antes del ensayo con 3 colegas. Desde el Mac del autor ya pasa Firebase (ver arriba);
-   falta abrir https://radquiz-shpn2.web.app en la **PC que proyecta** y entrar a una sala desde un celular en el
+   falta abrir https://radquiz-shpn2.firebaseapp.com en la **PC que proyecta** y entrar a una sala desde un celular en el
    wifi del hospital. Con las figuras en Drive hay que comprobar también que pasan `lh3.googleusercontent.com` (la web
    pide ahí cada figura) y `www.googleapis.com` (el respaldo).
 4. Decidir la licencia del código y la de los textos propios.

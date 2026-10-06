@@ -1,6 +1,7 @@
 name: Publicar
 
-# La web está en Firebase Hosting: https://radquiz-shpn2.web.app. Este workflow:
+# La web está en Firebase Hosting: https://radquiz-shpn2.firebaseapp.com (la oficial; también radquiz-shpn2.web.app).
+# Este workflow:
 # 1. Archiva en temas/ lo publicado en el estudio: el texto y los ids de Drive (las figuras se quedan en el
 #    Drive de quien publica). Un tema que no pasa el validador se queda fuera del archivo y no frena nada.
 # 2. Despliega la web en Firebase Hosting con «tools/desplegar web», si hay credencial en Settings →

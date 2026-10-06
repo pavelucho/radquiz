@@ -7,7 +7,7 @@ import {
   getDatabase, ref, set, get, update, remove, onValue, serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 import { firebaseConfig, APP_ANONIMA } from "./firebase-config.js";
-import { $, esc, md, cargarJSON, credito, barajar, sello, leerTanda, totalTanda, nivelDe } from "./comun.js";
+import { $, esc, md, cargarJSON, credito, barajar, sello, leerTanda, totalTanda, nivelDe, origenPublico } from "./comun.js";
 import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
 import { reportar } from "./reportar.js";
 import { qrDataURI } from "./qr.js";
@@ -678,7 +678,9 @@ function bloqueQR(enlace) {
 const inicial = (nombre) => ([...String(nombre || "?").trim()][0] || "?").toUpperCase();
 
 function hostLobby() {
-  const enlace = `${location.origin}${location.pathname}?c=${codigo}`;
+  // Siempre la dirección oficial (la que entra en el hospital), aunque la sala se haya abierto desde otra.
+  const base = `${origenPublico()}/sala.html`;
+  const enlace = `${base}?c=${codigo}`;
   const ids = Object.keys(jugadores);
   const equipos = equiposDe(info);
   // Con equipos, cada uno en su columna; quien todavía no eligió, aparte.
@@ -696,7 +698,7 @@ function hostLobby() {
         <div>
           <div class="codigo">${esc(codigo)}</div>
           <div class="como-entrar"><p class="muted">Entren a</p>
-            <p class="direccion">${esc(location.host + location.pathname)}</p>
+            <p class="direccion">${esc(base.replace(/^https?:\/\//, ""))}</p>
             <p class="muted">y escriban el código.</p></div>
         </div>
         ${bloqueQR(enlace)}

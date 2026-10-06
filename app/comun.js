@@ -2,6 +2,16 @@
 
 export const $ = (selector, raiz = document) => raiz.querySelector(selector);
 
+// La dirección oficial: la que entra desde la red del hospital. Es el mismo sitio de Firebase Hosting que
+// radquiz-shpn2.web.app, con otro nombre. El QR y la dirección del lobby de la sala salen siempre de aquí, aunque el
+// presentador la abra desde otra dirección; solo en una copia de ensayo (localhost o la red local) se usa la propia,
+// para que los celulares del ensayo lleguen a esa copia.
+export const URL_OFICIAL = "https://radquiz-shpn2.firebaseapp.com";
+export function origenPublico() {
+  const local = /^(localhost|127\.|\[?::1\]?$|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)|\.local$/.test(location.hostname);
+  return local || !/^https?:$/.test(location.protocol) ? location.origin : URL_OFICIAL;
+}
+
 export const SEGMENTOS = {
   "neurorradiologia": "Neurorradiología",
   "cabeza-cuello": "Cabeza y cuello",

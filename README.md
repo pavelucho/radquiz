@@ -3,7 +3,7 @@
 Casos radiológicos para residentes, en vivo (tipo Kahoot) y en práctica individual. Gratis, sin cuentas y en español.
 
 **Manual de uso** (residentes, presentadores, autores, revisores y coordinador): [manual.html](manual.html), en línea en
-https://radquiz-shpn2.web.app/manual.html
+https://radquiz-shpn2.firebaseapp.com/manual.html
 
 El plan completo está en el documento del proyecto; este archivo explica el repositorio.
 
@@ -48,7 +48,9 @@ tools/construir_sitio       arma _site/ con solo los casos publicados
 
 ## En línea
 
-- Web: https://radquiz-shpn2.web.app/ (Firebase Hosting, plan Spark; también `radquiz-shpn2.firebaseapp.com`). Es la
+- Web: https://radquiz-shpn2.firebaseapp.com/, la dirección oficial porque es la que entra en la red del hospital
+  (Firebase Hosting, plan Spark; `radquiz-shpn2.web.app` es el mismo sitio). El QR y la dirección del lobby de la sala
+  apuntan siempre a ella (`URL_OFICIAL` en `app/comun.js`), salvo en una copia de ensayo local. Es la
   única: la red del hospital bloquea GitHub por IP, y Firebase pasa. Se despliega con `tools/desplegar web`, que arma
   `_site` con `tools/construir_sitio` y lo sube. Lo publicado en el estudio sale al instante, sin desplegar.
 - `.github/workflows/publicar.yml`, en cada `git push` a `main` y cada pocas horas: archiva en `temas/` lo publicado
