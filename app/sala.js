@@ -184,6 +184,7 @@ function encabezado() {
   boton.hidden = !soyHost;
   boton.textContent = sonidoActivo() ? "Sonido: sí" : "Sonido: no";
   boton.setAttribute("aria-pressed", String(sonidoActivo()));
+  qrCabecera();
 }
 
 // ------------------------------------------------------------------ pantallas sin sala
@@ -191,6 +192,8 @@ function sinSala() {
   $("#rol").textContent = "Sin sala";
   $("#rol").className = "chip";
   $("#conteo").hidden = true;
+  $("#qrMini").hidden = true;
+  $("#zoomQR").hidden = true;
 }
 
 function pantallaInicio(codigoInicial = "", mensaje = "") {
@@ -661,29 +664,84 @@ function vistaHost() {
   return hostRanking(fase === "fin");
 }
 
+// Siempre la dirección oficial (la que entra en el hospital), aunque la sala se haya abierto desde otra.
+function enlaceSala() {
+  const base = `${origenPublico()}/sala.html`;
+  return { base, enlace: `${base}?c=${codigo}` };
+}
+
 // El QR lleva al enlace con el código puesto: quien lo escanea solo escribe su nombre.
 // Se dibuja aquí mismo (app/qr.js) para no depender de un servicio externo en la red del hospital.
-function bloqueQR(enlace) {
-  if (!/^https?:$/.test(location.protocol)) return "";  // desde file:// el enlace no le sirve a nadie
-  let fuente;
-  try {
-    fuente = qrDataURI(enlace);
-  } catch {
-    return "";  // un enlace larguísimo: mejor sin QR que con uno ilegible
+let qrHecho = { enlace: null, fuente: null };
+function fuenteQR() {
+  if (!/^https?:$/.test(location.protocol)) return null;  // desde file:// el enlace no le sirve a nadie
+  const { enlace } = enlaceSala();
+  if (qrHecho.enlace !== enlace) {
+    let fuente = null;
+    try {
+      fuente = qrDataURI(enlace);
+    } catch {
+      // un enlace larguísimo: mejor sin QR que con uno ilegible
+    }
+    qrHecho = { enlace, fuente };
   }
+  return qrHecho.fuente;
+}
+
+function bloqueQR() {
+  const fuente = fuenteQR();
+  if (!fuente) return "";
   return `<figure class="qr">
-    <img src="${fuente}" alt="Código QR con el enlace a la sala ${esc(codigo)}" data-zoom>
+    <img src="${fuente}" alt="Código QR con el enlace a la sala ${esc(codigo)}" data-qr>
     <figcaption>Escanea con la cámara<br>y entras directo · Toca para ampliar</figcaption>
   </figure>`;
+}
+
+// Con la sesión en marcha, el QR queda chico en la cabecera del proyector para quien llega tarde; al tocarlo se
+// amplía con el código y la dirección. En el lobby ya está grande, y al final ya no hay a qué entrar.
+function qrCabecera() {
+  const boton = $("#qrMini");
+  const fuente = soyHost && estado && !["lobby", "fin"].includes(estado.fase) ? fuenteQR() : null;
+  boton.hidden = !fuente;
+  if (!fuente) {
+    $("#zoomQR").hidden = true;
+    return;
+  }
+  if (boton.dataset.codigo !== codigo) {
+    boton.dataset.codigo = codigo;
+    boton.title = "Ampliar el QR para entrar a la sala";
+    boton.innerHTML = `<img src="${fuente}" alt=""><span>Entrar<b>${esc(codigo)}</b></span>`;
+  }
+}
+
+function ampliarQR() {
+  const fuente = fuenteQR();
+  if (!fuente) return;
+  const { base } = enlaceSala();
+  const empezada = esSupervivencia(info) && estado && estado.fase !== "lobby";
+  const nota = !empezada ? ""
+    : `<p class="muted">En supervivencia, quien entra con la partida empezada mira como espectador${info.rescates?.length ? " hasta un rescate" : ""}.</p>`;
+  const capa = $("#zoomQR");
+  capa.innerHTML = `<figure class="qr-grande">
+    <img src="${fuente}" alt="Código QR con el enlace a la sala ${esc(codigo)}">
+    <figcaption>
+      <p class="tema">Código de la sala</p>
+      <div class="codigo">${esc(codigo)}</div>
+      <p class="muted">Escanea con la cámara, o entra a</p>
+      <p class="direccion">${esc(base.replace(/^https?:\/\//, ""))}</p>
+      <p class="muted">y escribe el código.</p>
+      ${nota}
+      <p class="src">Toca en cualquier parte o pulsa Esc para volver.</p>
+    </figcaption>
+  </figure>`;
+  capa.hidden = false;
 }
 
 // La inicial de cada jugador, para el círculo de color de la lista.
 const inicial = (nombre) => ([...String(nombre || "?").trim()][0] || "?").toUpperCase();
 
 function hostLobby() {
-  // Siempre la dirección oficial (la que entra en el hospital), aunque la sala se haya abierto desde otra.
-  const base = `${origenPublico()}/sala.html`;
-  const enlace = `${base}?c=${codigo}`;
+  const { base, enlace } = enlaceSala();
   const ids = Object.keys(jugadores);
   const equipos = equiposDe(info);
   // Con equipos, cada uno en su columna; quien todavía no eligió, aparte.
@@ -704,7 +762,7 @@ function hostLobby() {
             <p class="direccion">${esc(base.replace(/^https?:\/\//, ""))}</p>
             <p class="muted">y escriban el código.</p></div>
         </div>
-        ${bloqueQR(enlace)}
+        ${bloqueQR()}
       </div>
       <p class="src">Enlace directo: ${esc(enlace)}</p>
       <p class="muted">${esc(info.titulo)} · ${esSupervivencia(info) ? `${esc(MODOS[modoDe(info)])} · ${numeroDe(0, info).total} casos${info.rescates?.length ? ` y ${info.rescates.length} de rescate` : ""}${vidasDe(info) > 1 ? ` · ${vidasDe(info)} vidas` : ""}`
@@ -1226,7 +1284,15 @@ document.addEventListener("click", (e) => {
   }
 });
 $("#zoom").onclick = () => { $("#zoom").hidden = true; };
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") $("#zoom").hidden = true; });
+// El QR de la sala: el grande del lobby y el chico de la cabecera abren la misma ampliación.
+document.addEventListener("click", (e) => { if (e.target.closest("[data-qr]")) ampliarQR(); });
+$("#qrMini").onclick = ampliarQR;
+$("#zoomQR").onclick = () => { $("#zoomQR").hidden = true; };
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "Escape") return;
+  $("#zoom").hidden = true;
+  $("#zoomQR").hidden = true;
+});
 // El navegador solo deja sonar después de un toque: el primero del presentador habilita el audio.
 document.addEventListener("pointerdown", () => { if (soyHost) prepararAudio(); });
 $("#sonido").onclick = () => {

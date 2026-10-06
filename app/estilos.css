@@ -626,6 +626,16 @@ button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
 .qr { flex: 0 0 auto; margin: 0; display: grid; gap: 8px; justify-items: center; }
 .qr img { display: block; width: clamp(140px, 16vw, 200px); height: auto; padding: 8px; background: #fff; border-radius: 12px; cursor: zoom-in; }
 .qr figcaption { font-size: 12.5px; line-height: 1.45; color: var(--mute); text-align: center; }
+/* el QR chico de la cabecera, con la sesión en marcha, y su ampliación */
+.bar button.qr-mini { display: inline-flex; align-items: center; gap: 9px; min-height: 0; padding: 4px 10px 4px 4px; cursor: zoom-in; }
+.qr-mini img { display: block; width: 42px; height: 42px; padding: 3px; background: #fff; border-radius: 6px; }
+.qr-mini span { display: grid; text-align: left; font-size: 12px; font-weight: 500; line-height: 1.15; color: var(--mute); }
+.qr-mini b { font-size: 17px; font-weight: 700; letter-spacing: .08em; color: var(--marca); font-variant-numeric: tabular-nums; }
+.zoom-qr { background: rgba(5, 8, 12, .95); }
+.qr-grande { margin: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 24px 48px; max-height: 100%; overflow: auto; }
+.qr-grande img { width: min(72vh, 86vw); height: auto; max-width: none; max-height: none; padding: 14px; background: #fff; border-radius: 16px; }
+.qr-grande figcaption { display: grid; gap: 10px; justify-items: start; max-width: 460px; }
+.qr-grande .codigo { margin: 4px 0 8px; }
 .players { display: flex; flex-wrap: wrap; gap: 8px; }
 .pl {
   display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px 7px 8px;

@@ -66,7 +66,10 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   us-central1) con auth anónima y reglas en `database.rules.json`. Probada de punta a punta el 2026-09-19.
   El lobby del presentador muestra, junto al código, un QR del enlace `sala.html?c=<código>` (se escanea y se
   entra con el código puesto). Lo dibuja `app/qr.js`, generador propio sin dependencias ni CDN —la red del
-  hospital puede no dejar salir— modo byte, corrección M, versiones 1 a 10.
+  hospital puede no dejar salir— modo byte, corrección M, versiones 1 a 10. Con la sesión en marcha (pregunta,
+  revelado y ranking; no en el lobby ni al final) el QR queda chico en la cabecera del presentador, con el código,
+  para quien llega tarde: al tocarlo —o el grande del lobby— se amplía con el código y la dirección (`qrCabecera()`
+  y `ampliarQR()`, 2026-10-05).
 - En línea: repositorio público `pavelucho/radquiz` y **una sola web, en Firebase Hosting**:
   **https://radquiz-shpn2.firebaseapp.com, la dirección oficial desde el 2026-10-05** porque es la que el autor vio
   entrar en el hospital (`radquiz-shpn2.web.app` es el mismo sitio y sigue funcionando). El QR y la dirección del
