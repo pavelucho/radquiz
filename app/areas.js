@@ -24,7 +24,8 @@ export const AREAS = {
     "hidrocefalia": "Hidrocefalia y trastornos del LCR",
     "congenitas": "Malformaciones congénitas y del desarrollo",
     "epilepsia": "Epilepsia",
-    "columna": "Columna y médula espinal"
+    "columna": "Columna y médula espinal",
+    "miscelaneas": "Misceláneas"
   },
   "cabeza-cuello": {
     "orbita": "Órbita",
@@ -39,7 +40,8 @@ export const AREAS = {
     "ganglios": "Ganglios linfáticos",
     "congenitas": "Lesiones congénitas del cuello",
     "maxilofacial": "Mandíbula, maxilar y dientes",
-    "atm": "Articulación temporomandibular"
+    "atm": "Articulación temporomandibular",
+    "miscelaneas": "Misceláneas"
   },
   "torax": {
     "signos": "Anatomía, signos y patrones",
@@ -54,14 +56,16 @@ export const AREAS = {
     "pared-diafragma": "Pared torácica y diafragma",
     "trauma": "Trauma torácico",
     "uci": "Paciente crítico y dispositivos",
-    "congenitas": "Malformaciones congénitas"
+    "congenitas": "Malformaciones congénitas",
+    "miscelaneas": "Misceláneas"
   },
   "cardiovascular": {
     "aorta": "Aorta",
     "corazon": "Corazón y pericardio",
     "coronarias": "Arterias coronarias",
     "arterias-perifericas": "Arterias viscerales y periféricas",
-    "venas": "Venas y trombosis venosa"
+    "venas": "Venas y trombosis venosa",
+    "miscelaneas": "Misceláneas"
   },
   "abdomen": {
     "higado": "Hígado",
@@ -74,7 +78,8 @@ export const AREAS = {
     "peritoneo": "Peritoneo, mesenterio y retroperitoneo",
     "pared-hernias": "Pared abdominal y hernias",
     "abdomen-agudo": "Abdomen agudo",
-    "trauma": "Trauma abdominal"
+    "trauma": "Trauma abdominal",
+    "miscelaneas": "Misceláneas"
   },
   "genitourinario": {
     "rinon": "Riñón",
@@ -85,7 +90,8 @@ export const AREAS = {
     "utero": "Útero y cuello uterino",
     "ovarios-anexos": "Ovarios y anexos",
     "obstetricia": "Obstetricia y placenta",
-    "suelo-pelvico": "Suelo pélvico"
+    "suelo-pelvico": "Suelo pélvico",
+    "miscelaneas": "Misceláneas"
   },
   "musculoesqueletico": {
     "hombro": "Hombro",
@@ -101,7 +107,8 @@ export const AREAS = {
     "metabolicas": "Enfermedades metabólicas del hueso",
     "medula-osea": "Médula ósea y osteonecrosis",
     "partes-blandas": "Músculo y partes blandas",
-    "displasias": "Displasias esqueléticas"
+    "displasias": "Displasias esqueléticas",
+    "miscelaneas": "Misceláneas"
   },
   "mama": {},
   "pediatria": {
@@ -113,7 +120,8 @@ export const AREAS = {
     "genitourinario": "Genitourinario",
     "musculoesqueletico": "Musculoesquelético",
     "neonatal": "Neonatología",
-    "maltrato": "Maltrato infantil"
+    "maltrato": "Maltrato infantil",
+    "miscelaneas": "Misceláneas"
   },
   "intervencionismo": {},
   "fisica-tecnica": {
@@ -123,6 +131,7 @@ export const AREAS = {
     "ecografia": "Ecografía",
     "medicina-nuclear": "Medicina nuclear",
     "contraste": "Medios de contraste",
-    "proteccion": "Protección radiológica"
+    "proteccion": "Protección radiológica",
+    "miscelaneas": "Misceláneas"
   }
 };

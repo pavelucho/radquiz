@@ -41,16 +41,19 @@ segmentos son los 11 del repositorio; las áreas son una lista cerrada por segme
 toman el estudio, las instrucciones para la IA y `tools/validar`.
 
 - Un caso puede estar en varios segmentos: una pareja por cada uno. Displasia del desarrollo de la cadera →
-  `musculoesqueletico/cadera-pelvis` y `pediatria`; biopsia hepática guiada por TC → `abdomen/higado` e
+  `musculoesqueletico/cadera-pelvis` y `pediatria/musculoesqueletico`; biopsia hepática guiada por TC → `abdomen/higado` e
   `intervencionismo`; artefacto del ángulo mágico en una RM de rodilla → `musculoesqueletico/rodilla` y
   `fisica-tecnica`.
-- `pediatria`, solo si la fuente dice que el paciente es menor de 18 años o si la entidad es propia de la infancia.
+- `pediatria`, solo si la entidad es propia de la infancia (malformaciones del desarrollo, tumores pediátricos,
+  maltrato, neonatología…); la edad sola no basta: un linfoma o un Chiari I en un adolescente no son pediatría
+  (decisión del autor, 2026-10-07).
   `intervencionismo`, si la pregunta trata de un procedimiento guiado por imagen. `fisica-tecnica`, si trata de la
   técnica, la secuencia, un artefacto, la dosis o el contraste.
 - Columna: médula, canal y raíces → `neurorradiologia/columna`; hueso, fracturas y articulaciones →
   `musculoesqueletico/columna`. Si toca las dos cosas, las dos parejas.
-- Si ninguna área encaja, la pareja va sin `area` (el validador lo avisa) y se pide un área nueva: no se fuerza una
-  que no corresponde. Los segmentos que todavía no tienen áreas van siempre sin `area`.
+- Si ninguna área encaja, la pareja va a `miscelaneas` de ese segmento (la tienen todos los que tienen áreas): no se
+  fuerza una que no corresponde. Si muchos casos terminan ahí, conviene un área nueva. Mama e intervencionismo
+  todavía no tienen áreas y van sin `area`.
 - Sin `clasificacion`, el caso es del segmento del paquete y no tiene área.
 - Un área nueva es una línea en `app/areas.js`. Su id no se cambia ni se borra mientras algún caso lo use.
 

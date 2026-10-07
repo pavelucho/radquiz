@@ -242,15 +242,17 @@ function reglasClasificacion(segmento) {
 - Usa solo los segmentos y las áreas de la lista de abajo, escritos como su id (lo que va antes de los dos puntos).
 - ${principal}
 - Si el caso pertenece a más de un segmento, agrega una pareja por cada uno. Por ejemplo: displasia del
-  desarrollo de la cadera → musculoesqueletico/cadera-pelvis y pediatria; biopsia hepática guiada por TC →
+  desarrollo de la cadera → musculoesqueletico/cadera-pelvis y pediatria/musculoesqueletico; biopsia hepática guiada por TC →
   abdomen/higado e intervencionismo; artefacto del ángulo mágico en una RM de rodilla →
   musculoesqueletico/rodilla y fisica-tecnica.
-- "pediatria" solo si la fuente dice que el paciente es menor de 18 años o si la entidad es propia de la
-  infancia. "intervencionismo", si la pregunta trata de un procedimiento guiado por imagen. "fisica-tecnica",
+- "pediatria" solo si la entidad es propia de la infancia (malformaciones del desarrollo, tumores pediátricos,
+  maltrato, neonatología…). La edad sola no basta: un linfoma o un Chiari I en un adolescente no son pediatría.
+  "intervencionismo", si la pregunta trata de un procedimiento guiado por imagen. "fisica-tecnica",
   si trata de la técnica, la secuencia, un artefacto, la dosis o el contraste.
 - Columna: la médula, el canal y las raíces van a neurorradiologia/columna; el hueso, las fracturas y las
   articulaciones, a musculoesqueletico/columna. Si toca las dos cosas, las dos parejas.
-- Si ninguna área encaja, deja la pareja sin "area": no la fuerces. Los segmentos sin áreas van siempre sin "area".
+- Si ninguna área encaja, usa "miscelaneas" de ese segmento: no fuerces un área que no corresponde. Los segmentos
+  sin áreas (mama, intervencionismo) van siempre sin "area".
 
 ${listaAreas()}`;
 }

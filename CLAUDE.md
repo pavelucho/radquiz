@@ -267,7 +267,9 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   tema; en pediatría, `pediatria/<área>` y después el órgano; emergencias por órgano), 1114 casos guardados en el
   estudio con la herramienta MCP nueva `casos_clasificar` (no toca `actualizado`: ATM conserva sus sellos). Se
   agregaron áreas a cardiovascular, pediatría y física y técnica, y `torax/congenitas` y
-  `musculoesqueletico/displasias`; mama e intervencionismo siguen sin áreas. Hasta volver a publicar cada tema, la
+  `musculoesqueletico/displasias`, y «Misceláneas» (`miscelaneas`) en todo segmento con áreas, para lo que no encaja en
+  ninguna (decisión del autor); mama e intervencionismo siguen sin áreas. Pediatría va por entidad, no por edad (un
+  linfoma o un Chiari I en un adolescente no son pediatría: decisión del autor), también en las instrucciones para la IA. Hasta volver a publicar cada tema, la
   web filtra con la clasificación vieja (lo publicado) aunque el índice de casos ya esté al día.
 - Puntaje (2026-10-05): 900 por acierto + hasta 100 por rapidez (antes 500 + 500): pesa acertar, no el reflejo.
 - Ambiente, rachas, avatares y equipos en la sala (2026-10-05), decididos con el autor como capas 1, 2 y 5 de una lista
