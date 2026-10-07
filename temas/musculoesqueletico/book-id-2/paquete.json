@@ -11,7 +11,7 @@
     "Rx"
   ],
   "idioma": "es",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -2223,7 +2223,8 @@
       "tema": "Radiología Musculoesquelética · Trauma y Fracturas",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
         }
       ],
       "etiquetas": [
@@ -2271,7 +2272,8 @@
       "tema": "Radiología Musculoesquelética · Tejidos Blandos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "partes-blandas"
         }
       ],
       "etiquetas": [
@@ -2319,7 +2321,8 @@
       "tema": "Radiología Musculoesquelética · Rodilla",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -2367,7 +2370,8 @@
       "tema": "Radiología Musculoesquelética · Muñeca y Mano",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "muneca-mano"
         }
       ],
       "etiquetas": [
@@ -2414,7 +2418,8 @@
       "tema": "Radiología Musculoesquelética · Tumores y Lesiones Pseudotumorales",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -2462,7 +2467,8 @@
       "tema": "Radiología Musculoesquelética · Enfermedad Metabólica y Sistémica",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "metabolicas"
         }
       ],
       "etiquetas": [
@@ -2509,7 +2515,8 @@
       "tema": "Radiología Musculoesquelética · Artroplastias y Material de Osteosíntesis",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
         }
       ],
       "etiquetas": [
@@ -2557,7 +2564,8 @@
       "tema": "Radiología Musculoesquelética · Cadera y Pelvis",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
         }
       ],
       "etiquetas": [
@@ -2604,7 +2612,8 @@
       "tema": "Radiología Musculoesquelética · Rodilla",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -2652,7 +2661,8 @@
       "tema": "Radiología Musculoesquelética · Hombro",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "hombro"
         }
       ],
       "etiquetas": [
@@ -2700,7 +2710,8 @@
       "tema": "Musculoesqueletico · Columna",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
         }
       ],
       "etiquetas": [
@@ -2747,7 +2758,8 @@
       "tema": "Musculoesqueletico · Pie",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
         }
       ],
       "etiquetas": [
@@ -2794,7 +2806,8 @@
       "tema": "Musculoesqueletico · Tobillo",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
         }
       ],
       "etiquetas": [
@@ -2841,7 +2854,8 @@
       "tema": "Musculoesqueletico · Cadera",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
         }
       ],
       "etiquetas": [
@@ -2887,7 +2901,8 @@
       "tema": "Musculoesqueletico · Muñeca",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "muneca-mano"
         }
       ],
       "etiquetas": [
@@ -2934,7 +2949,8 @@
       "tema": "Musculoesqueletico · Muñeca",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "muneca-mano"
         }
       ],
       "etiquetas": [
@@ -2981,7 +2997,12 @@
       "tema": "Musculoesqueletico · Procedimientos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "fisica-tecnica",
+          "area": "contraste"
         }
       ],
       "etiquetas": [
@@ -3028,7 +3049,8 @@
       "tema": "Musculoesqueletico · Hombro",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "hombro"
         }
       ],
       "etiquetas": [
@@ -3075,7 +3097,8 @@
       "tema": "Musculoesqueletico · Codo",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "codo"
         }
       ],
       "etiquetas": [
@@ -3122,7 +3145,8 @@
       "tema": "Musculoesqueletico · Hombro",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "hombro"
         }
       ],
       "etiquetas": [
@@ -3169,7 +3193,12 @@
       "tema": "Tumores · Pared torácica",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
+        },
+        {
+          "segmento": "torax",
+          "area": "pared-diafragma"
         }
       ],
       "etiquetas": [
@@ -3216,7 +3245,8 @@
       "tema": "Rodilla · Menisco",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -3263,7 +3293,8 @@
       "tema": "Mano y Muñeca · Ligamentos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "muneca-mano"
         }
       ],
       "etiquetas": [
@@ -3310,7 +3341,8 @@
       "tema": "Hombro · Articulación AC",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "hombro"
         }
       ],
       "etiquetas": [
@@ -3357,7 +3389,8 @@
       "tema": "Pelvis y Cadera · Tendones",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
         }
       ],
       "etiquetas": [
@@ -3404,7 +3437,8 @@
       "tema": "Hombro · Cápsula articular",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "hombro"
         }
       ],
       "etiquetas": [
@@ -3451,7 +3485,8 @@
       "tema": "Tobillo y Pie · Tendones",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
         }
       ],
       "etiquetas": [
@@ -3498,7 +3533,12 @@
       "tema": "Patología Sistémica · Paraneoplásico",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
+        },
+        {
+          "segmento": "torax",
+          "area": "nodulo-cancer"
         }
       ],
       "etiquetas": [
@@ -3545,7 +3585,8 @@
       "tema": "Mano y Muñeca · Tendones",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "muneca-mano"
         }
       ],
       "etiquetas": [
@@ -3592,7 +3633,12 @@
       "tema": "Tobillo y Pie · Congénito",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "musculoesqueletico"
         }
       ],
       "etiquetas": [
@@ -3639,7 +3685,8 @@
       "tema": "Rodilla · Lesiones Ligamentosas",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -3686,7 +3733,8 @@
       "tema": "Infección · Prótesis Articular",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "infeccion"
         }
       ],
       "etiquetas": [
@@ -3733,7 +3781,8 @@
       "tema": "Pie · Traumatismo",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
         }
       ],
       "etiquetas": [
@@ -3780,7 +3829,8 @@
       "tema": "Tumores Óseos · Benignos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3827,7 +3877,12 @@
       "tema": "Hombro · Ecografía",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "fisica-tecnica",
+          "area": "ecografia"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "hombro"
         }
       ],
       "etiquetas": [
@@ -3874,7 +3929,12 @@
       "tema": "Tumores Óseos · Benignos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "musculoesqueletico"
         }
       ],
       "etiquetas": [
@@ -3921,7 +3981,8 @@
       "tema": "Rodilla · Sinovial",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -3968,7 +4029,8 @@
       "tema": "Hombro · Inestabilidad",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "hombro"
         }
       ],
       "etiquetas": [
@@ -4015,7 +4077,8 @@
       "tema": "Rodilla · Variantes Anatómicas",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -4062,7 +4125,8 @@
       "tema": "Tumores Óseos · Benignos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4109,7 +4173,8 @@
       "tema": "Musculoesquelético · Tumores y Lesiones Pseudotumorales",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "muneca-mano"
         }
       ],
       "etiquetas": [
@@ -4156,7 +4221,8 @@
       "tema": "Musculoesquelético · Traumatismos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -4203,7 +4269,8 @@
       "tema": "Musculoesquelético · Displasias y Enfermedades Metabólicas",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "displasias"
         }
       ],
       "etiquetas": [
@@ -4250,7 +4317,8 @@
       "tema": "Musculoesquelético · Tumores y Lesiones Pseudotumorales",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
         }
       ],
       "etiquetas": [
@@ -4297,7 +4365,8 @@
       "tema": "Musculoesquelético · Enfermedades Óseas Metabólicas",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "metabolicas"
         }
       ],
       "etiquetas": [
@@ -4344,7 +4413,8 @@
       "tema": "Musculoesquelético · Traumatismos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "partes-blandas"
         }
       ],
       "etiquetas": [
@@ -4391,7 +4461,8 @@
       "tema": "Musculoesquelético · Postquirúrgico",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -4438,7 +4509,12 @@
       "tema": "Musculoesquelético · Tumores y Lesiones Pseudotumorales",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "musculoesqueletico"
         }
       ],
       "etiquetas": [
@@ -4485,7 +4561,8 @@
       "tema": "Musculoesquelético · Tumores y Lesiones Pseudotumorales",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4532,7 +4609,8 @@
       "tema": "Musculoesquelético · Articulaciones y Tendones",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "muneca-mano"
         }
       ],
       "etiquetas": [
@@ -4579,7 +4657,8 @@
       "tema": "Sistema Musculoesquelético · Trauma",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "miscelaneas"
         }
       ],
       "etiquetas": [
@@ -4626,7 +4705,8 @@
       "tema": "Sistema Musculoesquelético · Trauma",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -4673,7 +4753,8 @@
       "tema": "Sistema Musculoesquelético · Tumores Óseos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4720,7 +4801,8 @@
       "tema": "Sistema Musculoesquelético · Artropatías",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "muneca-mano"
         }
       ],
       "etiquetas": [
@@ -4767,7 +4849,8 @@
       "tema": "Sistema Musculoesquelético · Artropatías",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
         }
       ],
       "etiquetas": [
@@ -4814,7 +4897,8 @@
       "tema": "Sistema Musculoesquelético · Posquirúrgico",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -4861,7 +4945,8 @@
       "tema": "Sistema Musculoesquelético · Posquirúrgico",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
         }
       ],
       "etiquetas": [
@@ -4908,7 +4993,8 @@
       "tema": "Sistema Musculoesquelético · Tumores Óseos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4955,7 +5041,8 @@
       "tema": "Sistema Musculoesquelético · Posquirúrgico",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
         }
       ],
       "etiquetas": [
@@ -5002,7 +5089,12 @@
       "tema": "Sistema Musculoesquelético · Trastornos Congénitos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "displasias"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "partes-blandas"
         }
       ],
       "etiquetas": [
@@ -5049,7 +5141,8 @@
       "tema": "Tumores y Pseudotumores · Tejidos Blandos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -5096,7 +5189,8 @@
       "tema": "Artropatías y Patología Sinovial · Rodilla",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -5143,7 +5237,8 @@
       "tema": "Nervio Periférico · Atrapamientos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "codo"
         }
       ],
       "etiquetas": [
@@ -5190,7 +5285,8 @@
       "tema": "Física y Artefactos · RM",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "fisica-tecnica",
+          "area": "rm"
         }
       ],
       "etiquetas": [
@@ -5237,7 +5333,8 @@
       "tema": "Enfermedades Óseas Metabólicas y Congénitas · Displasias",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -5284,7 +5381,8 @@
       "tema": "Trauma y Lesiones Deportivas · Rodilla",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -5331,7 +5429,8 @@
       "tema": "Artropatías y Patología Sinovial · Artritis Inflamatorias",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
         }
       ],
       "etiquetas": [
@@ -5378,7 +5477,8 @@
       "tema": "Trauma y Lesiones Deportivas · Tendinopatías",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -5425,7 +5525,8 @@
       "tema": "Tumores y Pseudotumores · Metástasis",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -5472,7 +5573,12 @@
       "tema": "Tumores y Pseudotumores · Tumores Óseos Malignos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "musculoesqueletico"
         }
       ],
       "etiquetas": [
@@ -5519,7 +5625,8 @@
       "tema": "Rodilla · Traumatismo",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -5567,7 +5674,12 @@
       "tema": "Columna Cervical · Espondilitis Anquilosante",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "columna"
+        },
+        {
+          "segmento": "neurorradiologia",
+          "area": "columna"
         }
       ],
       "etiquetas": [
@@ -5617,7 +5729,8 @@
       "tema": "Músculo · Infarto",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "partes-blandas"
         }
       ],
       "etiquetas": [
@@ -5665,7 +5778,8 @@
       "tema": "Hombro · Trauma",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "hombro"
         }
       ],
       "etiquetas": [
@@ -5712,7 +5826,8 @@
       "tema": "Mano · Artritis Psoriásica",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
         }
       ],
       "etiquetas": [
@@ -5759,7 +5874,8 @@
       "tema": "Rodilla · Complicación Protésica",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -5806,7 +5922,8 @@
       "tema": "Codo · Bursitis",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "codo"
         }
       ],
       "etiquetas": [
@@ -5853,7 +5970,8 @@
       "tema": "Hombro · Espondilitis Anquilosante",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
         }
       ],
       "etiquetas": [
@@ -5900,7 +6018,8 @@
       "tema": "Pie y Tobillo · Fractura por Insuficiencia",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
         }
       ],
       "etiquetas": [
@@ -5947,7 +6066,8 @@
       "tema": "Cadera · Artritis Reumatoide",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
         }
       ],
       "etiquetas": [
@@ -5994,7 +6114,8 @@
       "tema": "Musculoesquelético · Rodilla",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [
@@ -6041,7 +6162,8 @@
       "tema": "Musculoesquelético · Cadera",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "medula-osea"
         }
       ],
       "etiquetas": [
@@ -6088,7 +6210,8 @@
       "tema": "Musculoesquelético · Artropatías",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
         }
       ],
       "etiquetas": [
@@ -6135,7 +6258,8 @@
       "tema": "Musculoesquelético · Pie y Tobillo",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "medula-osea"
         }
       ],
       "etiquetas": [
@@ -6182,7 +6306,8 @@
       "tema": "Musculoesquelético · Tumores articulares",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -6229,7 +6354,8 @@
       "tema": "Musculoesquelético · Hombro",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "hombro"
         }
       ],
       "etiquetas": [
@@ -6276,7 +6402,8 @@
       "tema": "Musculoesquelético · Cadera",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
         }
       ],
       "etiquetas": [
@@ -6323,7 +6450,8 @@
       "tema": "Musculoesquelético · Pie y Tobillo",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
         }
       ],
       "etiquetas": [
@@ -6370,7 +6498,12 @@
       "tema": "Musculoesquelético · Tumores óseos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "musculoesqueletico"
         }
       ],
       "etiquetas": [
@@ -6417,7 +6550,8 @@
       "tema": "Musculoesquelético · Infecciones",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "infeccion"
         }
       ],
       "etiquetas": [
@@ -6463,7 +6597,8 @@
       "tema": "Articulaciones · Osteoartritis erosiva",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
         }
       ],
       "etiquetas": [
@@ -6510,7 +6645,12 @@
       "tema": "Rodilla · Apofisitis por tracción",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "musculoesqueletico"
         }
       ],
       "etiquetas": [
@@ -6557,7 +6697,12 @@
       "tema": "Columna vertebral · Infección",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "infeccion"
+        },
+        {
+          "segmento": "neurorradiologia",
+          "area": "columna"
         }
       ],
       "etiquetas": [
@@ -6604,7 +6749,8 @@
       "tema": "Tumores óseos · Benignos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -6651,7 +6797,8 @@
       "tema": "Tumores de tejidos blandos · Malignos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -6698,7 +6845,8 @@
       "tema": "Trauma · Fractura periprotésica",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
         }
       ],
       "etiquetas": [
@@ -6746,7 +6894,8 @@
       "tema": "Tumores óseos · Malignos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -6794,7 +6943,8 @@
       "tema": "Tobillo y pie · Tendón de Aquiles",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
         }
       ],
       "etiquetas": [
@@ -6841,7 +6991,8 @@
       "tema": "Tobillo y pie · Variantes anatómicas",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
         }
       ],
       "etiquetas": [
@@ -6888,7 +7039,8 @@
       "tema": "Rodilla · Meniscos",
       "clasificacion": [
         {
-          "segmento": "musculoesqueletico"
+          "segmento": "musculoesqueletico",
+          "area": "rodilla"
         }
       ],
       "etiquetas": [

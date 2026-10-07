@@ -9,7 +9,7 @@
     "Rx"
   ],
   "idioma": "es",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -8597,7 +8597,8 @@
           "area": "intersticial"
         },
         {
-          "segmento": "fisica-tecnica"
+          "segmento": "fisica-tecnica",
+          "area": "tc"
         }
       ],
       "etiquetas": [
@@ -8716,10 +8717,11 @@
       "clasificacion": [
         {
           "segmento": "torax",
-          "area": "intersticial"
+          "area": "signos"
         },
         {
-          "segmento": "fisica-tecnica"
+          "segmento": "fisica-tecnica",
+          "area": "tc"
         }
       ],
       "etiquetas": [
@@ -8833,7 +8835,8 @@
           "area": "signos"
         },
         {
-          "segmento": "fisica-tecnica"
+          "segmento": "fisica-tecnica",
+          "area": "tc"
         }
       ],
       "etiquetas": [
@@ -8943,7 +8946,8 @@
           "area": "espacio-aereo"
         },
         {
-          "segmento": "fisica-tecnica"
+          "segmento": "fisica-tecnica",
+          "area": "tc"
         }
       ],
       "etiquetas": [
@@ -10774,7 +10778,8 @@
           "area": "mediastino"
         },
         {
-          "segmento": "cardiovascular"
+          "segmento": "cardiovascular",
+          "area": "corazon"
         }
       ],
       "etiquetas": [

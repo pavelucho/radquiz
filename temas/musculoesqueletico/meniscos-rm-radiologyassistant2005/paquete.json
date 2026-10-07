@@ -8,7 +8,7 @@
     "RM"
   ],
   "idioma": "es",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -788,7 +788,8 @@
           "area": "rodilla"
         },
         {
-          "segmento": "fisica-tecnica"
+          "segmento": "fisica-tecnica",
+          "area": "rm"
         }
       ],
       "etiquetas": [

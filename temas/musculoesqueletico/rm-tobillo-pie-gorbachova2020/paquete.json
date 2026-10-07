@@ -8,7 +8,7 @@
     "RM"
   ],
   "idioma": "es",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -625,6 +625,12 @@
     {
       "id": "caso-01",
       "tema": "Fractura de insuficiencia subcondral",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "talo",
         "cabeza"
@@ -665,6 +671,12 @@
     {
       "id": "caso-02",
       "tema": "Fractura de estrés",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "navicular",
         "deporte"
@@ -705,6 +717,12 @@
     {
       "id": "caso-03",
       "tema": "Lesiones osteocondrales",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "talo",
         "cúpula"
@@ -745,6 +763,12 @@
     {
       "id": "caso-04",
       "tema": "Osteocondritis disecante",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "talo",
         "inestabilidad"
@@ -785,6 +809,12 @@
     {
       "id": "caso-05",
       "tema": "Ligamentos del tobillo",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "sindesmosis"
       ],
@@ -824,6 +854,12 @@
     {
       "id": "caso-06",
       "tema": "Esguince de tobillo",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "ligamento",
         "lateral"
@@ -864,6 +900,12 @@
     {
       "id": "caso-07",
       "tema": "Patología del tendón de Aquiles",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "Aquiles",
         "rotura"
@@ -904,6 +946,16 @@
     {
       "id": "caso-08",
       "tema": "Lesiones musculares de la pantorrilla",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "partes-blandas"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "gastrocnemio"
       ],
@@ -943,6 +995,12 @@
     {
       "id": "caso-09",
       "tema": "Disfunción del tendón tibial posterior",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "tibial posterior",
         "pie plano"
@@ -983,6 +1041,12 @@
     {
       "id": "caso-10",
       "tema": "Retináculo peroneo superior",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "peroneo",
         "retináculo"
@@ -1023,6 +1087,12 @@
     {
       "id": "caso-11",
       "tema": "Síndrome de os peroneum doloroso",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "os peroneum"
       ],
@@ -1062,6 +1132,12 @@
     {
       "id": "caso-12",
       "tema": "Síndrome del túnel tarsiano",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "túnel tarsiano",
         "ganglión"
@@ -1102,6 +1178,12 @@
     {
       "id": "caso-13",
       "tema": "Lesiones del complejo de Lisfranc",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "Lisfranc"
       ],
@@ -1141,6 +1223,16 @@
     {
       "id": "caso-14",
       "tema": "Osteomielitis diabética",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "infeccion"
+        }
+      ],
       "etiquetas": [
         "osteomielitis",
         "pie diabético"
@@ -1181,6 +1273,12 @@
     {
       "id": "caso-15",
       "tema": "Clasificación de lesiones de Lisfranc",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "Lisfranc",
         "ligamento"
@@ -1216,6 +1314,12 @@
     {
       "id": "caso-16",
       "tema": "Evaluación del Neuroma de Morton",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "Neuroma de Morton"
       ],
@@ -1250,6 +1354,16 @@
     {
       "id": "caso-17",
       "tema": "Diferenciación entre osteomielitis y osteoartropatía neuropática",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "infeccion"
+        }
+      ],
       "etiquetas": [
         "osteomielitis",
         "Charcot"
@@ -1285,6 +1399,16 @@
     {
       "id": "caso-18",
       "tema": "Patología del músculo gastrocnemio",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "partes-blandas"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "tennis leg"
       ],
@@ -1319,6 +1443,12 @@
     {
       "id": "caso-19",
       "tema": "Evaluación del complejo de Chopart",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "Chopart",
         "ligamento bifurcado"
@@ -1354,6 +1484,12 @@
     {
       "id": "caso-20",
       "tema": "Turf toe",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
       "etiquetas": [
         "turf toe",
         "pie"

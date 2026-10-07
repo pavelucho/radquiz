@@ -8,7 +8,7 @@
     "RM"
   ],
   "idioma": "es",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -593,6 +593,16 @@
     {
       "id": "atm-01",
       "tema": "Técnica · Protocolo",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        },
+        {
+          "segmento": "fisica-tecnica",
+          "area": "rm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -646,6 +656,16 @@
     {
       "id": "atm-02",
       "tema": "Técnica · Planificación",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        },
+        {
+          "segmento": "fisica-tecnica",
+          "area": "rm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -698,6 +718,16 @@
     {
       "id": "atm-03",
       "tema": "Técnica · Secuencias",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        },
+        {
+          "segmento": "fisica-tecnica",
+          "area": "rm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -757,6 +787,12 @@
     {
       "id": "atm-04",
       "tema": "Anatomía · Disco",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -815,6 +851,12 @@
     {
       "id": "atm-05",
       "tema": "Anatomía · Retrodisco",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -873,6 +915,12 @@
     {
       "id": "atm-06",
       "tema": "Anatomía · Músculo",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -936,6 +984,12 @@
     {
       "id": "atm-07",
       "tema": "Anatomía · Señal",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -989,6 +1043,12 @@
     {
       "id": "atm-08",
       "tema": "Anatomía · Dinámica",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1042,6 +1102,12 @@
     {
       "id": "atm-09",
       "tema": "Desplazamiento discal · Anterior",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1100,6 +1166,12 @@
     {
       "id": "atm-10",
       "tema": "Desplazamiento discal · Parcial",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1147,6 +1219,12 @@
     {
       "id": "atm-11",
       "tema": "Desplazamiento discal · Medial",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1194,6 +1272,12 @@
     {
       "id": "atm-12",
       "tema": "Desplazamiento discal · Lateral",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1241,6 +1325,12 @@
     {
       "id": "atm-13",
       "tema": "Desplazamiento discal · Con reducción",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1288,6 +1378,12 @@
     {
       "id": "atm-14",
       "tema": "Desplazamiento discal · Sin reducción",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1335,6 +1431,12 @@
     {
       "id": "atm-15",
       "tema": "Desplazamiento discal · Relevancia clínica",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1389,6 +1491,12 @@
     {
       "id": "atm-16",
       "tema": "Derrame · Morfología discal",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1442,6 +1550,12 @@
     {
       "id": "atm-17",
       "tema": "Morfología discal · Deformación",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1500,6 +1614,12 @@
     {
       "id": "atm-18",
       "tema": "Artrosis",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1563,6 +1683,16 @@
     {
       "id": "atm-19",
       "tema": "Artrosis · Diferencial",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1606,6 +1736,12 @@
     {
       "id": "atm-20",
       "tema": "Técnica · TC frente a RM",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1649,6 +1785,12 @@
     {
       "id": "atm-21",
       "tema": "Movilidad · Hipermovilidad",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1696,6 +1838,12 @@
     {
       "id": "atm-22",
       "tema": "Movilidad · Hipomovilidad",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1753,6 +1901,12 @@
     {
       "id": "atm-23",
       "tema": "Desarrollo · Hipoplasia",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1800,6 +1954,12 @@
     {
       "id": "atm-24",
       "tema": "Desarrollo · Cóndilo bífido",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1847,6 +2007,12 @@
     {
       "id": "atm-25",
       "tema": "Sinovial · Condromatosis",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1899,6 +2065,16 @@
     {
       "id": "atm-26",
       "tema": "Inflamatoria · Artritis idiopática juvenil",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "musculoesqueletico"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",
@@ -1952,6 +2128,12 @@
     {
       "id": "atm-27",
       "tema": "Sistemática de lectura",
+      "clasificacion": [
+        {
+          "segmento": "cabeza-cuello",
+          "area": "atm"
+        }
+      ],
       "etiquetas": [
         "ATM",
         "RM",

@@ -11,7 +11,7 @@
     "Rx"
   ],
   "idioma": "es",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -3367,7 +3367,8 @@
       "tema": "Neoplasias Cerebrales · Astrocitoma de bajo grado",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3414,7 +3415,8 @@
       "tema": "Neoplasias Cerebrales · Astrocitoma anaplásico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3461,7 +3463,8 @@
       "tema": "Neoplasias Cerebrales · Glioblastoma multiforme",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3508,7 +3511,8 @@
       "tema": "Neoplasias Cerebrales · Oligodendroglioma",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3555,7 +3559,8 @@
       "tema": "Neoplasias Intraventriculares · Neurocitoma central",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3602,7 +3607,12 @@
       "tema": "Neoplasias Cerebrales Pediátricas · Ganglioglioma",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -3649,7 +3659,8 @@
       "tema": "Neoplasias Cerebrales · Gliomatosis cerebri",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3696,7 +3707,8 @@
       "tema": "Metástasis · Metástasis parenquimatosas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3743,7 +3755,8 @@
       "tema": "Metástasis · Metástasis dural",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3790,7 +3803,8 @@
       "tema": "Metástasis · Carcinomatosis meníngea",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3836,7 +3850,8 @@
       "tema": "Neoplasias Cerebrales · Supratentoriales",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3883,7 +3898,8 @@
       "tema": "Neoplasias Cerebrales · Supratentoriales",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -3930,7 +3946,12 @@
       "tema": "Neoplasias Cerebrales · Supratentoriales",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -3977,7 +3998,8 @@
       "tema": "Neoplasias Cerebrales · Región Pineal",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4024,7 +4046,12 @@
       "tema": "Neoplasias Cerebrales · Región Pineal",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -4071,7 +4098,12 @@
       "tema": "Neoplasias Cerebrales · Región Pineal",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -4118,7 +4150,8 @@
       "tema": "Neoplasias Cerebrales · Región Selar",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "selar"
         }
       ],
       "etiquetas": [
@@ -4165,7 +4198,8 @@
       "tema": "Neoplasias Cerebrales · Región Selar",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "selar"
         }
       ],
       "etiquetas": [
@@ -4212,7 +4246,8 @@
       "tema": "Neoplasias Cerebrales · Región Selar",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "selar"
         }
       ],
       "etiquetas": [
@@ -4259,7 +4294,8 @@
       "tema": "Neoplasias Cerebrales · Región Selar",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "selar"
         }
       ],
       "etiquetas": [
@@ -4306,7 +4342,8 @@
       "tema": "Neoplasias Cerebrales · Extraaxiales",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4352,7 +4389,8 @@
       "tema": "Neoplasias Cerebrales · Intraventriculares",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4398,7 +4436,8 @@
       "tema": "Neoplasias Cerebrales · Intraventriculares",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4445,7 +4484,8 @@
       "tema": "Quistes Intracraneales · Extraaxiales",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
         }
       ],
       "etiquetas": [
@@ -4492,7 +4532,8 @@
       "tema": "Quistes Intracraneales · Congénitos",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4539,7 +4580,8 @@
       "tema": "Neoplasias Cerebrales · Región Pineal",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4585,7 +4627,8 @@
       "tema": "Neoplasias Cerebrales · Intraventriculares",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4631,7 +4674,8 @@
       "tema": "Quistes Intracraneales · Congénitos",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
         }
       ],
       "etiquetas": [
@@ -4677,7 +4721,12 @@
       "tema": "Malformaciones Congénitas · Cuerpo Calloso",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -4723,7 +4772,12 @@
       "tema": "Lesiones Óseas · Fibroóseas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4770,7 +4824,12 @@
       "tema": "Neoplasias · Fosa Posterior",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -4817,7 +4876,12 @@
       "tema": "Neoplasias · Tronco Encefálico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -4864,7 +4928,8 @@
       "tema": "Neoplasias · Tronco Encefálico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -4911,7 +4976,12 @@
       "tema": "Neoplasias · Fosa Posterior",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -4958,7 +5028,12 @@
       "tema": "Neoplasias · Fosa Posterior",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -5005,7 +5080,12 @@
       "tema": "Neoplasias · Ángulo Pontocerebeloso",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "cabeza-cuello",
+          "area": "hueso-temporal"
         }
       ],
       "etiquetas": [
@@ -5052,7 +5132,8 @@
       "tema": "Lesiones Quísticas · Cisternas Cerebrales",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -5099,7 +5180,8 @@
       "tema": "Infecciones · Encefalitis",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -5146,7 +5228,12 @@
       "tema": "Infecciones · Meningitis",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -5193,7 +5280,12 @@
       "tema": "Infecciones · Cerebelitis Aguda",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -5240,7 +5332,12 @@
       "tema": "Infecciones · Cerebro",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -5287,7 +5384,8 @@
       "tema": "Infecciones · Cerebro",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -5333,7 +5431,8 @@
       "tema": "Infecciones · Parásitos",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -5379,7 +5478,8 @@
       "tema": "Infecciones · Meninges",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -5425,7 +5525,8 @@
       "tema": "Infecciones · Fúngicas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -5472,7 +5573,8 @@
       "tema": "Infecciones · Virales",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -5518,7 +5620,8 @@
       "tema": "Infecciones · Desmielinización",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -5565,7 +5668,8 @@
       "tema": "Infecciones · Oportunistas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -5611,7 +5715,8 @@
       "tema": "Infecciones · Fúngicas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -5658,7 +5763,8 @@
       "tema": "Enfermedades inflamatorias · Autoinmunes",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -5705,7 +5811,12 @@
       "tema": "Enfermedades Inflamatorias · Histiocitosis",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "selar"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -5752,7 +5863,8 @@
       "tema": "Epilepsia · Esclerosis Hipocampal",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "epilepsia"
         }
       ],
       "etiquetas": [
@@ -5799,7 +5911,8 @@
       "tema": "Enfermedades Inflamatorias · Neurosarcoidosis",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -5846,7 +5959,8 @@
       "tema": "Trastornos Hipofisarios · Hipofisitis",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "selar"
         }
       ],
       "etiquetas": [
@@ -5893,7 +6007,8 @@
       "tema": "Trastornos del LCR · Hipotensión Intracraneal",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hidrocefalia"
         }
       ],
       "etiquetas": [
@@ -5940,7 +6055,8 @@
       "tema": "Enfermedades Cerebrovasculares · Aneurismas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -5987,7 +6103,8 @@
       "tema": "Enfermedades Cerebrovasculares · Aneurisma Gigante",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -6034,7 +6151,8 @@
       "tema": "Enfermedades Cerebrovasculares · Aneurismas Micóticos",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -6081,7 +6199,8 @@
       "tema": "Enfermedades Cerebrovasculares · Hemorragia Subaracnoidea",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -6128,7 +6247,8 @@
       "tema": "Enfermedades Cerebrovasculares · Infarto Isquémico Agudo",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
         }
       ],
       "etiquetas": [
@@ -6175,7 +6295,8 @@
       "tema": "Enfermedad Cerebrovascular · Infarto Isquémico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
         }
       ],
       "etiquetas": [
@@ -6221,7 +6342,8 @@
       "tema": "Enfermedad Cerebrovascular · Trombosis Arterial",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
         }
       ],
       "etiquetas": [
@@ -6268,7 +6390,8 @@
       "tema": "Enfermedad Cerebrovascular · Disección Arterial",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
         }
       ],
       "etiquetas": [
@@ -6315,7 +6438,8 @@
       "tema": "Hemorragia Intracraneal · Hemorragia Hipertensiva",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -6362,7 +6486,12 @@
       "tema": "Lesión Cerebral · Lesión Anóxica Global",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -6409,7 +6538,8 @@
       "tema": "Malformaciones Vasculares · Malformación Cavernosa",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -6456,7 +6586,8 @@
       "tema": "Malformaciones Vasculares · Malformación Arteriovenosa",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -6503,7 +6634,8 @@
       "tema": "Malformaciones Vasculares · Anomalía Venosa del Desarrollo",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -6550,7 +6682,12 @@
       "tema": "Enfermedad Cerebrovascular · Fístula Carótido-Cavernosa",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
+        },
+        {
+          "segmento": "cabeza-cuello",
+          "area": "orbita"
         }
       ],
       "etiquetas": [
@@ -6597,7 +6734,8 @@
       "tema": "Enfermedad Cerebrovascular · Fístula Arteriovenosa Dural",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -6644,7 +6782,8 @@
       "tema": "Enfermedades Cerebrovasculares · Vasculitis",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
         }
       ],
       "etiquetas": [
@@ -6691,7 +6830,12 @@
       "tema": "Enfermedades Cerebrovasculares · Displasia fibromuscular",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
+        },
+        {
+          "segmento": "cardiovascular",
+          "area": "arterias-perifericas"
         }
       ],
       "etiquetas": [
@@ -6738,7 +6882,12 @@
       "tema": "Pediatría · Leucomalacia periventricular",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -6785,7 +6934,12 @@
       "tema": "Pediatría · Encefalopatía hipóxico-isquémica",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -6832,7 +6986,8 @@
       "tema": "Enfermedades Cerebrovasculares · Moyamoya",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
         }
       ],
       "etiquetas": [
@@ -6879,7 +7034,12 @@
       "tema": "Anomalías Vasculares · Vena de Galeno",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -6926,7 +7086,12 @@
       "tema": "Enfermedades Cerebrovasculares · Enfermedad de células falciformes",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -6973,7 +7138,8 @@
       "tema": "Enfermedades Cerebrovasculares · Trombosis venosa cerebral",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
         }
       ],
       "etiquetas": [
@@ -7020,7 +7186,8 @@
       "tema": "Enfermedades Cerebrovasculares · Siderosis superficial",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -7067,7 +7234,8 @@
       "tema": "Enfermedades Cerebrovasculares · Vasoespasmo",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -7114,7 +7282,8 @@
       "tema": "Enfermedades Cerebrovasculares · Hemorragia",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hemorragia-vascular"
         }
       ],
       "etiquetas": [
@@ -7161,7 +7330,8 @@
       "tema": "Enfermedades Cerebrovasculares · Isquemia",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
         }
       ],
       "etiquetas": [
@@ -7208,7 +7378,8 @@
       "tema": "Enfermedades Cerebrovasculares · Trombosis Venosa",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
         }
       ],
       "etiquetas": [
@@ -7255,7 +7426,12 @@
       "tema": "Síndromes Neurocutáneos · Facomatosis",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -7302,7 +7478,8 @@
       "tema": "Enfermedades Desmielinizantes y Degenerativas · Esclerosis Múltiple",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "sustancia-blanca"
         }
       ],
       "etiquetas": [
@@ -7349,7 +7526,8 @@
       "tema": "Enfermedades Desmielinizantes y Degenerativas · EM Tumefactiva",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "sustancia-blanca"
         }
       ],
       "etiquetas": [
@@ -7396,7 +7574,8 @@
       "tema": "Enfermedades Desmielinizantes y Degenerativas · ADEM",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "sustancia-blanca"
         }
       ],
       "etiquetas": [
@@ -7443,7 +7622,8 @@
       "tema": "Condiciones Tóxicas y Metabólicas · Desmielinización Osmótica",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "toxico-metabolicas"
         }
       ],
       "etiquetas": [
@@ -7490,7 +7670,12 @@
       "tema": "Epilepsia · Edema Postictal",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "epilepsia"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -7537,7 +7722,8 @@
       "tema": "Condiciones Tóxicas y Metabólicas · Intoxicación por CO",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "toxico-metabolicas"
         }
       ],
       "etiquetas": [
@@ -7584,7 +7770,12 @@
       "tema": "Enfermedades Desmielinizantes y Degenerativas · Leucodistrofias",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "sustancia-blanca"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -7631,7 +7822,12 @@
       "tema": "Enfermedades Desmielinizantes y Degenerativas · Leucodistrofias",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "sustancia-blanca"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -7678,7 +7874,8 @@
       "tema": "Enfermedades Desmielinizantes y Degenerativas · Leucodistrofias",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "sustancia-blanca"
         }
       ],
       "etiquetas": [
@@ -7725,7 +7922,12 @@
       "tema": "Enfermedades Desmielinizantes y Degenerativas · Trastornos de Mielinización",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "sustancia-blanca"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -7772,7 +7974,8 @@
       "tema": "Condiciones Tóxicas y Metabólicas · Encefalopatías Tóxicas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "toxico-metabolicas"
         }
       ],
       "etiquetas": [
@@ -7819,7 +8022,8 @@
       "tema": "Enfermedades Desmielinizantes y Degenerativas · Trastornos de Motoneurona",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "degenerativas"
         }
       ],
       "etiquetas": [
@@ -7866,7 +8070,8 @@
       "tema": "Enfermedades Infecciosas · Enfermedades por Priones",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "degenerativas"
         }
       ],
       "etiquetas": [
@@ -7913,7 +8118,8 @@
       "tema": "Enfermedades Desmielinizantes y Degenerativas · Acumulación de Hierro",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "degenerativas"
         }
       ],
       "etiquetas": [
@@ -7961,7 +8167,8 @@
       "tema": "Enfermedades Desmielinizantes y Degenerativas · Atrofias Multisistémicas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "degenerativas"
         }
       ],
       "etiquetas": [
@@ -8008,7 +8215,8 @@
       "tema": "Enfermedades Desmielinizantes y Degenerativas · Demencias",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "degenerativas"
         }
       ],
       "etiquetas": [
@@ -8055,7 +8263,8 @@
       "tema": "Enfermedades Neurodegenerativas y Sustancia Blanca",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "degenerativas"
         }
       ],
       "etiquetas": [
@@ -8103,7 +8312,8 @@
       "tema": "Trastornos Metabólicos del SNC",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "toxico-metabolicas"
         }
       ],
       "etiquetas": [
@@ -8151,7 +8361,8 @@
       "tema": "Síndromes Neurocutáneos",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
         }
       ],
       "etiquetas": [
@@ -8199,7 +8410,8 @@
       "tema": "Trauma Craneoencefálico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "trauma"
         }
       ],
       "etiquetas": [
@@ -8246,7 +8458,8 @@
       "tema": "Trauma Craneoencefálico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "trauma"
         }
       ],
       "etiquetas": [
@@ -8293,7 +8506,8 @@
       "tema": "Trauma Craneoencefálico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "trauma"
         }
       ],
       "etiquetas": [
@@ -8340,7 +8554,8 @@
       "tema": "Trauma Craneoencefálico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "trauma"
         }
       ],
       "etiquetas": [
@@ -8388,7 +8603,8 @@
       "tema": "Trauma Craneoencefálico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "trauma"
         }
       ],
       "etiquetas": [
@@ -8435,7 +8651,12 @@
       "tema": "Trauma Craneoencefálico Pediátrico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "trauma"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "maltrato"
         }
       ],
       "etiquetas": [
@@ -8482,7 +8703,8 @@
       "tema": "Complicaciones del Trauma / Herniación",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "trauma"
         }
       ],
       "etiquetas": [
@@ -8530,7 +8752,12 @@
       "tema": "Neurorradiología · Trauma",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "trauma"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -8577,7 +8804,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -8624,7 +8856,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -8671,7 +8908,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -8717,7 +8959,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -8763,7 +9010,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -8809,7 +9061,12 @@
       "tema": "Neurorradiología · Tumores",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "selar"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -8856,7 +9113,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "hidrocefalia"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -8903,7 +9165,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -8949,7 +9216,12 @@
       "tema": "Neurorradiología · Síndromes Neurocutáneos",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -8995,7 +9267,12 @@
       "tema": "Neurorradiología · Síndromes Neurocutáneos",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -9042,7 +9319,8 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
         }
       ],
       "etiquetas": [
@@ -9089,7 +9367,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -9136,7 +9419,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -9183,7 +9471,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -9230,7 +9523,8 @@
       "tema": "Neurorradiología · Tumores",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -9277,7 +9571,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -9324,7 +9623,12 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -9371,7 +9675,8 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
         }
       ],
       "etiquetas": [
@@ -9418,7 +9723,8 @@
       "tema": "Neurorradiología · Malformaciones Congénitas",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
         }
       ],
       "etiquetas": [
@@ -9465,7 +9771,12 @@
       "tema": "Neurorradiología · Malformaciones del desarrollo",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -9512,7 +9823,12 @@
       "tema": "Neurorradiología · Malformaciones del desarrollo",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -9558,7 +9874,12 @@
       "tema": "Neurorradiología · Malformaciones del desarrollo",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -9604,7 +9925,8 @@
       "tema": "Neurorradiología · Displasias Corticales",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
         }
       ],
       "etiquetas": [
@@ -9650,7 +9972,12 @@
       "tema": "Neurorradiología · Facomatosis",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -9696,7 +10023,8 @@
       "tema": "Neurorradiología · Facomatosis",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -9743,7 +10071,12 @@
       "tema": "Neurorradiología · Facomatosis",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "congenitas"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "neuro"
         }
       ],
       "etiquetas": [
@@ -9789,7 +10122,8 @@
       "tema": "Neurorradiología · Facomatosis",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -9835,7 +10169,12 @@
       "tema": "Neurorradiología · Tumores de Base de Cráneo",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "cabeza-cuello",
+          "area": "senos-paranasales"
+        },
+        {
+          "segmento": "neurorradiologia",
+          "area": "tumores"
         }
       ],
       "etiquetas": [
@@ -9881,7 +10220,12 @@
       "tema": "Neurorradiología · Nervios Craneales",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "sustancia-blanca"
+        },
+        {
+          "segmento": "cabeza-cuello",
+          "area": "orbita"
         }
       ],
       "etiquetas": [
@@ -9927,7 +10271,12 @@
       "tema": "Nervios Craneales · Nervio Óptico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "cabeza-cuello",
+          "area": "orbita"
         }
       ],
       "etiquetas": [
@@ -9974,7 +10323,12 @@
       "tema": "Nervios Craneales · Nervio Óptico",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "cabeza-cuello",
+          "area": "orbita"
         }
       ],
       "etiquetas": [
@@ -10021,7 +10375,12 @@
       "tema": "Nervios Craneales · Seno Cavernoso",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
+        },
+        {
+          "segmento": "cabeza-cuello",
+          "area": "base-craneo"
         }
       ],
       "etiquetas": [
@@ -10068,7 +10427,8 @@
       "tema": "Nervios Craneales · Nervio Trigémino",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "cabeza-cuello",
+          "area": "base-craneo"
         }
       ],
       "etiquetas": [
@@ -10115,7 +10475,12 @@
       "tema": "Nervios Craneales · Nervio Trigémino",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "cabeza-cuello",
+          "area": "base-craneo"
         }
       ],
       "etiquetas": [
@@ -10162,7 +10527,12 @@
       "tema": "Nervios Craneales · Seno Cavernoso",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
+        },
+        {
+          "segmento": "cabeza-cuello",
+          "area": "base-craneo"
         }
       ],
       "etiquetas": [
@@ -10209,7 +10579,12 @@
       "tema": "Nervios Craneales · Nervio Facial",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "cabeza-cuello",
+          "area": "hueso-temporal"
+        },
+        {
+          "segmento": "neurorradiologia",
+          "area": "infeccion-inflamacion"
         }
       ],
       "etiquetas": [
@@ -10256,7 +10631,8 @@
       "tema": "Nervios Craneales · Nervio Facial",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "cabeza-cuello",
+          "area": "hueso-temporal"
         }
       ],
       "etiquetas": [
@@ -10303,7 +10679,12 @@
       "tema": "Nervios Craneales · Nervio Facial",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "cabeza-cuello",
+          "area": "base-craneo"
+        },
+        {
+          "segmento": "cabeza-cuello",
+          "area": "glandulas-salivales"
         }
       ],
       "etiquetas": [
@@ -10350,7 +10731,12 @@
       "tema": "Nervios Craneales · Base de Cráneo",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "tumores"
+        },
+        {
+          "segmento": "cabeza-cuello",
+          "area": "base-craneo"
         }
       ],
       "etiquetas": [
@@ -10397,7 +10783,8 @@
       "tema": "Neurorradiología · Enfermedad Vascular",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "neurorradiologia",
+          "area": "ictus"
         }
       ],
       "etiquetas": [
@@ -10445,7 +10832,8 @@
       "tema": "Neurorradiología · Tumores",
       "clasificacion": [
         {
-          "segmento": "neurorradiologia"
+          "segmento": "cabeza-cuello",
+          "area": "hueso-temporal"
         }
       ],
       "etiquetas": [

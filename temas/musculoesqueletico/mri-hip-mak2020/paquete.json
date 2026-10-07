@@ -8,7 +8,7 @@
     "RM"
   ],
   "idioma": "es",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -1126,6 +1126,12 @@
     {
       "id": "caso-01a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -1165,6 +1171,12 @@
     {
       "id": "caso-01b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -1204,6 +1216,12 @@
     {
       "id": "caso-02a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -1243,6 +1261,12 @@
     {
       "id": "caso-02b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -1282,6 +1306,12 @@
     {
       "id": "caso-03a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -1321,6 +1351,12 @@
     {
       "id": "caso-03b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -1360,6 +1396,12 @@
     {
       "id": "caso-04a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -1399,6 +1441,12 @@
     {
       "id": "caso-04b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -1438,6 +1486,12 @@
     {
       "id": "caso-05a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -1477,6 +1531,12 @@
     {
       "id": "caso-05b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -1516,6 +1576,12 @@
     {
       "id": "caso-06a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -1555,6 +1621,12 @@
     {
       "id": "caso-06b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -1594,6 +1666,12 @@
     {
       "id": "caso-07a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -1633,6 +1711,12 @@
     {
       "id": "caso-07b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -1672,6 +1756,16 @@
     {
       "id": "caso-08a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "medula-osea"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -1711,6 +1805,16 @@
     {
       "id": "caso-08b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "medula-osea"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -1750,6 +1854,16 @@
     {
       "id": "caso-09a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "medula-osea"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -1789,6 +1903,16 @@
     {
       "id": "caso-09b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "medula-osea"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -1828,6 +1952,16 @@
     {
       "id": "caso-10a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "medula-osea"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -1867,6 +2001,16 @@
     {
       "id": "caso-10b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "medula-osea"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -1906,6 +2050,16 @@
     {
       "id": "caso-11a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "medula-osea"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -1945,6 +2099,16 @@
     {
       "id": "caso-11b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "medula-osea"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -1984,6 +2148,12 @@
     {
       "id": "caso-12a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2023,6 +2193,12 @@
     {
       "id": "caso-12b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2062,6 +2238,12 @@
     {
       "id": "caso-13a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2101,6 +2283,12 @@
     {
       "id": "caso-13b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2140,6 +2328,12 @@
     {
       "id": "caso-14a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2179,6 +2373,12 @@
     {
       "id": "caso-14b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2218,6 +2418,12 @@
     {
       "id": "caso-15a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2257,6 +2463,12 @@
     {
       "id": "caso-15b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2296,6 +2508,12 @@
     {
       "id": "caso-16a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2335,6 +2553,12 @@
     {
       "id": "caso-16b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2374,6 +2598,12 @@
     {
       "id": "caso-17a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2413,6 +2643,12 @@
     {
       "id": "caso-17b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2452,6 +2688,12 @@
     {
       "id": "caso-18a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2491,6 +2733,12 @@
     {
       "id": "caso-18b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2530,6 +2778,12 @@
     {
       "id": "caso-19a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2569,6 +2823,12 @@
     {
       "id": "caso-19b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2608,6 +2868,12 @@
     {
       "id": "caso-20a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2647,6 +2913,12 @@
     {
       "id": "caso-20b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2686,6 +2958,12 @@
     {
       "id": "caso-21a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2725,6 +3003,12 @@
     {
       "id": "caso-21b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2764,6 +3048,12 @@
     {
       "id": "caso-22a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2803,6 +3093,12 @@
     {
       "id": "caso-22b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2842,6 +3138,12 @@
     {
       "id": "caso-23a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2881,6 +3183,12 @@
     {
       "id": "caso-23b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2920,6 +3228,12 @@
     {
       "id": "caso-24a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -2959,6 +3273,12 @@
     {
       "id": "caso-24b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -2998,6 +3318,12 @@
     {
       "id": "caso-25a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -3037,6 +3363,16 @@
     {
       "id": "caso-25b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -3076,6 +3412,16 @@
     {
       "id": "caso-26a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "musculoesqueletico"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -3115,6 +3461,20 @@
     {
       "id": "caso-26b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "pediatria",
+          "area": "musculoesqueletico"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "artropatias"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -3154,6 +3514,16 @@
     {
       "id": "caso-27a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "infeccion"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -3193,6 +3563,16 @@
     {
       "id": "caso-27b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "infeccion"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -3232,6 +3612,16 @@
     {
       "id": "caso-28a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -3271,6 +3661,16 @@
     {
       "id": "caso-28b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -3310,6 +3710,16 @@
     {
       "id": "caso-29a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -3349,6 +3759,16 @@
     {
       "id": "caso-29b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tumores"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -3388,6 +3808,12 @@
     {
       "id": "caso-33a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -3427,6 +3853,12 @@
     {
       "id": "caso-33b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -3466,6 +3898,12 @@
     {
       "id": "caso-30a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -3505,6 +3943,12 @@
     {
       "id": "caso-30b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -3544,6 +3988,12 @@
     {
       "id": "caso-31a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -3583,6 +4033,12 @@
     {
       "id": "caso-31b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -3622,6 +4078,12 @@
     {
       "id": "caso-32a",
       "tema": "Reconocimiento de imagen",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "reconocimiento"
       ],
@@ -3661,6 +4123,12 @@
     {
       "id": "caso-32b",
       "tema": "Diagnóstico y análisis",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        }
+      ],
       "etiquetas": [
         "diagnóstico"
       ],
@@ -3700,6 +4168,16 @@
     {
       "id": "caso-concepto-1",
       "tema": "Conceptos teóricos",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "fisica-tecnica",
+          "area": "rm"
+        }
+      ],
       "etiquetas": [
         "teoría"
       ],
@@ -3734,6 +4212,16 @@
     {
       "id": "caso-concepto-2",
       "tema": "Conceptos teóricos",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "cadera-pelvis"
+        },
+        {
+          "segmento": "fisica-tecnica",
+          "area": "rm"
+        }
+      ],
       "etiquetas": [
         "teoría"
       ],
