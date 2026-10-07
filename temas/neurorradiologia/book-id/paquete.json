@@ -1,7 +1,7 @@
 {
   "$schema": "../../../schema/paquete.schema.json",
   "id": "book-id",
-  "titulo": "Cuestionario Case-BasedBrainImaging(RadCases)",
+  "titulo": "Cerebro (RadCases)",
   "descripcion": "Cuestionario completo",
   "segmento": "neurorradiologia",
   "modalidades": [
@@ -11,7 +11,7 @@
     "Rx"
   ],
   "idioma": "es",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
