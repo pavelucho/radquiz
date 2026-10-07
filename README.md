@@ -107,7 +107,7 @@ figuras, `tools/mcp/imagen.swift` (OCR de Vision y CoreGraphics de macOS), que s
 - **Usa la lógica de la app**, no una copia: `app/validacion.js` (validar, `aPaquete`), `app/instrucciones-ia.js`
   (correcciones con `leerRespuestaIA` y `planDeCarga`) y `app/drive.js` (subir figuras). El texto de la declaración
   se lee de `app/estudio.js`.
-- **Lo que escribe simula por defecto** (`casos_corregir`, `casos_dificultad`, `casos_clasificar`, `fuente_guardar`, `imagen_tapar`, `imagen_reemplazar`):
+- **Lo que escribe simula por defecto** (`casos_corregir`, `casos_dificultad`, `casos_clasificar`, `fuente_guardar`, `tema_titulo`, `imagen_tapar`, `imagen_reemplazar`):
   muestra qué cambia —y la figura resultante— antes de guardar con `simular: false`.
 - **Publicar exige la declaración de la persona.** `tema_publicar` con `declaracion_aceptada: false` devuelve el texto;
   solo pasa en `true` si la persona la acepta en el chat. No publica con errores del validador.
@@ -115,7 +115,7 @@ figuras, `tools/mcp/imagen.swift` (OCR de Vision y CoreGraphics de macOS), que s
   estudio: son decisiones de una persona.
 
 Herramientas: `sesion_iniciar`, `sesion_estado`, `temas_listar`, `tema_leer`, `casos_leer`, `tema_validar`,
-`casos_corregir`, `casos_dificultad`, `casos_clasificar`, `fuente_guardar`, `imagen_ver`, `imagenes_buscar_texto`,
+`casos_corregir`, `casos_dificultad`, `casos_clasificar`, `fuente_guardar`, `tema_titulo`, `imagen_ver`, `imagenes_buscar_texto`,
 `imagen_tapar`, `imagen_reemplazar`, `tema_publicar`, `publicacion_comprobar`, `tablero_casos`, `tablero_guardar` y
 `tableros_listar`. Para armar un tablero con IA: `tablero_casos` da los casos candidatos (por segmento, área, texto o
 temas), las reglas y el formato; la IA arma el JSON y `tablero_guardar` lo comprueba contra lo publicado (simula por

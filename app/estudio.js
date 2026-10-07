@@ -727,7 +727,11 @@ function editor(t) {
 function pasoFuente(t, v) {
   const f = t.fuente || {};
   return `<section class="panel" style="display:grid;gap:12px">
-    <h2>1. De dónde salen las imágenes</h2>
+    <h2>1. Título y fuente</h2>
+    <label class="grid-label">Título del cuestionario (así sale en la web)
+      <input type="text" id="titulo-tema" maxlength="120" value="${esc(t.meta.titulo || "")}"></label>
+    ${t.meta.estado === "publicado" ? `<p class="src">Si cambias el título, sale en la web al volver a publicar (paso 4).</p>` : ""}
+    <h3>De dónde salen las imágenes</h3>
     <p class="muted">Solo se pueden usar artículos de acceso abierto o bancos públicos con licencia que permita uso educativo.</p>
     <label class="grid-label">Tipo de fuente
       <select id="tipo-fuente">
@@ -1547,8 +1551,10 @@ async function guardarFuente(id) {
     modificaciones_permitidas: !datos?.nd,
     verificacion: { fecha: hoy(), por: perfil.nombre, donde: $("#frase").value.trim() },
   };
+  const titulo = $("#titulo-tema").value.replace(/\s+/g, " ").trim();
+  if (!titulo) return aviso("Escribe un título.", true);
   await set(ref(db, `estudio/${id}/fuente`), fuente);
-  await guardarMeta(id, {});
+  await guardarMeta(id, titulo === t.meta.titulo ? {} : { titulo });
   aviso("Fuente guardada.");
 }
 

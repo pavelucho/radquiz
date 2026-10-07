@@ -287,6 +287,11 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   web filtraba con la clasificación vieja; el mismo día se volvieron a publicar los 12 temas que pasan el validador
   (con el MCP, declaración aceptada por el autor en el chat; ninguna figura subida, ATM conservó sus 27 sellos), así que
   `indice_casos` tiene 1063 casos de 12 temas.
+- Títulos (2026-10-07): el paso 1 del estudio («Título y fuente») y la herramienta MCP `tema_titulo` cambian el título
+  de un cuestionario; en uno publicado sale en la web al volver a publicarlo. Los siete RadCases se llamaban con el nombre
+  del archivo («Cuestionario RadCasesQ&AMusculoskeletalRadiology(…)») y se renombraron «<tema en español> (RadCases…)».
+  En `app/estilos.css` los encabezados cortan una palabra que no cabe (`overflow-wrap: anywhere`) y el resto del texto
+  también (`break-word` en `body`), para que ningún título se salga de su cuadro.
 - Puntaje (2026-10-05): 900 por acierto + hasta 100 por rapidez (antes 500 + 500): pesa acertar, no el reflejo.
 - Ambiente, rachas, avatares y equipos en la sala (2026-10-05), decididos con el autor como capas 1, 2 y 5 de una lista
   de ideas (las otras: eventos sorpresa como caso relámpago, duelo final y caso jefe; y comodines 50:50, escudo y doble

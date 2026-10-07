@@ -721,6 +721,22 @@ herramienta("fuente_guardar",
     return `Fuente guardada.\n${texto}`;
   });
 
+herramienta("tema_titulo",
+  "Cambia el título de un cuestionario (el que sale en la portada de la web). Si ya está publicado, el título nuevo sale en la web al volver a publicarlo con «tema_publicar».",
+  { tema: TEMA, titulo: { type: "string", description: "Título nuevo, de 1 a 120 caracteres." }, simular: SIMULAR },
+  ["tema", "titulo"],
+  async ({ tema, titulo, simular = true }) => {
+    await miPerfil();
+    const t = await leerTema(tema);
+    exigirMio(t);
+    const nuevo = String(titulo).replace(/\s+/g, " ").trim();
+    if (!nuevo || nuevo.length > 120) throw new Error("El título tiene que tener de 1 a 120 caracteres.");
+    const texto = `«${t.meta.titulo}» → «${nuevo}»${t.meta.estado === "publicado" ? " (sale en la web al volver a publicar)" : ""}`;
+    if (simular) return `SIMULACIÓN (no se guardó nada): ${texto}`;
+    await actualizar({ [`estudio/${tema}/meta/titulo`]: nuevo, [`estudio/${tema}/meta/actualizado`]: AHORA });
+    return `Título guardado: ${texto}`;
+  });
+
 herramienta("imagen_ver",
   "Muestra una figura del estudio (la que se publicaría) junto con su ficha. Con «publicada» trae la versión que sirve hoy la web desde Drive.",
   { tema: TEMA, imagen: { type: "string", description: "Id de la figura (p. ej. «case098»)." }, publicada: { type: "boolean", default: false } },
