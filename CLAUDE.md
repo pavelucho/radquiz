@@ -297,8 +297,10 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
    validador no se queja.
 3. Probar la red de HNERM antes del ensayo con 3 colegas. Desde el Mac del autor ya pasa Firebase (ver arriba);
    falta abrir https://radquiz-shpn2.firebaseapp.com en la **PC que proyecta** y entrar a una sala desde un celular en el
-   wifi del hospital. Con las figuras en Drive hay que comprobar también que pasan `lh3.googleusercontent.com` (la web
-   pide ahí cada figura) y `www.googleapis.com` (el respaldo).
+   wifi del hospital. El 2026-10-06, desde el Mac del autor en la red de EsSalud, pasó todo: portada, práctica con
+   figuras de Drive (`lh3.googleusercontent.com` y el respaldo de `www.googleapis.com`), auth anónima y una sala por
+   WebSocket con un jugador que entró y se vio al instante. **`radquiz-shpn2.web.app` está bloqueado** (conecta y el
+   filtro corta el TLS: va por nombre, no por IP); `firebaseapp.com`, la dirección oficial, pasa. GitHub sigue cortado.
 4. Decidir la licencia del código y la de los textos propios.
 5. Clasificar los tres temas publicados con el panel «Clasificación» y volver a publicarlos (hoy dan el aviso «sin
    área»): ATM → cabeza-cuello/atm; meniscos → musculoesqueletico/rodilla; tobillo → musculoesqueletico/tobillo-pie,
