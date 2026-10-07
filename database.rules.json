@@ -389,6 +389,31 @@
         }
       }
     },
+    "tableros": {
+      ".read": true,
+      "$tablero": {
+        ".write": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() != null && (!data.exists() || data.child('autor_uid').val() == auth.uid || root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador')",
+        ".validate": "$tablero.matches(/^[a-z0-9]{6,40}$/) && newData.hasChildren(['nombre', 'autor_uid', 'autor_nombre', 'fecha', 'plantilla_json'])",
+        "nombre": {
+          ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 80"
+        },
+        "autor_uid": {
+          ".validate": "newData.val() == auth.uid"
+        },
+        "autor_nombre": {
+          ".validate": "newData.isString() && newData.val().length <= 80"
+        },
+        "fecha": {
+          ".validate": "newData.isNumber()"
+        },
+        "plantilla_json": {
+          ".validate": "newData.isString() && newData.val().length <= 40000"
+        },
+        "$otro": {
+          ".validate": false
+        }
+      }
+    },
     "indice_casos": {
       ".read": true,
       "$tema": {

@@ -37,6 +37,7 @@ app/tablero.js              lógica del tablero (grupos, columnas, casos parecid
 app/diapositivas.js         diapositivas de enseñanza de un caso, armadas con lo que el caso ya trae
 app/catalogo.js             temas publicados y sus casos para los juegos de varios temas (tablero y Tabú)
 app/cuestionario.js         cuestionarios armados por segmento, área o búsqueda: criterio, índice de casos y filtro
+app/plantilla-tablero.js    un tablero ya armado (plantilla): guardar, enlace, instrucciones para la IA y comprobación
 app/tabu-logica.js          lógica del Tabú (qué casos son carta, palabras prohibidas, mazo), sin pantalla
 app/marca.svg               logo y favicon
 app/fuentes/                IBM Plex Sans y Mono (licencia OFL), alojadas en el sitio y no en Google Fonts
@@ -115,7 +116,10 @@ figuras, `tools/mcp/imagen.swift` (OCR de Vision y CoreGraphics de macOS), que s
 
 Herramientas: `sesion_iniciar`, `sesion_estado`, `temas_listar`, `tema_leer`, `casos_leer`, `tema_validar`,
 `casos_corregir`, `casos_dificultad`, `casos_clasificar`, `fuente_guardar`, `imagen_ver`, `imagenes_buscar_texto`,
-`imagen_tapar`, `imagen_reemplazar`, `tema_publicar` y `publicacion_comprobar`. `casos_leer` devuelve los casos en el mismo formato que
+`imagen_tapar`, `imagen_reemplazar`, `tema_publicar`, `publicacion_comprobar`, `tablero_casos`, `tablero_guardar` y
+`tableros_listar`. Para armar un tablero con IA: `tablero_casos` da los casos candidatos (por segmento, área, texto o
+temas), las reglas y el formato; la IA arma el JSON y `tablero_guardar` lo comprueba contra lo publicado (simula por
+defecto), lo guarda en `tableros/` para el grupo y devuelve un enlace que lo abre. `casos_leer` devuelve los casos en el mismo formato que
 recibe `casos_corregir`, así que una corrección es leer, editar y devolver. `casos_dificultad` pone el nivel, su motivo
 y `requiere_opciones` (directo o desde un JSON local) sin tocar el texto, así que no quita sellos; `casos_clasificar`
 pone la clasificación segmento → área de la misma manera.
@@ -153,6 +157,12 @@ enunciados ni respuestas en los resultados.
 - **Práctica.** Cada caso guarda su avance en la clave de su tema; la tanda del cuestionario armado va en
   `radquiz.avance.v1:mezcla:<criterio>`, que la portada no lista. Los ids pasan a ser `<tema>/<caso>` y la tanda sale
   mezclada.
+- **Tableros guardados.** Un tablero armado es una «plantilla» (`app/plantilla-tablero.js`): claves `<tema>/<caso>`
+  por columna, dobles, final, categoría, casos para comparar y opciones de la partida. Se guarda en el navegador
+  (`radquiz.tableros.v1`), para el grupo en `tableros/<id>` (lectura pública; escriben quienes tienen papel en el
+  estudio, desde tablero.html con la sesión de Google del estudio o desde el MCP; reemplaza o borra su autor o un
+  coordinador) o viaja entero en un enlace `tablero.html#t=…` (deflate + base64url). La misma plantilla es lo que se
+  le pide a la IA, en la web («Armar con IA», cualquier IA) o con el MCP.
 - **Sala de varios temas.** `info.temas` (lista de rutas) e ids `<tema>:<caso>` en `info.casos` y `info.orden`
   (`/` no vale en una clave de Firebase); `info.tema` sigue siendo el primero, para que las reglas y las salas de un
   tema no cambien.

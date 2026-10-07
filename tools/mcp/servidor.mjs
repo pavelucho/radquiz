@@ -36,7 +36,13 @@ import {
   comprobarLectura, huella, urlDrive,
 } from "../../app/drive.js";
 import { bytesDeDataURL } from "../../app/zip.js";
-import { indiceDePaquete } from "../../app/cuestionario.js";
+import { indiceDePaquete, indicePorRuta, temasPara, coincide, resumenCaso, nombreCriterio } from "../../app/cuestionario.js";
+import { cargarIndice, cargarTemas, armarCatalogo } from "../../app/catalogo.js";
+import { indicesDeCasos } from "../../app/publicado.js";
+import { normalizar, temasDe, codificar, lineaCandidato, REGLAS_IA, FORMATO_IA } from "../../app/plantilla-tablero.js";
+import { respuestaDe } from "../../app/tablero.js";
+import { SEGMENTOS, URL_OFICIAL } from "../../app/comun.js";
+import { AREAS } from "../../app/areas.js";
 
 const ejecutar = promisify(execFile);
 const AQUI = dirname(fileURLToPath(import.meta.url));
@@ -562,6 +568,121 @@ herramienta("casos_clasificar",
     if (simular || !Object.keys(cambios).length) return [simular ? "SIMULACIÓN (no se guardó nada):" : "No había nada que cambiar.", ...informe].join("\n");
     await actualizar({ ...cambios, [`estudio/${tema}/meta/actualizado`]: AHORA });
     return ["Guardado en el estudio, sin quitar sellos. Falta publicar para que salga en la web («tema_publicar»).", ...informe].join("\n");
+  });
+
+// ------------------------------------------------------------------ tableros por equipos
+// Lo mismo que el armado con IA del tablero (app/plantilla-tablero.js), sin copiar y pegar: aquí la IA es quien
+// usa estas herramientas. Lee solo lo publicado, como la web.
+const nombrePareja = ({ segmento, area }) => (area ? `${SEGMENTOS[segmento]} · ${(AREAS[segmento] || {})[area] || area}` : SEGMENTOS[segmento] || segmento);
+
+async function catalogoPublicado(rutas, { sinVerificar = true } = {}) {
+  const datos = new Map();
+  await cargarTemas(rutas, datos);
+  const cargadas = rutas.filter((r) => datos.has(r));
+  return { catalogo: armarCatalogo(cargadas, datos, sinVerificar), datos, cargadas };
+}
+
+herramienta("tablero_casos",
+  "Para armar un tablero por equipos (al estilo Jeopardy): lista los casos publicados que se pueden usar, uno por línea (clave | área | subtema | respuesta | nivel | marcas), con las reglas y el formato JSON que espera «tablero_guardar». Filtra por segmento, área, texto y/o temas. No escribe nada.",
+  {
+    segmento: { type: "string", description: `Segmento: ${Object.keys(SEGMENTOS).join(", ")}.` },
+    area: { type: "string", description: "Área dentro del segmento (ids de app/areas.js)." },
+    q: { type: "string", description: "Palabras a buscar (diagnóstico, signo, título); sin tildes vale." },
+    temas: { type: "array", items: { type: "string" }, description: "Ids o rutas de temas («book-id» o «neurorradiologia/book-id»). Sin esto, todos los publicados que tengan casos del criterio." },
+    solo_verificados: { type: "boolean", default: false, description: "Solo casos con el sello de un radiólogo." },
+  },
+  [],
+  async ({ segmento = "", area = "", q = "", temas = [], solo_verificados = false }) => {
+    if (segmento && !SEGMENTOS[segmento]) throw new Error(`Segmento desconocido: «${segmento}».`);
+    if (area && !(AREAS[segmento] || {})[area]) throw new Error(`«${area}» no es un área de ${segmento || "ningún segmento elegido"}.`);
+    const criterio = { segmento, area: segmento ? area : "", q: String(q || "").trim() };
+    const publicados = await cargarIndice();
+    const pedidos = (temas || []).map((t) => publicados.find((p) => p.ruta === t || p.id === t || p.ruta.endsWith(`/${t}`))?.ruta || null);
+    if (pedidos.includes(null)) throw new Error(`No están publicados: ${(temas || []).filter((_, i) => !pedidos[i]).join(", ")}. Usa «temas_listar».`);
+    let rutas = pedidos;
+    if (!rutas.length) {
+      const indices = await indicesDeCasos();
+      rutas = criterio.segmento || criterio.q ? temasPara(publicados, indicePorRuta(publicados, indices.vivo, indices.estatico), criterio) : publicados.map((p) => p.ruta);
+    }
+    const { catalogo, datos, cargadas } = await catalogoPublicado(rutas, { sinVerificar: !solo_verificados });
+    const entradas = [...catalogo.values()].filter((e) => {
+      const paquete = datos.get(e.ruta).paquete;
+      return coincide(resumenCaso(e.caso, paquete.segmento), criterio, paquete.titulo);
+    });
+    if (!entradas.length) return `Ningún caso publicado cumple «${nombreCriterio(criterio)}» en ${cargadas.length} temas.`;
+    const TOPE = 700;
+    const lineas = entradas.slice(0, TOPE).map((e) => lineaCandidato(e, nombrePareja));
+    return [
+      `${entradas.length} casos de ${new Set(entradas.map((e) => e.ruta)).size} temas para «${nombreCriterio(criterio)}»${solo_verificados ? ", solo verificados" : ""}.${entradas.length > TOPE ? ` Muestro ${TOPE}: afina con segmento, área o texto.` : ""}`,
+      "",
+      "Reglas para armar el tablero:",
+      REGLAS_IA,
+      "",
+      "Formato que recibe «tablero_guardar» (en «tablero»):",
+      FORMATO_IA,
+      "",
+      "Casos (clave | área | subtema | respuesta | nivel 1 a 4 | marcas):",
+      ...lineas,
+    ].join("\n");
+  });
+
+herramienta("tablero_guardar",
+  "Comprueba un tablero por equipos (el JSON de «tablero_casos»: nombre, filas, columnas con claves «paquete/caso» de 100 hacia arriba, dobles, final, categoria_final, comparar) contra lo publicado y lo guarda para el grupo: aparece en «Tableros guardados · Del grupo» de tablero.html en cualquier computadora. Devuelve además un enlace que abre el tablero directamente. Por defecto solo simula: dice cómo queda y qué se corrigió.",
+  {
+    tablero: { type: "object", description: "El tablero en el formato de «tablero_casos»." },
+    archivo: { type: "string", description: "Ruta a un JSON con el tablero, en vez de pasarlo aquí." },
+    equipos: { type: "array", items: { type: "string" }, description: "Nombres de los equipos (2 a 6). Por defecto, Equipo 1 a 3." },
+    id: { type: "string", description: "Id de un tablero del grupo para reemplazarlo (uno tuyo, o cualquiera si eres coordinador)." },
+    simular: SIMULAR,
+  },
+  [],
+  async ({ tablero, archivo, equipos, id, simular = true }) => {
+    const bruto = archivo ? JSON.parse(await readFile(resolve(archivo), "utf8")) : tablero;
+    if (!bruto || typeof bruto !== "object") throw new Error("Pasa «tablero» o «archivo».");
+    if (equipos?.length) bruto.equipos = equipos;
+    const publicados = await cargarIndice();
+    const rutas = temasDe(bruto, publicados);
+    if (!rutas.length) throw new Error("Ninguna clave del tablero es de un tema publicado. Las claves son «<id del tema>/<id del caso>», como las da «tablero_casos».");
+    const { catalogo } = await catalogoPublicado(rutas);
+    const { plantilla, problemas, errores, casillas } = normalizar(bruto, catalogo);
+    if (errores) throw new Error(`El tablero no tiene ninguna casilla con un caso publicado.${problemas.length ? ` ${problemas.join(" ")}` : ""}`);
+    const fila = (k) => {
+      const e = k && catalogo.get(k);
+      return e ? `${e.caso.tema || "—"} → ${respuestaDe(e.caso)} (nivel ${e.caso.dificultad?.nivel || "—"})` : "(vacía)";
+    };
+    const vista = plantilla.columnas.map((col) => [`■ ${col.nombre}`, ...col.casos.map((k, r) =>
+      `  ${(r + 1) * 100}${plantilla.dobles.includes(k) ? " ×2" : ""}: ${fila(k)}`)].join("\n"));
+    if (plantilla.final) vista.push(`■ Final «${plantilla.categoria_final}»: ${fila(plantilla.final)}`);
+    const enlace = `${URL_OFICIAL}/tablero.html#t=${await codificar(plantilla)}`;
+    const informe = [
+      `«${plantilla.nombre}»: ${casillas} casillas en ${plantilla.columnas.length} columnas × ${plantilla.filas} filas${plantilla.final ? " y ronda final" : ""}. Equipos: ${plantilla.equipos.join(", ")}.`,
+      ...(problemas.length ? ["Corregido al comprobar:", ...problemas.map((p) => `- ${p}`)] : ["Sin correcciones."]),
+      "",
+      ...vista,
+      "",
+      `Enlace (abre el tablero en la revisión, listo para jugar): ${enlace}`,
+    ];
+    if (simular) return ["SIMULACIÓN (no se guardó nada):", ...informe].join("\n");
+    const p = await miPerfil();
+    if (!p?.rol) throw new Error("Tu cuenta no tiene papel en el estudio: no puede guardar tableros para el grupo.");
+    const clave = id || `${Date.now().toString(36)}${randomBytes(3).toString("hex")}`;
+    if (!/^[a-z0-9]{6,40}$/.test(clave)) throw new Error(`Id de tablero inválido: «${clave}».`);
+    await escribir(`tableros/${clave}`, {
+      nombre: plantilla.nombre, autor_uid: sesion.uid, autor_nombre: p.nombre || "", fecha: AHORA, plantilla_json: JSON.stringify(plantilla),
+    });
+    return [`Guardado para el grupo (id ${clave}): sale en tablero.html, «Tableros guardados · Del grupo».`, ...informe].join("\n");
+  });
+
+herramienta("tableros_listar", "Lista los tableros guardados para el grupo: id, nombre, autor, fecha y tamaño.", {}, [],
+  async () => {
+    const todos = (await leer("tableros")) || {};
+    const filas = Object.entries(todos).map(([id, t]) => {
+      let p = {};
+      try { p = JSON.parse(t.plantilla_json); } catch { /* ilegible */ }
+      const casillas = (p.columnas || []).reduce((n, col) => n + (col.casos || []).filter(Boolean).length, 0);
+      return { id, nombre: t.nombre, autor: t.autor_nombre, fecha: new Date(t.fecha || 0).toISOString().slice(0, 10), casillas, final: Boolean(p.final) };
+    }).sort((a, b) => b.fecha.localeCompare(a.fecha));
+    return filas.length ? JSON.stringify(filas, null, 1) : "Todavía no hay tableros guardados para el grupo.";
   });
 
 herramienta("fuente_guardar",

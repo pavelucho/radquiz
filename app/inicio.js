@@ -92,14 +92,25 @@ let conteo = null;
 
 const enlace = (pagina, c, extra = "") => `${pagina}?${[extra, consultaDe(c)].filter(Boolean).join("&")}`;
 
-// El buscador se dibuja una vez; los botones, el resumen y las tarjetas, cada vez que cambia algo.
+// El buscador se dibuja una vez; los botones, el resumen y las tarjetas, cada vez que cambia algo. A la vista
+// solo queda la barra: los segmentos y las áreas se despliegan al tocarla, y el filtro elegido queda como una
+// etiqueta dentro de la barra, con su ✕.
 function dibujarBuscador() {
-  return `<section class="panel buscador" aria-label="Buscar y armar un cuestionario">
-    <label class="buscar"><span class="visualmente-oculto">Buscar</span>
+  return `<section class="buscador" aria-label="Buscar y armar un cuestionario">
+    <div class="buscar">
+      <label class="visualmente-oculto" for="q">Buscar</label>
+      <button type="button" class="filtro-activo" id="filtro-activo" hidden></button>
       <input type="search" id="q" placeholder="Busca un tema, un diagnóstico o un signo" value="${esc(criterio.q)}"
-        autocomplete="off" spellcheck="false" enterkeyhint="search"></label>
-    <div class="filtros" id="segmentos" role="group" aria-label="Segmento"></div>
-    <div class="filtros areas" id="areas" role="group" aria-label="Área" hidden></div>
+        autocomplete="off" spellcheck="false" enterkeyhint="search" aria-controls="desplegable" aria-expanded="false">
+      <button type="button" class="abrir-filtros" id="abrir-filtros" aria-controls="desplegable" aria-expanded="false"
+        title="Filtrar por segmento y área">Segmentos</button>
+    </div>
+    <div class="desplegable" id="desplegable" hidden>
+      <p class="src">Segmento</p>
+      <div class="filtros" id="segmentos" role="group" aria-label="Segmento"></div>
+      <div id="bloque-areas" hidden><p class="src">Área</p>
+        <div class="filtros" id="areas" role="group" aria-label="Área"></div></div>
+    </div>
     <div class="armado" id="armado" aria-live="polite" hidden></div>
   </section>
   <div id="continuar"></div>
@@ -118,15 +129,27 @@ function pintarFiltros() {
     + orden.map((s) => boton(s, SEGMENTOS[s], conteo.porSegmento[s] || 0, s === criterio.segmento, "segmento")).join("");
   const areas = criterio.segmento ? Object.keys(AREAS[criterio.segmento] || {})
     .filter((a) => conteo.porArea[`${criterio.segmento}/${a}`] || a === criterio.area) : [];
-  $("#areas").hidden = !areas.length;
+  $("#bloque-areas").hidden = !areas.length;
   $("#areas").innerHTML = areas.length ? boton("", `Todo ${SEGMENTOS[criterio.segmento]}`, null, !criterio.area, "area")
     + areas.map((a) => boton(a, nombreArea(criterio.segmento, a), conteo.porArea[`${criterio.segmento}/${a}`] || 0, a === criterio.area, "area")).join("") : "";
   app.querySelectorAll("[data-segmento]").forEach((b) => {
     b.onclick = () => cambiar({ segmento: b.dataset.segmento, area: "" });
   });
   app.querySelectorAll("[data-area]").forEach((b) => {
-    b.onclick = () => cambiar({ area: b.dataset.area });
+    b.onclick = () => { cambiar({ area: b.dataset.area }); desplegar(false); };
   });
+  const etiqueta = $("#filtro-activo");
+  etiqueta.hidden = !criterio.segmento;
+  etiqueta.innerHTML = criterio.segmento
+    ? `${esc(SEGMENTOS[criterio.segmento])}${criterio.area ? ` · ${esc(nombreArea(criterio.segmento, criterio.area))}` : ""} <span aria-hidden="true">✕</span>` : "";
+  etiqueta.setAttribute("aria-label", criterio.segmento ? `Quitar el filtro ${nombreCriterio({ ...criterio, q: "" })}` : "");
+}
+
+// El desplegable de segmentos y áreas: se abre al tocar la barra y se cierra al tocar fuera o con Esc.
+function desplegar(abierto) {
+  $("#desplegable").hidden = !abierto;
+  $("#q").setAttribute("aria-expanded", String(abierto));
+  $("#abrir-filtros").setAttribute("aria-expanded", String(abierto));
 }
 
 // El cuestionario armado: cuántos casos y de cuántos temas, y adónde llevarlo.
@@ -212,7 +235,15 @@ async function iniciar() {
     clearTimeout(espera);
     espera = setTimeout(() => cambiar({ q: e.target.value.trim().replace(/\s+/g, " ").slice(0, 80) }), 160);
   };
-  $("#q").onkeydown = (e) => { if (e.key === "Enter") e.target.blur(); };
+  $("#q").onkeydown = (e) => {
+    if (e.key === "Enter") { desplegar(false); e.target.blur(); }
+    if (e.key === "Escape") desplegar(false);
+  };
+  $("#q").onfocus = () => desplegar(true);
+  $("#abrir-filtros").onclick = () => desplegar($("#desplegable").hidden);
+  $("#filtro-activo").onclick = () => { cambiar({ segmento: "", area: "" }); $("#q").focus(); };
+  document.addEventListener("pointerdown", (e) => { if (!e.target.closest(".buscador")) desplegar(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") desplegar(false); });
   pintar();
   // El índice de casos llega después: mientras, los conteos son los de cada tema entero.
   const { vivo: casosVivos, estatico } = await indicesDeCasos();

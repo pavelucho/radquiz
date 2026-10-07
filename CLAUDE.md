@@ -208,6 +208,19 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   por el presentador) y Clave (la perla). Para no adelantar respuestas, una figura que usa otra casilla sin jugar sale
   sin la lista de marcas, o no sale si es de «respuesta»; y nunca se compara con un caso que comparta figura o
   respuesta con una casilla. Probado de punta a punta en el navegador con ATM 4 × 4, no en un aula.
+  Revisión rediseñada y tableros guardados (2026-10-07, pedido del autor: la revisión le resultaba engorrosa). La
+  revisión es el tablero como se proyectará, con respuesta y nivel en cada casilla; al tocar una, un panel lateral
+  (abajo en pantallas angostas) deja moverla, hacerla doble, cambiarla por cualquier caso libre con un buscador y
+  elegir los casos para comparar; arrastrar una casilla sobre otra las intercambia; columnas con nombre editable, ✕ y
+  «Agregar columna»; equipos en la misma pantalla. Ya no hay «Juntar con la siguiente». Un tablero armado es una
+  plantilla (`app/plantilla-tablero.js`) que se guarda en el navegador, para el grupo en `tableros/<id>` (reglas
+  desplegadas ese día; escriben quienes tienen papel, desde el tablero con la sesión de Google del estudio o desde el
+  MCP) o en un enlace `tablero.html#t=…` con el tablero entero (unos 500 caracteres un 2 × 4). «Armar con IA» (pedido
+  del autor): la página arma el texto con los casos candidatos (clave | área | subtema | respuesta | nivel | marcas) y
+  lee el JSON de cualquier IA; el MCP hace lo mismo con `tablero_casos`, `tablero_guardar` (simula por defecto,
+  comprueba contra lo publicado, guarda para el grupo y da el enlace) y `tableros_listar`. Probado en el navegador
+  (revisión, cambiar caso, guardar y abrir, enlace, IA con respuesta de ejemplo, partida desde una plantilla) y el MCP
+  contra producción (un tablero de prueba guardado, visto en la lista del grupo, abierto y borrado), no en un aula.
 - Tabú radiológico (2026-10-02): `tabu.html` + `app/tabu.js`, lógica sin pantalla en `app/tabu-logica.js`. Por equipos
   y con un solo aparato que pasa de mano en mano: quien describe ve la figura y el diagnóstico y su equipo lo adivina
   sin oír las prohibidas (las palabras de la respuesta y, hasta cinco, las de `etiquetas` y `tema`). Adivinaron +1,
@@ -250,7 +263,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   la pantalla de cada uno, no una figura modificada: compatible con las licencias ND. En el celular, − y + no están
   (sobran con pellizco y doble toque) para que quepa la barra.
 - Buscador y cuestionarios armados (2026-10-07): la portada busca por texto (diagnóstico, signo, título; sin tildes
-  vale) y filtra por segmento y área con cuántos casos hay en cada botón; lo que coincide se practica junto
+  vale) y filtra por segmento y área con cuántos casos hay en cada botón (desde el mismo día, en un desplegable que se
+  abre al tocar la barra: a la vista solo queda la barra, con el filtro elegido como etiqueta ✕, pedido del autor); lo que coincide se practica junto
   (`practica.html?segmento=…&area=…&q=…`, y `&tema=` para un solo tema), se presenta en una sala («Casos de: un
   segmento, un área o una búsqueda» al crearla) o se juega en el tablero (filtro «Solo casos de»). Regla única en
   `app/cuestionario.js` (`coincide()`): el segmento y el área valen en cualquier pareja; las palabras, en etiquetas,
