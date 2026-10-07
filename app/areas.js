@@ -53,9 +53,16 @@ export const AREAS = {
     "pleura": "Pleura",
     "pared-diafragma": "Pared torácica y diafragma",
     "trauma": "Trauma torácico",
-    "uci": "Paciente crítico y dispositivos"
+    "uci": "Paciente crítico y dispositivos",
+    "congenitas": "Malformaciones congénitas"
   },
-  "cardiovascular": {},
+  "cardiovascular": {
+    "aorta": "Aorta",
+    "corazon": "Corazón y pericardio",
+    "coronarias": "Arterias coronarias",
+    "arterias-perifericas": "Arterias viscerales y periféricas",
+    "venas": "Venas y trombosis venosa"
+  },
   "abdomen": {
     "higado": "Hígado",
     "via-biliar": "Vesícula y vía biliar",
@@ -93,10 +100,29 @@ export const AREAS = {
     "infeccion": "Infección osteoarticular",
     "metabolicas": "Enfermedades metabólicas del hueso",
     "medula-osea": "Médula ósea y osteonecrosis",
-    "partes-blandas": "Músculo y partes blandas"
+    "partes-blandas": "Músculo y partes blandas",
+    "displasias": "Displasias esqueléticas"
   },
   "mama": {},
-  "pediatria": {},
+  "pediatria": {
+    "neuro": "Neurorradiología pediátrica",
+    "cabeza-cuello": "Cabeza y cuello pediátricos",
+    "torax": "Tórax y vía aérea pediátricos",
+    "cardiovascular": "Cardiopatías congénitas y vascular",
+    "gastrointestinal": "Gastrointestinal y hepatobiliar",
+    "genitourinario": "Genitourinario",
+    "musculoesqueletico": "Musculoesquelético",
+    "neonatal": "Neonatología",
+    "maltrato": "Maltrato infantil"
+  },
   "intervencionismo": {},
-  "fisica-tecnica": {}
+  "fisica-tecnica": {
+    "rm": "Resonancia magnética",
+    "tc": "Tomografía computarizada",
+    "rx-fluoroscopia": "Radiografía y fluoroscopia",
+    "ecografia": "Ecografía",
+    "medicina-nuclear": "Medicina nuclear",
+    "contraste": "Medios de contraste",
+    "proteccion": "Protección radiológica"
+  }
 };

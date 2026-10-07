@@ -40,8 +40,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 - Clasificación (2026-09-24): el paquete tiene un segmento (carpeta y portada) y cada caso lleva `clasificacion`, una o
   más parejas segmento → área, la principal primero; un caso puede estar en varios segmentos (cadera pediátrica =
   MSK y pediatría). Sin la clave, hereda el segmento del paquete. Las áreas son una lista cerrada por segmento en
-  `app/areas.js` (lo que sigue a `AREAS =` es JSON estricto: `tools/validar` lee ese archivo). Hay áreas para neuro,
-  cabeza y cuello, tórax, abdomen, genitourinario y MSK; los otros cinco segmentos todavía no tienen, y se agregan
+  `app/areas.js` (lo que sigue a `AREAS =` es JSON estricto: `tools/validar` lee ese archivo). Mama e intervencionismo todavía no tienen áreas (los demás sí, desde el 2026-10-07); se agregan
   con una línea. Área desconocida = error; pareja sin área en un segmento con áreas = aviso.
 
 ## Estado actual (2026-09-20)
@@ -147,7 +146,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   en el formulario) no toca `actualizado` del caso y no retira el sello. Una respuesta de IA cortada se rescata
   (`rescatar()` en `app/instrucciones-ia.js`): se cargan los casos enteros y el estudio da el pedido para que siga;
   las instrucciones piden `"faltan": true` si no caben todos. Un `.zip` con más de una fuente se rechaza (uno por
-  artículo: el estudio acredita todas las figuras a una sola fuente). La web todavía no usa la clasificación.
+  artículo: el estudio acredita todas las figuras a una sola fuente). La web la usa desde el 2026-10-07 (buscador, abajo).
 - DOI opcional (2026-09-30): el paso 1 del estudio pide el tipo de fuente (artículo, página web o sitio educativo,
   caso de un banco, libro; `TIPOS_FUENTE` en `app/validacion.js`) y el DOI «si tiene». Un DOI escrito tiene que ser
   válido; un artículo sin DOI da aviso, nunca error (estudio, `tools/validar` y comprobador del .zip). Sin DOI, la web
@@ -250,6 +249,26 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   guarda nada), y en la sala lo que ajusta el presentador solo se ve en el proyector. Es un ajuste de visualización en
   la pantalla de cada uno, no una figura modificada: compatible con las licencias ND. En el celular, − y + no están
   (sobran con pellizco y doble toque) para que quepa la barra.
+- Buscador y cuestionarios armados (2026-10-07): la portada busca por texto (diagnóstico, signo, título; sin tildes
+  vale) y filtra por segmento y área con cuántos casos hay en cada botón; lo que coincide se practica junto
+  (`practica.html?segmento=…&area=…&q=…`, y `&tema=` para un solo tema), se presenta en una sala («Casos de: un
+  segmento, un área o una búsqueda» al crearla) o se juega en el tablero (filtro «Solo casos de»). Regla única en
+  `app/cuestionario.js` (`coincide()`): el segmento y el área valen en cualquier pareja; las palabras, en etiquetas,
+  subtema, respuesta, título y nombres de segmento y área. Decisión del autor: los resultados nunca muestran
+  enunciados ni respuestas, solo cuántos casos y en qué temas. Para no bajar todo, cada publicación (estudio y MCP)
+  escribe `indice_casos/<tema>` (lectura pública; ~110 KB los 14 temas) y `tools/construir_sitio` lo mismo en
+  `temas/indice_casos.json`; vale el de la versión del tema y un tema sin índice se carga entero. En la práctica
+  armada cada caso guarda el avance en la clave de su tema (la portada lo cuenta), la tanda va en
+  `radquiz.avance.v1:mezcla:<criterio>` y sale mezclada. La sala de varios temas lleva `info.temas` e ids
+  `<tema>:<caso>` (`info.casos` hasta 120 caracteres); `info.tema` sigue siendo el primero. Reglas desplegadas el
+  2026-10-07. Probado en el navegador (portada, práctica armada con retomar, sala de Tórax con casos de dos temas,
+  presentador y un jugador, contra producción; tablero filtrado), no en un aula.
+  Clasificación de todos los casos el mismo día: ocho agentes con `INSTRUCCIONES` (pareja principal = segmento del
+  tema; en pediatría, `pediatria/<área>` y después el órgano; emergencias por órgano), 1114 casos guardados en el
+  estudio con la herramienta MCP nueva `casos_clasificar` (no toca `actualizado`: ATM conserva sus sellos). Se
+  agregaron áreas a cardiovascular, pediatría y física y técnica, y `torax/congenitas` y
+  `musculoesqueletico/displasias`; mama e intervencionismo siguen sin áreas. Hasta volver a publicar cada tema, la
+  web filtra con la clasificación vieja (lo publicado) aunque el índice de casos ya esté al día.
 - Puntaje (2026-10-05): 900 por acierto + hasta 100 por rapidez (antes 500 + 500): pesa acertar, no el reflejo.
 - Ambiente, rachas, avatares y equipos en la sala (2026-10-05), decididos con el autor como capas 1, 2 y 5 de una lista
   de ideas (las otras: eventos sorpresa como caso relámpago, duelo final y caso jefe; y comodines 50:50, escudo y doble
@@ -320,7 +339,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
    `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
-   2026-10-07 (reacciones y títulos nuevos) y la web a 2026-10-07 (desplegada con el código de `cd98b7f`: humor en la sala, reacciones y títulos nuevos). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
+   2026-10-07 (`indice_casos` y salas de varios temas) y la web a 2026-10-07 (desplegada con el código de `cd98b7f`: humor en la sala, reacciones y títulos nuevos). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
    sin commit; hay que desplegar con la carpeta limpia o desde una copia de `main` (`git worktree add … origin/main`).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
@@ -346,19 +365,19 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
    WebSocket con un jugador que entró y se vio al instante. **`radquiz-shpn2.web.app` está bloqueado** (conecta y el
    filtro corta el TLS: va por nombre, no por IP); `firebaseapp.com`, la dirección oficial, pasa. GitHub sigue cortado.
 4. Decidir la licencia del código y la de los textos propios.
-5. Clasificar los tres temas publicados con el panel «Clasificación» y volver a publicarlos (hoy dan el aviso «sin
-   área»): ATM → cabeza-cuello/atm; meniscos → musculoesqueletico/rodilla; tobillo → musculoesqueletico/tobillo-pie,
-   más lo que corresponda caso por caso.
-6. Fase 2 de la clasificación: filtros por segmento y área en la práctica, salas por segmento que mezclen temas y
-   conteos en la portada. Hace falta contar por segmento en `indice_publicado` e `indice.json`, y cambiar las reglas
-   de `salas/` para que una sala tenga varios temas.
+5. Volver a publicar los temas para que la web use la clasificación del 2026-10-07 y tengan `indice_casos` (hecha en el
+   estudio, no publicada). `iip-hrct-dixon2010` e `ila-radiographics-hata2022` esperan al pendiente 11. Que un
+   radiólogo mire los casos dudosos de la clasificación (las notas de los agentes quedaron fuera del repositorio):
+   criterio de pediatría por edad o por entidad, y casos sin área exacta (pares craneales en neuro, tumores torácicos
+   no pulmonares, pierna en MSK).
+6. Clasificación, lo que falta: áreas para mama e intervencionismo cuando haya casos.
 7. `meniscos-rm-nguyen2014` no pasa el validador (visto el 2026-09-24): dice CC BY-NC-ND 4.0, pero la frase de
    `verificacion.donde` es el aviso de RSNA «personal non-commercial use only», y sus 14 figuras están en `img/` de este
    repositorio público. Si la licencia es «Con copyright», hay que corregirla en el estudio y volver a publicar: las
    figuras pasan al Drive de quien publica y salen de `temas/`, aunque siguen en el historial de Git.
 8. Tablero, etapa B: el tablero dentro de la sala en vivo, con todos respondiendo desde el celular. Hay que cambiar
    las reglas de `salas/` (fases `tablero` y `apuesta`, turno, casillas usadas, apuestas, puntajes negativos: hoy
-   `puntajes` exige `>= 0`) y conviene hacerlo junto con las salas de varios temas del pendiente 6. La lógica de
+   `puntajes` exige `>= 0`); las salas ya admiten varios temas (`info.temas`). La lógica de
    `app/tablero.js` y `app/diapositivas.js` ya sirve para la sala. Etapa C (pulsador): solo tras medir la latencia de
    4 o 5 celulares en el wifi de HNERM.
 9. Perlas: 43 de los 67 casos publicados no tienen (ATM 23 de 27, tobillo 20 de 20), y sin perla el tablero no

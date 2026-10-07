@@ -36,6 +36,7 @@ app/avance.js               avance de la práctica, solo en el dispositivo (loca
 app/tablero.js              lógica del tablero (grupos, columnas, casos parecidos, apuestas), sin pantalla ni Firebase
 app/diapositivas.js         diapositivas de enseñanza de un caso, armadas con lo que el caso ya trae
 app/catalogo.js             temas publicados y sus casos para los juegos de varios temas (tablero y Tabú)
+app/cuestionario.js         cuestionarios armados por segmento, área o búsqueda: criterio, índice de casos y filtro
 app/tabu-logica.js          lógica del Tabú (qué casos son carta, palabras prohibidas, mazo), sin pantalla
 app/marca.svg               logo y favicon
 app/fuentes/                IBM Plex Sans y Mono (licencia OFL), alojadas en el sitio y no en Google Fonts
@@ -105,7 +106,7 @@ figuras, `tools/mcp/imagen.swift` (OCR de Vision y CoreGraphics de macOS), que s
 - **Usa la lógica de la app**, no una copia: `app/validacion.js` (validar, `aPaquete`), `app/instrucciones-ia.js`
   (correcciones con `leerRespuestaIA` y `planDeCarga`) y `app/drive.js` (subir figuras). El texto de la declaración
   se lee de `app/estudio.js`.
-- **Lo que escribe simula por defecto** (`casos_corregir`, `casos_dificultad`, `fuente_guardar`, `imagen_tapar`, `imagen_reemplazar`):
+- **Lo que escribe simula por defecto** (`casos_corregir`, `casos_dificultad`, `casos_clasificar`, `fuente_guardar`, `imagen_tapar`, `imagen_reemplazar`):
   muestra qué cambia —y la figura resultante— antes de guardar con `simular: false`.
 - **Publicar exige la declaración de la persona.** `tema_publicar` con `declaracion_aceptada: false` devuelve el texto;
   solo pasa en `true` si la persona la acepta en el chat. No publica con errores del validador.
@@ -113,10 +114,11 @@ figuras, `tools/mcp/imagen.swift` (OCR de Vision y CoreGraphics de macOS), que s
   estudio: son decisiones de una persona.
 
 Herramientas: `sesion_iniciar`, `sesion_estado`, `temas_listar`, `tema_leer`, `casos_leer`, `tema_validar`,
-`casos_corregir`, `casos_dificultad`, `fuente_guardar`, `imagen_ver`, `imagenes_buscar_texto`, `imagen_tapar`,
-`imagen_reemplazar`, `tema_publicar` y `publicacion_comprobar`. `casos_leer` devuelve los casos en el mismo formato que
+`casos_corregir`, `casos_dificultad`, `casos_clasificar`, `fuente_guardar`, `imagen_ver`, `imagenes_buscar_texto`,
+`imagen_tapar`, `imagen_reemplazar`, `tema_publicar` y `publicacion_comprobar`. `casos_leer` devuelve los casos en el mismo formato que
 recibe `casos_corregir`, así que una corrección es leer, editar y devolver. `casos_dificultad` pone el nivel, su motivo
-y `requiere_opciones` (directo o desde un JSON local) sin tocar el texto, así que no quita sellos.
+y `requiere_opciones` (directo o desde un JSON local) sin tocar el texto, así que no quita sellos; `casos_clasificar`
+pone la clasificación segmento → área de la misma manera.
 
 ### Clasificación: segmento → área
 
@@ -134,6 +136,26 @@ displasia de cadera es musculoesquelético y pediatría). Sin la clave, el caso 
 - En el paso 3, el panel **Clasificación** resume cuántos casos hay en cada segmento → área y agrega o quita una
   pareja a todos los casos marcados de una vez. Cambiar la clasificación, ahí o en el formulario del caso, no
   retira el sello de verificado: el sello cubre lo que el radiólogo revisó.
+
+### Buscador y cuestionarios armados
+
+La portada busca por texto (diagnóstico, signo, título) y filtra por segmento y área, con cuántos casos hay en cada
+uno; lo que coincide se practica junto, se presenta en una sala o se juega en el tablero (`?segmento=…&area=…&q=…`
+en `practica.html`, `sala.html?crear=1` y `tablero.html`). La regla es una sola, `coincide()` en
+`app/cuestionario.js`: el segmento y el área valen en cualquier pareja del caso, y las palabras se buscan en las
+etiquetas, el subtema, la respuesta, el título del tema y los nombres de segmento y área. Nunca se muestran
+enunciados ni respuestas en los resultados.
+
+- **Índice de casos.** Al publicar, el estudio y `tema_publicar` escriben `indice_casos/<tema>` (`{ version, casos:
+  { <id>: { c, n, e, t, r } } }`: parejas, nivel, etiquetas, subtema y respuesta), de lectura pública; el sitio trae
+  lo mismo en `temas/indice_casos.json` (`tools/construir_sitio`). Vale el que tenga la versión del tema. Un tema sin
+  índice se carga entero cuando hace falta. Quitar un tema de la web o borrarlo borra también su índice.
+- **Práctica.** Cada caso guarda su avance en la clave de su tema; la tanda del cuestionario armado va en
+  `radquiz.avance.v1:mezcla:<criterio>`, que la portada no lista. Los ids pasan a ser `<tema>/<caso>` y la tanda sale
+  mezclada.
+- **Sala de varios temas.** `info.temas` (lista de rutas) e ids `<tema>:<caso>` en `info.casos` y `info.orden`
+  (`/` no vale en una clave de Firebase); `info.tema` sigue siendo el primero, para que las reglas y las salas de un
+  tema no cambien.
 
 ### Dificultad y modo sin alternativas
 

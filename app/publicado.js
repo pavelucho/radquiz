@@ -92,6 +92,13 @@ export async function indiceEnVivo() {
   return salida;
 }
 
+// El índice de casos para buscar y contar (app/cuestionario.js): { <tema>: { version, casos } }, del estudio y
+// del sitio. Lo que falte queda en null: sin índice, el tema se carga entero cuando hace falta.
+export async function indicesDeCasos() {
+  const [vivo, estatico] = await Promise.all([leer("indice_casos"), cargarJSON("temas/indice_casos.json").catch(() => null)]);
+  return { vivo: vivo && typeof vivo === "object" ? vivo : null, estatico: estatico && typeof estatico === "object" ? estatico : null };
+}
+
 // Junta la lista del sitio con la del estudio. Gana el estudio cuando la versión no coincide;
 // si coincide, se queda la del sitio pero con la cuenta de sellos al día.
 // Los ocultos salen de la lista, salvo la ruta que se pase en `mostrar` (la sala que abre el autor).

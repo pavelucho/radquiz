@@ -7,6 +7,9 @@ Uso:
 Solo entran los casos en estado «publicado»: los borradores y los revisados no salen a la web.
 De cada paquete se copian solo las imágenes y las fuentes que usan esos casos. Un tema sin casos
 publicados aparece en la lista como «En revisión».
+
+Además de temas/indice.json escribe temas/indice_casos.json, el índice para buscar y contar casos por segmento
+y área: la misma forma que «indice_casos» en la base (resumenCaso() en app/cuestionario.js).
 """
 
 import json
@@ -19,6 +22,26 @@ DESTINO = RAIZ / "_site"
 ARCHIVOS_APP = ["index.html", "practica.html", "sala.html", "tablero.html", "tabu.html", "manual.html", "estudio.html"]
 
 
+def resumen_caso(caso, segmento_tema):
+    """Lo mismo que resumenCaso() de app/cuestionario.js: clasificación, nivel, etiquetas, subtema y respuesta."""
+    pares = [p for p in caso.get("clasificacion") or [] if isinstance(p, dict) and p.get("segmento")]
+    if not pares:
+        pares = [{"segmento": segmento_tema}]
+    opciones = caso.get("opciones") or []
+    correcta = caso.get("correcta")
+    nivel = (caso.get("dificultad") or {}).get("nivel")
+    r = {
+        "c": ["%s/%s" % (p["segmento"], p["area"]) if p.get("area") else p["segmento"] for p in pares],
+        "n": nivel if isinstance(nivel, int) else 0,
+        "e": [str(e) for e in caso.get("etiquetas") or []][:12],
+        "t": str(caso.get("tema") or ""),
+        "r": str(opciones[correcta]) if isinstance(correcta, int) and 0 <= correcta < len(opciones) else "",
+    }
+    if not r["e"]:
+        del r["e"]
+    return r
+
+
 def construir():
     if DESTINO.exists():
         shutil.rmtree(DESTINO)
@@ -28,6 +51,7 @@ def construir():
     shutil.copytree(RAIZ / "app", DESTINO / "app")
 
     indice = []
+    indice_casos = {}
     for ruta_paquete in sorted((RAIZ / "temas").glob("*/*/paquete.json")):
         carpeta = ruta_paquete.parent
         paquete = json.loads(ruta_paquete.read_text(encoding="utf-8"))
@@ -53,6 +77,10 @@ def construir():
                 continue  # se sirve desde el Google Drive de quien la publicó
             shutil.copy2(carpeta / "img" / imagen["archivo"], salida / "img" / imagen["archivo"])
 
+        indice_casos[paquete["id"]] = {
+            "version": paquete.get("version"),
+            "casos": {c["id"]: resumen_caso(c, paquete["segmento"]) for c in casos},
+        }
         indice.append({
             "ruta": "%s/%s" % (carpeta.parent.name, carpeta.name),
             "id": paquete["id"],
@@ -68,6 +96,8 @@ def construir():
 
     (DESTINO / "temas" / "indice.json").write_text(
         json.dumps({"paquetes": indice}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (DESTINO / "temas" / "indice_casos.json").write_text(
+        json.dumps(indice_casos, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print("Sitio listo en %s" % DESTINO.relative_to(RAIZ))
     return 0
 

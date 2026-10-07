@@ -32,7 +32,12 @@
           },
           "casos": {
             "$i": {
-              ".validate": "newData.isString() && newData.val().length <= 60"
+              ".validate": "newData.isString() && newData.val().length <= 120"
+            }
+          },
+          "temas": {
+            "$i": {
+              ".validate": "newData.isString() && newData.val().matches(/^[a-z0-9-]+\\/[a-z0-9-]+$/)"
             }
           },
           "orden": {
@@ -377,6 +382,46 @@
         "actualizados": {
           "$caso": {
             ".validate": "newData.isNumber()"
+          }
+        },
+        "$otro": {
+          ".validate": false
+        }
+      }
+    },
+    "indice_casos": {
+      ".read": true,
+      "$tema": {
+        ".write": "(auth != null && root.child('usuarios').child(auth.uid).child('rol').val() == 'coordinador') || (auth != null && root.child('estudio').child($tema).child('meta/autor_uid').val() == auth.uid && root.child('usuarios').child(auth.uid).child('rol').val() != null)",
+        ".validate": "newData.hasChildren(['version', 'casos'])",
+        "version": {
+          ".validate": "newData.isString() && newData.val().length <= 20"
+        },
+        "casos": {
+          "$caso": {
+            ".validate": "$caso.matches(/^[a-z0-9]+(-[a-z0-9]+)*$/) && newData.hasChild('c')",
+            "c": {
+              "$i": {
+                ".validate": "newData.isString() && newData.val().matches(/^[a-z-]+(\\/[a-z0-9-]+)?$/)"
+              }
+            },
+            "n": {
+              ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 4"
+            },
+            "e": {
+              "$i": {
+                ".validate": "newData.isString() && newData.val().length <= 80"
+              }
+            },
+            "t": {
+              ".validate": "newData.isString() && newData.val().length <= 200"
+            },
+            "r": {
+              ".validate": "newData.isString() && newData.val().length <= 300"
+            },
+            "$otro": {
+              ".validate": false
+            }
           }
         },
         "$otro": {

@@ -7,8 +7,13 @@ import {
   getDatabase, ref, set, get, update, remove, onValue, serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 import { firebaseConfig, APP_ANONIMA } from "./firebase-config.js";
-import { $, esc, md, cargarJSON, credito, barajar, sello, leerTanda, totalTanda, nivelDe, origenPublico } from "./comun.js";
-import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
+import { $, esc, md, cargarJSON, credito, barajar, sello, leerTanda, totalTanda, nivelDe, origenPublico, SEGMENTOS } from "./comun.js";
+import { cargarPaquete, indiceEnVivo, fusionarIndice, indicesDeCasos } from "./publicado.js";
+import { cargarIndice, cargarTemas } from "./catalogo.js";
+import {
+  criterioDe, hayCriterio, consultaDe, nombreCriterio, nombreArea, indicePorRuta, temasPara, casosPara,
+} from "./cuestionario.js";
+import { AREAS } from "./areas.js";
 import { reportar } from "./reportar.js";
 import { activarAmpliacion } from "./ampliar.js";
 import { qrDataURI } from "./qr.js";
@@ -58,9 +63,8 @@ let finEn = 0;                 // cuándo empezó el final: el podio sube por pa
 const efectosHechos = new Set();  // celular: vibraciones ya hechas, para no repetirlas al redibujar
 const marcandoTarde = new Set();  // presentador: quienes entraron con la partida empezada, mientras se escribe
 let respuestasActual = {};     // solo el presentador: respuestas de la pregunta en curso
-let paquete = null;
-let fuentes = null;
-let srcImagen = () => "";
+// Cada caso lleva su origen («_o»: ruta, paquete, fuentes, imagen) y su id en el tema («_id»). En una sala de
+// varios temas (info.temas) su id en la sala es «<tema>:<caso>»; en una de un tema, el del tema.
 let casoPorId = new Map();
 let suscripciones = [];
 let suscripcionRespuestas = null;
@@ -146,11 +150,12 @@ function visor(caso, conRespuesta) {
   const refs = caso.imagenes.filter((r) => r.mostrar_en === "pregunta" || conRespuesta);
   if (!refs.length) return "";
   return `<div class="viewer">${refs.map((r) => {
-    const imagen = paquete.imagenes[r.ref];
+    const o = caso._o;
+    const imagen = o.paquete.imagenes[r.ref];
     if (!imagen) return "";
-    const src = srcImagen(r.ref);
+    const src = o.imagen(r.ref);
     return `<figure><img src="${esc(src)}" alt="${esc(imagen.figura)}" data-zoom>
-      <figcaption class="cap"><span>${credito(imagen, fuentes[imagen.fuente])}</span><span>Toca para ampliar</span></figcaption></figure>`;
+      <figcaption class="cap"><span>${credito(imagen, o.fuentes[imagen.fuente])}</span><span>Toca para ampliar</span></figcaption></figure>`;
   }).join("")}</div>`;
 }
 
@@ -253,6 +258,9 @@ async function pantallaCrear() {
   // «Presentar en una sala», en el estudio, abre sala.html?crear=1&tema=<ruta>: ese tema sale elegido
   // y aparece aunque esté oculto.
   const pedido = params.get("tema") || "";
+  // Desde la portada llega un cuestionario armado (?segmento=…&area=…&q=…): sale elegido.
+  const inicial = criterioDe(params);
+  const pedidoSel = hayCriterio(inicial);
   const disponibles = fusionarIndice(indice?.paquetes || [], vivo, { mostrar: pedido }).map((p) => ({
     ...p,
     publicados: p.casos.publicado || 0,
@@ -274,7 +282,18 @@ async function pantallaCrear() {
   app.innerHTML = `<form class="panel stack angosto" id="config" novalidate>
     <p class="eyebrow">Presentador</p>
     <h2>Crear sala</h2>
-    <label class="grid-label">Tema <select id="tema">${opciones}</select></label>
+    <label class="grid-label">Casos de <select id="origen">
+      <option value="tema">Un tema</option>
+      <option value="seleccion" ${pedidoSel ? "selected" : ""}>Un segmento, un área o una búsqueda (varios temas)</option></select></label>
+    <label class="grid-label" id="fila-tema">Tema <select id="tema">${opciones}</select></label>
+    <div class="campos" id="fila-seleccion">
+      <label class="grid-label">Segmento <select id="sel-segmento"><option value="">Todos</option>${Object.entries(SEGMENTOS).map(([v, t]) =>
+        `<option value="${v}" ${v === inicial.segmento ? "selected" : ""}>${esc(t)}</option>`).join("")}</select></label>
+      <label class="grid-label">Área <select id="sel-area"></select></label>
+      <label class="grid-label">Buscar <input type="search" id="sel-q" maxlength="80" value="${esc(inicial.q)}"
+        placeholder="Diagnóstico o signo (opcional)" autocomplete="off" spellcheck="false"></label>
+    </div>
+    <p class="src" id="nota-seleccion"></p>
     <label class="grid-label">Modo <select id="modo">${Object.entries(MODOS).map(([v, t]) => `<option value="${v}">${esc(t)}</option>`).join("")}</select></label>
     <p class="src" id="nota-modo"></p>
     <div class="grid-label" role="radiogroup" aria-labelledby="titulo-vidas" id="fila-vidas" hidden><span id="titulo-vidas">Vidas</span>
@@ -292,7 +311,7 @@ async function pantallaCrear() {
     <div class="casillas">
       <label class="row"><input type="checkbox" id="sin-verificar"> Incluir casos sin verificar</label>
       <label class="row" id="fila-mezclar"><input type="checkbox" id="mezclar"> Mezclar el orden de los casos</label>
-      ${hayBorradores ? `<label class="row"><input type="checkbox" id="borradores"> Incluir casos sin publicar (ensayo en esta computadora)</label>` : ""}
+      ${hayBorradores ? `<label class="row" id="fila-borradores"><input type="checkbox" id="borradores"> Incluir casos sin publicar (ensayo en esta computadora)</label>` : ""}
     </div>
     <div class="row"><button class="primary lg" type="submit">Crear sala</button><a class="boton lg" href="sala.html">Cancelar</a></div>
   </form>`;
@@ -301,8 +320,51 @@ async function pantallaCrear() {
   // Solo se toca si cambió el total: si no, se perdería el número escrito.
   let totalPrevio = -1;
   const campo = $("#cuantos");
+  // La selección de varios temas se busca aparte (hay que cargar los temas): «sel.lista» son sus casos
+  // publicados, [{ ruta, paquete, caso }], o null mientras se cargan.
+  const sel = { clave: null, lista: [] };
+  const criterioForm = () => ({
+    segmento: $("#sel-segmento").value, area: $("#sel-segmento").value ? $("#sel-area").value : "",
+    q: $("#sel-q").value.trim().replace(/\s+/g, " ").slice(0, 80),
+  });
+  function pintarAreas() {
+    const segmento = $("#sel-segmento").value;
+    const areas = Object.keys(AREAS[segmento] || {});
+    const previa = $("#sel-area").value || inicial.area;
+    $("#sel-area").innerHTML = `<option value="">Todas</option>${areas.map((a) =>
+      `<option value="${a}" ${a === previa ? "selected" : ""}>${esc(nombreArea(segmento, a))}</option>`).join("")}`;
+    $("#sel-area").disabled = !areas.length;
+  }
+  async function buscarSeleccion() {
+    const c = criterioForm();
+    const clave = consultaDe(c);
+    if (clave === sel.clave) return;
+    sel.clave = clave;
+    if (!hayCriterio(c)) { sel.lista = []; return refrescar(); }
+    sel.lista = null;
+    refrescar();
+    const lista = await casosDeSeleccion(c).catch(() => []);
+    if (sel.clave === clave) { sel.lista = lista; refrescar(); }
+  }
   function refrescar() {
-    const tema = porRuta.get($("#tema").value);
+    const deSeleccion = $("#origen").value === "seleccion";
+    $("#fila-tema").hidden = deSeleccion;
+    $("#fila-seleccion").hidden = !deSeleccion;
+    $("#nota-seleccion").hidden = !deSeleccion;
+    if ($("#fila-borradores")) {
+      $("#fila-borradores").hidden = deSeleccion;
+      if (deSeleccion) $("#borradores").checked = false;
+    }
+    let tema = porRuta.get($("#tema").value);
+    if (deSeleccion) {
+      const lista = sel.lista || [];
+      const temas = new Set(lista.map((x) => x.ruta)).size;
+      tema = { publicados: lista.length, verificados: lista.filter((x) => x.caso.revisor).length, sinPublicar: 0 };
+      $("#nota-seleccion").textContent = sel.lista === null ? "Buscando los casos…"
+        : !hayCriterio(criterioForm()) ? "Elige un segmento o escribe qué buscar."
+        : !lista.length ? "Ningún caso publicado coincide."
+        : `${nombreCriterio(criterioForm())}: ${lista.length} ${lista.length === 1 ? "caso" : "casos"} de ${temas} ${temas === 1 ? "tema" : "temas"}, ${tema.verificados} verificados.`;
+    }
     const borradores = Boolean($("#borradores") && $("#borradores").checked);
     const total = borradores
       ? tema.publicados + tema.sinPublicar
@@ -325,19 +387,29 @@ async function pantallaCrear() {
       supervivencia: "Una vida: quien falla o no responde queda eliminado. Si fallan todos los que siguen, no cae nadie. Gana el último en pie; los casos van del más fácil al más difícil.",
       rescate: `${vidas === 1 ? "Como Supervivencia" : `Como Supervivencia, pero con ${vidas} vidas: cada fallo quita un corazón y se cae al perder el último`}. Cada 3 casos, uno de rescate, más fácil: el eliminado que acierta vuelve${vidas === 1 ? "" : " con un corazón"} (una vez por persona; en el último tercio ya no hay rescates).`,
     }[modo];
-    $("#nota-tanda").textContent = !total
+    const del = deSeleccion ? "de la selección" : "del tema";
+    $("#nota-tanda").textContent = deSeleccion && !tema.publicados ? ""
+      : !total
       ? "Ningún caso cumple el filtro: marca «Incluir casos sin verificar»."
       : modo !== "clasico"
         ? `${cuantos === total ? `Los ${total} casos` : `${cuantos} ${cuantos === 1 ? "caso" : "casos"} al azar entre los ${total}`}, del más fácil al más difícil${modo === "rescate" ? "; los de rescate salen de los que sobran o, si no sobran, de estos" : ""}.`
       : cuantos === total ? (total === 1 ? "La sesión usa el único caso." : `La sesión usa los ${total} casos.`)
       : $("#mezclar").checked ? `${cuantos} ${cuantos === 1 ? "caso" : "casos"} al azar entre los ${total}.`
-      : cuantos === 1 ? `El primero de los ${total} casos del tema; con «Mezclar» sale uno al azar.`
-      : `Los primeros ${cuantos} de los ${total} casos del tema; con «Mezclar» salen al azar.`;
+      : cuantos === 1 ? `El primero de los ${total} casos ${del}; con «Mezclar» sale uno al azar.`
+      : `Los primeros ${cuantos} de los ${total} casos ${del}; con «Mezclar» salen al azar.`;
   }
-  ["#tema", "#modo", "#equipos", "#mezclar", "#sin-verificar", "#borradores"].forEach((sel) => {
-    const control = $(sel);
+  ["#tema", "#modo", "#equipos", "#mezclar", "#sin-verificar", "#borradores"].forEach((selector) => {
+    const control = $(selector);
     if (control) control.onchange = refrescar;
   });
+  $("#origen").onchange = () => { refrescar(); if ($("#origen").value === "seleccion") buscarSeleccion(); };
+  $("#sel-segmento").onchange = () => { $("#sel-area").value = ""; pintarAreas(); buscarSeleccion(); };
+  $("#sel-area").onchange = buscarSeleccion;
+  let espera = 0;
+  $("#sel-q").oninput = () => { clearTimeout(espera); espera = setTimeout(buscarSeleccion, 300); };
+  // Enter en la búsqueda no crea la sala: falta revisar lo demás.
+  $("#sel-q").onkeydown = (e) => { if (e.key === "Enter") { e.preventDefault(); clearTimeout(espera); buscarSeleccion(); } };
+  pintarAreas();
   app.querySelectorAll('input[name="vidas"]').forEach((radio) => { radio.onchange = refrescar; });
   // La nota sigue lo que se escribe; al soltar el campo, lo que quedó fuera de rango se muestra como todos.
   campo.oninput = refrescar;
@@ -350,10 +422,16 @@ async function pantallaCrear() {
     if (e.key === "Enter") { e.preventDefault(); campo.blur(); }
   };
   refrescar();
+  if (pedidoSel) buscarSeleccion();
 
   $("#config").onsubmit = (e) => {
     e.preventDefault();
+    const deSeleccion = $("#origen").value === "seleccion";
+    if (deSeleccion && !sel.lista) return aviso("Espera a que terminen de cargar los casos.");
+    if (deSeleccion && !sel.lista.length) return aviso("Ningún caso coincide: elige otro segmento o cambia la búsqueda.");
     crearSala({
+      seleccion: deSeleccion ? sel.lista : null,
+      criterio: deSeleccion ? criterioForm() : null,
       tema: $("#tema").value,
       duracion: Number($("#duracion").value),
       cuantos: leerTanda(campo),
@@ -385,9 +463,37 @@ async function limpiarSalasViejas() {
   } catch { /* la limpieza es un extra: si falla, se intenta en la próxima sala */ }
 }
 
-async function crearSala({ tema, duracion, cuantos, mezclar, modo, vidas, equipos, borradores, sinVerificar }) {
-  const { paquete: pkg } = await cargarPaquete(tema, { ocultos: true });
-  let casos = pkg.casos.filter((c) => c.estado === "publicado" || borradores);
+// Los casos de un cuestionario armado: los temas que tienen alguno según el índice de casos, cargados y filtrados
+// con la misma regla que la portada y la práctica. Los temas ya cargados se guardan para la próxima búsqueda.
+const temasCargados = new Map();
+let catalogoTemas = null;
+async function casosDeSeleccion(c) {
+  if (!catalogoTemas) {
+    const [temas, indices] = await Promise.all([cargarIndice(), indicesDeCasos()]);
+    catalogoTemas = { temas, indices: indicePorRuta(temas, indices.vivo, indices.estatico) };
+  }
+  const rutas = temasPara(catalogoTemas.temas, catalogoTemas.indices, c);
+  await cargarTemas(rutas, temasCargados);
+  return casosPara(rutas, temasCargados, c);
+}
+
+async function crearSala({ tema, duracion, cuantos, mezclar, modo, vidas, equipos, borradores, sinVerificar, seleccion, criterio }) {
+  // De varios temas: cada caso va con el id «<tema>:<caso>» y se recuerda de qué ruta viene.
+  const rutaDe = new Map();
+  let titulo;
+  let casos;
+  if (seleccion) {
+    casos = seleccion.map(({ ruta, paquete, caso }) => {
+      const id = `${paquete.id}:${caso.id}`;
+      rutaDe.set(id, ruta);
+      return { ...caso, id };
+    });
+    titulo = nombreCriterio(criterio).slice(0, 120);
+  } else {
+    const { paquete: pkg } = await cargarPaquete(tema, { ocultos: true });
+    casos = pkg.casos.filter((c) => c.estado === "publicado" || borradores);
+    titulo = pkg.titulo;
+  }
   if (!sinVerificar && !borradores) casos = casos.filter((c) => c.revisor);
   let rescates = [];
   if (modo !== "clasico") {
@@ -403,6 +509,7 @@ async function crearSala({ tema, duracion, cuantos, mezclar, modo, vidas, equipo
     aviso("No hay casos que cumplan el filtro. Prueba marcando «Incluir casos sin verificar».", true);
     return;
   }
+  const temas = seleccion ? [...new Set(casos.map((c) => rutaDe.get(c.id)))] : null;
   const orden = {};
   for (const c of casos) {
     const indices = c.opciones.map((_, i) => i);
@@ -414,7 +521,8 @@ async function crearSala({ tema, duracion, cuantos, mezclar, modo, vidas, equipo
     try {
       await set(ref(db, `salas/${nuevo}`), {
         info: {
-          host: uid, creada: serverTimestamp(), tema, titulo: pkg.titulo, duracion, casos: casos.map((c) => c.id), orden,
+          host: uid, creada: serverTimestamp(), tema: temas ? temas[0] : tema, ...(temas ? { temas } : {}),
+          titulo, duracion, casos: casos.map((c) => c.id), orden,
           ...(modo !== "clasico" ? { modo } : {}), ...(rescates.length ? { rescates } : {}),
           ...(modo === "rescate" && vidas > 1 ? { vidas } : {}), ...(equipos ? { equipos } : {}),
         },
@@ -468,12 +576,21 @@ async function entrar(c, rol) {
     const yo = await get(ref(db, `salas/${c}/jugadores/${uid}`)).catch(() => null);
     if (!yo || !yo.exists()) return pantallaInicio(c);
   }
+  const varios = Array.isArray(info.temas) && info.temas.length > 0;
+  const rutas = varios ? info.temas : [info.tema];
+  let cargados;
   try {
-    ({ paquete, fuentes, imagen: srcImagen } = await cargarPaquete(info.tema, { ocultos: true }));
+    cargados = await Promise.all(rutas.map((ruta) => cargarPaquete(ruta, { ocultos: true }).then((d) => ({ ruta, ...d }))));
   } catch {
-    return salaSinTema(`La sala ${c} usa un tema que ya no está publicado (${info.tema}).`);
+    return salaSinTema(`La sala ${c} usa un tema que ya no está publicado (${rutas.join(", ")}).`);
   }
-  casoPorId = new Map(paquete.casos.map((caso) => [caso.id, caso]));
+  casoPorId = new Map();
+  for (const o of cargados) {
+    for (const caso of o.paquete.casos) {
+      const id = varios ? `${o.paquete.id}:${caso.id}` : caso.id;
+      casoPorId.set(id, { ...caso, id, _id: caso.id, _o: o });
+    }
+  }
   if (info.casos.some((id) => !casoPorId.has(id))) {
     return salaSinTema(`La sala ${c} usa casos que el tema ya no tiene: se editó después de crearla.`);
   }
@@ -899,7 +1016,7 @@ function hostCaso() {
         ${revelado ? `${datosDelCaso(caso, orden)}
           <div class="exp md"><div class="ans">Respuesta: ${letra}. ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>
           ${caso.perla ? `<div class="pearl md"><b>Perla:</b> ${md(caso.perla)}</div>` : ""}
-          <div class="row">${sello(caso, paquete.personas)}<span class="spacer"></span>
+          <div class="row">${sello(caso, caso._o.paquete.personas)}<span class="spacer"></span>
             <button id="reportar" class="reportar">Reportar un error</button></div>` : ""}
       </div>
     </section>
@@ -928,7 +1045,7 @@ function hostCaso() {
   }
   $("#cerrar").onclick = cerrarSala;
   const botonReporte = $("#reportar");
-  if (botonReporte) botonReporte.onclick = () => reportar(info.tema, caso.id, botonReporte);
+  if (botonReporte) botonReporte.onclick = () => reportar(caso._o.ruta, caso._id, botonReporte);
 }
 
 // Quiénes pueden responder este caso: en la sala clásica y en un rescate, todos; si no, los que siguen en pie.
@@ -1313,7 +1430,7 @@ function jugadorCaso() {
         ${revelado ? "" : `<div class="timer"><i id="bar"></i></div>`}
         <div class="opts">${opciones}</div>
         ${revelado ? `<div class="exp md"><div class="ans">Respuesta: ${LETRAS[orden.indexOf(caso.correcta)]}. ${esc(caso.opciones[caso.correcta])}</div>${md(caso.explicacion)}</div>
-          <div class="row">${sello(caso, paquete.personas)}</div>` : ""}
+          <div class="row">${sello(caso, caso._o.paquete.personas)}</div>` : ""}
       </div>
     </section>`;
   app.querySelectorAll("button.opt").forEach((boton) => {

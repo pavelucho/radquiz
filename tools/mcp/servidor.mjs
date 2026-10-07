@@ -28,7 +28,7 @@ import { promisify } from "node:util";
 import { firebaseConfig } from "../../app/firebase-config.js";
 import {
   validarTema, validarFuente, aPaquete, casosOrdenados, imagenesOrdenadas, lista, LICENCIAS, TIPOS_FUENTE,
-  normalizarDificultad,
+  normalizarDificultad, normalizarClasificacion, clasificacionDe, nombreClasificacion,
 } from "../../app/validacion.js";
 import { leerRespuestaIA, planDeCarga } from "../../app/instrucciones-ia.js";
 import {
@@ -36,6 +36,7 @@ import {
   comprobarLectura, huella, urlDrive,
 } from "../../app/drive.js";
 import { bytesDeDataURL } from "../../app/zip.js";
+import { indiceDePaquete } from "../../app/cuestionario.js";
 
 const ejecutar = promisify(execFile);
 const AQUI = dirname(fileURLToPath(import.meta.url));
@@ -517,6 +518,52 @@ herramienta("casos_dificultad",
     return ["Guardado en el estudio, sin quitar sellos. Falta publicar para que salga en la web («tema_publicar»).", ...informe].join("\n");
   });
 
+herramienta("casos_clasificar",
+  "Pone la clasificación de cada caso (una o más parejas segmento → área de app/areas.js; la primera, la principal), como el panel «Clasificación» del paso 3. No toca el texto ni «actualizado», así que no quita el sello de verificado. Recibe {\"<id del caso>\": [{\"segmento\": \"torax\", \"area\": \"pleura\"}, …]} directamente o en un archivo JSON local con esa forma. Una pareja con un área que no está en la lista se rechaza. Por defecto solo simula.",
+  {
+    tema: TEMA,
+    casos: { type: "object", description: "{\"caso-01\": [{\"segmento\": \"torax\", \"area\": \"pleura\"}], …}" },
+    archivo: { type: "string", description: "Ruta a un JSON con la misma forma que «casos», en vez de pasarlos aquí." },
+    simular: SIMULAR,
+  },
+  ["tema"],
+  async ({ tema, casos, archivo, simular = true }) => {
+    await miPerfil();
+    const t = await leerTema(tema);
+    exigirMio(t);
+    const datos = archivo ? JSON.parse(await readFile(resolve(archivo), "utf8")) : casos;
+    if (!datos || typeof datos !== "object") throw new Error("Pasa «casos» o «archivo».");
+    const desconocidos = Object.keys(datos).filter((id) => !t.casos[id]);
+    if (desconocidos.length) throw new Error(`Estos casos no existen en «${tema}»: ${desconocidos.join(", ")}.`);
+    const cambios = {};
+    const malas = [];
+    for (const [id, valor] of Object.entries(datos)) {
+      const desconocidas = [];
+      const pares = normalizarClasificacion(valor, desconocidas);
+      if (desconocidas.length || !pares.length) { malas.push(`${id} (${desconocidas.join(", ") || "vacía"})`); continue; }
+      if (JSON.stringify(clasificacionDe(t.casos[id], t.meta.segmento)) === JSON.stringify(pares)) continue;
+      cambios[`estudio/${tema}/casos/${id}/clasificacion`] = pares;
+      t.casos[id].clasificacion = pares;
+    }
+    if (malas.length) throw new Error(`Clasificación inválida en: ${malas.join("; ")}. Las áreas están en app/areas.js.`);
+    const reparto = new Map();
+    for (const c of Object.values(t.casos)) {
+      for (const p of clasificacionDe(c, t.meta.segmento)) {
+        const k = nombreClasificacion(p);
+        reparto.set(k, (reparto.get(k) || 0) + 1);
+      }
+    }
+    const v = validarTema(t);
+    const informe = [
+      `Cambia la clasificación de ${Object.keys(cambios).length} casos.`,
+      `Reparto: ${[...reparto].sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k}: ${n}`).join(" · ")}.`,
+      `Validador después: ${v.errores} errores y ${v.avisos} avisos.`,
+    ];
+    if (simular || !Object.keys(cambios).length) return [simular ? "SIMULACIÓN (no se guardó nada):" : "No había nada que cambiar.", ...informe].join("\n");
+    await actualizar({ ...cambios, [`estudio/${tema}/meta/actualizado`]: AHORA });
+    return ["Guardado en el estudio, sin quitar sellos. Falta publicar para que salga en la web («tema_publicar»).", ...informe].join("\n");
+  });
+
 herramienta("fuente_guardar",
   "Corrige la fuente de un cuestionario (paso 1 del estudio). Solo cambia los campos que pases; la verificación de la licencia queda a nombre de quien está conectado y con la fecha de hoy.",
   {
@@ -731,6 +778,7 @@ herramienta("tema_publicar",
     } catch (e) {
       indice = `no se pudo anotar (${e.message}); el tema saldrá cuando el repositorio se ponga al día`;
     }
+    await escribir(`indice_casos/${tema}`, indiceDePaquete({ ...paquete, version })).catch((e) => log("indice_casos", e.message));
     return `Publicado «${t.meta.titulo}» versión ${version}: ${paquete.casos.length} casos. Figuras: ${subidas} subidas, ${reutilizadas} sin cambios, ${papelera} a la papelera de Drive. Índice: ${indice}. Usa «publicacion_comprobar» para revisarlo.`;
   });
 

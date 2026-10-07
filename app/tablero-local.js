@@ -4,7 +4,8 @@
 // marca quién acertó: la app suma o resta, pasa el turno y proyecta la enseñanza del caso (app/diapositivas.js).
 // La partida (nombres de los equipos y puntajes) se guarda solo en este navegador, para aguantar una recarga.
 // De Firebase solo lee lo publicado (app/publicado.js), así que funciona aunque la sala en vivo no conecte.
-import { $, esc, md, credito, barajar, NIVELES, nivelDe } from "./comun.js";
+import { $, esc, md, credito, barajar, NIVELES, nivelDe, SEGMENTOS } from "./comun.js";
+import { AREAS } from "./areas.js";
 import { reportar } from "./reportar.js";
 import { activarAmpliacion } from "./ampliar.js";
 import { cargarIndice as leerIndice, cargarTemas as leerTemas, armarCatalogo as catalogoDe } from "./catalogo.js";
@@ -14,6 +15,10 @@ import {
   maxApuestaFinal, minutos,
 } from "./tablero.js";
 import { diapositivas } from "./diapositivas.js";
+import { indicesDeCasos } from "./publicado.js";
+import {
+  criterioDe, hayCriterio, nombreCriterio, nombreArea, coincide, resumenCaso, indicePorRuta, temasPara,
+} from "./cuestionario.js";
 
 const LETRAS = "ABCDE";
 const GUARDADO = "radquiz.tablero";
@@ -77,8 +82,14 @@ async function cargarIndice() {
 }
 
 const cargarTemas = (rutas) => leerTemas(rutas, datosDe);
-function armarCatalogo(rutas, sinVerificar) {
+// Con un criterio (segmento, área o búsqueda: app/cuestionario.js), solo entran los casos que lo cumplen.
+function armarCatalogo(rutas, sinVerificar, criterio = null) {
   catalogo = catalogoDe(rutas, datosDe, sinVerificar);
+  if (!hayCriterio(criterio)) return;
+  for (const [clave, e] of catalogo) {
+    const paquete = datosDe.get(e.ruta).paquete;
+    if (!coincide(resumenCaso(e.caso, paquete.segmento), criterio, paquete.titulo)) catalogo.delete(clave);
+  }
 }
 
 const datosDeClave = (clave) => datosDe.get(catalogo.get(clave)?.ruta);
@@ -95,12 +106,14 @@ const ALTERNATIVAS = {
 };
 const modoAlternativas = (c) => (ALTERNATIVAS[c?.alternativas] ? c.alternativas : "pedido");
 const evitarDe = (b) => (modoAlternativas(b) === "nunca" ? necesitaOpciones : () => false);
-const tituloDe = (rutas) => (rutas.length === 1 ? datosDe.get(rutas[0])?.paquete.titulo || "Tablero" : `${rutas.length} temas`);
+const tituloDe = (rutas, criterio) => (hayCriterio(criterio) ? nombreCriterio(criterio)
+  : rutas.length === 1 ? datosDe.get(rutas[0])?.paquete.titulo || "Tablero" : `${rutas.length} temas`);
+const SIN_CRITERIO = { segmento: "", area: "", q: "" };
 
 // ------------------------------------------------------------------ armado, paso 1: temas, tamaño y equipos
 const PREDETERMINADO = {
   temas: [], sinVerificar: false, columnas: 4, filas: 4, equipos: ["Equipo 1", "Equipo 2", "Equipo 3"],
-  doble: true, conFinal: true, restar: true, diapositivas: true, alternativas: "pedido",
+  doble: true, conFinal: true, restar: true, diapositivas: true, alternativas: "pedido", criterio: SIN_CRITERIO,
 };
 
 async function pantallaArmado(previo = null) {
@@ -116,7 +129,16 @@ async function pantallaArmado(previo = null) {
     return;
   }
   const b = { ...PREDETERMINADO, ...(previo || {}) };
+  // Desde la portada llega un cuestionario armado (?segmento=…&area=…&q=…): se marcan los temas que tienen
+  // casos que lo cumplen, según el índice de casos.
+  const pedido = criterioDe(new URLSearchParams(location.search));
+  if (!previo && hayCriterio(pedido)) {
+    b.criterio = pedido;
+    const indices = await indicesDeCasos();
+    b.temas = temasPara(indice, indicePorRuta(indice, indices.vivo, indices.estatico), pedido);
+  }
   if (!b.temas.length) b.temas = [(indice.find((p) => p.casos.verificado) || indice[0]).ruta];
+  const c = b.criterio || SIN_CRITERIO;
   const numeros = (desde, hasta, elegido, texto = (n) => n) => Array.from({ length: hasta - desde + 1 }, (_, i) => desde + i)
     .map((n) => `<option value="${n}" ${n === elegido ? "selected" : ""}>${texto(n)}</option>`).join("");
   app.innerHTML = `<form class="panel stack angosto" id="armado" novalidate>
@@ -128,6 +150,16 @@ async function pantallaArmado(previo = null) {
       <div class="casillas">${indice.map((p) => `<label class="row tb-opcion"><input type="checkbox" name="tema" value="${esc(p.ruta)}"
         ${b.temas.includes(p.ruta) ? "checked" : ""}> <span>${esc(p.titulo)}
         <span class="src">· ${p.casos.verificado || 0} verificados de ${p.casos.publicado}</span></span></label>`).join("")}</div>
+    </div>
+    <div class="grid-label" role="group" aria-labelledby="titulo-filtro"><span id="titulo-filtro">Solo casos de <span class="src">(opcional)</span></span>
+      <div class="campos">
+        <label class="grid-label">Segmento <select id="f-segmento"><option value="">Cualquiera</option>${Object.entries(SEGMENTOS).map(([v, t]) =>
+          `<option value="${v}" ${v === c.segmento ? "selected" : ""}>${esc(t)}</option>`).join("")}</select></label>
+        <label class="grid-label">Área <select id="f-area"></select></label>
+        <label class="grid-label">Buscar <input type="search" id="f-q" maxlength="80" value="${esc(c.q)}" placeholder="Diagnóstico o signo"
+          autocomplete="off" spellcheck="false"></label>
+      </div>
+      <p class="src">Con un filtro, cada tema marcado aporta solo los casos que lo cumplen.</p>
     </div>
     <label class="row"><input type="checkbox" id="sin-verificar" ${b.sinVerificar ? "checked" : ""}> Incluir casos sin verificar</label>
     <div class="campos">
@@ -159,6 +191,16 @@ async function pantallaArmado(previo = null) {
     $("#duracion").textContent = `${plural(casillas, "casilla", "casillas")}${conFinal ? " y la ronda final" : ""}: unos `
       + `${minutos(casillas, conFinal, $("#diapositivas").checked)} minutos. Si un grupo tiene menos casos, salen menos casillas.`;
   };
+  const pintarAreas = (previa) => {
+    const segmento = $("#f-segmento").value;
+    const areas = Object.keys(AREAS[segmento] || {});
+    $("#f-area").innerHTML = `<option value="">Todas</option>${areas.map((a) =>
+      `<option value="${a}" ${a === previa ? "selected" : ""}>${esc(nombreArea(segmento, a))}</option>`).join("")}`;
+    $("#f-area").disabled = !areas.length;
+  };
+  pintarAreas(c.area);
+  $("#f-segmento").onchange = () => pintarAreas("");
+  $("#f-q").onkeydown = (e) => { if (e.key === "Enter") e.preventDefault(); };
   pintarNombres(b.equipos);
   duracion();
   $("#n-equipos").onchange = () => pintarNombres(nombres());
@@ -169,6 +211,10 @@ async function pantallaArmado(previo = null) {
     if (!temas.length) return aviso("Elige al menos un tema.");
     armar({
       temas,
+      criterio: {
+        segmento: $("#f-segmento").value, area: $("#f-segmento").value ? $("#f-area").value : "",
+        q: $("#f-q").value.trim().replace(/\s+/g, " ").slice(0, 80),
+      },
       sinVerificar: $("#sin-verificar").checked,
       columnas: Number($("#columnas").value),
       filas: Number($("#filas").value),
@@ -186,13 +232,14 @@ async function armar(b) {
   app.innerHTML = `<p class="muted">Cargando los casos…</p>`;
   await cargarTemas(b.temas);
   const rutas = b.temas.filter((ruta) => datosDe.has(ruta));
-  armarCatalogo(rutas, b.sinVerificar);
+  armarCatalogo(rutas, b.sinVerificar, b.criterio);
   const volver = `<div class="row"><button id="volver">Volver</button></div>`;
   if (!rutas.length || !catalogo.size) {
     app.innerHTML = !rutas.length
       ? panel("No se pudieron cargar los temas", "Revisa la conexión y vuelve a intentarlo.", volver)
-      : panel("Ningún caso cumple el filtro",
-        "Los temas elegidos no tienen casos verificados. Vuelve y marca «Incluir casos sin verificar».", volver);
+      : panel("Ningún caso cumple el filtro", hayCriterio(b.criterio)
+        ? `Ningún caso verificado de los temas elegidos es de «${esc(nombreCriterio(b.criterio))}». Marca otros temas, cambia el filtro o incluye los casos sin verificar.`
+        : "Los temas elegidos no tienen casos verificados. Vuelve y marca «Incluir casos sin verificar».", volver);
     $("#volver").onclick = () => pantallaArmado(b);
     return;
   }
@@ -432,8 +479,9 @@ function empezarPartida() {
   const enJuego = enTablero(columnas);
   config = {
     v: 1,
-    titulo: tituloDe(b.temas),
+    titulo: tituloDe(b.temas, b.criterio),
     temas: b.temas,
+    ...(hayCriterio(b.criterio) ? { criterio: b.criterio } : {}),
     sinVerificar: b.sinVerificar,
     filas: b.filas,
     valores: valores(b.filas),
@@ -885,7 +933,7 @@ function vistaResultado() {
 function nuevaPartida() {
   if (juego && juego.fase !== "resultado" && !confirm("¿Terminar esta partida y armar otra? Se borran los puntajes.")) return;
   const previo = config && {
-    temas: config.temas, sinVerificar: config.sinVerificar, columnas: config.columnas.length, filas: config.filas,
+    temas: config.temas, criterio: config.criterio || SIN_CRITERIO, sinVerificar: config.sinVerificar, columnas: config.columnas.length, filas: config.filas,
     equipos: config.equipos, doble: config.dobles.length > 0, conFinal: Boolean(config.final), restar: config.restar,
     diapositivas: config.diapositivas, alternativas: modoAlternativas(config),
   };
@@ -987,7 +1035,7 @@ async function seguir(guardado) {
   config = guardado.config;
   juego = { ...guardado.juego, historial: Array.isArray(guardado.juego.historial) ? guardado.juego.historial : [] };
   await cargarTemas(config.temas);
-  armarCatalogo(config.temas, config.sinVerificar);
+  armarCatalogo(config.temas, config.sinVerificar, config.criterio);
   if (juego.abierta && !catalogo.has(juego.abierta)) Object.assign(juego, { abierta: null, fase: "tablero" });
   mostrar();
 }

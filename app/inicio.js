@@ -1,8 +1,17 @@
 // RadQuiz — pantalla de inicio: lista los temas por segmento. La lista sale de temas/indice.json,
 // que arma el sitio, más lo que se acaba de publicar en el estudio y el sitio todavía no trae.
+//
+// Arriba, el buscador: un texto (tema, diagnóstico, signo) y botones de segmento y de área con cuántos casos
+// hay. Filtra las tarjetas y arma un cuestionario con los casos que coinciden, de todos los temas, para
+// practicarlo, presentarlo en una sala o jugarlo en el tablero (app/cuestionario.js). Nunca enseña enunciados ni
+// respuestas: solo cuántos casos hay y en qué temas. El criterio queda en la dirección (?segmento=…&q=…).
 import { $, esc, cargarJSON, SEGMENTOS } from "./comun.js";
-import { indiceEnVivo, fusionarIndice } from "./publicado.js";
+import { AREAS } from "./areas.js";
+import { indiceEnVivo, fusionarIndice, indicesDeCasos } from "./publicado.js";
 import { resumenes } from "./avance.js";
+import {
+  criterioDe, consultaDe, nombreCriterio, hayCriterio, contar, indicePorRuta, nombreArea, palabras, SIN_TILDES,
+} from "./cuestionario.js";
 
 const app = $("#app");
 // Lo que el residente respondió en este dispositivo, por tema (app/avance.js). No se pide nada a la red.
@@ -31,7 +40,8 @@ function miAvance(paquete) {
     <span>${texto} · ${Math.round((100 * r.bien) / r.vistos)} % de aciertos</span></div>`;
 }
 
-function tarjeta(paquete) {
+// Con un criterio, «coinciden» dice cuántos casos del tema entran: la tarjeta ofrece practicar solo esos.
+function tarjeta(paquete, coinciden = null) {
   const { publicado = 0, verificado = 0, revisado = 0, borrador = 0 } = paquete.casos || {};
   const ruta = encodeURIComponent(paquete.ruta).replace("%2F", "/");
   const mio = mios.get(paquete.ruta);
@@ -39,6 +49,9 @@ function tarjeta(paquete) {
   const practicar = publicado
     ? `<a class="boton primary" href="practica.html?tema=${ruta}">${empezado ? "Continuar" : "Practicar"} · ${plural(publicado, "caso", "casos")}</a>`
     : `<button disabled>Sin publicar</button>`;
+  const parte = publicado && coinciden && coinciden < publicado
+    ? `<a class="boton" href="${enlace("practica.html", criterio, `tema=${ruta}`)}">${coinciden === 1 ? "Solo el que coincide" : `Solo los ${coinciden} que coinciden`}</a>`
+    : "";
   const pendientes = borrador + revisado;
   const revisar = pendientes
     ? `<a class="src" href="practica.html?tema=${ruta}&amp;revision=1">Ver ${pendientes} casos sin publicar (revisores)</a>`
@@ -49,7 +62,7 @@ function tarjeta(paquete) {
     <h4>${esc(paquete.titulo)}</h4>
     ${medidor(publicado, Math.min(verificado, publicado))}
     ${miAvance(paquete)}
-    <div class="row acciones">${practicar}</div>
+    <div class="row acciones">${practicar}${parte}</div>
     ${revisar}
   </article>`;
 }
@@ -72,6 +85,109 @@ function continuar(paquetes) {
   </section>`;
 }
 
+let paquetes = [];
+let indices = new Map();        // ruta → índice de casos del tema, o null si no tiene
+let criterio = criterioDe(new URLSearchParams(location.search));
+let conteo = null;
+
+const enlace = (pagina, c, extra = "") => `${pagina}?${[extra, consultaDe(c)].filter(Boolean).join("&")}`;
+
+// El buscador se dibuja una vez; los botones, el resumen y las tarjetas, cada vez que cambia algo.
+function dibujarBuscador() {
+  return `<section class="panel buscador" aria-label="Buscar y armar un cuestionario">
+    <label class="buscar"><span class="visualmente-oculto">Buscar</span>
+      <input type="search" id="q" placeholder="Busca un tema, un diagnóstico o un signo" value="${esc(criterio.q)}"
+        autocomplete="off" spellcheck="false" enterkeyhint="search"></label>
+    <div class="filtros" id="segmentos" role="group" aria-label="Segmento"></div>
+    <div class="filtros areas" id="areas" role="group" aria-label="Área" hidden></div>
+    <div class="armado" id="armado" aria-live="polite" hidden></div>
+  </section>
+  <div id="continuar"></div>
+  <div class="stack segmentos" id="lista"></div>`;
+}
+
+function boton(valor, texto, n, activo, tipo) {
+  return `<button type="button" class="filtro" data-${tipo}="${esc(valor)}" aria-pressed="${activo}">${esc(texto)}${
+    n === null ? "" : ` <span class="n">${n}</span>`}</button>`;
+}
+
+function pintarFiltros() {
+  conteo = contar(paquetes, indices, criterio);
+  const orden = Object.keys(SEGMENTOS).filter((s) => conteo.porSegmento[s] || s === criterio.segmento);
+  $("#segmentos").innerHTML = boton("", "Todos", null, !criterio.segmento, "segmento")
+    + orden.map((s) => boton(s, SEGMENTOS[s], conteo.porSegmento[s] || 0, s === criterio.segmento, "segmento")).join("");
+  const areas = criterio.segmento ? Object.keys(AREAS[criterio.segmento] || {})
+    .filter((a) => conteo.porArea[`${criterio.segmento}/${a}`] || a === criterio.area) : [];
+  $("#areas").hidden = !areas.length;
+  $("#areas").innerHTML = areas.length ? boton("", `Todo ${SEGMENTOS[criterio.segmento]}`, null, !criterio.area, "area")
+    + areas.map((a) => boton(a, nombreArea(criterio.segmento, a), conteo.porArea[`${criterio.segmento}/${a}`] || 0, a === criterio.area, "area")).join("") : "";
+  app.querySelectorAll("[data-segmento]").forEach((b) => {
+    b.onclick = () => cambiar({ segmento: b.dataset.segmento, area: "" });
+  });
+  app.querySelectorAll("[data-area]").forEach((b) => {
+    b.onclick = () => cambiar({ area: b.dataset.area });
+  });
+}
+
+// El cuestionario armado: cuántos casos y de cuántos temas, y adónde llevarlo.
+function pintarArmado() {
+  const caja = $("#armado");
+  caja.hidden = !hayCriterio(criterio);
+  if (caja.hidden) return;
+  const porTema = Object.entries(conteo.porTema).filter(([, n]) => n > 0);
+  const total = porTema.reduce((n, [, k]) => n + k, 0);
+  const cargando = !indices.size;
+  if (!total) {
+    caja.innerHTML = `<p><b>${esc(nombreCriterio(criterio))}</b>: ${cargando ? "buscando…" : "ningún caso coincide."}</p>
+      ${palabras(criterio.q).length && !cargando ? `<p class="src">Prueba con menos palabras o con otra forma de escribirlo (sin tildes también vale).</p>` : ""}`;
+    return;
+  }
+  caja.innerHTML = `<div class="crece"><span class="src">Cuestionario armado</span>
+      <p><b>${esc(nombreCriterio(criterio))}</b>: ${plural(total, "caso", "casos")} de ${plural(porTema.length, "tema", "temas")}</p></div>
+    <div class="row">
+      <a class="boton primary" href="${enlace("practica.html", criterio)}">Practicar</a>
+      <a class="boton" href="${enlace("sala.html", criterio, "crear=1")}">Presentar en una sala</a>
+      <a class="boton" href="${enlace("tablero.html", criterio)}">Tablero</a>
+    </div>`;
+}
+
+function pintarTemas() {
+  const filtrando = hayCriterio(criterio);
+  const visibles = filtrando ? paquetes.filter((p) => conteo.porTema[p.ruta] > 0
+    || (!criterio.segmento && palabras(criterio.q).every((w) => SIN_TILDES(p.titulo).includes(w)))) : paquetes;
+  const porSegmento = new Map();
+  for (const paquete of visibles) {
+    if (!porSegmento.has(paquete.segmento)) porSegmento.set(paquete.segmento, []);
+    porSegmento.get(paquete.segmento).push(paquete);
+  }
+  $("#continuar").innerHTML = filtrando ? "" : continuar(paquetes);
+  if (!porSegmento.size) {
+    $("#lista").innerHTML = filtrando ? "" : `<p class="muted">Todavía no hay temas.</p>`;
+    return;
+  }
+  const orden = Object.keys(SEGMENTOS).filter((s) => porSegmento.has(s));
+  $("#lista").innerHTML = orden.map((s) => `
+    <section class="segmento">
+      <h3 class="segmento-titulo">${esc(SEGMENTOS[s])} <span class="n">${porSegmento.get(s).length}</span></h3>
+      <div class="temas">${porSegmento.get(s).map((p) => tarjeta(p, filtrando ? conteo.porTema[p.ruta] || 0 : null)).join("")}</div>
+    </section>`).join("");
+}
+
+function pintar() {
+  pintarFiltros();
+  pintarArmado();
+  pintarTemas();
+  requestAnimationFrame(centrarMira);
+}
+
+function cambiar(cambios) {
+  criterio = { ...criterio, ...cambios };
+  if (!criterio.segmento) criterio.area = "";
+  const consulta = consultaDe(criterio);
+  history.replaceState(null, "", consulta ? `?${consulta}#temas` : location.pathname);
+  pintar();
+}
+
 async function iniciar() {
   const [indice, vivo] = await Promise.all([
     cargarJSON("temas/indice.json").catch(() => null),
@@ -82,25 +198,27 @@ async function iniciar() {
       <p class="muted" style="margin-top:8px">Falta <code>temas/indice.json</code>. Se genera con <code>tools/validar --indice</code>.</p></section>`;
     return;
   }
-  const porSegmento = new Map();
-  const paquetes = fusionarIndice(indice?.paquetes || [], vivo);
-  for (const paquete of paquetes) {
-    if (!porSegmento.has(paquete.segmento)) porSegmento.set(paquete.segmento, []);
-    porSegmento.get(paquete.segmento).push(paquete);
-  }
-  if (!porSegmento.size) {
+  paquetes = fusionarIndice(indice?.paquetes || [], vivo);
+  if (!paquetes.length) {
     app.innerHTML = `<p class="muted">Todavía no hay temas.</p>`;
     return;
   }
   const casos = paquetes.reduce((n, p) => n + (p.casos?.publicado || 0), 0);
   const verificados = paquetes.reduce((n, p) => n + Math.min(p.casos?.verificado || 0, p.casos?.publicado || 0), 0);
   $("#resumen").textContent = `${plural(paquetes.length, "tema", "temas")} · ${plural(casos, "caso", "casos")} · ${verificados} verificados`;
-  const orden = Object.keys(SEGMENTOS).filter((s) => porSegmento.has(s));
-  app.innerHTML = `${continuar(paquetes)}<div class="stack segmentos">${orden.map((s) => `
-    <section class="segmento">
-      <h3 class="segmento-titulo">${esc(SEGMENTOS[s])} <span class="n">${porSegmento.get(s).length}</span></h3>
-      <div class="temas">${porSegmento.get(s).map(tarjeta).join("")}</div>
-    </section>`).join("")}</div>`;
+  app.innerHTML = dibujarBuscador();
+  let espera = 0;
+  $("#q").oninput = (e) => {
+    clearTimeout(espera);
+    espera = setTimeout(() => cambiar({ q: e.target.value.trim().replace(/\s+/g, " ").slice(0, 80) }), 160);
+  };
+  $("#q").onkeydown = (e) => { if (e.key === "Enter") e.target.blur(); };
+  pintar();
+  // El índice de casos llega después: mientras, los conteos son los de cada tema entero.
+  const { vivo: casosVivos, estatico } = await indicesDeCasos();
+  const publicados = paquetes.filter((p) => p.casos?.publicado);
+  indices = indicePorRuta(publicados, casosVivos, estatico);
+  pintar();
 }
 
 // Fondo animado: la mira se centra en la casilla del código y el fondo baja un poco más que ella, sin pasar del

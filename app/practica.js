@@ -4,8 +4,15 @@
 // El avance queda en este dispositivo (app/avance.js): qué casos se respondieron y la tanda en curso, que se
 // retoma al volver. Dos modos: con alternativas, y sin ellas —se piensa la respuesta, se revela y uno mismo marca
 // si acertó—. Un caso con «requiere_opciones» sale siempre con sus opciones.
+//
+// Con ?segmento=…&area=…&q=… (y opcionalmente ?tema=… para un solo tema) es un cuestionario armado con casos de
+// varios temas (app/cuestionario.js). Cada caso sabe de qué tema viene (su «origen»): de ahí salen sus figuras,
+// sus fuentes y su avance, que se guarda en la clave de su tema como si se hubiera practicado ahí. La tanda en
+// curso del cuestionario armado va aparte, en una clave propia por criterio.
 import { $, esc, md, credito, barajar, sello, leerTanda, totalTanda } from "./comun.js";
-import { cargarPaquete } from "./publicado.js";
+import { cargarPaquete, indicesDeCasos } from "./publicado.js";
+import { cargarIndice, cargarTemas } from "./catalogo.js";
+import { criterioDe, hayCriterio, consultaDe, nombreCriterio, indicePorRuta, temasPara, casosPara } from "./cuestionario.js";
 import { reportar } from "./reportar.js";
 import { activarAmpliacion } from "./ampliar.js";
 import {
@@ -16,10 +23,16 @@ const LETRAS = "ABCDE";
 const params = new URLSearchParams(location.search);
 const tema = params.get("tema") || "";
 const revision = params.get("revision") === "1";
+const criterio = criterioDe(params);
+const mezcla = !revision && hayCriterio(criterio);   // cuestionario armado por segmento, área o búsqueda
+const CLAVE_MEZCLA = `mezcla:${tema ? `${tema}?` : ""}${consultaDe(criterio)}`;
+const DEL = mezcla ? "de la selección" : "del tema";
 const app = $("#app");
 
-let paquete, fuentes, base;
-let srcImagen = () => "";
+let titulo = "";
+let base;                // los casos publicados (o, en revisión, todos), cada uno con su origen en «_o»
+const origenes = new Map();   // ruta → { ruta, paquete, fuentes, imagen, avance, todos }
+const tocados = new Set();    // rutas cuyo avance cambió en esta visita
 let disponibles = [];   // los casos del tema que pasan el filtro «Solo verificados»
 let casos = [];         // la tanda que se está practicando
 let totalPrevio = -1;
@@ -27,7 +40,7 @@ let actual = 0;
 let creada = 0;         // cuándo empezó la tanda: lo respondido antes es de otra vuelta
 let retomada = false;   // la tanda viene de una visita anterior: se avisa una vez
 let modo = leerModo();  // "alt": con alternativas · "sin": sin alternativas
-let avance = { casos: {}, tanda: null, resumen: null };
+let avance = { casos: {}, tanda: null, resumen: null };   // la tanda en curso (en un solo tema, también su avance)
 const orden = new Map();       // id del caso → índices originales en el orden mostrado
 const respuestas = new Map();  // id del caso → { m: "alt", elegida } | { m: "sin", ok }, en esta tanda
 const reveladas = new Set();   // sin alternativas: casos con la respuesta a la vista que falta calificar
@@ -37,14 +50,45 @@ const acerto = (caso) => {
   const r = respuestas.get(caso.id);
   return r ? (r.m === "sin" ? r.ok : r.elegida === caso.correcta) : false;
 };
-const estado = (caso) => estadoDe(caso, avance.casos[caso.id]);
+const estado = (caso) => estadoDe(caso, caso._o.avance.casos[caso._id]);
+
+// Cuántos de la lista se respondieron y cuántos bien, cada uno según el avance de su tema.
+function contarLista(lista) {
+  let vistos = 0;
+  let bien = 0;
+  for (const caso of lista) {
+    const e = estado(caso);
+    if (e) vistos += 1;
+    if (e === "bien") bien += 1;
+  }
+  return { vistos, bien, total: lista.length };
+}
 
 // En revisión no se guarda nada: el revisor mira borradores, no practica.
 function guardar() {
   if (revision) return;
-  avance.tanda = { ids: casos.map((c) => c.id), i: actual, creada, cuales: $("#cuales").value };
-  avance.resumen = { ...contar(base, avance), titulo: paquete.titulo, t: Date.now() };
-  guardarAvance(tema, avance);
+  const tanda = { ids: casos.map((c) => c.id), i: actual, creada, cuales: $("#cuales").value };
+  if (!mezcla) {
+    const o = [...origenes.values()][0];
+    o.avance.tanda = tanda;
+    o.avance.resumen = { ...contar(o.todos, o.avance), titulo: o.paquete.titulo, t: Date.now() };
+    guardarAvance(o.ruta, o.avance);
+    return;
+  }
+  // Cada tema guarda lo suyo (y la portada lo cuenta); la tanda armada va en su propia clave.
+  for (const ruta of tocados) {
+    const o = origenes.get(ruta);
+    o.avance.resumen = { ...contar(o.todos, o.avance), titulo: o.paquete.titulo, t: Date.now() };
+    guardarAvance(ruta, o.avance);
+  }
+  tocados.clear();
+  avance.tanda = tanda;
+  guardarAvance(CLAVE_MEZCLA, avance);
+}
+
+function anotarCaso(caso, respuesta) {
+  anotar(caso._o.avance, { id: caso._id }, respuesta);
+  tocados.add(caso._o.ruta);
 }
 
 function ordenDe(caso) {
@@ -55,15 +99,16 @@ function ordenDe(caso) {
   return orden.get(caso.id);
 }
 
-function visor(refs) {
+function visor(caso, refs) {
   if (!refs.length) return "";
+  const o = caso._o;
   return `<div class="viewer">${refs.map((ref) => {
-    const imagen = paquete.imagenes[ref.ref];
+    const imagen = o.paquete.imagenes[ref.ref];
     if (!imagen) return `<p class="cap">Falta la imagen ${esc(ref.ref)}</p>`;
-    const src = srcImagen(ref.ref);
+    const src = o.imagen(ref.ref);
     return `<figure>
       <img src="${esc(src)}" alt="${esc(imagen.figura)}" data-zoom>
-      <figcaption class="cap"><span>${credito(imagen, fuentes[imagen.fuente])}</span><span>Toca para ampliar</span></figcaption>
+      <figcaption class="cap"><span>${credito(imagen, o.fuentes[imagen.fuente])}</span><span>Toca para ampliar</span></figcaption>
     </figure>`;
   }).join("")}</div>`;
 }
@@ -76,8 +121,8 @@ function marcador() {
   chip.textContent = `${bien}/${hechas.length} correctas`;
 }
 
-function fichaImagen(ref) {
-  const imagen = paquete.imagenes[ref];
+function fichaImagen(o, ref) {
+  const imagen = o.paquete.imagenes[ref];
   if (!imagen) return "";
   const dato = (v, clave) => (clave ? (v === null ? `<span class="sin-dato">no consta</span>` : esc(v)) : `<span class="nota">pendiente</span>`);
   const filas = (imagen.paneles || []).map((p) => `<tr>
@@ -101,11 +146,11 @@ function panelRevision(caso) {
   const clave = `${enPantalla} en pantalla (${LETRAS[caso.correcta]} en el archivo)`;
   return `<section class="revision">
     <h3>Para el revisor</h3>
-    <p class="src">${esc(tema)}/${esc(caso.id)} · estado ${esc(caso.estado)} ·
+    <p class="src">${esc(caso._o.ruta)}/${esc(caso._id)} · estado ${esc(caso.estado)} ·
       tipo ${esc(caso.tipo)} · clave ${clave} · autor ${esc(caso.autor)}${caso.revisor ? ` · revisor ${esc(caso.revisor)}` : ""}</p>
     ${caso.notas_revision ? `<p class="nota">Nota: ${esc(caso.notas_revision)}</p>` : ""}
     <details open><summary>Evidencia (${(caso.evidencia || []).length})</summary><div style="display:grid;gap:8px">${evidencia}</div></details>
-    ${caso.imagenes.length ? `<details><summary>Ficha técnica</summary><div style="display:grid;gap:14px">${caso.imagenes.map((r) => fichaImagen(r.ref)).join("")}</div></details>` : ""}
+    ${caso.imagenes.length ? `<details><summary>Ficha técnica</summary><div style="display:grid;gap:14px">${caso.imagenes.map((r) => fichaImagen(caso._o, r.ref)).join("")}</div></details>` : ""}
   </section>`;
 }
 
@@ -133,7 +178,7 @@ function bloqueLibre(caso, revelado) {
 }
 
 function leyendasDe(caso) {
-  return caso.imagenes.map((r) => paquete.imagenes[r.ref]).filter((i) => i && i.leyenda_original)
+  return caso.imagenes.map((r) => caso._o.paquete.imagenes[r.ref]).filter((i) => i && i.leyenda_original)
     .map((i) => `<details><summary>Leyenda original · ${esc(i.figura)}</summary><p>${esc(i.leyenda_original)}</p></details>`).join("");
 }
 
@@ -171,7 +216,7 @@ function vistaCaso() {
   }
 
   const ultima = actual === casos.length - 1;
-  const delTema = contar(base, avance);
+  const delTema = contarLista(base);
   const teclas = libre
     ? (revelado ? (resp ? "<kbd>→</kbd> siguiente" : "<kbd>1</kbd> acerté · <kbd>2</kbd> fallé")
       : "<kbd>Enter</kbd> ver respuesta · <kbd>→</kbd> siguiente")
@@ -184,12 +229,13 @@ function vistaCaso() {
     <div class="qhead">
       <span class="qnum">${actual + 1}<small> / ${casos.length}</small></span>
       ${revelado ? `<span class="tema">${esc(caso.tema)}</span>` : ""}
-      ${caso.estado !== "publicado" ? `<span class="badge borrador">${esc(caso.estado)}</span>` : sello(caso, paquete.personas)}
-      ${revision ? "" : `<span class="spacer"></span><span class="src avance-tema" title="Casos del tema que ya respondiste en este dispositivo">
-        Tema · ${delTema.vistos} de ${delTema.total}</span>`}
+      ${revelado && mezcla ? `<span class="src">${esc(caso._o.paquete.titulo)}</span>` : ""}
+      ${caso.estado !== "publicado" ? `<span class="badge borrador">${esc(caso.estado)}</span>` : sello(caso, caso._o.paquete.personas)}
+      ${revision ? "" : `<span class="spacer"></span><span class="src avance-tema" title="Casos ${DEL} que ya respondiste en este dispositivo">
+        ${mezcla ? "Selección" : "Tema"} · ${delTema.vistos} de ${delTema.total}</span>`}
     </div>
     <section class="stage ${refs.length ? "" : "sin-imagen"}">
-      ${visor(refs)}
+      ${visor(caso, refs)}
       <div class="pregunta">
         <div class="stem md">${md(caso.enunciado)}</div>
         ${modo === "sin" && !libre && !resp ? `<p class="src">Esta pregunta necesita ver las opciones.</p>` : ""}
@@ -219,7 +265,7 @@ function vistaCaso() {
   if ($("#falle")) $("#falle").onclick = () => calificar(false);
   if ($("#otra-tanda")) $("#otra-tanda").onclick = () => { retomada = false; empezar(); };
   const botonReporte = $("#reportar");
-  if (botonReporte) botonReporte.onclick = () => reportar(tema, caso.id, botonReporte);
+  if (botonReporte) botonReporte.onclick = () => reportar(caso._o.ruta, caso._id, botonReporte);
   $("#anterior").onclick = () => ir(actual - 1);
   $("#siguiente").onclick = () => (ultima ? resultado() : ir(actual + 1));
   marcador();
@@ -229,7 +275,7 @@ function vistaCaso() {
 // Descarga de antemano las imágenes del caso siguiente, para que la red lenta no frene la clase.
 function precargar(caso) {
   for (const ref of caso?.imagenes || []) {
-    const src = srcImagen(ref.ref);
+    const src = caso._o.imagen(ref.ref);
     if (src) new Image().src = src;
   }
 }
@@ -238,7 +284,7 @@ function responder(original) {
   const caso = casos[actual];
   if (respuestas.has(caso.id)) return;
   respuestas.set(caso.id, { m: "alt", elegida: original });
-  anotar(avance, caso, { m: "alt", r: huella(caso.opciones[original]) });
+  anotarCaso(caso, { m: "alt", r: huella(caso.opciones[original]) });
   guardar();
   vistaCaso();
 }
@@ -255,7 +301,7 @@ function calificar(ok) {
   const caso = casos[actual];
   if (respuestas.has(caso.id) || !reveladas.has(caso.id)) return;
   respuestas.set(caso.id, { m: "sin", ok });
-  anotar(avance, caso, { m: "sin", ok, c: huella(caso.opciones[caso.correcta]) });
+  anotarCaso(caso, { m: "sin", ok, c: huella(caso.opciones[caso.correcta]) });
   guardar();
   vistaCaso();
 }
@@ -269,9 +315,10 @@ function ir(indice) {
 }
 
 function borrarMiAvance() {
-  if (!confirm(`¿Borrar tu avance en «${paquete.titulo}»? Se olvida qué casos respondiste en este dispositivo.`)) return;
-  borrarAvance(tema);
-  avance = { casos: {}, tanda: null, resumen: null };
+  const o = [...origenes.values()][0];
+  if (!confirm(`¿Borrar tu avance en «${o.paquete.titulo}»? Se olvida qué casos respondiste en este dispositivo.`)) return;
+  borrarAvance(o.ruta);
+  o.avance = avance = { casos: {}, tanda: null, resumen: null };
   $("#cuales").value = "faltan";
   empezar();
 }
@@ -279,10 +326,10 @@ function borrarMiAvance() {
 // Lo que el residente lleva del tema, con la nota de que vive en este dispositivo.
 function lineaDelTema() {
   if (revision) return "";
-  const t = contar(disponibles, avance);
+  const t = contarLista(disponibles);
   const porcentaje = t.vistos ? Math.round((100 * t.bien) / t.vistos) : 0;
   return `<div class="medidor"><div class="barra"><i style="width:${t.total ? (100 * t.vistos) / t.total : 0}%"></i></div>
-    <span>Del tema: ${t.vistos} de ${t.total} casos respondidos${t.vistos ? ` · ${porcentaje} % de aciertos` : ""}.
+    <span>${mezcla ? "De la selección" : "Del tema"}: ${t.vistos} de ${t.total} casos respondidos${t.vistos ? ` · ${porcentaje} % de aciertos` : ""}.
     ${hayAlmacenamiento ? "Se guarda en este dispositivo." : "Este navegador no guarda el avance (ventana privada o datos bloqueados)."}</span></div>`;
 }
 
@@ -300,8 +347,8 @@ function botonesSeguir(falladasTanda = []) {
     ${faltan ? `<button class="primary" id="seguir">${cuantos < faltan ? `Seguir con ${cuantos} de los ${faltan} que faltan` : `Seguir con los ${faltan} que faltan`}</button>`
       : `<button class="primary" id="vuelta">Otra vuelta con todos</button>`}
     ${falladasTanda.length ? `<button id="falladas">Repasar las ${falladasTanda.length} falladas de esta tanda</button>` : ""}
-    ${falladasTema > falladasTanda.length ? `<button id="falladas-tema">Repasar las ${falladasTema} falladas del tema</button>` : ""}
-    ${!revision && Object.keys(avance.casos).length ? `<button class="peligrosa" id="borrar-avance">Borrar mi avance</button>` : ""}
+    ${falladasTema > falladasTanda.length ? `<button id="falladas-tema">Repasar las ${falladasTema} falladas ${DEL}</button>` : ""}
+    ${!revision && !mezcla && Object.keys(avance.casos).length ? `<button class="peligrosa" id="borrar-avance">Borrar mi avance</button>` : ""}
   </div>`;
 }
 
@@ -328,11 +375,11 @@ function resultado() {
   const porcentaje = hechas.length ? Math.round((100 * bien) / hechas.length) : 0;
   const completo = !revision && disponibles.length && disponibles.every((c) => estado(c));
   app.innerHTML = `<section class="panel resultado">
-    <span class="tema">${esc(paquete.titulo)}</span>
+    <span class="tema">${esc(titulo)}</span>
     <div class="big">${bien}<small> / ${hechas.length}</small></div>
     <div class="medidor"><div class="barra"><i style="width:${porcentaje}%"></i></div>
       <span>${porcentaje} % de aciertos · ${hechas.length} respondidas de ${casos.length} en esta tanda.</span></div>
-    ${completo ? `<p class="completo">Respondiste todos los casos del tema.</p>` : ""}
+    ${completo ? `<p class="completo">Respondiste todos los casos ${DEL}.</p>` : ""}
     ${lineaDelTema()}
     ${botonesSeguir(falladas)}
   </section>`;
@@ -341,10 +388,10 @@ function resultado() {
 
 // No queda nada en el grupo elegido: el tema está terminado, o no hay falladas.
 function nadaQueMostrar(cuales) {
-  const texto = cuales === "falladas" ? "No tienes casos fallados en este tema."
-    : `Respondiste los ${disponibles.length} casos del tema.`;
+  const texto = cuales === "falladas" ? `No tienes casos fallados en ${mezcla ? "esta selección" : "este tema"}.`
+    : `Respondiste los ${disponibles.length} casos ${DEL}.`;
   app.innerHTML = `<section class="panel resultado">
-    <span class="tema">${esc(paquete.titulo)}</span>
+    <span class="tema">${esc(titulo)}</span>
     <p class="completo">${texto}</p>
     ${lineaDelTema()}
     ${botonesSeguir()}
@@ -353,8 +400,10 @@ function nadaQueMostrar(cuales) {
   marcador();
 }
 
-// Elige «cuantos» casos al azar, pero los deja en el orden del tema.
+// Elige «cuantos» casos al azar, pero los deja en el orden del tema. Una selección de varios temas no tiene
+// orden propio: sale mezclada, para no pasar un tema entero antes que el siguiente.
 function tanda(lista, cuantos) {
+  if (mezcla) return barajar(lista).slice(0, cuantos || lista.length);
   if (!cuantos || cuantos >= lista.length) return lista;
   const elegidos = new Set(barajar(lista.map((_, i) => i)).slice(0, cuantos));
   return lista.filter((_, i) => elegidos.has(i));
@@ -397,7 +446,7 @@ function empezar() {
   creada = Date.now();
   if (!casos.length) {
     if (!disponibles.length) {
-      app.innerHTML = `<section class="panel"><p>Este tema todavía no tiene casos verificados por un radiólogo.
+      app.innerHTML = `<section class="panel"><p>${mezcla ? "Esta selección" : "Este tema"} todavía no tiene casos verificados por un radiólogo.
         Quita el filtro «Solo verificados» para practicar con los demás.</p></section>`;
       marcador();
       return;
@@ -417,7 +466,7 @@ function retomar() {
   const lista = t.ids.map((id) => porId.get(id)).filter(Boolean);
   if (!lista.length) return false;
   for (const caso of lista) {
-    const r = avance.casos[caso.id];
+    const r = caso._o.avance.casos[caso._id];
     if (!r || r.t < (t.creada || 0) || !estado(caso)) continue;
     if (r.m === "sin") respuestas.set(caso.id, { m: "sin", ok: r.ok });
     else respuestas.set(caso.id, { m: "alt", elegida: caso.opciones.findIndex((o) => huella(o) === r.r) });
@@ -439,7 +488,7 @@ function retomar() {
   return true;
 }
 
-function sinCasos() {
+function sinCasos(paquete) {
   const enlace = `practica.html?tema=${encodeURIComponent(tema).replace("%2F", "/")}&amp;revision=1`;
   app.innerHTML = `<section class="panel" style="display:grid;gap:10px;max-width:680px">
     <h2>${esc(paquete.titulo)}</h2>
@@ -448,24 +497,77 @@ function sinCasos() {
   </section>`;
 }
 
-async function iniciar() {
+// El origen de cada caso: su tema, con sus figuras, sus fuentes y su avance en este dispositivo.
+function origen(ruta, datos) {
+  const o = {
+    ruta, paquete: datos.paquete, fuentes: datos.fuentes, imagen: datos.imagen,
+    avance: revision ? { casos: {}, tanda: null, resumen: null } : leerAvance(ruta),
+  };
+  o.todos = datos.paquete.casos.filter((c) => c.estado === "publicado");
+  origenes.set(ruta, o);
+  return o;
+}
+
+// Un solo tema, como siempre: los ids de los casos son los del tema.
+async function cargarUnTema() {
   if (!/^[a-z0-9-]+\/[a-z0-9-]+$/.test(tema)) {
     app.innerHTML = `<section class="panel"><p>Falta el tema. <a href="./">Volver a la lista</a>.</p></section>`;
-    return;
+    return false;
   }
+  let datos;
   try {
-    ({ paquete, fuentes, imagen: srcImagen } = await cargarPaquete(tema));
+    datos = await cargarPaquete(tema);
   } catch (e) {
     app.innerHTML = `<section class="panel"><p>No se pudo cargar el tema: ${esc(e.message)}</p></section>`;
-    return;
+    return false;
   }
-  document.title = `${paquete.titulo} · RadQuiz`;
-  $("#subtitulo").textContent = paquete.titulo;
-  $("#modo").textContent = revision ? "Revisión · incluye borradores" : "Práctica";
+  const o = origen(tema, datos);
+  titulo = datos.paquete.titulo;
+  base = datos.paquete.casos.filter((c) => revision || c.estado === "publicado")
+    .map((c) => Object.assign(c, { _o: o, _id: c.id }));
+  if (!base.length) {
+    sinCasos(datos.paquete);
+    return false;
+  }
+  avance = o.avance;
+  return true;
+}
+
+// Un cuestionario armado: los temas que tienen algún caso del criterio (según el índice de casos) y, de ellos,
+// los casos que lo cumplen. Los ids pasan a ser «<tema>/<caso>», porque dos temas pueden repetir un id.
+async function cargarMezcla() {
+  app.innerHTML = `<p class="muted">Armando el cuestionario…</p>`;
+  let rutas;
+  if (tema) {
+    rutas = [tema];
+  } else {
+    const [temas, indices] = await Promise.all([cargarIndice(), indicesDeCasos()]);
+    rutas = temasPara(temas, indicePorRuta(temas, indices.vivo, indices.estatico), criterio);
+  }
+  const datosDe = new Map();
+  await cargarTemas(rutas, datosDe);
+  for (const ruta of rutas) if (datosDe.has(ruta)) origen(ruta, datosDe.get(ruta));
+  base = casosPara(rutas, datosDe, criterio).map(({ ruta, paquete, caso }) =>
+    ({ ...caso, id: `${paquete.id}/${caso.id}`, _id: caso.id, _o: origenes.get(ruta) }));
+  titulo = nombreCriterio(criterio) + (tema && origenes.has(tema) ? ` · ${origenes.get(tema).paquete.titulo}` : "");
+  if (!base.length) {
+    app.innerHTML = `<section class="panel" style="display:grid;gap:10px;max-width:680px">
+      <h2>${esc(nombreCriterio(criterio))}</h2>
+      <p>${rutas.length && !datosDe.size ? "No se pudieron cargar los temas: revisa la conexión y vuelve a intentarlo."
+        : "Ningún caso publicado coincide con esta búsqueda."}</p>
+      <p><a href="./?${consultaDe(criterio)}#temas">Volver a buscar</a></p></section>`;
+    return false;
+  }
+  avance = leerAvance(CLAVE_MEZCLA);
+  return true;
+}
+
+async function iniciar() {
+  if (!(mezcla ? await cargarMezcla() : await cargarUnTema())) return;
+  document.title = `${titulo} · RadQuiz`;
+  $("#subtitulo").textContent = titulo;
+  $("#modo").textContent = revision ? "Revisión · incluye borradores" : mezcla ? `Práctica · ${origenes.size === 1 ? "1 tema" : `${origenes.size} temas`}` : "Práctica";
   if (revision) $("#modo").classList.add("live");
-  base = paquete.casos.filter((c) => revision || c.estado === "publicado");
-  if (!base.length) return sinCasos();
-  if (!revision) avance = leerAvance(tema);
   $("#modo-respuesta").value = modo;
   $("#modo-respuesta").onchange = () => {
     modo = $("#modo-respuesta").value;

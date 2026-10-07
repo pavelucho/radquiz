@@ -547,6 +547,27 @@ blockquote { margin: 4px 0; padding: 8px 14px; font-size: 15px; color: var(--tin
 .continuar .crece { flex: 1 1 260px; display: grid; gap: 6px; }
 .continuar b { color: var(--tinta); }
 
+/* buscador de la portada: texto, segmentos y áreas con su cuenta, y el cuestionario que arman */
+.visualmente-oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.buscador { display: grid; gap: 14px; margin-bottom: 22px; }
+.buscar input {
+  width: 100%; min-height: 48px; padding: 10px 14px 10px 42px; font-size: 16px;
+  background: var(--panel-2) no-repeat 14px 50% / 18px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5' fill='none' stroke='%238f9cad' stroke-width='1.8'/%3E%3Cpath d='m13 13 4.5 4.5' stroke='%238f9cad' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+.filtros { display: flex; flex-wrap: wrap; gap: 8px; }
+.filtros.areas { padding-top: 12px; border-top: 1px solid var(--linea); }
+button.filtro {
+  min-height: 34px; padding: 5px 12px; font-size: 13.5px; font-weight: 500; border-radius: 999px;
+  color: var(--tinta-2); background: var(--panel); border: 1px solid var(--linea-2);
+}
+button.filtro .n { color: var(--mute); font-variant-numeric: tabular-nums; margin-left: 2px; }
+button.filtro[aria-pressed="true"] { color: var(--marca-tinta); background: var(--marca); border-color: var(--marca); }
+button.filtro[aria-pressed="true"] .n { color: var(--marca-tinta); opacity: .75; }
+.armado { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 14px 16px; border: 1px solid var(--marca-borde);
+  border-radius: var(--r); background: var(--marca-suave); }
+.armado .crece { flex: 1 1 260px; display: grid; gap: 2px; }
+.armado b { color: var(--tinta); }
+
 /* ------------------------------------------------------------------ caso: práctica y sala */
 .qhead { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
 .qnum { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--marca); }

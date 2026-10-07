@@ -21,6 +21,7 @@ import {
   instruccionesIA, instruccionesCorreccion, instruccionesPaquete, instruccionesContinuar, leerRespuestaIA, planDeCarga,
 } from "./instrucciones-ia.js";
 import { crearZip, descargarArchivo, bytesDeDataURL } from "./zip.js";
+import { indiceDePaquete } from "./cuestionario.js";
 import { activarAmpliacion } from "./ampliar.js";
 import { comprimir, abrirZip } from "./importar.js";
 import {
@@ -1283,6 +1284,7 @@ function enlazarEditor(t) {
       if (!confirm("¿Quitar este tema de la web? Los casos siguen guardados en el estudio.")) return;
       await remove(ref(db, `publicacion/${id}`)).catch(() => {});
       await remove(ref(db, `publicacion_img/${id}`)).catch(() => {});
+      await remove(ref(db, `indice_casos/${id}`)).catch(() => {});
       const delIndice = await anotarEnIndice(id, {
         titulo: t.meta.titulo, segmento: t.meta.segmento, retirado: true,
       });
@@ -1336,7 +1338,8 @@ function enlazarClasificar(t) {
   $("#sin-opciones").onclick = () => cambiarMarcados(t, "requiere_opciones", null);
 }
 
-// Escribe la entrada del tema en «indice_publicado», la lista corta que lee la portada.
+// Escribe la entrada del tema en «indice_publicado», la lista corta que lee la portada. Al publicar se escribe
+// también «indice_casos», el índice para buscar casos.
 // Devuelve si lo consiguió: no es motivo para dar la publicación por fallida.
 async function anotarEnIndice(id, entrada) {
   try {
@@ -1433,6 +1436,9 @@ async function publicar(t) {
     actualizados,
     ...(t.meta.oculto ? { oculto: true } : {}),
   });
+  // El índice de casos, para buscar y armar cuestionarios por segmento o área (app/cuestionario.js). Si falla,
+  // el tema se busca igual: la web lo carga entero.
+  await set(ref(db, `indice_casos/${t.id}`), indiceDePaquete({ ...paquete, version })).catch(() => {});
   if (t.meta.oculto) aviso(alIndice ? "Publicado y oculto: no sale en la web hasta que pulses «Mostrar en la web»." : "No se pudo marcar como oculto: revisa que las reglas estén desplegadas.", !alIndice);
   else aviso(alIndice ? "Publicado. Ya está en la web." : "Publicado. Tarda unos minutos en aparecer en la web.");
 }
@@ -1479,6 +1485,7 @@ async function borrarTema(t) {
     if (publicado) await anotarEnIndice(id, { titulo: t.meta.titulo, segmento: t.meta.segmento, retirado: true });
     await remove(ref(db, `publicacion/${id}`));
     await remove(ref(db, `publicacion_img/${id}`));
+    await remove(ref(db, `indice_casos/${id}`)).catch(() => {});
     // Sellos y reportes: si las reglas todavía no están desplegadas no se dejan borrar, y eso no es
     // motivo para dejar el tema a medio borrar. Quedan huérfanos, sin efecto sobre ningún tema vivo.
     await remove(ref(db, `verificacion/${id}`)).catch(() => {});
