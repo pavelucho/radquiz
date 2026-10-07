@@ -7,6 +7,7 @@
 import { $, esc, md, credito, barajar, sello, leerTanda, totalTanda } from "./comun.js";
 import { cargarPaquete } from "./publicado.js";
 import { reportar } from "./reportar.js";
+import { activarAmpliacion } from "./ampliar.js";
 import {
   hayAlmacenamiento, huella, leerAvance, guardarAvance, borrarAvance, leerModo, guardarModo, estadoDe, anotar, contar,
 } from "./avance.js";
@@ -479,17 +480,8 @@ async function iniciar() {
   if (!retomar()) empezar();
 }
 
-document.addEventListener("click", (e) => {
-  const imagen = e.target.closest("[data-zoom]");
-  if (imagen) {
-    $("#zoomImg").src = imagen.src;
-    $("#zoomImg").alt = imagen.alt;
-    $("#zoom").hidden = false;
-  }
-});
-$("#zoom").onclick = () => { $("#zoom").hidden = true; };
+activarAmpliacion();
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") { $("#zoom").hidden = true; return; }
   if (!casos.length || !$(".stage") || e.target.closest("select, textarea, input:not([type=checkbox])")) return;
   if (e.ctrlKey || e.metaKey || e.altKey) return;
   if ($("#revelar") && (e.key === "Enter" || e.key === " ")) {

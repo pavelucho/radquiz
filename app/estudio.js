@@ -21,6 +21,7 @@ import {
   instruccionesIA, instruccionesCorreccion, instruccionesPaquete, instruccionesContinuar, leerRespuestaIA, planDeCarga,
 } from "./instrucciones-ia.js";
 import { crearZip, descargarArchivo, bytesDeDataURL } from "./zip.js";
+import { activarAmpliacion } from "./ampliar.js";
 import { comprimir, abrirZip } from "./importar.js";
 import {
   ALCANCE_DRIVE, ID_DRIVE, enlaceCarpeta, existeEnDrive, carpetaDelTema, archivosDeCarpeta, subirFigura,
@@ -1777,11 +1778,7 @@ function dibujar() {
   inicio();
 }
 
-document.addEventListener("click", (e) => {
-  const img = e.target.closest("[data-zoom]");
-  if (img && img.src) { $("#zoomImg").src = img.src; $("#zoom").hidden = false; }
-});
-$("#zoom").onclick = () => { $("#zoom").hidden = true; };
+activarAmpliacion();
 window.addEventListener("hashchange", () => dibujar());
 
 function escuchar() {

@@ -10,6 +10,7 @@ import { firebaseConfig, APP_ANONIMA } from "./firebase-config.js";
 import { $, esc, md, cargarJSON, credito, barajar, sello, leerTanda, totalTanda, nivelDe, origenPublico } from "./comun.js";
 import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
 import { reportar } from "./reportar.js";
+import { activarAmpliacion } from "./ampliar.js";
 import { qrDataURI } from "./qr.js";
 import {
   MODOS, modoDe, esSupervivencia, esRescate, armarSecuencia, vivos, puedeVolver, puedeResponder, habilitados,
@@ -1276,22 +1277,13 @@ async function salir() {
 }
 
 // ------------------------------------------------------------------ arranque
-document.addEventListener("click", (e) => {
-  const imagen = e.target.closest("[data-zoom]");
-  if (imagen) {
-    $("#zoomImg").src = imagen.src;
-    $("#zoom").hidden = false;
-  }
-});
-$("#zoom").onclick = () => { $("#zoom").hidden = true; };
+activarAmpliacion();
 // El QR de la sala: el grande del lobby y el chico de la cabecera abren la misma ampliación.
 document.addEventListener("click", (e) => { if (e.target.closest("[data-qr]")) ampliarQR(); });
 $("#qrMini").onclick = ampliarQR;
 $("#zoomQR").onclick = () => { $("#zoomQR").hidden = true; };
 document.addEventListener("keydown", (e) => {
-  if (e.key !== "Escape") return;
-  $("#zoom").hidden = true;
-  $("#zoomQR").hidden = true;
+  if (e.key === "Escape") $("#zoomQR").hidden = true;
 });
 // El navegador solo deja sonar después de un toque: el primero del presentador habilita el audio.
 document.addEventListener("pointerdown", () => { if (soyHost) prepararAudio(); });

@@ -230,6 +230,26 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   Vidas (2026-10-05): en Supervivencia con rescate se eligen de 1 a 3 corazones de pixel art (`info.vidas`,
   `fallos/<uid>`, `tocados/<uid>`); cada fallo quita uno y se cae al perder el último; el rescatado vuelve con uno.
   Reglas desplegadas ese día. Probado con dos jugadores y 2 vidas: pierde un corazón, cae, vuelve con uno.
+- Ampliar figuras (2026-10-07): `app/ampliar.js` (`activarAmpliacion()`), compartido por práctica, sala, tablero, Tabú y
+  estudio; reemplaza el `#zoom` que cada página tenía. Toda imagen con `data-zoom` se abre en negro a pantalla completa:
+  un toque o clic acerca 2,5× en ese punto y otro la ajusta (en un doble toque el segundo no cuenta, así que también
+  acerca); rueda o pellizco hasta 4× (o el doble de la resolución real); arrastrar la mueve sin despegarla de los
+  bordes, con inercia al soltar; barra −/+/Ajustar/✕. Cierran ✕, Esc, un toque en el fondo (acercada, ese toque solo
+  la ajusta), deslizarla hacia abajo cuando está ajustada y el botón «atrás» del celular (abre con `pushState`: en la
+  sala, «atrás» ya no saca de la sala). En el celular (`pointer: coarse`) va a todo el ancho con botones de 48 px, y de
+  costado la barra pasa al borde derecho. Abierta, se queda con el teclado en fase de captura (+, −, 0, flechas), así
+  que las teclas del tablero o del Tabú no actúan detrás. Probado en el navegador (escritorio, 375 × 812 y 740 × 360;
+  gestos táctiles con eventos simulados), no en un celular real.
+  «Ventana» (mismo día): botón de la barra (tecla V) que convierte el arrastre de un dedo en ventana/nivel, como en
+  Horos: a los lados el ancho (contraste), arriba y abajo el centro (abajo, más oscura), en grises de 0 a 255 del JPG,
+  con «Invertir» (I) y «Restablecer» (R) y la lectura «A · C». El pellizco sigue acercando y, con el modo activo,
+  deslizar no cierra. En escritorio el botón derecho ajusta la ventana sin activar el modo. Es un filtro SVG
+  (`feComponentTransfer`, en sRGB) y no un canvas, porque las figuras de Drive son de otro dominio y sus píxeles no se
+  pueden leer; por lo mismo no hay ventana automática por histograma. Solo reparte los 256 grises del archivo: no
+  recupera lo que la ventana original dejó fuera, y no hay ventanas en UH. Cada figura se abre siempre como es (no se
+  guarda nada), y en la sala lo que ajusta el presentador solo se ve en el proyector. Es un ajuste de visualización en
+  la pantalla de cada uno, no una figura modificada: compatible con las licencias ND. En el celular, − y + no están
+  (sobran con pellizco y doble toque) para que quepa la barra.
 - Puntaje (2026-10-05): 900 por acierto + hasta 100 por rapidez (antes 500 + 500): pesa acertar, no el reflejo.
 - Ambiente, rachas, avatares y equipos en la sala (2026-10-05), decididos con el autor como capas 1, 2 y 5 de una lista
   de ideas (las otras: eventos sorpresa como caso relámpago, duelo final y caso jefe; y comodines 50:50, escudo y doble

@@ -6,6 +6,7 @@
 // De Firebase solo lee lo publicado (app/publicado.js), así que funciona aunque la sala en vivo no conecte.
 import { $, esc, md, credito, barajar, NIVELES, nivelDe } from "./comun.js";
 import { reportar } from "./reportar.js";
+import { activarAmpliacion } from "./ampliar.js";
 import { cargarIndice as leerIndice, cargarTemas as leerTemas, armarCatalogo as catalogoDe } from "./catalogo.js";
 import {
   MAX_COLUMNAS, MAX_COMPARAR, valores, respuestaDe, normal, figurasDe, proponerGrupos, juntar,
@@ -945,22 +946,13 @@ function precargar(clave, conEnsenanza) {
   }
 }
 
-document.addEventListener("click", (e) => {
-  const imagen = e.target.closest("[data-zoom]");
-  if (imagen) {
-    $("#zoomImg").src = imagen.src;
-    $("#zoomImg").alt = imagen.alt;
-    $("#zoom").hidden = false;
-  }
-});
-$("#zoom").onclick = () => { $("#zoom").hidden = true; };
+activarAmpliacion();
 $("#dialogo").onclick = (e) => { if (e.target.id === "dialogo") cerrarDialogo(); };
 
 // ------------------------------------------------------------------ teclado
 // 1–6 acertó ese equipo, Mayús + número falló, R nadie acertó, O mostrar opciones, Z deshacer. En las
 // diapositivas, → o Avanzar página (lo que manda un control remoto de presentaciones), ← o Retroceder, Esc vuelve.
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && !$("#zoom").hidden) { $("#zoom").hidden = true; return; }
   if (e.key === "Escape" && !$("#dialogo").hidden) { cerrarDialogo(); return; }
   if (!config || !juego || !$("#dialogo").hidden || e.ctrlKey || e.metaKey || e.altKey) return;
   const destino = e.target instanceof Element ? e.target : document.body;

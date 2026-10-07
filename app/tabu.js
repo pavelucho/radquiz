@@ -9,6 +9,7 @@
 import { $, esc, md, credito, barajar, NIVELES, nivelDe } from "./comun.js";
 import { cargarIndice, cargarTemas, armarCatalogo } from "./catalogo.js";
 import { reportar } from "./reportar.js";
+import { activarAmpliacion } from "./ampliar.js";
 import {
   PUNTOS, TIEMPOS, PASES, SIN_LIMITE, respuesta, figurasCarta, prohibidas, armarMazo, descripcion, sacar,
   pasesLibres, turnoEn,
@@ -483,20 +484,11 @@ function precargar(clave) {
   }
 }
 
-document.addEventListener("click", (e) => {
-  const imagen = e.target.closest("[data-zoom]");
-  if (imagen) {
-    $("#zoomImg").src = imagen.src;
-    $("#zoomImg").alt = imagen.alt;
-    $("#zoom").hidden = false;
-  }
-});
-$("#zoom").onclick = () => { $("#zoom").hidden = true; };
+activarAmpliacion();
 
 // ------------------------------------------------------------------ teclado
 // En el turno: 1 adivinaron, 2 tabú, 3 pasar, Z deshacer, P pausa. Espacio empieza el turno y pasa al siguiente.
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && !$("#zoom").hidden) { $("#zoom").hidden = true; return; }
   if (!config || !juego || e.ctrlKey || e.metaKey || e.altKey) return;
   const destino = e.target instanceof Element ? e.target : document.body;
   if (destino.closest("input, select, textarea")) return;
