@@ -270,7 +270,9 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   `musculoesqueletico/displasias`, y «Misceláneas» (`miscelaneas`) en todo segmento con áreas, para lo que no encaja en
   ninguna (decisión del autor); mama e intervencionismo siguen sin áreas. Pediatría va por entidad, no por edad (un
   linfoma o un Chiari I en un adolescente no son pediatría: decisión del autor), también en las instrucciones para la IA. Hasta volver a publicar cada tema, la
-  web filtra con la clasificación vieja (lo publicado) aunque el índice de casos ya esté al día.
+  web filtraba con la clasificación vieja; el mismo día se volvieron a publicar los 12 temas que pasan el validador
+  (con el MCP, declaración aceptada por el autor en el chat; ninguna figura subida, ATM conservó sus 27 sellos), así que
+  `indice_casos` tiene 1063 casos de 12 temas.
 - Puntaje (2026-10-05): 900 por acierto + hasta 100 por rapidez (antes 500 + 500): pesa acertar, no el reflejo.
 - Ambiente, rachas, avatares y equipos en la sala (2026-10-05), decididos con el autor como capas 1, 2 y 5 de una lista
   de ideas (las otras: eventos sorpresa como caso relámpago, duelo final y caso jefe; y comodines 50:50, escudo y doble
@@ -341,7 +343,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
    `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
-   2026-10-07 (`indice_casos` y salas de varios temas) y la web a 2026-10-07 (desplegada con el código de `47ba2f8`: buscador y cuestionarios por segmento, área o búsqueda). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
+   2026-10-07 (`indice_casos` y salas de varios temas) y la web a 2026-10-07 (desplegada con el código de `5d8da5e`: buscador, cuestionarios armados y área «Misceláneas»). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
    sin commit; hay que desplegar con la carpeta limpia o desde una copia de `main` (`git worktree add … origin/main`).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
@@ -367,8 +369,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
    WebSocket con un jugador que entró y se vio al instante. **`radquiz-shpn2.web.app` está bloqueado** (conecta y el
    filtro corta el TLS: va por nombre, no por IP); `firebaseapp.com`, la dirección oficial, pasa. GitHub sigue cortado.
 4. Decidir la licencia del código y la de los textos propios.
-5. Volver a publicar los temas para que la web use la clasificación del 2026-10-07 y tengan `indice_casos` (hecha en el
-   estudio, no publicada). `iip-hrct-dixon2010` e `ila-radiographics-hata2022` esperan al pendiente 11. Que un
+5. `iip-hrct-dixon2010` e `ila-radiographics-hata2022` tienen la clasificación en el estudio pero no publicada ni
+   índice de casos: esperan al pendiente 11 (sin índice, la portada no los cuenta al elegir un área). Que un
    radiólogo mire los casos dudosos de la clasificación (las notas de los agentes quedaron fuera del repositorio):
    criterio de pediatría por edad o por entidad, y casos sin área exacta (pares craneales en neuro, tumores torácicos
    no pulmonares, pierna en MSK).
