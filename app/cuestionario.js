@@ -119,7 +119,7 @@ export function indicePorRuta(temas, vivo, estatico) {
 
 // Cuántos casos hay por segmento y por «segmento/área», y por tema, para un criterio (sin el segmento, que es
 // lo que se elige con estos conteos). Un caso con dos segmentos cuenta en los dos. Los temas sin índice
-// cuentan con todos sus casos en su segmento, sin área.
+// cuentan con todos sus casos en su segmento, sin área: con un área elegida no suman (no se sabe cuántos son).
 export function contar(temas, indices, c = {}) {
   const porSegmento = {}, porArea = {}, porTema = {};
   const soloTexto = { q: c.q };
@@ -130,7 +130,7 @@ export function contar(temas, indices, c = {}) {
       if (palabras(c.q).length && !palabras(c.q).every((p) => SIN_TILDES(t.titulo).includes(p))) continue;
       const n = t.casos?.publicado || 0;
       porSegmento[t.segmento] = (porSegmento[t.segmento] || 0) + n;
-      if (!c.segmento || c.segmento === t.segmento) porTema[t.ruta] = n;
+      if (!c.area && (!c.segmento || c.segmento === t.segmento)) porTema[t.ruta] = n;
       continue;
     }
     for (const resumen of Object.values(ind.casos)) {
