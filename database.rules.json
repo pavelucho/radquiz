@@ -153,6 +153,9 @@
             "f": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
             "k": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
             "s": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 100000" },
+            "n": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
+            "h": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
+            "o": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200" },
             "$otro": { ".validate": false }
           }
         },
@@ -183,6 +186,22 @@
           ".read": "auth != null",
           "$uid": {
             ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 200"
+          }
+        },
+        "reacciones": {
+          ".read": "auth != null && root.child('salas').child($codigo).child('info/host').val() == auth.uid",
+          "$uid": {
+            ".write": "auth != null && auth.uid == $uid && newData.exists() && root.child('salas').child($codigo).child('jugadores').child($uid).exists() && (root.child('salas').child($codigo).child('estado/fase').val() == 'revelar' || root.child('salas').child($codigo).child('estado/fase').val() == 'ranking' || root.child('salas').child($codigo).child('estado/fase').val() == 'fin') && (!data.exists() || now >= data.child('t').val() + 1500)",
+            ".validate": "newData.hasChildren(['e', 't'])",
+            "e": {
+              ".validate": "newData.isString() && newData.val().matches(/^[a-z]{2,12}$/)"
+            },
+            "t": {
+              ".validate": "newData.val() == now"
+            },
+            "$otro": {
+              ".validate": false
+            }
           }
         },
         "$otro": {

@@ -17,10 +17,14 @@ import {
   resolverRonda, decidida, siguiente, faltanParaRescate, numeroDe, clasificacion, MAX_VIDAS, vidasDe, quedan,
 } from "./supervivencia.js";
 import {
-  cuentasRonda, datosRevelado, asignarTitulos, TITULOS, formatoSegundos, multiplicador, BONO_SOLO, RACHA_MIN,
+  cuentasRonda, datosRevelado, asignarTitulos, TITULOS, textoTitulo, formatoSegundos, multiplicador, BONO_SOLO, RACHA_MIN,
   FORMAS_EQUIPO, equiposDe, resumenEquipos,
 } from "./premios.js";
-import { AVATARES, avatarImg, avatarAleatorio, esAvatar, nombreAvatar } from "./avatares.js";
+import {
+  GRUPOS_AVATAR, APODOS, avataresDe, avatarImg, avatarAleatorio, apodoAleatorio, esAvatar, nombreAvatar,
+} from "./avatares.js";
+import { fraseRevelado, mensajeEspera } from "./frases.js";
+import { barraReacciones, lanzarReaccion, esReaccion, PAUSA_REACCION } from "./reacciones.js";
 import { sonar, vibrar, confeti, prepararAudio, sonidoActivo, alternarSonido } from "./efectos.js";
 
 const LETRAS = "ABCDE";
@@ -46,6 +50,9 @@ let tocados = {};              // con vidas: uid → caso en que perdió el últ
 let stats = {};                // uid → { r racha, mr mejor racha, a aciertos, s segundos, f fallos, k kamikaze }
 let premios = {};              // uid → { i caso, pts, racha, solo }: lo que ganó en el último caso revelado
 let titulos = {};              // uid → id del título, al terminar
+const reaccionesVistas = {};   // presentador: uid → hora de la última reacción ya lanzada
+let reaccionesListas = false;  // la primera lectura solo anota lo que había (al recargar no se repiten)
+let ultimaReaccion = 0;        // jugador: cuándo mandó la última, para la pausa entre reacciones
 let reveladoEn = 0;            // cuándo se reveló el caso en pantalla: el suspenso sigue aunque se redibuje
 let finEn = 0;                 // cuándo empezó el final: el podio sube por partes
 const efectosHechos = new Set();  // celular: vibraciones ya hechas, para no repetirlas al redibujar
@@ -115,10 +122,15 @@ function corazones(quedanN, total, { rompe = false } = {}) {
 // Un jugador en las listas (lobby, quién sigue): su avatar o, si no tiene, la inicial en un círculo de color.
 function chipJugador(id, extra = "", clase = "") {
   const j = jugadores[id] || {};
-  const avatar = avatarImg(j.avatar);
+  const avatar = avatarDe(id);
   return `<span class="pl ${avatar ? "con-avatar" : ""} ${clase} ${id === uid ? "yo" : ""}" data-inicial="${esc(inicial(j.nombre))}">${avatar}${esc(j.nombre || "?")}${extra}</span>`;
 }
 const nombreDe = (id) => esc(jugadores[id]?.nombre || "?");
+// El avatar cambia con el juego: con racha (desde el 3.º acierto seguido) brilla, y el eliminado se ve en gris.
+function avatarDe(id, clase = "avatar") {
+  const estados = [(stats[id]?.r || 0) >= RACHA_MIN ? "en-racha" : "", esSupervivencia(info) && id in eliminados ? "apagado" : ""];
+  return avatarImg(jugadores[id]?.avatar, [clase, ...estados].filter(Boolean).join(" "));
+}
 const equipoDe = (id) => equiposDe(info).find((e) => e.id === jugadores[id]?.equipo) || null;
 
 function casoEn(indice) {
@@ -163,7 +175,7 @@ function listaRanking(maximo, desde = 0) {
   const filas = ranking().slice(desde, maximo);
   if (!filas.length) return desde ? "" : `<p class="muted">Nadie respondió.</p>`;
   return `<div class="rank">${filas.map((r, i) => `<div class="rk ${r.id === uid ? "me" : ""}">
-    <span class="pos">${desde + i + 1}</span><span class="rk-nombre">${avatarImg(jugadores[r.id]?.avatar)}${esc(r.nombre)}${rachaChip(r.id)}</span><span class="pts">${r.pts}</span></div>`).join("")}</div>`;
+    <span class="pos">${desde + i + 1}</span><span class="rk-nombre">${avatarDe(r.id)}${esc(r.nombre)}${rachaChip(r.id)}</span><span class="pts">${r.pts}</span></div>`).join("")}</div>`;
 }
 
 // La llama de la racha, desde el 3.º acierto seguido.
@@ -209,9 +221,9 @@ function pantallaInicio(codigoInicial = "", mensaje = "") {
         <label class="grid-label">Código de la sala
           <input type="text" id="codigo" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" value="${esc(codigoInicial)}" placeholder="ABCD" class="input-codigo"></label>
         <label class="grid-label">Tu nombre o apodo
-          <input type="text" id="nombre" maxlength="24" autocomplete="nickname" value="${esc((sesion && sesion.nombre) || "")}"></label>
+          <input type="text" id="nombre" maxlength="24" autocomplete="nickname" placeholder="Vacío = un apodo al azar" value="${esc((sesion && sesion.nombre) || "")}"></label>
         <button class="primary lg" type="submit">Entrar</button>
-        <p class="src">Tu nombre solo se usa en esta sala y se borra cuando el presentador la cierra.</p>
+        <p class="src">Si no escribes nombre, te toca un apodo al azar. Tu nombre solo se usa en esta sala y se borra cuando el presentador la cierra.</p>
       </form>
       <div class="panel">
         <p class="eyebrow">Presentadores</p>
@@ -421,14 +433,20 @@ async function crearSala({ tema, duracion, cuantos, mezclar, modo, vidas, equipo
 
 async function unirse(codigoEscrito, nombreEscrito) {
   const c = codigoEscrito.trim().toUpperCase();
-  const nombre = nombreEscrito.trim().replace(/\s+/g, " ");
+  let nombre = nombreEscrito.trim().replace(/\s+/g, " ");
   if (!/^[A-Z]{4}$/.test(c)) return aviso("El código tiene 4 letras.");
-  if (!nombre) return aviso("Escribe tu nombre o un apodo.");
   const existe = await get(ref(db, `salas/${c}/info`)).catch(() => null);
   if (!existe || !existe.exists()) return aviso("No hay una sala con ese código.");
-  // update y no set: quien vuelve a entrar conserva su avatar y su equipo.
+  // Sin nombre: el que ya tenía en esta sala o un apodo al azar que nadie use. Sin avatar elegido: el que ya tenía o uno al azar.
+  const otros = (await get(ref(db, `salas/${c}/jugadores`)).catch(() => null))?.val() || {};
+  const previo = otros[uid] || {};
+  delete otros[uid];
+  if (!nombre) nombre = previo.nombre || apodoAleatorio(Object.values(otros).map((j) => j.nombre || ""));
+  // update y no set: quien vuelve a entrar conserva su equipo.
   try {
-    await update(ref(db, `salas/${c}/jugadores/${uid}`), { nombre, unido: serverTimestamp(), avatar: avatarPreferido() || avatarAleatorio() });
+    await update(ref(db, `salas/${c}/jugadores/${uid}`), {
+      nombre, unido: serverTimestamp(), avatar: avatarPreferido() || (esAvatar(previo.avatar) ? previo.avatar : avatarAleatorio()),
+    });
   } catch (e) {
     return aviso("No se pudo entrar a la sala: " + e.message);
   }
@@ -491,6 +509,10 @@ function suscribir() {
     onValue(salaRef("premio"), (s) => { premios = s.val() || {}; render(true); }),
     onValue(salaRef("titulos"), (s) => { titulos = s.val() || {}; render(true); }),
   ];
+  if (soyHost) {
+    reaccionesListas = false;
+    suscripciones.push(onValue(salaRef("reacciones"), (s) => recibirReacciones(s.val() || {})));
+  }
   if (esSupervivencia(info)) {
     suscripciones.push(
       onValue(salaRef("eliminados"), (s) => { eliminados = s.val() || {}; render(true); }),
@@ -504,6 +526,32 @@ function suscribir() {
     }
   }
 }
+
+// Presentador: cada reacción nueva sube flotando por el proyector. La primera lectura solo anota lo que ya había.
+function recibirReacciones(todas) {
+  for (const [id, r] of Object.entries(todas)) {
+    if (!r || typeof r.t !== "number" || r.t <= (reaccionesVistas[id] || 0)) continue;
+    reaccionesVistas[id] = r.t;
+    if (reaccionesListas && jugadores[id] && esReaccion(r.e) && ahora() - r.t < 10000) lanzarReaccion(r.e, jugadores[id].nombre);
+  }
+  reaccionesListas = true;
+}
+
+// Jugador: manda una reacción al proyector, con una pausa entre una y otra (las reglas piden lo mismo).
+function reaccionar(id) {
+  if (Date.now() - ultimaReaccion < PAUSA_REACCION) return;
+  ultimaReaccion = Date.now();
+  app.querySelectorAll("[data-reaccion]").forEach((b) => {
+    b.disabled = true;
+    b.classList.toggle("enviada", b.dataset.reaccion === id);
+  });
+  setTimeout(() => app.querySelectorAll("[data-reaccion]").forEach((b) => { b.disabled = false; b.classList.remove("enviada"); }), PAUSA_REACCION);
+  set(salaRef(`reacciones/${uid}`), { e: id, t: serverTimestamp() }).catch(() => {});
+}
+function activarReacciones() {
+  app.querySelectorAll("[data-reaccion]").forEach((b) => { b.onclick = () => reaccionar(b.dataset.reaccion); });
+}
+const reaccionesBloqueadas = () => Date.now() - ultimaReaccion < PAUSA_REACCION;
 
 // Supervivencia: quien entra con la partida empezada no esquivó los casos anteriores, así que entra eliminado
 // (con rescate, puede volver como los demás). Lo marca el presentador, que es quien escribe en la sala.
@@ -913,7 +961,8 @@ function datosDelCaso(caso, orden) {
   if (rachas.length) {
     chips.push(`<span class="chip dato-racha"><i class="llama"></i>En racha: ${rachas.map((id) => `${nombreDe(id)} (${stats[id]?.r})`).join(", ")} · ×${String(multiplicador(RACHA_MIN)).replace(".", ",")}</span>`);
   }
-  return `<div class="datos-revelado">${chips.join("")}</div>`;
+  const frase = fraseRevelado(d, estado.indice, (opcion) => LETRAS[orden.indexOf(opcion)]);
+  return `<div class="datos-revelado">${frase ? `<p class="frase-revelado">${esc(frase)}</p>` : ""}${chips.join("")}</div>`;
 }
 
 // En el proyector, después de revelar: quiénes cayeron o volvieron.
@@ -950,6 +999,11 @@ function iniciarReloj() {
     const clock = $("#clock");
     const bar = $("#bar");
     if (clock) clock.textContent = Math.ceil(restante);
+    const espera = $("#espera");
+    if (espera) {
+      const texto = mensajeEspera(estado.indice, segundosDelCaso());
+      if (espera.textContent !== texto) espera.textContent = texto;
+    }
     // Tic-tac en el proyector los últimos 5 segundos.
     const segundo = Math.ceil(restante);
     if (soyHost && segundo <= 5 && segundo > 0 && segundo !== ultimoTic) {
@@ -981,7 +1035,7 @@ async function revelar() {
   // los que podían responder: en supervivencia, los que seguían en pie (o todos, en un rescate).
   const { cuentas } = cuentasRonda({
     habilitados: cuantosPuedenIds(), stats, respuestas, correcta: caso.correcta, inicio: estado.inicio,
-    base: (id) => puntos(respuestas[id], caso), indice: estado.indice,
+    base: (id) => puntos(respuestas[id], caso), indice: estado.indice, segundaMitad: estado.indice >= info.casos.length / 2,
   });
   for (const [id, c] of Object.entries(cuentas)) {
     cambios[`stats/${id}`] = c.stats;
@@ -1057,7 +1111,7 @@ function podio() {
   const pasado = (Date.now() - finEn) / 1000;
   const escalon = (r, puesto) => (!r ? `<div class="escalon e${puesto} vacio"></div>`
     : `<div class="escalon e${puesto} ${r.id === uid ? "yo" : ""}" style="--espera:${Math.max(0, PODIO_TIEMPOS[3 - puesto] - pasado)}s">
-      <div class="escalon-quien">${avatarImg(jugadores[r.id]?.avatar, "avatar grande")}<b>${esc(r.nombre)}</b><span>${r.pts} pts</span></div>
+      <div class="escalon-quien">${avatarDe(r.id, "avatar grande")}<b>${esc(r.nombre)}</b><span>${r.pts} pts</span></div>
       <div class="escalon-bloque">${puesto}</div></div>`);
   return `<div class="podio">${escalon(top[1], 2)}${escalon(top[0], 1)}${escalon(top[2], 3)}</div>`;
 }
@@ -1067,8 +1121,8 @@ function bloqueTitulos() {
   const lista = Object.entries(titulos).filter(([id, t]) => jugadores[id] && TITULOS[t]);
   if (!lista.length) return "";
   return `<h3>Títulos</h3><div class="titulos">${lista.map(([id, t]) => `<div class="titulo ${id === uid ? "yo" : ""}">
-    ${avatarImg(jugadores[id].avatar)}<div><b>${esc(TITULOS[t].nombre)}</b><span>${nombreDe(id)}</span>
-    <span class="src">${esc(TITULOS[t].texto({ r: 0, mr: 0, a: 0, s: 0, f: 0, k: 0, ...stats[id] }))}</span></div></div>`).join("")}</div>`;
+    ${avatarDe(id)}<div><b>${esc(TITULOS[t].nombre)}</b><span>${nombreDe(id)}</span>
+    <span class="src">${esc(textoTitulo(t, stats[id]))}</span></div></div>`).join("")}</div>`;
 }
 
 // Equipos: promedio de puntos por persona (y en supervivencia, cuántos siguen en pie), con una barra.
@@ -1101,19 +1155,22 @@ function vistaJugador() {
     const equipos = equiposDe(info);
     app.innerHTML = `<section class="panel stack angosto">
       <span class="tema">Conectado como</span><div class="big nombre">${avatarImg(yo.avatar, "avatar grande")}${esc(yo.nombre)}</div>
+      <div class="row"><button type="button" id="otroApodo">${APODOS.includes(yo.nombre) ? "Otro apodo" : "Usar un apodo al azar"}</button></div>
       ${equipos.length ? `<div class="grid-label" role="radiogroup" aria-labelledby="titulo-equipo"><span id="titulo-equipo">Tu equipo</span>
         <div class="elegir-equipo">${equipos.map((e) => `<button type="button" class="opcion-equipo ${yo.equipo === e.id ? "elegido" : ""}"
           data-equipo="${e.id}" role="radio" aria-checked="${yo.equipo === e.id}" style="--color:${e.color}">${esc(e.nombre)}</button>`).join("")}</div>
         ${yo.equipo ? "" : `<span class="nota">Elige tu equipo antes de que empiece.</span>`}</div>` : ""}
       <div class="grid-label" role="radiogroup" aria-labelledby="titulo-avatar"><span id="titulo-avatar">Tu avatar</span>
-        <div class="elegir-avatar">${AVATARES.map((a) => `<button type="button" class="opcion-avatar ${yo.avatar === a.id ? "elegido" : ""}"
-          data-avatar="${a.id}" role="radio" aria-checked="${yo.avatar === a.id}" aria-label="${esc(a.nombre)}" title="${esc(a.nombre)}">${avatarImg(a.id)}</button>`).join("")}</div></div>
+        ${GRUPOS_AVATAR.map((g) => `<span class="grupo-avatar">${esc(g.nombre)}</span>
+        <div class="elegir-avatar">${avataresDe(g.id).map((a) => `<button type="button" class="opcion-avatar ${yo.avatar === a.id ? "elegido" : ""}"
+          data-avatar="${a.id}" role="radio" aria-checked="${yo.avatar === a.id}" aria-label="${esc(a.nombre)}" title="${esc(a.nombre)}">${avatarImg(a.id)}</button>`).join("")}</div>`).join("")}</div>
       <p class="esperando"><i><b></b></i>Listo. La partida empieza cuando el presentador pulse Empezar.</p>
       ${esSupervivencia(info) ? `<p class="sv-aviso"><b>${esc(MODOS[modoDe(info)])}.</b> ${vidasDe(info) > 1
         ? `Tienes ${vidasDe(info)} vidas ${corazones(vidasDe(info), vidasDe(info))}: cada fallo (o no responder) te quita una, y al perder la última quedas eliminado.`
         : "Una vida: si fallas o no respondes, quedas eliminado."}${info.rescates?.length ? ` Cada tanto hay una ronda de rescate: si aciertas, vuelves${vidasDe(info) > 1 ? " con un corazón" : ""} (una vez).` : ""}</p>` : ""}
       <div class="row"><button id="salir">Salir de la sala</button></div></section>`;
     $("#salir").onclick = salir;
+    $("#otroApodo").onclick = otroApodo;
     app.querySelectorAll("[data-avatar]").forEach((b) => {
       b.onclick = () => {
         guardarAvatar(b.dataset.avatar);
@@ -1129,11 +1186,12 @@ function vistaJugador() {
   if (fase === "pregunta" || fase === "revelar") return jugadorCaso();
   const final = fase === "fin";
   const titulo = final && TITULOS[titulos[uid]]
-    ? `<div class="titulo propio"><b>${esc(TITULOS[titulos[uid]].nombre)}</b><span>${esc(TITULOS[titulos[uid]].texto({ r: 0, mr: 0, a: 0, s: 0, f: 0, k: 0, ...stats[uid] }))}</span></div>` : "";
+    ? `<div class="titulo propio"><b>${esc(TITULOS[titulos[uid]].nombre)}</b><span>${esc(textoTitulo(titulos[uid], stats[uid]))}</span></div>` : "";
   const equipo = equipoDe(uid);
   const miEquipo = equipo ? `<p class="mi-equipo" style="--color:${equipo.color}">${esc(equipo.nombre)}</p>` : "";
   if (esSupervivencia(info)) {
-    app.innerHTML = `<section class="stack">${miEstado(false)}${titulo}${miEquipo}${sobrevivientes(final)}${bloqueEquipos()}</section>`;
+    app.innerHTML = `<section class="stack">${miEstado(false)}${titulo}${miEquipo}${barraReacciones(reaccionesBloqueadas())}${sobrevivientes(final)}${bloqueEquipos()}</section>`;
+    activarReacciones();
     if (final && !(uid in eliminados)) festejar();
     return;
   }
@@ -1143,8 +1201,9 @@ function vistaJugador() {
     <span class="tema">${final ? "Resultado final" : "Ranking"}</span>
     <div class="big">${posicion ? `${posicion}.º` : "—"}</div>
     <p class="muted">${puntajes[uid] || 0} puntos · ${lista.length} ${lista.length === 1 ? "participante" : "participantes"}${rachaChip(uid)}</p>
-    ${titulo}${miEquipo}
+    ${titulo}${miEquipo}${barraReacciones(reaccionesBloqueadas())}
     ${listaRanking(final ? 10 : 5)}${bloqueEquipos()}</section>`;
+  activarReacciones();
   if (final && posicion >= 1 && posicion <= 3) festejar();
 }
 
@@ -1201,6 +1260,11 @@ function miEstado(revelado) {
   return caja("caido", `${motivo}.${faltan ? ` Rescate dentro de ${faltan === 1 ? "1 caso" : `${faltan} casos`}.` : ""}`);
 }
 
+// Mientras se espera el revelado, en el celular: un mensaje de sala de lectura que cambia cada pocos segundos (lo
+// cambia el reloj, en iniciarReloj).
+const segundosDelCaso = () => Math.max(0, (ahora() - (typeof estado.inicio === "number" ? estado.inicio : ahora())) / 1000);
+const esperaHTML = (indice) => `<p class="espera-mensaje" id="espera" aria-live="off">${esc(mensajeEspera(indice, segundosDelCaso()))}</p>`;
+
 function jugadorCaso() {
   const indice = estado.indice;
   const caso = casoEn(indice);
@@ -1223,7 +1287,9 @@ function jugadorCaso() {
       : `<div class="verdict ${acierto ? "ok" : "no"}">${acierto ? `Correcto${ganados ? ` · +${ganados}` : ""}` : "Incorrecto"}</div>
         ${acierto && extras.length ? `<p class="chip racha-propia"><i class="llama"></i>${esc(extras.join(" · "))}</p>` : ""}`;
   } else if (elegida !== undefined) {
-    arriba = `<div class="chip live enviada">Respuesta enviada: ${LETRAS[orden.indexOf(elegida)]}</div>`;
+    arriba = `<div class="chip live enviada">Respuesta enviada: ${LETRAS[orden.indexOf(elegida)]}</div>${esperaHTML(indice)}`;
+  } else if (bloqueado) {
+    arriba = esperaHTML(indice);
   } else {
     arriba = miRacha();
   }
@@ -1242,6 +1308,7 @@ function jugadorCaso() {
       <div class="pregunta">
         ${miEstado(revelado)}
         ${arriba}
+        ${revelado ? barraReacciones(reaccionesBloqueadas()) : ""}
         <div class="stem md">${md(caso.enunciado)}</div>
         ${revelado ? "" : `<div class="timer"><i id="bar"></i></div>`}
         <div class="opts">${opciones}</div>
@@ -1252,6 +1319,7 @@ function jugadorCaso() {
   app.querySelectorAll("button.opt").forEach((boton) => {
     boton.onclick = () => responder(Number(boton.dataset.original));
   });
+  activarReacciones();
   if (!revelado) iniciarReloj();
 }
 
@@ -1267,6 +1335,18 @@ async function responder(original) {
     miRespuesta.delete(indice);
     aviso("No se registró la respuesta: el tiempo terminó o ya habías respondido.");
     render(true);
+  }
+}
+
+// Un apodo al azar que nadie de la sala tenga (ni el que ya tenía), en lugar del nombre.
+async function otroApodo() {
+  const usados = Object.values(jugadores).map((j) => j.nombre || "");
+  const nombre = apodoAleatorio(usados);
+  try {
+    await update(salaRef(`jugadores/${uid}`), { nombre });
+    guardarSesion({ ...(leerSesion() || { codigo, rol: "jugador" }), nombre });
+  } catch (e) {
+    aviso("No se pudo cambiar: " + e.message);
   }
 }
 

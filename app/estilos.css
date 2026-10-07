@@ -803,6 +803,7 @@ button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
 .pl.con-avatar::before { display: none; }
 .big.nombre { display: flex; align-items: center; gap: 14px; }
 .rk-nombre { display: inline-flex; align-items: center; gap: 9px; min-width: 0; overflow-wrap: anywhere; }
+.grupo-avatar { font-size: 12.5px; color: var(--mute); margin-top: 4px; }
 .elegir-avatar { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
 .opcion-avatar { min-height: 0; aspect-ratio: 1; padding: 6px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--linea-2); }
 .opcion-avatar .avatar { width: 100%; height: auto; padding: 0; background: none; }
@@ -826,6 +827,39 @@ button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
 .chip.dato-solo { color: var(--marca); border-color: var(--marca-borde); background: var(--marca-suave); }
 .chip.dato-trampa { color: var(--mal); border-color: var(--mal-borde); background: var(--mal-suave); }
 .chip.dato-racha { color: var(--b); border-color: rgba(245, 162, 79, .5); background: rgba(245, 162, 79, .1); }
+.frase-revelado { flex-basis: 100%; margin: 0; font-size: clamp(17px, 1.7vw, 22px); font-weight: 600; font-style: italic; color: var(--marca); }
+
+/* el avatar cambia con el juego: brilla con racha, se apaga al caer */
+.avatar.en-racha { background: rgba(245, 162, 79, .16); box-shadow: 0 0 0 2px var(--b), 0 0 12px rgba(245, 162, 79, .55); }
+.avatar.apagado { filter: grayscale(1); opacity: .5; box-shadow: none; }
+
+/* mientras se espera el revelado, en el celular */
+.espera-mensaje { margin: 0; font-size: 14.5px; font-style: italic; color: var(--tinta-2); }
+
+/* reacciones: botones en el celular y, en el proyector, suben flotando con el nombre */
+.reacciones { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.reaccion { min-height: 48px; padding: 6px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--linea-2); }
+.reaccion img { width: 28px; height: 28px; image-rendering: pixelated; }
+.reaccion:disabled { opacity: .45; }
+.reaccion.enviada { opacity: 1; border-color: var(--marca); background: var(--marca-suave); }
+.reaccion.enviada img { animation: reaccion-enviada .4s ease-out; }
+@keyframes reaccion-enviada { 40% { transform: scale(1.35); } }
+#lluvia { position: fixed; inset: 0; z-index: 55; overflow: hidden; pointer-events: none; }
+.flota {
+  position: absolute; left: var(--x); bottom: 0; display: grid; justify-items: center; gap: 4px;
+  animation: flotar 2.8s ease-out forwards;
+}
+.flota img { width: clamp(44px, 4.5vw, 64px); height: auto; image-rendering: pixelated; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .5)); }
+.flota span {
+  max-width: 14em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 2px 9px; border-radius: 999px;
+  font-size: clamp(12.5px, 1.1vw, 15px); font-weight: 600; color: var(--tinta); background: var(--panel-3); border: 1px solid var(--linea-2);
+}
+@keyframes flotar {
+  0% { opacity: 0; transform: translate(0, 40px) scale(.6); }
+  12% { opacity: 1; transform: translate(0, -6vh) scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--deriva), -62vh) scale(1); }
+}
 
 /* Suspenso al revelar: las barras suben una por una, después se marca la correcta y al final aparece lo demás.
    --pasado deja seguir la animación donde iba si la pantalla se redibuja. */
@@ -1245,6 +1279,8 @@ label.tb-opcion > input { margin-top: 3px; }
   /* el fondo de la portada queda quieto: sin el punto que da la vuelta ni la banda que baja */
   .fv-orbita, .fv-barrido { display: none !important; }
   .escalon { animation: none; }
+  /* sin animación, la reacción aparece quieta abajo y se va sola */
+  .flota { bottom: 18vh; }
   /* sin animación, el corazón perdido se ve vacío de una vez */
   .vida.rota::after { display: none; }
 }

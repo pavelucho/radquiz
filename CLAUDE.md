@@ -257,9 +257,33 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   triángulo a volumen bajo; la primera versión, de onda cuadrada y con redoble de ruido, al autor le pareció
   estruendosa), revelado con suspenso, podio con confeti; racha ×1,5 desde el 3.º acierto, 200 a quien acierta solo, datos al revelar y
   títulos al final (`app/premios.js`; `stats/`, `premio/`, `titulos/`); avatares de pixel art de radiología, 10 × 10 (`app/avatares.js`; el
-  trébol de radiación se descartó porque a esa resolución parecía una cara) y
+  trébol de radiación se descartó porque a esa resolución parecía una cara; el 2026-10-07 se sumó un segundo grupo,
+  «Para reírse», con 12 más: signos con nombre de comida o animal —perrito escocés, panda, colibrí, muñeco de nieve,
+  palomitas, hamburguesa, cono de helado, huevo colgado de un hilo— y la guardia —café, artefacto fantasma,
+  incidentaloma, residente posguardia—; el lobby los muestra por grupo, `GRUPOS_AVATAR`). Quien no elige avatar
+  recibe uno al azar, y quien entra sin nombre, un apodo radiológico al azar que nadie de la sala tenga (`APODOS` y
+  `apodoAleatorio()` en `app/avatares.js`, 24 apodos de hasta 24 letras, como piden las reglas); al volver a entrar
+  conserva los suyos. Y
   equipos por año o por color con promedio por persona. Reglas desplegadas ese día. Probado contra producción con
   presentador y tres jugadores en una sala clásica por equipos y en una supervivencia, no en un aula.
+- Humor y reacciones en la sala (2026-10-07), siete ideas pedidas por el autor de una vez:
+  - Frases del proyector al revelar según cómo le fue al grupo (nadie, todos, solo uno, trampa, pocos, muchos,
+    dividido; «Correlacionar con la clínica», «kappa = 1»…), mensajes del celular mientras se espera («Midiendo en
+    UH…», cambia cada 3 s) y nombres de los equipos por color («Los Hipointensos», «Gadolinio FC»…): listas en
+    `app/frases.js`, elegidas de forma estable con una semilla (el número del caso; para los equipos, `info.creada`,
+    así todas las pantallas coinciden sin guardar nada). Con una sola respuesta acertada no hay frase.
+  - Botón «Otro apodo» en el lobby del celular.
+  - Tres títulos más (`app/premios.js`): El Incidentaloma (acertó solo), Segunda lectura (≥ 2 aciertos más en la
+    segunda mitad) y Técnicamente limitado (≥ 2 sin responder), con las cuentas nuevas `n`, `h` y `o` en `stats/`.
+    Prioridad: los raros y chistosos antes que Ojo de halcón y Constante.
+  - El avatar brilla con racha y se ve en gris al caer en supervivencia (`avatarDe()` en `app/sala.js`).
+  - Reacciones en vivo (`app/reacciones.js`): seis de pixel art en el celular al revelar, en el ranking y en el final;
+    suben flotando por el proyector con el nombre (como mucho 24 a la vez). `reacciones/<uid> = { e, t }`, una por
+    persona que se pisa; las reglas piden 1,5 s entre una y otra, que la persona esté en la sala y la fase sea
+    revelar, ranking o fin, y solo el presentador las lee. `pixelSrc()` de `app/avatares.js` dibuja avatares y
+    reacciones.
+  Reglas desplegadas ese día. Probado contra producción con presentador y dos jugadores (sala clásica de 3 equipos y
+  6 casos, y una supervivencia), no en un aula.
 - Servidor MCP (2026-10-01): `tools/mcp/servidor.mjs`, registrado en `.mcp.json`, para que Claude maneje el estudio en
   línea. Entra con Google como el autor (página en `localhost`, autorizado en Firebase Auth; sin cuenta de servicio),
   así que valen las mismas reglas. Reusa `app/validacion.js`, `app/instrucciones-ia.js` y `app/drive.js`; el ayudante
@@ -296,7 +320,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
    `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
-   2026-10-05 (temas ocultos) y la web a 2026-10-07 (desplegada con el código de `a98a629`: visor de figuras con zoom, arrastre y ventana). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
+   2026-10-07 (reacciones y títulos nuevos) y la web a 2026-10-07 (desplegada con el código de `a98a629`: visor de figuras con zoom, arrastre y ventana). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
    sin commit; hay que desplegar con la carpeta limpia o desde una copia de `main` (`git worktree add … origin/main`).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
