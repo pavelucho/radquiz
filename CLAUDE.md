@@ -216,8 +216,9 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   sin la lista de marcas, o no sale si es de «respuesta»; y nunca se compara con un caso que comparta figura o
   respuesta con una casilla. Probado de punta a punta en el navegador con ATM 4 × 4, no en un aula.
   Revisión rediseñada y tableros guardados (2026-10-07, pedido del autor: la revisión le resultaba engorrosa). La
-  revisión es el tablero como se proyectará, con respuesta y nivel en cada casilla; al tocar una, un panel lateral
-  (abajo en pantallas angostas) deja moverla, hacerla doble, cambiarla por cualquier caso libre con un buscador y
+  revisión es el tablero como se proyectará, con respuesta y nivel en cada casilla; al tocar una se abre un panel
+  flotante a la derecha (desde abajo en pantallas angostas; la página le deja sitio) que se cierra con ✕, Esc o
+  tocando otra vez la casilla —sin casilla elegida no hay panel, porque al autor le estorbaba fijo—, y deja moverla, hacerla doble, cambiarla por cualquier caso libre con un buscador y
   elegir los casos para comparar; arrastrar una casilla sobre otra las intercambia; columnas con nombre editable, ✕ y
   «Agregar columna»; equipos en la misma pantalla. Ya no hay «Juntar con la siguiente». Un tablero armado es una
   plantilla (`app/plantilla-tablero.js`) que se guarda en el navegador, para el grupo en `tableros/<id>` (reglas

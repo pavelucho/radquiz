@@ -1117,7 +1117,9 @@ button.tb-puntos:not(:disabled):hover { background: none; color: #fff; text-deco
 /* armado del tablero: la revisión es el tablero mismo, con un panel al lado para la casilla elegida */
 .tb-armar-cabeza { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-bottom: 14px; }
 .tb-armar-cabeza .crece { flex: 1 1 320px; display: grid; gap: 4px; }
-.tb-edicion { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 380px); gap: 16px; align-items: start; }
+/* sin casilla elegida no hay panel; con una, el panel flota a la derecha y el tablero le deja sitio */
+.tb-edicion { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-items: start; }
+#app.con-editor { padding-right: 412px; }
 .tb-previo { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 8px; }
 .tb-cab-edit { display: flex; align-items: center; gap: 4px; min-width: 0; }
 .tb-cab-edit input { flex: 1 1 auto; min-width: 0; min-height: 38px; padding: 6px 8px; font-size: 14.5px; font-weight: 650; }
@@ -1149,7 +1151,15 @@ button.tb-casilla.vacia .tb-sub { color: var(--mute); }
 button.tb-final-boton { min-height: 42px; }
 button.tb-final-boton.activa { border-color: var(--marca); box-shadow: inset 0 0 0 1px var(--marca); }
 .tb-ayuda { margin-top: -4px; }
-.tb-editor { position: sticky; top: 14px; max-height: calc(100vh - 28px); overflow: auto; gap: 12px; }
+.tb-editor {
+  position: fixed; z-index: 30; top: 12px; right: 12px; bottom: 12px; width: 392px; overflow: auto; gap: 12px;
+  padding-top: 18px; box-shadow: var(--sombra-alta); border-color: var(--linea-2);
+}
+button.tb-cerrar {
+  position: sticky; top: 0; justify-self: end; margin: -6px -6px -40px 0; z-index: 1; width: 38px; min-height: 38px; padding: 0;
+  font-size: 16px; color: var(--tinta-2); background: var(--panel-2); border-color: var(--linea-2); border-radius: 50%;
+}
+button.tb-cerrar:not(:disabled):hover { color: var(--tinta); border-color: var(--linea-3); }
 .tb-editor h3 { font-size: 18px; }
 .tb-mini-figura { display: block; width: 100%; max-height: 220px; object-fit: contain; background: #000; border-radius: var(--r-sm); cursor: zoom-in; }
 .tb-acciones button { min-height: 36px; padding: 5px 12px; font-size: 13.5px; }
@@ -1167,9 +1177,10 @@ button.tb-candidato b { font-weight: 600; line-height: 1.3; }
 .tb-guardado { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 10px 12px; background: var(--panel-2); border: 1px solid var(--linea); border-radius: var(--r); }
 .tb-guardado .crece { flex: 1 1 220px; display: grid; gap: 2px; }
 .tb-guardado button { min-height: 36px; padding: 5px 12px; font-size: 13.5px; }
+/* en una pantalla angosta el panel sube desde abajo, sobre el tablero */
 @media (max-width: 960px) {
-  .tb-edicion { grid-template-columns: minmax(0, 1fr); }
-  .tb-editor { position: static; max-height: none; }
+  #app.con-editor { padding-right: 0; padding-bottom: 72vh; }
+  .tb-editor { top: auto; left: 0; right: 0; bottom: 0; width: auto; max-height: 72vh; border-radius: var(--r-lg) var(--r-lg) 0 0; }
 }
 @media (max-width: 640px) {
   .tb-previo { gap: 5px; }

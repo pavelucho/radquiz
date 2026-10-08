@@ -363,7 +363,7 @@
           ".validate": "newData.isString() && newData.val().length <= 20"
         },
         "casos": {
-          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 500"
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 5000"
         },
         "retirado": {
           ".validate": "newData.isBoolean()"

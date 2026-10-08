@@ -121,6 +121,7 @@ const PREDETERMINADO = {
 };
 
 async function pantallaArmado(previo = null) {
+  app.classList.remove("con-editor");
   config = juego = null;
   vistaPrevia = "";
   cabecera();
@@ -332,8 +333,10 @@ function chipNivel(caso) {
 }
 
 // La revisión es el tablero tal como se proyectará, pero con lo que el presentador necesita: cada casilla dice de
-// qué trata y su nivel. Se toca una casilla y el panel de la derecha (abajo, en una pantalla angosta) muestra su
-// caso y todo lo que se puede hacer con ella. Una casilla se arrastra sobre otra para intercambiarlas.
+// qué trata y su nivel. Se toca una casilla y se abre un panel a la derecha (desde abajo, en una pantalla angosta)
+// con su caso y todo lo que se puede hacer con ella; se cierra con su ✕, con Esc o tocando otra vez la casilla. Sin
+// casilla elegida no hay panel y el tablero ocupa todo el ancho. Una casilla se arrastra sobre otra para
+// intercambiarlas.
 let seleccion = null;   // { c, r } una casilla · { final: true } la ronda final · null nada
 
 const claveSeleccionada = () => (!seleccion ? null : seleccion.final ? borrador.final : borrador.tablero[seleccion.c]?.casos[seleccion.r] || null);
@@ -383,11 +386,16 @@ function miniatura(clave) {
 }
 
 function editorHTML() {
+  return `<button type="button" class="tb-cerrar" id="cerrar-editor" aria-label="Cerrar el panel" title="Cerrar (Esc)">✕</button>${contenidoEditor()}`;
+}
+
+function cerrarEditor() {
+  seleccion = null;
+  pantallaRevision();
+}
+
+function contenidoEditor() {
   const b = borrador;
-  if (!seleccion) {
-    return `<p class="eyebrow">Casilla</p><p class="muted">Toca una casilla del tablero para ver su caso, cambiarlo,
-      moverlo o hacerla doble.</p>`;
-  }
   const clave = claveSeleccionada();
   const e = clave && catalogo.get(clave);
   const cambiar = `<details class="tb-cambiar" ${clave ? "" : "open"}><summary>${clave ? "Cambiar por otro caso" : "Elegir un caso"}</summary>
@@ -426,6 +434,7 @@ function editorHTML() {
 
 function pantallaRevision() {
   const b = borrador;
+  marcarPanel(Boolean(seleccion));
   const casillas = b.tablero.reduce((n, col) => n + col.casos.filter(Boolean).length, 0);
   const usados = new Set(b.tablero.map((col) => col.grupo).filter(Boolean));
   const libres = b.grupos.filter((g) => !usados.has(g.id));
@@ -481,10 +490,14 @@ function pantallaRevision() {
           </div>
         </section>
       </div>
-      <aside class="panel stack tb-editor" id="editor" aria-live="polite">${editorHTML()}</aside>
+      ${seleccion ? `<aside class="panel stack tb-editor" id="editor" aria-label="Casilla elegida">${editorHTML()}</aside>` : ""}
     </div>`;
   enlazarRevision();
 }
+
+// Con el panel abierto, la página le deja sitio (a la derecha, o abajo en una pantalla angosta). Cualquier otra
+// pantalla lo quita al dibujarse.
+const marcarPanel = (abierto) => app.classList.toggle("con-editor", abierto);
 
 function enlazarRevision() {
   const b = borrador;
@@ -495,11 +508,10 @@ function enlazarRevision() {
   app.querySelectorAll(".tb-casilla").forEach((boton) => {
     const c = Number(boton.dataset.c);
     const r = Number(boton.dataset.r);
+    // Tocar otra vez la casilla elegida cierra el panel.
     boton.onclick = () => {
-      seleccion = { c, r };
+      seleccion = seleccion && !seleccion.final && seleccion.c === c && seleccion.r === r ? null : { c, r };
       redibujar();
-      // En una pantalla angosta el panel queda debajo del tablero: se baja hasta él.
-      if (matchMedia("(max-width: 960px)").matches) $("#editor").scrollIntoView({ behavior: "smooth", block: "start" });
     };
     boton.ondragstart = (e) => { e.dataTransfer.setData("text/plain", `${c}:${r}`); e.dataTransfer.effectAllowed = "move"; };
     boton.ondragover = (e) => { e.preventDefault(); boton.classList.add("encima"); };
@@ -548,7 +560,8 @@ function enlazarRevision() {
     seleccion = { c: b.tablero.length - 1, r: 0 };
     redibujar({ derivados: true });
   };
-  $("#ver-final").onclick = () => { seleccion = { final: true }; redibujar(); };
+  $("#ver-final").onclick = () => { seleccion = seleccion?.final ? null : { final: true }; redibujar(); };
+  if ($("#cerrar-editor")) $("#cerrar-editor").onclick = cerrarEditor;
   app.querySelectorAll("[data-equipo]").forEach((input) => {
     input.onchange = () => { b.equipos[Number(input.dataset.equipo)] = input.value.trim().replace(/\s+/g, " ") || `Equipo ${Number(input.dataset.equipo) + 1}`; redibujar(); };
   });
@@ -848,6 +861,7 @@ async function pintarGuardados() {
 
 // Abre una plantilla (guardada, de un enlace o de la IA): carga sus temas y deja el tablero en la revisión.
 async function abrirPlantilla(bruta, { idLocal = null, idGrupo = null, notas = [], opciones = null } = {}) {
+  app.classList.remove("con-editor");
   config = juego = null;
   cabecera();
   app.innerHTML = `<p class="muted">Cargando el tablero…</p>`;
@@ -898,6 +912,7 @@ async function abrirPlantilla(bruta, { idLocal = null, idGrupo = null, notas = [
 // Funciona con cualquier IA: la página arma el texto con los casos disponibles y lee el JSON que responda.
 // Desde Claude Code, el servidor MCP hace lo mismo sin copiar y pegar (tablero_casos y tablero_guardar).
 async function pantallaIA(b) {
+  app.classList.remove("con-editor");
   app.innerHTML = `<p class="muted">Cargando los casos…</p>`;
   await cargarTemas(b.temas);
   const rutas = b.temas.filter((ruta) => datosDe.has(ruta));
@@ -979,6 +994,7 @@ function empezarPartida() {
 
 // ------------------------------------------------------------------ la partida
 function mostrar() {
+  app.classList.remove("con-editor");
   cerrarDialogo();
   cabecera();
   const vistas = {
@@ -1475,6 +1491,10 @@ $("#dialogo").onclick = (e) => { if (e.target.id === "dialogo") cerrarDialogo();
 // diapositivas, → o Avanzar página (lo que manda un control remoto de presentaciones), ← o Retroceder, Esc vuelve.
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !$("#dialogo").hidden) { cerrarDialogo(); return; }
+  if (e.key === "Escape" && borrador && seleccion && $("#editor") && !document.querySelector(".ampliar:not([hidden])")) {
+    cerrarEditor();
+    return;
+  }
   if (!config || !juego || !$("#dialogo").hidden || e.ctrlKey || e.metaKey || e.altKey) return;
   const destino = e.target instanceof Element ? e.target : document.body;
   if (destino.closest("input, select, textarea")) return;
