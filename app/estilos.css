@@ -504,22 +504,46 @@ blockquote { margin: 4px 0; padding: 8px 14px; font-size: 15px; color: var(--tin
 @keyframes fv-derivar-2 { from { opacity: .7; transform: translate(6%, -4%) scale(.95); } to { opacity: 1; transform: translate(-14%, 12%) scale(1.1); } }
 @keyframes fv-girar { to { transform: rotate(1turn); } }
 @keyframes fv-encender { from { opacity: 0; transform: scale(.94) rotate(-10deg); } }
+/* Portada: a la izquierda el título y los tres modos para la clase; a la derecha, la casilla del código. En el
+   celular la casilla sube justo después del título: es a lo que entra casi siempre un residente. */
 .portada {
-  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .9fr); gap: clamp(20px, 4vw, 56px); align-items: center;
-  padding-block: clamp(12px, 4vw, 40px) clamp(8px, 2vw, 16px);
+  display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(300px, .8fr); gap: clamp(20px, 4vw, 56px); align-items: center;
+  padding-block: clamp(8px, 3vw, 28px) 0;
 }
-.portada-texto { display: grid; gap: 18px; align-content: start; }
-.portada-texto h1 { font-size: clamp(32px, 5vw, 54px); line-height: 1.04; max-width: 15ch; }
-.portada-texto .lead { max-width: 54ch; }
-.garantias { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 9px; color: var(--tinta-2); font-size: 15px; }
-.garantias li { display: flex; gap: 11px; align-items: baseline; }
+.portada-texto { display: grid; gap: 26px; align-content: start; }
+.portada-cabeza { display: grid; gap: 14px; }
+.portada-texto h1 { font-size: clamp(30px, 4.6vw, 50px); line-height: 1.05; max-width: 16ch; }
+.portada-texto .lead { max-width: 52ch; }
+.modos { display: grid; gap: 10px; }
+.modos-lista { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+a.modo {
+  display: grid; grid-template-rows: auto 1fr; gap: 10px; padding: 14px 14px 15px;
+  color: var(--tinta); text-decoration: none;
+  background: rgba(18, 24, 33, .82); border: 1px solid var(--linea); border-radius: var(--r-lg);
+  transition: border-color var(--t), background-color var(--t), transform .08s ease;
+}
+a.modo:hover { color: var(--tinta); background: var(--panel-2); border-color: var(--marca-borde); }
+a.modo:active { transform: translateY(1px); }
+a.modo:focus-visible { outline: none; border-color: var(--marca); box-shadow: var(--anillo); }
+a.modo svg {
+  width: 34px; height: 34px; padding: 6px; border-radius: 9px; background: var(--marca-suave);
+  fill: none; stroke: var(--marca); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+}
+a.modo span { display: grid; gap: 3px; }
+a.modo b { font-size: 15.5px; line-height: 1.25; }
+a.modo small { font-size: 13.5px; line-height: 1.4; color: var(--tinta-2); }
+.garantias { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 22px; color: var(--mute); font-size: 13.5px; }
+.garantias li { display: flex; gap: 9px; align-items: baseline; }
 .garantias li::before {
-  content: ""; flex: none; width: 13px; height: 7px; margin-bottom: 3px;
+  content: ""; flex: none; width: 11px; height: 6px; margin-bottom: 3px;
   border-left: 2px solid var(--ok); border-bottom: 2px solid var(--ok); transform: rotate(-45deg) translateY(-2px);
 }
 .unirse { display: grid; gap: 14px; }
-.unirse h2 { font-size: 22px; }
+.unirse h2 { font-size: 22px; margin-top: 2px; }
 .unirse .eyebrow { color: var(--marca); }
+.codigo-fila { display: flex; gap: 10px; }
+.codigo-fila input.input-codigo { flex: 1 1 0; min-width: 0; min-height: 60px; font-size: 30px; }
+.codigo-fila button { flex: none; min-height: 60px; padding-inline: 20px; }
 .seccion-cabeza { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
 .segmentos { gap: 30px; }
 .segmento { display: grid; gap: 12px; }
@@ -535,6 +559,24 @@ blockquote { margin: 4px 0; padding: 8px 14px; font-size: 15px; color: var(--tin
 .tema-card :is(h3, h4) { margin: 0; font-size: 18.5px; font-weight: 650; line-height: 1.3; letter-spacing: -.01em; text-wrap: balance; }
 .tema-card .meta { font-size: 13.5px; line-height: 1.5; color: var(--mute); font-variant-numeric: tabular-nums; }
 .tema-card .acciones { margin-top: auto; padding-top: 4px; }
+/* Tarjeta de tema de la portada: título, casos y verificación a la izquierda, el botón a la derecha; el avance propio y los enlaces
+   extra, a lo ancho abajo. El botón se estira sobre toda la tarjeta: se toca en cualquier parte. */
+.tema-portada {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 12px 14px;
+  padding: 16px 16px 16px 18px; transition: border-color var(--t), background-color var(--t);
+}
+.tema-portada.clicable:hover { border-color: var(--marca-borde); background: #141b25; }
+.tc-texto { display: grid; gap: 5px; min-width: 0; }
+.tema-portada :is(h3, h4) { margin: 0; font-size: 17px; font-weight: 650; line-height: 1.3; letter-spacing: -.01em; text-wrap: pretty; }
+.tema-portada .meta { font-size: 13.5px; line-height: 1.45; color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+.tema-portada .verif { font-size: 13px; line-height: 1.4; color: var(--mute); }
+.tema-portada .verif.ok { display: flex; gap: 5px; align-items: center; color: var(--ok); }
+.tema-portada .verif.ok::before { content: ""; flex: none; width: 15px; height: 15px; background: var(--i-ok) center / contain no-repeat; }
+.tema-portada > .abrir, .tema-portada > button { grid-column: 2; grid-row: 1; align-self: center; }
+.tema-portada a.abrir::after { content: ""; position: absolute; inset: 0; border-radius: var(--r-lg); }
+.tema-portada > .medidor, .tema-portada > .extra { grid-column: 1 / -1; }
+.tema-portada > .extra { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.tema-portada > .extra .boton { min-height: 36px; padding: 6px 12px; font-size: 14px; }
 .etiquetas { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .etiqueta {
   display: inline-flex; align-items: center; min-height: 22px; padding: 1px 8px;
@@ -552,7 +594,9 @@ blockquote { margin: 4px 0; padding: 8px 14px; font-size: 15px; color: var(--tin
 
 /* buscador de la portada: solo la barra; segmentos y áreas en un desplegable que se abre al tocarla */
 .visualmente-oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.buscador { position: relative; display: grid; gap: 12px; margin-bottom: 22px; }
+/* Pegado arriba al bajar por los temas; la sombra degradada por debajo separa la barra de las tarjetas que pasan. */
+.buscador { position: sticky; top: 0; z-index: 15; display: grid; padding-block: 10px; margin: -10px 0 8px; background: var(--fondo); }
+.buscador::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 14px; background: linear-gradient(var(--fondo), rgba(11, 15, 20, 0)); pointer-events: none; }
 .buscar {
   display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 6px 6px 6px 42px;
   background: var(--panel-2) no-repeat 14px 50% / 18px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5' fill='none' stroke='%238f9cad' stroke-width='1.8'/%3E%3Cpath d='m13 13 4.5 4.5' stroke='%238f9cad' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -568,7 +612,7 @@ button.filtro-activo {
 button.filtro-activo span { margin-left: 4px; opacity: .7; }
 button.abrir-filtros { flex: none; min-height: 38px; padding: 6px 12px; font-size: 13.5px; color: var(--tinta-2); background: transparent; border-color: var(--linea-2); }
 .desplegable {
-  position: absolute; z-index: 20; top: 58px; left: 0; right: 0; display: grid; gap: 8px; padding: 14px 16px 16px;
+  position: absolute; z-index: 20; top: calc(100% - 4px); left: 0; right: 0; display: grid; gap: 8px; padding: 14px 16px 16px;
   background: var(--panel); border: 1px solid var(--linea-2); border-radius: var(--r); box-shadow: var(--sombra-alta);
   max-height: min(70vh, 520px); overflow: auto;
 }
@@ -582,7 +626,7 @@ button.filtro {
 button.filtro .n { color: var(--mute); font-variant-numeric: tabular-nums; margin-left: 2px; }
 button.filtro[aria-pressed="true"] { color: var(--marca-tinta); background: var(--marca); border-color: var(--marca); }
 button.filtro[aria-pressed="true"] .n { color: var(--marca-tinta); opacity: .75; }
-.armado { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 14px 16px; border: 1px solid var(--marca-borde);
+.armado { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-bottom: 18px; padding: 14px 16px; border: 1px solid var(--marca-borde);
   border-radius: var(--r); background: var(--marca-suave); }
 .armado .crece { flex: 1 1 260px; display: grid; gap: 2px; }
 .armado b { color: var(--tinta); }
@@ -1302,7 +1346,12 @@ label.tb-opcion > input { margin-top: 3px; }
 
 /* ------------------------------------------------------------------ pantallas angostas */
 @media (max-width: 900px) {
-  .portada { grid-template-columns: minmax(0, 1fr); }
+  /* La portada en una columna: título, código, modos y garantías, en ese orden. */
+  .portada { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .portada-texto { display: contents; }
+  .unirse { order: 1; }
+  .modos { order: 2; }
+  .garantias { order: 3; }
   /* Sin mira: baja la banda de luz, y las dos luces vienen de arriba y derivan más. Sus centros quedan por encima
      de la página, así lo más fuerte nunca está detrás de un texto y el gris de --mute sigue en 4,5:1 aunque las
      dos luces y la banda coincidan. Aquí las dos son frías: sin la mira alrededor, el ámbar así de tenue se ve
@@ -1359,6 +1408,18 @@ label.tb-opcion > input { margin-top: 3px; }
   .ctrl button { flex: 1 1 auto; }
   .ctrl .spacer { display: none; }
   .tema-card .acciones .boton { flex: 1 1 auto; }
+  /* En la cabecera de la portada caben el logo y los dos enlaces en una línea. */
+  .pagina-inicio .bar .nav { width: auto; margin-left: auto; }
+  .pagina-inicio .bar .brand { flex: 0 1 auto; }
+  /* Los modos, en una fila de tres botones con el nombre solo: en el celular casi nadie presenta, y así la práctica
+     (y «Seguir donde lo dejaste») sube. La explicación queda en la computadora. */
+  .modos-lista { gap: 8px; }
+  a.modo { grid-template-rows: none; justify-items: center; gap: 7px; padding: 12px 6px; text-align: center; }
+  a.modo b { font-size: 14px; }
+  a.modo small { display: none; }
+  .tema-portada { padding: 14px 14px 14px 16px; }
+  .tema-portada > .abrir { padding-inline: 14px; }
+  button.abrir-filtros { padding-inline: 10px; }
 }
 @media (hover: none) {
   .ctrl .teclas, .tabu-juego kbd, .tb-anuncio kbd, .ctrl kbd { display: none; }

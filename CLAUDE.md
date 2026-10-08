@@ -184,8 +184,15 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   licencia OFL en `app/fuentes/OFL.txt`. Logo y favicon: `app/marca.svg`, la retícula con que se marca un hallazgo.
   Solo se usa lo que ya tenía Chrome 109 (el último de Windows 7): revisado función por función, no probado en ese
   navegador. `text-wrap`, y `:has()` en Firefox anteriores al 121, solo mejoran. La portada trae una
-  casilla para entrar a una sala con el código (formulario GET a `sala.html?c=`), y «Presentar una sesión» abre
+  casilla para entrar a una sala con el código (formulario GET a `sala.html?c=`), y «Sala en vivo» abre
   `sala.html?crear=1`, que va directo a crear la sala.
+  Portada reordenada (2026-10-08, pedido del autor: no le parecía cómoda). Tres cosas, por orden de uso: entrar con
+  el código (casilla y «Entrar» en una fila; en el celular sube justo bajo el título), «Para presentar en clase» con
+  Sala en vivo, Tablero y Tabú como tarjetas que dicen qué es cada uno (en el celular, una fila de tres con el
+  nombre solo) y «Practica a tu ritmo». La cabecera ya no lleva el botón amarillo «Sala en vivo». El buscador queda
+  pegado arriba al bajar por los temas. Las tarjetas de tema (`.tema-portada`; el estudio sigue con `.tema-card`)
+  llevan título, casos y modalidades, una línea de verificados y el botón a la derecha, que se estira sobre toda la
+  tarjeta; la versión pasó al `title`. Probado en el navegador a 375, 768, 1280 y 1440 px.
 - Fondo animado de la portada (2026-09-28): `.fondo-vivo` en `index.html`, sus estilos en la sección «inicio» de
   `app/estilos.css` y `centrarMira()` en `app/inicio.js`. En escritorio, una mira como la del logo rodea la casilla
   del código: anillos finos, una escala de gantry que gira despacio y un punto que da la vuelta, sobre una rejilla de

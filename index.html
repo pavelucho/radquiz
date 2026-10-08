@@ -22,42 +22,52 @@
     <nav class="nav" aria-label="Principal">
       <a class="boton" href="manual.html">Manual</a>
       <a class="boton" href="estudio.html">Estudio</a>
-      <a class="boton primary" href="sala.html">Sala en vivo</a>
     </nav>
   </header>
 
   <main class="stack inicio">
     <section class="portada">
       <div class="portada-texto">
-        <p class="eyebrow">Práctica individual y sesiones en vivo</p>
-        <h1>Casos radiológicos para residentes</h1>
-        <p class="lead">Practica a tu ritmo o juega en clase, como en Kahoot: el presentador proyecta el caso y cada uno
-          responde desde su celular. Sin cuentas y sin instalar nada.</p>
-        <div class="row">
-          <a class="boton primary lg" href="#temas">Elegir un tema</a>
-          <a class="boton lg" href="sala.html?crear=1">Presentar una sesión</a>
-          <a class="boton lg" href="tablero.html">Tablero por equipos</a>
-          <a class="boton lg" href="tabu.html">Tabú radiológico</a>
+        <div class="portada-cabeza">
+          <h1>Casos radiológicos para residentes</h1>
+          <p class="lead">Practica a tu ritmo o juega en clase: el caso se proyecta y cada uno responde desde su celular.
+            Gratis, sin cuentas y sin instalar nada.</p>
         </div>
+        <nav class="modos" aria-labelledby="titulo-modos">
+          <p class="eyebrow" id="titulo-modos">Para presentar en clase</p>
+          <div class="modos-lista">
+            <a class="modo" href="sala.html?crear=1">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="1.5"/><path d="M9 14v3M6 17.5h6"/><rect x="17.5" y="9" width="4.5" height="10" rx="1"/></svg>
+              <span><b>Sala en vivo</b><small>Proyectas el caso y cada uno responde en su celular.</small></span></a>
+            <a class="modo" href="tablero.html">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16M3 9.33h18M3 14.67h18"/></svg>
+              <span><b>Tablero por equipos</b><small>Estilo concurso: eligen casilla y responden en voz alta.</small></span></a>
+            <a class="modo" href="tabu.html">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5h17v11h-10l-4.5 4v-4H3.5z"/><path d="m8 8 8 5"/></svg>
+              <span><b>Tabú radiológico</b><small>Describe el caso sin decir las palabras prohibidas.</small></span></a>
+          </div>
+        </nav>
         <ul class="garantias">
-          <li>Cada imagen muestra su fuente y su licencia.</li>
-          <li>Cada caso dice si un radiólogo lo verificó.</li>
-          <li>Gratis, en el celular o en la computadora.</li>
+          <li>Cada imagen con su fuente y su licencia</li>
+          <li>Cada caso dice si un radiólogo lo verificó</li>
         </ul>
       </div>
       <form class="panel unirse" action="sala.html" method="get" autocomplete="off">
-        <p class="eyebrow">Sala en vivo</p>
-        <h2>¿Tienes un código?</h2>
-        <label class="grid-label">Código de la sala
+        <div>
+          <p class="eyebrow">¿Te dieron un código?</p>
+          <h2>Entra a la sala</h2>
+        </div>
+        <div class="codigo-fila">
           <input type="text" class="input-codigo" name="c" maxlength="4" pattern="[A-Za-z]{4}" required placeholder="ABCD"
-            autocapitalize="characters" spellcheck="false" title="El código tiene 4 letras"></label>
-        <button class="primary lg" type="submit">Entrar a la sala</button>
-        <p class="src">Está en el proyector. Si ves un QR, escanéalo con la cámara y entras directo.</p>
+            autocapitalize="characters" spellcheck="false" title="El código tiene 4 letras" aria-label="Código de la sala">
+          <button class="primary lg" type="submit">Entrar</button>
+        </div>
+        <p class="src">Son 4 letras y están en el proyector. Si ves un QR, escanéalo con la cámara y entras directo.</p>
       </form>
     </section>
 
-    <section class="stack stack-lg" id="temas" aria-labelledby="titulo-temas">
-      <div class="seccion-cabeza"><h2 id="titulo-temas">Temas</h2><p class="src" id="resumen"></p></div>
+    <section class="stack" id="temas" aria-labelledby="titulo-temas">
+      <div class="seccion-cabeza"><h2 id="titulo-temas">Practica a tu ritmo</h2><p class="src" id="resumen"></p></div>
       <div id="app" aria-live="polite"><p class="muted">Cargando temas…</p></div>
     </section>
   </main>

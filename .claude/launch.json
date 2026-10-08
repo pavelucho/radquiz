@@ -18,6 +18,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8767", "--bind", "127.0.0.1"],
       "port": 8767
+    },
+    {
+      "name": "radquiz-4",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8768", "--bind", "127.0.0.1"],
+      "port": 8768
     }
   ]
 }

@@ -19,14 +19,14 @@ const mios = new Map(resumenes().map((r) => [r.ruta, r]));
 
 const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
 
-// Cuántos casos del tema llevan el sello de un radiólogo.
-function medidor(publicado, verificado) {
+// Cuántos casos del tema llevan el sello de un radiólogo, en una línea corta: el verde solo si hay alguno.
+function sello(publicado, verificado) {
   if (!publicado) return "";
-  const texto = !verificado ? "Ninguno verificado por un radiólogo todavía"
-    : verificado === publicado ? `${publicado === 1 ? "Verificado" : `Los ${publicado} verificados`} por un radiólogo`
-    : `${verificado} de ${publicado} verificados por un radiólogo`;
-  return `<div class="medidor"><div class="barra"><i style="width:${Math.round((100 * verificado) / publicado)}%"></i></div>
-    <span>${texto}</span></div>`;
+  const titulo = ' title="El sello lo pone un radiólogo después de revisar el caso"';
+  if (!verificado) return `<p class="verif"${titulo}>Sin verificar todavía</p>`;
+  const texto = verificado === publicado ? (publicado === 1 ? "Verificado" : "Todos verificados")
+    : `${verificado} de ${publicado} verificados`;
+  return `<p class="verif ok"${titulo}>${texto}</p>`;
 }
 
 // Cuánto del tema respondió el residente en este dispositivo. El total es el de hoy: si el tema creció, baja.
@@ -40,14 +40,15 @@ function miAvance(paquete) {
     <span>${texto} · ${Math.round((100 * r.bien) / r.vistos)} % de aciertos</span></div>`;
 }
 
-// Con un criterio, «coinciden» dice cuántos casos del tema entran: la tarjeta ofrece practicar solo esos.
+// Con un criterio, «coinciden» dice cuántos casos del tema entran: la tarjeta ofrece practicar solo esos. Toda la
+// tarjeta abre la práctica (el botón se estira por encima); los enlaces de abajo quedan por encima de él.
 function tarjeta(paquete, coinciden = null) {
   const { publicado = 0, verificado = 0, revisado = 0, borrador = 0 } = paquete.casos || {};
   const ruta = encodeURIComponent(paquete.ruta).replace("%2F", "/");
   const mio = mios.get(paquete.ruta);
   const empezado = mio && mio.vistos > 0 && mio.vistos < publicado;
   const practicar = publicado
-    ? `<a class="boton primary" href="practica.html?tema=${ruta}">${empezado ? "Continuar" : "Practicar"} · ${plural(publicado, "caso", "casos")}</a>`
+    ? `<a class="boton primary abrir" href="practica.html?tema=${ruta}">${empezado ? "Continuar" : "Practicar"}</a>`
     : `<button disabled>Sin publicar</button>`;
   const parte = publicado && coinciden && coinciden < publicado
     ? `<a class="boton" href="${enlace("practica.html", criterio, `tema=${ruta}`)}">${coinciden === 1 ? "Solo el que coincide" : `Solo los ${coinciden} que coinciden`}</a>`
@@ -56,14 +57,16 @@ function tarjeta(paquete, coinciden = null) {
   const revisar = pendientes
     ? `<a class="src" href="practica.html?tema=${ruta}&amp;revision=1">Ver ${pendientes} casos sin publicar (revisores)</a>`
     : "";
-  const modalidades = (paquete.modalidades || []).map((m) => `<span class="etiqueta">${esc(m)}</span>`).join("");
-  return `<article class="panel tema-card">
-    <div class="etiquetas">${modalidades}${paquete.version ? `<span class="src">versión ${esc(paquete.version)}</span>` : ""}</div>
-    <h4>${esc(paquete.titulo)}</h4>
-    ${medidor(publicado, Math.min(verificado, publicado))}
+  const meta = [publicado ? plural(publicado, "caso", "casos") : "", (paquete.modalidades || []).join(" · ")].filter(Boolean);
+  return `<article class="panel tema-card tema-portada${publicado ? " clicable" : ""}"${paquete.version ? ` title="Versión ${esc(paquete.version)}"` : ""}>
+    <div class="tc-texto">
+      <h4>${esc(paquete.titulo)}</h4>
+      ${meta.length ? `<p class="meta">${meta.map(esc).join('<span aria-hidden="true"> · </span>')}</p>` : ""}
+      ${sello(publicado, Math.min(verificado, publicado))}
+    </div>
+    ${practicar}
     ${miAvance(paquete)}
-    <div class="row acciones">${practicar}${parte}</div>
-    ${revisar}
+    ${parte || revisar ? `<div class="extra">${parte}${revisar}</div>` : ""}
   </article>`;
 }
 
@@ -93,14 +96,14 @@ let conteo = null;
 const enlace = (pagina, c, extra = "") => `${pagina}?${[extra, consultaDe(c)].filter(Boolean).join("&")}`;
 
 // El buscador se dibuja una vez; los botones, el resumen y las tarjetas, cada vez que cambia algo. A la vista
-// solo queda la barra: los segmentos y las áreas se despliegan al tocarla, y el filtro elegido queda como una
-// etiqueta dentro de la barra, con su ✕.
+// solo queda la barra, que se queda arriba al bajar por los temas: los segmentos y las áreas se despliegan al
+// tocarla, y el filtro elegido queda como una etiqueta dentro de la barra, con su ✕.
 function dibujarBuscador() {
   return `<section class="buscador" aria-label="Buscar y armar un cuestionario">
     <div class="buscar">
       <label class="visualmente-oculto" for="q">Buscar</label>
       <button type="button" class="filtro-activo" id="filtro-activo" hidden></button>
-      <input type="search" id="q" placeholder="Busca un tema, un diagnóstico o un signo" value="${esc(criterio.q)}"
+      <input type="search" id="q" placeholder="Diagnóstico o signo" value="${esc(criterio.q)}"
         autocomplete="off" spellcheck="false" enterkeyhint="search" aria-controls="desplegable" aria-expanded="false">
       <button type="button" class="abrir-filtros" id="abrir-filtros" aria-controls="desplegable" aria-expanded="false"
         title="Filtrar por segmento y área">Segmentos</button>
@@ -111,8 +114,8 @@ function dibujarBuscador() {
       <div id="bloque-areas" hidden><p class="src">Área</p>
         <div class="filtros" id="areas" role="group" aria-label="Área"></div></div>
     </div>
-    <div class="armado" id="armado" aria-live="polite" hidden></div>
   </section>
+  <div class="armado" id="armado" aria-live="polite" hidden></div>
   <div id="continuar"></div>
   <div class="stack segmentos" id="lista"></div>`;
 }
@@ -209,6 +212,8 @@ function cambiar(cambios) {
   const consulta = consultaDe(criterio);
   history.replaceState(null, "", consulta ? `?${consulta}#temas` : location.pathname);
   pintar();
+  // Con la barra pegada arriba, la lista nueva empieza bajo ella y no donde uno había bajado.
+  if ($("#app").getBoundingClientRect().top < 0) $("#app").scrollIntoView({ block: "start" });
 }
 
 async function iniciar() {
