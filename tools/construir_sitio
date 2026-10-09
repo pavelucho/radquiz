@@ -4,8 +4,8 @@
 Uso:
     tools/construir_sitio            escribe _site/
 
-Solo entran los casos en estado «publicado»: los borradores y los revisados no salen a la web.
-De cada paquete se copian solo las imágenes y las fuentes que usan esos casos. Un tema sin casos
+Solo entran los casos y las lecturas en estado «publicado»: los borradores no salen a la web.
+De cada paquete se copian solo las imágenes y las fuentes que usan esos casos y lecturas. Un tema sin casos
 publicados aparece en la lista como «En revisión».
 
 Además de temas/indice.json escribe temas/indice_casos.json, el índice para buscar y contar casos por segmento
@@ -19,7 +19,8 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 DESTINO = RAIZ / "_site"
-ARCHIVOS_APP = ["index.html", "practica.html", "sala.html", "tablero.html", "tabu.html", "manual.html", "estudio.html"]
+ARCHIVOS_APP = ["index.html", "practica.html", "lectura.html", "lectura-vivo.html", "sala.html", "tablero.html", "tabu.html",
+                "manual.html", "estudio.html"]
 
 
 def resumen_caso(caso, segmento_tema):
@@ -58,14 +59,17 @@ def construir():
         fuentes = json.loads((carpeta / "fuentes.json").read_text(encoding="utf-8"))
 
         casos = [c for c in paquete["casos"] if c.get("estado") == "publicado"]
-        refs = {r["ref"] for c in casos for r in c.get("imagenes", [])}
+        lecturas = [l for l in paquete.get("lecturas", []) if l.get("estado") == "publicado"]
+        refs = {r["ref"] for c in casos + lecturas for r in c.get("imagenes", [])}
         imagenes = {k: v for k, v in paquete["imagenes"].items() if k in refs}
         citadas = {v["fuente"] for v in imagenes.values()}
-        citadas |= {e["fuente"] for c in casos for e in c.get("evidencia", [])}
+        citadas |= {e["fuente"] for c in casos + lecturas for e in c.get("evidencia", [])}
 
-        publico = {k: v for k, v in paquete.items() if k not in ("$schema", "imagenes", "casos")}
+        publico = {k: v for k, v in paquete.items() if k not in ("$schema", "imagenes", "casos", "lecturas")}
         publico["imagenes"] = imagenes
         publico["casos"] = casos
+        if lecturas:
+            publico["lecturas"] = lecturas
         fuentes_publicas = {k: v for k, v in fuentes.items() if k in citadas}
 
         salida = DESTINO / "temas" / carpeta.parent.name / carpeta.name
@@ -91,8 +95,11 @@ def construir():
             "casos": {"borrador": 0, "publicado": len(casos),
                       "verificado": sum(1 for c in casos if c.get("revisor"))},
         })
-        print("%-50s %3d publicados de %3d, %2d imágenes"
-              % (indice[-1]["ruta"], len(casos), len(paquete["casos"]), len(imagenes)))
+        if lecturas:
+            indice[-1]["lecturas"] = {"borrador": 0, "publicado": len(lecturas),
+                                      "verificado": sum(1 for l in lecturas if l.get("revisor"))}
+        print("%-50s %3d publicados de %3d, %3d lecturas, %2d imágenes"
+              % (indice[-1]["ruta"], len(casos), len(paquete["casos"]), len(lecturas), len(imagenes)))
 
     (DESTINO / "temas" / "indice.json").write_text(
         json.dumps({"paquetes": indice}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

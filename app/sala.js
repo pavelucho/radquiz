@@ -544,7 +544,16 @@ async function unirse(codigoEscrito, nombreEscrito) {
   let nombre = nombreEscrito.trim().replace(/\s+/g, " ");
   if (!/^[A-Z]{4}$/.test(c)) return aviso("El código tiene 4 letras.");
   const existe = await get(ref(db, `salas/${c}/info`)).catch(() => null);
-  if (!existe || !existe.exists()) return aviso("No hay una sala con ese código.");
+  if (!existe || !existe.exists()) {
+    // La misma casilla sirve para las sesiones de lectura (lectura-vivo.html): allá se entra con el nombre ya puesto.
+    const lectura = await get(ref(db, `lecturas_vivo/${c}/info`)).catch(() => null);
+    if (lectura?.exists()) {
+      try { sessionStorage.setItem("radquiz.lectura-vivo.nombre", nombre); } catch { /* sin almacenamiento */ }
+      location.href = `lectura-vivo.html?c=${c}`;
+      return;
+    }
+    return aviso("No hay una sala con ese código.");
+  }
   // Sin nombre: el que ya tenía en esta sala o un apodo al azar que nadie use. Sin avatar elegido: el que ya tenía o uno al azar.
   const otros = (await get(ref(db, `salas/${c}/jugadores`)).catch(() => null))?.val() || {};
   const previo = otros[uid] || {};

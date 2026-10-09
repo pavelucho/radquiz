@@ -515,7 +515,7 @@ blockquote { margin: 4px 0; padding: 8px 14px; font-size: 15px; color: var(--tin
 .portada-texto h1 { font-size: clamp(30px, 4.6vw, 50px); line-height: 1.05; max-width: 16ch; }
 .portada-texto .lead { max-width: 52ch; }
 .modos { display: grid; gap: 10px; }
-.modos-lista { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.modos-lista { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 a.modo {
   display: grid; grid-template-rows: auto 1fr; gap: 10px; padding: 14px 14px 15px;
   color: var(--tinta); text-decoration: none;
@@ -1307,6 +1307,160 @@ label.tb-opcion > input { margin-top: 3px; }
 .tema-cabeza { align-items: flex-end; }
 .crece { flex: 1 1 240px; }
 
+/* ------------------------------------------------------------------ lectura: casos abiertos (lectura.html, lectura-vivo.html) */
+/* La hoja del caso: página 1 con las figuras limpias a la izquierda y las preguntas a la derecha; página 2 con el
+   diagnóstico, las figuras anotadas y, debajo, cada pregunta con tu respuesta al lado de la de la fuente. */
+.lec-paso {
+  display: inline-flex; align-items: center; min-height: 26px; padding: 3px 10px; border-radius: 99px;
+  font-size: 12.5px; font-weight: 600; color: var(--tinta-2); background: var(--panel-2); border: 1px solid var(--linea-2);
+}
+.lec-paso.dos { color: var(--ok); background: var(--ok-suave); border-color: var(--ok-borde); }
+.lec-hoja { display: grid; gap: clamp(14px, 1.8vw, 22px); }
+.lec-cabeza { display: grid; gap: 6px; padding-left: 14px; border-left: 3px solid var(--marca); }
+.lec-presentacion { font-size: clamp(21px, 2.3vw, 28px); font-weight: 600; line-height: 1.25; }
+.lec-diagnostico { font-size: clamp(24px, 2.8vw, 34px); color: #fff; }
+.lec-cabeza .sello { justify-self: start; }
+.lec-cuerpo { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(16px, 2.2vw, 28px); align-items: start; }
+.lec-lado { display: grid; gap: 14px; align-content: start; min-width: 0; }
+
+.lec-figuras { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 10px; }
+.lec-figuras.una { grid-template-columns: minmax(0, 1fr); }
+.lec-figura { display: grid; grid-template-rows: auto auto 1fr; margin: 0; overflow: hidden; background: #000; border: 1px solid var(--linea); border-radius: var(--r-lg); }
+.lec-img { display: grid; place-items: center; background: #000; }
+.lec-img img { display: block; width: 100%; max-height: 62vh; object-fit: contain; cursor: zoom-in; }
+.lec-anotadas .lec-img img { max-height: 46vh; }
+.lec-leyenda { padding: 10px 12px 4px; font-size: 14.5px; line-height: 1.5; color: var(--tinta); background: #06080b; }
+.lec-figura .cap { align-self: end; }
+.lec-limpias-otra > .lec-figuras { margin-top: 2px; }
+
+.lec-preguntas { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; counter-reset: lec; }
+.lec-pregunta { display: grid; gap: 8px; counter-increment: lec; }
+.lec-enunciado { display: flex; gap: 10px; font-size: clamp(16.5px, 1.4vw, 19px); font-weight: 500; line-height: 1.4; color: var(--tinta); }
+.lec-pregunta .lec-enunciado::before, .lec-r .lec-enunciado::before {
+  content: counter(lec); flex: none; display: grid; place-items: center; width: 28px; height: 28px; margin-top: -1px;
+  font-size: 15px; font-weight: 700; font-stretch: 85%; color: var(--marca-tinta); background: var(--marca); border-radius: 7px;
+}
+.lec-campo { font-size: 16px; min-height: 52px; }
+.lec-consejo b { color: var(--marca); }
+
+.lec-respuestas { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; counter-reset: lec; }
+.lec-r {
+  display: grid; gap: 10px; padding: 14px 16px; counter-increment: lec;
+  background: var(--panel); border: 1px solid var(--linea); border-left: 3px solid var(--linea-2); border-radius: 0 12px 12px 0;
+}
+.lec-r.nota-completa { border-left-color: var(--ok); }
+.lec-r.nota-parcial { border-left-color: var(--marca); }
+.lec-r.nota-no { border-left-color: var(--mal); }
+.lec-tipo { font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+.lec-par { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 10px; }
+.lec-rotulo { display: block; margin-bottom: 4px; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--mute); }
+.lec-mia { padding: 10px 12px; border: 1px dashed var(--linea-2); border-radius: var(--r); white-space: pre-line; }
+.lec-mia.vacia p { color: var(--mute); font-style: italic; }
+.lec-coincide { margin-top: 6px; font-size: 13.5px; font-weight: 600; color: var(--ok); }
+.lec-coincide::before { content: ""; display: inline-block; width: 15px; height: 15px; margin-right: 5px; vertical-align: -2px; background: var(--i-ok) center / contain no-repeat; }
+.lec-respuesta { padding: 10px 12px; line-height: 1.55; background: var(--ok-suave); border: 1px solid var(--ok-borde); border-radius: var(--r); }
+.lec-respuesta ul, .lec-respuesta ol { margin: 2px 0; padding-left: 20px; display: grid; gap: 3px; }
+.lec-puntos { display: grid; gap: 6px; margin: 0; padding: 10px 12px; border: 1px solid var(--linea); border-radius: var(--r); }
+.lec-puntos legend { padding: 0 6px; font-size: 13px; font-weight: 600; color: var(--tinta-2); }
+.lec-punto { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; line-height: 1.45; }
+.lec-punto input { margin-top: 2px; }
+.lec-puntos-lista { margin: 0; padding-left: 22px; display: grid; gap: 4px; color: var(--tinta-2); }
+.lec-nota { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.lec-nota > span:first-child { font-weight: 650; margin-right: 2px; }
+.lec-nota button { min-height: 40px; padding: 7px 14px; font-size: 15px; }
+.lec-nota .nota-completa.elegida { color: #0b0f14; background: var(--ok); border-color: var(--ok); }
+.lec-nota .nota-parcial.elegida { color: var(--marca-tinta); background: var(--marca); border-color: var(--marca); }
+.lec-nota .nota-no.elegida { color: #0b0f14; background: var(--mal); border-color: var(--mal); }
+.lec-nota .src { margin-left: 4px; }
+.lec-mostrar { justify-self: start; }
+.lec-discusion { display: grid; gap: 8px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; }
+.lec-discusion h3 { font-size: 16px; color: var(--tinta-2); }
+.lec-perlas ul { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px; }
+.lec-total { padding: 12px 16px; font-size: 16px; border: 1px solid var(--linea); border-radius: 12px; background: var(--panel); color: var(--tinta-2); }
+.lec-total.bien { color: var(--ok); border-color: var(--ok-borde); background: var(--ok-suave); }
+.lec-total.mal { color: var(--tinta); border-color: var(--marca-borde); background: var(--marca-suave); }
+.lec-total b { color: inherit; }
+.lec-resumen { margin: 0; padding-left: 22px; display: grid; gap: 6px; }
+.lec-resumen li > span { margin-right: 8px; }
+.lec-resumen .bien { color: var(--ok); }
+.lec-resumen .mal { color: var(--mal); }
+
+/* proyector: letra y figuras grandes, para la pantalla de la sala */
+body.proyector .wrap { max-width: none; }
+body.proyector .lec-presentacion { font-size: clamp(26px, 2.6vw, 40px); }
+body.proyector .lec-diagnostico { font-size: clamp(30px, 3.2vw, 48px); }
+body.proyector .lec-enunciado { font-size: clamp(19px, 1.7vw, 27px); }
+body.proyector .lec-pregunta .lec-enunciado::before, body.proyector .lec-r .lec-enunciado::before { width: 36px; height: 36px; font-size: 19px; }
+body.proyector .lec-img img { max-height: 72vh; }
+body.proyector .lec-anotadas .lec-img img { max-height: 58vh; }
+body.proyector .lec-leyenda, body.proyector .lec-respuesta { font-size: clamp(16px, 1.3vw, 20px); }
+body.proyector .lec-r { padding: 16px 20px; }
+
+/* sesión con celulares (lectura-vivo.html) */
+.lv-grupos { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.lv-grupo {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 10px; padding: 8px 12px;
+  background: var(--panel-2); border: 1px solid var(--linea); border-radius: var(--r);
+}
+.lv-grupo .n { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--tinta-2); }
+.lv-grupo.vale { border-color: var(--ok-borde); background: var(--ok-suave); }
+.lv-grupo.vale .lv-texto::after { content: ""; display: inline-block; width: 16px; height: 16px; margin-left: 6px; vertical-align: -2px; background: var(--i-ok) center / contain no-repeat; }
+.lv-grupo.sugerido { border-style: dashed; border-color: var(--ok-borde); }
+.lv-grupo button { min-height: 34px; padding: 5px 12px; font-size: 13.5px; }
+.lv-barra { height: 6px; border-radius: 99px; background: var(--panel-3); overflow: hidden; grid-column: 1 / -1; }
+.lv-barra i { display: block; height: 100%; background: var(--info); }
+.lv-resumen-q { font-size: 13.5px; color: var(--mute); }
+.lv-respondieron { font-size: 15px; color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+.lv-mi-nota { font-size: 13.5px; font-weight: 600; }
+.lv-mi-nota.vale { color: var(--ok); }
+.lv-mi-nota.no { color: var(--mute); }
+
+@media (max-width: 900px) {
+  .lec-cuerpo, .lec-par { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .lec-cabeza { padding-left: 10px; }
+  .lec-r { padding: 12px; }
+  .lec-nota button { flex: 1 1 0; }
+  .lv-grupo { grid-template-columns: minmax(0, 1fr) auto; }
+  .lv-grupo button { grid-column: 1 / -1; }
+}
+/* fin de lectura */
+
+/* ------------------------------------------------------------------ estudio: lecturas */
+/* Pestañas del paso 3 (casos o lecturas), la tarjeta, el formulario y la lectura entera con sus dos páginas. */
+.estudio-pestanas .paso { flex: 1 1 200px; }
+.est-lec-presentacion { margin: 0; font-size: 15.5px; font-weight: 500; color: var(--tinta); }
+.est-lec-paginas { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 12px; }
+.est-lec-pagina { display: grid; align-content: start; gap: 10px; padding: 14px; background: var(--panel-2); border: 1px solid var(--linea); border-radius: var(--r); }
+.est-lec-pagina + .est-lec-pagina { border-color: var(--ok-borde); }
+.est-lec-tema { margin: 0; font-size: 17px; font-weight: 650; color: var(--ok); }
+.est-lec-figs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 8px; }
+.est-lec-fig { margin: 0; display: grid; gap: 4px; }
+.est-lec-fig img { display: block; width: 100%; max-height: 220px; object-fit: contain; background: #000; border-radius: var(--r-sm); cursor: zoom-in; }
+.est-lec-preguntas, .est-lec-respuestas { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
+.est-lec-preguntas .chip { min-height: 22px; padding: 1px 8px; font-size: 12px; margin-right: 4px; }
+.est-lec-respuestas .md { color: var(--tinta-2); }
+.est-lec-puntos { margin: 0; padding-left: 20px; display: grid; gap: 2px; font-size: 14px; color: var(--tinta-2); }
+.est-lec-figuras { display: grid; gap: 8px; }
+.est-lec-fila-fig {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: start;
+  padding: 8px; background: var(--panel-2); border: 1px solid var(--linea); border-radius: var(--r);
+}
+.est-lec-fila-datos { display: grid; gap: 6px; }
+.est-lec-preguntas-form { display: grid; gap: 10px; counter-reset: pregunta-lectura; }
+.est-lec-pregunta {
+  display: grid; gap: 8px; margin: 0; padding: 10px 12px 12px; counter-increment: pregunta-lectura;
+  border: 1px solid var(--linea-2); border-radius: var(--r);
+}
+.est-lec-pregunta legend { padding: 0 6px; font-size: 13px; font-weight: 600; color: var(--tinta-2); }
+.est-lec-pregunta .lp-n::before { content: counter(pregunta-lectura); }
+.est-lec-enlaces { align-items: center; }
+@media (max-width: 560px) {
+  .est-lec-fila-fig { grid-template-columns: minmax(0, 1fr); }
+}
+/* fin de estudio: lecturas */
+
 /* ------------------------------------------------------------------ manual */
 .documento {
   display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px;
@@ -1422,9 +1576,9 @@ label.tb-opcion > input { margin-top: 3px; }
   /* En la cabecera de la portada caben el logo y los dos enlaces en una línea. */
   .pagina-inicio .bar .nav { width: auto; margin-left: auto; }
   .pagina-inicio .bar .brand { flex: 0 1 auto; }
-  /* Los modos, en una fila de tres botones con el nombre solo: en el celular casi nadie presenta, y así la práctica
+  /* Los modos, en una fila de cuatro botones con el nombre solo: en el celular casi nadie presenta, y así la práctica
      (y «Seguir donde lo dejaste») sube. La explicación queda en la computadora. */
-  .modos-lista { gap: 8px; }
+  .modos-lista { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
   a.modo { grid-template-rows: none; justify-items: center; gap: 7px; padding: 12px 6px; text-align: center; }
   a.modo b { font-size: 14px; }
   a.modo small { display: none; }

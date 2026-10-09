@@ -1,7 +1,8 @@
 // RadQuiz — instrucciones para cualquier IA (ChatGPT, Gemini, Copilot, Claude, DeepSeek…) y lectura de su respuesta.
 // No depende de ningún proveedor: el autor copia un texto, lo pega en su IA con el PDF y pega la respuesta de vuelta.
 import {
-  imagenesOrdenadas, casosOrdenados, lista, idImagen, normalizarClasificacion, normalizarDificultad, LICENCIAS, MODALIDADES,
+  imagenesOrdenadas, casosOrdenados, lecturasOrdenadas, lista, idImagen, normalizarClasificacion, normalizarDificultad,
+  deLectura, LICENCIAS, MODALIDADES, TIPOS_PREGUNTA,
 } from "./validacion.js";
 import { SEGMENTOS, CON_COPYRIGHT } from "./comun.js";
 import { AREAS } from "./areas.js";
@@ -442,6 +443,26 @@ paquete.json. Lo que va detrás de // son notas para ti: JSON no admite comentar
 Los campos que no aparecen arriba no van: el catálogo no admite claves de más. Todo "ref" de un caso tiene
 que existir como clave de "imagenes"; si la figura no está, el caso no la cita.
 
+LECTURAS (solo si te las pido, o si el documento es un libro de casos con presentación, preguntas y
+discusión). Además de "casos", paquete.json puede llevar "lecturas": casos enteros para leer como en el libro,
+con el encabezado clínico, las figuras limpias y de 1 a 8 preguntas abiertas en la página 1, y las respuestas,
+las figuras anotadas y las perlas al pasar la página. Sin alternativas. "casos" puede ir vacío ([]) si el
+paquete trae lecturas. Cada lectura va así (ids únicos, también frente a los de los casos):
+    { "id": "c001", "tema": "el diagnóstico (solo se ve al pasar la página)",
+      "presentacion": "Dolor de tobillo tras una caída.",          // sin hallazgos ni diagnóstico
+      "clasificacion": [...], "etiquetas": [...],
+      "imagenes": [{ "ref": "c001-p1", "mostrar_en": "pregunta" },
+                   { "ref": "c001-a1", "mostrar_en": "respuesta", "leyenda": "con tus palabras, en español" }],
+      "preguntas": [{ "tipo": "hallazgos", "pregunta": "¿Qué hallazgos hay?", "respuesta": "…", "puntos_clave": ["…"] },
+                    { "tipo": "diagnostico", "pregunta": "¿Cuál es el diagnóstico?", "respuesta": "…", "aceptadas": ["…"] }],
+      "explicacion": "- viñetas de la discusión", "perlas": ["…"],
+      "dificultad": { "nivel": 2, "motivo": "…" },
+      "evidencia": [{ "fuente": "lopezramirez2024", "ubicacion": "p. 3", "cita": "frase textual" }],
+      "estado": "borrador", "autor": "ia", "revisor": null }
+"tipo" es uno de: ${Object.keys(TIPOS_PREGUNTA).join(" · ")}. La página 1 (el encabezado y TODAS las preguntas,
+que se ven a la vez) no puede decir "tema" ni ninguna de las "aceptadas" del diagnóstico: «¿Qué es la fractura
+de Maisonneuve?» se reescribe «¿Cuál es el diagnóstico?». Las figuras con flechas o rótulos van en "respuesta".
+
 fuentes.json. Una sola fuente; la clave, apellido del primer autor + año, en minúsculas.
 {
   "lopezramirez2024": {
@@ -560,7 +581,8 @@ def paneles_de(texto):
 
 vistos = set()
 CASOS = p.get("casos") or []
-if not CASOS: mal("no hay casos")
+LECT = p.get("lecturas") or []
+if not CASOS and not LECT: mal("no hay casos ni lecturas")
 for c in CASOS:
     cid = c.get("id", "?")
     if cid in vistos: mal("id de caso repetido: " + cid)
@@ -624,6 +646,43 @@ for c in CASOS:
     if "requiere_opciones" in c and not isinstance(c["requiere_opciones"], bool):
         mal(cid + ": requiere_opciones es true o no va")
 
+# Lecturas: la página 1 (el encabezado y todas las preguntas, que se ven a la vez) no puede decir la respuesta.
+TIPOS = ${JSON.stringify(Object.keys(TIPOS_PREGUNTA))}
+def comparable(t): return " " + " ".join(re.findall(r"[a-z0-9]+", limpia(t))) + " "
+for l in LECT:
+    lid = l.get("id", "?")
+    if lid in vistos: mal("id repetido (caso o lectura): " + lid)
+    vistos.add(lid)
+    if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", lid): mal("id de lectura inválido: %r" % lid)
+    for campo in ("tema", "presentacion"):
+        if not l.get(campo): mal(lid + ": falta " + campo)
+    qs = l.get("preguntas") or []
+    if not 1 <= len(qs) <= 8: mal("%s: tiene %d preguntas; van de 1 a 8" % (lid, len(qs)))
+    for i, q in enumerate(qs, 1):
+        if q.get("tipo") not in TIPOS: mal("%s: la pregunta %d no tiene un tipo válido" % (lid, i))
+        if not str(q.get("pregunta") or "").rstrip().endswith("?"): mal("%s: la pregunta %d tiene que terminar en «?»" % (lid, i))
+        if not q.get("respuesta"): mal("%s: falta la respuesta de la pregunta %d" % (lid, i))
+        if q.get("tipo") == "hallazgos" and not q.get("puntos_clave"): mal("%s: la pregunta %d es de hallazgos y le faltan puntos_clave" % (lid, i))
+        if q.get("tipo") == "diagnostico" and not q.get("aceptadas"): mal("%s: la pregunta %d es de diagnóstico y le faltan aceptadas" % (lid, i))
+    delatan = [l.get("tema", "")] + [a for q in qs if q.get("tipo") == "diagnostico" for a in (q.get("aceptadas") or [])]
+    pagina1 = [("el encabezado", l.get("presentacion", ""))] + [("la pregunta %d" % i, q.get("pregunta", "")) for i, q in enumerate(qs, 1)]
+    for d in delatan:
+        k = comparable(d)
+        if len(k.strip()) < 5: continue
+        for donde, texto in pagina1:
+            if k in comparable(texto): mal("%s: %s dice «%s», que es la respuesta y se ve antes de pasar la página" % (lid, donde, d))
+    refs = l.get("imagenes") or []
+    for r in refs:
+        if r.get("ref") not in IMGS: mal("%s: usa una imagen que no existe: %r" % (lid, r.get("ref")))
+        if r.get("mostrar_en") not in ("pregunta", "respuesta"): mal(lid + ": mostrar_en inválido")
+        elif r.get("mostrar_en") == "respuesta" and not r.get("leyenda"): revisa("%s: %s va en la respuesta sin leyenda en español" % (lid, r.get("ref")))
+    if not any(r.get("mostrar_en") == "pregunta" for r in refs): mal(lid + ": no tiene ninguna figura en la página 1")
+    ev = l.get("evidencia") or []
+    if not ev or any(len(e.get("cita", "")) < 10 or not e.get("ubicacion") for e in ev):
+        mal(lid + ": falta evidencia con ubicación y frase textual")
+    d = l.get("dificultad")
+    if not isinstance(d, dict) or d.get("nivel") not in (1, 2, 3, 4): mal(lid + ": falta dificultad, con un nivel del 1 al 4")
+
 niveles = [c["dificultad"]["nivel"] for c in CASOS if isinstance(c.get("dificultad"), dict) and c["dificultad"].get("nivel") in (1, 2, 3, 4)]
 if len(niveles) >= 10 and max(niveles.count(n) for n in set(niveles)) > 0.7 * len(niveles):
     revisa("más del 70 %% de los casos tienen la misma dificultad (%s): revisa que el nivel discrimine"
@@ -631,7 +690,7 @@ if len(niveles) >= 10 and max(niveles.count(n) for n in set(niveles)) > 0.7 * le
 
 # Cuántos: el cuestionario es de imagen.
 de_imagen = [c for c in CASOS if c.get("tipo") == "imagen"]
-usadas = {r.get("ref") for c in CASOS for r in (c.get("imagenes") or [])}
+usadas = {r.get("ref") for c in CASOS + LECT for r in (c.get("imagenes") or [])}
 for iid in IMGS:
     if iid not in usadas: mal(iid + ": ninguna pregunta usa esta figura; escríbele una o quítala del catálogo")
 con_pregunta = {r.get("ref") for c in de_imagen for r in (c.get("imagenes") or []) if r.get("mostrar_en") == "pregunta"}
@@ -723,7 +782,7 @@ for n in sorted(hay):
     if n.startswith("img/") and n not in esperadas: mal("sobra " + n)
 
 print("\\n".join("✗ " + m for m in malo) if malo
-      else "todo bien: %d casos (%d de imagen), %d imágenes" % (len(CASOS), len(de_imagen), len(IMGS)))
+      else "todo bien: %d casos (%d de imagen), %d lecturas, %d imágenes" % (len(CASOS), len(de_imagen), len(LECT), len(IMGS)))
 if ojo:
     print("\\nRevisa cada uno con las dos pruebas del paso 3 (no bloquean):\\n" + "\\n".join("⚠ " + m for m in ojo))
 
@@ -772,12 +831,183 @@ Devuelve SOLO el JSON corregido, sin texto antes ni después, con esta forma: {"
 Conserva el "id" de cada caso tal cual: así cada corrección reemplaza a su caso en vez de sumarse como uno nuevo.`;
 }
 
+// ------------------------------------------------------------------ lecturas
+// Una lectura es un caso entero al estilo de los libros de casos (Radiology Case Review Series): página 1 con el
+// encabezado clínico, las figuras limpias y todas las preguntas abiertas a la vez; al pasar la página, las
+// respuestas, las figuras anotadas con su leyenda, la discusión y las perlas. Sin alternativas. Las reglas de la
+// página 1 son las de validarLectura() en app/validacion.js: el tema y las respuestas aceptadas del diagnóstico no
+// pueden aparecer en el encabezado ni en ninguna pregunta, porque se ven todas antes de pasar la página.
+const EJEMPLO_LECTURA = `{
+  "imagenes": [
+    {
+      "figura": "Caso 1, figura A",
+      "leyenda_original": "Copia aquí la leyenda tal cual aparece en el documento.",
+      "modalidad": "Rx",
+      "paneles": [{ "id": "único", "lado": "derecho", "plano": "anteroposterior", "secuencia": "", "condicion": "" }],
+      "marcas": []
+    }
+  ],
+  "lecturas": [
+    {
+      "id": "c001",
+      "tema": "El diagnóstico del caso",
+      "presentacion": "Dolor de tobillo tras una caída.",
+      "clasificacion": [{ "segmento": "musculoesqueletico", "area": "tobillo-pie" }],
+      "etiquetas": ["trauma", "tobillo"],
+      "imagenes": [
+        { "ref": "c001-p1", "mostrar_en": "pregunta" },
+        { "ref": "c001-a1", "mostrar_en": "respuesta", "leyenda": "Qué muestra y qué señala cada marca, con tus palabras." }
+      ],
+      "preguntas": [
+        {
+          "tipo": "hallazgos",
+          "pregunta": "¿Qué hallazgos hay?",
+          "respuesta": "Lo que describe la fuente, con tus palabras.",
+          "puntos_clave": ["Primera idea que había que decir", "Segunda idea"]
+        },
+        {
+          "tipo": "diagnostico",
+          "pregunta": "¿Cuál es el diagnóstico más probable?",
+          "respuesta": "**El diagnóstico**: por qué, en una o dos frases.",
+          "aceptadas": ["el diagnóstico", "su sinónimo", "su nombre en inglés"]
+        },
+        { "tipo": "manejo", "pregunta": "¿Cuál es el tratamiento?", "respuesta": "Lo que dice la fuente." }
+      ],
+      "explicacion": "- Una idea de la discusión por viñeta.\\n- Otra.",
+      "perlas": ["La enseñanza clave, en una frase práctica."],
+      "dificultad": { "nivel": 2, "motivo": "Diagnóstico típico (ETC I) con presentación clásica" },
+      "evidencia": [{ "ubicacion": "p. 3, caso 1", "cita": "Frase copiada textual del documento." }]
+    }
+  ]
+}`;
+
+const REGLAS_LECTURA = [
+  "Usa SOLO el documento adjunto. Si algo no está ahí, no lo escribas, aunque sepas que es cierto.",
+  "Una lectura por caso del documento: en un libro de casos, cada caso es una lectura, en el orden del libro y sin juntar dos en una.",
+  "«presentacion» es el encabezado clínico de una línea, como en el libro («Dolor de tobillo tras una caída»): edad, sexo y síntomas solo si la fuente los da. Nada de hallazgos ni del diagnóstico.",
+  "De 1 a 8 preguntas, en el orden del razonamiento: hallazgos, diagnóstico o diferencial, y después lo demás (técnica, clasificación, mecanismo, asociaciones, cifras, manejo). Toman las del libro cuando las tiene.",
+  "Cada pregunta termina en «?» y se responde sola. Todas se ven a la vez en la página 1: ninguna puede decir la respuesta de otra.",
+  "«tipo» es uno de estos ids: " + Object.entries(TIPOS_PREGUNTA).map(([id, nombre]) => `${id} (${nombre})`).join(", ") + ".",
+  "Una pregunta de «hallazgos» lleva «puntos_clave»: lo que había que decir, una idea por elemento (de 1 a 10, cortas). Quien lee marca cuáles dijo.",
+  "Una pregunta de «diagnostico» lleva «aceptadas»: de 1 a 12 respuestas cortas que valen como correctas —el nombre, sus sinónimos y epónimos, y el nombre en inglés—. Las demás preguntas pueden llevarlas si su respuesta es corta («PER», «exploración bajo anestesia»).",
+  "Las respuestas salen de la fuente, con tus palabras: no copies párrafos enteros. Para resaltar, **negrita**; nada de HTML.",
+  "«explicacion» es la discusión del caso: de 2 a 6 viñetas que empiezan con «- ». «perlas»: de 1 a 4 frases prácticas, una por elemento.",
+  "Cada lectura lleva «evidencia»: dónde está en el documento y la frase copiada textual (10 caracteres como mínimo) que sostiene las respuestas.",
+];
+
+const PAGINA1 = `LA PÁGINA 1 NO PUEDE DECIR LA RESPUESTA
+Quien lee ve a la vez el encabezado, las figuras limpias y TODAS las preguntas; el diagnóstico («tema») y las
+respuestas solo se ven al pasar la página.
+- Ni «tema» ni ninguna de las «aceptadas» del diagnóstico pueden aparecer en «presentacion» ni en ninguna
+  «pregunta», ni siquiera dentro de otra frase. El estudio lo comprueba y lo rechaza.
+- Los libros suelen preguntar «¿Qué es la fractura de Maisonneuve?» o «¿Qué causa el signo del doble LCP?»: eso
+  da la respuesta antes de mirar. Reescríbelas sin el nombre: «¿Cuál es el diagnóstico?», «¿Qué signo se ve?»,
+  «¿Qué mecanismo produce esta lesión?».
+- Tampoco va en la página 1 lo que la imagen tiene que enseñar: nada de «la radiografía muestra…» en el
+  encabezado. Esa descripción es la respuesta de la pregunta de hallazgos.
+- Una figura limpia con flechas, rótulos o el nombre del diagnóstico escritos no va en "pregunta": va en
+  "respuesta".`;
+
+const FIGURAS_LECTURA = `LAS FIGURAS
+- "mostrar_en": "pregunta" son las limpias de la página 1, en el orden en que se miran.
+- "mostrar_en": "respuesta" son las anotadas (o las de otro paciente) que se ven al pasar la página. Cada una
+  lleva "leyenda": qué muestra y qué señala cada marca, en español y con TUS palabras (de 3 a 600 caracteres).
+  No es la leyenda original copiada: esa va, tal cual, en la ficha de la figura ("leyenda_original").
+- Cita cada figura por su id del catálogo en "ref", exactamente como aparece en la lista de arriba. Cada figura
+  es de una sola lectura.
+- Toda lectura tiene al menos una figura en la página 1: la lectura parte de la imagen.`;
+
+function listaFigurasLectura(tema) {
+  const imagenes = imagenesOrdenadas(tema);
+  if (!imagenes.length) return "No hay figuras cargadas: súbelas primero, porque cada lectura parte de una figura.";
+  return imagenes.map((i) => `- ${i.id}: "${i.figura || i.id}"${i.leyenda_original ? " (leyenda ya cargada)" : ""}`).join("\n");
+}
+
+// Para pedirle a cualquier IA lecturas desde una fuente, como instruccionesIA() con los casos.
+export function instruccionesLecturas(tema) {
+  const meta = tema.meta || {};
+  const fuente = tema.fuente || {};
+  const figuras = imagenesOrdenadas(tema);
+  const faltanLeyendas = figuras.some((i) => !i.leyenda_original);
+  return `Eres un radiólogo docente que prepara lecturas para residentes de radiología, a partir del documento que te adjunto. Una lectura es un caso entero al estilo de los libros de casos (Radiology Case Review Series): en la página 1, un encabezado clínico de una línea, las figuras limpias y varias preguntas abiertas, todas a la vista; al pasar la página, las respuestas, las figuras anotadas con su leyenda, la discusión y las perlas. No lleva alternativas: quien lee piensa o escribe sus respuestas y después se compara. Del libro tomas solo el formato; el contenido sale únicamente del documento.
+
+TEMA: ${meta.titulo || "(sin título)"} — segmento ${meta.segmento || "(sin segmento)"}.
+FUENTE: ${fuente.cita || "(la del documento adjunto)"}
+
+FIGURAS DISPONIBLES (id: nombre en la fuente; cítalas por el id, en "ref"):
+${listaFigurasLectura(tema)}
+
+${PAGINA1}
+
+${FIGURAS_LECTURA}
+
+REGLAS DE TODAS LAS LECTURAS
+${REGLAS_LECTURA.map((r, i) => `${i + 1}. ${r}`).join("\n")}
+
+CLASIFICACIÓN DE CADA LECTURA (igual que la de un caso)
+${reglasClasificacion(meta.segmento)}
+
+DIFICULTAD DE CADA LECTURA
+Cada lectura lleva "dificultad": { "nivel": 1 a 4, "motivo": "…" }, por el contenido contrastado con la
+bibliografía y nunca por cuántos aciertan: 1 Básico (R1, signo o diagnóstico clásico), 2 Intermedio (R2,
+diagnóstico típico que integra clínica e imagen), 3 Avanzado (R3 y egreso, entidad poco frecuente o
+diferencial fino), 4 Subespecialidad (entidad rara o signo de nicho). El "motivo", de 20 a 200 caracteres,
+dice qué decidió. Un libro bien hecho tiene casos de varios niveles.
+
+QUÉ TIENES QUE DEVOLVER
+- ${faltanLeyendas ? 'La lista "imagenes": la ficha de cada figura de arriba que no tiene la leyenda cargada, con su leyenda textual, los paneles y qué señala cada flecha, círculo o número. Copia la leyenda tal cual, en su idioma.' : 'La lista "imagenes" puede ir vacía: las leyendas ya están cargadas.'}
+- La lista "lecturas": una por caso del documento. Escríbelas en español aunque el documento esté en otro idioma.
+- Si no te caben todas en una sola respuesta, termina en una lectura completa, cierra bien el JSON y agrega
+  "faltan": true. Después te pediré el resto.
+- Responde SOLO con un JSON válido, sin texto antes ni después, sin explicaciones y sin bloques de código.
+
+FORMATO EXACTO DE LA RESPUESTA
+${EJEMPLO_LECTURA}`;
+}
+
+// Como instruccionesCorreccion(), para las lecturas: devuelve cada una con su id para que reemplace a la suya.
+export function instruccionesCorreccionLecturas(tema, problemas) {
+  const lecturas = lecturasOrdenadas(tema)
+    .filter((l) => problemas.some((p) => p.id === l.id))
+    .map((l) => ({
+      id: l.id,
+      tema: l.tema,
+      presentacion: l.presentacion,
+      clasificacion: lista(l.clasificacion),
+      etiquetas: lista(l.etiquetas),
+      imagenes: lista(l.imagenes).map((r) => ({ ref: r.ref, mostrar_en: r.mostrar_en, ...(r.leyenda ? { leyenda: r.leyenda } : {}) })),
+      preguntas: lista(l.preguntas).map((q) => ({
+        tipo: q.tipo, pregunta: q.pregunta, respuesta: q.respuesta,
+        ...(lista(q.puntos_clave).length ? { puntos_clave: lista(q.puntos_clave) } : {}),
+        ...(lista(q.aceptadas).length ? { aceptadas: lista(q.aceptadas) } : {}),
+      })),
+      explicacion: l.explicacion,
+      perlas: lista(l.perlas),
+      evidencia: lista(l.evidencia).map((e) => ({ ubicacion: e.ubicacion, cita: e.cita })),
+    }));
+  return `Estas lecturas son tuyas y tienen problemas. Corrígelas con el mismo documento adjunto y las mismas reglas de antes.
+
+PROBLEMAS POR LECTURA
+${problemas.map((p) => `- ${p.id} (${p.tema}): ${p.textos.join(" | ")}`).join("\n")}
+
+RECUERDA
+${PAGINA1}
+
+${REGLAS_LECTURA.slice(3, 8).map((r, i) => `${i + 1}. ${r}`).join("\n")}
+
+LECTURAS ACTUALES
+${JSON.stringify({ lecturas }, null, 1)}
+
+Devuelve SOLO el JSON corregido, sin texto antes ni después, con esta forma: {"correccion": true, "lecturas": [...]}.
+Conserva el "id" de cada lectura tal cual: así cada corrección reemplaza a la suya en vez de sumarse como una nueva.`;
+}
+
 // Una respuesta larga puede llegar cortada: los chats tienen un límite de largo por respuesta, y cien casos
 // no suelen caber. En vez de perderlo todo, se recorre el texto como JSON y se guardan los elementos de
-// «imagenes» y «casos» que llegaron enteros. Sirve para {"imagenes": [...], "casos": [...]} y para una lista
-// suelta de casos.
-function rescatar(texto) {
-  const salida = { imagenes: [], casos: [], correccion: /"correccion"\s*:\s*true/.test(texto) };
+// «imagenes», «casos» y «lecturas» que llegaron enteros. Sirve para {"imagenes": [...], "casos": [...]}, para
+// {"lecturas": [...]} y para una lista suelta, que va a «suelta» (casos, salvo que se esperen lecturas).
+function rescatar(texto, suelta = "casos") {
+  const salida = { imagenes: [], casos: [], lecturas: [], correccion: /"correccion"\s*:\s*true/.test(texto) };
   const pila = [];           // las llaves y corchetes abiertos
   let clave = "";            // la última clave del objeto de arriba: a qué lista va cada elemento
   let ultimo = "";           // el último texto entre comillas que se cerró
@@ -800,7 +1030,7 @@ function rescatar(texto) {
     } else if (ch === "}" || ch === "]") {
       pila.pop();
       if (ch === "}" && desde !== -1 && enLista()) {
-        const destino = pila[0] === "[" ? "casos" : clave;
+        const destino = pila[0] === "[" ? suelta : clave;
         try {
           if (salida[destino]) salida[destino].push(JSON.parse(texto.slice(desde, i + 1)));
         } catch { /* un elemento roto no tumba a los demás */ }
@@ -811,8 +1041,9 @@ function rescatar(texto) {
   return salida;
 }
 
-// Lee la respuesta de la IA aunque venga con bloques de código o texto alrededor, o cortada.
-export function leerRespuestaIA(texto, tema) {
+// Lee la respuesta de la IA aunque venga con bloques de código o texto alrededor, o cortada. Trae casos, lecturas
+// o las dos cosas; una lista suelta, sin objeto alrededor, se toma como «suelta» (las lecturas la piden así).
+export function leerRespuestaIA(texto, tema, { suelta = "casos" } = {}) {
   const limpio = String(texto || "").replace(/```[a-zA-Z]*\n?/g, "").trim();
   const inicio = limpio.indexOf("{");
   const inicioLista = limpio.indexOf("[");
@@ -824,13 +1055,13 @@ export function leerRespuestaIA(texto, tema) {
   try {
     datos = JSON.parse(limpio.slice(desde, cierre + 1));
   } catch (e) {
-    datos = rescatar(limpio.slice(desde));
-    if (!datos.casos.length && !datos.imagenes.length) {
+    datos = rescatar(limpio.slice(desde), suelta);
+    if (!datos.casos.length && !datos.imagenes.length && !datos.lecturas.length) {
       throw new Error("El JSON de la respuesta está incompleto o mal formado. Pídele a tu IA que lo devuelva entero y sin texto alrededor.");
     }
     cortada = true;
   }
-  const bruto = Array.isArray(datos) ? { casos: datos } : datos;
+  const bruto = Array.isArray(datos) ? { [suelta]: datos } : datos;
   const desconocidas = [];
   const porFigura = new Map(imagenesOrdenadas(tema).map((i) => [idImagen(i.figura), i.id]));
 
@@ -875,33 +1106,61 @@ export function leerRespuestaIA(texto, tema) {
       ...(typeof c.requiere_opciones === "boolean" ? { requiere_opciones: c.requiere_opciones || null } : {}),
     };
   });
-  if (!casos.length && !imagenes.length) throw new Error("La respuesta no traía casos. Revisa que tu IA haya devuelto el JSON completo.");
+  // Las figuras de una lectura se citan por id del catálogo («ref») o por su nombre en la fuente («figura»), como
+  // en los casos. Las que no se reconocen se cuentan aquí: deLectura() las dejaría caer sin decir nada.
+  const catalogo = tema.imagenes || {};
+  const perdidas = [];
+  const lecturas = lista(bruto.lecturas).map((l) => {
+    const refs = lista(l?.imagenes).map((r) => {
+      const ref = r?.ref && catalogo[r.ref] ? r.ref : porFigura.get(idImagen(r?.figura || r?.ref || "")) || null;
+      if (!ref) perdidas.push(String(r?.figura || r?.ref || ""));
+      return { ...r, ref };
+    });
+    return {
+      id: ID_CASO.test(String(l?.id || "")) ? String(l.id) : null,
+      ...deLectura({ ...(l || {}), imagenes: refs }, catalogo, desconocidas, "ia"),
+    };
+  });
+  if (!casos.length && !imagenes.length && !lecturas.length) {
+    throw new Error(`La respuesta no traía ${suelta === "lecturas" ? "lecturas" : "casos"}. Revisa que tu IA haya devuelto el JSON completo.`);
+  }
   // «correccion» lo pone solo el prompt de corrección: sin esa marca, un id que la IA invente al escribir
   // casos nuevos no puede pisar un caso que ya existe.
   // «cortada»: se rescataron los elementos enteros de una respuesta incompleta. «faltan»: la IA avisó que no le
   // cupieron todos. En los dos casos hay que pedirle el resto (instruccionesContinuar).
   return {
-    imagenes, casos, correccion: bruto.correccion === true, cortada, faltan: bruto.faltan === true,
-    desconocidas: [...new Set(desconocidas)],
+    imagenes, casos, lecturas, correccion: bruto.correccion === true, cortada, faltan: bruto.faltan === true,
+    desconocidas: [...new Set(desconocidas)], perdidas: [...new Set(perdidas.filter(Boolean))],
   };
 }
 
 // El pedido para que la IA siga donde se quedó, en la misma conversación: ella ya tiene el documento.
 export function instruccionesContinuar(datos) {
+  const deLecturas = (datos.lecturas || []).length > 0 && !(datos.casos || []).length;
   const casos = datos.casos || [];
-  const ultimo = casos[casos.length - 1];
-  const hasta = ultimo
-    ? `Me llegaron ${casos.length} ${casos.length === 1 ? "caso completo" : "casos completos"}; el último empieza «${String(ultimo.enunciado || ultimo.tema || "").slice(0, 90)}…».`
-    : "No me llegó ningún caso completo, solo fichas de imágenes.";
-  return `${datos.cortada ? "Tu respuesta se cortó por el largo." : "Me dijiste que te faltaban casos."} ${hasta}
-Sigue desde ahí, con el mismo documento, las mismas reglas y el mismo formato, sin repetir ninguno de los que ya diste.
-Si tampoco te caben todos, termina en un caso completo, cierra bien el JSON y agrega "faltan": true.
-Responde SOLO con el JSON, sin texto antes ni después: {"casos": [...]}`;
+  const lecturas = datos.lecturas || [];
+  let hasta;
+  if (deLecturas) {
+    const ultima = lecturas[lecturas.length - 1];
+    hasta = `Me llegaron ${lecturas.length} ${lecturas.length === 1 ? "lectura completa" : "lecturas completas"}; la última empieza «${String(ultima.presentacion || ultima.tema || "").slice(0, 90)}…».`;
+  } else {
+    const ultimo = casos[casos.length - 1];
+    hasta = ultimo
+      ? `Me llegaron ${casos.length} ${casos.length === 1 ? "caso completo" : "casos completos"}; el último empieza «${String(ultimo.enunciado || ultimo.tema || "").slice(0, 90)}…».`
+      : "No me llegó ningún caso completo, solo fichas de imágenes.";
+  }
+  const [faltaron, ninguno, cierre, clave] = deLecturas
+    ? ["lecturas", "ninguna de las", "todas, termina en una lectura completa", "lecturas"]
+    : ["casos", "ninguno de los", "todos, termina en un caso completo", "casos"];
+  return `${datos.cortada ? "Tu respuesta se cortó por el largo." : `Me dijiste que te faltaban ${faltaron}.`} ${hasta}
+Sigue desde ahí, con el mismo documento, las mismas reglas y el mismo formato, sin repetir ${ninguno} que ya diste.
+Si tampoco te caben ${cierre}, cierra bien el JSON y agrega "faltan": true.
+Responde SOLO con el JSON, sin texto antes ni después: {"${clave}": [...]}`;
 }
 
-function idLibre(usados, desde) {
+function idLibre(usados, desde, prefijo = "caso") {
   for (let n = desde; ; n++) {
-    const id = `caso-${String(n).padStart(2, "0")}`;
+    const id = `${prefijo}-${String(n).padStart(2, "0")}`;
     if (!usados.has(id)) return id;
   }
 }
@@ -912,8 +1171,10 @@ function idLibre(usados, desde) {
 //   lugar; los demás se agregan.
 // - Reemplazar: la lista de casos se sustituye entera. Va en una sola ruta, «casos», porque Firebase rechaza
 //   un update() en el que una ruta contiene a otra.
+// Las lecturas siguen las mismas tres reglas, con su propio «reemplazarLecturas». Una lectura nueva conserva el id
+// que le dio la IA si está libre (en un libro, el número del caso: «c014»); si no, recibe uno «lectura-NN».
 // «marca» es la hora del servidor (serverTimestamp()); se recibe de fuera para que esto no dependa del SDK.
-export function planDeCarga(tema, datos, { reemplazar = false, marca = null } = {}) {
+export function planDeCarga(tema, datos, { reemplazar = false, reemplazarLecturas = false, marca = null } = {}) {
   const base = `estudio/${tema.id}`;
   const cambios = {};
   let fichas = 0;
@@ -946,7 +1207,7 @@ export function planDeCarga(tema, datos, { reemplazar = false, marca = null } = 
     cambios[`${base}/casos`] = nuevos;
     agregados = datos.casos.length;
   } else {
-    const usados = new Set(actuales.map((c) => c.id));
+    const usados = new Set([...actuales.map((c) => c.id), ...Object.keys(tema.lecturas || {})]);
     let orden = actuales.reduce((mayor, c) => Math.max(mayor, Number(c.orden) || 0), 0);
     for (const caso of datos.casos) {
       const anterior = datos.correccion && caso.id ? (tema.casos || {})[caso.id] : null;
@@ -963,6 +1224,43 @@ export function planDeCarga(tema, datos, { reemplazar = false, marca = null } = 
     }
   }
 
+  const nuevasL = datos.lecturas || [];
+  const actualesL = lecturasOrdenadas(tema);
+  const reemplazaL = reemplazarLecturas && nuevasL.length > 0;
+  const guardadaL = (lectura, orden, anterior = {}) => {
+    const { id, ...resto } = lectura;
+    return { ...anterior, ...resto, orden, actualizado: marca };
+  };
+  let agregadasL = 0;
+  let corregidasL = 0;
+  if (reemplazaL) {
+    const nuevas = {};
+    const usados = new Set(actuales.map((c) => c.id));
+    nuevasL.forEach((l, i) => {
+      const id = l.id && !usados.has(l.id) ? l.id : idLibre(usados, i + 1, "lectura");
+      usados.add(id);
+      nuevas[id] = guardadaL(l, i + 1);
+    });
+    cambios[`${base}/lecturas`] = nuevas;
+    agregadasL = nuevasL.length;
+  } else {
+    const usados = new Set([...actualesL.map((l) => l.id), ...Object.keys(tema.casos || {})]);
+    let orden = actualesL.reduce((mayor, l) => Math.max(mayor, Number(l.orden) || 0), 0);
+    for (const l of nuevasL) {
+      const anterior = datos.correccion && l.id ? (tema.lecturas || {})[l.id] : null;
+      if (anterior) {
+        cambios[`${base}/lecturas/${l.id}`] = guardadaL(l, anterior.orden ?? orden + 1, anterior);
+        corregidasL += 1;
+        continue;
+      }
+      orden += 1;
+      const id = l.id && !usados.has(l.id) ? l.id : idLibre(usados, orden, "lectura");
+      usados.add(id);
+      cambios[`${base}/lecturas/${id}`] = guardadaL(l, orden);
+      agregadasL += 1;
+    }
+  }
+
   const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
   const partes = [];
   if (reemplaza && actuales.length) partes.push(`Reemplacé ${plural(actuales.length, "caso", "casos")} por ${agregados}`);
@@ -970,14 +1268,22 @@ export function planDeCarga(tema, datos, { reemplazar = false, marca = null } = 
     if (corregidos) partes.push(`Corregí ${plural(corregidos, "caso", "casos")}`);
     if (agregados) partes.push(`${corregidos ? "agregué" : "Cargué"} ${plural(agregados, "caso nuevo", "casos nuevos")}`);
   }
+  if (reemplazaL && actualesL.length) partes.push(`${partes.length ? "reemplacé" : "Reemplacé"} ${plural(actualesL.length, "lectura", "lecturas")} por ${agregadasL}`);
+  else {
+    if (corregidasL) partes.push(`${partes.length ? "corregí" : "Corregí"} ${plural(corregidasL, "lectura", "lecturas")}`);
+    if (agregadasL) partes.push(`${partes.length ? "agregué" : "Cargué"} ${plural(agregadasL, "lectura nueva", "lecturas nuevas")}`);
+  }
   if (fichas) partes.push(`${partes.length ? "" : "Cargué "}${plural(fichas, "leyenda", "leyendas")}`);
   const ultimo = partes.length > 1 ? ` y ${partes.pop()}` : "";
   let resumen = partes.length ? `${partes.join(", ")}${ultimo}.` : "La respuesta no traía nada que cargar.";
   if (reemplazar && !reemplaza) resumen += " No reemplacé los casos: la respuesta no traía ninguno.";
-  const perdidas = [...new Set(datos.casos.flatMap((c) => c.imagenes.filter((r) => !r.ref).map((r) => r.figura)).filter(Boolean))];
+  if (reemplazarLecturas && !reemplazaL) resumen += " No reemplacé las lecturas: la respuesta no traía ninguna.";
+  const perdidas = [...new Set([
+    ...datos.casos.flatMap((c) => c.imagenes.filter((r) => !r.ref).map((r) => r.figura)), ...(datos.perdidas || []),
+  ].filter(Boolean))];
   if (perdidas.length) resumen += ` No reconocí: ${perdidas.join(", ")}.`;
   if (datos.desconocidas?.length) {
     resumen += ` Estas clasificaciones no están en la lista de áreas y quedaron fuera: ${datos.desconocidas.join(", ")}.`;
   }
-  return { cambios, resumen, agregados, corregidos, fichas };
+  return { cambios, resumen, agregados, corregidos, agregadasL, corregidasL, fichas };
 }

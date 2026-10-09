@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "paquete.schema.json",
   "title": "Paquete de RadQuiz",
-  "description": "Un tema: metadatos, catálogo de imágenes y casos. Vive en temas/<segmento>/<id>/paquete.json.",
+  "description": "Un tema: metadatos, catálogo de imágenes, casos de opción múltiple y lecturas (casos abiertos al estilo de los libros de casos). Vive en temas/<segmento>/<id>/paquete.json. Tiene que traer al menos un caso o una lectura.",
   "type": "object",
   "required": [
     "id",
@@ -63,9 +63,16 @@
     },
     "casos": {
       "type": "array",
-      "minItems": 1,
+      "minItems": 0,
       "items": {
         "$ref": "caso.schema.json"
+      }
+    },
+    "lecturas": {
+      "description": "Casos para leer enteros, con preguntas abiertas y sin alternativas (app/lectura.js). No se mezclan con los casos: la sala clásica, el tablero y el Tabú no los usan.",
+      "type": "array",
+      "items": {
+        "$ref": "lectura.schema.json"
       }
     },
     "personas": {

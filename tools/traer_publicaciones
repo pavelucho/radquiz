@@ -6,7 +6,7 @@ Uso:
     tools/traer_publicaciones --ver    solo dice qué cambiaría
 
 Lee dos nodos públicos de la base del estudio:
-- «publicacion»: el contenido que el autor publicó (todos sus casos, sin sello).
+- «publicacion»: el contenido que el autor publicó (todos sus casos y lecturas, sin sello).
 - «verificacion»: qué caso marcó cada radiólogo y cuándo. Un sello vale solo si el autor no
   tocó el caso después; si lo cambió, el caso vuelve a quedar sin verificar.
 
@@ -70,7 +70,7 @@ def sellar(paquete, actualizados, verificacion):
     """Pone revisor y fecha en los casos verificados cuyo contenido no cambió después."""
     personas = dict(paquete.get("personas") or {})
     sellados = 0
-    for caso in paquete["casos"]:
+    for caso in paquete["casos"] + paquete.get("lecturas", []):
         v = (verificacion or {}).get(caso["id"])
         caso["revisor"] = None
         caso.pop("fecha_revision", None)
@@ -151,8 +151,9 @@ def escribir_tema(clave, publicacion, verificacion, solo_ver):
             shutil.rmtree(carpeta)
         carpeta.parent.mkdir(parents=True, exist_ok=True)
         shutil.copytree(borrador, carpeta)
-    print("  ✓ %s/%s versión %s: %d casos (%d verificados), %d imágenes aquí y %d en Drive"
-          % (segmento, tema_id, version, len(paquete["casos"]), sellados, aqui, len(en_drive)))
+    print("  ✓ %s/%s versión %s: %d casos y %d lecturas (%d verificados), %d imágenes aquí y %d en Drive"
+          % (segmento, tema_id, version, len(paquete["casos"]), len(paquete.get("lecturas", [])), sellados, aqui,
+             len(en_drive)))
     return True
 
 

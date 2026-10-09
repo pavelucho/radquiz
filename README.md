@@ -95,8 +95,8 @@ Drive: ya no admite escrituras, solo borrarse, y la web la lee únicamente para 
 
 ### Claude con el estudio (servidor MCP)
 
-`tools/mcp/servidor.mjs` deja que Claude Code (o cualquier cliente MCP) maneje el estudio en línea: leer temas y
-casos, corregirlos, arreglar la fuente, buscar y tapar texto pegado en las figuras, publicar y comprobar lo publicado.
+`tools/mcp/servidor.mjs` deja que Claude Code (o cualquier cliente MCP) maneje el estudio en línea: leer temas,
+casos y lecturas, corregirlos, crear un tema desde una carpeta como las de `temas/`, arreglar la fuente, buscar y tapar texto pegado en las figuras, publicar y comprobar lo publicado.
 Está registrado en `.mcp.json`; Claude Code lo ofrece al abrir el proyecto. Sin dependencias: Node ≥ 20 y, para las
 figuras, `tools/mcp/imagen.swift` (OCR de Vision y CoreGraphics de macOS), que se compila solo la primera vez.
 
@@ -107,22 +107,42 @@ figuras, `tools/mcp/imagen.swift` (OCR de Vision y CoreGraphics de macOS), que s
 - **Usa la lógica de la app**, no una copia: `app/validacion.js` (validar, `aPaquete`), `app/instrucciones-ia.js`
   (correcciones con `leerRespuestaIA` y `planDeCarga`) y `app/drive.js` (subir figuras). El texto de la declaración
   se lee de `app/estudio.js`.
-- **Lo que escribe simula por defecto** (`casos_corregir`, `casos_dificultad`, `casos_clasificar`, `fuente_guardar`, `tema_titulo`, `imagen_tapar`, `imagen_reemplazar`):
+- **Lo que escribe simula por defecto** (`tema_importar`, `casos_corregir`, `lecturas_corregir`, `casos_dificultad`, `casos_clasificar`, `fuente_guardar`, `tema_titulo`, `imagen_tapar`, `imagen_reemplazar`):
   muestra qué cambia —y la figura resultante— antes de guardar con `simular: false`.
 - **Publicar exige la declaración de la persona.** `tema_publicar` con `declaracion_aceptada: false` devuelve el texto;
   solo pasa en `true` si la persona la acepta en el chat. No publica con errores del validador.
 - **No borra ni verifica.** Borrar un tema, quitarlo de la web y poner el sello de verificado se siguen haciendo en el
   estudio: son decisiones de una persona.
 
-Herramientas: `sesion_iniciar`, `sesion_estado`, `temas_listar`, `tema_leer`, `casos_leer`, `tema_validar`,
-`casos_corregir`, `casos_dificultad`, `casos_clasificar`, `fuente_guardar`, `tema_titulo`, `imagen_ver`, `imagenes_buscar_texto`,
-`imagen_tapar`, `imagen_reemplazar`, `tema_publicar`, `publicacion_comprobar`, `tablero_casos`, `tablero_guardar` y
-`tableros_listar`. Para armar un tablero con IA: `tablero_casos` da los casos candidatos (por segmento, área, texto o
+Herramientas: `sesion_iniciar`, `sesion_estado`, `temas_listar`, `tema_leer`, `tema_importar`, `casos_leer`, `lecturas_leer`,
+`tema_validar`, `casos_corregir`, `lecturas_corregir`, `casos_dificultad`, `casos_clasificar`, `fuente_guardar`, `tema_titulo`,
+`imagen_ver`, `imagenes_buscar_texto`, `imagen_tapar`, `imagen_reemplazar`, `tema_publicar`, `publicacion_comprobar`,
+`tablero_casos`, `tablero_guardar` y `tableros_listar`. Para armar un tablero con IA: `tablero_casos` da los casos candidatos (por segmento, área, texto o
 temas), las reglas y el formato; la IA arma el JSON y `tablero_guardar` lo comprueba contra lo publicado (simula por
 defecto), lo guarda en `tableros/` para el grupo y devuelve un enlace que lo abre. `casos_leer` devuelve los casos en el mismo formato que
 recibe `casos_corregir`, así que una corrección es leer, editar y devolver. `casos_dificultad` pone el nivel, su motivo
 y `requiere_opciones` (directo o desde un JSON local) sin tocar el texto, así que no quita sellos; `casos_clasificar`
-pone la clasificación segmento → área de la misma manera.
+pone la clasificación segmento → área de la misma manera. Las dos aceptan también ids de lecturas (en ellas no hay
+`requiere_opciones`).
+
+- **Lecturas.** `temas_listar` y `tema_leer` las cuentan y las listan junto a los casos (con `completo`, enteras), y
+  `tema_validar` da sus problemas. `lecturas_leer` las devuelve en el formato que recibe `lecturas_corregir`
+  (`{"lecturas": [...]}`; las figuras por `ref`, el id de la figura, o por el nombre de `figura`), que reemplaza cada
+  una por su id: simula por defecto y dice qué campos cambian y cómo queda el validador. Si `clasificacion` o
+  `dificultad` no vienen, se conservan. Cambiar el contenido pone `actualizado` y retira el sello; cambiar solo la
+  clasificación o la dificultad, no. `tema_publicar` sube también las figuras de las lecturas y escribe el índice con
+  `entradaIndice()` (casos y lecturas contados aparte); `indice_casos` sigue siendo solo de casos.
+  `publicacion_comprobar` compara también las lecturas.
+- **Importar una carpeta** (`tema_importar`): crea un cuestionario nuevo desde una carpeta con la forma de `temas/`
+  (`paquete.json`, `fuentes.json`, `img/`), igual que «Subir un .zip»: a nombre de quien está conectado, en
+  preparación, con casos, lecturas, fichas y figuras en `estudio_img/` como JPEG de lado mayor ≤ 1600 px y ≤ 250 KB (la
+  que ya cumple pasa tal cual; la que no, la rehace `imagen.swift` y queda marcada `comprimida`/`redimensionada`). Una
+  sola fuente por carpeta, y nada fuera de `img/`. Simula por defecto: id, título, cuántos casos, lecturas y figuras,
+  las que faltan, el validador y el peso. Nunca sobrescribe un tema que existe (`id` permite elegir otro). Escribe por
+  tandas atómicas (el tema con meta, fuente y fichas; casos y lecturas de a ~1 MB; figuras de a ~4 MB) y deja
+  `meta/importacion` con la huella de `paquete.json` y `fuentes.json` hasta terminar: si se corta, la misma llamada
+  con la misma carpeta y el mismo id sigue donde quedó. Probado con 246 lecturas y 1335 figuras (33 MB, 13 escrituras)
+  contra una base simulada.
 
 ### Clasificación: segmento → área
 
@@ -293,6 +313,36 @@ está en `app/supervivencia.js`.
 Para ensayar con casos sin publicar: correr el sitio en la computadora y marcar «Incluir casos sin publicar» al crear
 la sala. Los jugadores tienen que abrir esa misma dirección (misma red Wi-Fi: `python3 -m http.server 8000 --bind 0.0.0.0`
 y la IP de la computadora).
+
+## Lectura de casos
+
+`lectura.html` + `app/lectura.js`: casos para leer enteros, como en los libros de casos (Radiology Case Review Series).
+Es un contenido aparte de los casos de opción múltiple: `lecturas` en `paquete.json`, con su esquema
+`schema/lectura.schema.json`, y la sala clásica, el tablero y el Tabú no las usan.
+
+1. **Página 1**: el encabezado clínico de una línea, las figuras limpias y **todas las preguntas a la vez** (1 a 8;
+   en el libro, 5), cada una con su casilla. Escribir es opcional; lo que enseña es comprometerse antes de mirar. Si no
+   se escribió nada, el primer «Pasar la página» solo lo avisa.
+2. **Pasar la página** es una sola vez y sin vuelta atrás, ni siquiera recargando: lo escrito queda congelado.
+3. **Página 2**: el diagnóstico (`tema`), las figuras anotadas con su `leyenda` en español (las limpias quedan en un
+   desplegable) y, por pregunta, tu respuesta al lado de la de la fuente. En la de hallazgos se marcan los
+   `puntos_clave` que se dijeron, y eso sugiere la nota. En las que tienen `aceptadas`, la app avisa si lo escrito
+   coincide (sin tildes, con alguna errata; `coincidencia()` en `app/lectura-vista.js`), pero la nota la pone quien
+   lee: completa (1), parcial (½) o no (0). Cierran la discusión (`explicacion`) y las `perlas`.
+4. **Avance**, solo en el dispositivo (`radquiz.lectura.v1:<tema>`, en `app/avance.js`): el puntaje de cada lectura
+   y la tanda en curso, con las páginas ya pasadas. «Las que fallé» son las de menos del 60 %. Orden: como el libro, de
+   lo básico a lo avanzado (por la `dificultad` interna, que no se muestra) o al azar.
+5. **Proyectar** (`?proyectar=1`): sin casillas ni notas, letra grande, y en la página 2 cada respuesta se muestra
+   cuando el presentador quiere (teclas 1–8, A todas).
+6. **Con celulares** (`lectura-vivo.html` + `app/lectura-vivo.js`): «Abrir a los celulares» desde el proyector crea
+   una sesión en `lecturas_vivo/<código>` (reglas propias en `database.rules.json`; el código no choca con el de una
+   sala, y la casilla de la portada lleva a las dos). Cada residente escribe sus respuestas; al pasar la página, el
+   proyector muestra por pregunta lo que dijo la sala, agrupado y sin nombres, y el presentador marca qué grupos valen
+   (lo que coincide con una aceptada sale sugerido). No hay puntaje ni ranking.
+
+Reglas del formato (validador y estudio): ni el encabezado ni las preguntas pueden decir el `tema` ni una respuesta
+aceptada del diagnóstico (todo se ve antes de pasar la página); `puntos_clave` obligatorios en `hallazgos` y `aceptadas`
+en `diagnostico`; al menos una figura en la página 1; las anotadas llevan leyenda propia; ids únicos frente a los casos.
 
 ## Tablero por equipos
 

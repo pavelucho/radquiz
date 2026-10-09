@@ -264,6 +264,106 @@ export function validarCaso(caso, imagenes, segmentoTema = "") {
   return p;
 }
 
+// ---------- lecturas: casos abiertos al estilo de los libros de casos (app/lectura.js). Mismas reglas que
+// validar_lectura() de tools/validar.
+
+export const TIPOS_PREGUNTA = {
+  hallazgos: "Hallazgos",
+  diagnostico: "Diagnóstico",
+  diferencial: "Diferencial",
+  tecnica: "Técnica o siguiente estudio",
+  clasificacion: "Clasificación o signo",
+  mecanismo: "Mecanismo o causa",
+  asociaciones: "Asociaciones y complicaciones",
+  epidemiologia: "Epidemiología y cifras",
+  manejo: "Manejo y pronóstico",
+  otra: "Otra",
+};
+
+// Sin tildes, sin mayúsculas y con los signos como espacios, rodeado de espacios: así «Maisonneuve» se busca como
+// palabra entera y no dentro de otra.
+export function comparableLibre(texto) {
+  return ` ${String(texto ?? "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, " ").trim()} `;
+}
+
+// Lo que no puede aparecer en la página 1: el tema y las respuestas aceptadas del diagnóstico.
+// Sin repetidas: «Fractura de Maisonneuve» y «fractura de Maisonneuve» son la misma.
+export function delatoras(lectura) {
+  const salida = [lectura.tema];
+  for (const p of lista(lectura.preguntas)) if (p?.tipo === "diagnostico") salida.push(...lista(p.aceptadas));
+  const vistas = new Set();
+  return salida.filter((r) => {
+    const clave = comparableLibre(r);
+    if (clave.trim().length < 5 || vistas.has(clave)) return false;
+    vistas.add(clave);
+    return true;
+  });
+}
+
+export function validarLectura(lectura, imagenes, segmentoTema = "") {
+  const p = [];
+  const preguntas = lista(lectura.preguntas);
+  const refs = lista(lectura.imagenes);
+  if (!lectura.tema) p.push(problema("error", "Falta el diagnóstico o tema del caso (se ve solo al pasar la página)."));
+  if (!lectura.presentacion) p.push(problema("error", "Falta el encabezado clínico de una línea."));
+  if (!preguntas.length) p.push(problema("error", "Falta al menos una pregunta."));
+  if (preguntas.length > 8) p.push(problema("error", `Tiene ${preguntas.length} preguntas; caben 8 como mucho.`));
+  preguntas.forEach((q, i) => {
+    const n = i + 1;
+    if (!TIPOS_PREGUNTA[q.tipo]) p.push(problema("error", `La pregunta ${n} no tiene un tipo válido.`));
+    if (!String(q.pregunta || "").trim()) p.push(problema("error", `La pregunta ${n} está vacía.`));
+    else if (!String(q.pregunta).trim().endsWith("?")) p.push(problema("aviso", `La pregunta ${n} debería terminar con «?».`));
+    if (!String(q.respuesta || "").trim()) p.push(problema("error", `Falta la respuesta de la pregunta ${n}.`));
+    if (q.tipo === "hallazgos" && !lista(q.puntos_clave).length) {
+      p.push(problema("error", `La pregunta ${n} es de hallazgos: faltan los puntos clave para marcar lo que se vio.`));
+    }
+    if (q.tipo === "diagnostico" && !lista(q.aceptadas).length) {
+      p.push(problema("error", `La pregunta ${n} es de diagnóstico: faltan las respuestas aceptadas.`));
+    }
+  });
+  if (preguntas.length && !preguntas.some((q) => q.tipo === "diagnostico" || q.tipo === "diferencial")) {
+    p.push(problema("aviso", "Ninguna pregunta pide el diagnóstico ni el diferencial."));
+  }
+  // La página 1 enseña a la vez el encabezado y todas las preguntas: ninguna puede decir el diagnóstico.
+  const pagina1 = [["El encabezado", lectura.presentacion], ...preguntas.map((q, i) => [`La pregunta ${i + 1}`, q.pregunta])];
+  for (const respuesta of delatoras(lectura)) {
+    const clave = comparableLibre(respuesta);
+    for (const [donde, texto] of pagina1) {
+      if (comparableLibre(texto).includes(clave)) {
+        p.push(problema("error", `${donde} dice «${respuesta}», que es la respuesta: se ve antes de pasar la página.`));
+      }
+    }
+  }
+  for (const r of refs) {
+    if (!imagenes[r.ref]) p.push(problema("error", `Usa una imagen que no está subida (${r.ref}).`));
+  }
+  if (!refs.some((r) => r.mostrar_en === "pregunta")) p.push(problema("error", "No tiene ninguna figura en la página 1: la lectura parte de la imagen."));
+  const anotadas = refs.filter((r) => r.mostrar_en === "respuesta");
+  if (!anotadas.length) p.push(problema("aviso", "Sin figuras anotadas: al pasar la página se verán otra vez las limpias."));
+  const sinLeyenda = anotadas.filter((r) => !String(r.leyenda || "").trim());
+  if (sinLeyenda.length) p.push(problema("aviso", `Falta la leyenda en español de ${sinLeyenda.map((r) => r.ref).join(", ")}.`));
+  const evidencia = lista(lectura.evidencia);
+  if (!evidencia.length || evidencia.some((e) => !e.cita || e.cita.length < 10 || !e.ubicacion)) {
+    p.push(problema("error", "Falta la evidencia: la página y la frase textual de la fuente que respalda las respuestas."));
+  }
+  const textos = [["encabezado", lectura.presentacion], ["discusión", lectura.explicacion],
+    ...lista(lectura.perlas).map((x) => ["perla", x]),
+    ...preguntas.flatMap((q, i) => [[`pregunta ${i + 1}`, q.pregunta], [`respuesta ${i + 1}`, q.respuesta], ...lista(q.puntos_clave).map((x) => [`punto clave ${i + 1}`, x])]),
+    ...refs.map((r) => [`leyenda de ${r.ref}`, r.leyenda])];
+  for (const [campo, texto] of textos) {
+    if (texto && HTML.test(texto)) p.push(problema("error", `${campo[0].toUpperCase()}${campo.slice(1)}: tiene código HTML; usa texto normal.`));
+  }
+  p.push(...validarClasificacion(lectura, segmentoTema));
+  p.push(...validarDificultad(lectura));
+  return p;
+}
+
+export function lecturasOrdenadas(tema) {
+  return Object.entries(tema.lecturas || {})
+    .map(([id, l]) => ({ ...l, id }))
+    .sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0) || a.id.localeCompare(b.id));
+}
+
 export function casosOrdenados(tema) {
   return Object.entries(tema.casos || {})
     .map(([id, c]) => ({ ...c, id }))
@@ -278,11 +378,16 @@ export function imagenesOrdenadas(tema) {
 
 export function validarTema(tema) {
   const imagenes = tema.imagenes || {};
-  const r = { fuente: validarFuente(tema.fuente), imagenes: {}, casos: {}, tema: [], errores: 0, avisos: 0 };
+  const r = { fuente: validarFuente(tema.fuente), imagenes: {}, casos: {}, lecturas: {}, tema: [], errores: 0, avisos: 0 };
   for (const img of imagenesOrdenadas(tema)) r.imagenes[img.id] = validarImagen(img, tema.fuente);
   const casos = casosOrdenados(tema);
   for (const c of casos) r.casos[c.id] = validarCaso(c, imagenes, tema.meta?.segmento);
-  if (!casos.length) r.tema.push(problema("error", "Todavía no hay casos."));
+  const lecturas = lecturasOrdenadas(tema);
+  for (const l of lecturas) {
+    r.lecturas[l.id] = validarLectura(l, imagenes, tema.meta?.segmento);
+    if (tema.casos?.[l.id]) r.lecturas[l.id].push(problema("error", `El id «${l.id}» ya lo usa un caso.`));
+  }
+  if (!casos.length && !lecturas.length) r.tema.push(problema("error", "Todavía no hay casos."));
   if (casos.length >= 10) {
     const largos = casos.filter((c) => {
       const o = lista(c.opciones).map((x) => String(x).length);
@@ -291,6 +396,8 @@ export function validarTema(tema) {
     if (largos / casos.length > 0.35) r.tema.push(problema("aviso", `La correcta es la opción más larga en ${largos} de ${casos.length} casos.`));
   }
   // Mismos avisos que tools/validar: la dificultad es opcional, pero sin ella el tablero no ordena las filas.
+  const sinNivelL = lecturas.filter((l) => !l.dificultad?.nivel).length;
+  if (sinNivelL) r.tema.push(problema("aviso", `${sinNivelL} de ${lecturas.length} lecturas no tienen dificultad: cuentan como nivel 2.`));
   const sinNivel = casos.filter((c) => !c.dificultad?.nivel).length;
   if (casos.length && sinNivel) {
     r.tema.push(problema("aviso", `${sinNivel === casos.length ? "Ningún caso tiene" : `${sinNivel} de ${casos.length} casos no tienen`}`
@@ -304,7 +411,7 @@ export function validarTema(tema) {
       r.tema.push(problema("aviso", `${veces} de ${niveles.length} casos tienen dificultad ${nivel}: revisa que el nivel discrimine.`));
     }
   }
-  const todos = [r.fuente, r.tema, ...Object.values(r.imagenes), ...Object.values(r.casos)].flat();
+  const todos = [r.fuente, r.tema, ...Object.values(r.imagenes), ...Object.values(r.casos), ...Object.values(r.lecturas)].flat();
   r.errores = todos.filter((x) => x.tipo === "error").length;
   r.avisos = todos.filter((x) => x.tipo === "aviso").length;
   return r;
@@ -329,7 +436,8 @@ export function aPaquete(tema, version, { drive = {}, publicador = null } = {}) 
   const meta = tema.meta;
   const f = tema.fuente;
   const casos = casosOrdenados(tema);
-  const usadas = new Set(casos.flatMap((c) => lista(c.imagenes).map((r) => r.ref)));
+  const lecturas = lecturasOrdenadas(tema);
+  const usadas = new Set([...casos, ...lecturas].flatMap((c) => lista(c.imagenes).map((r) => r.ref)));
   const imagenes = {};
   for (const img of imagenesOrdenadas(tema)) {
     if (!usadas.has(img.id)) continue;
@@ -373,6 +481,14 @@ export function aPaquete(tema, version, { drive = {}, publicador = null } = {}) 
       revisor: null,
     };
   });
+  // Las lecturas van aparte de los casos, con su propia cuenta de cambios: el índice de la web cuenta sus sellos
+  // por separado (app/publicado.js).
+  const actualizadosLecturas = {};
+  const lecturasPaquete = lecturas.map((l) => {
+    actualizados[l.id] = l.actualizado || 0;
+    actualizadosLecturas[l.id] = l.actualizado || 0;
+    return aLectura(l, meta, f.clave);
+  });
   const paquete = {
     $schema: "../../../schema/paquete.schema.json",
     id: meta.id,
@@ -385,6 +501,7 @@ export function aPaquete(tema, version, { drive = {}, publicador = null } = {}) 
     personas: { [meta.autor_usuario]: meta.autor_nombre },
     imagenes,
     casos: casosPaquete,
+    ...(lecturasPaquete.length ? { lecturas: lecturasPaquete } : {}),
   };
   // Lo que no aplica va como null, no como texto vacío: el esquema pide un DOI o un enlace válidos, o null.
   const { clave, ...resto } = f;
@@ -402,7 +519,82 @@ export function aPaquete(tema, version, { drive = {}, publicador = null } = {}) 
     ...(publicador && Object.keys(drive).length ? { alojada_por: publicador.nombre } : {}),
   };
   const fuentes = { $schema: "../../../schema/fuentes.schema.json", [clave]: fuente };
-  return { paquete, fuentes, imagenesUsadas: [...usadas], actualizados };
+  return { paquete, fuentes, imagenesUsadas: [...usadas], actualizados, actualizadosLecturas };
+}
+
+// La entrada de «indice_publicado», la lista corta que lee la portada: la escriben igual el estudio y el servidor
+// MCP. Los casos y las lecturas se cuentan aparte, y cada grupo con sus fechas de cambio, porque la web cuenta
+// los sellos de cada uno por separado (indiceEnVivo() en app/publicado.js). «fecha» la pone quien escribe.
+export function entradaIndice(paquete, version, actualizados, actualizadosLecturas = {}, { oculto = false } = {}) {
+  const deCasos = Object.fromEntries(Object.entries(actualizados || {}).filter(([id]) => !(id in actualizadosLecturas)));
+  const lecturas = lista(paquete.lecturas).length;
+  return {
+    titulo: paquete.titulo,
+    segmento: paquete.segmento,
+    modalidades: paquete.modalidades || [],
+    version,
+    casos: lista(paquete.casos).length,
+    actualizados: deCasos,
+    ...(lecturas ? { lecturas, actualizados_lecturas: actualizadosLecturas } : {}),
+    ...(oculto ? { oculto: true } : {}),
+  };
+}
+
+// Una lectura del estudio en la forma del paquete. Lo vacío no viaja: el esquema no admite textos vacíos.
+function aLectura(l, meta, claveFuente) {
+  const textoLimpio = (v) => String(v ?? "").trim();
+  const listaLimpia = (v) => lista(v).map(textoLimpio).filter(Boolean);
+  return {
+    id: l.id,
+    tema: l.tema,
+    presentacion: l.presentacion,
+    ...(lista(l.clasificacion).length ? { clasificacion: clasificacionDe(l) } : {}),
+    ...(listaLimpia(l.etiquetas).length ? { etiquetas: listaLimpia(l.etiquetas) } : {}),
+    imagenes: lista(l.imagenes).map((r) => ({
+      ref: r.ref, mostrar_en: r.mostrar_en === "respuesta" ? "respuesta" : "pregunta",
+      ...(textoLimpio(r.leyenda) ? { leyenda: textoLimpio(r.leyenda) } : {}),
+    })),
+    preguntas: lista(l.preguntas).map((q) => ({
+      tipo: q.tipo,
+      pregunta: textoLimpio(q.pregunta),
+      respuesta: textoLimpio(q.respuesta),
+      ...(listaLimpia(q.puntos_clave).length ? { puntos_clave: listaLimpia(q.puntos_clave) } : {}),
+      ...(listaLimpia(q.aceptadas).length ? { aceptadas: listaLimpia(q.aceptadas) } : {}),
+    })),
+    ...(textoLimpio(l.explicacion) ? { explicacion: textoLimpio(l.explicacion) } : {}),
+    ...(listaLimpia(l.perlas).length ? { perlas: listaLimpia(l.perlas) } : {}),
+    ...(normalizarDificultad(l.dificultad) ? { dificultad: normalizarDificultad(l.dificultad) } : {}),
+    evidencia: lista(l.evidencia).map((e) => ({ fuente: claveFuente, ubicacion: e.ubicacion, cita: e.cita })),
+    estado: "publicado",
+    autor: meta.autor_usuario,
+    revisor: null,
+  };
+}
+
+// Una lectura de un paquete (o de lo que devuelve una IA) en la forma del estudio. Lo que no reconoce se cae.
+export function deLectura(l, imagenes, desconocidas = [], porDefecto = "ia") {
+  const texto = (v) => (v === null || v === undefined ? "" : String(v));
+  const clasificacion = normalizarClasificacion(l.clasificacion, desconocidas);
+  return {
+    tema: texto(l.tema),
+    presentacion: texto(l.presentacion),
+    ...(clasificacion.length ? { clasificacion } : {}),
+    etiquetas: lista(l.etiquetas).map(texto).filter(Boolean),
+    imagenes: lista(l.imagenes)
+      .filter((r) => r && imagenes[r.ref])
+      .map((r) => ({ ref: r.ref, mostrar_en: r.mostrar_en === "respuesta" ? "respuesta" : "pregunta", ...(r.leyenda ? { leyenda: texto(r.leyenda) } : {}) })),
+    preguntas: lista(l.preguntas).map((q) => ({
+      tipo: TIPOS_PREGUNTA[q?.tipo] ? q.tipo : "otra",
+      pregunta: texto(q?.pregunta),
+      respuesta: texto(q?.respuesta),
+      puntos_clave: lista(q?.puntos_clave).map(texto).filter(Boolean),
+      aceptadas: lista(q?.aceptadas).map(texto).filter(Boolean),
+    })),
+    explicacion: texto(l.explicacion),
+    perlas: lista(l.perlas).map(texto).filter(Boolean),
+    ...(normalizarDificultad(l.dificultad, porDefecto) ? { dificultad: normalizarDificultad(l.dificultad, porDefecto) } : {}),
+    evidencia: lista(l.evidencia).map((e) => ({ ubicacion: texto(e?.ubicacion), cita: texto(e?.cita) })),
+  };
 }
 
 // Lo contrario de aPaquete(): de paquete.json + fuentes.json a la forma que usa el estudio.
@@ -486,6 +678,15 @@ export function dePaquete(paquete, fuentes) {
     };
   }
 
+  const lecturas = {};
+  let m = 0;
+  for (const l of lista(paquete.lecturas)) {
+    m += 1;
+    let id = /^[a-z0-9]+(-[a-z0-9]+)*$/.test(l?.id || "") ? l.id : `lectura-${String(m).padStart(2, "0")}`;
+    while (lecturas[id] || casos[id]) id = `${id}b`;
+    lecturas[id] = { ...deLectura(l || {}, imagenes, desconocidas), orden: m };
+  }
+
   const meta = {
     id: texto(paquete.id),
     titulo: texto(paquete.titulo),
@@ -495,5 +696,5 @@ export function dePaquete(paquete, fuentes) {
     version: texto(paquete.version) || "0.1.0",
   };
   // «desconocidas»: clasificaciones que no están en la lista y no entraron. Se enseñan antes de crear el tema.
-  return { meta, fuente, imagenes, casos, desconocidas: [...new Set(desconocidas)] };
+  return { meta, fuente, imagenes, casos, lecturas, desconocidas: [...new Set(desconocidas)] };
 }

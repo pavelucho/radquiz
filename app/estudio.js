@@ -13,12 +13,13 @@ import { firebaseConfig } from "./firebase-config.js";
 import { $, esc, md, SEGMENTOS, credito, NIVELES } from "./comun.js";
 import { AREAS } from "./areas.js";
 import {
-  LICENCIAS, TIPOS_FUENTE, MODALIDADES, lista, slug, idImagen, validarTema, validarCaso, casosOrdenados,
-  imagenesOrdenadas, estadoVerificacion, aPaquete, clasificacionDe, nombreClasificacion, normalizarClasificacion,
-  normalizarDificultad, pareceRequerirOpciones,
+  LICENCIAS, TIPOS_FUENTE, MODALIDADES, lista, slug, idImagen, validarTema, validarCaso, validarLectura, casosOrdenados,
+  lecturasOrdenadas, imagenesOrdenadas, estadoVerificacion, aPaquete, entradaIndice, clasificacionDe, nombreClasificacion,
+  normalizarClasificacion, normalizarDificultad, pareceRequerirOpciones, TIPOS_PREGUNTA,
 } from "./validacion.js";
 import {
   instruccionesIA, instruccionesCorreccion, instruccionesPaquete, instruccionesContinuar, leerRespuestaIA, planDeCarga,
+  instruccionesLecturas, instruccionesCorreccionLecturas,
 } from "./instrucciones-ia.js";
 import { crearZip, descargarArchivo, bytesDeDataURL } from "./zip.js";
 import { indiceDePaquete } from "./cuestionario.js";
@@ -53,14 +54,20 @@ let publicando = null;          // texto del avance mientras se publica; impide 
 let marcados = new Set();       // casos marcados en el paso 3 para clasificarlos en bloque
 let bloque = { segmento: "", area: "" };   // lo último elegido para clasificar en bloque: sobrevive al redibujado
 let bloqueNivel = "";                       // ídem, para la dificultad
-let seguir = null;              // la respuesta de la IA llegó cortada: { mensaje, texto } para pedirle el resto
+let seguir = null;              // la respuesta de la IA llegó cortada: { mensaje, texto, de } para pedirle el resto
+let editandoLectura = null;     // id de la lectura que se está editando (bloquea el redibujado, como «editando»)
+let vista3 = null;              // en el paso 3: "casos" o "lecturas"; null = la que tenga el tema
+let verTodasImportadas = false; // un libro trae cientos de figuras: al importar se enseñan las primeras
 
 const hoy = () => new Date().toISOString().slice(0, 10);
 const esCoord = () => perfil?.rol === "coordinador";
 const esRevisor = () => perfil?.rol === "revisor" || esCoord();
 const soyAutor = (t) => t?.meta?.autor_uid === usuario?.uid;
 const puedeEditar = (t) => t && (esCoord() || soyAutor(t));
+// Casos y lecturas comparten «verificacion/<tema>/<id>» y «reportes/<tema>/<id>»: los ids no se repiten entre ellos.
 const vercaso = (temaId, casoId) => (verificaciones[temaId] || {})[casoId];
+const elemento = (t, id) => t.casos[id] || t.lecturas[id];
+const enEdicion = () => Boolean(editando || editandoLectura);
 const reportesDe = (temaId, casoId) => Object.values((reportes[temaId] || {})[casoId] || {});
 const sinPublicar = (t) => t.meta.estado === "publicado" && (t.meta.actualizado || 0) > (t.meta.publicado_en || 0);
 
@@ -157,6 +164,7 @@ function normalizarTema(id, bruto) {
   t.fuente = t.fuente || {};
   t.imagenes = t.imagenes || {};
   t.casos = t.casos || {};
+  t.lecturas = t.lecturas || {};
   t.revision = t.revision || {};
   for (const c of Object.values(t.casos)) {
     c.opciones = lista(c.opciones);
@@ -164,6 +172,14 @@ function normalizarTema(id, bruto) {
     c.evidencia = lista(c.evidencia);
     c.etiquetas = lista(c.etiquetas);
     c.clasificacion = lista(c.clasificacion);
+  }
+  for (const l of Object.values(t.lecturas)) {
+    l.imagenes = lista(l.imagenes);
+    l.preguntas = lista(l.preguntas).map((q) => ({ ...q, puntos_clave: lista(q.puntos_clave), aceptadas: lista(q.aceptadas) }));
+    l.perlas = lista(l.perlas);
+    l.evidencia = lista(l.evidencia);
+    l.etiquetas = lista(l.etiquetas);
+    l.clasificacion = lista(l.clasificacion);
   }
   for (const i of Object.values(t.imagenes)) {
     i.paneles = lista(i.paneles);
@@ -285,7 +301,8 @@ function confirmarPublicacion(t, figuras) {
       <div class="row"><button id="d-no">Cancelar</button>
         <button class="primary" id="d-si" disabled>Publicar</button></div>
     </div>`;
-    fondo.querySelector("#d-titulo").textContent = `Publicar «${t.meta.titulo}»`;
+    const n = cuentas(t);
+    fondo.querySelector("#d-titulo").textContent = `Publicar «${t.meta.titulo}» (${textoCuentas(n)})`;
     const carpeta = fondo.querySelector("#d-carpeta");
     if (carpeta) carpeta.textContent = `«RadQuiz · ${t.meta.titulo}»`;
     fondo.querySelector("#d-texto").textContent = DECLARACION.texto;
@@ -368,16 +385,28 @@ async function pedirSerRevisor() {
 }
 
 // ------------------------------------------------------------------ inicio
+// Los sellos cuentan casos y lecturas juntos: «total» es lo que hay que verificar.
 function cuentas(t) {
   const casos = casosOrdenados(t);
+  const lecturas = lecturasOrdenadas(t);
   let verificados = 0, problemas = 0, reportados = 0;
-  for (const c of casos) {
+  for (const c of [...casos, ...lecturas]) {
     const estado = estadoVerificacion(c, vercaso(t.id, c.id));
     if (estado === "verificado") verificados += 1;
     if (estado === "problema") problemas += 1;
     if (reportesDe(t.id, c.id).length) reportados += 1;
   }
-  return { casos: casos.length, verificados, problemas, reportados };
+  return { casos: casos.length, lecturas: lecturas.length, total: casos.length + lecturas.length, verificados, problemas, reportados };
+}
+
+const plural = (cuantos, uno, muchos) => `${cuantos} ${cuantos === 1 ? uno : muchos}`;
+
+// «12 casos», «19 lecturas» o «12 casos y 19 lecturas»: un tema solo de lecturas no dice «0 casos».
+function textoCuentas(n) {
+  const partes = [];
+  if (n.casos || !n.lecturas) partes.push(plural(n.casos, "caso", "casos"));
+  if (n.lecturas) partes.push(plural(n.lecturas, "lectura", "lecturas"));
+  return partes.join(" y ");
 }
 
 function tarjetaTema(t) {
@@ -387,7 +416,7 @@ function tarjetaTema(t) {
   return `<article class="panel tema-card">
     <div class="etiquetas">${chipEstado(t.meta.estado)}</div>
     <h3>${esc(t.meta.titulo || t.id)}</h3>
-    <p class="meta">${esc(SEGMENTOS[t.meta.segmento] || t.meta.segmento || "")} · ${n.casos} casos · ${esc(t.meta.autor_nombre || "")}${mio ? " (tú)" : ""}</p>
+    <p class="meta">${esc(SEGMENTOS[t.meta.segmento] || t.meta.segmento || "")} · ${textoCuentas(n)} · ${esc(t.meta.autor_nombre || "")}${mio ? " (tú)" : ""}</p>
     <p class="meta">${n.verificados} ${n.verificados === 1 ? "verificado" : "verificados"}${n.problemas ? ` · ${n.problemas} con problema` : ""}${n.reportados ? ` · ${n.reportados} reportados` : ""}${sinPublicar(t) ? " · cambios sin publicar" : ""}</p>
     <div class="row acciones"><a class="boton" href="#/tema/${esc(t.id)}">${puedeEditar(t) ? "Abrir" : puedeVerificar ? "Verificar" : "Ver"}</a>
       ${puedeEditar(t) ? `<button class="peligrosa" data-borrar-tema="${esc(t.id)}">Borrar</button>` : ""}</div>
@@ -400,8 +429,8 @@ function inicio() {
   const porVerificar = esRevisor()
     ? todos.filter((t) => t.meta.estado === "publicado" && !soyAutor(t))
         .map((t) => ({ t, n: cuentas(t) }))
-        .filter(({ n }) => n.reportados || n.verificados < n.casos)
-        .sort((a, b) => (b.n.reportados - a.n.reportados) || ((b.n.casos - b.n.verificados) - (a.n.casos - a.n.verificados)))
+        .filter(({ n }) => n.reportados || n.verificados < n.total)
+        .sort((a, b) => (b.n.reportados - a.n.reportados) || ((b.n.total - b.n.verificados) - (a.n.total - a.n.verificados)))
         .map(({ t }) => t)
     : [];
   const otros = todos.filter((t) => !mios.includes(t) && !porVerificar.includes(t));
@@ -420,7 +449,7 @@ function inicio() {
     </div>
     ${esCoord() && pendientes ? `<p class="caja">Hay ${pendientes} pedido(s) para verificar casos. <a href="#/equipo">Ver</a></p>` : ""}
     ${esRevisor() ? bloque("Para verificar", porVerificar,
-        "Todo verificado. Los temas con casos reportados o sin verificar aparecen aquí primero.") : ""}
+        "Todo verificado. Los temas con casos o lecturas reportados o sin verificar aparecen aquí primero.") : ""}
     <section class="segmento">
       <h2>Mis temas</h2>
       ${mios.length ? `<div class="temas">${mios.map(tarjetaTema).join("")}</div>` : `<p class="muted">Todavía no creaste ninguno. Cualquiera puede publicar; los radiólogos ponen el sello de verificado.</p>`}
@@ -440,7 +469,10 @@ function inicio() {
     $("#subir-zip").disabled = true;
     $("#subir-zip").textContent = "Leyendo…";
     try {
-      importado = await abrirZip(archivo);
+      importado = await abrirZip(archivo, (n, total) => {
+        if (n % 10 === 0 || n === total) $("#subir-zip").textContent = `Leyendo figuras… ${n} de ${total}`;
+      });
+      verTodasImportadas = false;
     } catch (e) {
       $("#subir-zip").disabled = false;
       $("#subir-zip").textContent = "Subir un .zip";
@@ -553,8 +585,13 @@ function temaNuevo() {
 // El tema tal como quedaría, para validarlo y enseñarlo antes de crear nada.
 function temaImportado() {
   const d = importado;
-  return { id: slug(d.meta.id || d.meta.titulo), meta: d.meta, fuente: d.fuente, imagenes: d.imagenes, casos: d.casos };
+  return {
+    id: slug(d.meta.id || d.meta.titulo), meta: d.meta, fuente: d.fuente, imagenes: d.imagenes, casos: d.casos, lecturas: d.lecturas || {},
+  };
 }
+
+// Las primeras figuras que se enseñan al importar: un libro de casos trae cientos y la página se haría pesada.
+const FIGURAS_A_LA_VISTA = 120;
 
 function vistaImportar() {
   if (creando) return;
@@ -564,10 +601,13 @@ function vistaImportar() {
   const v = validarTema(t);
   const imagenes = imagenesOrdenadas(t);
   const casos = casosOrdenados(t);
+  const lecturas = lecturasOrdenadas(t);
+  const aLaVista = verTodasImportadas ? imagenes : imagenes.slice(0, FIGURAS_A_LA_VISTA);
+  const problemasLecturas = lecturas.flatMap((l) => v.lecturas[l.id].map((p) => ({ ...p, texto: `${l.id} · ${l.tema || "sin tema"}: ${p.texto}` })));
   app.innerHTML = `<div class="stack stack-lg">
     <div class="stack" style="gap:6px"><a class="volver" href="#/">← Todos los temas</a><h1>${esc(d.meta.titulo)}</h1>
       <p class="muted">${esc(SEGMENTOS[d.meta.segmento] || d.meta.segmento || "sin segmento")} ·
-        ${casos.length} casos · ${imagenes.length} imágenes · de ${esc(d.nombre)}</p></div>
+        ${textoCuentas({ casos: casos.length, lecturas: lecturas.length })} · ${plural(imagenes.length, "imagen", "imágenes")} · de ${esc(d.nombre)}</p></div>
     ${d.faltan.length ? `<p class="caja">El .zip no traía ${d.faltan.length} imagen(es): ${esc(d.faltan.slice(0, 6).join(", "))}${d.faltan.length > 6 ? "…" : ""}.
       Puedes crearlo igual y subirlas después en el paso 2.</p>` : ""}
     <section class="panel" style="display:grid;gap:12px">
@@ -575,15 +615,17 @@ function vistaImportar() {
       <p class="muted">Cada una tiene que ser la figura <b>completa</b>, tal como salió publicada: con todos sus
         paneles y sin flechas ni recortes añadidos. Si una IA las sacó del PDF puede haber partido una figura en
         trozos, y casi ninguna de estas licencias lo permite.</p>
-      <div class="galeria chica">${imagenes.map((img) => `<div class="panel" style="display:grid;gap:6px">
+      <div class="galeria chica">${aLaVista.map((img) => `<div class="panel" style="display:grid;gap:6px">
         ${d.datos[img.id]
-          ? `<img class="miniatura chica" src="${esc(d.datos[img.id])}" alt="${esc(img.figura)}" data-zoom>`
+          ? `<img class="miniatura chica" src="${esc(d.datos[img.id])}" alt="${esc(img.figura)}" loading="lazy" data-zoom>`
           : `<p class="src">sin archivo</p>`}
         <span class="src">${esc(img.figura || img.id)}</span></div>`).join("") || `<p class="muted">El .zip no traía imágenes.</p>`}</div>
+      ${aLaVista.length < imagenes.length ? `<div class="row"><span class="src">Se ven ${aLaVista.length} de ${imagenes.length}.</span>
+        <button id="ver-todas-importadas">Ver todas</button></div>` : ""}
     </section>
     <section class="panel" style="display:grid;gap:10px">
       <h2>Clasificación</h2>
-      <div class="row" style="gap:6px">${resumenClasificacion(casos, t.meta.segmento)}</div>
+      <div class="row" style="gap:6px">${resumenClasificacion([...casos, ...lecturas], t.meta.segmento)}</div>
       ${d.desconocidas.length ? `<p class="caja">Estas clasificaciones no están en la lista de áreas y quedaron fuera:
         ${esc(d.desconocidas.join(", "))}. Esos casos conservan el resto de su clasificación, o el segmento del tema si
         no tenían otra; lo corriges en el paso 3.</p>` : ""}
@@ -595,7 +637,10 @@ function vistaImportar() {
             Se crea igual, en preparación: los corriges en los pasos 1 a 3 antes de publicar.</p>`
         : `<p class="muted">Sin errores ni avisos: se puede publicar tal cual.</p>`}
       ${problemasHTML(v.fuente)}
+      ${problemasHTML(v.tema)}
       ${problemasHTML(casos.flatMap((c) => v.casos[c.id].map((p) => ({ ...p, texto: `${c.tema || c.id}: ${p.texto}` }))).slice(0, 12))}
+      ${problemasHTML(problemasLecturas.slice(0, 12))}
+      ${problemasLecturas.length > 12 ? `<p class="src">… y ${problemasLecturas.length - 12} más en las lecturas: se ven en el paso 3.</p>` : ""}
     </section>
     <div class="row">
       <button class="primary" id="crear-importado">Crear el cuestionario</button>
@@ -605,6 +650,31 @@ function vistaImportar() {
   </div>`;
   $("#cancelar-importado").onclick = () => { importado = null; location.hash = "#/"; };
   $("#crear-importado").onclick = () => crearImportado();
+  const todas = $("#ver-todas-importadas");
+  if (todas) todas.onclick = () => { verTodasImportadas = true; vistaImportar(); };
+}
+
+// Escribe muchas rutas en varios update() de no más de «tope» caracteres cada uno: un libro de casos trae cientos
+// de lecturas y más de mil figuras, y una sola escritura de 20 MB tarda, puede cortarse y pasa del límite del SDK.
+// Las reglas se comprueban ruta por ruta, así que trocear no cambia los permisos.
+async function escribirPorPartes(rutas, tope, avance = () => {}) {
+  const entradas = Object.entries(rutas);
+  let parte = {}, tamano = 0, hechas = 0;
+  const enviar = async () => {
+    if (!tamano) return;
+    await update(ref(db), parte);
+    hechas += Object.keys(parte).length;
+    avance(hechas, entradas.length);
+    parte = {};
+    tamano = 0;
+  };
+  for (const [ruta, valor] of entradas) {
+    const largo = JSON.stringify(valor ?? null).length + ruta.length;
+    if (tamano && tamano + largo > tope) await enviar();
+    parte[ruta] = valor;
+    tamano += largo;
+  }
+  await enviar();
 }
 
 async function crearImportado() {
@@ -627,19 +697,21 @@ async function crearImportado() {
       },
       fuente: d.fuente,
       imagenes: d.imagenes,
-      casos: Object.fromEntries(Object.entries(d.casos).map(([k, c]) => [k, { ...c, actualizado: serverTimestamp() }])),
     });
-    let n = 0;
-    for (const [imgId, url] of Object.entries(d.datos)) {
-      await set(ref(db, `estudio_img/${id}/${imgId}`), url);
-      n += 1;
-      boton.textContent = `Subiendo imágenes… ${n} de ${Object.keys(d.datos).length}`;
-    }
+    // Los casos y las lecturas, detrás y por partes: ya existe el tema, así que las reglas los dejan escribir.
+    const textos = {};
+    for (const [k, c] of Object.entries(d.casos)) textos[`estudio/${id}/casos/${k}`] = { ...c, actualizado: serverTimestamp() };
+    for (const [k, l] of Object.entries(d.lecturas || {})) textos[`estudio/${id}/lecturas/${k}`] = { ...l, actualizado: serverTimestamp() };
+    await escribirPorPartes(textos, 1500000, (n, total) => { boton.textContent = `Guardando casos y lecturas… ${n} de ${total}`; });
+    const figuras = Object.fromEntries(Object.entries(d.datos).map(([imgId, url]) => [`estudio_img/${id}/${imgId}`, url]));
+    await escribirPorPartes(figuras, 4000000, (n, total) => { boton.textContent = `Subiendo imágenes… ${n} de ${total}`; });
   } catch (e) {
     creando = false;
     boton.disabled = false;
     boton.textContent = "Crear el cuestionario";
-    return aviso("No se pudo crear: " + (e.code || e.message), true);
+    // Si el tema ya se creó, queda a medias en el estudio: mejor decirlo que dejar creer que no se creó nada.
+    const amedias = temas[id] ? ` Quedó creado a medias como «${id}»: bórralo desde la portada y vuelve a subir el .zip.` : "";
+    return aviso("No se pudo crear: " + (e.code || e.message) + amedias, true);
   }
   creando = false;
   importado = null;
@@ -697,7 +769,7 @@ function panelSoloLectura(t) {
   return `<section class="panel" style="display:grid;gap:10px">
     <h2>${ESTADOS[t.meta.estado].texto}</h2>
     <p class="muted">Solo su autor o el coordinador pueden editarlo.</p>
-    <p class="src">${n.casos} casos · ${n.verificados} verificados</p>
+    <p class="src">${textoCuentas(n)} · ${n.verificados} verificados</p>
   </section>`;
 }
 
@@ -707,7 +779,8 @@ function pasos(t, v) {
   const items = [
     ["fuente", `${marca(!v.fuente.some((p) => p.tipo === "error"))} 1. Fuente`],
     ["imagenes", `${marca(imagenesOrdenadas(t).length && !Object.values(v.imagenes).flat().some((p) => p.tipo === "error"))} 2. Imágenes`],
-    ["casos", `${marca(casosOrdenados(t).length && !Object.values(v.casos).flat().some((p) => p.tipo === "error"))} 3. Casos`],
+    ["casos", `${marca((casosOrdenados(t).length || lecturasOrdenadas(t).length)
+      && ![...Object.values(v.casos), ...Object.values(v.lecturas)].flat().some((p) => p.tipo === "error"))} 3. ${lecturasOrdenadas(t).length ? "Casos y lecturas" : "Casos"}`],
     ["publicar", `${marca(v.errores === 0)} 4. Publicar`],
   ];
   return `<nav class="pasos-nav">${items.map(([id, texto]) =>
@@ -719,7 +792,7 @@ function editor(t) {
   const cuerpo = { fuente: pasoFuente, imagenes: pasoImagenes, casos: pasoCasos, publicar: pasoPublicar }[paso](t, v);
   const n = cuentas(t);
   const aviso_ = t.meta.estado === "publicado" && (n.problemas || n.reportados)
-    ? `<p class="caja">Hay ${n.problemas ? `${n.problemas} caso(s) marcados con problema por un radiólogo` : ""}${n.problemas && n.reportados ? " y " : ""}${n.reportados ? `${n.reportados} con reportes de usuarios` : ""}. Están marcados en el paso 3.</p>`
+    ? `<p class="caja">Hay ${n.problemas ? `${n.problemas} caso(s) o lectura(s) marcados con problema por un radiólogo` : ""}${n.problemas && n.reportados ? " y " : ""}${n.reportados ? `${n.reportados} con reportes de usuarios` : ""}. Están marcados en el paso 3.</p>`
     : "";
   return pasos(t, v) + aviso_ + cuerpo;
 }
@@ -840,7 +913,7 @@ function panelClasificar(t, casos) {
   return `<div class="panel" style="display:grid;gap:10px">
     <h3>Clasificación</h3>
     <div class="row" style="gap:6px">${resumenClasificacion(casos, t.meta.segmento)}</div>
-    <p class="src">Marca casos y agrégales o quítales un segmento con su área. Un caso puede estar en varios segmentos;
+    <p class="src">Marca ${vistaPaso3(t) === "lecturas" ? "lecturas" : "casos"} y agrégales o quítales un segmento con su área. Cada uno puede estar en varios segmentos;
       el primero es el principal. Quitar con «Sin área» saca el segmento entero. Cambiar la clasificación no quita el
       sello de verificado.</p>
     <div class="row">
@@ -876,27 +949,32 @@ function sinPareja(pares, segmento, area) {
   return quedan;
 }
 
-// No toca «actualizado» de los casos: el sello de verificado cubre lo que el radiólogo revisó, y la
-// clasificación no lo cambia.
+// En qué lista del tema vive un id: los marcados pueden ser casos o lecturas.
+const coleccionDe = (t, id) => (t.casos[id] ? "casos" : t.lecturas[id] ? "lecturas" : "");
+const palabrasVista = (t) => (vistaPaso3(t) === "lecturas" ? ["lectura", "lecturas", "alguna"] : ["caso", "casos", "algún"]);
+
+// No toca «actualizado» de los casos ni de las lecturas: el sello de verificado cubre lo que el radiólogo revisó,
+// y la clasificación no lo cambia.
 async function clasificarMarcados(t, agregar) {
   const segmento = $("#bloque-segmento").value;
   const area = $("#bloque-area").value;
+  const [uno, varios, alguno] = palabrasVista(t);
   const cambios = {};
   let cambiados = 0;
   let sinSegmento = 0;
   for (const id of marcados) {
-    const caso = t.casos[id];
-    if (!caso) continue;
-    const antes = clasificacionDe(caso, t.meta.segmento);
+    const coleccion = coleccionDe(t, id);
+    if (!coleccion) continue;
+    const antes = clasificacionDe(t[coleccion][id], t.meta.segmento);
     const despues = agregar ? conPareja(antes, segmento, area) : sinPareja(antes, segmento, area);
     if (!despues.length) { sinSegmento += 1; continue; }
     if (JSON.stringify(despues) === JSON.stringify(antes)) continue;
-    cambios[`estudio/${t.id}/casos/${id}/clasificacion`] = despues;
+    cambios[`estudio/${t.id}/${coleccion}/${id}/clasificacion`] = despues;
     cambiados += 1;
   }
   if (!cambiados) {
-    return aviso(!marcados.size ? "Marca primero algún caso."
-      : sinSegmento ? "No cambió nada: cada caso necesita al menos un segmento." : "Los casos marcados ya estaban así.", true);
+    return aviso(!marcados.size ? `Marca primero ${alguno} ${uno}.`
+      : sinSegmento ? `No cambió nada: cada ${uno} necesita al menos un segmento.` : `Los marcados ya estaban así.`, true);
   }
   try {
     await update(ref(db), cambios);
@@ -905,8 +983,8 @@ async function clasificarMarcados(t, agregar) {
     return aviso("No se pudo guardar: " + (e.code || e.message), true);
   }
   const igual = sinSegmento === 1 ? " Uno quedó igual" : ` ${sinSegmento} quedaron igual`;
-  aviso(`Clasificación cambiada en ${cambiados} ${cambiados === 1 ? "caso" : "casos"}.`
-    + (sinSegmento ? `${igual}: cada caso necesita al menos un segmento.` : ""));
+  aviso(`Clasificación cambiada en ${plural(cambiados, uno, varios)}.`
+    + (sinSegmento ? `${igual}: cada ${uno} necesita al menos un segmento.` : ""));
 }
 
 // ---------- dificultad (cuatro niveles, por el contenido y la bibliografía) y modo sin alternativas
@@ -923,10 +1001,27 @@ function opcionesNivel(elegido, vacio) {
     `<option value="${n}" ${String(elegido) === n ? "selected" : ""}>${n} · ${esc(v.nombre)} (${esc(v.referente)})</option>`).join("");
 }
 
-function panelDificultad(casos) {
+// Con «deLecturas», sin lo de las opciones: las lecturas no tienen alternativas.
+function panelDificultad(casos, deLecturas = false) {
   const cuenta = (n) => casos.filter((c) => (c.dificultad?.nivel || 0) === n).length;
   const reparto = [1, 2, 3, 4].map((n) => `<span class="chip nivel n${n}">${n} · ${esc(NIVELES[n].nombre)} · ${cuenta(n)}</span>`).join("")
     + (cuenta(0) ? `<span class="chip">Sin dificultad · ${cuenta(0)}</span>` : "");
+  if (deLecturas) {
+    return `<div class="panel" style="display:grid;gap:10px">
+    <h3>Dificultad</h3>
+    <div class="row" style="gap:6px">${reparto}</div>
+    <p class="src">No la ve el residente. Se asigna por el contenido y la bibliografía, con el currículo europeo de la
+      ESR como referencia; tu IA la propone con su motivo. Cambiarla no quita el sello de verificado.</p>
+    <div class="row">
+      <button id="marcar-sin-nivel">Marcar las que no tienen dificultad</button>
+      <span class="src n-marcados">${textoMarcados()}</span>
+    </div>
+    <div class="row">
+      <select id="bloque-nivel" aria-label="Dificultad">${opcionesNivel(bloqueNivel, "Sin dificultad")}</select>
+      <button id="nivel-marcados">Poner a las marcadas</button>
+    </div>
+  </div>`;
+  }
   const conOpciones = casos.filter((c) => c.requiere_opciones).length;
   return `<div class="panel" style="display:grid;gap:10px">
     <h3>Dificultad y modo sin alternativas</h3>
@@ -949,23 +1044,26 @@ function panelDificultad(casos) {
   </div>`;
 }
 
-// Como la clasificación, no toca «actualizado» de los casos: no es lo que el radiólogo verificó.
+// Como la clasificación, no toca «actualizado»: no es lo que el radiólogo verificó. «requiere_opciones» es solo de
+// los casos: las lecturas no tienen alternativas.
 async function cambiarMarcados(t, campo, valor) {
+  const [uno, varios, alguno] = palabrasVista(t);
   const cambios = {};
   for (const id of marcados) {
-    if (!t.casos[id]) continue;
-    if (JSON.stringify(t.casos[id][campo] ?? null) === JSON.stringify(valor)) continue;
-    cambios[`estudio/${t.id}/casos/${id}/${campo}`] = valor;
+    const coleccion = coleccionDe(t, id);
+    if (!coleccion || (coleccion === "lecturas" && campo === "requiere_opciones")) continue;
+    if (JSON.stringify(t[coleccion][id][campo] ?? null) === JSON.stringify(valor)) continue;
+    cambios[`estudio/${t.id}/${coleccion}/${id}/${campo}`] = valor;
   }
   const n = Object.keys(cambios).length;
-  if (!n) return aviso(!marcados.size ? "Marca primero algún caso." : "Los casos marcados ya estaban así.", true);
+  if (!n) return aviso(!marcados.size ? `Marca primero ${alguno} ${uno}.` : "Los marcados ya estaban así.", true);
   try {
     await update(ref(db), cambios);
     await guardarMeta(t.id, {});
   } catch (e) {
     return aviso("No se pudo guardar: " + (e.code || e.message), true);
   }
-  aviso(`Cambiado en ${n} ${n === 1 ? "caso" : "casos"}.`);
+  aviso(`Cambiado en ${plural(n, uno, varios)}.`);
 }
 
 function selloCaso(temaId, caso) {
@@ -1002,14 +1100,35 @@ function tarjetaCaso(t, caso, v) {
   </div>`;
 }
 
+// El paso 3 tiene dos listas: los casos de opción múltiple y las lecturas (casos enteros para leer, sin
+// alternativas). Se ve una a la vez; sin elegir, la que tenga el tema.
+function vistaPaso3(t) {
+  if (vista3) return vista3;
+  return !casosOrdenados(t).length && lecturasOrdenadas(t).length ? "lecturas" : "casos";
+}
+
 function pasoCasos(t, v) {
   if (editando) return formularioCaso(t, editando);
+  if (editandoLectura) return formularioLectura(t, editandoLectura, v);
   const casos = casosOrdenados(t);
-  for (const id of marcados) if (!t.casos[id]) marcados.delete(id);   // borrados mientras tanto
-  const sinImagenes = !imagenesOrdenadas(t).length;
+  const lecturas = lecturasOrdenadas(t);
+  for (const id of marcados) if (!elemento(t, id)) marcados.delete(id);   // borrados mientras tanto
+  const vista = vistaPaso3(t);
+  const pestana = (id, texto, n) => `<button role="tab" class="paso ${vista === id ? "activo" : ""}" data-vista3="${id}"
+    aria-selected="${vista === id}">${texto} · ${n}</button>`;
   return `<section class="panel" style="display:grid;gap:12px">
-    <h2>3. Casos</h2>
-    ${sinImagenes ? `<p class="caja">Primero sube las imágenes: así tu IA sabrá qué figuras puede usar.</p>` : ""}
+    <h2>3. ${lecturas.length ? "Casos y lecturas" : "Casos"}</h2>
+    <nav class="pasos-nav estudio-pestanas" role="tablist" aria-label="Qué lista ver">
+      ${pestana("casos", "Casos de opción múltiple", casos.length)}${pestana("lecturas", "Lecturas", lecturas.length)}</nav>
+    ${vista === "lecturas" ? seccionLecturas(t, v, lecturas) : seccionCasos(t, v, casos)}
+    <div class="row"><button id="ir-publicar">Siguiente: publicar</button></div>
+  </section>`;
+}
+
+function seccionCasos(t, v, casos) {
+  const sinImagenes = !imagenesOrdenadas(t).length;
+  const conErrores = casos.some((c) => v.casos[c.id].some((p) => p.tipo === "error"));
+  return `${sinImagenes ? `<p class="caja">Primero sube las imágenes: así tu IA sabrá qué figuras puede usar.</p>` : ""}
     <div class="ia">
       <h3>Escribirlos con tu IA</h3>
       <p class="muted">Funciona con la que prefieras: ChatGPT, Gemini, Copilot, Claude, DeepSeek…</p>
@@ -1018,22 +1137,115 @@ function pasoCasos(t, v) {
         <li>Abre tu IA, <b>adjunta el PDF</b> de la fuente y pega las instrucciones.</li>
         <li>Copia su respuesta y pégala aquí abajo.</li>
       </ol>
-      ${seguir ? `<div class="caja" style="display:grid;gap:8px"><p>${esc(seguir.mensaje)}</p>
+      ${seguir && seguir.de !== "lecturas" ? `<div class="caja" style="display:grid;gap:8px"><p>${esc(seguir.mensaje)}</p>
         <div class="row"><button class="primary" id="copiar-seguir">Copiar el pedido para que siga</button></div></div>` : ""}
       <textarea id="respuesta-ia" rows="4" placeholder="Pega aquí la respuesta de tu IA (el JSON)"></textarea>
       <div class="row"><button id="cargar-ia">Cargar respuesta</button>
         <label class="row" style="gap:6px"><input type="checkbox" id="reemplazar"> Reemplazar los casos actuales</label>
-        ${v.errores ? `<button id="copiar-correccion">Pedir a la IA que corrija</button>` : ""}
+        ${conErrores ? `<button id="copiar-correccion">Pedir a la IA que corrija</button>` : ""}
       </div>
       <details><summary>Ver las instrucciones</summary><pre class="instrucciones">${esc(instruccionesIA(t))}</pre></details>
     </div>
-    <div class="row" style="justify-content:space-between"><h3>${casos.length} casos</h3>
+    <div class="row" style="justify-content:space-between"><h3>${plural(casos.length, "caso", "casos")}</h3>
       <button id="nuevo-caso">Agregar caso a mano</button></div>
     ${casos.length ? panelClasificar(t, casos) : ""}
     ${casos.length ? panelDificultad(casos) : ""}
-    <div class="casos">${casos.map((c) => tarjetaCaso(t, c, v)).join("") || `<p class="muted">Todavía no hay casos.</p>`}</div>
-    <div class="row"><button id="ir-publicar">Siguiente: publicar</button></div>
-  </section>`;
+    <div class="casos">${casos.map((c) => tarjetaCaso(t, c, v)).join("") || `<p class="muted">Todavía no hay casos.</p>`}</div>`;
+}
+
+// ---------- lecturas: un caso entero, como en los libros de casos (schema/lectura.schema.json)
+let lecturasAbiertas = new Set();   // las que se ven enteras en el paso 3: sobreviven al redibujado
+
+function seccionLecturas(t, v, lecturas) {
+  const sinImagenes = !imagenesOrdenadas(t).length;
+  const conErrores = lecturas.some((l) => v.lecturas[l.id].some((p) => p.tipo === "error"));
+  return `<p class="muted">Una lectura es un caso entero, como en los libros de casos: en la página 1, el encabezado
+      clínico, las figuras limpias y de 1 a 8 preguntas abiertas a la vista; al pasar la página, las respuestas, las
+      figuras anotadas con su leyenda, la discusión y las perlas. No lleva alternativas.</p>
+    ${sinImagenes ? `<p class="caja">Primero sube las figuras (paso 2): cada lectura parte de una imagen y tu IA las cita por su id.</p>` : ""}
+    <div class="ia">
+      <h3>Escribirlas con tu IA</h3>
+      <ol class="pasos-ia">
+        <li><button class="primary" id="copiar-ia-lecturas">Copiar instrucciones</button></li>
+        <li>Abre tu IA, <b>adjunta el PDF</b> de la fuente y pega las instrucciones.</li>
+        <li>Copia su respuesta y pégala aquí abajo.</li>
+      </ol>
+      ${seguir && seguir.de === "lecturas" ? `<div class="caja" style="display:grid;gap:8px"><p>${esc(seguir.mensaje)}</p>
+        <div class="row"><button class="primary" id="copiar-seguir">Copiar el pedido para que siga</button></div></div>` : ""}
+      <textarea id="respuesta-ia" rows="4" placeholder="Pega aquí la respuesta de tu IA (el JSON con «lecturas»)"></textarea>
+      <div class="row"><button id="cargar-ia-lecturas">Cargar respuesta</button>
+        <label class="row" style="gap:6px"><input type="checkbox" id="reemplazar-lecturas"> Reemplazar las lecturas actuales</label>
+        ${conErrores ? `<button id="copiar-correccion-lecturas">Pedir a la IA que corrija</button>` : ""}
+      </div>
+      <details><summary>Ver las instrucciones</summary><pre class="instrucciones">${esc(instruccionesLecturas(t))}</pre></details>
+    </div>
+    <div class="row" style="justify-content:space-between"><h3>${plural(lecturas.length, "lectura", "lecturas")}</h3>
+      <button id="nueva-lectura">Agregar lectura a mano</button></div>
+    ${lecturas.length ? panelClasificar(t, lecturas) : ""}
+    ${lecturas.length ? panelDificultad(lecturas, true) : ""}
+    <div class="casos">${lecturas.map((l) => tarjetaLectura(t, l, v)).join("") || `<p class="muted">Todavía no hay lecturas.</p>`}</div>`;
+}
+
+function tarjetaLectura(t, l, v) {
+  const ver = vercaso(t.id, l.id);
+  const estado = estadoVerificacion(l, ver);
+  const reportados = reportesDe(t.id, l.id);
+  const limpias = lista(l.imagenes).filter((r) => r.mostrar_en !== "respuesta");
+  const anotadas = lista(l.imagenes).length - limpias.length;
+  const abierta = lecturasAbiertas.has(l.id);
+  return `<div class="panel caso-card est-lec-card ${estado === "problema" || reportados.length ? "con-cambios" : ""}">
+    <div class="row" style="justify-content:space-between">
+      <label class="row" style="gap:8px"><input type="checkbox" data-marcar="${esc(l.id)}" ${marcados.has(l.id) ? "checked" : ""}>
+        <span class="tema">${esc(l.tema || "sin diagnóstico")}</span></label>
+      <span class="src"><code>${esc(l.id)}</code> · ${plural(lista(l.preguntas).length, "pregunta", "preguntas")} · ${selloCaso(t.id, l)}</span>
+    </div>
+    <div class="row" style="gap:6px">${chipsClasificacion(t, l)}${chipDificultad(l)}</div>
+    ${estado === "problema" && ver.comentario ? `<p class="caja">${esc(ver.nombre)}: «${esc(ver.comentario)}»</p>` : ""}
+    ${reportados.map((r) => `<p class="caja">Reporte de un usuario: «${esc(r.texto)}»</p>`).join("")}
+    <p class="est-lec-presentacion">${esc(l.presentacion || "sin encabezado")}</p>
+    ${limpias.length ? `<div class="row">${limpias.map((r) => `<img class="miniatura chica" src="${esc(imagenesTema[r.ref] || "")}" alt="" loading="lazy" data-zoom>`).join("")}
+      ${anotadas ? `<span class="src">+ ${plural(anotadas, "anotada", "anotadas")} en la página 2</span>` : ""}</div>` : ""}
+    ${problemasHTML(v.lecturas[l.id])}
+    ${abierta ? vistaLectura(t, l) : ""}
+    <div class="row"><button data-editar-lectura="${esc(l.id)}">Editar</button>
+      <button data-ver-lectura="${esc(l.id)}" aria-expanded="${abierta}">${abierta ? "Ocultar" : "Ver entera"}</button>
+      <button data-subir-lectura="${esc(l.id)}">↑</button><button data-bajar-lectura="${esc(l.id)}">↓</button>
+      <button data-borrar-lectura="${esc(l.id)}">Borrar</button></div>
+  </div>`;
+}
+
+// La lectura entera, como la verá quien lee: la página 1 y, debajo, lo que aparece al pasar la página. La usan la
+// tarjeta del paso 3 («Ver entera») y la verificación.
+function vistaLectura(t, l) {
+  const refs = lista(l.imagenes);
+  const nombre = (r) => (t.imagenes[r.ref] || {}).figura || r.ref;
+  const figura = (r, conLeyenda) => `<figure class="est-lec-fig">
+      ${imagenesTema[r.ref] ? `<img src="${esc(imagenesTema[r.ref])}" alt="${esc(nombre(r))}" loading="lazy" data-zoom>` : `<p class="src">sin archivo</p>`}
+      <figcaption class="src">${esc(nombre(r))}${conLeyenda ? (r.leyenda ? ` · ${esc(r.leyenda)}` : " · sin leyenda") : ""}</figcaption></figure>`;
+  const limpias = refs.filter((r) => r.mostrar_en !== "respuesta");
+  const anotadas = refs.filter((r) => r.mostrar_en === "respuesta");
+  const preguntas = lista(l.preguntas);
+  const perlas = lista(l.perlas);
+  return `<div class="est-lec-paginas">
+    <div class="est-lec-pagina">
+      <p class="eyebrow">Página 1</p>
+      <p class="est-lec-presentacion">${esc(l.presentacion || "")}</p>
+      ${limpias.length ? `<div class="est-lec-figs">${limpias.map((r) => figura(r, false)).join("")}</div>` : `<p class="src">Sin figuras en la página 1.</p>`}
+      <ol class="est-lec-preguntas">${preguntas.map((q) => `<li><span class="chip">${esc(TIPOS_PREGUNTA[q.tipo] || q.tipo || "sin tipo")}</span>
+        ${esc(q.pregunta || "")}</li>`).join("")}</ol>
+    </div>
+    <div class="est-lec-pagina">
+      <p class="eyebrow">Página 2</p>
+      <h4 class="est-lec-tema">${esc(l.tema || "")}</h4>
+      <ol class="est-lec-respuestas">${preguntas.map((q) => `<li><b>${esc(q.pregunta || "")}</b>
+        <div class="md">${md(q.respuesta || "")}</div>
+        ${lista(q.puntos_clave).length ? `<p class="src">Puntos clave</p><ul class="est-lec-puntos">${lista(q.puntos_clave).map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+        ${lista(q.aceptadas).length ? `<p class="src">Valen: ${lista(q.aceptadas).map(esc).join(" · ")}</p>` : ""}</li>`).join("")}</ol>
+      ${anotadas.length ? `<div class="est-lec-figs">${anotadas.map((r) => figura(r, true)).join("")}</div>` : ""}
+      ${l.explicacion ? `<div class="exp md">${md(l.explicacion)}</div>` : ""}
+      ${perlas.length ? `<div class="pearl"><b>Perlas</b><ul>${perlas.map((x) => `<li>${md(x)}</li>`).join("")}</ul></div>` : ""}
+    </div>
+  </div>`;
 }
 
 function formularioCaso(t, id) {
@@ -1095,9 +1307,126 @@ function formularioCaso(t, id) {
   </section>`;
 }
 
+// ---------- formulario de una lectura. Las preguntas y las figuras se agregan, quitan y ordenan en la página, sin
+// redibujar: el formulario se lee entero al guardar.
+function opcionesTipo(elegido) {
+  return Object.entries(TIPOS_PREGUNTA)
+    .map(([id, nombre]) => `<option value="${id}" ${id === elegido ? "selected" : ""}>${esc(nombre)}</option>`).join("");
+}
+
+function bloquePregunta(q = {}) {
+  return `<fieldset class="est-lec-pregunta">
+    <legend>Pregunta <span class="lp-n"></span></legend>
+    <div class="row" style="justify-content:space-between;align-items:end">
+      <label class="grid-label">Tipo<select class="lp-tipo">${opcionesTipo(q.tipo || "otra")}</select></label>
+      <span class="row" style="gap:6px"><button type="button" class="lp-subir" aria-label="Subir">↑</button>
+        <button type="button" class="lp-bajar" aria-label="Bajar">↓</button><button type="button" class="lp-quitar">Quitar</button></span>
+    </div>
+    <label class="grid-label">Pregunta (sin la respuesta: se ve en la página 1 con las demás)
+      <textarea class="lp-pregunta" rows="2" maxlength="300">${esc(q.pregunta || "")}</textarea></label>
+    <label class="grid-label">Respuesta (de la fuente, con palabras propias)
+      <textarea class="lp-respuesta" rows="3" maxlength="1500">${esc(q.respuesta || "")}</textarea></label>
+    <div class="row">
+      <label class="grid-label crece">Puntos clave, uno por línea (obligatorios en «Hallazgos»)
+        <textarea class="lp-puntos" rows="3">${esc(lista(q.puntos_clave).join("\n"))}</textarea></label>
+      <label class="grid-label crece">Respuestas aceptadas, una por línea (obligatorias en «Diagnóstico»)
+        <textarea class="lp-aceptadas" rows="3">${esc(lista(q.aceptadas).join("\n"))}</textarea></label>
+    </div>
+  </fieldset>`;
+}
+
+function filaFiguraLectura(t, r) {
+  const ficha = t.imagenes[r.ref] || {};
+  return `<div class="est-lec-fila-fig" data-ref="${esc(r.ref)}">
+    ${imagenesTema[r.ref] ? `<img class="miniatura chica" src="${esc(imagenesTema[r.ref])}" alt="" data-zoom>` : `<span class="src">sin archivo</span>`}
+    <div class="est-lec-fila-datos">
+      <span class="src">${esc(ficha.figura || r.ref)} · <code>${esc(r.ref)}</code>${t.imagenes[r.ref] ? "" : " · no está en el catálogo"}</span>
+      <select class="lf-donde" aria-label="Dónde se ve">
+        <option value="pregunta" ${r.mostrar_en !== "respuesta" ? "selected" : ""}>Página 1: limpia</option>
+        <option value="respuesta" ${r.mostrar_en === "respuesta" ? "selected" : ""}>Página 2: anotada</option>
+      </select>
+      <textarea class="lf-leyenda" rows="2" maxlength="600" aria-label="Leyenda en español"
+        placeholder="Leyenda en español, con palabras propias: qué muestra y qué señala cada marca (se ve en la página 2)">${esc(r.leyenda || "")}</textarea>
+    </div>
+    <span class="row" style="gap:6px"><button type="button" class="lf-subir" aria-label="Subir">↑</button>
+      <button type="button" class="lf-bajar" aria-label="Bajar">↓</button><button type="button" class="lf-quitar">Quitar</button></span>
+  </div>`;
+}
+
+// Las figuras del catálogo que se pueden agregar. Sin búsqueda, las que no usa ningún caso ni lectura: al armar
+// una lectura nueva son casi siempre las suyas. Como mucho 40, para que un libro de mil figuras no pese.
+function catalogoLectura(t, idLectura, filtro, enFormulario) {
+  const usadas = new Set([...casosOrdenados(t), ...lecturasOrdenadas(t).filter((l) => l.id !== idLectura)]
+    .flatMap((x) => lista(x.imagenes).map((r) => r.ref)));
+  const buscado = slug(filtro);
+  const candidatas = imagenesOrdenadas(t).filter((img) => !enFormulario.has(img.id)
+    && (buscado ? slug(`${img.id} ${img.figura} ${img.leyenda_original}`).includes(buscado) : !usadas.has(img.id)));
+  if (!candidatas.length) {
+    return `<p class="muted">${buscado ? "Ninguna figura coincide." : "Todas las figuras ya las usa algún caso o lectura: búscalas por nombre o id."}</p>`;
+  }
+  return candidatas.slice(0, 40).map((img) => `<div class="panel" style="display:grid;gap:6px">
+      ${imagenesTema[img.id] ? `<img class="miniatura chica" src="${esc(imagenesTema[img.id])}" alt="" loading="lazy" data-zoom>` : ""}
+      <span class="src">${esc(img.figura || img.id)} · <code>${esc(img.id)}</code></span>
+      <span class="row" style="gap:6px"><button type="button" data-agregar-fig="${esc(img.id)}" data-donde="pregunta">A la página 1</button>
+        <button type="button" data-agregar-fig="${esc(img.id)}" data-donde="respuesta">A la página 2</button></span>
+    </div>`).join("") + (candidatas.length > 40 ? `<p class="src">Hay ${candidatas.length}: escribe para acotar.</p>` : "");
+}
+
+function formularioLectura(t, id, v) {
+  const l = t.lecturas[id] || {};
+  const nueva = !t.lecturas[id];
+  const preguntas = lista(l.preguntas).length ? lista(l.preguntas)
+    : [{ tipo: "hallazgos" }, { tipo: "diagnostico" }];
+  const evidencia = lista(l.evidencia);
+  return `<section class="panel" style="display:grid;gap:12px">
+    <h2>${nueva ? "Lectura nueva" : "Lectura"} <code>${esc(id)}</code></h2>
+    ${nueva ? "" : problemasHTML(v.lecturas[id])}
+    <label class="grid-label">Diagnóstico o tema (solo se ve al pasar la página)
+      <input type="text" id="l-tema" maxlength="120" value="${esc(l.tema || "")}" placeholder="Fractura de Maisonneuve"></label>
+    <label class="grid-label">Encabezado clínico de una línea (página 1: ni hallazgos ni diagnóstico)
+      <input type="text" id="l-presentacion" maxlength="200" value="${esc(l.presentacion || "")}" placeholder="Dolor de tobillo tras una caída."></label>
+    <div class="grid-label">Figuras
+      <p class="src">Página 1: las limpias, en el orden en que se miran. Página 2: las anotadas, cada una con su leyenda en
+        español. Una figura con flechas o rótulos que delatan la respuesta va en la página 2.</p>
+      <div id="l-figuras" class="est-lec-figuras">${lista(l.imagenes).map((r) => filaFiguraLectura(t, r)).join("")}</div>
+      <details id="l-catalogo-caja" ${lista(l.imagenes).length ? "" : "open"}><summary>Agregar figuras del catálogo</summary>
+        <div style="display:grid;gap:10px;margin-top:10px">
+          <input type="search" id="l-buscar-figura" placeholder="Busca por nombre, id o leyenda (vacío: las que no usa nadie)">
+          <div id="l-catalogo" class="galeria chica"></div>
+        </div></details>
+    </div>
+    <div class="grid-label">Preguntas (de 1 a 8, en el orden del razonamiento; todas se ven a la vez en la página 1)
+      <div id="l-preguntas" class="est-lec-preguntas-form">${preguntas.map(bloquePregunta).join("")}</div>
+      <button type="button" id="l-mas-pregunta">Agregar pregunta</button></div>
+    <label class="grid-label">Discusión (una idea por línea, empezando con «- »)
+      <textarea id="l-explicacion" rows="5">${esc(l.explicacion || "")}</textarea></label>
+    <label class="grid-label">Perlas (una por línea)
+      <textarea id="l-perlas" rows="3">${esc(lista(l.perlas).join("\n"))}</textarea></label>
+    <div class="grid-label">Evidencia: dónde lo dice la fuente y la frase textual
+      <div id="evidencias">${(evidencia.length ? evidencia : [{ ubicacion: "", cita: "" }]).map((e) => `
+        <div class="row evidencia" style="gap:8px">
+          <input type="text" class="ev-ubicacion" style="width:30%" placeholder="p. 5, caso 12" value="${esc(e.ubicacion || "")}">
+          <input type="text" class="ev-cita" style="flex:1" placeholder="Frase copiada de la fuente" value="${esc(e.cita || "")}">
+        </div>`).join("")}</div>
+      <button id="mas-evidencia" type="button">Agregar otra frase</button></div>
+    <div class="grid-label">Clasificación: segmento y área (el primero es el principal)
+      <div id="clasificacion" style="display:grid;gap:8px">${clasificacionDe(l, t.meta.segmento).map(filaClasificacion).join("")}</div>
+      <button type="button" id="mas-clasificacion">Agregar otro segmento</button></div>
+    <label class="grid-label">Etiquetas (separadas por comas)<input type="text" id="l-etiquetas" value="${esc(lista(l.etiquetas).join(", "))}"></label>
+    <div class="row">
+      <label class="grid-label">Dificultad (no la ve el residente)<select id="l-nivel">${opcionesNivel(l.dificultad?.nivel || "", "Sin asignar")}</select></label>
+      <label class="grid-label crece">Motivo: ETC I/II/III, frecuencia, lo que dice la fuente
+        <input type="text" id="l-motivo" maxlength="300" value="${esc(l.dificultad?.motivo || "")}"></label>
+    </div>
+    <div class="row"><button class="primary" id="guardar-lectura">Guardar lectura</button><button id="cancelar-lectura">Cancelar</button></div>
+  </section>`;
+}
+
 function pasoPublicar(t, v) {
   const casos = casosOrdenados(t);
+  const lecturas = lecturasOrdenadas(t);
   const conError = casos.filter((c) => v.casos[c.id].some((p) => p.tipo === "error")).length;
+  const lecturasConError = lecturas.filter((l) => v.lecturas[l.id].some((p) => p.tipo === "error")).length;
   const n = cuentas(t);
   const publicado = t.meta.estado === "publicado";
   return `<section class="panel" style="display:grid;gap:12px">
@@ -1106,12 +1435,14 @@ function pasoPublicar(t, v) {
       <tr><td>Fuente y licencia</td><td>${v.fuente.some((p) => p.tipo === "error") ? "Falta completar" : "Lista"}</td></tr>
       <tr><td>Imágenes</td><td>${imagenesOrdenadas(t).length}</td></tr>
       <tr><td>Casos</td><td>${casos.length}${conError ? ` · ${conError} con problemas` : ""}</td></tr>
+      ${lecturas.length ? `<tr><td>Lecturas</td><td>${lecturas.length}${lecturasConError ? ` · ${lecturasConError} con problemas` : ""}</td></tr>` : ""}
       <tr><td>Avisos</td><td>${v.avisos}</td></tr>
-      ${publicado ? `<tr><td>Verificados</td><td>${n.verificados} de ${n.casos}</td></tr>` : ""}
+      ${publicado ? `<tr><td>Verificados</td><td>${n.verificados} de ${n.total}</td></tr>` : ""}
     </tbody></table></div>
+    ${problemasHTML(v.tema)}
     ${v.errores
       ? `<p class="caja">Faltan ${v.errores} cosas por corregir. Revisa los pasos marcados con •.</p>`
-      : `<p class="caja">Al publicar, los casos quedan disponibles en la web como <b>sin verificar</b>. Cualquier radiólogo
+      : `<p class="caja">Al publicar, ${lecturas.length ? (casos.length ? "los casos y las lecturas" : "las lecturas") : "los casos"} quedan disponibles en la web como <b>sin verificar</b>. Cualquier radiólogo
           del equipo puede ponerles el sello de verificado; mientras tanto, las salas en vivo no los usan salvo que el
           presentador lo pida. Las figuras se alojan en <b>tu Google Drive</b>, compartidas por enlace: RadQuiz solo
           guarda ese enlace.</p>`}
@@ -1131,6 +1462,9 @@ function pasoPublicar(t, v) {
     <p class="src">El .zip lleva lo mismo que se publica —paquete.json, fuentes.json e img/— y se puede volver a
       subir aquí o mandar al repositorio. Descarga uno antes de borrar si quieres conservarlo.</p>
     ${publicado ? `<p class="src">Publicado el ${new Date(t.meta.publicado_en || Date.now()).toLocaleDateString("es-PE")}.${t.meta.oculto ? "" : " Ya se puede practicar en la web."}</p>` : ""}
+    ${publicado && lecturas.length ? `<div class="row est-lec-enlaces"><span class="src">Las lecturas:</span>
+      <a class="boton" href="${esc(enlaceLectura(t))}" target="_blank" rel="noopener">Leer</a>
+      <a class="boton" href="${esc(enlaceLectura(t, true))}" target="_blank" rel="noopener">Proyectar</a></div>` : ""}
     ${!publicado ? `<label class="row"><input type="checkbox" id="publicar-oculto" ${t.meta.oculto ? "checked" : ""}> Publicar oculto: solo para
       presentarlo en una sala; después lo muestras en la web</label>` : ""}
     ${driveEsMio(t)
@@ -1142,7 +1476,7 @@ function pasoPublicar(t, v) {
 
 // ---------- revisión
 function panelVerificacion(t) {
-  const casos = casosOrdenados(t);
+  const casos = [...casosOrdenados(t), ...lecturasOrdenadas(t)];
   if (!ordenVerificacion) {
     const peso = { problema: 0, "sin verificar": 1, cambiado: 2, verificado: 3 };
     ordenVerificacion = casos
@@ -1154,13 +1488,13 @@ function panelVerificacion(t) {
   const conPrioridad = ordenVerificacion.filter((id) => porId.has(id)).map((id) => ({ c: porId.get(id) }));
   const n = cuentas(t);
   return `<section style="display:grid;gap:14px">
-    <p class="caja">Verifica lo que puedas: cada caso que apruebes queda con tu nombre y se marca como verificado en la
-      web. Arriba aparecen primero los casos reportados y los que nadie ha mirado.${soyAutor(t)
+    <p class="caja">Verifica lo que puedas: cada caso o lectura que apruebes queda con tu nombre y se marca como
+      verificado en la web. Arriba aparecen primero los reportados y los que nadie ha mirado.${soyAutor(t)
         ? " Este tema es tuyo: el sello dirá que lo verificaste tú, así que conviene que otro radiólogo lo mire también." : ""}</p>
-    <div class="row"><span class="chip">${n.verificados} ${n.verificados === 1 ? "verificado" : "verificados"} de ${n.casos}</span>
+    <div class="row"><span class="chip">${n.verificados} ${n.verificados === 1 ? "verificado" : "verificados"} de ${n.total}</span>
       ${n.reportados ? `<span class="chip">${n.reportados} con reportes</span>` : ""}
       <button id="verificar-todo">Verificar todos los que faltan</button></div>
-    ${conPrioridad.map(({ c }) => casoVerificable(t, c)).join("")}
+    ${conPrioridad.map(({ c }) => (t.lecturas[c.id] ? lecturaVerificable(t, c) : casoVerificable(t, c))).join("")}
   </section>`;
 }
 
@@ -1199,11 +1533,36 @@ function casoVerificable(t, caso) {
   </section>`;
 }
 
+// La lectura entera, con las dos páginas a la vista: lo que verifica el radiólogo es todo lo que verá quien lee.
+function lecturaVerificable(t, l) {
+  const ver = vercaso(t.id, l.id);
+  const estado = estadoVerificacion(l, ver);
+  const v = validarLectura(l, t.imagenes, t.meta.segmento);
+  const reportados = reportesDe(t.id, l.id);
+  return `<section class="panel caso-revision est-lec-revision ${estado === "verificado" ? "aprobado" : estado === "problema" ? "cambios" : estado === "cambiado" ? "cambiado" : ""}" style="display:grid;gap:10px">
+    <div class="row" style="justify-content:space-between"><span class="tema">Lectura <code>${esc(l.id)}</code> · ${esc(l.tema || "")}</span>
+      <span class="src">${selloCaso(t.id, l)}</span></div>
+    <div class="row" style="gap:6px">${chipsClasificacion(t, l)}${chipDificultad(l)}</div>
+    ${reportados.map((r) => `<p class="caja">Reporte de un usuario: «${esc(r.texto)}»</p>`).join("")}
+    ${vistaLectura(t, l)}
+    <details><summary>Evidencia y fichas</summary>
+      ${lista(l.evidencia).map((e) => `<p class="ubic">${esc(e.ubicacion)}</p><blockquote>${esc(e.cita)}</blockquote>`).join("")}
+      ${lista(l.imagenes).map((r) => `<p class="src">${esc((t.imagenes[r.ref] || {}).figura || r.ref)}: ${esc((t.imagenes[r.ref] || {}).leyenda_original || "sin leyenda")}</p>`).join("")}
+    </details>
+    ${problemasHTML(v)}
+    ${ver?.comentario ? `<p class="src">Comentario: «${esc(ver.comentario)}»</p>` : ""}
+    <div class="row">
+      <button class="primary" data-verificar="${esc(l.id)}">Verificar</button>
+      <button data-problema="${esc(l.id)}">Señalar problema</button>
+    </div>
+  </section>`;
+}
+
 // ------------------------------------------------------------------ acciones del editor
 function enlazarEditor(t) {
   const id = t.id;
   app.querySelectorAll("[data-paso]").forEach((b) => {
-    b.onclick = () => { paso = b.dataset.paso; editando = null; dibujar(); };
+    b.onclick = () => { paso = b.dataset.paso; editando = null; editandoLectura = null; dibujar(); };
   });
   $("#ir-imagenes") && ($("#ir-imagenes").onclick = () => { paso = "imagenes"; dibujar(); });
   $("#ir-casos") && ($("#ir-casos").onclick = () => { paso = "casos"; dibujar(); });
@@ -1223,7 +1582,17 @@ function enlazarEditor(t) {
     app.querySelectorAll("[data-guardar-img]").forEach((b) => { b.onclick = () => guardarImagen(id, b.dataset.guardarImg); });
     app.querySelectorAll("[data-borrar-img]").forEach((b) => { b.onclick = () => borrarImagen(id, b.dataset.borrarImg); });
   }
-  if (paso === "casos" && !editando) {
+  if (paso === "casos" && !editando && !editandoLectura) {
+    app.querySelectorAll("[data-vista3]").forEach((b) => {
+      b.onclick = () => { vista3 = b.dataset.vista3; marcados = new Set(); dibujar(); };
+    });
+    const pedirResto = $("#copiar-seguir");
+    if (pedirResto) pedirResto.onclick = () => copiar(seguir.texto, "Copiado. Pégalo en la misma conversación con tu IA.");
+    enlazarClasificar(t);
+    if (vistaPaso3(t) === "lecturas") enlazarLecturas(t);
+  }
+  if (paso === "casos" && editandoLectura) enlazarFormularioLectura(t, editandoLectura);
+  if (paso === "casos" && !editando && !editandoLectura && vistaPaso3(t) === "casos") {
     $("#copiar-ia").onclick = () => copiar(instruccionesIA(t));
     $("#cargar-ia").onclick = () => cargarRespuesta(t);
     $("#nuevo-caso").onclick = () => { editando = `caso-${String(casosOrdenados(t).length + 1).padStart(2, "0")}`; dibujar(); };
@@ -1246,35 +1615,11 @@ function enlazarEditor(t) {
     });
     app.querySelectorAll("[data-subir]").forEach((b) => { b.onclick = () => mover(t, b.dataset.subir, -1); });
     app.querySelectorAll("[data-bajar]").forEach((b) => { b.onclick = () => mover(t, b.dataset.bajar, 1); });
-    const pedirResto = $("#copiar-seguir");
-    if (pedirResto) pedirResto.onclick = () => copiar(seguir.texto, "Copiado. Pégalo en la misma conversación con tu IA.");
-    enlazarClasificar(t);
   }
   if (paso === "casos" && editando) {
     $("#guardar-caso").onclick = () => guardarCaso(t, editando);
     $("#cancelar-caso").onclick = () => { editando = null; dibujar(); };
-    const clasif = $("#clasificacion");
-    clasif.onchange = (e) => {
-      if (e.target.matches(".c-segmento")) e.target.closest(".clasif-fila").querySelector(".c-area").innerHTML = opcionesArea(e.target.value, "");
-    };
-    clasif.onclick = (e) => {
-      if (!e.target.matches(".quitar-clasif")) return;
-      if (clasif.querySelectorAll(".clasif-fila").length > 1) e.target.closest(".clasif-fila").remove();
-      else aviso("Cada caso necesita al menos un segmento.", true);
-    };
-    $("#mas-clasificacion").onclick = () => {
-      const usados = new Set([...clasif.querySelectorAll(".c-segmento")].map((s) => s.value));
-      const libre = Object.keys(SEGMENTOS).find((s) => !usados.has(s)) || t.meta.segmento;
-      clasif.insertAdjacentHTML("beforeend", filaClasificacion({ segmento: libre }));
-    };
-    $("#mas-evidencia").onclick = () => {
-      const fila = document.createElement("div");
-      fila.className = "row evidencia";
-      fila.style.gap = "8px";
-      fila.innerHTML = `<input type="text" class="ev-ubicacion" style="width:30%" placeholder="p. 5, Figura 2">
-        <input type="text" class="ev-cita" style="flex:1" placeholder="Frase copiada de la fuente">`;
-      $("#evidencias").append(fila);
-    };
+    enlazarClasifEvidencia(t);
   }
   if (paso === "publicar") {
     $("#publicar").onclick = () => publicar(t);
@@ -1306,6 +1651,123 @@ function enlazarEditor(t) {
   }
 }
 
+// La lista de lecturas del paso 3.
+function enlazarLecturas(t) {
+  const id = t.id;
+  $("#copiar-ia-lecturas").onclick = () => copiar(instruccionesLecturas(t));
+  $("#cargar-ia-lecturas").onclick = () => cargarRespuesta(t, "lecturas");
+  $("#nueva-lectura").onclick = () => {
+    const usados = new Set([...Object.keys(t.casos), ...Object.keys(t.lecturas)]);
+    let n = lecturasOrdenadas(t).length + 1;
+    while (usados.has(`lectura-${String(n).padStart(2, "0")}`)) n += 1;
+    editandoLectura = `lectura-${String(n).padStart(2, "0")}`;
+    dibujar();
+  };
+  const corregir = $("#copiar-correccion-lecturas");
+  if (corregir) corregir.onclick = () => {
+    const v = validarTema(t);
+    const problemas = lecturasOrdenadas(t)
+      .filter((l) => v.lecturas[l.id].length)
+      .map((l) => ({ id: l.id, tema: l.tema || "sin diagnóstico", textos: v.lecturas[l.id].map((p) => p.texto) }));
+    copiar(instruccionesCorreccionLecturas(t, problemas), "Copiado. Pégalo en tu IA junto al PDF.");
+  };
+  app.querySelectorAll("[data-editar-lectura]").forEach((b) => { b.onclick = () => { editandoLectura = b.dataset.editarLectura; dibujar(); }; });
+  app.querySelectorAll("[data-ver-lectura]").forEach((b) => {
+    b.onclick = () => {
+      const lid = b.dataset.verLectura;
+      if (lecturasAbiertas.has(lid)) lecturasAbiertas.delete(lid);
+      else lecturasAbiertas.add(lid);
+      dibujar();
+    };
+  });
+  app.querySelectorAll("[data-borrar-lectura]").forEach((b) => {
+    b.onclick = () => {
+      const l = t.lecturas[b.dataset.borrarLectura] || {};
+      const nombre = l.tema || l.presentacion || b.dataset.borrarLectura;
+      if (!confirm(`¿Borrar la lectura «${nombre.slice(0, 80)}»? No se puede deshacer.`)) return;
+      remove(ref(db, `estudio/${id}/lecturas/${b.dataset.borrarLectura}`))
+        .then(() => guardarMeta(id, {}))
+        .catch((e) => aviso("No se pudo borrar: " + (e.code || e.message), true));
+    };
+  });
+  app.querySelectorAll("[data-subir-lectura]").forEach((b) => { b.onclick = () => mover(t, b.dataset.subirLectura, -1, "lecturas"); });
+  app.querySelectorAll("[data-bajar-lectura]").forEach((b) => { b.onclick = () => mover(t, b.dataset.bajarLectura, 1, "lecturas"); });
+}
+
+// El formulario de una lectura: preguntas y figuras se mueven en la página; nada se guarda hasta «Guardar».
+function enlazarFormularioLectura(t, idLectura) {
+  $("#guardar-lectura").onclick = () => guardarLectura(t, idLectura);
+  $("#cancelar-lectura").onclick = () => { editandoLectura = null; dibujar(); };
+  enlazarClasifEvidencia(t);
+  // Subir, bajar o quitar un bloque dentro de su contenedor.
+  const mover_ = (nodo, accion) => {
+    if (accion === "subir" && nodo.previousElementSibling) nodo.previousElementSibling.before(nodo);
+    if (accion === "bajar" && nodo.nextElementSibling) nodo.nextElementSibling.after(nodo);
+    if (accion === "quitar") nodo.remove();
+  };
+  const preguntas = $("#l-preguntas");
+  preguntas.onclick = (e) => {
+    const boton = e.target.closest("button");
+    const bloque_ = e.target.closest(".est-lec-pregunta");
+    if (!boton || !bloque_) return;
+    const accion = boton.className.replace("lp-", "");
+    if (accion === "quitar" && preguntas.children.length === 1) return aviso("Hace falta al menos una pregunta.", true);
+    mover_(bloque_, accion);
+  };
+  $("#l-mas-pregunta").onclick = () => {
+    if (preguntas.children.length >= 8) return aviso("Caben 8 preguntas como mucho.", true);
+    preguntas.insertAdjacentHTML("beforeend", bloquePregunta({ tipo: "otra" }));
+    preguntas.lastElementChild.querySelector(".lp-pregunta").focus();
+  };
+  const figuras = $("#l-figuras");
+  const enFormulario = () => new Set([...figuras.querySelectorAll(".est-lec-fila-fig")].map((f) => f.dataset.ref));
+  const catalogo = $("#l-catalogo");
+  const buscar = $("#l-buscar-figura");
+  const pintarCatalogo = () => { catalogo.innerHTML = catalogoLectura(t, idLectura, buscar.value, enFormulario()); };
+  figuras.onclick = (e) => {
+    const boton = e.target.closest("button");
+    const fila = e.target.closest(".est-lec-fila-fig");
+    if (!boton || !fila) return;
+    mover_(fila, boton.className.replace("lf-", ""));
+    if ($("#l-catalogo-caja").open) pintarCatalogo();
+  };
+  catalogo.onclick = (e) => {
+    const boton = e.target.closest("[data-agregar-fig]");
+    if (!boton) return;
+    figuras.insertAdjacentHTML("beforeend", filaFiguraLectura(t, { ref: boton.dataset.agregarFig, mostrar_en: boton.dataset.donde }));
+    pintarCatalogo();
+  };
+  buscar.oninput = pintarCatalogo;
+  $("#l-catalogo-caja").ontoggle = () => { if ($("#l-catalogo-caja").open) pintarCatalogo(); };
+  if ($("#l-catalogo-caja").open) pintarCatalogo();
+}
+
+// La clasificación y la evidencia se editan igual en el formulario del caso y en el de la lectura.
+function enlazarClasifEvidencia(t) {
+  const clasif = $("#clasificacion");
+  clasif.onchange = (e) => {
+    if (e.target.matches(".c-segmento")) e.target.closest(".clasif-fila").querySelector(".c-area").innerHTML = opcionesArea(e.target.value, "");
+  };
+  clasif.onclick = (e) => {
+    if (!e.target.matches(".quitar-clasif")) return;
+    if (clasif.querySelectorAll(".clasif-fila").length > 1) e.target.closest(".clasif-fila").remove();
+    else aviso("Hace falta al menos un segmento.", true);
+  };
+  $("#mas-clasificacion").onclick = () => {
+    const usados = new Set([...clasif.querySelectorAll(".c-segmento")].map((s) => s.value));
+    const libre = Object.keys(SEGMENTOS).find((s) => !usados.has(s)) || t.meta.segmento;
+    clasif.insertAdjacentHTML("beforeend", filaClasificacion({ segmento: libre }));
+  };
+  $("#mas-evidencia").onclick = () => {
+    const fila = document.createElement("div");
+    fila.className = "row evidencia";
+    fila.style.gap = "8px";
+    fila.innerHTML = `<input type="text" class="ev-ubicacion" style="width:30%" placeholder="p. 5, Figura 2">
+      <input type="text" class="ev-cita" style="flex:1" placeholder="Frase copiada de la fuente">`;
+    $("#evidencias").append(fila);
+  };
+}
+
 // Los casos marcados sobreviven al redibujado: el panel se rehace con cada cambio en la base.
 function enlazarClasificar(t) {
   const contar = () => app.querySelectorAll(".n-marcados").forEach((n) => { n.textContent = textoMarcados(); });
@@ -1322,7 +1784,7 @@ function enlazarClasificar(t) {
     app.querySelectorAll("[data-marcar]").forEach((c) => { c.checked = marcados.has(c.dataset.marcar); });
     contar();
   };
-  const casos = casosOrdenados(t);
+  const casos = vistaPaso3(t) === "lecturas" ? lecturasOrdenadas(t) : casosOrdenados(t);
   const sinArea = (c) => clasificacionDe(c, t.meta.segmento).some((p) => !p.area && Object.keys(AREAS[p.segmento] || {}).length);
   $("#marcar-todos").onclick = () => marcar(casos.map((c) => c.id));
   $("#marcar-sin-area").onclick = () => marcar(casos.filter(sinArea).map((c) => c.id));
@@ -1335,9 +1797,10 @@ function enlazarClasificar(t) {
   $("#bloque-agregar").onclick = () => clasificarMarcados(t, true);
   $("#bloque-quitar").onclick = () => clasificarMarcados(t, false);
   $("#marcar-sin-nivel").onclick = () => marcar(casos.filter((c) => !c.dificultad?.nivel).map((c) => c.id));
-  $("#marcar-parecen").onclick = () => marcar(casos.filter((c) => pareceRequerirOpciones(c.enunciado)).map((c) => c.id));
   $("#bloque-nivel").onchange = () => { bloqueNivel = $("#bloque-nivel").value; };
   $("#nivel-marcados").onclick = () => cambiarMarcados(t, "dificultad", bloqueNivel ? { nivel: Number(bloqueNivel), por: "autor" } : null);
+  if (!$("#marcar-parecen")) return;   // las lecturas no tienen opciones
+  $("#marcar-parecen").onclick = () => marcar(casos.filter((c) => pareceRequerirOpciones(c.enunciado)).map((c) => c.id));
   $("#con-opciones").onclick = () => cambiarMarcados(t, "requiere_opciones", true);
   $("#sin-opciones").onclick = () => cambiarMarcados(t, "requiere_opciones", null);
 }
@@ -1356,6 +1819,8 @@ async function anotarEnIndice(id, entrada) {
 
 // La sala que presenta un tema oculto: sala.html lo muestra elegido aunque no esté en la lista.
 const enlaceSala = (t) => `sala.html?crear=1&tema=${t.meta.segmento}/${t.id}`;
+// Las lecturas publicadas de un tema, para leerlas solo o proyectarlas en clase (lectura.html).
+const enlaceLectura = (t, proyectar = false) => `lectura.html?tema=${t.meta.segmento}/${t.id}${proyectar ? "&proyectar=1" : ""}`;
 
 // Ocultar deja el tema publicado pero fuera de las listas de la web; la sala lo carga con el código.
 // Va en una sola escritura, para que el estudio y la web no queden en desacuerdo.
@@ -1392,7 +1857,7 @@ async function publicar(t) {
     if (boton) { boton.disabled = true; boton.textContent = texto; }
   };
   avance("Preparando…");
-  let paquete, fuentes, actualizados;
+  let paquete, fuentes, actualizados, actualizadosLecturas;
   try {
     let drive = {};
     let cambiosDrive = {};
@@ -1402,7 +1867,7 @@ async function publicar(t) {
       ({ drive, cambios: cambiosDrive } = await subirAlDrive(t, imagenesUsadas, token, avance));
     }
     avance("Publicando…");
-    ({ paquete, fuentes, actualizados } = aPaquete(t, version, { drive, publicador: { nombre: perfil.nombre, fecha: hoy() } }));
+    ({ paquete, fuentes, actualizados, actualizadosLecturas } = aPaquete(t, version, { drive, publicador: { nombre: perfil.nombre, fecha: hoy() } }));
     await update(ref(db), {
       [`publicacion/${t.id}`]: {
         paquete_json: JSON.stringify(paquete),
@@ -1431,18 +1896,14 @@ async function publicar(t) {
   dibujar();
   // La lista de la portada va aparte: si fallara (reglas sin desplegar), el tema queda publicado
   // igual y aparece cuando el repositorio se ponga al día.
-  const alIndice = await anotarEnIndice(t.id, {
-    titulo: paquete.titulo,
-    segmento: paquete.segmento,
-    modalidades: paquete.modalidades || [],
-    version,
-    casos: paquete.casos.length,
-    actualizados,
-    ...(t.meta.oculto ? { oculto: true } : {}),
-  });
+  // La misma entrada que escribe el servidor MCP: casos y lecturas contados aparte, cada uno con sus fechas.
+  const alIndice = await anotarEnIndice(t.id, entradaIndice(paquete, version, actualizados, actualizadosLecturas, { oculto: Boolean(t.meta.oculto) }));
   // El índice de casos, para buscar y armar cuestionarios por segmento o área (app/cuestionario.js). Si falla,
-  // el tema se busca igual: la web lo carga entero.
-  await set(ref(db, `indice_casos/${t.id}`), indiceDePaquete({ ...paquete, version })).catch(() => {});
+  // el tema se busca igual: la web lo carga entero. Solo lleva casos: un tema sin casos (solo lecturas) no tiene,
+  // y las reglas no admiten uno vacío.
+  await (paquete.casos.length
+    ? set(ref(db, `indice_casos/${t.id}`), indiceDePaquete({ ...paquete, version }))
+    : remove(ref(db, `indice_casos/${t.id}`))).catch(() => {});
   if (t.meta.oculto) aviso(alIndice ? "Publicado y oculto: no sale en la web hasta que pulses «Mostrar en la web»." : "No se pudo marcar como oculto: revisa que las reglas estén desplegadas.", !alIndice);
   else aviso(alIndice ? "Publicado. Ya está en la web." : "Publicado. Tarda unos minutos en aparecer en la web.");
 }
@@ -1456,7 +1917,6 @@ async function borrarTema(t) {
   const n = cuentas(t);
   const imagenes = imagenesOrdenadas(t).length;
   const publicado = t.meta.estado === "publicado";
-  const plural = (cuantos, uno, muchos) => `${cuantos} ${cuantos === 1 ? uno : muchos}`;
   const carpetaDrive = ID_DRIVE.test(t.meta.drive_carpeta || "") ? t.meta.drive_carpeta : "";
   const driveMio = driveEsMio(t);
   const autor = t.meta.drive_nombre || "quien lo publicó";
@@ -1464,7 +1924,7 @@ async function borrarTema(t) {
     titulo: `Borrar «${t.meta.titulo}»`,
     cuerpo: `<p>Se va a borrar del estudio, con todo lo que tiene dentro:</p>
       <ul class="problemas">
-        <li>${plural(n.casos, "caso", "casos")} y ${plural(imagenes, "imagen", "imágenes")}</li>
+        <li>${textoCuentas(n)} y ${plural(imagenes, "imagen", "imágenes")}</li>
         ${n.verificados ? `<li>${plural(n.verificados, "sello de verificado", "sellos de verificado")} puestos por un radiólogo</li>` : ""}
         ${n.reportados ? `<li>${plural(n.reportados, "caso reportado", "casos reportados")} por gente que practicó</li>` : ""}
         ${publicado ? `<li class="error">Está publicado: desaparece de la web y nadie podrá practicarlo</li>` : ""}
@@ -1607,9 +2067,9 @@ async function guardarImagen(id, imgId) {
 
 async function borrarImagen(id, imgId) {
   const t = temaActual();
-  const usada = t ? casosOrdenados(t).filter((c) => lista(c.imagenes).some((r) => r.ref === imgId)).length : 0;
+  const usada = t ? [...casosOrdenados(t), ...lecturasOrdenadas(t)].filter((c) => lista(c.imagenes).some((r) => r.ref === imgId)).length : 0;
   const texto = usada
-    ? `Esta imagen la usan ${usada} caso(s); se quedarán sin ella. ¿Quitarla igual?`
+    ? `Esta imagen la usan ${usada} caso(s) o lectura(s); se quedarán sin ella. ¿Quitarla igual?`
     : "¿Quitar esta imagen?";
   if (!confirm(texto)) return;
   try {
@@ -1622,14 +2082,14 @@ async function borrarImagen(id, imgId) {
   dibujar();
 }
 
-function mover(t, casoId, paso_) {
-  const casos = casosOrdenados(t);
+function mover(t, casoId, paso_, coleccion = "casos") {
+  const casos = coleccion === "lecturas" ? lecturasOrdenadas(t) : casosOrdenados(t);
   const i = casos.findIndex((c) => c.id === casoId);
   const j = i + paso_;
   if (j < 0 || j >= casos.length) return;
   const cambios = {};
-  cambios[`estudio/${t.id}/casos/${casos[i].id}/orden`] = j + 1;
-  cambios[`estudio/${t.id}/casos/${casos[j].id}/orden`] = i + 1;
+  cambios[`estudio/${t.id}/${coleccion}/${casos[i].id}/orden`] = j + 1;
+  cambios[`estudio/${t.id}/${coleccion}/${casos[j].id}/orden`] = i + 1;
   update(ref(db), cambios);
 }
 
@@ -1689,27 +2149,102 @@ async function guardarCaso(t, casoId) {
   aviso("Caso guardado.");
 }
 
-async function cargarRespuesta(t) {
+// Como contenido() con los casos: lo que el radiólogo revisa al verificar una lectura. La clasificación, la
+// dificultad y el orden quedan fuera: cambiarlos no retira el sello. El orden de las figuras sí cuenta.
+function contenidoLectura(l) {
+  const limpio = (x) => String(x ?? "").trim();
+  return JSON.stringify([
+    limpio(l.tema), limpio(l.presentacion), lista(l.etiquetas).map(limpio),
+    lista(l.imagenes).map((r) => [r.ref, r.mostrar_en === "respuesta" ? "respuesta" : "pregunta", limpio(r.leyenda)]),
+    lista(l.preguntas).map((q) => [q.tipo || "", limpio(q.pregunta), limpio(q.respuesta), lista(q.puntos_clave).map(limpio), lista(q.aceptadas).map(limpio)]),
+    limpio(l.explicacion), lista(l.perlas).map(limpio), lista(l.evidencia).map((e) => [limpio(e.ubicacion), limpio(e.cita)]),
+  ]);
+}
+
+async function guardarLectura(t, idLectura) {
+  const lineas = (texto) => texto.split("\n").map((x) => x.trim()).filter(Boolean);
+  const imagenes = [...app.querySelectorAll(".est-lec-fila-fig")].map((f) => {
+    const leyenda = f.querySelector(".lf-leyenda").value.trim();
+    return { ref: f.dataset.ref, mostrar_en: f.querySelector(".lf-donde").value, ...(leyenda ? { leyenda } : {}) };
+  });
+  // Una pregunta del todo vacía (la que se agregó y no se usó) no se guarda.
+  const preguntas = [...app.querySelectorAll(".est-lec-pregunta")].map((f) => ({
+    tipo: f.querySelector(".lp-tipo").value,
+    pregunta: f.querySelector(".lp-pregunta").value.trim(),
+    respuesta: f.querySelector(".lp-respuesta").value.trim(),
+    puntos_clave: lineas(f.querySelector(".lp-puntos").value),
+    aceptadas: lineas(f.querySelector(".lp-aceptadas").value),
+  })).filter((q) => q.pregunta || q.respuesta || q.puntos_clave.length || q.aceptadas.length);
+  const evidencia = [...app.querySelectorAll(".evidencia")]
+    .map((f) => ({ ubicacion: f.querySelector(".ev-ubicacion").value.trim(), cita: f.querySelector(".ev-cita").value.trim() }))
+    .filter((e) => e.ubicacion || e.cita);
+  const clasificacion = normalizarClasificacion([...app.querySelectorAll(".clasif-fila")].map((f) => ({
+    segmento: f.querySelector(".c-segmento").value, area: f.querySelector(".c-area").value,
+  })));
+  const anterior = t.lecturas[idLectura] || {};
+  const lectura = {
+    tema: $("#l-tema").value.trim(),
+    presentacion: $("#l-presentacion").value.trim(),
+    clasificacion,
+    etiquetas: $("#l-etiquetas").value.split(",").map((x) => x.trim()).filter(Boolean),
+    imagenes,
+    preguntas,
+    explicacion: $("#l-explicacion").value.trim(),
+    perlas: lineas($("#l-perlas").value),
+    evidencia,
+    orden: anterior.orden || lecturasOrdenadas(t).reduce((mayor, l) => Math.max(mayor, Number(l.orden) || 0), 0) + 1,
+  };
+  if (!lectura.tema && !lectura.presentacion && !preguntas.length) return aviso("La lectura está vacía.", true);
+  // Quien cambia el nivel pasa a ser quien lo asignó; si solo retoca el motivo, se queda el de antes.
+  const nivel = $("#l-nivel").value;
+  if (nivel) {
+    const mismoNivel = String(anterior.dificultad?.nivel || "") === nivel;
+    lectura.dificultad = normalizarDificultad({
+      nivel, motivo: $("#l-motivo").value, por: mismoNivel ? anterior.dificultad?.por || "autor" : "autor",
+    });
+  }
+  lectura.actualizado = anterior.actualizado && contenidoLectura(anterior) === contenidoLectura(lectura) ? anterior.actualizado : serverTimestamp();
+  try {
+    await set(ref(db, `estudio/${t.id}/lecturas/${idLectura}`), lectura);
+    await guardarMeta(t.id, {});
+  } catch (e) {
+    return aviso("No se pudo guardar: " + (e.code || e.message), true);
+  }
+  editandoLectura = null;
+  dibujar();
+  aviso("Lectura guardada.");
+}
+
+// «de»: la lista del paso 3 desde la que se pegó, casos o lecturas. La respuesta puede traer las dos cosas.
+async function cargarRespuesta(t, de = "casos") {
   const texto = $("#respuesta-ia").value;
   let datos;
   try {
-    datos = leerRespuestaIA(texto, t);
+    datos = leerRespuestaIA(texto, t, { suelta: de });
   } catch (e) {
     return aviso(e.message, true);
   }
-  // Normal: se agregan. Corrección: cada caso reemplaza al suyo. «Reemplazar»: la lista entera, de una vez.
-  const plan = planDeCarga(t, datos, { reemplazar: $("#reemplazar").checked, marca: serverTimestamp() });
+  // Normal: se agregan. Corrección: cada uno reemplaza al suyo. «Reemplazar»: la lista entera, de una vez.
+  const plan = planDeCarga(t, datos, {
+    reemplazar: de === "casos" && $("#reemplazar")?.checked,
+    reemplazarLecturas: de === "lecturas" && $("#reemplazar-lecturas")?.checked,
+    marca: serverTimestamp(),
+  });
   if (!Object.keys(plan.cambios).length) return aviso(plan.resumen, true);
   try {
     await update(ref(db), plan.cambios);
     await guardarMeta(t.id, {});
     $("#respuesta-ia").value = "";
     // Una respuesta cortada no se pierde: se cargan los casos enteros y queda a mano el pedido para que siga.
+    const deLecturas = datos.lecturas.length > 0 && !datos.casos.length;
     seguir = datos.cortada || datos.faltan
       ? {
-        mensaje: `${datos.cortada ? "La respuesta llegó cortada" : "Tu IA avisa que le faltaron casos"}: cargué los `
-          + `${datos.casos.length} que venían completos. Pídele que siga y pega aquí su respuesta: se suma a lo que ya hay.`,
+        mensaje: `${datos.cortada ? "La respuesta llegó cortada" : `Tu IA avisa que le faltaron ${deLecturas ? "lecturas" : "casos"}`}: cargué `
+          + `${deLecturas
+            ? (datos.lecturas.length === 1 ? "la única que venía completa" : `las ${datos.lecturas.length} que venían completas`)
+            : (datos.casos.length === 1 ? "el único que venía completo" : `los ${datos.casos.length} que venían completos`)}. Pídele que siga y pega aquí su respuesta: se suma a lo que ya hay.`,
         texto: instruccionesContinuar(datos),
+        de: deLecturas ? "lecturas" : "casos",
       }
       : null;
     aviso(plan.resumen);
@@ -1726,29 +2261,30 @@ function enlazarVerificacion(t) {
   });
   app.querySelectorAll("[data-problema]").forEach((b) => {
     b.onclick = () => {
-      const comentario = prompt("¿Qué está mal en este caso?");
+      const comentario = prompt(t.lecturas[b.dataset.problema] ? "¿Qué está mal en esta lectura?" : "¿Qué está mal en este caso?");
       if (comentario === null) return;
       verificar(t, b.dataset.problema, "problema", comentario.slice(0, 1000));
     };
   });
   const todo = $("#verificar-todo");
   if (todo) todo.onclick = async () => {
-    const faltan = casosOrdenados(t).filter((c) => estadoVerificacion(c, vercaso(t.id, c.id)) !== "verificado");
+    const faltan = [...casosOrdenados(t), ...lecturasOrdenadas(t)]
+      .filter((c) => estadoVerificacion(c, vercaso(t.id, c.id)) !== "verificado");
     if (!faltan.length) return aviso("No queda ninguno por verificar.");
-    if (!confirm(`¿Verificar ${faltan.length} casos de una vez? Quedarán con tu nombre.`)) return;
+    if (!confirm(`¿Verificar ${faltan.length} casos y lecturas de una vez? Quedarán con tu nombre.`)) return;
     for (const c of faltan) await verificar(t, c.id, "verificado", "", true);
-    aviso(`${faltan.length} casos verificados.`);
+    aviso(`${faltan.length} verificados.`);
   };
 }
 
 async function verificar(t, casoId, decision, comentario, callado = false) {
-  const caso = t.casos[casoId] || {};
+  const caso = elemento(t, casoId) || {};
   try {
     await set(ref(db, `verificacion/${t.id}/${casoId}`), {
       decision, usuario: perfil.usuario, nombre: perfil.nombre, comentario,
       base: caso.actualizado || 0, fecha: serverTimestamp(),
     });
-    if (!callado) aviso(decision === "verificado" ? "Caso verificado." : "Problema señalado; el autor lo verá.");
+    if (!callado) aviso(decision === "verificado" ? (t.lecturas[casoId] ? "Lectura verificada." : "Caso verificado.") : "Problema señalado; el autor lo verá.");
   } catch (e) {
     aviso("No se pudo guardar: " + (e.code || e.message), true);
   }
@@ -1783,6 +2319,9 @@ function dibujar() {
       marcados = new Set();
       bloque = { segmento: "", area: "" };
       seguir = null;
+      editandoLectura = null;
+      vista3 = null;
+      lecturasAbiertas = new Set();
       cargarImagenes(ruta[1]);
     }
     return vistaTema();
@@ -1795,9 +2334,9 @@ activarAmpliacion();
 window.addEventListener("hashchange", () => dibujar());
 
 function escuchar() {
-  onValue(ref(db, "estudio"), (s) => { temas = s.val() || {}; if (!editando) dibujar(); });
-  onValue(ref(db, "verificacion"), (s) => { verificaciones = s.val() || {}; if (!editando) dibujar(); });
-  onValue(ref(db, "reportes"), (s) => { reportes = s.val() || {}; if (!editando) dibujar(); }, () => {});
+  onValue(ref(db, "estudio"), (s) => { temas = s.val() || {}; if (!enEdicion()) dibujar(); });
+  onValue(ref(db, "verificacion"), (s) => { verificaciones = s.val() || {}; if (!enEdicion()) dibujar(); });
+  onValue(ref(db, "reportes"), (s) => { reportes = s.val() || {}; if (!enEdicion()) dibujar(); }, () => {});
   onValue(ref(db, `usuarios/${usuario.uid}`), (s) => { perfil = s.val(); dibujar(); });
   onValue(ref(db, `usuarios/${usuario.uid}`), (s) => { if (s.exists()) perfil = s.val(); dibujar(); });
   if (esCoord()) {

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lectura · RadQuiz</title>
+<meta name="description" content="Casos radiológicos para leer enteros, como en los libros de casos: figuras, preguntas abiertas y, al pasar la página, las respuestas y las figuras anotadas.">
+<meta name="theme-color" content="#0b0f14">
+<link rel="icon" href="app/marca.svg" type="image/svg+xml">
+<link rel="preload" href="app/fuentes/plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="app/estilos.css">
+</head>
+<body class="pagina-lectura">
+<div class="wrap">
+  <header class="bar">
+    <a class="brand" href="./"><img class="logo" src="app/marca.svg" alt="" width="30" height="30">RadQuiz <small id="subtitulo">Lectura</small></a>
+    <span class="spacer"></span>
+    <div class="herramientas compacta" id="herramientas" hidden>
+      <span class="salto" aria-hidden="true"></span>
+      <label class="row" id="fila-cuales"><span class="muted">Cuáles</span>
+        <select id="cuales" title="De dónde sale la tanda. Lo que leíste se guarda en este dispositivo">
+          <option value="faltan">Las que me faltan</option>
+          <option value="todas">Todas</option>
+          <option value="falladas">Las que fallé</option>
+        </select></label>
+      <label class="row"><span class="muted">Orden</span>
+        <select id="orden" title="Como el libro, o de lo básico a lo avanzado">
+          <option value="libro">Como el libro</option>
+          <option value="nivel">De lo básico a lo avanzado</option>
+          <option value="azar">Al azar</option>
+        </select></label>
+      <label class="row" id="tanda" hidden><span class="muted">Casos</span>
+        <input type="number" id="cuantos" min="1" step="1" inputmode="numeric"
+          title="Cuántos casos quieres en esta tanda: se eligen al azar entre los del grupo">
+        <span class="muted" id="de-total"></span></label>
+      <label class="row"><input type="checkbox" id="solo-verificadas"> <span class="muted">Solo verificadas</span></label>
+      <a class="boton" id="cambiar-modo" href="#"></a>
+      <span class="chip" id="modo">Lectura</span>
+    </div>
+  </header>
+  <main id="app" class="stack" aria-live="polite"><p class="muted">Cargando…</p></main>
+</div>
+<script type="module" src="app/lectura.js"></script>
+</body>
+</html>

@@ -327,12 +327,13 @@ def pertenece(host, dominios):
     return any(host == d or host.endswith("." + d) for d in dominios)
 
 
-def donde_esquema(ruta, casos):
-    """Traduce «casos[8].opciones» a «atm-09 · opciones» para leer mejor el reporte."""
-    m = re.match(r"casos\[(\d+)\]\.?(.*)", ruta)
-    if m and casos and int(m.group(1)) < len(casos) and isinstance(casos[int(m.group(1))], dict):
-        caso_id = casos[int(m.group(1))].get("id", "caso %s" % m.group(1))
-        return caso_id, m.group(2)
+def donde_esquema(ruta, casos, lecturas=()):
+    """Traduce «casos[8].opciones» a «atm-09 · opciones» (y lo mismo con «lecturas[2]») para leer mejor el reporte."""
+    m = re.match(r"(casos|lecturas)\[(\d+)\]\.?(.*)", ruta)
+    lista = casos if m and m.group(1) == "casos" else lecturas
+    if m and lista and int(m.group(2)) < len(lista) and isinstance(lista[int(m.group(2))], dict):
+        caso_id = lista[int(m.group(2))].get("id", "%s %s" % (m.group(1)[:-1], m.group(2)))
+        return caso_id, m.group(3)
     return "paquete", ruta
 
 
@@ -523,6 +524,108 @@ def validar_caso(caso, paquete_id, imagenes, fuentes, ids_globales, rep):
         rep.pendiente(exigente, cid, "pendiente (%s): %s" % (estado, ", ".join(faltan)))
 
 
+# ---------------------------------------------------------------------------
+# Lecturas: casos abiertos al estilo de los libros de casos (app/lectura.js)
+# ---------------------------------------------------------------------------
+
+CAMPOS_TEXTO_LECTURA = ("presentacion", "explicacion")
+
+
+def sin_tildes(texto):
+    import unicodedata
+    limpio = unicodedata.normalize("NFD", str(texto or "").lower())
+    limpio = "".join(c for c in limpio if unicodedata.category(c) != "Mn")
+    return " " + re.sub(r"[^a-z0-9]+", " ", limpio).strip() + " "
+
+
+def respuestas_de_lectura(lectura):
+    """Lo que no puede aparecer en la página 1: el tema, la respuesta y las aceptadas de las preguntas de diagnóstico.
+    Las mismas que delatoras() de app/validacion.js."""
+    salida = [lectura.get("tema", "")]
+    for p in lectura.get("preguntas", []) or []:
+        if isinstance(p, dict) and p.get("tipo") == "diagnostico":
+            salida += [a for a in p.get("aceptadas", []) or [] if isinstance(a, str)]
+    vistas, unicas = set(), []
+    for r in salida:
+        clave = sin_tildes(r)
+        if len(clave.strip()) >= 5 and clave not in vistas:
+            vistas.add(clave)
+            unicas.append(r)
+    return unicas
+
+
+def validar_lectura(lectura, paquete_id, imagenes, fuentes, ids_globales, rep):
+    lid = lectura.get("id", "?")
+    estado = lectura.get("estado")
+    exigente = estado == "publicado"
+
+    id_global = "%s/%s" % (paquete_id, lid)
+    if id_global in ids_globales:
+        rep.error(lid, "id repetido (%s ya existe entre los casos o las lecturas)" % id_global)
+    ids_globales.add(id_global)
+
+    preguntas = [p for p in lectura.get("preguntas", []) or [] if isinstance(p, dict)]
+    textos = [(c, lectura.get(c)) for c in CAMPOS_TEXTO_LECTURA] + [("perla", x) for x in lectura.get("perlas", []) or []]
+    for i, p in enumerate(preguntas, 1):
+        textos += [("pregunta %d" % i, p.get("pregunta")), ("respuesta %d" % i, p.get("respuesta"))]
+        textos += [("punto clave %d" % i, x) for x in p.get("puntos_clave", []) or []]
+    textos += [("leyenda de %s" % r.get("ref"), r.get("leyenda")) for r in lectura.get("imagenes", []) or [] if isinstance(r, dict)]
+    for campo, texto in textos:
+        if isinstance(texto, str) and HTML.search(texto):
+            rep.error(lid, "%s contiene HTML («%s»); usar Markdown" % (campo, HTML.search(texto).group(0)))
+
+    # La página 1 enseña a la vez el encabezado y todas las preguntas: ninguna puede decir el diagnóstico.
+    pagina1 = [("el encabezado", lectura.get("presentacion", ""))] + [("la pregunta %d" % i, p.get("pregunta", ""))
+                                                                      for i, p in enumerate(preguntas, 1)]
+    for respuesta in respuestas_de_lectura(lectura):
+        clave = sin_tildes(respuesta)
+        for donde, texto in pagina1:
+            if clave in sin_tildes(texto):
+                rep.error(lid, "%s dice «%s», que es la respuesta: todo eso se ve antes de pasar la página" % (donde, respuesta))
+
+    faltan = []
+    for i, p in enumerate(preguntas, 1):
+        if not str(p.get("pregunta", "")).strip().endswith("?"):
+            rep.aviso(lid, "la pregunta %d debería terminar con «?»" % i)
+        if p.get("tipo") == "hallazgos" and not p.get("puntos_clave"):
+            faltan.append("puntos_clave de la pregunta %d (hallazgos)" % i)
+        if p.get("tipo") == "diagnostico" and not p.get("aceptadas"):
+            faltan.append("aceptadas de la pregunta %d (diagnóstico)" % i)
+    if preguntas and not any(p.get("tipo") in ("diagnostico", "diferencial") for p in preguntas):
+        rep.aviso(lid, "ninguna pregunta pide el diagnóstico ni el diferencial")
+
+    refs = [r for r in lectura.get("imagenes", []) or [] if isinstance(r, dict)]
+    for r in refs:
+        if r.get("ref") not in imagenes:
+            rep.error(lid, "la imagen «%s» no está en el catálogo" % r.get("ref"))
+    if not any(r.get("mostrar_en") == "pregunta" for r in refs):
+        rep.error(lid, "sin ninguna figura en la página 1: la lectura parte de la imagen")
+    respuesta = [r for r in refs if r.get("mostrar_en") == "respuesta"]
+    if not respuesta:
+        rep.aviso(lid, "sin figuras anotadas: al pasar la página se verán otra vez las limpias")
+    faltan += ["leyenda de %s" % r.get("ref") for r in respuesta if not r.get("leyenda")]
+
+    evidencia = lectura.get("evidencia", []) or []
+    for ev in evidencia:
+        if isinstance(ev, dict) and ev.get("fuente") not in fuentes:
+            rep.error(lid, "evidencia cita la fuente «%s», que no está en fuentes.json" % ev.get("fuente"))
+    if not evidencia:
+        faltan.append("evidencia")
+    if lectura.get("revisor") and not lectura.get("fecha_revision"):
+        faltan.append("fecha_revision")
+    if exigente:
+        for r in refs:
+            img = imagenes.get(r.get("ref"))
+            if isinstance(img, dict):
+                faltan += ["%s → %s" % (r["ref"], x) for x in pendientes_imagen(img)]
+        ids_fuentes = {imagenes[r["ref"]].get("fuente") for r in refs if r.get("ref") in imagenes}
+        ids_fuentes |= {ev.get("fuente") for ev in evidencia if isinstance(ev, dict)}
+        for fid in sorted(f for f in ids_fuentes if f in fuentes):
+            faltan += ["%s → %s" % (fid, x) for x in pendientes_fuente(fuentes[fid])]
+    if faltan:
+        rep.pendiente(exigente, lid, "pendiente (%s): %s" % (estado, ", ".join(faltan)))
+
+
 def validar_clasificacion(caso, segmento, rep, sin_area):
     """Cada pareja segmento → área tiene que estar en app/areas.js. El esquema ya revisó la forma.
 
@@ -543,19 +646,19 @@ def validar_clasificacion(caso, segmento, rep, sin_area):
             sin_area.setdefault(seg, []).append(cid)
 
 
-def validar_dificultad(casos, rep):
+def validar_dificultad(casos, rep, nombre="caso(s)", efecto="el tablero los toma como nivel 2"):
     """La dificultad es opcional: el esquema revisa el nivel (1 a 4); aquí solo se avisa lo que falta y un reparto
     sospechoso. Que todo salga en un mismo nivel suele ser una IA que no discriminó (mismo umbral que el estudio)."""
     sin_nivel = [c.get("id", "?") for c in casos if not isinstance(c.get("dificultad"), dict)]
     if sin_nivel:
         muestra = ", ".join(sin_nivel[:6]) + (", …" if len(sin_nivel) > 6 else "")
-        rep.aviso("paquete", "%d caso(s) sin dificultad (%s): el tablero los toma como nivel 2" % (len(sin_nivel), muestra))
+        rep.aviso("paquete", "%d %s sin dificultad (%s): %s" % (len(sin_nivel), nombre, muestra, efecto))
     niveles = [c["dificultad"].get("nivel") for c in casos if isinstance(c.get("dificultad"), dict)]
     if len(niveles) >= 10:
         nivel, veces = max(((n, niveles.count(n)) for n in set(niveles)), key=lambda x: x[1])
         if veces / len(niveles) > 0.7:
-            rep.aviso("paquete", "%d de %d casos tienen dificultad %s: revisar que el nivel discrimine"
-                      % (veces, len(niveles), nivel))
+            rep.aviso("paquete", "%d de %d %s tienen dificultad %s: revisar que el nivel discrimine"
+                      % (veces, len(niveles), nombre.replace("(s)", "s"), nivel))
 
 
 def estadisticas(casos, rep):
@@ -594,8 +697,9 @@ def validar_paquete(carpeta, esquemas, ids_globales):
         return rep, None
 
     casos = paquete.get("casos", []) if isinstance(paquete.get("casos"), list) else []
+    lecturas = paquete.get("lecturas", []) if isinstance(paquete.get("lecturas"), list) else []
     for ruta, mensaje in esquemas.validar(paquete, "paquete.schema.json"):
-        donde, campo = donde_esquema(ruta, casos)
+        donde, campo = donde_esquema(ruta, casos, lecturas)
         rep.error(donde, "%s: %s" % (campo, mensaje) if campo else mensaje)
     for ruta, mensaje in esquemas.validar(fuentes, "fuentes.schema.json"):
         rep.error("fuentes.json", "%s: %s" % (ruta, mensaje) if ruta else mensaje)
@@ -608,29 +712,42 @@ def validar_paquete(carpeta, esquemas, ids_globales):
     fuentes_ok = {k: v for k, v in fuentes.items() if k != "$schema" and isinstance(v, dict)}
     imagenes = paquete.get("imagenes", {}) if isinstance(paquete.get("imagenes"), dict) else {}
     casos = [c for c in casos if isinstance(c, dict)]
-    usadas = {r.get("ref") for c in casos for r in c.get("imagenes", []) if isinstance(r, dict)}
+    lecturas = [l for l in lecturas if isinstance(l, dict)]
+    if not casos and not lecturas:
+        rep.error("paquete", "no trae ningún caso ni ninguna lectura")
+    usadas = {r.get("ref") for c in casos + lecturas for r in c.get("imagenes", []) if isinstance(r, dict)}
 
     personas = paquete.get("personas", {}) if isinstance(paquete.get("personas"), dict) else {}
-    for caso in (c for c in casos if c.get("estado") == "publicado"):
+    for caso in (c for c in casos + lecturas if c.get("estado") == "publicado"):
         for quien in (caso.get("autor"), caso.get("revisor")):
             if quien and quien not in personas:
                 rep.aviso(caso.get("id", "?"), "falta el nombre visible de «%s» en «personas»" % quien)
     citadas = {img.get("fuente") for img in imagenes.values() if isinstance(img, dict)}
-    citadas |= {ev.get("fuente") for c in casos for ev in c.get("evidencia", []) if isinstance(ev, dict)}
+    citadas |= {ev.get("fuente") for c in casos + lecturas for ev in c.get("evidencia", []) if isinstance(ev, dict)}
     validar_fuentes(fuentes_ok, citadas, rep)
     validar_imagenes(carpeta, imagenes, fuentes_ok, usadas, rep)
     sin_area = {}
     for caso in casos:
         validar_caso(caso, paquete.get("id", carpeta.name), imagenes, fuentes_ok, ids_globales, rep)
         validar_clasificacion(caso, paquete.get("segmento"), rep, sin_area)
+    for lectura in lecturas:
+        validar_lectura(lectura, paquete.get("id", carpeta.name), imagenes, fuentes_ok, ids_globales, rep)
+        validar_clasificacion(lectura, paquete.get("segmento"), rep, sin_area)
     for seg, ids in sin_area.items():
         muestra = ", ".join(ids[:6]) + (", …" if len(ids) > 6 else "")
-        rep.aviso("paquete", "%d caso(s) sin área de %s (%s): elegirla en «clasificacion»" % (len(ids), seg, muestra))
-    validar_dificultad(casos, rep)
+        rep.aviso("paquete", "%d caso(s) o lectura(s) sin área de %s (%s): elegirla en «clasificacion»" % (len(ids), seg, muestra))
+    if casos:
+        validar_dificultad(casos, rep)
+    if lecturas:
+        validar_dificultad(lecturas, rep, "lectura(s)", "cuentan como nivel 2")
     estadisticas(casos, rep)
 
-    por_estado = {e: sum(1 for c in casos if c.get("estado") == e) for e in ("borrador", "publicado")}
-    por_estado["verificado"] = sum(1 for c in casos if c.get("estado") == "publicado" and c.get("revisor"))
+    def contar(lista):
+        cuenta = {e: sum(1 for c in lista if c.get("estado") == e) for e in ("borrador", "publicado")}
+        cuenta["verificado"] = sum(1 for c in lista if c.get("estado") == "publicado" and c.get("revisor"))
+        return cuenta
+
+    por_estado = contar(casos)
     resumen = {
         "ruta": "%s/%s" % (carpeta.parent.name, carpeta.name),
         "id": paquete.get("id"),
@@ -640,6 +757,8 @@ def validar_paquete(carpeta, esquemas, ids_globales):
         "version": paquete.get("version"),
         "casos": por_estado,
     }
+    if lecturas:
+        resumen["lecturas"] = contar(lecturas)
     return rep, resumen
 
 
@@ -670,6 +789,10 @@ def main():
             c = resumen["casos"]
             print("  casos: %d borrador · %d publicado (%d verificados)"
                   % (c["borrador"], c["publicado"], c["verificado"]))
+            if "lecturas" in resumen:
+                l = resumen["lecturas"]
+                print("  lecturas: %d borrador · %d publicado (%d verificadas)"
+                      % (l["borrador"], l["publicado"], l["verificado"]))
             resumenes.append(resumen)
         print()
         total_err += rep.errores

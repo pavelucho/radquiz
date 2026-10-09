@@ -286,6 +286,25 @@ Sin imagen; opciones de largo parecido y con la misma forma; cada cifra de la ex
 }
 ```
 
+## 9 bis. Lecturas (casos abiertos, sin alternativas)
+
+Una lectura (`lecturas` en `paquete.json`, `schema/lectura.schema.json`) es un caso entero al estilo de los libros de
+casos. Lo que cambia respecto de un caso de opción múltiple:
+
+- **Todo lo de la página 1 se ve a la vez**: el encabezado clínico (`presentacion`, una línea) y todas las preguntas.
+  Ninguno puede decir el diagnóstico (`tema`) ni una respuesta aceptada del diagnóstico, ni la respuesta de otra
+  pregunta: el validador lo busca palabra por palabra. Si la fuente nombra la entidad en una pregunta, se escribe
+  «esta entidad», «esta lesión».
+- **Preguntas en el orden del razonamiento**: hallazgos → diagnóstico o diferencial → lo demás (técnica, clasificación,
+  mecanismo, asociaciones, epidemiología, manejo). Si la fuente no pregunta el diagnóstico, se agrega «¿Cuál es el
+  diagnóstico más probable?».
+- **`puntos_clave`** en la de hallazgos: una idea corta por hallazgo, para que quien lee marque cuáles dijo.
+- **`aceptadas`** en la de diagnóstico (y en cualquier otra de respuesta corta): las formas que valen, en español,
+  inglés, epónimo o sigla.
+- **Figuras**: las limpias en la página 1 (`mostrar_en: "pregunta"`) y las anotadas en la 2, cada una con su `leyenda`
+  en español y con palabras propias (qué muestra y qué señala cada marca). La `leyenda_original` de la ficha va tal cual.
+- **Respuestas fieles a la fuente**, sin datos que no da; `explicacion` para la discusión y `perlas` (hasta 8).
+
 ## 10. Cómo pedírselo a la IA
 
 > Con la guía de estilo de RadQuiz cargada y el PDF adjunto, arma el paquete `temas/<segmento>/<id>/`:

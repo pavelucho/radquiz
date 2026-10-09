@@ -42,9 +42,10 @@ function selloVale(v, actualizados, casoId) {
   return !((actualizados || {})[casoId] > (v.base || 0));
 }
 
+// Los casos y las lecturas se sellan igual: el id de una lectura no se repite con el de un caso.
 function sellar(paquete, actualizados, verificacion) {
   const personas = { ...(paquete.personas || {}) };
-  for (const caso of paquete.casos || []) {
+  for (const caso of [...(paquete.casos || []), ...(paquete.lecturas || [])]) {
     const v = (verificacion || {})[caso.id];
     caso.revisor = null;
     delete caso.fecha_revision;
@@ -73,9 +74,16 @@ export async function indiceEnVivo() {
     }
     const sellos = (verificacion || {})[id] || {};
     const publicado = Number(entrada.casos) || 0;
+    const lecturas = Number(entrada.lecturas) || 0;
+    const deLecturas = entrada.actualizados_lecturas || {};
     let verificado = 0;
+    let lecturasVerificadas = 0;
     for (const [casoId, v] of Object.entries(sellos)) {
-      if (selloVale(v, entrada.actualizados, casoId)) verificado++;
+      if (casoId in deLecturas) {
+        if (selloVale(v, deLecturas, casoId)) lecturasVerificadas++;
+      } else if (selloVale(v, entrada.actualizados, casoId)) {
+        verificado++;
+      }
     }
     salida.push({
       ruta,
@@ -85,6 +93,7 @@ export async function indiceEnVivo() {
       modalidades: comoLista(entrada.modalidades),
       version: entrada.version,
       casos: { borrador: 0, publicado, verificado: Math.min(verificado, publicado) },
+      ...(lecturas ? { lecturas: { borrador: 0, publicado: lecturas, verificado: Math.min(lecturasVerificadas, lecturas) } } : {}),
       enVivo: true,
       ...(entrada.oculto ? { oculto: true } : {}),
     });
@@ -109,15 +118,23 @@ export function fusionarIndice(estatico, vivo, { mostrar = null } = {}) {
       porRuta.delete(p.ruta);
     } else if (p.oculto) {
       const previo = porRuta.get(p.ruta);
-      porRuta.set(p.ruta, previo && previo.version === p.version ? { ...previo, casos: { ...previo.casos, ...p.casos }, oculto: true } : p);
+      porRuta.set(p.ruta, previo && previo.version === p.version ? { ...conSellosAlDia(previo, p), oculto: true } : p);
     } else if (!porRuta.has(p.ruta) || porRuta.get(p.ruta).version !== p.version) {
       porRuta.set(p.ruta, p);
     } else {
-      const previo = porRuta.get(p.ruta);
-      porRuta.set(p.ruta, { ...previo, casos: { ...previo.casos, ...p.casos } });
+      porRuta.set(p.ruta, conSellosAlDia(porRuta.get(p.ruta), p));
     }
   }
   return [...porRuta.values()];
+}
+
+// La entrada del sitio con las cuentas de sellos del estudio, que están al día.
+function conSellosAlDia(previo, vivo) {
+  return {
+    ...previo,
+    casos: { ...previo.casos, ...vivo.casos },
+    ...(previo.lecturas || vivo.lecturas ? { lecturas: { ...previo.lecturas, ...vivo.lecturas } } : {}),
+  };
 }
 
 const OCULTO = "Este tema está oculto: solo se puede jugar en la sala que abre su autor.";

@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "lectura.schema.json",
+  "title": "Lectura de RadQuiz",
+  "description": "Un caso entero para leer como en los libros de casos: encabezado clínico, figuras limpias y varias preguntas abiertas a la vista a la vez (página 1); al pasar la página, las respuestas, las figuras anotadas y las perlas (página 2). No lleva alternativas: quien lee escribe o piensa sus respuestas y después se compara. Los textos van en Markdown limitado, sin HTML. Una lectura publicada con «revisor» está verificada.",
+  "type": "object",
+  "required": [
+    "id",
+    "tema",
+    "presentacion",
+    "imagenes",
+    "preguntas",
+    "evidencia",
+    "estado",
+    "autor",
+    "revisor"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "description": "Único dentro del paquete, también frente a los ids de los casos: <paquete>/<id>.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "tema": {
+      "description": "El diagnóstico o la entidad del caso. Solo se ve al pasar la página: nunca en la página 1.",
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 120
+    },
+    "presentacion": {
+      "description": "El encabezado clínico de una línea, como en el libro: «Dolor de tobillo tras una caída». Sin la respuesta.",
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 200
+    },
+    "clasificacion": {
+      "$ref": "caso.schema.json#/properties/clasificacion"
+    },
+    "etiquetas": {
+      "$ref": "caso.schema.json#/properties/etiquetas"
+    },
+    "imagenes": {
+      "description": "«pregunta»: las figuras limpias de la página 1. «respuesta»: las anotadas (o las de otro paciente) que se ven al pasar la página, cada una con su leyenda en español.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "ref",
+          "mostrar_en"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+            "description": "Id en el catálogo de imágenes del paquete."
+          },
+          "mostrar_en": {
+            "enum": [
+              "pregunta",
+              "respuesta"
+            ]
+          },
+          "leyenda": {
+            "description": "Qué muestra la figura y qué señala cada marca, en español y con palabras propias. Solo se ve en la página 2.",
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 600
+          }
+        }
+      }
+    },
+    "preguntas": {
+      "description": "Las preguntas abiertas, en el orden del razonamiento: hallazgos, diagnóstico o diferencial, y después lo demás. Todas se ven a la vez en la página 1, así que ninguna puede decir la respuesta de otra.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/pregunta"
+      }
+    },
+    "explicacion": {
+      "description": "La discusión del caso (lo que el libro pone en viñetas al lado de las respuestas).",
+      "$ref": "#/$defs/texto"
+    },
+    "perlas": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 400
+      }
+    },
+    "dificultad": {
+      "$ref": "caso.schema.json#/properties/dificultad"
+    },
+    "evidencia": {
+      "$ref": "caso.schema.json#/properties/evidencia"
+    },
+    "estado": {
+      "$ref": "caso.schema.json#/properties/estado"
+    },
+    "autor": {
+      "$ref": "caso.schema.json#/properties/autor"
+    },
+    "revisor": {
+      "$ref": "caso.schema.json#/properties/revisor"
+    },
+    "fecha_revision": {
+      "$ref": "caso.schema.json#/properties/fecha_revision"
+    },
+    "notas_revision": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "texto": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 3000
+    },
+    "pregunta": {
+      "type": "object",
+      "required": [
+        "tipo",
+        "pregunta",
+        "respuesta"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tipo": {
+          "description": "hallazgos: qué se ve (lleva «puntos_clave» para marcar lo que se vio). diagnostico: la entidad (lleva «aceptadas»). Los demás son para ordenar y contar.",
+          "enum": [
+            "hallazgos",
+            "diagnostico",
+            "diferencial",
+            "tecnica",
+            "clasificacion",
+            "mecanismo",
+            "asociaciones",
+            "epidemiologia",
+            "manejo",
+            "otra"
+          ]
+        },
+        "pregunta": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 300
+        },
+        "respuesta": {
+          "description": "La respuesta de la fuente, con palabras propias.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1500
+        },
+        "puntos_clave": {
+          "description": "Lo que había que decir, una idea por elemento: quien lee marca cuáles dijo. Obligatorio en «hallazgos».",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200
+          }
+        },
+        "aceptadas": {
+          "description": "Respuestas cortas que valen como correctas (sinónimos, epónimos, sin tildes da igual). La app avisa si lo escrito coincide; la nota la pone quien lee o el presentador. Obligatorio en «diagnostico».",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 80
+          }
+        }
+      }
+    }
+  }
+}

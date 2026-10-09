@@ -18,7 +18,7 @@
 
 import { execFile } from "node:child_process";
 import { createServer } from "node:http";
-import { randomBytes } from "node:crypto";
+import { randomBytes, createHash } from "node:crypto";
 import { mkdir, readFile, writeFile, chmod, stat, rm, mkdtemp } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { join, dirname, resolve } from "node:path";
@@ -27,8 +27,8 @@ import { promisify } from "node:util";
 
 import { firebaseConfig } from "../../app/firebase-config.js";
 import {
-  validarTema, validarFuente, aPaquete, casosOrdenados, imagenesOrdenadas, lista, LICENCIAS, TIPOS_FUENTE,
-  normalizarDificultad, normalizarClasificacion, clasificacionDe, nombreClasificacion,
+  validarTema, validarFuente, aPaquete, casosOrdenados, imagenesOrdenadas, lecturasOrdenadas, lista, LICENCIAS, TIPOS_FUENTE,
+  normalizarDificultad, normalizarClasificacion, clasificacionDe, nombreClasificacion, deLectura, dePaquete, entradaIndice, slug,
 } from "../../app/validacion.js";
 import { leerRespuestaIA, planDeCarga } from "../../app/instrucciones-ia.js";
 import {
@@ -107,9 +107,9 @@ async function token() {
   return idToken.token;
 }
 
-async function db(metodo, ruta, cuerpo) {
+async function db(metodo, ruta, cuerpo, consulta = "") {
   const t = await token();
-  const r = await fetch(`${DB}/${ruta}.json?auth=${t}`, {
+  const r = await fetch(`${DB}/${ruta}.json?auth=${t}${consulta}`, {
     method: metodo,
     headers: cuerpo === undefined ? {} : { "Content-Type": "application/json" },
     body: cuerpo === undefined ? undefined : JSON.stringify(cuerpo),
@@ -125,6 +125,7 @@ async function db(metodo, ruta, cuerpo) {
 const leer = (ruta) => db("GET", ruta);
 const escribir = (ruta, valor) => db("PUT", ruta, valor);
 const actualizar = (cambios) => db("PATCH", "", cambios);   // varias rutas de una vez, como update(ref(db), …)
+const leerClaves = async (ruta) => Object.keys((await db("GET", ruta, undefined, "&shallow=true")) || {});   // solo los ids
 
 async function miPerfil() {
   if (perfil) return perfil;
@@ -220,13 +221,14 @@ function abrirEntrada() {
 }
 
 // ------------------------------------------------------------------ temas
-function normalizarTema(id, bruto) {   // el mismo que app/estudio.js
+function normalizarTema(id, bruto) {   // el mismo que app/estudio.js, más las lecturas
   const t = JSON.parse(JSON.stringify(bruto || {}));
   t.id = id;
   t.meta = t.meta || {};
   t.fuente = t.fuente || {};
   t.imagenes = t.imagenes || {};
   t.casos = t.casos || {};
+  t.lecturas = t.lecturas || {};
   t.revision = t.revision || {};
   for (const c of Object.values(t.casos)) {
     c.opciones = lista(c.opciones);
@@ -234,6 +236,11 @@ function normalizarTema(id, bruto) {   // el mismo que app/estudio.js
     c.evidencia = lista(c.evidencia);
     c.etiquetas = lista(c.etiquetas);
     c.clasificacion = lista(c.clasificacion);
+  }
+  // La base guarda las listas vacías como nada y, a veces, las listas como objetos: se dejan como listas.
+  for (const l of Object.values(t.lecturas)) {
+    for (const k of ["imagenes", "evidencia", "etiquetas", "clasificacion", "perlas"]) l[k] = lista(l[k]);
+    l.preguntas = lista(l.preguntas).map((q) => ({ ...q, puntos_clave: lista(q?.puntos_clave), aceptadas: lista(q?.aceptadas) }));
   }
   for (const i of Object.values(t.imagenes)) {
     i.paneles = lista(i.paneles);
@@ -270,6 +277,41 @@ function casoParaEditar(t, c) {
   };
 }
 
+// Una lectura en la forma que recibe «lecturas_corregir»: la del estudio (deLectura) con su id. Las figuras van por
+// su id («ref»); «figura» es solo para que se sepa cuál es, y se ignora al corregir si «ref» existe.
+function lecturaParaEditar(t, l) {
+  const d = deLectura(l, t.imagenes, [], "");
+  return {
+    id: l.id, tema: d.tema, presentacion: d.presentacion, clasificacion: d.clasificacion || [], etiquetas: d.etiquetas,
+    imagenes: lista(l.imagenes).map((r) => ({
+      ref: r.ref, figura: t.imagenes[r.ref]?.figura || "(no existe)", mostrar_en: r.mostrar_en === "respuesta" ? "respuesta" : "pregunta",
+      ...(r.leyenda ? { leyenda: r.leyenda } : {}),
+    })),
+    preguntas: d.preguntas, explicacion: d.explicacion, perlas: d.perlas, evidencia: d.evidencia,
+    ...(d.dificultad ? { dificultad: d.dificultad } : {}),
+  };
+}
+
+// Qué cambia entre dos lecturas, comparadas en la forma del estudio. «contenido» es lo que retira el sello: todo
+// menos la clasificación y la dificultad, que son metadatos (igual que en los casos).
+const CAMPOS_LECTURA = ["tema", "presentacion", "etiquetas", "imagenes", "preguntas", "explicacion", "perlas", "evidencia"];
+function cambiosDeLectura(antes, despues, imagenes) {
+  const a = deLectura(antes || {}, imagenes, [], ""), b = deLectura(despues || {}, imagenes, [], "");
+  const distinto = (x, y) => JSON.stringify(x ?? null) !== JSON.stringify(y ?? null);
+  const contenido = CAMPOS_LECTURA.filter((k) => distinto(a[k], b[k]));
+  const meta = [];
+  if (distinto(normalizarClasificacion(antes?.clasificacion), normalizarClasificacion(despues?.clasificacion))) meta.push("clasificacion");
+  if (distinto(normalizarDificultad(antes?.dificultad), normalizarDificultad(despues?.dificultad))) meta.push("dificultad");
+  return { contenido, meta, todos: [...contenido, ...meta] };
+}
+
+// Los casos y las lecturas comparten ids (un id no se repite entre ellos): de qué grupo es cada uno.
+function grupoDe(t, id) {
+  if (t.casos[id]) return { grupo: "casos", item: t.casos[id] };
+  if (t.lecturas[id]) return { grupo: "lecturas", item: t.lecturas[id] };
+  return null;
+}
+
 function resumenValidacion(v, t) {
   const lineas = [];
   const poner = (donde, problemas) => {
@@ -279,6 +321,7 @@ function resumenValidacion(v, t) {
   poner("tema", v.tema);
   for (const [id, p] of Object.entries(v.imagenes)) poner(`imagen ${id} (${t.imagenes[id]?.figura || ""})`, p);
   for (const [id, p] of Object.entries(v.casos)) poner(`caso ${id}`, p);
+  for (const [id, p] of Object.entries(v.lecturas || {})) poner(`lectura ${id}`, p);
   return { errores: v.errores, avisos: v.avisos, detalle: lineas };
 }
 
@@ -297,9 +340,13 @@ function cambiosDeCaso(antes, despues) {
 }
 
 // ------------------------------------------------------------------ ayudante de imágenes (macOS)
+// Una sola promesa: con varias figuras a la vez (tema_importar), el ayudante se compila una vez y no en paralelo.
 let ayudante = null;
-async function rutaAyudante() {
-  if (ayudante) return ayudante;
+function rutaAyudante() {
+  if (!ayudante) ayudante = compilarAyudante().catch((e) => { ayudante = null; throw e; });
+  return ayudante;
+}
+async function compilarAyudante() {
   if (process.platform !== "darwin") throw new Error("Las herramientas de figuras usan Vision y CoreGraphics: solo funcionan en macOS.");
   const fuente = join(AQUI, "imagen.swift");
   const binario = join(CACHE, "imagen");
@@ -309,7 +356,7 @@ async function rutaAyudante() {
     log("compilando el ayudante de imágenes…");
     await ejecutar("swiftc", ["-O", fuente, "-o", binario], { timeout: 300_000 });
   }
-  return (ayudante = binario);
+  return binario;
 }
 
 async function ayuda(...args) {
@@ -357,6 +404,137 @@ function sugerirRectangulo(lineas, ancho, alto, minimo) {
   return r;
 }
 
+// ------------------------------------------------------------------ importar una carpeta con la forma de temas/
+// Lo mismo que «Subir un .zip» del estudio (abrirZip en app/importar.js y crearImportado en app/estudio.js), desde
+// una carpeta local: paquete.json, fuentes.json e img/.
+
+// Lado mayor y tipo de un JPEG o un PNG, leyendo solo la cabecera. null si no es ninguno de los dos.
+function medidasImagen(b) {
+  if (b.length > 24 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47) {
+    const v = new DataView(b.buffer, b.byteOffset, b.byteLength);
+    return { tipo: "png", ancho: v.getUint32(16), alto: v.getUint32(20) };
+  }
+  if (b.length < 4 || b[0] !== 0xff || b[1] !== 0xd8) return null;
+  let i = 2;
+  while (i + 9 < b.length) {
+    if (b[i] !== 0xff) { i += 1; continue; }
+    const marca = b[i + 1];
+    if (marca === 0xff) { i += 1; continue; }
+    if (marca === 0xd8 || marca === 0x01 || (marca >= 0xd0 && marca <= 0xd7)) { i += 2; continue; }
+    const largo = (b[i + 2] << 8) | b[i + 3];
+    // SOF0–SOF15 sin DHT (C4), JPG (C8) ni DAC (CC): ahí están las medidas.
+    if (marca >= 0xc0 && marca <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marca)) {
+      return { tipo: "jpeg", alto: (b[i + 5] << 8) | b[i + 6], ancho: (b[i + 7] << 8) | b[i + 8] };
+    }
+    if (marca === 0xda) break;   // empiezan los datos de la imagen sin haber visto el SOF
+    i += 2 + largo;
+  }
+  return { tipo: "jpeg", ancho: 0, alto: 0 };
+}
+
+// La figura como la deja el estudio: JPEG, lado mayor ≤ 1600 px y ≤ 250 KB. Si ya cumple, pasa tal cual (sin
+// marcarla como modificada); si no, la rehace el ayudante. Se guarda en memoria para que la simulación y la
+// escritura no la preparen dos veces.
+const LADO_MAX = 1600;
+const figurasPreparadas = new Map();
+async function figuraParaEstudio(ruta) {
+  const info = await stat(ruta);
+  const clave = `${ruta}:${info.mtimeMs}:${info.size}`;
+  if (figurasPreparadas.has(clave)) return figurasPreparadas.get(clave);
+  const bytes = new Uint8Array(await readFile(ruta));
+  const m = medidasImagen(bytes);
+  let r;
+  if (m?.tipo === "jpeg" && m.ancho && bytes.length <= LIMITE_FIGURA && Math.max(m.ancho, m.alto) <= LADO_MAX) {
+    r = { bytes, ancho: m.ancho, alto: m.alto, modificaciones: [] };
+  } else {
+    r = await conTemporal(async (dir) => {
+      const salida = join(dir, "salida.jpg");
+      const h = await ayuda("preparar", ruta, salida);
+      const nuevos = new Uint8Array(await readFile(salida));
+      if (nuevos.length > LIMITE_FIGURA) throw new Error("quedó por encima de 250 KB");
+      const reducida = m?.ancho ? h.ancho < m.ancho : false;
+      return { bytes: nuevos, ancho: h.ancho, alto: h.alto, modificaciones: ["comprimida", ...(reducida ? ["redimensionada"] : [])] };
+    });
+  }
+  figurasPreparadas.set(clave, r);
+  return r;
+}
+
+// Hace «fn» sobre cada elemento, «a la vez» como mucho al mismo tiempo.
+async function enParalelo(elementos, aLaVez, fn) {
+  let siguiente = 0;
+  const trabajador = async () => { while (siguiente < elementos.length) { const i = siguiente++; await fn(elementos[i], i); } };
+  await Promise.all(Array.from({ length: Math.min(aLaVez, elementos.length) }, trabajador));
+}
+
+// Reparte {ruta: valor} en tandas de como mucho «maximo» bytes de JSON: cada tanda es una escritura atómica.
+function enTandas(entradas, maximo) {
+  const tandas = [];
+  let actual = {}, peso = 0;
+  for (const [ruta, valor] of entradas) {
+    const p = ruta.length + JSON.stringify(valor).length + 8;
+    if (peso && peso + p > maximo) { tandas.push(actual); actual = {}; peso = 0; }
+    actual[ruta] = valor;
+    peso += p;
+  }
+  if (peso) tandas.push(actual);
+  return tandas;
+}
+const TANDA_TEXTO = 1_000_000;    // casos y lecturas
+const TANDA_FIGURAS = 4_000_000;  // ~12 figuras grandes o ~200 chicas por escritura
+const CLAVE_BASE = /^[^.$#[\]/\x00-\x1f\x7f]{1,200}$/;   // lo que la base admite como nombre de un nodo
+
+// Lee la carpeta y deja todo listo para escribir, sin tocar la base. Devuelve el tema como quedaría en el
+// estudio, las figuras en dataURL y lo que no se pudo leer.
+async function leerCarpetaTema(carpeta, idPedido) {
+  const raiz = resolve(String(carpeta || ""));
+  const texto = async (nombre) => readFile(join(raiz, nombre), "utf8").catch(() => null);
+  const textoPaquete = await texto("paquete.json");
+  if (textoPaquete === null) throw new Error(`No encontré «paquete.json» en ${raiz}. La carpeta tiene que llevar paquete.json, fuentes.json e img/.`);
+  const textoFuentes = (await texto("fuentes.json")) ?? "{}";
+  let paquete, fuentes;
+  try { paquete = JSON.parse(textoPaquete); } catch (e) { throw new Error(`«paquete.json» no es un JSON válido (${e.message}).`); }
+  try { fuentes = JSON.parse(textoFuentes); } catch (e) { throw new Error(`«fuentes.json» no es un JSON válido (${e.message}).`); }
+  if (!lista(paquete.casos).length && !lista(paquete.lecturas).length) throw new Error("«paquete.json» no trae ningún caso ni ninguna lectura.");
+  // Como en el .zip: una sola fuente por cuestionario, porque el estudio acredita todas las figuras a ella.
+  const claves = Object.keys(fuentes || {}).filter((k) => k !== "$schema");
+  if (claves.length > 1) throw new Error(`La carpeta trae ${claves.length} fuentes (${claves.join(", ")}). Cada cuestionario lleva una sola.`);
+
+  const { meta, fuente, imagenes, casos, lecturas, desconocidas } = dePaquete(paquete, fuentes);
+  if (!meta.titulo) throw new Error("«paquete.json» no trae título.");
+  const id = idPedido ? String(idPedido) : slug(meta.id || meta.titulo).replace(/-+$/, "") || "cuestionario";
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id)) throw new Error(`Id de tema inválido: «${id}» (minúsculas, números y guiones).`);
+
+  // Lo que la base rechazaría al crear: mejor decirlo antes de escribir nada.
+  const bloqueos = [];
+  if (!SEGMENTOS[meta.segmento]) bloqueos.push(`El segmento «${meta.segmento || "(vacío)"}» no existe: ${Object.keys(SEGMENTOS).join(", ")}.`);
+  if (meta.titulo.length > 120) bloqueos.push(`El título pasa de 120 caracteres (${meta.titulo.length}).`);
+  const idsMalos = Object.keys(imagenes).filter((k) => !CLAVE_BASE.test(k));
+  if (idsMalos.length) bloqueos.push(`Ids de figura que la base no admite (sin . $ # [ ] /): ${idsMalos.slice(0, 10).join(", ")}.`);
+
+  const datos = {}, faltan = [], preparadas = [];
+  await enParalelo(Object.entries(imagenes).filter(([k]) => CLAVE_BASE.test(k)), 4, async ([imgId, img]) => {
+    const nombre = img.archivo;
+    // Solo archivos de img/: un «archivo» con carpetas («../») no sale de ahí.
+    if (!/^[^/\\]+$/.test(nombre) || nombre.startsWith(".")) { faltan.push(`${nombre} (nombre inválido)`); return; }
+    const ruta = join(raiz, "img", nombre);
+    if (!(await stat(ruta).catch(() => null))) { faltan.push(nombre); return; }
+    try {
+      const r = await figuraParaEstudio(ruta);
+      datos[imgId] = aDataURL(r.bytes);
+      if (r.modificaciones.length) {
+        preparadas.push(imgId);
+        img.modificaciones = [...new Set([...img.modificaciones, ...r.modificaciones])];
+      }
+    } catch (e) {
+      faltan.push(`${nombre} (${e.message})`);
+    }
+  });
+  // La huella del paquete: si una importación se corta, el reintento con la misma carpeta sigue donde quedó.
+  const huellaPaquete = createHash("sha256").update(textoPaquete).update("\n").update(textoFuentes).digest("hex").slice(0, 16);
+  return { raiz, id, meta: { ...meta, id }, fuente, imagenes, casos, lecturas, desconocidas, datos, faltan: faltan.sort(), preparadas, bloqueos, huella: huellaPaquete };
+}
+
 // ------------------------------------------------------------------ herramientas
 const herramientas = [];
 function herramienta(nombre, descripcion, propiedades, requeridas, fn) {
@@ -393,20 +571,21 @@ herramienta("sesion_estado", "Dice con qué cuenta está conectado el servidor, 
     return `Conectado como ${p.nombre} (@${p.usuario}, ${sesion.email}), papel: ${p.rol}. Drive: ${minutos > 0 ? `vigente ${minutos} min más` : "sin permiso (pídelo con «sesion_iniciar» antes de publicar)"}.`;
   });
 
-herramienta("temas_listar", "Lista los cuestionarios del estudio: id, título, autor, estado, versión y cuántos casos y figuras tienen.", {}, [],
+herramienta("temas_listar", "Lista los cuestionarios del estudio: id, título, autor, estado, versión y cuántos casos, lecturas y figuras tienen.", {}, [],
   async () => {
     await miPerfil();
     const todos = (await leer("estudio")) || {};
     const filas = Object.entries(todos).map(([id, b]) => {
       const m = b.meta || {};
       return { id, titulo: m.titulo, segmento: m.segmento, autor: m.autor_nombre, mio: m.autor_uid === sesion.uid,
-        estado: m.estado, version: m.version, casos: Object.keys(b.casos || {}).length, imagenes: Object.keys(b.imagenes || {}).length };
+        estado: m.estado, version: m.version, casos: Object.keys(b.casos || {}).length, lecturas: Object.keys(b.lecturas || {}).length,
+        imagenes: Object.keys(b.imagenes || {}).length, ...(m.importacion ? { importacion_sin_terminar: true } : {}) };
     });
     return JSON.stringify(filas, null, 1);
   });
 
 herramienta("tema_leer",
-  "Lee un cuestionario del estudio: datos, fuente, resumen del validador y la lista de casos (id, subtema, enunciado abreviado). Con «completo» trae los casos enteros.",
+  "Lee un cuestionario del estudio: datos, fuente, resumen del validador, la lista de casos (id, subtema, enunciado abreviado) y la de lecturas (id, diagnóstico, encabezado, cuántas preguntas, figuras). Con «completo» trae los casos y las lecturas enteros.",
   { tema: TEMA, completo: { type: "boolean", default: false } }, ["tema"],
   async ({ tema, completo = false }) => {
     await miPerfil();
@@ -414,10 +593,14 @@ herramienta("tema_leer",
     const v = resumenValidacion(validarTema(t), t);
     const casos = casosOrdenados(t).map((c) => completo ? casoParaEditar(t, c)
       : { id: c.id, tema: c.tema, enunciado: (c.enunciado || "").slice(0, 110), figuras: lista(c.imagenes).map((r) => r.ref) });
+    const lecturas = lecturasOrdenadas(t).map((l) => completo ? lecturaParaEditar(t, l)
+      : { id: l.id, tema: l.tema, presentacion: (l.presentacion || "").slice(0, 110), preguntas: lista(l.preguntas).length,
+        figuras: lista(l.imagenes).map((r) => `${r.ref}${r.mostrar_en === "respuesta" ? " (respuesta)" : ""}`) });
     return JSON.stringify({
       id: t.id, meta: { titulo: t.meta.titulo, segmento: t.meta.segmento, estado: t.meta.estado, version: t.meta.version,
         autor: t.meta.autor_nombre, editable: esMio(t), carpeta_drive: t.meta.drive_carpeta || null },
       fuente: t.fuente, validacion: { errores: v.errores, avisos: v.avisos }, imagenes: Object.keys(t.imagenes).length, casos,
+      ...(lecturas.length ? { lecturas } : {}),
     }, null, 1);
   });
 
@@ -430,6 +613,17 @@ herramienta("casos_leer",
     const elegidos = casosOrdenados(t).filter((c) => !ids?.length || ids.includes(c.id));
     const faltan = (ids || []).filter((id) => !t.casos[id]);
     return JSON.stringify({ correccion: true, casos: elegidos.map((c) => casoParaEditar(t, c)), ...(faltan.length ? { no_existen: faltan } : {}) }, null, 1);
+  });
+
+herramienta("lecturas_leer",
+  "Trae lecturas completas (casos abiertos al estilo de los libros de casos: encabezado, 1 a 8 preguntas abiertas, figuras limpias en la página 1 y anotadas en la 2) en el formato que recibe «lecturas_corregir». Se pueden editar y devolver tal cual.",
+  { tema: TEMA, ids: { type: "array", items: { type: "string" }, description: "Ids de las lecturas; si falta, todas." } }, ["tema"],
+  async ({ tema, ids }) => {
+    await miPerfil();
+    const t = await leerTema(tema);
+    const elegidas = lecturasOrdenadas(t).filter((l) => !ids?.length || ids.includes(l.id));
+    const faltan = (ids || []).filter((id) => !t.lecturas[id]);
+    return JSON.stringify({ lecturas: elegidas.map((l) => lecturaParaEditar(t, l)), ...(faltan.length ? { no_existen: faltan } : {}) }, null, 1);
   });
 
 herramienta("tema_validar", "Pasa el validador del estudio (app/validacion.js) por un cuestionario y devuelve cada error y aviso.", { tema: TEMA }, ["tema"],
@@ -472,8 +666,67 @@ herramienta("casos_corregir",
     return ["Guardado en el estudio. Falta publicar para que salga en la web («tema_publicar»).", ...informe].join("\n");
   });
 
+herramienta("lecturas_corregir",
+  "Reemplaza lecturas existentes, cada una por su id. Recibe {\"lecturas\": [...]} en el formato de «lecturas_leer» (los campos que falten quedan vacíos, salvo «clasificacion» y «dificultad», que se conservan si no vienen). Las figuras se citan por «ref» (id de la figura del tema) o, si no, por el nombre de «figura». Por defecto solo simula: dice qué campos cambian en cada lectura y cómo queda el validador. Con simular=false lo guarda. Cambiar el contenido actualiza «actualizado» y le quita el sello de verificado; cambiar solo la clasificación o la dificultad, no.",
+  { tema: TEMA, correccion: { type: "object", description: "{\"lecturas\": [ {\"id\": …, \"presentacion\": …, \"preguntas\": […], …} ]}", properties: { lecturas: { type: "array", items: { type: "object" } } }, required: ["lecturas"] }, simular: SIMULAR },
+  ["tema", "correccion"],
+  async ({ tema, correccion, simular = true }) => {
+    await miPerfil();
+    const t = await leerTema(tema);
+    exigirMio(t);
+    const entrada = lista(correccion?.lecturas);
+    if (!entrada.length) throw new Error("Pasa {\"lecturas\": [...]} con al menos una lectura.");
+    const desconocidas = entrada.filter((l) => !l?.id || !t.lecturas[l.id]).map((l) => l?.id || "(sin id)");
+    if (desconocidas.length) throw new Error(`Estas lecturas no existen en «${tema}»: ${desconocidas.join(", ")}. Aquí solo se corrigen lecturas que ya están.`);
+    const repetidas = entrada.map((l) => l.id).filter((id, i, a) => a.indexOf(id) !== i);
+    if (repetidas.length) throw new Error(`Lecturas repetidas en la corrección: ${[...new Set(repetidas)].join(", ")}.`);
+    // Las figuras: por id; si no, por el nombre de la figura en la fuente («Caso 1362 (p. 1)…»).
+    const porFigura = new Map(Object.entries(t.imagenes).map(([id, i]) => [i.figura, id]));
+    const perdidas = [];
+    const despues = JSON.parse(JSON.stringify(t));
+    const cambios = {};
+    const detalle = [];
+    let selloRetirado = 0;
+    for (const bruta of entrada) {
+      const anterior = t.lecturas[bruta.id];
+      const imagenes = lista(bruta.imagenes).map((r) => {
+        const ref = t.imagenes[r?.ref] ? r.ref : porFigura.get(r?.figura) || porFigura.get(r?.ref);
+        if (!ref) perdidas.push(`${bruta.id} → ${r?.ref || r?.figura || "(vacía)"}`);
+        return { ...r, ref };
+      });
+      const malas = [];
+      const nueva = deLectura({
+        ...bruta, imagenes,
+        clasificacion: "clasificacion" in bruta ? bruta.clasificacion : anterior.clasificacion,
+        dificultad: "dificultad" in bruta ? bruta.dificultad : anterior.dificultad,
+      }, t.imagenes, malas, "ia");
+      if (malas.length) throw new Error(`Clasificación inválida en ${bruta.id}: ${malas.join(", ")}. Las áreas están en app/areas.js.`);
+      const c = cambiosDeLectura(anterior, nueva, t.imagenes);
+      if (!c.todos.length) { detalle.push(`${bruta.id}: sin cambios`); continue; }
+      const guardada = { ...nueva, orden: anterior.orden ?? 0 };
+      if (c.contenido.length) { guardada.actualizado = AHORA; selloRetirado += 1; }
+      else if (anterior.actualizado !== undefined) guardada.actualizado = anterior.actualizado;
+      cambios[`estudio/${tema}/lecturas/${bruta.id}`] = guardada;
+      despues.lecturas[bruta.id] = normalizarTema(tema, { lecturas: { [bruta.id]: { ...guardada, actualizado: Date.now() } } }).lecturas[bruta.id];
+      detalle.push(`${bruta.id}: ${c.todos.join(", ")}${c.contenido.length ? "" : " (solo metadatos: conserva el sello)"}`);
+    }
+    if (perdidas.length) throw new Error(`No encontré estas figuras en el tema: ${perdidas.join(", ")}. Usa el «ref» que da «lecturas_leer».`);
+    const antes = validarTema(t), luego = validarTema(despues);
+    const problemas = Object.keys(cambios).map((ruta) => ruta.split("/").pop())
+      .flatMap((id) => (luego.lecturas[id] || []).map((p) => `  ${p.tipo === "error" ? "ERROR" : "aviso"} · ${id}: ${p.texto}`));
+    const informe = [
+      `Cambian ${Object.keys(cambios).length} de ${entrada.length} lecturas${selloRetirado ? `; ${selloRetirado} con cambios de contenido (pierden el sello de verificado si lo tenían)` : ""}.`,
+      `Validador: ${antes.errores} errores y ${antes.avisos} avisos → ${luego.errores} errores y ${luego.avisos} avisos.`,
+      ...detalle,
+      ...(problemas.length ? ["Problemas que quedan en las lecturas cambiadas:", ...problemas] : []),
+    ];
+    if (simular || !Object.keys(cambios).length) return [simular ? "SIMULACIÓN (no se guardó nada):" : "No había nada que cambiar.", ...informe].join("\n");
+    await actualizar({ ...cambios, [`estudio/${tema}/meta/actualizado`]: AHORA });
+    return ["Guardado en el estudio. Falta publicar para que salga en la web («tema_publicar»).", ...informe].join("\n");
+  });
+
 herramienta("casos_dificultad",
-  "Pone la dificultad (nivel 1 a 4 con su motivo, por el contenido y la bibliografía: docs/guia-estilo-ia.md) y si el caso necesita las opciones a la vista, como el panel «Dificultad» del paso 3. No toca el texto del caso, así que no le quita el sello de verificado. Recibe {\"<id del caso>\": {\"nivel\": 2, \"motivo\": \"…\", \"requiere_opciones\": false}} directamente o en un archivo JSON local con esa forma. Por defecto solo simula.",
+  "Pone la dificultad (nivel 1 a 4 con su motivo, por el contenido y la bibliografía: docs/guia-estilo-ia.md) y si el caso necesita las opciones a la vista, como el panel «Dificultad» del paso 3. Vale también para lecturas, por su id (en ellas no hay «requiere_opciones»). No toca el texto ni «actualizado», así que no quita el sello de verificado. Recibe {\"<id del caso o lectura>\": {\"nivel\": 2, \"motivo\": \"…\", \"requiere_opciones\": false}} directamente o en un archivo JSON local con esa forma. Por defecto solo simula.",
   {
     tema: TEMA,
     casos: { type: "object", description: "{\"caso-01\": {\"nivel\": 2, \"motivo\": \"…\", \"requiere_opciones\": false}, …}" },
@@ -488,35 +741,40 @@ herramienta("casos_dificultad",
     exigirMio(t);
     const datos = archivo ? JSON.parse(await readFile(resolve(archivo), "utf8")) : casos;
     if (!datos || typeof datos !== "object") throw new Error("Pasa «casos» o «archivo».");
-    const desconocidos = Object.keys(datos).filter((id) => !t.casos[id]);
-    if (desconocidos.length) throw new Error(`Estos casos no existen en «${tema}»: ${desconocidos.join(", ")}.`);
+    const desconocidos = Object.keys(datos).filter((id) => !grupoDe(t, id));
+    if (desconocidos.length) throw new Error(`Estos casos o lecturas no existen en «${tema}»: ${desconocidos.join(", ")}.`);
     const cambios = {};
     const malos = [];
+    const sinOpciones = [];
     let niveles = 0, opciones = 0;
     for (const [id, v] of Object.entries(datos)) {
-      const caso = t.casos[id];
+      const { grupo, item } = grupoDe(t, id);
       if (v.nivel !== undefined) {
         const d = normalizarDificultad({ ...v, por });
         if (!d) { malos.push(id); continue; }
-        if (JSON.stringify(caso.dificultad ?? null) !== JSON.stringify(d)) {
-          cambios[`estudio/${tema}/casos/${id}/dificultad`] = d;
-          caso.dificultad = d;
+        if (JSON.stringify(item.dificultad ?? null) !== JSON.stringify(d)) {
+          cambios[`estudio/${tema}/${grupo}/${id}/dificultad`] = d;
+          item.dificultad = d;
           niveles += 1;
         }
       }
-      if (typeof v.requiere_opciones === "boolean" && Boolean(caso.requiere_opciones) !== v.requiere_opciones) {
+      if (typeof v.requiere_opciones === "boolean" && grupo === "lecturas") { if (v.requiere_opciones) sinOpciones.push(id); continue; }
+      if (typeof v.requiere_opciones === "boolean" && Boolean(item.requiere_opciones) !== v.requiere_opciones) {
         cambios[`estudio/${tema}/casos/${id}/requiere_opciones`] = v.requiere_opciones || null;
-        caso.requiere_opciones = v.requiere_opciones || undefined;
+        item.requiere_opciones = v.requiere_opciones || undefined;
         opciones += 1;
       }
     }
     if (malos.length) throw new Error(`Nivel inválido (tiene que ser 1 a 4) en: ${malos.join(", ")}.`);
-    const reparto = [1, 2, 3, 4].map((n) => `${n}: ${Object.values(t.casos).filter((c) => c.dificultad?.nivel === n).length}`).join(" · ");
-    const sin = Object.values(t.casos).filter((c) => !c.dificultad?.nivel).length;
+    if (sinOpciones.length) throw new Error(`Las lecturas no tienen opciones: «requiere_opciones» no vale en ${sinOpciones.join(", ")}.`);
+    const reparto = (items) => `${[1, 2, 3, 4].map((n) => `${n}: ${items.filter((c) => c.dificultad?.nivel === n).length}`).join(" · ")}`
+      + `${items.some((c) => !c.dificultad?.nivel) ? ` · sin dificultad: ${items.filter((c) => !c.dificultad?.nivel).length}` : ""}`;
+    const todosCasos = Object.values(t.casos), todasLecturas = Object.values(t.lecturas);
     const v = validarTema(t);
     const informe = [
-      `Cambia la dificultad de ${niveles} casos y «necesita las opciones» de ${opciones}.`,
-      `Reparto: ${reparto}${sin ? ` · sin dificultad: ${sin}` : ""}. Necesitan las opciones: ${Object.values(t.casos).filter((c) => c.requiere_opciones).length}.`,
+      `Cambia la dificultad de ${niveles} casos o lecturas y «necesita las opciones» de ${opciones} casos.`,
+      ...(todosCasos.length ? [`Casos: ${reparto(todosCasos)}. Necesitan las opciones: ${todosCasos.filter((c) => c.requiere_opciones).length}.`] : []),
+      ...(todasLecturas.length ? [`Lecturas: ${reparto(todasLecturas)}.`] : []),
       `Validador después: ${v.errores} errores y ${v.avisos} avisos.`,
     ];
     if (simular || !Object.keys(cambios).length) return [simular ? "SIMULACIÓN (no se guardó nada):" : "No había nada que cambiar.", ...informe].join("\n");
@@ -525,7 +783,7 @@ herramienta("casos_dificultad",
   });
 
 herramienta("casos_clasificar",
-  "Pone la clasificación de cada caso (una o más parejas segmento → área de app/areas.js; la primera, la principal), como el panel «Clasificación» del paso 3. No toca el texto ni «actualizado», así que no quita el sello de verificado. Recibe {\"<id del caso>\": [{\"segmento\": \"torax\", \"area\": \"pleura\"}, …]} directamente o en un archivo JSON local con esa forma. Una pareja con un área que no está en la lista se rechaza. Por defecto solo simula.",
+  "Pone la clasificación de cada caso (una o más parejas segmento → área de app/areas.js; la primera, la principal), como el panel «Clasificación» del paso 3. Vale también para lecturas, por su id. No toca el texto ni «actualizado», así que no quita el sello de verificado. Recibe {\"<id del caso o lectura>\": [{\"segmento\": \"torax\", \"area\": \"pleura\"}, …]} directamente o en un archivo JSON local con esa forma. Una pareja con un área que no está en la lista se rechaza. Por defecto solo simula.",
   {
     tema: TEMA,
     casos: { type: "object", description: "{\"caso-01\": [{\"segmento\": \"torax\", \"area\": \"pleura\"}], …}" },
@@ -539,21 +797,22 @@ herramienta("casos_clasificar",
     exigirMio(t);
     const datos = archivo ? JSON.parse(await readFile(resolve(archivo), "utf8")) : casos;
     if (!datos || typeof datos !== "object") throw new Error("Pasa «casos» o «archivo».");
-    const desconocidos = Object.keys(datos).filter((id) => !t.casos[id]);
-    if (desconocidos.length) throw new Error(`Estos casos no existen en «${tema}»: ${desconocidos.join(", ")}.`);
+    const desconocidos = Object.keys(datos).filter((id) => !grupoDe(t, id));
+    if (desconocidos.length) throw new Error(`Estos casos o lecturas no existen en «${tema}»: ${desconocidos.join(", ")}.`);
     const cambios = {};
     const malas = [];
     for (const [id, valor] of Object.entries(datos)) {
+      const { grupo, item } = grupoDe(t, id);
       const desconocidas = [];
       const pares = normalizarClasificacion(valor, desconocidas);
       if (desconocidas.length || !pares.length) { malas.push(`${id} (${desconocidas.join(", ") || "vacía"})`); continue; }
-      if (JSON.stringify(clasificacionDe(t.casos[id], t.meta.segmento)) === JSON.stringify(pares)) continue;
-      cambios[`estudio/${tema}/casos/${id}/clasificacion`] = pares;
-      t.casos[id].clasificacion = pares;
+      if (JSON.stringify(clasificacionDe(item, t.meta.segmento)) === JSON.stringify(pares)) continue;
+      cambios[`estudio/${tema}/${grupo}/${id}/clasificacion`] = pares;
+      item.clasificacion = pares;
     }
     if (malas.length) throw new Error(`Clasificación inválida en: ${malas.join("; ")}. Las áreas están en app/areas.js.`);
     const reparto = new Map();
-    for (const c of Object.values(t.casos)) {
+    for (const c of [...Object.values(t.casos), ...Object.values(t.lecturas)]) {
       for (const p of clasificacionDe(c, t.meta.segmento)) {
         const k = nombreClasificacion(p);
         reparto.set(k, (reparto.get(k) || 0) + 1);
@@ -561,7 +820,7 @@ herramienta("casos_clasificar",
     }
     const v = validarTema(t);
     const informe = [
-      `Cambia la clasificación de ${Object.keys(cambios).length} casos.`,
+      `Cambia la clasificación de ${Object.keys(cambios).length} casos o lecturas.`,
       `Reparto: ${[...reparto].sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k}: ${n}`).join(" · ")}.`,
       `Validador después: ${v.errores} errores y ${v.avisos} avisos.`,
     ];
@@ -832,6 +1091,110 @@ herramienta("imagen_reemplazar",
     });
   });
 
+herramienta("tema_importar",
+  "Crea un cuestionario nuevo en el estudio desde una carpeta local con la forma de temas/ (paquete.json, fuentes.json, img/), como «Subir un .zip» del estudio web: casos, lecturas, fichas y figuras, a nombre de quien está conectado y en preparación (borrador). Las figuras quedan en JPEG, lado mayor ≤ 1600 px y ≤ 250 KB (las que ya cumplen pasan tal cual). Por defecto solo simula: dice qué crearía (id, título, casos, lecturas y figuras, problemas del validador, peso) sin escribir. Con simular=false escribe por tandas; nunca sobrescribe un tema que ya existe, pero si una importación de la misma carpeta se cortó a mitad, volver a llamarla con el mismo id sigue donde quedó.",
+  {
+    carpeta: { type: "string", description: "Ruta de la carpeta que lleva paquete.json, fuentes.json e img/." },
+    id: { type: "string", description: "Id del tema en el estudio. Por defecto, el «id» de paquete.json (o el título hecho slug)." },
+    simular: SIMULAR,
+  },
+  ["carpeta"],
+  async ({ carpeta, id: idPedido, simular = true }) => {
+    const plan = await leerCarpetaTema(carpeta, idPedido);
+    const { id, meta } = plan;
+    const t = normalizarTema(id, { meta: plan.meta, fuente: plan.fuente, imagenes: plan.imagenes, casos: plan.casos, lecturas: plan.lecturas });
+    const v = resumenValidacion(validarTema(t), t);
+    const casos = Object.keys(plan.casos).length, lecturas = Object.keys(plan.lecturas).length;
+    const figuras = Object.keys(plan.datos).length;
+    const pesoTexto = JSON.stringify({ fuente: plan.fuente, imagenes: plan.imagenes, casos: plan.casos, lecturas: plan.lecturas }).length;
+    const pesoFiguras = Object.values(plan.datos).reduce((n, d) => n + d.length, 0);
+    const mb = (n) => `${(n / 1e6).toFixed(1)} MB`;
+    const rutasTexto = [
+      ...Object.entries(plan.casos).map(([k, c]) => [`estudio/${id}/casos/${k}`, { ...c, actualizado: AHORA }]),
+      ...Object.entries(plan.lecturas).map(([k, l]) => [`estudio/${id}/lecturas/${k}`, { ...l, actualizado: AHORA }]),
+    ];
+    const rutasFiguras = Object.entries(plan.datos).map(([k, d]) => [`estudio_img/${id}/${k}`, d]);
+    const tandas = 1 + enTandas(rutasTexto, TANDA_TEXTO).length + enTandas(rutasFiguras, TANDA_FIGURAS).length + 1;
+
+    // ¿Ya existe? Sin sesión, la simulación sigue y lo dice.
+    let existente = null, conSesion = true;
+    try {
+      await miPerfil();
+      existente = await leer(`estudio/${id}/meta`);
+    } catch (e) {
+      if (!simular) throw e;
+      conSesion = false;
+    }
+    const reanuda = Boolean(existente && existente.importacion?.huella === plan.huella && existente.autor_uid === sesion?.uid);
+    const informe = [
+      `Tema «${id}»: «${meta.titulo}» (${SEGMENTOS[meta.segmento] || meta.segmento || "sin segmento"}), de ${plan.raiz}.`,
+      `${casos} casos, ${lecturas} lecturas y ${Object.keys(plan.imagenes).length} fichas de figura; ${figuras} figuras con archivo`
+        + `${plan.preparadas.length ? ` (${plan.preparadas.length} recomprimidas o reducidas para el estudio)` : ""}.`,
+      ...(plan.faltan.length ? [`Sin archivo (${plan.faltan.length}): ${plan.faltan.slice(0, 15).join(", ")}${plan.faltan.length > 15 ? "…" : ""}. Se crea igual; se suben después con «imagen_reemplazar».`] : []),
+      ...(plan.desconocidas.length ? [`Clasificaciones que no están en la lista de áreas y quedan fuera: ${plan.desconocidas.join(", ")}.`] : []),
+      `Peso: ${mb(pesoTexto)} de texto y fichas + ${mb(pesoFiguras)} de figuras, en ${tandas} escrituras.`,
+      `Validador: ${v.errores} errores y ${v.avisos} avisos (se crea igual, en preparación; se corrigen antes de publicar).`,
+      ...v.detalle.slice(0, 40).map((x) => `  ${x}`),
+      ...(v.detalle.length > 40 ? [`  … y ${v.detalle.length - 40} más («tema_validar» después de crearlo).`] : []),
+      ...plan.bloqueos.map((x) => `NO SE PUEDE CREAR: ${x}`),
+      !conSesion ? "Sin sesión: no comprobé si el id ya existe en el estudio."
+        : reanuda ? "Ya hay una importación de esta misma carpeta que se cortó a mitad: con simular=false sigue donde quedó."
+          : existente ? `YA EXISTE un tema «${id}» en el estudio («${existente.titulo}»): no lo sobrescribo. Elige otro «id».`
+            : "El id está libre.",
+    ];
+    if (simular) return ["SIMULACIÓN (no se guardó nada):", ...informe].join("\n");
+    if (plan.bloqueos.length) throw new Error(plan.bloqueos.join(" "));
+    if (existente && !reanuda) throw new Error(`Ya existe un tema «${id}» en el estudio («${existente.titulo}»): no lo sobrescribo. Pasa otro «id».`);
+
+    // 1. El tema con meta, fuente y fichas, de una sola vez: las reglas solo dejan crearlo mirando meta/autor_uid.
+    //    «importacion» marca que falta el resto; se borra al terminar.
+    const p = await miPerfil();
+    let escritas = 0;
+    const hechas = { casos: 0, lecturas: 0, figuras: 0 };
+    try {
+      if (!reanuda) {
+        await escribir(`estudio/${id}`, {
+          meta: {
+            id, titulo: meta.titulo, segmento: meta.segmento, descripcion: meta.descripcion,
+            modalidades: meta.modalidades.length ? meta.modalidades : ["RM"],
+            autor_uid: sesion.uid, autor_nombre: p.nombre, autor_usuario: p.usuario,
+            estado: "borrador", version: meta.version, creado: AHORA, actualizado: AHORA,
+            importacion: { huella: plan.huella, casos, lecturas, figuras },
+          },
+          fuente: plan.fuente,
+          imagenes: plan.imagenes,
+        });
+        escritas += 1;
+      }
+      // 2. Casos y lecturas por tandas (cada tanda es atómica); al reanudar, solo lo que falta.
+      const yaTexto = reanuda
+        ? new Set([...(await leerClaves(`estudio/${id}/casos`)).map((k) => `estudio/${id}/casos/${k}`),
+          ...(await leerClaves(`estudio/${id}/lecturas`)).map((k) => `estudio/${id}/lecturas/${k}`)])
+        : new Set();
+      for (const tanda of enTandas(rutasTexto.filter(([r]) => !yaTexto.has(r)), TANDA_TEXTO)) {
+        await actualizar(tanda);
+        escritas += 1;
+        for (const r of Object.keys(tanda)) hechas[r.includes("/casos/") ? "casos" : "lecturas"] += 1;
+      }
+      // 3. Las figuras, por tandas.
+      const yaFiguras = reanuda ? new Set((await leerClaves(`estudio_img/${id}`)).map((k) => `estudio_img/${id}/${k}`)) : new Set();
+      for (const tanda of enTandas(rutasFiguras.filter(([r]) => !yaFiguras.has(r)), TANDA_FIGURAS)) {
+        await actualizar(tanda);
+        escritas += 1;
+        hechas.figuras += Object.keys(tanda).length;
+      }
+      await actualizar({ [`estudio/${id}/meta/importacion`]: null, [`estudio/${id}/meta/actualizado`]: AHORA });
+    } catch (e) {
+      throw new Error(`La importación se cortó (${e.message}). Quedaron escritos ${hechas.casos} casos, ${hechas.lecturas} lecturas y ${hechas.figuras} figuras en esta llamada`
+        + `${escritas ? "" : " (nada)"}. Vuelve a llamar a «tema_importar» con la misma carpeta, el mismo id y simular=false: sigue donde quedó.`);
+    }
+    return [
+      `${reanuda ? "Importación terminada" : "Creado en el estudio"}, en preparación: «${meta.titulo}» (id ${id}). En esta llamada: ${hechas.casos} casos, ${hechas.lecturas} lecturas y ${hechas.figuras} figuras en ${escritas + 1} escrituras.`,
+      "Nada sale a la web hasta publicarlo («tema_validar», luego «tema_publicar»).",
+      ...informe.slice(1, 5),
+    ].join("\n");
+  });
+
 herramienta("tema_publicar",
   "Publica (o vuelve a publicar) un cuestionario, exactamente como el botón del paso 4: sube a la carpeta de RadQuiz en el Drive del autor solo las figuras que cambiaron, manda a la papelera las que sobran, escribe la publicación y el índice. Necesita el permiso de Drive de «sesion_iniciar» (dura una hora). La declaración es de la persona, no tuya: antes de llamar, muéstrale el texto que da «tema_publicar» con declaracion_aceptada=false y pásala en true solo si ella la acepta en esta conversación para esta publicación. No publica si el validador da errores.",
   { tema: TEMA, declaracion_aceptada: { type: "boolean", description: "true solo si la persona aceptó la declaración en el chat para esta publicación." } },
@@ -888,7 +1251,8 @@ herramienta("tema_publicar",
       await comprobarLectura(Object.values(ids)[0]);
     }
 
-    const { paquete, fuentes, actualizados } = aPaquete(t, version, { drive: ids, publicador: { nombre: p.nombre, fecha: hoy() } });
+    // «actualizados» lleva casos y lecturas (publicacion/), y el índice los cuenta por separado (entradaIndice).
+    const { paquete, fuentes, actualizados, actualizadosLecturas } = aPaquete(t, version, { drive: ids, publicador: { nombre: p.nombre, fecha: hoy() } });
     await actualizar({
       [`publicacion/${tema}`]: {
         paquete_json: JSON.stringify(paquete),
@@ -909,18 +1273,19 @@ herramienta("tema_publicar",
     let indice = "anotado";
     try {
       await escribir(`indice_publicado/${tema}`, {
-        titulo: paquete.titulo, segmento: paquete.segmento, modalidades: paquete.modalidades || [], version,
-        casos: paquete.casos.length, actualizados, fecha: AHORA, ...(t.meta.oculto ? { oculto: true } : {}),
+        ...entradaIndice(paquete, version, actualizados, actualizadosLecturas, { oculto: Boolean(t.meta.oculto) }), fecha: AHORA,
       });
     } catch (e) {
       indice = `no se pudo anotar (${e.message}); el tema saldrá cuando el repositorio se ponga al día`;
     }
+    // El buscador de la portada es solo de casos: las lecturas no entran en indice_casos.
     await escribir(`indice_casos/${tema}`, indiceDePaquete({ ...paquete, version })).catch((e) => log("indice_casos", e.message));
-    return `Publicado «${t.meta.titulo}» versión ${version}: ${paquete.casos.length} casos. Figuras: ${subidas} subidas, ${reutilizadas} sin cambios, ${papelera} a la papelera de Drive. Índice: ${indice}. Usa «publicacion_comprobar» para revisarlo.`;
+    const lecturas = lista(paquete.lecturas).length;
+    return `Publicado «${t.meta.titulo}» versión ${version}: ${paquete.casos.length} casos${lecturas ? ` y ${lecturas} lecturas` : ""}. Figuras: ${subidas} subidas, ${reutilizadas} sin cambios, ${papelera} a la papelera de Drive. Índice: ${indice}. Usa «publicacion_comprobar» para revisarlo.`;
   });
 
 herramienta("publicacion_comprobar",
-  "Compara lo publicado con el estudio y prueba que la web puede leer cada figura desde Drive. Dice qué casos tienen cambios sin publicar, si el índice está al día y qué figuras fallan.",
+  "Compara lo publicado con el estudio y prueba que la web puede leer cada figura desde Drive. Dice qué casos y lecturas tienen cambios sin publicar, si el índice está al día y qué figuras fallan.",
   { tema: TEMA }, ["tema"],
   async ({ tema }) => {
     await miPerfil();
@@ -936,6 +1301,12 @@ herramienta("publicacion_comprobar",
     const texto = ["tema", "enunciado", "opciones", "correcta", "explicacion", "perla", "etiquetas", "imagenes", "evidencia"];
     const sinPublicar = Object.keys(b).filter((id) => !a[id] || texto.some((k) => JSON.stringify(a[id][k] ?? null) !== JSON.stringify(b[id][k] ?? null)));
     const quitados = Object.keys(a).filter((id) => !b[id]);
+    // Las lecturas, por su contenido (la clasificación y la dificultad no cuentan, como en los casos).
+    const porIdL = (p) => Object.fromEntries(lista(p.lecturas).map((l) => [l.id, l]));
+    const la = porIdL(publicado), lb = porIdL(paquete);
+    const textoL = ["tema", "presentacion", "etiquetas", "imagenes", "preguntas", "explicacion", "perlas", "evidencia"];
+    const lecturasSinPublicar = Object.keys(lb).filter((id) => !la[id] || textoL.some((k) => JSON.stringify(la[id][k] ?? null) !== JSON.stringify(lb[id][k] ?? null)));
+    const lecturasQuitadas = Object.keys(la).filter((id) => !lb[id]);
     const figurasDistintas = Object.keys(publicado.imagenes || {}).filter((id) => publicado.imagenes[id].drive !== ids[id]);
     const fallan = [];
     const lista_ = Object.entries(publicado.imagenes || {});
@@ -951,6 +1322,11 @@ herramienta("publicacion_comprobar",
       indice: indice ? (indice.version === pub.version ? "al día" : `desfasado (${indice.version})`) : "sin entrada",
       casos_publicados: publicado.casos.length,
       casos_con_cambios_sin_publicar: sinPublicar, casos_quitados_del_estudio: quitados,
+      ...(Object.keys(la).length || Object.keys(lb).length ? {
+        lecturas_publicadas: Object.keys(la).length, lecturas_en_el_estudio: Object.keys(lb).length,
+        lecturas_con_cambios_sin_publicar: lecturasSinPublicar, lecturas_quitadas_del_estudio: lecturasQuitadas,
+        indice_lecturas: indice ? (Number(indice.lecturas || 0) === Object.keys(la).length ? "al día" : `cuenta ${indice.lecturas || 0}`) : "sin entrada",
+      } : {}),
       figuras_que_cambiaron_desde_la_publicacion: figurasDistintas,
       figuras_que_la_web_no_puede_leer: fallan, figuras_probadas: lista_.length,
     }, null, 1);

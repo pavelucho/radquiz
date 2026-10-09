@@ -8,7 +8,7 @@
 import { $, esc, cargarJSON, SEGMENTOS } from "./comun.js";
 import { AREAS } from "./areas.js";
 import { indiceEnVivo, fusionarIndice, indicesDeCasos } from "./publicado.js";
-import { resumenes } from "./avance.js";
+import { resumenes, resumenesLecturas } from "./avance.js";
 import {
   criterioDe, consultaDe, nombreCriterio, hayCriterio, contar, indicePorRuta, nombreArea, palabras, SIN_TILDES,
 } from "./cuestionario.js";
@@ -16,6 +16,7 @@ import {
 const app = $("#app");
 // Lo que el residente respondió en este dispositivo, por tema (app/avance.js). No se pide nada a la red.
 const mios = new Map(resumenes().map((r) => [r.ruta, r]));
+const misLecturas = new Map(resumenesLecturas().map((r) => [r.ruta, r]));
 
 const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
 
@@ -40,16 +41,33 @@ function miAvance(paquete) {
     <span>${texto} · ${Math.round((100 * r.bien) / r.vistos)} % de aciertos</span></div>`;
 }
 
+// Lo que el residente leyó de las lecturas del tema (casos abiertos, app/lectura.js), en este dispositivo.
+function miLectura(paquete) {
+  const r = misLecturas.get(paquete.ruta);
+  const total = paquete.lecturas?.publicado || 0;
+  if (!r || !r.vistas || !total) return "";
+  const vistas = Math.min(r.vistas, total);
+  return `<div class="medidor mio"><div class="barra"><i style="width:${Math.round((100 * vistas) / total)}%"></i></div>
+    <span>${vistas >= total ? "Las leíste todas" : `Leíste ${vistas} de ${total} lecturas`}</span></div>`;
+}
+
 // Con un criterio, «coinciden» dice cuántos casos del tema entran: la tarjeta ofrece practicar solo esos. Toda la
-// tarjeta abre la práctica (el botón se estira por encima); los enlaces de abajo quedan por encima de él.
+// tarjeta abre la práctica (el botón se estira por encima); los enlaces de abajo quedan por encima de él. Un tema con
+// lecturas (casos para leer enteros) ofrece leerlas; si solo tiene lecturas, toda la tarjeta abre la lectura.
 function tarjeta(paquete, coinciden = null) {
   const { publicado = 0, verificado = 0, revisado = 0, borrador = 0 } = paquete.casos || {};
+  const lecturas = paquete.lecturas?.publicado || 0;
   const ruta = encodeURIComponent(paquete.ruta).replace("%2F", "/");
   const mio = mios.get(paquete.ruta);
   const empezado = mio && mio.vistos > 0 && mio.vistos < publicado;
+  const leida = misLecturas.get(paquete.ruta);
+  const leyendo = leida && leida.vistas > 0 && leida.vistas < lecturas;
   const practicar = publicado
     ? `<a class="boton primary abrir" href="practica.html?tema=${ruta}">${empezado ? "Continuar" : "Practicar"}</a>`
+    : lecturas ? `<a class="boton primary abrir" href="lectura.html?tema=${ruta}">${leyendo ? "Seguir leyendo" : "Leer"}</a>`
     : `<button disabled>Sin publicar</button>`;
+  const leer = lecturas ? `${publicado ? `<a class="boton" href="lectura.html?tema=${ruta}">Leer ${plural(lecturas, "caso abierto", "casos abiertos")}</a>` : ""}
+    <a class="src" href="lectura.html?tema=${ruta}&amp;proyectar=1">Proyectar en clase</a>` : "";
   const parte = publicado && coinciden && coinciden < publicado
     ? `<a class="boton" href="${enlace("practica.html", criterio, `tema=${ruta}`)}">${coinciden === 1 ? "Solo el que coincide" : `Solo los ${coinciden} que coinciden`}</a>`
     : "";
@@ -57,16 +75,19 @@ function tarjeta(paquete, coinciden = null) {
   const revisar = pendientes
     ? `<a class="src" href="practica.html?tema=${ruta}&amp;revision=1">Ver ${pendientes} casos sin publicar (revisores)</a>`
     : "";
-  const meta = [publicado ? plural(publicado, "caso", "casos") : "", (paquete.modalidades || []).join(" · ")].filter(Boolean);
-  return `<article class="panel tema-card tema-portada${publicado ? " clicable" : ""}"${paquete.version ? ` title="Versión ${esc(paquete.version)}"` : ""}>
+  const meta = [publicado ? plural(publicado, "caso", "casos") : "", lecturas ? plural(lecturas, "lectura", "lecturas") : "",
+    (paquete.modalidades || []).join(" · ")].filter(Boolean);
+  const verificadas = Math.min(paquete.lecturas?.verificado || 0, lecturas);
+  return `<article class="panel tema-card tema-portada${publicado || lecturas ? " clicable" : ""}"${paquete.version ? ` title="Versión ${esc(paquete.version)}"` : ""}>
     <div class="tc-texto">
       <h4>${esc(paquete.titulo)}</h4>
       ${meta.length ? `<p class="meta">${meta.map(esc).join('<span aria-hidden="true"> · </span>')}</p>` : ""}
-      ${sello(publicado, Math.min(verificado, publicado))}
+      ${publicado ? sello(publicado, Math.min(verificado, publicado)) : sello(lecturas, verificadas)}
     </div>
     ${practicar}
     ${miAvance(paquete)}
-    ${parte || revisar ? `<div class="extra">${parte}${revisar}</div>` : ""}
+    ${miLectura(paquete)}
+    ${parte || revisar || leer ? `<div class="extra">${parte}${leer}${revisar}</div>` : ""}
   </article>`;
 }
 
@@ -232,8 +253,10 @@ async function iniciar() {
     return;
   }
   const casos = paquetes.reduce((n, p) => n + (p.casos?.publicado || 0), 0);
+  const lecturas = paquetes.reduce((n, p) => n + (p.lecturas?.publicado || 0), 0);
   const verificados = paquetes.reduce((n, p) => n + Math.min(p.casos?.verificado || 0, p.casos?.publicado || 0), 0);
-  $("#resumen").textContent = `${plural(paquetes.length, "tema", "temas")} · ${plural(casos, "caso", "casos")} · ${verificados} verificados`;
+  $("#resumen").textContent = `${plural(paquetes.length, "tema", "temas")} · ${plural(casos, "caso", "casos")}`
+    + `${lecturas ? ` · ${plural(lecturas, "lectura", "lecturas")}` : ""} · ${verificados} verificados`;
   app.innerHTML = dibujarBuscador();
   let espera = 0;
   $("#q").oninput = (e) => {

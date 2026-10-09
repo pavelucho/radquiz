@@ -102,3 +102,66 @@ export function contar(casos, avance) {
   }
   return { vistos, bien, total: casos.length };
 }
+
+// ------------------------------------------------------------------ lecturas (app/lectura.js)
+// Aparte de la práctica, con otra clave por tema, «radquiz.lectura.v1:<segmento>/<tema>»:
+//   lecturas id → { p: puntaje de 0 a 1, h: huella de las preguntas, t, n }   p = completas + medias partes / preguntas
+//   tanda    { ids, i, creada, cuales, orden }: la tanda en curso, para retomarla
+//   resumen  { vistas, bien, total, titulo, t }: lo que muestra la portada sin cargar el tema
+// Una lectura cuyo texto de preguntas cambió desde que se leyó vuelve a quedar pendiente (otra huella).
+
+const PREFIJO_LECTURA = "radquiz.lectura.v1:";
+// Desde qué puntaje una lectura cuenta como bien leída (para «Las que fallé»).
+export const UMBRAL_LECTURA = 0.6;
+
+export function huellaLectura(lectura) {
+  return huella((lectura.preguntas || []).map((p) => `${p.pregunta}|${p.respuesta}`).join("\n"));
+}
+
+export function leerLecturas(ruta) {
+  try {
+    const a = JSON.parse(localStorage.getItem(PREFIJO_LECTURA + ruta) || "null");
+    if (a && typeof a === "object" && a.lecturas && typeof a.lecturas === "object") return a;
+  } catch { /* ilegible o sin almacenamiento */ }
+  return { lecturas: {}, tanda: null, resumen: null };
+}
+
+export function guardarLecturas(ruta, avance) {
+  try { localStorage.setItem(PREFIJO_LECTURA + ruta, JSON.stringify(avance)); } catch { /* sin almacenamiento */ }
+}
+
+export function borrarLecturas(ruta) {
+  try { localStorage.removeItem(PREFIJO_LECTURA + ruta); } catch { /* idem */ }
+}
+
+// El puntaje guardado de una lectura, o null si no se leyó o cambió desde entonces.
+export function puntajeLectura(lectura, avance) {
+  const r = avance.lecturas[lectura.id];
+  return r && r.h === huellaLectura(lectura) && typeof r.p === "number" ? r.p : null;
+}
+
+export function contarLecturas(lecturas, avance) {
+  let vistas = 0;
+  let bien = 0;
+  for (const l of lecturas) {
+    const p = puntajeLectura(l, avance);
+    if (p === null) continue;
+    vistas += 1;
+    if (p >= UMBRAL_LECTURA) bien += 1;
+  }
+  return { vistas, bien, total: lecturas.length };
+}
+
+// Los resúmenes de las lecturas de todos los temas, para la portada.
+export function resumenesLecturas() {
+  const salida = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const clave = localStorage.key(i);
+      if (!clave?.startsWith(PREFIJO_LECTURA)) continue;
+      const r = leerLecturas(clave.slice(PREFIJO_LECTURA.length)).resumen;
+      if (r && r.total) salida.push({ ...r, ruta: clave.slice(PREFIJO_LECTURA.length) });
+    }
+  } catch { /* sin almacenamiento */ }
+  return salida;
+}

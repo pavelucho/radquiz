@@ -35,9 +35,10 @@ export async function comprimir(archivo) {
 }
 
 // Devuelve el cuestionario listo para enseñárselo al autor, sin escribir nada todavía:
-// { meta, fuente, imagenes, casos, datos, faltan, desconocidas, nombre }. «datos» son las figuras en dataURL;
-// «desconocidas», las clasificaciones que no están en la lista de áreas y se quedaron fuera.
-export async function abrirZip(archivo) {
+// { meta, fuente, imagenes, casos, lecturas, datos, faltan, desconocidas, nombre }. «datos» son las figuras en
+// dataURL; «desconocidas», las clasificaciones que no están en la lista de áreas y se quedaron fuera.
+// Un libro de casos trae cientos de figuras chicas: «avance(n, total)» cuenta las que ya se comprimieron.
+export async function abrirZip(archivo, avance = () => {}) {
   if (archivo.size > 80 * 1024 * 1024) throw new Error("El .zip pesa más de 80 MB. Debe traer imágenes sin comprimir.");
   const bruto = await leerZip(archivo);
   const util = new Map();
@@ -62,7 +63,9 @@ export async function abrirZip(archivo) {
   } catch {
     throw new Error("«fuentes.json» no es un JSON válido.");
   }
-  if (!lista(paquete.casos).length) throw new Error("«paquete.json» no trae ningún caso.");
+  if (!lista(paquete.casos).length && !lista(paquete.lecturas).length) {
+    throw new Error("«paquete.json» no trae ningún caso ni ninguna lectura.");
+  }
   // En el estudio cada cuestionario tiene una sola fuente, y todas sus figuras se acreditan a ella: con dos o
   // más, las de los otros artículos saldrían con el crédito y la licencia equivocados.
   const claves = Object.keys(fuentes || {}).filter((k) => k !== "$schema");
@@ -70,11 +73,14 @@ export async function abrirZip(archivo) {
     throw new Error(`El .zip trae ${claves.length} fuentes (${claves.join(", ")}). Cada cuestionario lleva una sola: arma un .zip por artículo.`);
   }
 
-  const { meta, fuente, imagenes, casos, desconocidas } = dePaquete(paquete, fuentes);
+  const { meta, fuente, imagenes, casos, lecturas, desconocidas } = dePaquete(paquete, fuentes);
   if (!meta.titulo) throw new Error("«paquete.json» no trae título.");
   const datos = {};
   const faltan = [];
+  const total = Object.keys(imagenes).length;
+  let n = 0;
   for (const [id, img] of Object.entries(imagenes)) {
+    avance(++n, total);
     const bytes = de(`img/${img.archivo}`);
     if (!bytes) { faltan.push(img.archivo); continue; }
     try {
@@ -86,5 +92,5 @@ export async function abrirZip(archivo) {
       faltan.push(img.archivo);
     }
   }
-  return { meta, fuente, imagenes, casos, datos, faltan, desconocidas, nombre: archivo.name };
+  return { meta, fuente, imagenes, casos, lecturas, datos, faltan, desconocidas, nombre: archivo.name };
 }

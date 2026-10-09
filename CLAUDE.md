@@ -237,6 +237,28 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   lo marcado. Carta = caso de imagen con respuesta corta (407 de 498 en `temas/`). Wake Lock y un pitido con WebAudio;
   la partida va en `localStorage` y una recarga en pleno turno vuelve en pausa. La carga de temas del tablero pasó a
   `app/catalogo.js`, compartido. Probado en el navegador (escritorio y 375 px) con ATM + RadCases MSK, no en un aula.
+- Lectura de casos (2026-10-09), pedida por el autor tras analizar el libro *Radiology Case Review Series: MSK* (204
+  casos, cada uno con figuras limpias y 5 preguntas abiertas en una página, y respuestas con las mismas figuras
+  anotadas en la otra; 155 de 204 empiezan por los hallazgos y 316 preguntas dicen «esta entidad»). Decisión del autor:
+  no cabe en las preguntas de opción múltiple sin perder su esencia (producir y no reconocer, el caso entero, pasar la
+  página una vez, la corrección visual), así que es un contenido aparte: `lecturas` en `paquete.json`, esquema
+  `schema/lectura.schema.json`; la sala clásica, el tablero y el Tabú no las ven. `lectura.html` + `app/lectura.js`:
+  página 1 con todas las preguntas y casillas, «Pasar la página» sin vuelta atrás (ni recargando), página 2 con las
+  anotadas y su leyenda, tu respuesta junto a la de la fuente, puntos clave para marcar, aviso si coincide con una
+  `aceptada` y nota completa/parcial/no puesta por quien lee; avance solo local (`radquiz.lectura.v1:`); `?proyectar=1`
+  para clase. `lectura-vivo.html` + `app/lectura-vivo.js`: la misma lectura con celulares (`lecturas_vivo/<código>`,
+  `indice_lecturas_vivo/`), respuestas agrupadas y anónimas, el presentador marca qué grupos valen, sin puntaje; la
+  casilla de la portada lleva también ahí (desvío en `unirse()` de `app/sala.js`). Validador (Python y `app/validacion.js`):
+  nada del `tema` ni de las aceptadas del diagnóstico en la página 1, `puntos_clave` en hallazgos y `aceptadas` en
+  diagnóstico. El índice cuenta casos y lecturas por separado (`entradaIndice()`, `actualizados_lecturas`). Estudio:
+  importar, editar, verificar y publicar lecturas; MCP: `tema_importar` (carpeta local → estudio, por partes y
+  reanudable), `lecturas_leer`, `lecturas_corregir`. El libro se convirtió con agentes en `referencia/msk-libro/` (local:
+  extracción, `INSTRUCCIONES.md`, `armar.py`, que arma el tema `msk-case-review-ali2013` y lo valida); fuente «Con
+  copyright», figuras al Drive de quien publique. Probado en el navegador (práctica, recarga tras pasar la página,
+  proyector, 375 px, portada) con una copia local, y la sesión con celulares contra producción con presentador y un
+  residente (unirse, escribir, agrupar, Vale/No vale, desvío desde la casilla de la sala, cerrar). Reglas desplegadas el
+  2026-10-09 (por el autor). Las 204 lecturas se importaron ese día al estudio como borrador
+  (`msk-case-review-ali2013`, 1108 figuras, validador sin errores) con `tema_importar`; no están publicadas.
 - Supervivencia (2026-10-02): modo de la sala en vivo, «Supervivencia» o «Supervivencia con rescate» al crearla
   (`info.modo`); lógica sin pantalla en `app/supervivencia.js`. Una vida: quien falla o no responde cae
   (`eliminados/<uid>`); si fallan todos los que seguían en pie no cae nadie; gana el último en pie. Casos al azar y
@@ -427,6 +449,12 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
     todo).
 12. Ids definitivos para los siete RadCases (`book-id`, `book-id-2-2-…`): el avance guardado usa el id del tema, así que
     renombrarlos después borra el avance de todos. Renombrar es crear el tema con el id nuevo y borrar el viejo.
+
+13. Lectura de casos: desplegar la web (`lectura.html`, `lectura-vivo.html`); decidir si se publica
+    `msk-case-review-ali2013` (el libro dice «All rights reserved»: la declaración de publicar pide tener derecho a
+    compartir las figuras) y probar la publicación de un tema con lecturas y el estudio con sesión real. Los agentes
+    dejaron en `notas_revision` de cada lectura los errores del libro y las figuras dudosas (13, 90 y 93 traen
+    ilustraciones de Radsource reproducidas con permiso en el libro): que un radiólogo los mire al verificar.
 
 ## Preferencias del autor (Pavel, residente de radiología)
 - Interfaz y contenido en español.

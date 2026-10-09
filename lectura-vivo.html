@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lectura en vivo · RadQuiz</title>
+<meta name="theme-color" content="#0b0f14">
+<link rel="icon" href="app/marca.svg" type="image/svg+xml">
+<link rel="preload" href="app/fuentes/plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="app/estilos.css">
+</head>
+<body class="pagina-lectura">
+<div class="wrap">
+  <header class="bar">
+    <a class="brand" href="./"><img class="logo" src="app/marca.svg" alt="" width="30" height="30">RadQuiz <small id="subtitulo">Lectura en vivo</small></a>
+    <span class="spacer"></span>
+    <div class="herramientas">
+      <button type="button" id="qrMini" class="qr-mini" hidden aria-haspopup="dialog"></button>
+      <span class="chip" id="rol">Conectando…</span>
+      <span class="chip" id="conteo" hidden></span>
+    </div>
+  </header>
+  <main id="app" class="stack" aria-live="polite"><p class="muted">Conectando…</p></main>
+</div>
+<div class="zoom zoom-qr" id="zoomQR" role="dialog" aria-label="Cómo entrar a la sesión" hidden></div>
+<script type="module" src="app/lectura-vivo.js"></script>
+</body>
+</html>
