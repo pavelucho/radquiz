@@ -9,7 +9,7 @@
     "Rx"
   ],
   "idioma": "es",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "personas": {
     "pluna": "Pavel Luna"
   },
@@ -8065,10 +8065,11 @@
         }
       ],
       "etiquetas": [
-        "seudocavidad"
+        "seudocavidad",
+        "cavidad"
       ],
       "tipo": "concepto",
-      "enunciado": "Una zona de baja atenuación dentro de un nódulo corresponde a parénquima respetado, bronquios o enfisema, y no a necrosis. ¿Cómo se llama?",
+      "enunciado": "En la TC, un nódulo tiene dentro varias burbujas de aire pequeñas. No son necrosis vaciada por el bronquio: corresponden a parénquima respetado o a bronquios. ¿Qué término usa el glosario para estas zonas?",
       "imagenes": [],
       "opciones": [
         "Cavidad",
@@ -8078,8 +8079,8 @@
         "Bulla"
       ],
       "correcta": 2,
-      "explicacion": "- Una **seudocavidad** es una zona de baja atenuación en un nódulo, una masa o una consolidación que corresponde a parénquima respetado, bronquios normales o ectásicos, o enfisema, y no a cavitación.",
-      "perla": "No toda zona negra en un nódulo es una cavidad.",
+      "explicacion": "- Una **seudocavidad** es una zona de baja atenuación dentro de un nódulo, una masa o una consolidación que corresponde a parénquima respetado, bronquios normales o ectásicos, o enfisema, y no a una cavitación.\n- Una **cavidad**, en cambio, tiene una pared típicamente gruesa y a menudo irregular, y suele formarse cuando la parte necrótica de la lesión se vacía por el árbol bronquial; puede tener un nivel hidroaéreo.\n- La referencia que el glosario cita para la seudocavidad es un estudio del carcinoma bronquioloalveolar (Lee, *RadioGraphics* 1997).",
+      "perla": "Aire dentro de un nódulo no siempre es una cavidad: si es parénquima respetado o un bronquio, es una seudocavidad.",
       "dificultad": {
         "nivel": 3,
         "motivo": "ETC II: distinción fina con implicancia diagnóstica",
@@ -8090,12 +8091,21 @@
           "fuente": "bankier2024",
           "ubicacion": "Entrada «Cavity»",
           "cita": "Cavities are to be differentiated from pseudocavities (56). A pseudocavity appears as an area of low attenuation in nodules (nodule*), masses (mass*), or consolidations (consolidation*) that represent spared parenchyma, normal or ectatic bronchi (bronchus*), or emphysema (emphysema*), rather than cavitation."
+        },
+        {
+          "fuente": "bankier2024",
+          "ubicacion": "Entrada «Cavity»",
+          "cita": "A cavity is an abnormal gas- or fluid-filled structure with a typically thick and often irregular* wall, usually produced by the expulsion or drainage of a necrotic part of the lesion via the bronchial tree. It may be isolated or associated with adjacent lung pathology, and a gas-fluid level may be present in the cavity (54, 55)."
+        },
+        {
+          "fuente": "bankier2024",
+          "ubicacion": "Referencias, n.º 56",
+          "cita": "Lee KS, Kim Y, Han J, Ko EJ, Park CK, Primack SL. Bronchioloalveolar carcinoma: clinical, histopathologic, and radiologic findings. RadioGraphics 1997; 17(6): 1345–1357."
         }
       ],
       "estado": "publicado",
       "autor": "pluna",
-      "revisor": "pluna",
-      "fecha_revision": "2026-10-02"
+      "revisor": null
     },
     {
       "id": "enf-11",

@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "ali2013-msk": {
+    "cita": "Ali S, Patel S, Shah D. Radiology Case Review Series: MSK Imaging. New York: McGraw-Hill Education; 2014. ISBN 978-0-07-178703-1.",
+    "credito": "Ali S, et al. Radiology Case Review Series: MSK Imaging. McGraw-Hill; 2014",
+    "doi": null,
+    "licencia": "Con copyright",
+    "licencia_url": null,
+    "modificaciones_permitidas": false,
+    "tipo": "libro",
+    "titular": "McGraw-Hill Education",
+    "url": "https://www.worldcat.org/isbn/9780071787031",
+    "verificacion": {
+      "donde": "Página de derechos: «Copyright © 2014 by McGraw-Hill Education. All rights reserved.»",
+      "fecha": "2026-10-09",
+      "por": "Pavel Luna"
+    },
+    "alojada_por": "Pavel Luna"
+  }
+}
