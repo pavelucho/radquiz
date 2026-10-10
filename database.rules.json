@@ -151,6 +151,9 @@
           "salvados": {
             ".validate": "newData.isBoolean()"
           },
+          "cierre": {
+            ".validate": "newData.isNumber()"
+          },
           "$otro": {
             ".validate": false
           }
@@ -182,7 +185,7 @@
           "$indice": {
             ".read": "auth != null && (root.child('salas').child($codigo).child('estado/fase').val() != 'pregunta' || root.child('salas').child($codigo).child('estado/indice').val() + '' != $indice)",
             "$uid": {
-              ".write": "auth != null && auth.uid == $uid && !data.exists() && root.child('salas').child($codigo).child('jugadores').child($uid).exists() && (!root.child('salas').child($codigo).child('eliminados').child($uid).exists() || root.child('salas').child($codigo).child('estado/rescate').val() == true) && root.child('salas').child($codigo).child('estado/fase').val() == 'pregunta' && root.child('salas').child($codigo).child('estado/indice').val() + '' == $indice && now <= root.child('salas').child($codigo).child('estado/inicio').val() + root.child('salas').child($codigo).child('info/duracion').val() * 1000 + 3000",
+              ".write": "auth != null && auth.uid == $uid && !data.exists() && root.child('salas').child($codigo).child('jugadores').child($uid).exists() && (!root.child('salas').child($codigo).child('eliminados').child($uid).exists() || root.child('salas').child($codigo).child('estado/rescate').val() == true) && root.child('salas').child($codigo).child('estado/fase').val() == 'pregunta' && !root.child('salas').child($codigo).child('estado/cierre').exists() && root.child('salas').child($codigo).child('estado/indice').val() + '' == $indice && now <= root.child('salas').child($codigo).child('estado/inicio').val() + root.child('salas').child($codigo).child('info/duracion').val() * 1000 + 3000",
               ".validate": "newData.hasChildren(['opcion', 't'])",
               "opcion": {
                 ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 4"

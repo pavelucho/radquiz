@@ -4,7 +4,7 @@
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {
-  getDatabase, ref, set, get, update, remove, onValue, serverTimestamp,
+  getDatabase, ref, set, get, update, remove, onValue, serverTimestamp, runTransaction,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 import { firebaseConfig, APP_ANONIMA } from "./firebase-config.js";
 import { $, esc, md, cargarJSON, credito, barajar, sello, leerTanda, totalTanda, nivelDe, origenPublico, SEGMENTOS } from "./comun.js";
@@ -73,7 +73,10 @@ let reloj = null;
 let revelando = false;
 let jugadoresListos = false;   // hasta leer la lista no se sabe si este jugador sigue en la sala
 const miRespuesta = new Map();  // jugador: índice de pregunta → opción original elegida
-const miResultado = new Map();  // jugador: índice de pregunta → { opcion, t } leído al revelar
+const miResultado = new Map();  // jugador: índice de pregunta → { opcion, t } leído al revelar (null: no hay)
+const enviando = new Map();     // jugador: índice → la escritura de la respuesta, mientras el servidor no contesta
+const leyendo = new Set();      // jugador: índices cuyo resultado se está leyendo
+let miCierre = null;            // presentador: la marca con que esta pestaña cerró el caso en curso
 
 const ahora = () => Date.now() + desfase;
 const salaRef = (ruta = "") => ref(db, `salas/${codigo}${ruta ? "/" + ruta : ""}`);
@@ -107,12 +110,17 @@ function guardarMiRespuesta(indice, opcion) {
 }
 // La opción que eligió este celular en ese caso, o undefined.
 function miEleccion(indice) {
+  if (miResultado.has(indice)) return miResultado.get(indice)?.opcion;   // lo que guardó la base
   if (!miRespuesta.has(indice)) {
     const guardada = respuestasGuardadas()[indice];
     if (Number.isInteger(guardada)) miRespuesta.set(indice, guardada);
   }
-  return miRespuesta.has(indice) ? miRespuesta.get(indice) : miResultado.get(indice)?.opcion;
+  return miRespuesta.get(indice);
 }
+// Se acabó el tiempo de responder: el presentador cerró el caso o el reloj llegó a 0. Las reglas dan unos segundos
+// más por la latencia, pero lo que se toca después del 0 casi nunca llega antes del revelado.
+const tiempoAgotado = () => estado?.fase !== "pregunta" || typeof estado.cierre === "number"
+  || (typeof estado.inicio === "number" && ahora() >= estado.inicio + info.duracion * 1000);
 // El avatar elegido se recuerda en este celular para las salas siguientes.
 const CLAVE_AVATAR = "radquiz.avatar";
 function avatarPreferido() {
@@ -728,12 +736,17 @@ function escucharRespuestas() {
   });
 }
 
+// Lo que la base guardó de este celular en el caso. Antes de leer se espera la propia escritura: mientras el servidor
+// no contesta, la base local ya la muestra, y una respuesta tocada al límite y rechazada se calificaba igual.
 async function leerMiResultado(indice) {
-  if (miResultado.has(indice)) return;
-  miResultado.set(indice, null);
+  if (miResultado.has(indice) || leyendo.has(indice)) return;
+  leyendo.add(indice);
+  const c = codigo;
+  await (enviando.get(indice) || Promise.resolve()).catch(() => {});
   const snap = await get(salaRef(`respuestas/${indice}/${uid}`)).catch(() => null);
-  // Sin red no se sabe: se olvida el intento, para leerlo en el próximo cambio de la sala.
-  if (!snap) return miResultado.delete(indice);
+  leyendo.delete(indice);
+  // Sin red no se sabe: se lee en el próximo cambio de la sala.
+  if (!snap || codigo !== c) return;
   miResultado.set(indice, snap.exists() ? snap.val() : null);
   render(true);
 }
@@ -762,6 +775,9 @@ async function confirmarCierre() {
 function olvidarSala() {
   miRespuesta.clear();
   miResultado.clear();
+  enviando.clear();
+  leyendo.clear();
+  miCierre = null;
   efectosHechos.clear();
   marcandoTarde.clear();
   for (const id of Object.keys(reaccionesVistas)) delete reaccionesVistas[id];
@@ -1168,7 +1184,10 @@ function avisoRonda() {
 }
 
 function actualizarPregunta() {
-  if (!soyHost) return;
+  if (!soyHost) {
+    if (tiempoAgotado()) app.querySelectorAll("button.opt").forEach((b) => { b.disabled = true; });
+    return;
+  }
   const total = Object.keys(respuestasActual).length;
   const n = cuantosResponden();
   const chip = $("#respondieron");
@@ -1207,23 +1226,49 @@ function iniciarReloj() {
     if (restante <= 0) {
       clearInterval(reloj);
       if (soyHost) revelar();
+      else app.querySelectorAll("button.opt").forEach((b) => { b.disabled = true; });
     }
   };
   tic();
   reloj = setInterval(tic, 250);
 }
 
+// Primero se cierra el caso (estado.cierre): desde ahí las reglas no admiten respuestas, así que lo que se lee
+// después está completo. Antes se sumaba con lo recibido mientras las reglas seguían aceptando: una respuesta que
+// llegaba en ese momento quedaba guardada sin contar. La transacción además deja revelar a una sola pestaña.
+const CIERRE_VENCE = 8000;   // un cierre sin revelado (la pestaña se cerró en medio) se puede retomar pasado esto
+async function cerrarCaso(indice) {
+  const marca = ahora();
+  const r = await runTransaction(salaRef("estado"), (e) => {
+    if (!e || e.fase !== "pregunta" || e.indice !== indice) return undefined;
+    if (typeof e.cierre === "number" && e.cierre !== miCierre && marca - e.cierre < CIERRE_VENCE) return undefined;
+    return { ...e, cierre: e.cierre === miCierre && miCierre !== null ? miCierre : marca };
+  }, { applyLocally: false }).catch(() => null);
+  if (!r?.committed) return false;
+  miCierre = r.snapshot.val().cierre;
+  return true;
+}
+
 async function revelar() {
   if (!soyHost || revelando || estado.fase !== "pregunta") return;
   revelando = true;
-  const caso = casoEn(estado.indice);
+  const indice = estado.indice;
+  if (!(await cerrarCaso(indice))) {
+    revelando = false;
+    // Lo está cerrando otra pestaña o no hubo red: si en un rato sigue igual, se vuelve a intentar.
+    setTimeout(() => { if (estado?.fase === "pregunta" && estado.indice === indice) revelar(); }, CIERRE_VENCE + 1000);
+    return;
+  }
+  const caso = casoEn(indice);
   const cambios = { "estado/fase": "revelar" };
-  const respuestas = (await get(salaRef(`respuestas/${estado.indice}`)).catch(() => null))?.val() || {};
+  const leidas = await get(salaRef(`respuestas/${indice}`)).catch(() => null);
+  const respuestas = leidas ? leidas.val() || {} : { ...respuestasActual };
   // Puntos con la racha (×1,5 desde el 3.º acierto seguido) y el bono por acertar cuando nadie más acertó. Cuentan
   // los que podían responder: en supervivencia, los que seguían en pie (o todos, en un rescate).
   const { cuentas } = cuentasRonda({
     habilitados: cuantosPuedenIds(), stats, respuestas, correcta: caso.correcta, inicio: estado.inicio,
     base: (id) => puntos(respuestas[id], caso), indice: estado.indice, segundaMitad: estado.indice >= info.casos.length / 2,
+    sinRiesgo: (id) => Boolean(estado.rescate) && !(id in eliminados),
   });
   for (const [id, c] of Object.entries(cuentas)) {
     cambios[`stats/${id}`] = c.stats;
@@ -1485,7 +1530,7 @@ function jugadorCaso() {
     let clase = "";
     if (revelado) clase = original === caso.correcta ? "right" : "wrong";
     if (original === elegida) clase += " mine";
-    return `<button class="opt ${clase}" data-k="${pos}" data-original="${original}" ${revelado || bloqueado || elegida !== undefined ? "disabled" : ""}>
+    return `<button class="opt ${clase}" data-k="${pos}" data-original="${original}" ${revelado || bloqueado || elegida !== undefined || tiempoAgotado() ? "disabled" : ""}>
       <span class="k">${LETRAS[pos]}</span><span>${esc(caso.opciones[original])}</span></button>`;
   }).join("");
   const imagenes = visor(caso, revelado);
@@ -1513,18 +1558,22 @@ function jugadorCaso() {
 
 async function responder(original) {
   const indice = estado.indice;
-  if (miEleccion(indice) !== undefined || estado.fase !== "pregunta") return;
+  if (miEleccion(indice) !== undefined || tiempoAgotado()) return;
   if (esSupervivencia(info) && !puedeResponder(uid, eliminados, Boolean(estado.rescate))) return;
   miRespuesta.set(indice, original);
   guardarMiRespuesta(indice, original);
   render(true);
+  const envio = set(salaRef(`respuestas/${indice}/${uid}`), { opcion: original, t: serverTimestamp() });
+  enviando.set(indice, envio);
   try {
-    await set(salaRef(`respuestas/${indice}/${uid}`), { opcion: original, t: serverTimestamp() });
+    await envio;
   } catch {
     miRespuesta.delete(indice);
     guardarMiRespuesta(indice, null);
     aviso("No se registró la respuesta: el tiempo terminó o ya habías respondido.");
     render(true);
+  } finally {
+    enviando.delete(indice);
   }
 }
 
@@ -1562,6 +1611,31 @@ $("#sonido").onclick = () => {
   if (info) encabezado();
 };
 
+const FASE_LEGIBLE = { lobby: "esperando a que empiece", pregunta: "en un caso", revelar: "en un caso",
+  ranking: "en el ranking", fin: "terminada" };
+async function salaAbierta(c) {
+  sinSala();
+  const [i, e] = await Promise.all([get(ref(db, `salas/${c}/info`)), get(ref(db, `salas/${c}/estado`))]
+    .map((p) => p.catch(() => null)));
+  if (!i) return entrar(c, "host");   // sin red no se sabe: se intenta entrar, como antes
+  if (!i.exists() || i.val().host !== uid) {
+    borrarSesion();
+    return pantallaCrear();
+  }
+  const fase = FASE_LEGIBLE[e?.val()?.fase] || "abierta";
+  app.innerHTML = panel(`Tienes abierta la sala ${c}`, `${i.val().titulo} · ${fase}.`,
+    `<div class="row"><button class="primary lg" id="volverSala">Volver a la sala ${esc(c)}</button>
+      <button class="lg" id="otraSala">Crear otra</button></div>
+    <p class="src">«Crear otra» cierra la ${esc(c)}: se borran sus nombres y puntajes.</p>`);
+  $("#volverSala").onclick = () => entrar(c, "host");
+  $("#otraSala").onclick = async () => {
+    await remove(ref(db, `indice_salas/${c}`)).catch(() => {});
+    await remove(ref(db, `salas/${c}`)).catch(() => {});
+    borrarSesion();
+    pantallaCrear();
+  };
+}
+
 async function iniciar() {
   if (!firebaseConfig) {
     $("#rol").textContent = "Sin configurar";
@@ -1584,6 +1658,9 @@ async function iniciar() {
   uid = auth.currentUser.uid;
   const pedido = (params.get("c") || "").toUpperCase();
   const sesion = leerSesion();
+  // «Sala en vivo» con una sala propia abierta: antes entraba a esa sin decir nada (también al día siguiente, al
+  // ranking final de la clase anterior). Ahora pregunta.
+  if (sesion && sesion.rol === "host" && params.has("crear") && !pedido) return salaAbierta(sesion.codigo);
   if (sesion && (!pedido || pedido === sesion.codigo)) return entrar(sesion.codigo, sesion.rol);
   if (params.has("crear") && !pedido) {   // «Presentar una sesión», en la portada
     sinSala();

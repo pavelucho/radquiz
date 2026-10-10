@@ -964,6 +964,11 @@ function empezarPartida() {
   const b = borrador;
   const columnas = b.tablero.filter((col) => col.casos.some(Boolean));
   if (!columnas.length) return aviso("Marca al menos una columna con casos.");
+  // Al entrar se avisa de la partida guardada, pero un enlace o un tablero del grupo llegan aquí sin pasar por ese
+  // aviso, y empezar la borraba.
+  const previa = leerGuardado();
+  if (previa && Object.keys(previa.juego.usadas || {}).length && previa.juego.fase !== "resultado"
+    && !confirm(`Hay una partida a medias guardada en este navegador («${previa.config.titulo}»). Si empiezas esta, se borra. ¿Empezar igual?`)) return;
   const enJuego = enTablero(columnas);
   config = {
     v: 1,

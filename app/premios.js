@@ -48,7 +48,9 @@ export function datosRevelado({ respuestas = {}, correcta, inicio }) {
 // `base(uid)` = puntos sin multiplicar (0 si falló); `segundaMitad`, si el caso está en la segunda mitad de la sala.
 // Devuelve uid → { stats nuevas, premio }.
 export const STATS_VACIAS = { r: 0, mr: 0, a: 0, s: 0, f: 0, k: 0, n: 0, h: 0, o: 0 };
-export function cuentasRonda({ habilitados, stats = {}, respuestas = {}, correcta, inicio, base, indice, segundaMitad = false }) {
+// `sinRiesgo(id)`: en un rescate, los que siguen en pie responden sin arriesgar nada (así se lo dice la pantalla):
+// el acierto suma como siempre, pero fallar o no responder no les corta la racha ni les cuenta para los títulos.
+export function cuentasRonda({ habilitados, stats = {}, respuestas = {}, correcta, inicio, base, indice, segundaMitad = false, sinRiesgo = () => false }) {
   const datos = datosRevelado({ respuestas, correcta, inicio });
   const salida = {};
   for (const id of habilitados) {
@@ -68,7 +70,7 @@ export function cuentasRonda({ habilitados, stats = {}, respuestas = {}, correct
       if (datos.solo === id) nuevo.o = previo.o + 1;
       conRacha = multiplicador(nuevo.r) > 1;
       pts = Math.round(base(id) * multiplicador(nuevo.r)) + (datos.solo === id ? BONO_SOLO : 0);
-    } else {
+    } else if (!sinRiesgo(id)) {
       nuevo.r = 0;
       nuevo.f = previo.f + 1;
       if (r && datos.primero === id) nuevo.k = previo.k + 1;
