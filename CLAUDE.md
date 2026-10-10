@@ -329,6 +329,15 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   heredó esas respuestas y a muchos les salían los casos como ya respondidos y bloqueados. `olvidarSala()` en
   `app/sala.js` lo borra todo al entrar a una sala. Probado contra producción: sala clásica respondida y cerrada,
   y en la misma página una supervivencia con rescate cuyo caso 1 salió libre y se reveló con la respuesta nueva.
+  Buscando fallas del mismo tipo salieron cuatro más, arregladas el mismo día y probadas contra producción:
+  - Sala: la respuesta del celular se guarda también en el navegador (`radquiz.sala.respuestas`, una sola sala a la
+    vez; `miEleccion()`), porque las reglas no dejan leer las del caso abierto: quien recargaba tras responder veía el
+    caso sin responder y un error al tocar.
+  - Sala: volver a entrar con el código conserva `unido` (en supervivencia quedaba eliminado por tarde), y en
+    `confirmarCierre()` un error de red ya no cuenta como sala cerrada: se vuelve a mirar. Esto último no se probó.
+  - Lectura en vivo: el aviso «Enviado» o «No se pudo enviar» no pasa al caso siguiente, y lo escrito en el último
+    segundo llega: «Pasar la página» escribe `estado.pasada` y las reglas admiten respuestas hasta 8 s después.
+  - Práctica sin alternativas: una tanda nueva o «Repasar las falladas» no traen lo escrito en la anterior.
 - Puntaje (2026-10-05): 900 por acierto + hasta 100 por rapidez (antes 500 + 500): pesa acertar, no el reflejo.
 - Ambiente, rachas, avatares y equipos en la sala (2026-10-05), decididos con el autor como capas 1, 2 y 5 de una lista
   de ideas (las otras: eventos sorpresa como caso relámpago, duelo final y caso jefe; y comodines 50:50, escudo y doble
@@ -399,7 +408,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
    `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
-   2026-10-09 (lecturas, `lecturas_vivo/`); antes, 2026-10-07 (`indice_casos`, salas de varios temas y `tableros/`) y la web a 2026-10-10 (desplegada con el código de `88f6547`: el celular olvida la sala anterior; antes, 2026-10-08, `881ad30`: panel de la casilla del tablero que se cierra; antes, portada reordenada; antes, títulos que no se salen de su cuadro, tableros guardados, armado con IA, buscador en desplegable y los temas archivados con la clasificación nueva). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
+   2026-10-10 (margen de 8 s tras pasar la página en `lecturas_vivo/`); antes, 2026-10-09 (lecturas, `lecturas_vivo/`); antes, 2026-10-07 (`indice_casos`, salas de varios temas y `tableros/`) y la web a 2026-10-10 (desplegada con el código de `b2e5e31`: lo que quedaba de una sala, un caso o una tanda anterior; antes, `88f6547`, el celular olvida la sala anterior; antes, 2026-10-08, `881ad30`: panel de la casilla del tablero que se cierra; antes, portada reordenada; antes, títulos que no se salen de su cuadro, tableros guardados, armado con IA, buscador en desplegable y los temas archivados con la clasificación nueva). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
    sin commit; hay que desplegar con la carpeta limpia o desde una copia de `main` (`git worktree add … origin/main`).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
