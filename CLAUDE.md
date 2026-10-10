@@ -392,7 +392,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
    `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
-   2026-10-07 (`indice_casos`, salas de varios temas y `tableros/`) y la web a 2026-10-08 (desplegada con el código de `881ad30`: panel de la casilla del tablero que se cierra; antes, portada reordenada; antes, títulos que no se salen de su cuadro, tableros guardados, armado con IA, buscador en desplegable y los temas archivados con la clasificación nueva). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
+   2026-10-09 (lecturas, `lecturas_vivo/`); antes, 2026-10-07 (`indice_casos`, salas de varios temas y `tableros/`) y la web a 2026-10-08 (desplegada con el código de `881ad30`: panel de la casilla del tablero que se cierra; antes, portada reordenada; antes, títulos que no se salen de su cuadro, tableros guardados, armado con IA, buscador en desplegable y los temas archivados con la clasificación nueva). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
    sin commit; hay que desplegar con la carpeta limpia o desde una copia de `main` (`git worktree add … origin/main`).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
@@ -450,7 +450,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 12. Ids definitivos para los siete RadCases (`book-id`, `book-id-2-2-…`): el avance guardado usa el id del tema, así que
     renombrarlos después borra el avance de todos. Renombrar es crear el tema con el id nuevo y borrar el viejo.
 
-13. Lectura de casos: desplegar la web (`lectura.html`, `lectura-vivo.html`); decidir si se publica
+13. Lectura de casos (web desplegada el 2026-10-09 con el código de `63c07fe`; falta el push, la red del hospital
+    corta GitHub): decidir si se publica
     `msk-case-review-ali2013` (el libro dice «All rights reserved»: la declaración de publicar pide tener derecho a
     compartir las figuras) y probar la publicación de un tema con lecturas y el estudio con sesión real. Los agentes
     dejaron en `notas_revision` de cada lectura los errores del libro y las figuras dudosas (13, 90 y 93 traen
