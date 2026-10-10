@@ -573,6 +573,7 @@ async function unirse(codigoEscrito, nombreEscrito) {
 
 // ------------------------------------------------------------------ dentro de la sala
 async function entrar(c, rol) {
+  olvidarSala();
   codigo = c;
   const snap = await get(ref(db, `salas/${c}/info`)).catch(() => null);
   if (!snap || !snap.exists()) {
@@ -716,6 +717,29 @@ async function confirmarCierre() {
   if (!codigo) return;
   const sigue = await get(salaRef("info")).catch(() => null);
   if (!sigue || !sigue.exists()) salaCerrada();
+}
+
+// Lo que se recuerda de una sala va por número de caso: al entrar a otra sin recargar (la casilla vuelve cuando el
+// presentador cierra la sala), la sala nueva heredaba las respuestas de la anterior y sus casos salían ya respondidos.
+function olvidarSala() {
+  miRespuesta.clear();
+  miResultado.clear();
+  efectosHechos.clear();
+  marcandoTarde.clear();
+  for (const id of Object.keys(reaccionesVistas)) delete reaccionesVistas[id];
+  jugadores = {};
+  puntajes = {};
+  eliminados = {};
+  rescatados = {};
+  fallos = {};
+  tocados = {};
+  stats = {};
+  premios = {};
+  titulos = {};
+  respuestasActual = {};
+  reveladoEn = 0;
+  finEn = 0;
+  revelando = false;
 }
 
 function salaCerrada() {
