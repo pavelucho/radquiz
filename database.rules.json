@@ -36,6 +36,7 @@
           ".validate": "newData.hasChildren(['fase', 'indice'])",
           "fase": { ".validate": "newData.isString() && newData.val().matches(/^(lobby|leer|pagina|fin)$/)" },
           "indice": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 60" },
+          "pasada": { ".validate": "newData.val() == now" },
           "$otro": { ".validate": false }
         },
         "jugadores": {
@@ -52,7 +53,7 @@
           ".read": "auth != null && root.child('lecturas_vivo').child($codigo).child('info/host').val() == auth.uid",
           "$indice": {
             "$uid": {
-              ".write": "auth != null && auth.uid == $uid && root.child('lecturas_vivo').child($codigo).child('jugadores').child($uid).exists() && root.child('lecturas_vivo').child($codigo).child('estado/fase').val() == 'leer' && root.child('lecturas_vivo').child($codigo).child('estado/indice').val() + '' == $indice",
+              ".write": "auth != null && auth.uid == $uid && root.child('lecturas_vivo').child($codigo).child('jugadores').child($uid).exists() && root.child('lecturas_vivo').child($codigo).child('estado/indice').val() + '' == $indice && (root.child('lecturas_vivo').child($codigo).child('estado/fase').val() == 'leer' || (root.child('lecturas_vivo').child($codigo).child('estado/fase').val() == 'pagina' && now <= root.child('lecturas_vivo').child($codigo).child('estado/pasada').val() + 8000))",
               ".validate": "newData.hasChildren(['r', 't'])",
               "r": {
                 "$q": { ".validate": "$q.matches(/^[0-7]$/) && newData.isString() && newData.val().length <= 200" }

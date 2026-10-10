@@ -89,6 +89,30 @@ function guardarSesion(datos) {
 function borrarSesion() {
   try { localStorage.removeItem(CLAVE_SESION); } catch { /* idem */ }
 }
+// Lo que este celular respondió en la sala, también guardado aquí: las reglas no dejan leer las respuestas del caso
+// abierto, así que quien recargaba después de responder veía el caso como sin responder (y al tocar, un error).
+// Una sola sala a la vez: la de otra sala se pisa.
+const CLAVE_RESPUESTAS = "radquiz.sala.respuestas";
+const salaActual = () => `${codigo}:${info?.creada}`;
+function respuestasGuardadas() {
+  try {
+    const g = JSON.parse(localStorage.getItem(CLAVE_RESPUESTAS) || "null");
+    return g && g.sala === salaActual() && g.r && typeof g.r === "object" ? g.r : {};
+  } catch { return {}; }
+}
+function guardarMiRespuesta(indice, opcion) {
+  const r = respuestasGuardadas();
+  if (opcion === null) delete r[indice]; else r[indice] = opcion;
+  try { localStorage.setItem(CLAVE_RESPUESTAS, JSON.stringify({ sala: salaActual(), r })); } catch { /* idem */ }
+}
+// La opción que eligió este celular en ese caso, o undefined.
+function miEleccion(indice) {
+  if (!miRespuesta.has(indice)) {
+    const guardada = respuestasGuardadas()[indice];
+    if (Number.isInteger(guardada)) miRespuesta.set(indice, guardada);
+  }
+  return miRespuesta.has(indice) ? miRespuesta.get(indice) : miResultado.get(indice)?.opcion;
+}
 // El avatar elegido se recuerda en este celular para las salas siguientes.
 const CLAVE_AVATAR = "radquiz.avatar";
 function avatarPreferido() {
@@ -559,10 +583,11 @@ async function unirse(codigoEscrito, nombreEscrito) {
   const previo = otros[uid] || {};
   delete otros[uid];
   if (!nombre) nombre = previo.nombre || apodoAleatorio(Object.values(otros).map((j) => j.nombre || ""));
-  // update y no set: quien vuelve a entrar conserva su equipo.
+  // update y no set: quien vuelve a entrar conserva su equipo y su hora de llegada (con una nueva, en supervivencia
+  // quedaba eliminado como si llegara tarde).
   try {
     await update(ref(db, `salas/${c}/jugadores/${uid}`), {
-      nombre, unido: serverTimestamp(), avatar: avatarPreferido() || (esAvatar(previo.avatar) ? previo.avatar : avatarAleatorio()),
+      nombre, unido: typeof previo.unido === "number" ? previo.unido : serverTimestamp(), avatar: avatarPreferido() || (esAvatar(previo.avatar) ? previo.avatar : avatarAleatorio()),
     });
   } catch (e) {
     return aviso("No se pudo entrar a la sala: " + e.message);
@@ -707,16 +732,29 @@ async function leerMiResultado(indice) {
   if (miResultado.has(indice)) return;
   miResultado.set(indice, null);
   const snap = await get(salaRef(`respuestas/${indice}/${uid}`)).catch(() => null);
-  miResultado.set(indice, snap && snap.exists() ? snap.val() : null);
+  // Sin red no se sabe: se olvida el intento, para leerlo en el próximo cambio de la sala.
+  if (!snap) return miResultado.delete(indice);
+  miResultado.set(indice, snap.exists() ? snap.val() : null);
   render(true);
 }
 
 // Un estado vacío puede ser momentáneo (una escritura local rechazada por el servidor): se confirma antes de salir.
+// Un error de red no confirma nada: se vuelve a mirar. Antes contaba como sala cerrada, y quien volvía a entrar con
+// el código a media supervivencia quedaba eliminado por llegar tarde.
 async function confirmarCierre() {
-  await new Promise((listo) => setTimeout(listo, 1500));
-  if (!codigo) return;
-  const sigue = await get(salaRef("info")).catch(() => null);
-  if (!sigue || !sigue.exists()) salaCerrada();
+  const c = codigo;
+  for (let intento = 1; intento <= 6; intento++) {
+    await new Promise((listo) => setTimeout(listo, 1500 * intento));
+    if (!c || codigo !== c) return;
+    let sigue;
+    try {
+      sigue = await get(ref(db, `salas/${c}/info`));
+    } catch {
+      continue;
+    }
+    if (!sigue.exists()) salaCerrada();
+    return;
+  }
 }
 
 // Lo que se recuerda de una sala va por número de caso: al entrar a otra sin recargar (la casilla vuelve cuando el
@@ -1421,7 +1459,7 @@ function jugadorCaso() {
   const orden = ordenEn(indice);
   const revelado = estado.fase === "revelar";
   const bloqueado = esSupervivencia(info) && !puedeResponder(uid, eliminados, Boolean(estado.rescate));
-  const elegida = miRespuesta.has(indice) ? miRespuesta.get(indice) : miResultado.get(indice)?.opcion;
+  const elegida = miEleccion(indice);
   let arriba = "";
   if (revelado && bloqueado) {
     arriba = "";
@@ -1475,14 +1513,16 @@ function jugadorCaso() {
 
 async function responder(original) {
   const indice = estado.indice;
-  if (miRespuesta.has(indice) || estado.fase !== "pregunta") return;
+  if (miEleccion(indice) !== undefined || estado.fase !== "pregunta") return;
   if (esSupervivencia(info) && !puedeResponder(uid, eliminados, Boolean(estado.rescate))) return;
   miRespuesta.set(indice, original);
+  guardarMiRespuesta(indice, original);
   render(true);
   try {
     await set(salaRef(`respuestas/${indice}/${uid}`), { opcion: original, t: serverTimestamp() });
   } catch {
     miRespuesta.delete(indice);
+    guardarMiRespuesta(indice, null);
     aviso("No se registró la respuesta: el tiempo terminó o ya habías respondido.");
     render(true);
   }

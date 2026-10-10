@@ -360,7 +360,7 @@ function enlazarSeguir(falladasTanda = []) {
   const boton = $("#falladas");
   if (boton) boton.onclick = () => {
     casos = falladasTanda;
-    falladasTanda.forEach((c) => { respuestas.delete(c.id); reveladas.delete(c.id); orden.delete(c.id); });
+    falladasTanda.forEach((c) => { respuestas.delete(c.id); reveladas.delete(c.id); escritas.delete(c.id); orden.delete(c.id); });
     actual = 0;
     creada = Date.now();
     guardar();
@@ -441,6 +441,7 @@ function empezar() {
   $("#cuantos").value = casos.length;   // lo escrito fuera de rango queda como lo que de verdad sale
   respuestas.clear();
   reveladas.clear();
+  escritas.clear();
   orden.clear();
   actual = 0;
   creada = Date.now();

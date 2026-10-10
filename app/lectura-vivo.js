@@ -272,7 +272,12 @@ async function entrar(c, rol) {
       estado = s.val();
       if (!estado) return cerrada();
       if (soyHost && (!previo || previo.indice !== estado.indice || previo.fase !== estado.fase)) escucharRespuestas();
-      if (!soyHost && previo && previo.fase === "leer" && estado.fase !== "leer") enviar(previo.indice, true);
+      if (!soyHost && previo && previo.fase === "leer" && estado.fase !== "leer") {
+        clearTimeout(esperaEnvio);
+        enviar(previo.indice, true);
+      }
+      // El aviso de envío es del caso en que se escribió: en el siguiente decía «Enviado» sin haber escrito nada.
+      if (!previo || previo.indice !== estado.indice) enviado = "";
       dibujar();
     }),
     onValue(vivoRef("jugadores"), (s) => { jugadores = s.val() || {}; dibujar(); }),
@@ -409,7 +414,7 @@ function hostLeer(lectura) {
       </div>
     </article>
     <div class="ctrl"><span class="spacer"></span><span class="src teclas"><kbd>→</kbd> pasar la página</span></div>`;
-  $("#pasar").onclick = () => irA({ fase: "pagina", indice: estado.indice });
+  $("#pasar").onclick = () => irA({ fase: "pagina", indice: estado.indice, pasada: serverTimestamp() });
 }
 
 // Para cada grupo: vale si el presentador lo marcó; si no lo tocó, sale sugerido cuando coincide con una aceptada.
@@ -533,7 +538,8 @@ function dibujarJugador() {
 }
 
 function jugadorLeer(lectura) {
-  const mias = misRespuestas(estado.indice);
+  const indice = estado.indice;
+  const mias = misRespuestas(indice);
   app.innerHTML = `<div class="qhead"><span class="qnum">${estado.indice + 1}<small> / ${info.lecturas.length}</small></span>
       <span class="lec-paso">Página 1 · El caso</span></div>
     <article class="lec-hoja lec-p1">
@@ -545,15 +551,15 @@ function jugadorLeer(lectura) {
     </article>`;
   app.querySelectorAll(".lec-campo").forEach((campo) => {
     campo.oninput = () => {
-      const lista = misRespuestas(estado.indice);
+      const lista = misRespuestas(indice);
       lista[Number(campo.dataset.q)] = campo.value;
-      guardarMisRespuestas(estado.indice, lista);
+      guardarMisRespuestas(indice, lista);
       enviado = "escribiendo";
       pintarEnvio();
       clearTimeout(esperaEnvio);
-      esperaEnvio = setTimeout(() => enviar(estado.indice), 900);
+      esperaEnvio = setTimeout(() => enviar(indice), 900);
     };
-    campo.onblur = () => { clearTimeout(esperaEnvio); enviar(estado.indice); };
+    campo.onblur = () => { clearTimeout(esperaEnvio); enviar(indice); };
   });
   pintarEnvio();
 }
@@ -567,16 +573,20 @@ function pintarEnvio() {
     : "Lo que escribas se envía solo. Nadie lo ve con tu nombre.";
 }
 
+// El último envío sale cuando el presentador ya pasó la página: las reglas lo admiten unos segundos después
+// (estado.pasada), para no perder lo escrito en el último segundo.
 async function enviar(indice, ultima = false) {
   const lista = misRespuestas(indice).map((x) => String(x ?? "").slice(0, LARGO));
   if (!lista.some((x) => x.trim())) return;
+  let ok = true;
   try {
     await set(vivoRef(`respuestas/${indice}/${uid}`), { r: lista.map((x) => x || ""), t: serverTimestamp() });
-    enviado = "ok";
   } catch {
-    // Fuera de tiempo (el presentador ya pasó la página) no es un error que mostrar.
-    enviado = ultima ? "" : "error";
+    ok = false;
   }
+  // Solo avisa en el caso que se está escribiendo; fuera de tiempo no es un error que mostrar.
+  if (ultima || estado?.indice !== indice || estado?.fase !== "leer") return;
+  enviado = ok ? "ok" : "error";
   pintarEnvio();
 }
 
