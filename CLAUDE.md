@@ -258,7 +258,9 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   proyector, 375 px, portada) con una copia local, y la sesión con celulares contra producción con presentador y un
   residente (unirse, escribir, agrupar, Vale/No vale, desvío desde la casilla de la sala, cerrar). Reglas desplegadas el
   2026-10-09 (por el autor). Las 204 lecturas se importaron ese día al estudio como borrador
-  (`msk-case-review-ali2013`, 1108 figuras, validador sin errores) con `tema_importar`; no están publicadas.
+  (`msk-case-review-ali2013`, 1108 figuras, validador sin errores) con `tema_importar`, y el mismo día se publicaron
+  visibles (versión 0.1.0, figuras en el Drive del autor; declaración aceptada por el autor en el chat, sabiendo que el
+  libro dice «All rights reserved»). Comprobado en la web: la lectura carga con las figuras de Drive.
 - Supervivencia (2026-10-02): modo de la sala en vivo, «Supervivencia» o «Supervivencia con rescate» al crearla
   (`info.modo`); lógica sin pantalla en `app/supervivencia.js`. Una vida: quien falla o no responde cae
   (`eliminados/<uid>`); si fallan todos los que seguían en pie no cae nadie; gana el último en pie. Casos al azar y
@@ -450,10 +452,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 12. Ids definitivos para los siete RadCases (`book-id`, `book-id-2-2-…`): el avance guardado usa el id del tema, así que
     renombrarlos después borra el avance de todos. Renombrar es crear el tema con el id nuevo y borrar el viejo.
 
-13. Lectura de casos (web desplegada el 2026-10-09 con el código de `63c07fe`; falta el push, la red del hospital
-    corta GitHub): decidir si se publica
-    `msk-case-review-ali2013` (el libro dice «All rights reserved»: la declaración de publicar pide tener derecho a
-    compartir las figuras) y probar la publicación de un tema con lecturas y el estudio con sesión real. Los agentes
+13. Lectura de casos (web desplegada el 2026-10-09 con el código de `63c07fe`; `msk-case-review-ali2013` publicado):
+    probar el estudio con sesión real (editar y verificar lecturas). Los agentes
     dejaron en `notas_revision` de cada lectura los errores del libro y las figuras dudosas (13, 90 y 93 traen
     ilustraciones de Radsource reproducidas con permiso en el libro): que un radiólogo los mire al verificar.
 
