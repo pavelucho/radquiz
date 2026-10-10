@@ -1278,8 +1278,10 @@ herramienta("tema_publicar",
     } catch (e) {
       indice = `no se pudo anotar (${e.message}); el tema saldrá cuando el repositorio se ponga al día`;
     }
-    // El buscador de la portada es solo de casos: las lecturas no entran en indice_casos.
-    await escribir(`indice_casos/${tema}`, indiceDePaquete({ ...paquete, version })).catch((e) => log("indice_casos", e.message));
+    // El buscador de la portada es solo de casos: las lecturas no entran en indice_casos. Un tema sin casos lo borra
+    // (las reglas no admiten uno vacío), como el estudio.
+    await (paquete.casos.length ? escribir(`indice_casos/${tema}`, indiceDePaquete({ ...paquete, version }))
+      : db("DELETE", `indice_casos/${tema}`)).catch((e) => log("indice_casos", e.message));
     const lecturas = lista(paquete.lecturas).length;
     return `Publicado «${t.meta.titulo}» versión ${version}: ${paquete.casos.length} casos${lecturas ? ` y ${lecturas} lecturas` : ""}. Figuras: ${subidas} subidas, ${reutilizadas} sin cambios, ${papelera} a la papelera de Drive. Índice: ${indice}. Usa «publicacion_comprobar» para revisarlo.`;
   });
