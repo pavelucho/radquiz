@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "carvalho2025": {
+    "cita": "Carvalho BBM, Morimoto LR, Watanabe GO, da Silva LNM, Dinato MCM, de Arruda PHC, da Cruz IAN, Guimarães JB, Nico MAC, Ormond Filho AG. Lateral Ankle Instability: A Comprehensive Review and New Concepts. Education exhibit MKEE-81. RSNA 2025 Annual Meeting; 2025 Nov 30; Chicago, IL.",
+    "credito": "Carvalho BBM, et al. RSNA 2025 (MKEE-81)",
+    "doi": null,
+    "licencia": "Con copyright",
+    "licencia_url": null,
+    "modificaciones_permitidas": false,
+    "tipo": "banco",
+    "titular": "© 2025 RSNA, Inc.",
+    "url": "https://www.rsna.org/annual-meeting",
+    "verificacion": {
+      "donde": "Metadatos del PDF (palabras clave): «Content © 2025 RSNA, Inc. All rights reserved. Unauthorized use prohibited.» Revisado el 2026-10-12.",
+      "fecha": "2026-10-12",
+      "por": "Pavel Luna"
+    },
+    "alojada_por": "Pavel Luna"
+  }
+}

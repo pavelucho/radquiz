@@ -1,0 +1,2357 @@
+{
+  "$schema": "../../../schema/paquete.schema.json",
+  "id": "chopart-rm-wang2025",
+  "titulo": "Esguince de Chopart en RM (RSNA 2025)",
+  "descripcion": "Anatomía ligamentosa de la articulación mediotarsiana, mecanismos y casos de esguince de Chopart en RM, con sus trampas.",
+  "segmento": "musculoesqueletico",
+  "modalidades": [
+    "Rx",
+    "RM"
+  ],
+  "idioma": "es",
+  "version": "0.2.0",
+  "personas": {
+    "pluna": "Pavel Luna"
+  },
+  "imagenes": {
+    "d04": {
+      "archivo": "d04.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 4",
+      "leyenda_original": "INTRODUCTION Midtarsal (Chopart) sprains are under-recognized and often misattributed to \"ankle sprain.\" Chopart injuries have an incidence of 2-4 per 100,000 persons per year.1, 2 Typical patient: inversion injury with persistent lateral or dorsal midfoot pain despite negative ankle findings. Delayed diagnosis may lead to chronic instability and arch collapse.3",
+      "modalidad": null,
+      "paneles": [
+        {
+          "id": "unico",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha curva naranja",
+          "panel": "unico",
+          "senala": "vector de inversión del retropié"
+        },
+        {
+          "marca": "flecha vertical rosa",
+          "panel": "unico",
+          "senala": "distracción dorsal del mediopié"
+        },
+        {
+          "marca": "líneas en zigzag rojas",
+          "panel": "unico",
+          "senala": "sitios de estrés ligamentario en articulaciones talonavicular y calcaneocuboidea"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. La diapositiva no incluye leyenda específica para el dibujo; se copia el texto acompañante. d04 no tiene versión limpia según figuras.md.",
+      "drive": "1UNiZZmZcuBE3MIeF6vdx2C6U4UZlXsLH"
+    },
+    "d06": {
+      "archivo": "d06.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 6",
+      "leyenda_original": "ANATOMY OF THE CHOPART JOINT Dorsal talonavicular ligament Bifurcate ligament Dorsal calcaneocuboid ligament Dorsal talonavicular ligament Bifurcate ligament Short plantar ligament Long plantar ligament Consists of the Dorsal talonavicular ligament Plantar calcaneonavicular ligament (Spring ligament complex) Superomedial Inferomedial Medial Oblique Dorsal calcaneocuboid ligament Plantar calcaneocuboid Short plantar ligament Long plantar ligament Bifurcate ligament Calcaneonavicular band Calcaneocuboid band Spring ligament",
+      "modalidad": null,
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "sup der",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inf der",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "rótulo y línea de puntos naranja",
+          "panel": "izquierda",
+          "senala": "Dorsal talonavicular ligament, Bifurcate ligament y Dorsal calcaneocuboid ligament"
+        },
+        {
+          "marca": "rótulo y flechas rojas",
+          "panel": "sup der",
+          "senala": "Spring ligament"
+        },
+        {
+          "marca": "rótulo y línea de puntos naranja",
+          "panel": "inf der",
+          "senala": "Dorsal talonavicular ligament, Bifurcate ligament, Short plantar ligament y Long plantar ligament"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. Muestra esquemas dorsal y lateral junto a cortes de RM del ligamento en resorte. La leyenda es la transcripción de los rótulos y lista de ligamentos.",
+      "drive": "1fv0zoa-aO73buIL6yV71c89XmMW91oDu"
+    },
+    "d08": {
+      "archivo": "d08.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 8",
+      "leyenda_original": "Short plantar ligament Calcaneonavicular ligament (Bifurcate) Long plantar ligament Calcaneocuboid ligament (Bifurcate) MRI EVALUATION OF THE CHOPART JOINT Dorsal talonavicular ligament",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "centro",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "rótulo y flecha de puntos",
+          "panel": "izquierda",
+          "senala": "Dorsal talonavicular ligament"
+        },
+        {
+          "marca": "rótulos y flechas de puntos",
+          "panel": "centro",
+          "senala": "Calcaneocuboid ligament (Bifurcate) y Long plantar ligament"
+        },
+        {
+          "marca": "rótulos y flechas de puntos",
+          "panel": "derecha",
+          "senala": "Calcaneonavicular ligament (Bifurcate), Long plantar ligament y Short plantar ligament"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. Tres cortes sagitales de RM con rótulos anatómicos. La leyenda no define plano ni ponderación (aparentan ser sagitales T1 o DP).",
+      "drive": "1gHhOjt0WSeCKwFLEirmJBuV72Z_PPDM7"
+    },
+    "d07a": {
+      "archivo": "d07a.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 7a",
+      "leyenda_original": "Also, carefully inspect the midtarsal joint for avulsion fractures. They can be very subtle like in this case.",
+      "modalidad": "Rx",
+      "paneles": [
+        {
+          "id": "centro",
+          "lado": "izquierdo",
+          "plano": "dorsoplantar",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha discontinua naranja",
+          "panel": "centro",
+          "senala": "pequeña fractura por avulsión en el margen lateral de la articulación mediotarsiana"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. El fragmento está en el margen lateral de la articulación calcaneocuboidea (lo dice la imagen, no la leyenda). El panel ampliado es d07c.",
+      "drive": "16oQ1hCUATevVJ-MdC-2GQCUuvQY4Gjzy"
+    },
+    "d07a-l": {
+      "archivo": "d07a-l.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 7a · sin marcas",
+      "leyenda_original": "Also, carefully inspect the midtarsal joint for avulsion fractures. They can be very subtle like in this case.",
+      "modalidad": "Rx",
+      "paneles": [
+        {
+          "id": "centro",
+          "lado": "izquierdo",
+          "plano": "dorsoplantar",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Versión de la pregunta: la misma figura sin las marcas que la diapositiva dibuja encima (flechas, círculos, estrellas, líneas), que en el PDF son objetos aparte. La imagen radiológica no se tocó. La versión con las marcas es «d07a» y se ve en la respuesta. El fragmento está en el margen lateral de la articulación calcaneocuboidea (lo dice la imagen, no la leyenda). El panel ampliado es d07c.",
+      "drive": "1i9UKZ2fC8cuXtiaxAlBpqHz1U6lqFzxe"
+    },
+    "d07b": {
+      "archivo": "d07b.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 7b",
+      "leyenda_original": "Evaluate the Cyma line on dorsoplanar and saggital. Discontinuity may be suggestive of Chopart sprain.",
+      "modalidad": "Rx",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "lado": "izquierdo",
+          "plano": "dorsoplantar",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "línea punteada azul",
+          "panel": "izquierda",
+          "senala": "trazado de la línea de Cyma a lo largo de las articulaciones talonavicular y calcaneocuboidea"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. Radiografía dorsoplantar de pie izquierdo con marcador 'L' en forma de corazón en el ángulo superior izquierdo. La línea punteada azul dibuja la línea de Cyma continua en la articulación mediotarsiana. En la versión limpia d07b-l se ha retirado la línea punteada azul.",
+      "drive": "1NWEYp_PYTHpgXJf9GBflMs-jBenlHCR-"
+    },
+    "d07b-l": {
+      "archivo": "d07b-l.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 7b · sin marcas",
+      "leyenda_original": "Evaluate the Cyma line on dorsoplanar and saggital. Discontinuity may be suggestive of Chopart sprain.",
+      "modalidad": "Rx",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "lado": "izquierdo",
+          "plano": "dorsoplantar",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Versión de la pregunta: la misma figura sin las marcas que la diapositiva dibuja encima (flechas, círculos, estrellas, líneas), que en el PDF son objetos aparte. La imagen radiológica no se tocó. La versión con las marcas es «d07b» y se ve en la respuesta. Radiografía dorsoplantar de pie izquierdo con marcador 'L' en forma de corazón en el ángulo superior izquierdo. La línea punteada azul dibuja la línea de Cyma continua en la articulación mediotarsiana. En la versión limpia d07b-l se ha retirado la línea punteada azul.",
+      "drive": "1EAwqprQADbL9rN9Y4yDIwB9Hs196LTOM"
+    },
+    "d07c": {
+      "archivo": "d07c.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 7c",
+      "leyenda_original": "Also, carefully inspect the midtarsal joint for avulsion fractures. They can be very subtle like in this case.",
+      "modalidad": "Rx",
+      "paneles": [
+        {
+          "id": "derecha",
+          "lado": "izquierdo",
+          "plano": "dorsoplantar ampliada",
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha discontinua naranja",
+          "panel": "derecha",
+          "senala": "pequeña fractura por avulsión en el margen lateral de la articulación calcaneocuboidea"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. Ampliación de la radiografía d07a: el fragmento está en el margen lateral de la articulación calcaneocuboidea (lo dice la imagen, no la leyenda).",
+      "drive": "1iZFvXaejSiy7KrVdg1VeI7F8dds_lvXj"
+    },
+    "d10": {
+      "archivo": "d10.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 10",
+      "leyenda_original": "Findings: XR: Degenerative changes at the talonavicular joint and plantar calcaneal spur noted. MRI: Marrow edema at the dorsal and plantar aspects of the talar head and anterior process of calcaneus; plantar calcaneal spur noted. Discussion Findings likely reflect prior contusion with mild sprain of the dorsal talonavicular joint capsule and could represent a sequela of midtarsal sprain.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "derecha",
+          "senala": "esguince leve de la cápsula articular talonavicular dorsal"
+        },
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "derecha",
+          "senala": "edema óseo en el aspecto dorsal de la cabeza del astrágalo"
+        },
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "derecha",
+          "senala": "edema óseo en el aspecto plantar de la cabeza del astrágalo y apófisis anterior del calcáneo"
+        },
+        {
+          "marca": "estrella negra",
+          "panel": "derecha",
+          "senala": "espolón calcáneo plantar"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. Figura compuesta con dos paneles: el izquierdo corresponde a una radiografía lateral (Rx) y el derecho a una resonancia magnética sagital sensible a líquido (DP o T2 con supresión grasa). La leyenda no detalla proyección, plano ni secuencia.",
+      "drive": "1JKWFakzZWb1Pdx9cq_p9QZ7xWJVBsp9T"
+    },
+    "d10-l": {
+      "archivo": "d10-l.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 10 · sin marcas",
+      "leyenda_original": "Findings: XR: Degenerative changes at the talonavicular joint and plantar calcaneal spur noted. MRI: Marrow edema at the dorsal and plantar aspects of the talar head and anterior process of calcaneus; plantar calcaneal spur noted. Discussion Findings likely reflect prior contusion with mild sprain of the dorsal talonavicular joint capsule and could represent a sequela of midtarsal sprain.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Versión de la pregunta: la misma figura sin las marcas que la diapositiva dibuja encima (flechas, círculos, estrellas, líneas), que en el PDF son objetos aparte. La imagen radiológica no se tocó. La versión con las marcas es «d10» y se ve en la respuesta. Figura compuesta con dos paneles: el izquierdo corresponde a una radiografía lateral (Rx) y el derecho a una resonancia magnética sagital sensible a líquido (DP o T2 con supresión grasa). La leyenda no detalla proyección, plano ni secuencia.",
+      "drive": "1bsSIBNd_-djwq7QrTD7Tf4yWQSr4lFvv"
+    },
+    "d11": {
+      "archivo": "d11.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 11",
+      "leyenda_original": "Findings: Contusions along the plantar medial talar head and anterior process of calcaneus. Sprain of Spring ligament. Discussion Classic acute inversion-type strain involving the Spring ligament.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "sup izq",
+          "lado": "izquierdo",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "sup der",
+          "lado": "izquierdo",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inferior",
+          "lado": "izquierdo",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "sup izq",
+          "senala": "contusión ósea en la porción plantar medial de la cabeza del astrágalo"
+        },
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "sup izq",
+          "senala": "contusión ósea en la apófisis anterior del calcáneo"
+        },
+        {
+          "marca": "estrella blanca",
+          "panel": "sup der",
+          "senala": "esguince del ligamento en resorte (Spring ligament)"
+        },
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "inferior",
+          "senala": "contusión ósea en la porción plantar de la cabeza del astrágalo y apófisis anterior del calcáneo"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. Figura compuesta por tres paneles de resonancia magnética con supresión grasa sensibles a líquido: los dos superiores corresponden a planos axiales u oblicuos y el inferior a un plano sagital. La leyenda no especifica plano ni secuencia; el texto clínico señala dolor en retropié y tobillo izquierdos en varón de 32 años tras caída por escaleras.",
+      "drive": "1bxayPYMPbfGS-YilVFiArg2aAZSWqd1q"
+    },
+    "d11-l": {
+      "archivo": "d11-l.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 11 · sin marcas",
+      "leyenda_original": "Findings: Contusions along the plantar medial talar head and anterior process of calcaneus. Sprain of Spring ligament. Discussion Classic acute inversion-type strain involving the Spring ligament.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "sup izq",
+          "lado": "izquierdo",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "sup der",
+          "lado": "izquierdo",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inferior",
+          "lado": "izquierdo",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Versión de la pregunta: la misma figura sin las marcas que la diapositiva dibuja encima (flechas, círculos, estrellas, líneas), que en el PDF son objetos aparte. La imagen radiológica no se tocó. La versión con las marcas es «d11» y se ve en la respuesta. Figura compuesta por tres paneles de resonancia magnética con supresión grasa sensibles a líquido: los dos superiores corresponden a planos axiales u oblicuos y el inferior a un plano sagital. La leyenda no especifica plano ni secuencia; el texto clínico señala dolor en retropié y tobillo izquierdos en varón de 32 años tras caída por escaleras.",
+      "drive": "1VLZPaTlp90W-iiCW8VJmjNeIso652r7U"
+    },
+    "d12": {
+      "archivo": "d12.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 12",
+      "leyenda_original": "Osseous findings: Previous fracture of the cuboid bone EXAMPLE CASE 3 42 YEAR OLD WOMAN WITH FOOT PAIN Findings: Previous fracture of the anterior calcaneus",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "cabeza de flecha blanca tipo chevron",
+          "panel": "izquierda",
+          "senala": "fractura previa del hueso cuboides"
+        },
+        {
+          "marca": "estrella blanca con borde negro",
+          "panel": "derecha",
+          "senala": "fractura previa de la porción anterior del calcáneo"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. Figura compuesta por dos paneles de resonancia magnética en ponderación T1 sin supresión grasa: el panel izquierdo muestra un plano axial u oblicuo axial del mediopié/antepié y el derecho un plano sagital del retropié/mediopié. La leyenda original no especifica plano, secuencia ni lateralidad del pie. Muestra fracturas previas en el hueso cuboides y en la apófisis anterior del calcáneo.",
+      "drive": "19h58KULUD35jw9dRImZVx3sz0mqe4YpS"
+    },
+    "d12-l": {
+      "archivo": "d12-l.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 12 · sin marcas",
+      "leyenda_original": "Osseous findings: Previous fracture of the cuboid bone EXAMPLE CASE 3 42 YEAR OLD WOMAN WITH FOOT PAIN Findings: Previous fracture of the anterior calcaneus",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecha",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Versión de la pregunta: la misma figura sin las marcas que la diapositiva dibuja encima (flechas, círculos, estrellas, líneas), que en el PDF son objetos aparte. La imagen radiológica no se tocó. La versión con las marcas es «d12» y se ve en la respuesta. Figura compuesta por dos paneles de resonancia magnética en ponderación T1 sin supresión grasa: el panel izquierdo muestra un plano axial u oblicuo axial del mediopié/antepié y el derecho un plano sagital del retropié/mediopié. La leyenda original no especifica plano, secuencia ni lateralidad del pie. Muestra fracturas previas en el hueso cuboides y en la apófisis anterior del calcáneo.",
+      "drive": "18oGu2P7AClT19pltePf4aoRJwG-HlnkL"
+    },
+    "d13": {
+      "archivo": "d13.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 13",
+      "leyenda_original": "Ligamentous findings: Extensive thickening, edema and increased signal at the dorsal calcaneocuboid joint with significant ligament fiber attenuation, which is suggestive of high-grade tear. Thickening, increased signal and attenuation of both components of the bifurcate ligament (calcaneonavicular and calcaneocuboid bands), suggestive of a high-grade sprain. EXAMPLE CASE 3 42 YEAR OLD WOMAN WITH FOOT PAIN",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "sup der",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inf der",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "dos cabezas de flecha blancas tipo chevron enfrentadas",
+          "panel": "izquierda",
+          "senala": "engrosamiento, edema, aumento de señal y atenuación de fibras en el ligamento calcaneocuboideo dorsal, sugerente de rotura de alto grado"
+        },
+        {
+          "marca": "estrella blanca con borde negro",
+          "panel": "sup der",
+          "senala": "engrosamiento, aumento de señal y atenuación de fibras en el ligamento bifurcado"
+        },
+        {
+          "marca": "dos flechas con cabeza blanca y asta negra",
+          "panel": "inf der",
+          "senala": "afectación de ambos componentes del ligamento bifurcado (bandas calcaneonavicular y calcaneocuboidea), sugerente de esguince de alto grado"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. Figura compuesta por tres paneles de resonancia magnética con supresión grasa sensibles a líquido: el panel izquierdo corresponde a un plano axial u oblicuo axial del mediopié, y los paneles superior derecho e inferior derecho a planos sagitales. La leyenda original no especifica el plano, secuencia ni lateralidad del pie. Muestra rotura de alto grado del ligamento calcaneocuboideo dorsal y esguince de alto grado de ambos componentes del ligamento bifurcado.",
+      "drive": "17ujbSygpMRU2TWO5mm5DY7tdM9CoD9WI"
+    },
+    "d13-l": {
+      "archivo": "d13-l.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 13 · sin marcas",
+      "leyenda_original": "Ligamentous findings: Extensive thickening, edema and increased signal at the dorsal calcaneocuboid joint with significant ligament fiber attenuation, which is suggestive of high-grade tear. Thickening, increased signal and attenuation of both components of the bifurcate ligament (calcaneonavicular and calcaneocuboid bands), suggestive of a high-grade sprain. EXAMPLE CASE 3 42 YEAR OLD WOMAN WITH FOOT PAIN",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "izquierda",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "sup der",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inf der",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Versión de la pregunta: la misma figura sin las marcas que la diapositiva dibuja encima (flechas, círculos, estrellas, líneas), que en el PDF son objetos aparte. La imagen radiológica no se tocó. La versión con las marcas es «d13» y se ve en la respuesta. Figura compuesta por tres paneles de resonancia magnética con supresión grasa sensibles a líquido: el panel izquierdo corresponde a un plano axial u oblicuo axial del mediopié, y los paneles superior derecho e inferior derecho a planos sagitales. La leyenda original no especifica el plano, secuencia ni lateralidad del pie. Muestra rotura de alto grado del ligamento calcaneocuboideo dorsal y esguince de alto grado de ambos componentes del ligamento bifurcado.",
+      "drive": "1flByRHOAtdq3gkG1kKeCyGmwoeRdixyg"
+    },
+    "d15": {
+      "archivo": "d15.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 15",
+      "leyenda_original": "Findings: Small effusion centered at the calcaneocuboid joint without discrete ligamentous disruption or adjacent marrow edema. No osteochondral lesions or fractures are identified. Discussion: Presence of isolated calcaneocuboid joint effusion may indicate low-grade capsular strain. Represents a subtle form of midtarsal sprain, where ligamentous injury is not directly visualized.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "único",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "único",
+          "senala": "pequeño derrame centrado en la articulación calcaneocuboidea"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. Figura con panel único de resonancia magnética sensible a líquido con supresión grasa en plano axial del pie (eje largo). La leyenda original no especifica el plano, secuencia ni lateralidad del pie. Muestra un pequeño derrame en la articulación calcaneocuboidea sin edema óseo ni rotura ligamentosa evidente.",
+      "drive": "1K8vYRdZlsgO6-mRtiSdUtJwE-afPtrQL"
+    },
+    "d15-l": {
+      "archivo": "d15-l.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 15 · sin marcas",
+      "leyenda_original": "Findings: Small effusion centered at the calcaneocuboid joint without discrete ligamentous disruption or adjacent marrow edema. No osteochondral lesions or fractures are identified. Discussion: Presence of isolated calcaneocuboid joint effusion may indicate low-grade capsular strain. Represents a subtle form of midtarsal sprain, where ligamentous injury is not directly visualized.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "único",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Versión de la pregunta: la misma figura sin las marcas que la diapositiva dibuja encima (flechas, círculos, estrellas, líneas), que en el PDF son objetos aparte. La imagen radiológica no se tocó. La versión con las marcas es «d15» y se ve en la respuesta. Figura con panel único de resonancia magnética sensible a líquido con supresión grasa en plano axial del pie (eje largo). La leyenda original no especifica el plano, secuencia ni lateralidad del pie. Muestra un pequeño derrame en la articulación calcaneocuboidea sin edema óseo ni rotura ligamentosa evidente.",
+      "drive": "10fP7fnkT4IIowEExnO0BPoBCx5WW-AML"
+    },
+    "d16": {
+      "archivo": "d16.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 16",
+      "leyenda_original": "Findings: Sprain of the plantar portion of the Spring ligament. Sprain of the dorsal talonavicular ligament with associated bone contusion at the plantar aspect of the talar head. Sprain of the calcaneocuboid band of the bifurcate ligament and associated bone contusion of the anterior calcaneal process. Discussion Multi-ligamentous midtarsal sprain involving both medial (Spring ligament) and lateral (bifurcate) stabilizers. Most likely mechanism of injury is inversion with plantar flexion.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "sup izq",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inf izq",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecho",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "cabeza de flecha blanca",
+          "panel": "sup izq",
+          "senala": "esguince del ligamento talonavicular dorsal"
+        },
+        {
+          "marca": "estrella",
+          "panel": "inf izq",
+          "senala": "esguince de la banda calcaneocuboidea del ligamento bifurcado"
+        },
+        {
+          "marca": "estrella",
+          "panel": "inf izq",
+          "senala": "contusión ósea de la apófisis anterior del calcáneo"
+        },
+        {
+          "marca": "flecha blanca con borde negro",
+          "panel": "derecho",
+          "senala": "esguince de la porción plantar del ligamento en resorte (Spring ligament)"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. Figura compuesta por tres paneles de resonancia magnética con supresión grasa sensibles a líquido en plano sagital: el superior izquierdo centrado en el dorso de la articulación talonavicular, el inferior izquierdo en la columna lateral (articulación calcaneocuboidea y apófisis anterior del calcáneo) y el derecho en el aspecto inferomedial (ligamento en resorte). La leyenda original no especifica plano, secuencia ni lateralidad del pie.",
+      "drive": "1bm1EbnfJHA68fnUcN32SxXEt_G4tHCpi"
+    },
+    "d16-l": {
+      "archivo": "d16-l.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 16 · sin marcas",
+      "leyenda_original": "Findings: Sprain of the plantar portion of the Spring ligament. Sprain of the dorsal talonavicular ligament with associated bone contusion at the plantar aspect of the talar head. Sprain of the calcaneocuboid band of the bifurcate ligament and associated bone contusion of the anterior calcaneal process. Discussion Multi-ligamentous midtarsal sprain involving both medial (Spring ligament) and lateral (bifurcate) stabilizers. Most likely mechanism of injury is inversion with plantar flexion.",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "sup izq",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inf izq",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "derecho",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Versión de la pregunta: la misma figura sin las marcas que la diapositiva dibuja encima (flechas, círculos, estrellas, líneas), que en el PDF son objetos aparte. La imagen radiológica no se tocó. La versión con las marcas es «d16» y se ve en la respuesta. Figura compuesta por tres paneles de resonancia magnética con supresión grasa sensibles a líquido en plano sagital: el superior izquierdo centrado en el dorso de la articulación talonavicular, el inferior izquierdo en la columna lateral (articulación calcaneocuboidea y apófisis anterior del calcáneo) y el derecho en el aspecto inferomedial (ligamento en resorte). La leyenda original no especifica plano, secuencia ni lateralidad del pie.",
+      "drive": "1j_84on0PsRV4DKfGSllcSK8XeN1ZY9e9"
+    },
+    "d17": {
+      "archivo": "d17.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 17",
+      "leyenda_original": "Findings: Extensive marrow edema along the talar head, most pronounced on the plantar aspect, with a subtle linear low-signal line suggestive of trabecular injury. Contusions involving the anterior process of the calcaneus, medial cuboid, and medial navicular. Sprain of the calcaneocuboid band of the bifurcate ligament and associated bone contusion of the anterior calcaneal process Related sprain of the dorsal calcaneocuboid ligament. EXAMPLE CASE 6 54 YEAR OLD WOMAN WITH FOOT PAIN AFTER FALL",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "sup izq",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inf izq",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "sup der",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inf der",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha blanca horizontal",
+          "panel": "sup izq",
+          "senala": "sutil línea hipointensa sugestiva de lesión trabecular en la cabeza del astrágalo"
+        },
+        {
+          "marca": "dos flechas punteadas blancas",
+          "panel": "inf izq",
+          "senala": "esguince del ligamento calcaneocuboideo dorsal"
+        },
+        {
+          "marca": "punta de flecha blanca",
+          "panel": "sup der",
+          "senala": "contusión ósea en la vertiente plantar de la cabeza del astrágalo"
+        },
+        {
+          "marca": "estrella blanca",
+          "panel": "inf der",
+          "senala": "esguince de la banda calcaneocuboidea del ligamento bifurcado"
+        },
+        {
+          "marca": "dos puntas de flecha blancas",
+          "panel": "inf der",
+          "senala": "contusiones óseas en la apófisis anterior del calcáneo y en el cuboides"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. La leyenda original no especifica lado, plano ni secuencia. Por imagen corresponden a secuencias de RM sensibles a líquido con supresión grasa en planos coronal/eje corto (superior izquierda), axial/eje largo (inferior izquierda) y sagitales (superior derecha e inferior derecha). En la diapositiva 17 el caso figura como mujer de 54 años y en la diapositiva 18 (mismo caso 6) como mujer de 37 años.",
+      "drive": "1XyIFWrwj1BJyfh9BH0SNkfPzkt284J-8"
+    },
+    "d17-l": {
+      "archivo": "d17-l.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 17 · sin marcas",
+      "leyenda_original": "Findings: Extensive marrow edema along the talar head, most pronounced on the plantar aspect, with a subtle linear low-signal line suggestive of trabecular injury. Contusions involving the anterior process of the calcaneus, medial cuboid, and medial navicular. Sprain of the calcaneocuboid band of the bifurcate ligament and associated bone contusion of the anterior calcaneal process Related sprain of the dorsal calcaneocuboid ligament. EXAMPLE CASE 6 54 YEAR OLD WOMAN WITH FOOT PAIN AFTER FALL",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "sup izq",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inf izq",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "sup der",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inf der",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Versión de la pregunta: la misma figura sin las marcas que la diapositiva dibuja encima (flechas, círculos, estrellas, líneas), que en el PDF son objetos aparte. La imagen radiológica no se tocó. La versión con las marcas es «d17» y se ve en la respuesta. La leyenda original no especifica lado, plano ni secuencia. Por imagen corresponden a secuencias de RM sensibles a líquido con supresión grasa en planos coronal/eje corto (superior izquierda), axial/eje largo (inferior izquierda) y sagitales (superior derecha e inferior derecha). En la diapositiva 17 el caso figura como mujer de 54 años y en la diapositiva 18 (mismo caso 6) como mujer de 37 años.",
+      "drive": "1AoIze6RF6VRdDgejJLy2sAHMLX46MAne"
+    },
+    "d20": {
+      "archivo": "d20.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 20",
+      "leyenda_original": "CT and MRI examples of os calcaneus secundarius",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "superior",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inferior",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [
+        {
+          "marca": "flecha discontinua blanca",
+          "panel": "superior",
+          "senala": "os calcaneus secundarius en la apófisis anterior del calcáneo"
+        },
+        {
+          "marca": "flecha discontinua blanca",
+          "panel": "inferior",
+          "senala": "os calcaneus secundarius en la apófisis anterior del calcáneo"
+        }
+      ],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Recorte de la diapositiva: la zona de la imagen con sus marcas, sin el título ni los recuadros de texto. Solo redimensionada y comprimida. Figura con dos paneles: superior en tomografía computarizada (TC) sagital e inferior en resonancia magnética (RM) sagital potenciada en T1. La leyenda original no especifica lado, plano ni secuencia.",
+      "drive": "11BeHReNQQeHBkGCljWDpdtTqggNRgr8Y"
+    },
+    "d20-l": {
+      "archivo": "d20-l.jpg",
+      "fuente": "wang2025",
+      "figura": "Diapositiva 20 · sin marcas",
+      "leyenda_original": "CT and MRI examples of os calcaneus secundarius",
+      "modalidad": "RM",
+      "paneles": [
+        {
+          "id": "superior",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        },
+        {
+          "id": "inferior",
+          "plano": null,
+          "secuencia": null,
+          "condicion": null
+        }
+      ],
+      "marcas": [],
+      "modificaciones": [
+        "redimensionada",
+        "comprimida"
+      ],
+      "notas": "Versión de la pregunta: la misma figura sin las marcas que la diapositiva dibuja encima (flechas, círculos, estrellas, líneas), que en el PDF son objetos aparte. La imagen radiológica no se tocó. La versión con las marcas es «d20» y se ve en la respuesta. Figura con dos paneles: superior en tomografía computarizada (TC) sagital e inferior en resonancia magnética (RM) sagital potenciada en T1. La leyenda original no especifica lado, plano ni secuencia.",
+      "drive": "19kNBlP4dvN1e1dpu6gOMNQnCR65DguCb"
+    }
+  },
+  "casos": [
+    {
+      "id": "d07a-1",
+      "tema": "Radiografía · Fractura por avulsión",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "radiografía",
+        "Chopart",
+        "fractura por avulsión",
+        "pie",
+        "traumatismo"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Radiografía dorsoplantar del pie izquierdo. ¿Qué lesión sutil hay que buscar en la articulación mediotarsiana?",
+      "imagenes": [
+        {
+          "ref": "d07a-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d07a",
+          "mostrar_en": "respuesta"
+        },
+        {
+          "ref": "d07c",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Fractura por estrés",
+        "Osteocondritis disecante",
+        "Fractura por avulsión",
+        "Luxación mediotarsiana",
+        "Coalición tarsiana ósea"
+      ],
+      "correcta": 2,
+      "explicacion": "- **Hallazgos:** En la radiografía dorsoplantar se identifica un diminuto fragmento óseo cortical milimétrico en el margen lateral de la articulación mediotarsiana (señalado por la flecha discontinua naranja en la figura de respuesta), correspondiente a una fractura sutil por avulsión.\n- La presentación enfatiza que en la valoración de la articulación de Chopart se debe buscar activamente este hallazgo, ya que las fracturas por avulsión pueden ser muy sutiles y pasar inadvertidas en radiografías iniciales.\n- No se aprecian líneas de fractura por sobrecarga trabecular, colapso de superficies articulares ni pérdida de relaciones que sugiera luxación.",
+      "perla": "En la articulación mediotarsiana, las fracturas por avulsión pueden ser sumamente sutiles y deben buscarse con minuciosidad en las radiografías iniciales.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Detección de un fragmento óseo de avulsión milimétrico y sutil en una radiografía dorsoplantar completa de pie.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 7",
+          "cita": "Also, carefully inspect the midtarsal joint for avulsion fractures. They can be very subtle like in this case."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d07b-1",
+      "tema": "Radiografía · Línea de Cyma",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "radiografía",
+        "Chopart",
+        "línea de Cyma",
+        "pie",
+        "esguince"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Radiografía dorsoplantar de pie izquierdo. En la interlínea articular mediotarsiana, ¿qué línea anatomo-radiológica de referencia se evalúa para valorar la alineación y descartar una discontinuidad?",
+      "imagenes": [
+        {
+          "ref": "d07b-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d07b",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Línea de Lisfranc",
+        "Línea de Meary",
+        "Línea de Shenton",
+        "Línea de Cyma",
+        "Línea de Boehler"
+      ],
+      "correcta": 3,
+      "explicacion": "- **Hallazgos:** En la radiografía dorsoplantar se evalúa la articulación mediotarsiana (talonavicular y calcaneocuboidea). La línea de referencia continua en «S» itálica que discurre por esta interlínea es la línea de Cyma (marcada con puntos azules en la figura de respuesta).\n- La discontinuidad de la línea de Cyma sugiere un esguince o lesión compleja de la articulación de Chopart, y debe evaluarse tanto en proyección dorsoplantar como en sagital (lateral).\n- La línea articular de Lisfranc evalúa la articulación tarsometatarsiana más distal, mientras que las líneas de Boehler y Meary evalúan otros ejes y ángulos del retropié.",
+      "perla": "La discontinuidad de la línea de Cyma en las proyecciones dorsoplantar o sagital es un hallazgo radiográfico clave que sugiere esguince de Chopart.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Reconocimiento de la línea anatomo-radiológica clásica de referencia para la articulación mediotarsiana.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 7",
+          "cita": "Evaluate the Cyma line on dorsoplanar and saggital. Discontinuity may be suggestive of Chopart sprain."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d10-1",
+      "tema": "Casos de esguince · Articulación talonavicular",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "esguince mediotarsiano",
+        "articulación talonavicular"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 75 años con dolor crónico de pie. En la resonancia magnética (panel derecho), ¿qué estructura presenta signos de esguince?",
+      "imagenes": [
+        {
+          "ref": "d10-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d10",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Ligamento calcaneonavicular plantar",
+        "Banda calcaneonavicular del ligamento bifurcado",
+        "Ligamento calcaneocuboideo dorsal",
+        "Banda calcaneocuboidea del ligamento bifurcado",
+        "Cápsula articular talonavicular dorsal"
+      ],
+      "correcta": 4,
+      "explicacion": "- **Hallazgos:** La RM (panel derecho) muestra engrosamiento y edema con hiperintensidad en la cápsula articular talonavicular dorsal (*dorsal talonavicular joint capsule*), asociado a focos de edema óseo en los aspectos dorsal y plantar de la cabeza del astrágalo y en la apófisis anterior del calcáneo. La radiografía (panel izquierdo) muestra cambios degenerativos talonaviculares y un espolón calcáneo plantar.\n- Estos hallazgos reflejan una contusión previa con esguince leve de la cápsula articular talonavicular dorsal, representando una secuela crónica de un esguince mediotarsiano (articulación de Chopart).\n- El ligamento calcaneocuboideo dorsal y el ligamento bifurcado (con sus bandas calcaneocuboidea y calcaneonavicular) se sitúan en la columna lateral del mediopié; en este corte centrado en la articulación talonavicular no se observa alteración de dichos estabilizadores laterales.",
+      "perla": "El edema persistente en la cabeza del astrágalo y la cápsula talonavicular dorsal refleja una contusión previa con esguince leve que puede constituir la secuela de una lesión de Chopart.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Diagnóstico de secuela de esguince de Chopart integrando clínica de dolor crónico con edema capsular talonavicular en RM.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 10",
+          "cita": "Findings likely reflect prior contusion with mild sprain of the dorsal talonavicular joint capsule and could represent a sequela of midtarsal sprain."
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 10",
+          "cita": "Marrow edema at the dorsal and plantar aspects of the talar head and anterior process of calcaneus; plantar calcaneal spur noted."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d10-2",
+      "tema": "Casos de esguince · Secuela",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "secuela",
+        "contusión ósea"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 75 años con dolor crónico de pie. Radiografía (izquierda) y RM sagital (derecha). ¿Qué representan probablemente estos hallazgos?",
+      "imagenes": [
+        {
+          "ref": "d10-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d10",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Secuela de un esguince mediotarsiano previo",
+        "Esguince mediotarsiano agudo de alto grado",
+        "Fractura por estrés del astrágalo",
+        "Osteonecrosis de la cabeza del astrágalo",
+        "Artropatía neuropática del mediopié"
+      ],
+      "correcta": 0,
+      "explicacion": "- **Hallazgos:** cambios degenerativos talonaviculares y espolón calcáneo plantar en la radiografía; en la RM, edema óseo en las caras dorsal y plantar de la cabeza del astrágalo y en la apófisis anterior del calcáneo.\n- La presentación lo interpreta como una contusión previa con esguince leve de la cápsula talonavicular dorsal: probablemente la secuela de un esguince mediotarsiano.\n- Los esguinces de Chopart se confunden a menudo con un esguince de tobillo; diagnosticados tarde pueden llevar a inestabilidad crónica y colapso del arco.",
+      "perla": "Edema óseo en la cabeza del astrágalo y la apófisis anterior del calcáneo, con cambios degenerativos talonaviculares, puede ser la secuela de un esguince de Chopart antiguo.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Interpretar un patrón de edema óseo con cambios degenerativos como secuela de esguince mediotarsiano, como hace la fuente.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 10",
+          "cita": "Findings likely reflect prior contusion with mild sprain of the dorsal talonavicular joint capsule and could represent a sequela of midtarsal sprain."
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 10",
+          "cita": "MRI: Marrow edema at the dorsal and plantar aspects of the talar head and anterior process of calcaneus; plantar calcaneal spur noted."
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 4",
+          "cita": "Delayed diagnosis may lead to chronic instability and arch collapse."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d11-1",
+      "tema": "Casos de esguince · Ligamento en resorte",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "ligamento en resorte",
+        "Spring ligament",
+        "esguince mediotarsiano"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Varón de 32 años con dolor en retropié y tobillo izquierdos tras caer por las escaleras. En la RM axial (panel superior derecho), ¿qué ligamento presenta signos de esguince?",
+      "imagenes": [
+        {
+          "ref": "d11-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d11",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Ligamento calcaneocuboideo dorsal y lateral",
+        "Banda calcaneonavicular del ligamento bifurcado",
+        "Ligamento en resorte (calcaneonavicular plantar)",
+        "Ligamento talonavicular dorsal y medial",
+        "Banda calcaneocuboidea del ligamento bifurcado"
+      ],
+      "correcta": 2,
+      "explicacion": "- **Hallazgos:** La RM axial con supresión grasa (panel superior derecho) muestra engrosamiento e hiperintensidad de señal en el ligamento en resorte o calcaneonavicular plantar (*Spring ligament*), señalizado con una estrella blanca en la imagen anotada, compatible con esguince agudo.\n- El complejo ligamentoso en resorte (*Spring ligament*) actúa como el soporte plantar principal de la cabeza del astrágalo y estabilizador estático clave del arco longitudinal medial y la articulación talonavicular.\n- Los estabilizadores de la columna lateral de Chopart, como el ligamento bifurcado (con sus bandas calcaneonavicular y calcaneocuboidea) y el ligamento calcaneocuboideo dorsal, se ubican en el aspecto dorsolateral del mediopié y no corresponden a la estructura hiperintensa de la región inferomedial.",
+      "perla": "El esguince del ligamento en resorte (*Spring ligament*) se manifiesta en RM por hiperintensidad y desestructuración de sus fascículos inferomediales, estabilizador clave de la articulación talonavicular.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Reconocimiento de esguince del ligamento en resorte en RM axial de mediopié en contexto de traumatismo agudo.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 11",
+          "cita": "Sprain of Spring ligament."
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 11",
+          "cita": "Classic acute inversion-type strain involving the Spring ligament."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d11-2",
+      "tema": "Casos de esguince · Contusión ósea",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "contusión ósea",
+        "astrágalo",
+        "calcáneo"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Varón de 32 años con dolor en retropié y tobillo izquierdos tras caída por las escaleras. En la RM (paneles superior izquierdo e inferior), ¿dónde se localizan las contusiones óseas?",
+      "imagenes": [
+        {
+          "ref": "d11-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d11",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Apófisis lateral del astrágalo y cuerpo posterior del hueso calcáneo",
+        "Cabeza plantar medial del astrágalo y apófisis anterior del calcáneo",
+        "Tuberosidad medial del hueso navicular y superficie anterior del cuboides",
+        "Sustentáculo del astrágalo y borde anterolateral del hueso cuboides",
+        "Cuello anterodorsal del astrágalo y aspecto medial del hueso navicular"
+      ],
+      "correcta": 1,
+      "explicacion": "- **Hallazgos:** La RM en planos axial oblicuo (panel superior izquierdo) y sagital (panel inferior) muestra focos hiperintensos de edema en la médula ósea subcondral (*marrow edema*) que representan contusiones a lo largo de la porción plantar medial de la cabeza del astrágalo y de la apófisis anterior del calcáneo (señalados con cabezas de flecha blancas en la imagen anotada).\n- La presencia simultánea de contusiones óseas en la apófisis anterior del calcáneo y en la cabeza del astrágalo es una manifestación frecuente del estrés transmitido a través de las articulaciones calcaneocuboidea y talonavicular durante los esguinces del mediopié (complejo de Chopart).\n- No se observa edema óseo en la tuberosidad del navicular (típica de avulsiones del tibial posterior o eversión pura) ni en el cuboides medial, descartando un patrón lesional centrado en otras regiones del mediopié.",
+      "perla": "Las contusiones óseas en la cabeza del astrágalo y en la apófisis anterior del calcáneo son marcadores clave en RM de transmisión de fuerzas y esguince en la articulación de Chopart.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Localización precisa de contusiones óseas mediotarsianas en RM sagital y axial en un esguince agudo de Chopart.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 11",
+          "cita": "Contusions along the plantar medial talar head and anterior process of calcaneus."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d12-1",
+      "tema": "Casos de esguince · Columna lateral",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "cuboides",
+        "fractura",
+        "columna lateral"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 42 años con dolor en el pie. En la RM axial (panel izquierdo), ¿qué hueso presenta una fractura previa?",
+      "imagenes": [
+        {
+          "ref": "d12-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d12",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Hueso cuboides",
+        "Hueso navicular",
+        "Quinto metatarsiano",
+        "Cuneiforme medial",
+        "Cabeza del astrágalo"
+      ],
+      "correcta": 0,
+      "explicacion": "- **Hallazgos:** La RM axial en ponderación T1 (panel izquierdo) muestra irregularidad cortical y remodelación morfológica en la porción articular del hueso cuboides (*cuboid bone*), señalada con una flecha tipo chevron en la imagen anotada, compatible con una fractura previa consolidada.\n- Las fracturas crónicas del cuboides y del calcáneo en la articulación mediotarsiana (Chopart) sugieren un traumatismo previo de alto impacto (*high impact trauma*), que predispone a inestabilidad residual del mediopié ante nuevos episodios traumáticos.\n- El hueso navicular y el cuneiforme medial se sitúan en la columna medial del mediopié; el hallazgo óseo de este panel se localiza en la columna lateral, en la articulación calcaneocuboidea.",
+      "perla": "La fractura previa del cuboides indica un antecedente de traumatismo de alta energía en la columna lateral de la articulación de Chopart.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Identificación de fractura previa del cuboides en RM axial de mediopié en contexto de antecedente traumático.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 12",
+          "cita": "Osseous findings: Previous fracture of the cuboid bone"
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 14",
+          "cita": "Chronic cuboid and calcaneous fractures suggest prior high impact trauma with residual midfoot instability"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d12-2",
+      "tema": "Casos de esguince · Calcáneo anterior",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "calcáneo",
+        "fractura",
+        "apófisis anterior"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 42 años con dolor en el pie. En la RM sagital (panel derecho), ¿en qué localización se identifica una fractura previa?",
+      "imagenes": [
+        {
+          "ref": "d12-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d12",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Tuberosidad posterior del calcáneo",
+        "Tuberosidad medial del hueso navicular",
+        "Aspecto dorsal del cuello astragalino",
+        "Sustentáculo medial del astrágalo",
+        "Porción anterior del calcáneo"
+      ],
+      "correcta": 4,
+      "explicacion": "- **Hallazgos:** La RM sagital en ponderación T1 (panel derecho) muestra alteración del contorno con deformidad y remodelación ósea en la porción anterior del calcáneo (*anterior calcaneus*), señalada con una estrella en la imagen anotada, compatible con una fractura previa consolidada.\n- La fractura de la apófisis anterior del calcáneo suele asociarse a mecanismos de compresión o avulsión ligamentosa; su coexistencia con una fractura previa del cuboides refleja un traumatismo de alto impacto previo con riesgo de inestabilidad articular de Chopart.\n- El cuello dorsal del astrágalo y el hueso navicular no muestran deformidad ni solución de continuidad en este plano sagital.",
+      "perla": "La fractura previa de la porción anterior del calcáneo es un signo de traumatismo previo de alto impacto que puede comprometer la estabilidad mediotarsiana.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Reconocimiento de fractura consolidada en la porción anterior del calcáneo en RM sagital de retropié.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 12",
+          "cita": "Findings: Previous fracture of the anterior calcaneus"
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 14",
+          "cita": "Chronic cuboid and calcaneous fractures suggest prior high impact trauma with residual midfoot instability"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d13-1",
+      "tema": "Casos de esguince · Articulación calcaneocuboidea",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "ligamento calcaneocuboideo dorsal",
+        "rotura ligamentosa",
+        "esguince de alto grado"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 42 años con dolor en el pie. RM axial (panel izquierdo). ¿Qué ligamento está lesionado?",
+      "imagenes": [
+        {
+          "ref": "d13-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d13",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Ligamento calcaneocuboideo plantar",
+        "Ligamento talofibular anterior",
+        "Ligamento calcaneocuboideo dorsal",
+        "Ligamento calcaneonavicular plantar",
+        "Ligamento talonavicular dorsal"
+      ],
+      "correcta": 2,
+      "explicacion": "- **Hallazgos:** La RM axial con supresión grasa sensible a líquido (panel izquierdo) muestra engrosamiento marcado, edema y aumento de señal en la articulación calcaneocuboidea dorsal con atenuación significativa de las fibras del ligamento calcaneocuboideo dorsal (*dorsal calcaneocuboid ligament*), señaladas entre dos cabezas de flecha tipo chevron enfrentadas en la imagen anotada, compatible con rotura de alto grado (*high-grade tear*).\n- El ligamento calcaneocuboideo dorsal refuerza la cápsula articular dorsolateral entre la apófisis anterior del calcáneo y el cuboides; su rotura es un elemento primordial en las lesiones de la articulación de Chopart.\n- El ligamento talonavicular dorsal y el ligamento calcaneonavicular plantar (en resorte) pertenecen a la columna medial del mediopié, mientras que la lesión visible se encuentra en la articulación calcaneocuboidea (columna lateral).",
+      "perla": "El engrosamiento y la atenuación de fibras con hiperintensidad en la vertiente dorsal de la articulación calcaneocuboidea definen la rotura de alto grado del ligamento calcaneocuboideo dorsal.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Reconocimiento de rotura de alto grado del ligamento calcaneocuboideo dorsal en RM axial de mediopié.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 13",
+          "cita": "Extensive thickening, edema and increased signal at the dorsal calcaneocuboid joint with significant ligament fiber attenuation, which is suggestive of high-grade tear."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d13-2",
+      "tema": "Casos de esguince · Ligamento bifurcado",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "ligamento bifurcado",
+        "esguince de alto grado",
+        "articulación mediotarsiana"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer de 42 años con dolor en el pie. RM sagital (paneles derechos). ¿Qué ligamento está lesionado?",
+      "imagenes": [
+        {
+          "ref": "d13-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d13",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Ligamento plantar largo",
+        "Ligamento talonavicular dorsal",
+        "Ligamento plantar corto",
+        "Ligamento bifurcado",
+        "Ligamento en resorte"
+      ],
+      "correcta": 3,
+      "explicacion": "- **Hallazgos:** Los cortes sagitales de RM con supresión grasa (paneles superior e inferior derechos) muestran engrosamiento, hiperintensidad de señal y atenuación de fibras en ambos componentes del ligamento bifurcado (*bifurcate ligament*), bandas calcaneonavicular y calcaneocuboidea, señaladas con una estrella y flechas en la imagen anotada, sugestivo de un esguince de alto grado (*high-grade sprain*).\n- El ligamento bifurcado es un estabilizador crucial en forma de «Y» que se origina en la apófisis anterior del calcáneo y se bifurca en dos fascículos para insertarse en el navicular y en el cuboides, proporcionando estabilidad dorsal clave a la articulación mediotarsiana de Chopart.\n- El ligamento en resorte (*Spring ligament*) y los ligamentos plantares largo y corto se ubican en el compartimento plantar del mediopié, mientras que el ligamento bifurcado se localiza en la vertiente dorsolateral entre el calcáneo, el cuboides y el navicular.",
+      "perla": "La afectación de ambas bandas del ligamento bifurcado (calcaneonavicular y calcaneocuboidea) en RM sagital representa un esguince de alto grado del principal estabilizador dorsolateral de Chopart.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Identificación de esguince de alto grado del ligamento bifurcado en RM sagital de mediopié.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 13",
+          "cita": "Thickening, increased signal and attenuation of both components of the bifurcate ligament (calcaneonavicular and calcaneocuboid bands), suggestive of a high-grade sprain."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d15-1",
+      "tema": "Casos de esguince · Articulación calcaneocuboidea",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "articulación calcaneocuboidea",
+        "anatomía mediotarsiana"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Varón de 53 años con dolor en el pie. RM axial. ¿En qué articulación está el hallazgo?",
+      "imagenes": [
+        {
+          "ref": "d15-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d15",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Articulación subtalar posterior",
+        "Articulación cuneonavicular",
+        "Articulación calcaneocuboidea",
+        "Articulación cuboideometatarsiana",
+        "Articulación talonavicular"
+      ],
+      "correcta": 2,
+      "explicacion": "- **Hallazgos:** La RM axial con supresión grasa sensible a líquido muestra una pequeña colección de líquido articular hiperintenso (*small effusion*) centrada en la articulación calcaneocuboidea (*calcaneocuboid joint*), señalada con una cabeza de flecha blanca en la imagen anotada, sin rotura ligamentosa evidente ni edema óseo adyacente.\n- La articulación de Chopart o mediotarsiana se compone de dos articulaciones: la talonavicular medialmente y la calcaneocuboidea lateralmente. Esta última se localiza entre la apófisis anterior del calcáneo y la carilla articular posterior del hueso cuboides.\n- La articulación talonavicular se sitúa en la columna medial del mediopié, mientras que la articulación cuboideometatarsiana se encuentra más distal, entre el cuboides y las bases del cuarto y quinto metatarsianos.",
+      "perla": "La articulación calcaneocuboidea conforma la columna lateral de la línea de Chopart; la presencia de un pequeño derrame en su seno puede ser el único indicio de lesión capsular.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Identificación anatómica directa de la articulación calcaneocuboidea en plano axial de RM de mediopié.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 15",
+          "cita": "Small effusion centered at the calcaneocuboid joint without discrete ligamentous disruption or adjacent marrow edema."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d15-2",
+      "tema": "Casos de esguince · Distensión capsular",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "esguince de bajo grado",
+        "distensión capsular",
+        "derrame articular"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Varón de 53 años con dolor en el pie. RM axial. Si es el único hallazgo, ¿qué representa?",
+      "imagenes": [
+        {
+          "ref": "d15-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d15",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Esguince de alto grado del ligamento bifurcado",
+        "Distensión capsular de bajo grado",
+        "Avulsión cortical de la apófisis anterior del calcáneo",
+        "Fractura trabecular por compresión del cuboides",
+        "Rotura completa del ligamento calcaneocuboideo dorsal"
+      ],
+      "correcta": 1,
+      "explicacion": "- **Hallazgos:** La RM axial muestra un pequeño derrame articular centrado en la articulación calcaneocuboidea sin rotura ligamentosa delimitada ni edema óseo adyacente, ni fracturas o lesiones osteocondrales visibles.\n- La presencia de un derrame aislado en la articulación calcaneocuboidea (*isolated calcaneocuboid joint effusion*) puede indicar una distensión capsular de bajo grado (*low-grade capsular strain*) y representa una forma sutil de esguince mediotarsiano donde la lesión ligamentosa no se visualiza de forma directa.\n- Las lesiones de alto grado del ligamento bifurcado o del ligamento calcaneocuboideo dorsal cursan con engrosamiento o atenuación manifiesta de sus fibras y suelen asociar edema óseo o fracturas por avulsión en la apófisis anterior del calcáneo o en el cuboides.",
+      "perla": "Un derrame calcaneocuboideo aislado puede sugerir un esguince de Chopart de bajo grado; el líquido sutil puede ser la única pista diagnóstica en imagen.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Diagnóstico de esguince sutil mediotarsiano/distensión capsular a partir de derrame aislado sin rotura ligamentosa evidente.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 15",
+          "cita": "Presence of isolated calcaneocuboid joint effusion may indicate low-grade capsular strain. Represents a subtle form of midtarsal sprain, where ligamentous injury is not directly visualized."
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 15",
+          "cita": "TIP: Isolated calcaneocuboid effusions can suggest a low- grade Chopart sprain; subtle fluid may be the only imaging clue."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d16-1",
+      "tema": "Casos de esguince · Ligamento talonavicular dorsal",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "ligamento talonavicular dorsal",
+        "esguince mediotarsiano",
+        "contusión ósea"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Varón de 79 años con dolor en el pie tras torcerse el tobillo. En la RM sagital (panel superior izquierdo), ¿qué ligamento presenta signos de esguince?",
+      "imagenes": [
+        {
+          "ref": "d16-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d16",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Ligamento talonavicular dorsal",
+        "Fascículo tibionavicular del ligamento deltoideo",
+        "Ligamento calcaneocuboideo dorsal",
+        "Porción plantar del ligamento en resorte",
+        "Banda calcaneonavicular del ligamento bifurcado"
+      ],
+      "correcta": 0,
+      "explicacion": "- **Hallazgos:** La RM sagital (panel superior izquierdo) muestra engrosamiento, discontinuidad parcial e hiperintensidad en el ligamento talonavicular dorsal (*dorsal talonavicular ligament*), señalado con una cabeza de flecha en la imagen anotada, con contusión ósea asociada (*bone marrow edema*) en la vertiente plantar de la cabeza del astrágalo.\n- El ligamento talonavicular dorsal cubre la cápsula dorsomedial de la articulación talonavicular; su lesión es frecuente en mecanismos de inversión con flexión plantar por fuerzas de distracción dorsal sobre la columna medial.\n- El ligamento calcaneocuboideo dorsal se sitúa en la columna lateral sobre la articulación calcaneocuboidea, mientras que la porción plantar del ligamento en resorte (*Spring ligament*) discurre por el suelo plantar sustentando la cabeza astragalina.",
+      "perla": "El esguince del ligamento talonavicular dorsal se manifiesta por engrosamiento e hiperintensidad capsuloligamentosa dorsal, asociándose frecuentemente a contusión ósea en la cabeza del astrágalo.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Identificación de esguince del ligamento talonavicular dorsal y contusión asociada en la cabeza astragalina en RM sagital.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 16",
+          "cita": "Sprain of the dorsal talonavicular ligament with associated bone contusion at the plantar aspect of the talar head."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d16-2",
+      "tema": "Casos de esguince · Ligamento bifurcado",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "ligamento bifurcado",
+        "banda calcaneocuboidea",
+        "apófisis anterior del calcáneo"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Varón de 79 años con dolor en el pie tras torcerse el tobillo. RM sagital (panel inferior izquierdo). ¿Qué estructura ligamentosa está lesionada?",
+      "imagenes": [
+        {
+          "ref": "d16-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d16",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Banda calcaneocuboidea del ligamento bifurcado",
+        "Banda calcaneonavicular del ligamento bifurcado",
+        "Ligamento talonavicular dorsal y medial",
+        "Fascículo superomedial del ligamento en resorte",
+        "Porción superficial del ligamento plantar corto"
+      ],
+      "correcta": 0,
+      "explicacion": "- **Hallazgos:** La RM sagital de la columna lateral (panel inferior izquierdo) demuestra alteración de señal y edema con esguince de la banda calcaneocuboidea del ligamento bifurcado (*calcaneocuboid band of the bifurcate ligament*) y contusión ósea contigua en la apófisis anterior del calcáneo (*anterior calcaneal process*), señaladas con estrellas en la imagen anotada.\n- El ligamento bifurcado es el principal estabilizador lateral de Chopart; su banda calcaneocuboidea conecta la apófisis anterior del calcáneo con la cara dorsomedial del cuboides, sufriendo tracción y avulsión durante la inversión con flexión plantar.\n- La banda calcaneonavicular del ligamento bifurcado se orienta hacia el navicular y no hacia el cuboides; el ligamento en resorte (*Spring ligament*) se ubica medialmente sustentando la articulación talonavicular.",
+      "perla": "El esguince de la banda calcaneocuboidea del ligamento bifurcado se asocia típicamente a contusión o avulsión de la apófisis anterior del calcáneo en esguinces mediotarsianos por inversión.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Diferenciación anatómica fina del componente calcaneocuboideo del ligamento bifurcado en RM sagital en la columna lateral.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 16",
+          "cita": "Sprain of the calcaneocuboid band of the bifurcate ligament and associated bone contusion of the anterior calcaneal process."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d16-3",
+      "tema": "Casos de esguince · Ligamento en resorte",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "RM",
+        "ligamento en resorte",
+        "Spring ligament",
+        "estabilizador medial"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Varón de 79 años con dolor en el pie tras torcerse el tobillo. En la RM sagital (panel derecho), ¿qué estructura presenta signos de esguince?",
+      "imagenes": [
+        {
+          "ref": "d16-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d16",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Porción plantar del ligamento en resorte",
+        "Banda calcaneocuboidea del ligamento bifurcado",
+        "Ligamento talonavicular dorsal",
+        "Fascículo profundo del ligamento plantar largo",
+        "Ligamento calcaneocuboideo dorsal"
+      ],
+      "correcta": 0,
+      "explicacion": "- **Hallazgos:** La RM sagital del aspecto medial del pie (panel derecho) muestra engrosamiento e hiperintensidad de señal compatible con esguince de la porción plantar del ligamento en resorte (*plantar portion of the Spring ligament*), señalado con una flecha blanca en la imagen anotada.\n- El complejo del ligamento en resorte (*Spring ligament*) o calcaneonavicular plantar constituye el soporte medial y plantar principal de la cabeza del astrágalo; su afectación en este caso forma parte de una lesión multiligamentosa de Chopart que compromete estabilizadores tanto mediales como laterales.\n- El ligamento bifurcado y el ligamento calcaneocuboideo dorsal se localizan en la vertiente lateral y dorsal del mediopié; el ligamento talonavicular dorsal discurre por la cara dorsal de la articulación talonavicular.",
+      "perla": "La afectación simultánea del ligamento en resorte (estabilizador medial) y del ligamento bifurcado (estabilizador lateral) define un patrón multiligamentoso grave de Chopart.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Reconocimiento de esguince de la porción plantar del ligamento en resorte en RM sagital de mediopié.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 16",
+          "cita": "Sprain of the plantar portion of the Spring ligament."
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 16",
+          "cita": "Multi-ligamentous midtarsal sprain involving both medial (Spring ligament) and lateral (bifurcate) stabilizers."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d17-1",
+      "tema": "Casos de esguince · Columna lateral",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "RM",
+        "Chopart",
+        "ligamento bifurcado",
+        "esguince mediotarsiano",
+        "calcáneo"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer con dolor en el pie tras una caída. RM, corte sagital en el panel inferior derecho. A nivel de la apófisis anterior del calcáneo, ¿qué ligamento presenta signos de esguince?",
+      "imagenes": [
+        {
+          "ref": "d17-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d17",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Ligamento talonavicular dorsal",
+        "Fascículo superomedial del ligamento calcaneonavicular plantar",
+        "Fascículo inferomedial del ligamento calcaneonavicular plantar",
+        "Ligamento calcaneocuboideo plantar",
+        "Banda calcaneocuboidea del ligamento bifurcado"
+      ],
+      "correcta": 4,
+      "explicacion": "- **Hallazgos:** RM sagital sensible a líquido con supresión grasa (panel inferior derecho) que demuestra engrosamiento, hiperintensidad y alteración de las fibras en la banda calcaneocuboidea del ligamento bifurcado (estrella en la imagen anotada), asociada a contusión ósea con edema medular en la apófisis anterior del calcáneo (punta de flecha).\n- **Diagnóstico diferencial:** Los fascículos superomedial e inferomedial del ligamento calcaneonavicular plantar (en resorte o *spring ligament*) pertenecen al complejo estabilizador medial de la articulación talonavicular. El ligamento talonavicular dorsal se sitúa en el dorso de la columna medial y el calcaneocuboideo plantar discurre por la vertiente inferior profunda de la articulación calcaneocuboidea.\n- **Importancia clínica:** La apófisis anterior del calcáneo presta inserción al ligamento bifurcado; el hallazgo de edema óseo o fractura en este relieve debe alertar siempre sobre un esguince de sus bandas calcaneocuboidea y calcaneonavicular.",
+      "perla": "La apófisis anterior del calcáneo es el origen del ligamento bifurcado; la contusión ósea en esta zona obliga a buscar dirigidamente un esguince de sus bandas.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Reconocimiento del esguince de la banda calcaneocuboidea del ligamento bifurcado en RM sagital.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 17",
+          "cita": "Sprain of the calcaneocuboid band of the bifurcate ligament and associated bone contusion of the anterior calcaneal process"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d17-2",
+      "tema": "Casos de esguince · Cabeza del astrágalo",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "RM",
+        "Chopart",
+        "astrágalo",
+        "lesión trabecular",
+        "edema óseo"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer con dolor en el pie tras una caída. RM, panel superior izquierdo. ¿Qué hallazgo óseo hay en la cabeza del astrágalo?",
+      "imagenes": [
+        {
+          "ref": "d17-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d17",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Quiste subcondral degenerativo",
+        "Esclerosis reactiva por estrés crónico",
+        "Fragmento osteocondral desprendido",
+        "Lesión o microfractura trabecular",
+        "Fractura por avulsión cortical"
+      ],
+      "correcta": 3,
+      "explicacion": "- **Hallazgos:** RM coronal con supresión grasa (panel superior izquierdo) que evidencia extenso edema medular en la cabeza del astrágalo, predominante en su vertiente plantar, dentro del cual se distingue una sutil línea hipointensa sugestiva de lesión trabecular (señalada con flecha blanca en la imagen anotada).\n- **Diagnóstico diferencial:** No existe discontinuidad ni fragmento de la cortical ósea que sugiera una fractura por avulsión ni un defecto osteocondral articular. La ausencia de lesiones quísticas redondeadas circunscritas o bandas esclerosas aisladas sin edema descarta un quiste subcondral o cambios crónicos por estrés.\n- **Significado clínico:** Las líneas sutiles de lesión trabecular y el edema medular extenso en los huesos del mediopié son hallazgos característicos de fuerzas transmitidas de compresión y cizallamiento a través de la articulación de Chopart.",
+      "perla": "La presencia de edema óseo difuso con sutiles líneas trabeculares hipointensas en el mediopié debe hacer sospechar un esguince agudo de Chopart.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Detección e interpretación de una fina línea de lesión trabecular subcondral en medio de un edema medular extenso.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 17",
+          "cita": "Extensive marrow edema along the talar head, most pronounced on the plantar aspect, with a subtle linear low-signal line suggestive of trabecular injury."
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 18",
+          "cita": "The talar head trabecular injury and adjacent contusions reflect transmitted compressive and shear forces through the Chopart joint line."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d17-3",
+      "tema": "Casos de esguince · Biomecánica",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "RM",
+        "Chopart",
+        "mecanismo lesional",
+        "alta energía",
+        "cizallamiento"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Mujer con dolor en el pie tras una caída. RM de mediopié en los cuatro paneles. Al evaluar las lesiones óseas y ligamentosas de ambas columnas, ¿qué mecanismo lesional explica este patrón?",
+      "imagenes": [
+        {
+          "ref": "d17-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d17",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Dorsiflexión forzada con impacto astragalino anterior puro",
+        "Rotación externa aislada sin componente de cizallamiento axial",
+        "Inversión con flexión plantar y distracción talonavicular",
+        "Eversión aislada con sobrecarga axial y compresión calcaneocuboidea",
+        "Cizallamiento axial con sobrecarga combinada de alta energía"
+      ],
+      "correcta": 4,
+      "explicacion": "- **Hallazgos:** RM de mediopié en los cuatro paneles que demuestra un patrón lesional osteoligamentoso multifocal con afectación simultánea de las columnas medial (edema y lesión trabecular de la cabeza del astrágalo, contusión navicular) y lateral (contusiones de la apófisis anterior calcánea y cuboides, esguinces de la banda calcaneocuboidea del bifurcado y del ligamento calcaneocuboideo dorsal).\n- **Correlación biomecánica:** Este patrón combinado con lesiones concurrentes en ambas columnas traduce fuerzas transmitidas de compresión y cizallamiento a través de la línea articular de Chopart, característico de traumatismos de alta energía con vectores mixtos de varo/valgo y cizallamiento axial.\n- **Diagnóstico diferencial:** Los esguinces por inversión y flexión plantar lesionan de forma predominante la columna lateral y el ligamento bifurcado con distracción medial aislada. La eversión con carga axial lesiona el ligamento en resorte y genera impactación calcaneocuboidea sin fractura trabecular astragalina multifocal.",
+      "perla": "La afectación simultánea osteoligamentosa de las columnas medial y lateral de Chopart refleja fuerzas combinadas de compresión y cizallamiento axial por traumatismo de alta energía.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Integración del patrón de contusiones y roturas ligamentosas en ambas columnas para deducir el mecanismo biomecánico de alta energía.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 18",
+          "cita": "Multi-site bone-ligament injury pattern typical of an acute midtarsal sprain, with injury in both medial and lateral columns."
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 18",
+          "cita": "The talar head trabecular injury and adjacent contusions reflect transmitted compressive and shear forces through the Chopart joint line."
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 9",
+          "cita": "Mixed varus/valgus + Axial shear"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "c19-1",
+      "tema": "Casos de esguince · Clasificación",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "clasificación",
+        "fractura por avulsión",
+        "Rx",
+        "manejo"
+      ],
+      "tipo": "imagen",
+      "enunciado": "Radiografía dorsoplantar del pie izquierdo. Si este hallazgo acompaña a un esguince de Chopart, ¿cómo se clasifica el esguince?",
+      "imagenes": [
+        {
+          "ref": "d07a-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d07a",
+          "mostrar_en": "respuesta"
+        },
+        {
+          "ref": "d07c",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Esguince con fractura",
+        "Esguince puramente ligamentoso",
+        "Luxación mediotarsiana",
+        "Esguince de tobillo sin lesión de Chopart",
+        "Variante anatómica sin lesión"
+      ],
+      "correcta": 0,
+      "explicacion": "- **Hallazgos:** pequeño fragmento óseo en el margen lateral de la articulación mediotarsiana (flecha discontinua): avulsión.\n- La presentación divide los esguinces de Chopart en puramente ligamentosos (rotura de ligamentos sin fractura cortical visible, que suelen tratarse de forma conservadora) y con fractura (fragmento de avulsión o fractura por impactación).\n- El esguince con fractura suele deberse a más energía y puede necesitar una inmovilización más larga o valoración quirúrgica según el desplazamiento y la estabilidad de las columnas.",
+      "perla": "Un fragmento de avulsión convierte el esguince de Chopart en un esguince con fractura: puede necesitar más inmovilización o cirugía.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Reconocer una avulsión sutil y aplicar la clasificación del esguince de Chopart que cambia el manejo.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 19",
+          "cita": "Isolated midtarsal ligament disruption without visible cortical fracture"
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 19",
+          "cita": "Ligament injury plus osseous avulsion fragment or impaction fracture"
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 19",
+          "cita": "May require extended immobilization or surgical evaluation depending on displacement/column stability"
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 7",
+          "cita": "Also, carefully inspect the midtarsal joint for avulsion fractures. They can be very subtle like in this case."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d20-1",
+      "tema": "Trampas y variantes · Os calcaneus secundarius",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "TC",
+        "RM",
+        "Chopart",
+        "variante anatómica",
+        "os calcaneus secundarius"
+      ],
+      "tipo": "imagen",
+      "enunciado": "TC (arriba) y RM sagital (abajo) del retropié. ¿Qué variante anatómica se identifica?",
+      "imagenes": [
+        {
+          "ref": "d20-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d20",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Os tibiale externum",
+        "Os sustentaculi tali",
+        "Os intermetatarseum",
+        "Os supranaviculare",
+        "Os calcaneus secundarius"
+      ],
+      "correcta": 4,
+      "explicacion": "- **Hallazgos:** En la TC (panel superior) y en la RM sagital en T1 (panel inferior) se observa un pequeño osículo accesorio corticalizado adyacente a la apófisis anterior del calcáneo (señalado por la flecha discontinua blanca en la respuesta), compatible con un *os calcaneus secundarius*.\n- **Diagnóstico diferencial:** Los huesecillos accesorios (*accessory ossicles*), como el *os calcaneus secundarius*, son variantes anatómicas frecuentes que pueden simular fracturas por avulsión en la articulación de Chopart. Se caracterizan por presentar márgenes lisos y corticales continuas sin edema adyacente.\n- Otras variantes del tarso se localizan en sitios distintos: el *os sustentaculi tali* se ubica en el sustentáculo del astrágalo en la vertiente medial del retropié, el *os supranaviculare* en el margen dorsal del navicular, el *os tibiale externum* junto a la tuberosidad medial del navicular y el *os intermetatarseum* entre las bases metatarsianas.",
+      "perla": "El *os calcaneus secundarius* es una variante anatómica situada en la apófisis anterior del calcáneo que puede simular una fractura por avulsión de Chopart.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Reconocimiento del os calcaneus secundarius en TC y RM como variante anatómica frecuente en la articulación de Chopart.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 20",
+          "cita": "Accessory ossicles, like os calcaneus secundarius, may mimic avulsion fragments Look for smooth margins and no adjacent edema"
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 20",
+          "cita": "CT and MRI examples of os calcaneus secundarius"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "d20-2",
+      "tema": "Trampas y variantes · Diagnóstico diferencial",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "TC",
+        "RM",
+        "Chopart",
+        "variante anatómica",
+        "fractura por avulsión",
+        "diagnóstico diferencial"
+      ],
+      "tipo": "imagen",
+      "enunciado": "TC en el panel superior y RM sagital en el inferior. Al evaluar la articulación de Chopart, ¿qué hallazgo en estas imágenes permite distinguir esta variante de un fragmento de avulsión?",
+      "imagenes": [
+        {
+          "ref": "d20-l",
+          "mostrar_en": "pregunta"
+        },
+        {
+          "ref": "d20",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Esclerosis y quistes óseos subcondrales focales",
+        "Presencia de líquido fisiológico en el receso",
+        "Márgenes lisos y ausencia de edema adyacente",
+        "Engrosamiento hipointenso sin edema ligamentoso",
+        "Bordes irregulares con extenso edema perilesional"
+      ],
+      "correcta": 2,
+      "explicacion": "- **Hallazgos:** En la TC (panel superior) y en la RM sagital ponderada en T1 (panel inferior) se aprecia un hueso accesorio (*os calcaneus secundarius*) adyacente a la apófisis anterior del calcáneo, el cual presenta márgenes corticales completamente lisos y médula ósea grasa homogénea sin edema óseo adyacente.\n- **Diagnóstico diferencial:** A diferencia de una fractura por avulsión aguda, que típicamente muestra corticales irregulares y marcada hiperintensidad por edema de médula ósea (*marrow edema*), las variantes normales como los osículos accesorios muestran bordes netos corticalizados y ausencia de edema circundante.\n- **Otras trampas en Chopart:** La presentación también resalta que el engrosamiento ligamentoso hipointenso sin edema refleja fibrosis o cicatrización de esguinces remotos; el líquido en el receso articular puede ser fisiológico; y los quistes subcondrales o la esclerosis pueden simular contusiones óseas.",
+      "perla": "Para diferenciar un huesecillo accesorio de una avulsión aguda en la articulación de Chopart, la clave es buscar márgenes corticales lisos y ausencia de edema óseo adyacente.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Distinción entre variante anatómica y fractura por avulsión en la articulación de Chopart mediante criterios de TC y RM.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 20",
+          "cita": "Accessory ossicles, like os calcaneus secundarius, may mimic avulsion fragments Look for smooth margins and no adjacent edema"
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 20",
+          "cita": "CT and MRI examples of os calcaneus secundarius"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "c04-1",
+      "tema": "Casos de esguince · Sospecha clínica",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "Chopart",
+        "inversión",
+        "colapso del arco",
+        "concepto"
+      ],
+      "tipo": "concepto",
+      "enunciado": "En un paciente con antecedente de traumatismo en inversión y radiografías de tobillo sin alteraciones, ¿cuál es la secuela descrita ante el retraso diagnóstico de un esguince de Chopart?",
+      "imagenes": [
+        {
+          "ref": "d04",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Deformidad fija en equinovaro por contractura del tendón",
+        "Retracción fibrosa con fascitis plantar calcificante",
+        "Rigidez aislada y anquilosis ósea de la subastragalina",
+        "Inestabilidad crónica y colapso del arco longitudinal",
+        "Necrosis avascular idiopática en la cabeza del astrágalo"
+      ],
+      "correcta": 3,
+      "explicacion": "- El esguince de la articulación mediotarsiana (Chopart) suele atribuirse erróneamente a un esguince de tobillo ordinario; la falta de reconocimiento oportuno puede conducir a inestabilidad crónica y colapso del arco (*arch collapse*).\n- El perfil clínico típico corresponde a un mecanismo en inversión con dolor persistente lateral o dorsal en el mediopié pese a un estudio de tobillo negativo.\n- La figura esquemática en la respuesta muestra el vector de inversión del retropié con fuerzas transmitidas de estrés y distracción dorsal sobre el mediopié.\n- La anquilosis subastragalina y la necrosis avascular no constituyen secuelas naturales descritas del esguince ligamentario mediotarsiano.",
+      "perla": "Ante un traumatismo en inversión con dolor mediotarsiano dorsal o lateral persistente y radiografías de tobillo normales, debe sospecharse lesión de Chopart para prevenir inestabilidad crónica y colapso del arco.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Sospecha clínica básica ante esguince de tobillo simulado y secuelas de su retraso diagnóstico.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 4",
+          "cita": "Typical patient: inversion injury with persistent lateral or dorsal midfoot pain despite negative ankle findings."
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 4",
+          "cita": "Delayed diagnosis may lead to chronic instability and arch collapse."
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "c06-1",
+      "tema": "Anatomía de Chopart · Ligamento en resorte",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "anatomía",
+        "ligamento en resorte",
+        "Spring ligament",
+        "concepto"
+      ],
+      "tipo": "concepto",
+      "enunciado": "¿Cuáles son los tres fascículos anatómicos que constituyen el complejo del ligamento calcaneonavicular plantar (ligamento en resorte) en la articulación de Chopart?",
+      "imagenes": [
+        {
+          "ref": "d06",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Fascículos talonavicular dorsal, plantar corto y largo",
+        "Fascículos peroneocalcáneo, astragalino anterior y posterior",
+        "Bandas superficial, profunda medial y cervical oblicua",
+        "Bandas calcaneonavicular, calcaneocuboidea e interósea",
+        "Fascículos superomedial, inferomedial y oblicuo medial"
+      ],
+      "correcta": 4,
+      "explicacion": "- El ligamento calcaneonavicular plantar (*plantar calcaneonavicular ligament* o complejo del ligamento en resorte) es un estabilizador medial fundamental de Chopart compuesto por tres porciones: superomedial, inferomedial y oblicuo medial (*medial oblique*).\n- La figura d06 en la respuesta detalla la anatomía de estos estabilizadores mediante esquemas dorsal y lateral junto a cortes de RM del ligamento en resorte.\n- El ligamento bifurcado constituye una estructura independiente formada por las bandas calcaneonavicular y calcaneocuboidea, sin pertenecer al complejo del ligamento en resorte.",
+      "perla": "El complejo del ligamento en resorte está constituido por tres fascículos diferenciados: superomedial, inferomedial y oblicuo medial.",
+      "dificultad": {
+        "nivel": 2,
+        "motivo": "Anatomía de subespecialidad de los tres fascículos que integran el complejo del ligamento en resorte.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 6",
+          "cita": "Plantar calcaneonavicular ligament (Spring ligament complex) Superomedial Inferomedial Medial Oblique"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "c08-1",
+      "tema": "Anatomía de Chopart · Ligamento bifurcado",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "ligamento bifurcado",
+        "RM",
+        "anatomía",
+        "concepto"
+      ],
+      "tipo": "concepto",
+      "enunciado": "En la articulación de Chopart, ¿cuáles son las dos bandas anatómicas que integran el ligamento bifurcado?",
+      "imagenes": [
+        {
+          "ref": "d08",
+          "mostrar_en": "respuesta"
+        }
+      ],
+      "opciones": [
+        "Banda calcaneonavicular y banda calcaneocuboidea",
+        "Banda superomedial y banda inferomedial oblicua",
+        "Banda astragalocalcánea y banda escafocuneiforme",
+        "Banda talonavicular dorsal y banda calcaneocuboidea",
+        "Banda plantar larga y banda plantar corta profunda"
+      ],
+      "correcta": 0,
+      "explicacion": "- El ligamento bifurcado se origina en el proceso anterior del calcáneo y se bifurca en dos componentes estabilizadores clave: la banda calcaneonavicular y la banda calcaneocuboidea.\n- La figura d08 en la respuesta ilustra en cortes sagitales consecutivos de RM la anatomía normal del ligamento calcaneocuboideo y calcaneonavicular (bifurcado), así como de los ligamentos plantares largo y corto.\n- El ligamento talonavicular dorsal es una estructura capsular dorsal independiente.\n- Los fascículos superomedial e inferomedial corresponden al ligamento en resorte (*spring ligament*).",
+      "perla": "El ligamento bifurcado está formado por dos componentes primarios: la banda calcaneonavicular y la banda calcaneocuboidea, evaluables en cortes sagitales de RM.",
+      "dificultad": {
+        "nivel": 1,
+        "motivo": "Anatomía fundamental del ligamento bifurcado que todo residente debe dominar al evaluar el mediopié.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 6",
+          "cita": "Bifurcate ligament Calcaneonavicular band Calcaneocuboid band"
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 8",
+          "cita": "Short plantar ligament Calcaneonavicular ligament (Bifurcate) Long plantar ligament Calcaneocuboid ligament (Bifurcate)"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    },
+    {
+      "id": "c09-1",
+      "tema": "Casos de esguince · Mecanismos de lesión",
+      "clasificacion": [
+        {
+          "segmento": "musculoesqueletico",
+          "area": "tobillo-pie"
+        }
+      ],
+      "etiquetas": [
+        "biomecánica",
+        "eversión",
+        "mecanismos",
+        "RM",
+        "concepto"
+      ],
+      "tipo": "concepto",
+      "enunciado": "En un traumatismo de Chopart por eversión y carga axial, ¿qué combinación de vector de fuerzas y hallazgos en RM es la característica según los patrones lesionales descritos?",
+      "imagenes": [],
+      "opciones": [
+        "Distracción global; lesión multiligamentosa con fractura del sustentáculo",
+        "Valgo talonavicular y compresión calcaneocuboidea; lesión del ligamento en resorte",
+        "Varo calcaneocuboideo y distracción talonavicular; lesión del talonavicular dorsal",
+        "Compresión talonavicular pura; lesión del ligamento interóseo astragalocalcáneo",
+        "Cizallamiento rotacional; lesión aislada de la banda calcaneonavicular"
+      ],
+      "correcta": 1,
+      "explicacion": "- El mecanismo de eversión y carga axial (*eversion and axial loading*) somete a la articulación mediotarsiana a un vector de valgo en la articulación talonavicular y compresión en la articulación calcaneocuboidea.\n- Las estructuras ligamentarias primariamente afectadas son el ligamento en resorte (*spring ligament*), el ligamento plantar corto y la banda calcaneocuboidea del bifurcado.\n- Los hallazgos típicos en RM consisten en hiperintensidad del ligamento en resorte, edema en la tuberosidad del escafoides (*navicular tuberosity edema*) y contusiones por impactación en la articulación calcaneocuboidea.\n- El patrón de varo calcaneocuboideo con distracción talonavicular y lesión del ligamento talonavicular dorsal y bifurcado corresponde al mecanismo por inversión con o sin flexión plantar.",
+      "perla": "La eversión con carga axial genera valgo talonavicular y compresión calcaneocuboidea, provocando lesión del ligamento en resorte, edema en la tuberosidad navicular y contusiones por impactación calcaneocuboideas.",
+      "dificultad": {
+        "nivel": 3,
+        "motivo": "Correlación biomecánica fina entre el vector de eversión con carga axial y los hallazgos en RM.",
+        "por": "ia"
+      },
+      "evidencia": [
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 9",
+          "cita": "Valgus at the talonavicular joint Compression at the calcaneocuboid joint"
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 9",
+          "cita": "Spring ligament Short plantar ligament + calcaneocuboid band of the bifurcate ligament"
+        },
+        {
+          "fuente": "wang2025",
+          "ubicacion": "diapositiva 9",
+          "cita": "Hyperintensity in spring ligament Navicular tuberosity edema Impaction contusions at calcaneocuboid joint"
+        }
+      ],
+      "estado": "publicado",
+      "autor": "pluna",
+      "revisor": null
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "wang2025": {
+    "cita": "Wang G, Tordjman M, Pham K, Balon B, Huang M. Beyond the Usual Suspects: Uncovering Chopart Sprains on MRI. Education exhibit MKEE-26. RSNA 2025 Annual Meeting; 2025 Nov 30; Chicago, IL.",
+    "credito": "Wang G, et al. RSNA 2025 (MKEE-26)",
+    "doi": null,
+    "licencia": "Con copyright",
+    "licencia_url": null,
+    "modificaciones_permitidas": false,
+    "tipo": "banco",
+    "titular": "© 2025 RSNA, Inc.",
+    "url": "https://www.rsna.org/annual-meeting",
+    "verificacion": {
+      "donde": "Metadatos del PDF (palabras clave): «Content © 2025 RSNA, Inc. All rights reserved. Unauthorized use prohibited.» Revisado el 2026-10-12.",
+      "fecha": "2026-10-12",
+      "por": "Pavel Luna"
+    },
+    "alojada_por": "Pavel Luna"
+  }
+}

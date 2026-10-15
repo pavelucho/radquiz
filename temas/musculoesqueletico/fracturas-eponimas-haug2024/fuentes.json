@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "haug2024": {
+    "cita": "Haug L, Shetty A, Chroneos P, Brown P, Melville D, Long J. What's in a Name? Eponymous Fractures: Identification, Surgical Implications, and Historical Relevance. Education exhibit MKEE-105. RSNA 2024 Annual Meeting; 2024; Chicago, IL.",
+    "credito": "Haug L, et al. RSNA 2024 (MKEE-105)",
+    "doi": null,
+    "licencia": "Con copyright",
+    "licencia_url": null,
+    "modificaciones_permitidas": false,
+    "tipo": "banco",
+    "titular": "Los autores (Department of Radiology, Mayo Clinic Arizona) · RSNA",
+    "url": "https://www.rsna.org/annual-meeting",
+    "verificacion": {
+      "donde": "Sin licencia declarada: el PDF (36 diapositivas) no trae «©», «All rights reserved» ni licencia Creative Commons, y sus metadatos tampoco. Es la exhibición educativa MKEE-105 de RSNA 2024. Revisado el 2026-10-12.",
+      "fecha": "2026-10-12",
+      "por": "Pavel Luna"
+    },
+    "alojada_por": "Pavel Luna"
+  }
+}
