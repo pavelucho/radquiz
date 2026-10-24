@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schema/fuentes.schema.json",
+  "muellermang2007": {
+    "cita": "Mueller-Mang C, Grosse C, Schmid K, Stiebellehner L, Bankier AA. What every radiologist should know about idiopathic interstitial pneumonias. RadioGraphics. 2007;27(3):595-615. doi:10.1148/rg.273065130",
+    "credito": "Mueller-Mang C, et al. RadioGraphics. 2007",
+    "doi": "10.1148/rg.273065130",
+    "licencia": "Con copyright",
+    "licencia_url": null,
+    "modificaciones_permitidas": false,
+    "tipo": "articulo",
+    "titular": "© RSNA, 2007",
+    "url": "https://doi.org/10.1148/rg.273065130",
+    "verificacion": {
+      "donde": "p. 595: «©RSNA, 2007» y «Note: This copy is for your personal non-commercial use only. To order presentation-ready copies for distribution to your colleagues or clients, contact us at www.rsna.org/rsnarights.» No trae licencia Creative Commons.",
+      "fecha": "2026-10-24",
+      "por": "Claude, para pluna"
+    },
+    "alojada_por": "Pavel Luna"
+  }
+}
