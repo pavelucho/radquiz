@@ -105,7 +105,7 @@ export function confeti({ duracion = 4500, cantidad = 160 } = {}) {
   };
   ajustar();
   const g = lienzo.getContext("2d");
-  const colores = ["#5b9dff", "#f5a24f", "#3fcab6", "#b48cff", "#ff7d93", "#f2c14e"];
+  const colores = ["#82a8fd", "#e58361", "#6ee6ef", "#c889ba", "#beeaa7", "#f2c14e"];
   const piezas = Array.from({ length: cantidad }, () => ({
     x: Math.random() * innerWidth,
     y: -20 - Math.random() * innerHeight * 0.6,

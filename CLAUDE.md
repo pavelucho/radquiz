@@ -179,9 +179,38 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   radios, íconos) van al principio, en `:root`; debajo, los componentes, por pantalla. La idea es una sala de
   lectura: fondo oscuro y neutro, y el amarillo de las anotaciones como color de la marca y de lo que se toca; cada
   letra A–E tiene su color, y ✓/✗ acompañan al verde y al rojo. Los tres colores de texto pasan 4,5:1 sobre todas
-  las superficies. Las tipografías se alojan en el sitio, no en Google Fonts (la red del hospital): IBM Plex Sans
-  variable —la misma da la versión condensada de los números grandes, con `font-stretch: 85%`— e IBM Plex Mono,
-  licencia OFL en `app/fuentes/OFL.txt`. Logo y favicon: `app/marca.svg`, la retícula con que se marca un hallazgo.
+  las superficies. Las tipografías se alojan en el sitio, no en Google Fonts (la red del hospital); licencia OFL en
+  `app/fuentes/OFL.txt`.
+  Identidad nueva (2026-11-03, en la rama `claude/wonderful-bohr-in6bgj`, sin desplegar; pedido del autor: un diseño
+  único y reconocible que aterrice en el logo y la tipografía). Análisis con capturas, medidas y referencias:
+  https://claude.ai/artifact/Po9XdunLW3aDd4gF3DbAM8 (privado del autor). Lo que cambió y por qué:
+  - **Logo: la Q del tomógrafo.** El anillo amarillo del gantry (que es también el círculo con que se marca un
+    hallazgo) y la mesa que entra en diagonal, como se ve el equipo desde la sala: la cola de la Q. Ícono y favicon
+    en `app/marca.svg`; logotipo «RadQuiz» con esa Q en `app/marca-texto.svg`, en las cabeceras de las nueve páginas.
+    Los dos los dibuja `tools/dibujar_marca` (necesita `pip install fonttools brotli uharfbuzz`). La retícula de
+    antes (círculo y cuatro marcas) era el ícono «mi ubicación» / gps_fixed de Material: no era propia. Descartados:
+    la mesa horizontal (la letra se lee «e») y una flecha como cola (a 16 px parece la lupa del buscador).
+  - **Tipografía: Atkinson Hyperlegible Next y su Mono** (Braille Institute, 2025; 200–800, cifras tabulares), en
+    lugar de IBM Plex (la tipografía corporativa de IBM). Hecha para que las letras parecidas se distingan aunque se
+    vea mal (el proyector desde la última fila, el celular en el pasillo); pesa 148 KB en vez de 268 KB. El cero va
+    siempre barrado (la fuente no trae otro): decisión del autor si se queda. La Mono es la «voz del overlay»: código
+    de la sala, reloj, teclas y rótulos (`.eyebrow`, `.tema`). La ficha técnica de la figura **no** va como overlay
+    sobre la imagen: delataría preguntas de secuencia o plano (ATM). Sin eje de ancho: ya no hay `font-stretch`.
+    Escala de tamaños en fichas (`--t-xs` 12 · `--t-s` 13,5 · `--t-ui` 15 · `--t-base` 17 · `--t-m` 19 · `--t-l` 22 ·
+    `--t-xl` 27): antes había 58 `font-size` distintos con pasos de medio píxel. Los tamaños de proyección siguen con
+    `clamp()` en cada componente. Pesos: 400, 500, 600, 700 (650 pasó a 700, 450 a 400).
+  - **Neutros propios**: grises de estación de trabajo, apenas cálidos (OKLCH croma 0,004, tono 85), y texto blanco
+    hueso. El fondo de antes (`#0b0f14`) estaba a ΔE2000 1,0 del de GitHub oscuro (`#0d1117`). Las transparencias de
+    la marca usan `--marca-rgb`; quedan pocas `rgba()` sueltas.
+  - **Letras A–E aptas para daltonismo** (simulación de Machado 2009, ΔE2000): el par más parecido pasa de 1,2 (A y D
+    en protanopía: el mismo color) a 11,8–12,7; ninguna se confunde con la marca ni con correcto/incorrecto (la E
+    rosa de antes estaba a ΔE 3,3 del rojo de «incorrecto»). `--info` ya no es el turquesa de la C: es el gris claro
+    del overlay. Confeti (`app/efectos.js`) con los colores nuevos; los avatares conservan los suyos.
+  - En un proyector con luz en la sala (contraste de sistema ~15:1) los paneles se funden con el fondo con la paleta
+    vieja y con la nueva (1,06:1): en las pantallas que se proyectan la estructura tiene que ir en bordes y texto, no
+    en el relleno de los paneles. Pendiente.
+  Probado en el navegador (portada, práctica respondida, tablero, Tabú, manual; 1440 y 375 px), no en la sala (sin
+  Firebase en el entorno de prueba) ni en un proyector.
   Solo se usa lo que ya tenía Chrome 109 (el último de Windows 7): revisado función por función, no probado en ese
   navegador. `text-wrap`, y `:has()` en Firefox anteriores al 121, solo mejoran. La portada trae una
   casilla para entrar a una sala con el código (formulario GET a `sala.html?c=`), y «Sala en vivo» abre

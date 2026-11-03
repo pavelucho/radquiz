@@ -39,11 +39,13 @@ app/catalogo.js             temas publicados y sus casos para los juegos de vari
 app/cuestionario.js         cuestionarios armados por segmento, área o búsqueda: criterio, índice de casos y filtro
 app/plantilla-tablero.js    un tablero ya armado (plantilla): guardar, enlace, instrucciones para la IA y comprobación
 app/tabu-logica.js          lógica del Tabú (qué casos son carta, palabras prohibidas, mazo), sin pantalla
-app/marca.svg               logo y favicon
-app/fuentes/                IBM Plex Sans y Mono (licencia OFL), alojadas en el sitio y no en Google Fonts
+app/marca.svg               ícono y favicon: la Q del tomógrafo (anillo del gantry y mesa)
+app/marca-texto.svg         logotipo «RadQuiz» con esa Q; los dos los dibuja tools/dibujar_marca
+app/fuentes/                Atkinson Hyperlegible Next y Mono (licencia OFL), alojadas en el sitio y no en Google Fonts
 database.rules.json         reglas de seguridad de la sala en vivo (Firebase Realtime Database)
 firebase.json, .firebaserc  despliegue de reglas y acceso anónimo con la CLI de Firebase
 tools/construir_sitio       arma _site/ con solo los casos publicados
+tools/dibujar_marca         rehace app/marca.svg y app/marca-texto.svg (necesita fonttools y uharfbuzz)
 ```
 
 `referencia/` (prototipo y respaldo del piloto) queda solo en la computadora del autor: no se sube.
