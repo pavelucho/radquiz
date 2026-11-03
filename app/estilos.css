@@ -687,7 +687,8 @@ button.opt:disabled { cursor: default; }
    El ícono dice lo mismo que el color, para quien no distingue el rojo del verde. */
 .opt::after { position: relative; z-index: 1; }
 .opt.right { background: var(--ok-suave); border-color: var(--ok); box-shadow: inset 0 0 0 1px var(--ok); }
-.opt.wrong { opacity: .5; }
+/* .56 y no .5: con .5 el texto de las erradas quedaba en 4,4:1, y después de responder se releen para aprender */
+.opt.wrong { opacity: .56; }
 div.opt.wrong { opacity: .78; }
 .opt.mine { opacity: 1; border-color: var(--marca); box-shadow: inset 0 0 0 1px var(--marca); }
 .opt.mine::after { content: ""; width: 22px; height: 22px; background: var(--i-marcada) center / contain no-repeat; }
@@ -705,6 +706,9 @@ div.opt.wrong { opacity: .78; }
 .verdict.ok::before { background-color: var(--ok); background-image: var(--i-ok-oscuro); }
 .verdict.no { color: var(--mal); background: var(--mal-suave); border: 1px solid var(--mal-borde); }
 .verdict.no::before { background-color: var(--mal); background-image: var(--i-mal-oscuro); }
+/* En la sala, quien falló ve en el mismo aviso cuál era (la correcta suele quedar fuera de la pantalla del celular) */
+.verdict > span { display: grid; gap: 4px; min-width: 0; }
+.verdict .era { font-size: 15.5px; font-weight: 500; font-stretch: 100%; line-height: 1.35; letter-spacing: 0; color: var(--tinta); }
 .exp {
   display: grid; gap: 8px; padding: 14px 16px; line-height: 1.55;
   background: var(--panel); border: 1px solid var(--linea); border-left: 3px solid var(--ok); border-radius: 0 12px 12px 0;
@@ -835,10 +839,10 @@ button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
 }
 .rk .pos { font-size: 24px; font-weight: 700; font-stretch: 85%; color: var(--mute); font-variant-numeric: tabular-nums; }
 .rk .pts { font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--tinta); }
-.rk:nth-child(1) { background: linear-gradient(90deg, rgba(242, 193, 78, .14), rgba(242, 193, 78, .03)); border-color: var(--marca-borde); }
-.rk:nth-child(1) .pos { color: var(--marca); }
-.rk:nth-child(2) .pos { color: #cfd8e3; }
-.rk:nth-child(3) .pos { color: #e3a26c; }
+.rk.p1 { background: linear-gradient(90deg, rgba(242, 193, 78, .14), rgba(242, 193, 78, .03)); border-color: var(--marca-borde); }
+.rk.p1 .pos { color: var(--marca); }
+.rk.p2 .pos { color: #cfd8e3; }
+.rk.p3 .pos { color: #e3a26c; }
 .rk.me { border-color: var(--marca); box-shadow: inset 0 0 0 1px var(--marca); }
 .rk.me > span:nth-child(2)::after { content: "  · tú"; color: var(--marca); font-weight: 600; }
 
@@ -1586,6 +1590,100 @@ body.proyector .lec-r { padding: 16px 20px; }
   .tema-portada > .abrir { padding-inline: 14px; }
   button.abrir-filtros { padding-inline: 10px; }
 }
+/* ------------------------------------------------------------------ proyector: la sala del presentador y el tablero */
+/* Se lee desde el fondo del aula. El tamaño crítico de letra —el menor que todavía se lee a la velocidad máxima— está
+   alrededor de 0,2° de altura de la x en la visión central (Legge y Bigelow, J Vis 2011;11(5):8). Con la página de
+   1280 × 800 en una pantalla de 1,5 m de alto y el fondo del aula a 8 m, el enunciado de 20 px daba unos 0,14°; con
+   estos tamaños, que crecen con el ancho y con el alto de la pantalla, unos 0,18°, y lo mismo a 1920 × 1080 (antes
+   el enunciado no pasaba de 21 px). Lo usan la sala del presentador (body.presentador, lo pone app/sala.js) y el
+   tablero; los celulares y la práctica no cambian. */
+body.presentador .wrap { max-width: 1680px; }   /* en un proyector ancho, la figura aprovecha el ancho */
+body.presentador .stem { font-size: clamp(19px, 1.1vw + 1.3vh, 38px); line-height: 1.38; }
+/* sin figura (una pregunta de protocolo, la pista del tablero) sobra pantalla: el enunciado crece, en líneas de unos
+   45 a 65 caracteres */
+body.presentador .stage.sin-imagen { grid-template-columns: minmax(0, 1100px); }
+body.presentador .stage.sin-imagen .stem { font-size: clamp(22px, 1.5vw + 1.9vh, 50px); line-height: 1.3; }
+body.presentador .opt {
+  grid-template-columns: 2.15em minmax(0, 1fr); gap: .75em; min-height: clamp(48px, 7vh, 96px); padding-block: .4em;
+  font-size: clamp(16px, .75vw + 1.05vh, 28px);
+}
+body.presentador .opt .k { width: 1.85em; height: 1.85em; font-size: 1.15em; border-radius: .4em; }
+body.presentador .opt .n { font-size: 1em; }
+body.presentador .exp, body.presentador .pearl { font-size: clamp(16px, .6vw + 1vh, 24px); }
+body.presentador .qnum { font-size: clamp(15px, .9vw + .6vh, 26px); }
+body.presentador .clock { font-size: clamp(40px, 2vw + 2.2vh, 76px); }
+/* La figura llena el alto que queda: en un proyector de 1280 × 720 (o 1024 × 768) «Revelar respuesta» quedaba bajo el
+   borde de la pantalla, y en uno de 1920 × 1080 la figura puede crecer. */
+body.presentador .stage .viewer img { max-height: max(220px, calc(100vh - 330px)); }
+
+/* ------------------------------------------------------------------ el celular del residente en la sala */
+/* Durante el caso, en el celular, las opciones van antes que la figura: con la figura arriba las cinco quedaban bajo
+   el borde de la pantalla (la primera, a 790 px en un celular de 812) y había que desplazarse con el reloj corriendo.
+   Así quedan a la vista y en la mitad de abajo, donde llega el pulgar de la mano que sostiene el celular
+   (Bergstrom-Lehtovirta y Oulasvirta, CHI 2014). La figura sigue justo debajo, se amplía con un toque y está en el
+   proyector; al revelar vuelve arriba, con sus marcas. */
+@media (max-width: 820px) {
+  body.jugador #app[data-fase="pregunta"] .stage > .viewer { order: 2; }
+}
+@media (max-width: 640px) {
+  /* la cabecera en una sola fila: cuántos hay en la sala lo dice el proyector */
+  body.jugador #conteo { display: none; }
+  body.jugador .bar .brand small { min-width: 0; }
+}
+
+/* ------------------------------------------------------------------ ajustes plegables (práctica y lectura) */
+/* En el celular, los controles de la cabecera (cuáles, cuántos, modo, solo verificados) se pliegan detrás de un botón
+   que dice cómo están: ocupaban tres filas encima de cada caso y casi nunca se tocan a mitad de una tanda. Lo arma
+   app/ajustes.js. */
+.ajustes-boton { display: none; }
+@media (max-width: 640px) {
+  .bar .compacta .ajustes-boton, .bar .compacta .ajustes-boton:not(:disabled):hover {
+    display: flex; order: 3; flex: 1 1 100%; justify-content: space-between; min-width: 0; min-height: 44px;
+    padding: 8px 12px; font-size: 14.5px; font-weight: 500; color: var(--tinta-2);
+    background: var(--panel); border-color: var(--linea-2);
+  }
+  .compacta .ajustes-boton > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .compacta .ajustes-boton b { color: var(--tinta); font-weight: 600; }
+  .compacta .ajustes-boton::after {
+    content: ""; flex: none; width: 8px; height: 8px; margin: 0 4px 3px 10px;
+    border-right: 2px solid var(--tinta-2); border-bottom: 2px solid var(--tinta-2); transform: rotate(45deg); transition: transform var(--t);
+  }
+  .compacta .ajustes-boton[aria-expanded="true"]::after { transform: rotate(-135deg); margin-bottom: -3px; }
+  .compacta:not(.abierta) > label { display: none; }
+}
+
+/* ------------------------------------------------------------------ pantallas táctiles */
+/* Con el dedo, todo lo que se toca mide al menos 44 px (WCAG 2.2, 2.5.5; Apple pide 44 pt). Por debajo de unos 9 mm
+   suben los errores al tocar con el pulgar (Parhi, Karlson y Bederson, MobileHCI 2006): 44 px son unos 7 a 9 mm según
+   el celular. Antes había botones de 32 a 40 px, casillas de 22 px de alto en las listas de temas y enlaces del pie de
+   21 px. Con el ratón, los tamaños de siempre. */
+@media (pointer: coarse) {
+  :where(button), .boton { min-height: 44px; }
+  .lg { min-height: 52px; }
+  .bar select, .bar input[type=number] { min-height: 44px; }
+  input[type=checkbox], input[type=radio] { width: 22px; height: 22px; }
+  /* la fila entera (casilla y texto) es el blanco; sin separación extra entre filas, la lista no se alarga de más */
+  label.row { min-height: 44px; }
+  .casillas { gap: 0; }
+  label.tb-opcion { padding-block: 10px; }
+  label.tb-opcion > input { margin-top: 0; }
+  .lec-punto { padding-block: 10px; }
+  .lec-punto input { margin-top: 1px; }
+  .buscar { min-height: 56px; }
+  button.abrir-filtros, button.filtro { min-height: 44px; }
+  button.filtro-activo { min-height: 40px; }
+  button.reportar, .bar button.sonido, .tema-portada > .extra .boton, .tb-acciones button, .tb-guardado button,
+  .tabu-corregir button, .lv-grupo button, .lec-nota button, .tb-juez button, button.tb-final-boton, .paso { min-height: 44px; }
+  button.tb-quitar, button.tb-cerrar { width: 44px; min-height: 44px; }
+  .tb-cab-edit input, .tb-bajo select { min-height: 44px; }
+  .tema-portada > .extra a.src { display: inline-flex; align-items: center; min-height: 44px; }
+  .pie nav { gap: 0 18px; }
+  .pie nav a { display: inline-flex; align-items: center; min-height: 44px; }
+  .toc a { padding-block: 12px; }
+  .brand { min-height: 44px; }
+  .buscar input { min-height: 44px; }
+}
+
 @media (hover: none) {
   .ctrl .teclas, .tabu-juego kbd, .tb-anuncio kbd, .ctrl kbd { display: none; }
 }

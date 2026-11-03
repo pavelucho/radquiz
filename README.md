@@ -33,6 +33,7 @@ app/zip.js                  leer y armar .zip en el navegador, sin librerías
 app/importar.js             comprimir figuras y abrir un cuestionario entero venido en un .zip
 app/estilos.css             diseño de toda la web: fichas de color y tipografía al principio, componentes debajo
 app/avance.js               avance de la práctica, solo en el dispositivo (localStorage): respuestas y tanda en curso
+app/ajustes.js              en el celular, los controles de la práctica y la lectura plegados tras un botón que los resume
 app/tablero.js              lógica del tablero (grupos, columnas, casos parecidos, apuestas), sin pantalla ni Firebase
 app/diapositivas.js         diapositivas de enseñanza de un caso, armadas con lo que el caso ya trae
 app/catalogo.js             temas publicados y sus casos para los juegos de varios temas (tablero y Tabú)

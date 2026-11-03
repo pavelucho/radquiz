@@ -453,7 +453,7 @@ function vistaResultado() {
   app.innerHTML = `<section class="stack angosto">
     <p class="eyebrow">${esc(config.titulo)}</p>
     <h1>Resultado final</h1>
-    <div class="rank">${filas.map((f) => `<div class="rk"><span class="pos">${1 + filas.filter((x) => x.puntos > f.puntos).length}</span>
+    <div class="rank">${filas.map((f) => `<div class="rk p${1 + filas.filter((x) => x.puntos > f.puntos).length}"><span class="pos">${1 + filas.filter((x) => x.puntos > f.puntos).length}</span>
       <span>${esc(f.nombre)}</span><span class="pts">${fmt(f.puntos)}</span></div>`).join("")}</div>
     <div class="ctrl"><span class="spacer"></span><button class="primary" id="nueva">Nueva partida</button></div>
   </section>`;

@@ -32,10 +32,15 @@ export function esc(texto) {
   })[c]);
 }
 
+// La cursiva sigue la regla de CommonMark: el * que abre no va pegado detrás de una letra o un número ni delante de
+// un espacio, y el que cierra no va delante de una letra. Antes, «en T2* y en T2* GRE» salía con la mitad en cursiva
+// y sin los asteriscos (T2* es una secuencia), y el glosario de Fleischner, que marca «término*» lo definido en el
+// glosario, tenía 68 líneas con cursivas que no son. Sin lookbehind: Safari lo tiene desde la 16.4.
 function enLinea(texto) {
   return esc(texto)
+    .replace(/\*\*\*(?!\s)(.+?)\*\*\*/g, "<strong><em>$1</em></strong>")
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.+?)\*/g, "<em>$1</em>");
+    .replace(/(^|[^\p{L}\p{N}*])\*(?![\s*])(.*?[^\s*])\*(?![\p{L}\p{N}*])/gu, "$1<em>$2</em>");
 }
 
 // Markdown limitado del formato: **negrita**, *cursiva*, listas «- » y «1. », párrafos.

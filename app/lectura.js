@@ -16,6 +16,7 @@ import { $, esc, md, barajar, sello, leerTanda, totalTanda, nivelDe, cargarJSON,
 import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
 import { reportar } from "./reportar.js";
 import { activarAmpliacion } from "./ampliar.js";
+import { plegarAjustes } from "./ajustes.js";
 import {
   hayAlmacenamiento, leerLecturas, guardarLecturas, borrarLecturas, puntajeLectura, contarLecturas, huellaLectura,
   UMBRAL_LECTURA,
@@ -248,9 +249,12 @@ function vista() {
       <span class="src teclas">${teclas}</span>
     </div>`;
   enlazar(lectura);
+  resumirAjustes();
   precargar(lectura);
   precargar(tanda[actual + 1]);
 }
+
+let resumirAjustes = () => {};   // en el celular, el botón que resume los ajustes plegados (app/ajustes.js)
 
 function enlazar(lectura) {
   const e = estadoDe(lectura);
@@ -590,6 +594,7 @@ async function iniciar() {
     };
     otro.after(vivo);
   }
+  resumirAjustes = plegarAjustes($("#herramientas"));
   $("#solo-verificadas").onchange = empezar;
   $("#cuales").onchange = empezar;
   $("#orden").onchange = empezar;

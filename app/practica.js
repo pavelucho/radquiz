@@ -15,6 +15,7 @@ import { cargarIndice, cargarTemas } from "./catalogo.js";
 import { criterioDe, hayCriterio, consultaDe, nombreCriterio, indicePorRuta, temasPara, casosPara } from "./cuestionario.js";
 import { reportar } from "./reportar.js";
 import { activarAmpliacion } from "./ampliar.js";
+import { plegarAjustes } from "./ajustes.js";
 import {
   hayAlmacenamiento, huella, leerAvance, guardarAvance, borrarAvance, leerModo, guardarModo, estadoDe, anotar, contar,
 } from "./avance.js";
@@ -40,6 +41,7 @@ let actual = 0;
 let creada = 0;         // cuándo empezó la tanda: lo respondido antes es de otra vuelta
 let retomada = false;   // la tanda viene de una visita anterior: se avisa una vez
 let modo = leerModo();  // "alt": con alternativas · "sin": sin alternativas
+let resumirAjustes = () => {};   // en el celular, el botón que resume los ajustes plegados (app/ajustes.js)
 let avance = { casos: {}, tanda: null, resumen: null };   // la tanda en curso (en un solo tema, también su avance)
 const orden = new Map();       // id del caso → índices originales en el orden mostrado
 const respuestas = new Map();  // id del caso → { m: "alt", elegida } | { m: "sin", ok }, en esta tanda
@@ -269,6 +271,7 @@ function vistaCaso() {
   $("#anterior").onclick = () => ir(actual - 1);
   $("#siguiente").onclick = () => (ultima ? resultado() : ir(actual + 1));
   marcador();
+  resumirAjustes();
   precargar(casos[actual + 1]);
 }
 
@@ -287,6 +290,13 @@ function responder(original) {
   anotarCaso(caso, { m: "alt", r: huella(caso.opciones[original]) });
   guardar();
   vistaCaso();
+  enfocarSiguiente();
+}
+
+// Al responder se redibuja el caso y el foco se perdía (volvía al principio de la página): queda en «Siguiente», así
+// Enter o Espacio avanzan y un lector de pantalla sigue desde ahí. Sin mover la página.
+function enfocarSiguiente() {
+  $("#siguiente")?.focus({ preventScroll: true });
 }
 
 function revelar() {
@@ -304,6 +314,7 @@ function calificar(ok) {
   anotarCaso(caso, { m: "sin", ok, c: huella(caso.opciones[caso.correcta]) });
   guardar();
   vistaCaso();
+  enfocarSiguiente();
 }
 
 function ir(indice) {
@@ -450,8 +461,10 @@ function empezar() {
       app.innerHTML = `<section class="panel"><p>${mezcla ? "Esta selección" : "Este tema"} todavía no tiene casos verificados por un radiólogo.
         Quita el filtro «Solo verificados» para practicar con los demás.</p></section>`;
       marcador();
+      resumirAjustes();
       return;
     }
+    resumirAjustes();
     return nadaQueMostrar(cuales);
   }
   guardar();
@@ -569,6 +582,7 @@ async function iniciar() {
   $("#subtitulo").textContent = titulo;
   $("#modo").textContent = revision ? "Revisión · incluye borradores" : mezcla ? `Práctica · ${origenes.size === 1 ? "1 tema" : `${origenes.size} temas`}` : "Práctica";
   if (revision) $("#modo").classList.add("live");
+  resumirAjustes = plegarAjustes();
   $("#modo-respuesta").value = modo;
   $("#modo-respuesta").onchange = () => {
     modo = $("#modo-respuesta").value;
@@ -587,6 +601,9 @@ activarAmpliacion();
 document.addEventListener("keydown", (e) => {
   if (!casos.length || !$(".stage") || e.target.closest("select, textarea, input:not([type=checkbox])")) return;
   if (e.ctrlKey || e.metaKey || e.altKey) return;
+  // Enter o Espacio sobre un botón o un enlace es para ese botón: antes revelaba la respuesta aunque se hubiera
+  // llegado con Tab a «Siguiente caso» (y una casilla enfocada no se marcaba con Espacio).
+  if ((e.key === "Enter" || e.key === " ") && e.target.closest("button, a, input")) return;
   if ($("#revelar") && (e.key === "Enter" || e.key === " ")) {
     e.preventDefault();
     revelar();

@@ -208,11 +208,17 @@ function ranking() {
     .sort((a, b) => b.pts - a.pts || a.nombre.localeCompare(b.nombre));
 }
 
+// El puesto cuenta los empates: con los mismos puntos, el mismo puesto (1, 1, 3). Antes el empate lo decidía el orden
+// alfabético, y con 0 puntos todos el primero de la lista salía «1.º», en el podio y con confeti.
+const puestoDe = (lista, pts) => 1 + lista.filter((r) => r.pts > pts).length;
+
 function listaRanking(maximo, desde = 0) {
-  const filas = ranking().slice(desde, maximo);
+  const lista = ranking();
+  const filas = lista.slice(desde, maximo);
   if (!filas.length) return desde ? "" : `<p class="muted">Nadie respondió.</p>`;
-  return `<div class="rank">${filas.map((r, i) => `<div class="rk ${r.id === uid ? "me" : ""}">
-    <span class="pos">${desde + i + 1}</span><span class="rk-nombre">${avatarDe(r.id)}${esc(r.nombre)}${rachaChip(r.id)}</span><span class="pts">${r.pts}</span></div>`).join("")}</div>`;
+  // El color del puesto va por el puesto, no por la fila: bajo el podio, la primera fila de la lista salía dorada.
+  return `<div class="rank">${filas.map((r) => { const puesto = puestoDe(lista, r.pts); return `<div class="rk p${puesto} ${r.id === uid ? "me" : ""}">
+    <span class="pos">${puesto}</span><span class="rk-nombre">${avatarDe(r.id)}${esc(r.nombre)}${rachaChip(r.id)}</span><span class="pts">${r.pts}</span></div>`; }).join("")}</div>`;
 }
 
 // La llama de la racha, desde el 3.º acierto seguido.
@@ -239,6 +245,8 @@ function encabezado() {
 
 // ------------------------------------------------------------------ pantallas sin sala
 function sinSala() {
+  document.body.classList.remove("presentador", "jugador");
+  delete app.dataset.fase;
   $("#rol").textContent = "Sin sala";
   $("#rol").className = "chip";
   $("#conteo").hidden = true;
@@ -815,6 +823,11 @@ function salaCerrada() {
 // dibujar, quedaba así hasta que se revelaba la respuesta.
 function render(forzar = false) {
   if (!estado || !info || !jugadoresListos) return;
+  // El proyector y el celular se diseñan distinto (app/estilos.css): letra para leer de lejos en uno, opciones a mano
+  // del pulgar en el otro.
+  document.body.classList.toggle("presentador", soyHost);
+  document.body.classList.toggle("jugador", !soyHost);
+  app.dataset.fase = estado.fase;
   encabezado();
   const clave = `${estado.fase}:${estado.indice}`;
   const cambio = clave !== vistaActual;
@@ -1113,7 +1126,8 @@ function hostCaso() {
           ? `<button class="primary" id="fin">${terminada() ? "Ver al ganador" : "Terminar"}</button>`
           : `<button class="primary" id="siguiente">Siguiente caso</button>`}`
         : `<button class="primary" id="revelar">Revelar respuesta</button>`}
-      <span class="spacer"></span><button id="cerrar">Cerrar sala</button>
+      <span class="spacer"></span><span class="src teclas"><kbd>→</kbd> o el control de diapositivas avanza</span>
+      <button id="cerrar">Cerrar sala</button>
     </div>`;
   // El suspenso sigue donde iba aunque la pantalla se redibuje (llegan los puntajes, los eliminados…).
   const pasado = (Date.now() - reveladoEn) / 1000;
@@ -1304,7 +1318,7 @@ function hostRanking(final) {
   app.innerHTML = `<section class="stack ${esSupervivencia(info) || final ? "" : "angosto"}">
     <p class="eyebrow">${esc(info.titulo)}</p>
     ${esSupervivencia(info) ? sobrevivientes(final)
-      : final ? `<h1>Resultado final</h1>${podio()}${listaRanking(10, 3)}`
+      : final ? `<h1>Resultado final</h1>${podio()}${listaRanking(10, enPodio().length)}`
         : `<h1>Ranking</h1>${listaRanking(5)}`}
     ${final ? bloqueTitulos() : ""}
     ${bloqueEquipos()}
@@ -1338,14 +1352,17 @@ function sobrevivientes(final) {
 }
 
 // El podio de la sala clásica: sube el 3.º, después el 2.º y por último el 1.º (PODIO_TIEMPOS, con su sonido).
+// En el podio, solo quien sumó puntos: sin ninguno, no hay a quién festejar.
+const enPodio = () => ranking().slice(0, 3).filter((r) => r.pts > 0);
 function podio() {
-  const top = ranking().slice(0, 3);
-  if (!top.length) return `<p class="muted">Nadie respondió.</p>`;
+  const top = enPodio();
+  if (!top.length) return `<p class="muted">Nadie sumó puntos.</p>`;
+  const lista = ranking();
   const pasado = (Date.now() - finEn) / 1000;
   const escalon = (r, puesto) => (!r ? `<div class="escalon e${puesto} vacio"></div>`
     : `<div class="escalon e${puesto} ${r.id === uid ? "yo" : ""}" style="--espera:${Math.max(0, PODIO_TIEMPOS[3 - puesto] - pasado)}s">
       <div class="escalon-quien">${avatarDe(r.id, "avatar grande")}<b>${esc(r.nombre)}</b><span>${r.pts} pts</span></div>
-      <div class="escalon-bloque">${puesto}</div></div>`);
+      <div class="escalon-bloque">${puestoDe(lista, r.pts)}</div></div>`);
   return `<div class="podio">${escalon(top[1], 2)}${escalon(top[0], 1)}${escalon(top[2], 3)}</div>`;
 }
 
@@ -1429,7 +1446,8 @@ function vistaJugador() {
     return;
   }
   const lista = ranking();
-  const posicion = lista.findIndex((r) => r.id === uid) + 1;
+  const fila = lista.find((r) => r.id === uid);
+  const posicion = fila ? puestoDe(lista, fila.pts) : 0;
   app.innerHTML = `<section class="stack angosto">
     <span class="tema">${final ? "Resultado final" : "Ranking"}</span>
     <div class="big">${posicion ? `${posicion}.º` : "—"}</div>
@@ -1437,7 +1455,7 @@ function vistaJugador() {
     ${titulo}${miEquipo}${barraReacciones(reaccionesBloqueadas())}
     ${listaRanking(final ? 10 : 5)}${bloqueEquipos()}</section>`;
   activarReacciones();
-  if (final && posicion >= 1 && posicion <= 3) festejar();
+  if (final && posicion >= 1 && posicion <= 3 && fila.pts > 0) festejar();
 }
 
 // Confeti y vibración en el celular de quien quedó en el podio (o llegó en pie), una sola vez.
@@ -1515,9 +1533,11 @@ function jugadorCaso() {
     const premio = premios[uid]?.i === indice ? premios[uid] : null;
     const ganados = premio ? premio.pts : resultado ? puntos(resultado, caso) : 0;
     const extras = premio ? [premio.racha ? `racha ×${String(multiplicador(RACHA_MIN)).replace(".", ",")}` : "", premio.solo ? `solo tú lo viste +${BONO_SOLO}` : ""].filter(Boolean) : [];
+    // Quien falló ve cuál era sin buscarla: en el celular la correcta suele quedar fuera de la pantalla, más abajo.
+    const era = `<small class="era">Era la ${LETRAS[orden.indexOf(caso.correcta)]}: ${esc(caso.opciones[caso.correcta])}</small>`;
     arriba = elegida === undefined
-      ? `<div class="verdict no">Sin respuesta</div>`
-      : `<div class="verdict ${acierto ? "ok" : "no"}">${acierto ? `Correcto${ganados ? ` · +${ganados}` : ""}` : "Incorrecto"}</div>
+      ? `<div class="verdict no"><span>Sin respuesta${era}</span></div>`
+      : `<div class="verdict ${acierto ? "ok" : "no"}"><span>${acierto ? `Correcto${ganados ? ` · +${ganados}` : ""}` : `Incorrecto${era}`}</span></div>
         ${acierto && extras.length ? `<p class="chip racha-propia"><i class="llama"></i>${esc(extras.join(" · "))}</p>` : ""}`;
   } else if (elegida !== undefined) {
     arriba = `<div class="chip live enviada">Respuesta enviada: ${LETRAS[orden.indexOf(elegida)]}</div>${esperaHTML(indice)}`;
@@ -1563,6 +1583,7 @@ async function responder(original) {
   miRespuesta.set(indice, original);
   guardarMiRespuesta(indice, original);
   render(true);
+  vibrar(15);   // el toque se siente al instante, antes de que conteste la red (solo Android)
   const envio = set(salaRef(`respuestas/${indice}/${uid}`), { opcion: original, t: serverTimestamp() });
   enviando.set(indice, envio);
   try {
@@ -1603,6 +1624,18 @@ $("#qrMini").onclick = ampliarQR;
 $("#zoomQR").onclick = () => { $("#zoomQR").hidden = true; };
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") $("#zoomQR").hidden = true;
+});
+// El presentador puede avanzar desde el teclado o con el control de diapositivas, que manda Av Pág o →: Empezar,
+// Revelar respuesta, Siguiente caso y Terminar. Nunca cierra la sala (eso pide confirmación con el ratón).
+document.addEventListener("keydown", (e) => {
+  if (!soyHost || !estado || e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
+  if (!["PageDown", "ArrowRight"].includes(e.key)) return;
+  if (e.target instanceof Element && e.target.closest("input, select, textarea")) return;
+  if (!$("#zoomQR").hidden || document.querySelector(".ampliar:not([hidden])")) return;
+  const boton = estado.fase === "lobby" ? $("#empezar") : app.querySelector(".ctrl button.primary:not(#cerrar)");
+  if (!boton || boton.disabled) return;
+  e.preventDefault();
+  boton.click();
 });
 // El navegador solo deja sonar después de un toque: el primero del presentador habilita el audio.
 document.addEventListener("pointerdown", () => { if (soyHost) prepararAudio(); });
