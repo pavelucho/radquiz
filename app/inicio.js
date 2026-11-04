@@ -259,7 +259,10 @@ async function iniciar() {
     + `${lecturas ? ` · ${plural(lecturas, "lectura", "lecturas")}` : ""} · ${verificados} verificados`;
   app.innerHTML = dibujarBuscador();
   let espera = 0;
+  // Al escribir se cierra el desplegable: tapaba el cuestionario armado (y su «Practicar») justo cuando aparece, y en el
+  // celular un toque ahí caía en un botón de segmento. Se vuelve a abrir con «Segmentos».
   $("#q").oninput = (e) => {
+    if (e.target.value.trim()) desplegar(false);
     clearTimeout(espera);
     espera = setTimeout(() => cambiar({ q: e.target.value.trim().replace(/\s+/g, " ").slice(0, 80) }), 160);
   };

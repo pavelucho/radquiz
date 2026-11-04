@@ -353,6 +353,30 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   - Rescate: quien sigue en pie y falla o no responde no pierde la racha ni suma fallo para los títulos
     (`sinRiesgo` en `cuentasRonda()`); probado en Node, no en una sala.
   - Tablero: empezar una partida desde un enlace o un tablero del grupo avisa si hay otra a medias guardada.
+- Ergonomía y fallos (2026-11-03), pedido del autor («más ergonómica, según la evidencia»), revisado en el navegador con
+  capturas a 375 × 812 y a 1024–1920 px y una sala simulada (Firebase en memoria; presentador y dos celulares):
+  - Proyector (`body.presentador`: la sala del presentador, la pone `render()` en `app/sala.js`, y el tablero, en
+    `tablero.html`): enunciado y opciones crecen con el ancho y el alto (`vw + vh`), para acercarse al tamaño crítico de
+    letra (~0,2° de altura de la x; Legge y Bigelow, J Vis 2011) desde el fondo del aula; sin figura, más aún. La figura
+    llena el alto que queda: a 1280 × 720 y 1024 × 768 «Revelar respuesta» quedaba bajo el borde. `.wrap` hasta 1680 px.
+  - Presentador: → o Av Pág (el control remoto de presentaciones) hacen lo del botón amarillo; nunca cierran la sala.
+  - Celular del residente en la sala: durante el caso, las opciones antes que la figura (con la figura arriba quedaban
+    las cinco bajo el borde y había que desplazarse con el reloj corriendo); al revelar vuelve el orden de siempre. El
+    veredicto dice cuál era la correcta («Incorrecto · Era la D: …»; Butler y Roediger 2008: la retroalimentación con la
+    respuesta reduce lo aprendido de las opciones falsas). Vibración de 15 ms al responder (Android). Cabecera en una fila.
+  - Práctica y lectura en el celular: los controles de la cabecera, plegados en «Ajustes · Los que me faltan · 27 casos»
+    (`app/ajustes.js`; antes, tres filas encima de cada caso). En la computadora no cambia.
+  - Pantallas táctiles (`pointer: coarse`): todo lo que se toca ≥ 44 px (WCAG 2.5.5; Parhi y cols., MobileHCI 2006);
+    casillas de 22 px con la fila entera de 44 px como blanco. Con ratón, igual que antes.
+  - Erradas tras responder a opacidad .56 (con .5 el texto quedaba en 4,4:1). Al responder, el foco pasa a «Siguiente».
+  - Fallos arreglados: el Markdown hacía cursiva entre dos asteriscos aunque fueran «T2*» o las marcas «término*» del
+    glosario de Fleischner (68 líneas con cursivas falsas; ahora sigue la regla de CommonMark, sin lookbehind); el ranking
+    de la sala desempataba por orden alfabético, así que con 0 puntos el primero de la lista salía «1.º», en el podio y con
+    confeti (ahora mismo puntaje, mismo puesto, y al podio solo quien sumó); bajo el podio, la primera fila de la lista
+    (el 4.º) salía dorada como el 1.º (el color iba por `:nth-child`, ahora por puesto, también en tablero y Tabú); en la
+    portada, al escribir en el buscador el desplegable de segmentos tapaba el cuestionario armado y su «Practicar»; en la
+    práctica, Enter sobre «Siguiente caso» (sin alternativas) revelaba la respuesta en vez de avanzar.
+  Probado en el navegador así; no en un aula ni en un celular real. Falta desplegar la web.
 - Puntaje (2026-10-05): 900 por acierto + hasta 100 por rapidez (antes 500 + 500): pesa acertar, no el reflejo.
 - Ambiente, rachas, avatares y equipos en la sala (2026-10-05), decididos con el autor como capas 1, 2 y 5 de una lista
   de ideas (las otras: eventos sorpresa como caso relámpago, duelo final y caso jefe; y comodines 50:50, escudo y doble
@@ -423,7 +447,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
    `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
-   2026-10-10 (`estado/cierre` en `salas/` y margen de 8 s tras pasar la página en `lecturas_vivo/`); antes, 2026-10-09 (lecturas, `lecturas_vivo/`); antes, 2026-10-07 (`indice_casos`, salas de varios temas y `tableros/`) y la web a 2026-10-10 (desplegada con el código de `387041b`: cierre del caso, respuestas al límite, sala abierta, rescate sin riesgo; antes, `b2e5e31`: lo que quedaba de una sala, un caso o una tanda anterior; antes, `88f6547`, el celular olvida la sala anterior; antes, 2026-10-08, `881ad30`: panel de la casilla del tablero que se cierra; antes, portada reordenada; antes, títulos que no se salen de su cuadro, tableros guardados, armado con IA, buscador en desplegable y los temas archivados con la clasificación nueva). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
+   2026-10-10 (`estado/cierre` en `salas/` y margen de 8 s tras pasar la página en `lecturas_vivo/`); antes, 2026-10-09 (lecturas, `lecturas_vivo/`); antes, 2026-10-07 (`indice_casos`, salas de varios temas y `tableros/`) y la web a 2026-10-10 (sin desplegar: la ergonomía y los arreglos del 2026-11-03; desplegada con el código de `387041b`: cierre del caso, respuestas al límite, sala abierta, rescate sin riesgo; antes, `b2e5e31`: lo que quedaba de una sala, un caso o una tanda anterior; antes, `88f6547`, el celular olvida la sala anterior; antes, 2026-10-08, `881ad30`: panel de la casilla del tablero que se cierra; antes, portada reordenada; antes, títulos que no se salen de su cuadro, tableros guardados, armado con IA, buscador en desplegable y los temas archivados con la clasificación nueva). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
    sin commit; hay que desplegar con la carpeta limpia o desde una copia de `main` (`git worktree add … origin/main`).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
