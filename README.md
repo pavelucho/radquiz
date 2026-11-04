@@ -281,6 +281,9 @@ Sin secreto los workflows avisan y no fallan, y queda el camino a mano: `tools/d
   `<head>` con el mismo criterio. Con `no`, `app/estilos.css` apaga todo y el código que anima con JavaScript pregunta
   `movimientoActivo()`. Animaciones propias: adquisición (lobby), marcar el hallazgo (revelado y práctica),
   reconstrucción (podio) y captación (final).
+- `app/transiciones.js`: las transiciones dentro de una página. `transicion()` (View Transitions, con respaldo en CSS)
+  para la práctica, la lectura y el tablero; `entrada()` (solo la entrada, en el momento) para la sala, el Tabú y el
+  estudio. Entre páginas lo hace el navegador con `@view-transition` (`app/estilos.css`, sección «transiciones»).
 - Revelado con suspenso: `.suspenso` en `#app` y `--pasado`, así la animación sigue donde iba si la pantalla se
   redibuja. Podio del final con `PODIO_TIEMPOS`.
 - `app/premios.js` (sin pantalla): racha ×1,5 desde el 3.º acierto seguido, bono de 200 a quien acierta solo (con 3 o

@@ -32,6 +32,7 @@ import { fraseRevelado, mensajeEspera } from "./frases.js";
 import { barraReacciones, lanzarReaccion, esReaccion, PAUSA_REACCION } from "./reacciones.js";
 import { sonar, vibrar, captacion, prepararAudio, sonidoActivo, alternarSonido } from "./efectos.js";
 import { movimientoActivo, conectarBoton } from "./movimiento.js";
+import { entrada } from "./transiciones.js";
 
 const LETRAS = "ABCDE";
 const LETRAS_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -821,6 +822,7 @@ function render(forzar = false) {
   if (!estado || !info || !jugadoresListos) return;
   encabezado();
   const clave = `${estado.fase}:${estado.indice}`;
+  const antes = vistaActual;
   const cambio = clave !== vistaActual;
   vistaActual = clave;
   if (!cambio && !forzar && estado.fase === "pregunta") return actualizarPregunta();
@@ -832,6 +834,12 @@ function render(forzar = false) {
   app.classList.remove("suspenso");
   if (soyHost) vistaHost(); else vistaJugador();
   if (!soyHost && estado.fase === "revelar") efectosJugador();
+  // Al cambiar de caso, el nuevo llega como el corte siguiente de una serie; al cambiar de pantalla (el ranking, el
+  // final), un barrido. El revelado no: tiene su propio suspenso. Va en el momento y no con View Transitions: la base
+  // de datos redibuja cuando quiere y no puede esperar un cuadro (app/transiciones.js).
+  if (cambio && antes && estado.fase !== "revelar") {
+    entrada(app, { tipo: antes.split(":")[1] !== String(estado.indice) ? "caso" : "fase" });
+  }
 }
 
 // ------------------------------------------------------------------ ambiente: sonido, suspenso, vibración

@@ -412,6 +412,30 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   las nueve páginas sin errores y sin desborde a 375 px, la práctica, y el lobby, el revelado y el podio en maquetas
   con el CSS y los módulos reales (sin Firebase en el entorno de prueba). No probado en una sala real ni en un aula;
   el botón del lobby del celular no se vio funcionando.
+- Transiciones (2026-11-04, misma rama, sin desplegar; pedido del autor: fluidez de un apartado a otro y de pregunta
+  a pregunta). Cada movimiento se parece a lo que pasa (principio de congruencia, Tversky et al. 2002) y muestra qué
+  cambió (Heer y Robertson 2007); todas duran menos de 0,4 s y terminan antes de que se empiece a leer; la cabecera
+  no se mueve (es el ancla); con «Animaciones: no» no corre ninguna.
+  - **Entre páginas**: View Transitions entre documentos (`@view-transition` en `app/estilos.css`; Chrome/Edge 126+,
+    Safari 18.2+). La página nueva aparece de arriba abajo con borde suave (`--barrido`, como un corte que se
+    adquiere); con «atrás», de abajo arriba (`data-sentido`, lo pone `pagereveal` en el `<head>`). Como el contenido de
+    casi todas las páginas se arma después de cargar datos, lo que llega en los primeros 2,5 s entra con el mismo barrido
+    (`primeraEntrada()` en `app/transiciones.js`). Sin esa API (el Chrome 109 de Windows 7, Firefox) el `<head>` pone
+    `data-entrada="pagina"` y el contenido entra igual con CSS.
+  - **Dentro de una página**, `app/transiciones.js`: `transicion()` usa View Transitions (Chrome 111+, Safari 18+) donde
+    el cambio lo pide quien usa la página —práctica y lectura (caso a caso: el viejo se aleja y se apaga, el nuevo
+    llega de más cerca, como pasar al corte siguiente de una serie; el número gira como el contador de cortes; la
+    barra de avance crece; hacia atrás, al revés), pasar la página de la lectura y las diapositivas del tablero (de
+    lado), y la casilla del tablero, que crece hasta ser su caso y al terminar se encoge de vuelta en su lugar
+    (`nombrar()` pone el nombre en el momento y lo quita al terminar: dos nombres iguales cancelan la transición)—.
+    Sin la API, solo anima la entrada de lo nuevo. `entrada()` hace solo la entrada, en el momento: en la sala (cambio
+    de caso o de pantalla; el revelado conserva su suspenso), el Tabú (carta nueva o pantalla nueva) y los pasos del
+    estudio, que se redibujan por su cuenta (la base, el reloj) y no pueden esperar el cuadro que tarda View
+    Transitions.
+  Probado en el navegador: portada → práctica (y «atrás»), caso a caso en las dos direcciones y con seis flechas
+  seguidas, el respaldo sin View Transitions, con «Animaciones: no», la casilla del tablero ida y vuelta, y pasar la
+  página y la lectura siguiente; sin errores en la consola. La sala, el Tabú y el estudio, solo que cargan sin errores
+  (la sala no conecta en el entorno de prueba y el estudio pide sesión).
 - Ambiente, rachas, avatares y equipos en la sala (2026-10-05), decididos con el autor como capas 1, 2 y 5 de una lista
   de ideas (las otras: eventos sorpresa como caso relámpago, duelo final y caso jefe; y comodines 50:50, escudo y doble
   o nada, para cuando el grupo pida más). Sonido suave en el proyector (`app/efectos.js`, botón «Sonido»: notas de seno y

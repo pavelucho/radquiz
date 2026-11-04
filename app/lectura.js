@@ -16,6 +16,7 @@ import { $, esc, md, barajar, sello, leerTanda, totalTanda, nivelDe, cargarJSON,
 import { cargarPaquete, indiceEnVivo, fusionarIndice } from "./publicado.js";
 import { reportar } from "./reportar.js";
 import { activarAmpliacion } from "./ampliar.js";
+import { transicion } from "./transiciones.js";
 import {
   hayAlmacenamiento, leerLecturas, guardarLecturas, borrarLecturas, puntajeLectura, contarLecturas, huellaLectura,
   UMBRAL_LECTURA,
@@ -29,6 +30,7 @@ const ruta = params.get("tema") || "";
 const proyectar = params.get("proyectar") === "1";
 const revision = !proyectar && params.get("revision") === "1";
 const app = $("#app");
+app.classList.add("hoja-transicion");   // en la lectura, lo que pasa de una a otra es la hoja entera
 
 let origen = null;          // { ruta, paquete, fuentes, imagen }
 let base = [];              // las lecturas publicadas (o, en revisión, todas)
@@ -323,8 +325,8 @@ function pasarPagina() {
     }
   });
   guardar();
-  vista();
-  window.scrollTo({ top: 0 });
+  // Pasar la página: de lado, como en el libro (app/transiciones.js).
+  transicion(() => { vista(); window.scrollTo({ top: 0 }); }, { tipo: "lamina" });
 }
 
 function calificar(lectura, i, nota) {
@@ -362,13 +364,15 @@ function mostrarTodas(lectura) {
   window.scrollTo({ top: y });
 }
 
+// De una lectura a otra: la hoja entera pasa como el corte siguiente de la serie (app/transiciones.js).
 function ir(indice) {
-  actual = Math.max(0, Math.min(tanda.length - 1, indice));
+  const destino = Math.max(0, Math.min(tanda.length - 1, indice));
+  const sentido = destino < actual ? "atras" : "adelante";
+  actual = destino;
   retomada = false;
   avisoVacio = false;
   guardar();
-  vista();
-  window.scrollTo({ top: 0 });
+  transicion(() => { vista(); window.scrollTo({ top: 0 }); }, { tipo: "caso", sentido });
 }
 
 // ------------------------------------------------------------------ tandas

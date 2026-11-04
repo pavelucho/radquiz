@@ -6,7 +6,8 @@
 <title>Manual · RadQuiz</title>
 <meta name="description" content="Cómo jugar, presentar, crear y revisar cuestionarios en RadQuiz.">
 <meta name="theme-color" content="#0c0b09">
-<script>/* Animaciones: la elección de este aparato o, sin ella, la del sistema (app/movimiento.js). Va aquí para que nada empiece a moverse antes de saberlo. */try{var m=localStorage.getItem("radquiz.movimiento");if(m!=="si"&&m!=="no")m=matchMedia("(prefers-reduced-motion: reduce)").matches?"no":"si";document.documentElement.dataset.movimiento=m}catch(e){}</script>
+<script>/* Animaciones: la elección de este aparato o, sin ella, la del sistema (app/movimiento.js). Va aquí para que nada empiece a moverse antes de saberlo. También decide la transición entre páginas (app/estilos.css, «transiciones»): sin animaciones no hay; al volver con «atrás» va al revés; y en un navegador sin transiciones entre páginas, el contenido entra con la misma animación en CSS. */
+try{var r=document.documentElement,m=localStorage.getItem("radquiz.movimiento");if(m!=="si"&&m!=="no")m=matchMedia("(prefers-reduced-motion: reduce)").matches?"no":"si";r.dataset.movimiento=m;addEventListener("pageswap",function(e){if(e.viewTransition&&r.dataset.movimiento==="no")e.viewTransition.skipTransition()});addEventListener("pagereveal",function(e){var t=e.viewTransition,a=window.navigation&&navigation.activation;if(!t)return;if(r.dataset.movimiento==="no")return t.skipTransition();if(a&&a.navigationType==="traverse"&&a.from&&a.entry&&a.entry.index<a.from.index){r.dataset.sentido="atras";t.finished.finally(function(){delete r.dataset.sentido})}});if(m==="si"&&!("CSSViewTransitionRule" in window)){r.dataset.entrada="pagina";setTimeout(function(){delete r.dataset.entrada},800)}}catch(e){}</script>
 <link rel="icon" href="app/marca.svg" type="image/svg+xml">
 <link rel="preload" href="app/fuentes/atkinson-next.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="app/estilos.css">
@@ -234,6 +235,10 @@
         respuesta se ve de una vez, sin el suspenso de las barras. Cada aparato elige por su cuenta: lo que elijas en el
         proyector no cambia los celulares, y quien tenga «reducir movimiento» en su sistema las tiene apagadas de
         entrada.</p>
+      <p>Con las animaciones encendidas, el paso de un lugar a otro también es continuo: al cambiar de página la cabecera
+        se queda y el contenido nuevo aparece de arriba abajo; de un caso al siguiente, el anterior se aleja y el nuevo
+        se acerca, como al pasar de corte en una serie; en el tablero, la casilla crece hasta ser su caso y al terminar
+        vuelve a su lugar. Son movimientos de menos de medio segundo.</p>
       <p>Al crear la sala puedes armar <b>equipos</b>: por año de residencia (R1, R2, R3, otros) o de 2 a 4 colores, que
         reciben un nombre al azar en cada sala («Los Hipointensos», «Gadolinio FC», «Escuadrón Gantry»…). Cada
         residente elige el suyo al entrar, el lobby los muestra por equipo, y el ranking y el final comparan el promedio de

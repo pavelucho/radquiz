@@ -15,6 +15,7 @@ import { cargarIndice, cargarTemas } from "./catalogo.js";
 import { criterioDe, hayCriterio, consultaDe, nombreCriterio, indicePorRuta, temasPara, casosPara } from "./cuestionario.js";
 import { reportar } from "./reportar.js";
 import { activarAmpliacion } from "./ampliar.js";
+import { transicion } from "./transiciones.js";
 import {
   hayAlmacenamiento, huella, leerAvance, guardarAvance, borrarAvance, leerModo, guardarModo, estadoDe, anotar, contar,
 } from "./avance.js";
@@ -270,7 +271,7 @@ function vistaCaso() {
   const botonReporte = $("#reportar");
   if (botonReporte) botonReporte.onclick = () => reportar(caso._o.ruta, caso._id, botonReporte);
   $("#anterior").onclick = () => ir(actual - 1);
-  $("#siguiente").onclick = () => (ultima ? resultado() : ir(actual + 1));
+  $("#siguiente").onclick = () => (ultima ? transicion(resultado, { tipo: "fase" }) : ir(actual + 1));
   marcador();
   precargar(casos[actual + 1]);
 }
@@ -311,12 +312,14 @@ function calificar(ok) {
   vistaCaso();
 }
 
+// De un caso a otro, como pasar al corte siguiente de la serie (app/transiciones.js): hacia adelante o hacia atrás.
 function ir(indice) {
-  actual = Math.max(0, Math.min(casos.length - 1, indice));
+  const destino = Math.max(0, Math.min(casos.length - 1, indice));
+  const sentido = destino < actual ? "atras" : "adelante";
+  actual = destino;
   retomada = false;
   guardar();
-  vistaCaso();
-  window.scrollTo({ top: 0 });
+  transicion(() => { vistaCaso(); window.scrollTo({ top: 0 }); }, { tipo: "caso", sentido });
 }
 
 function borrarMiAvance() {

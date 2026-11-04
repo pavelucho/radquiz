@@ -9,6 +9,7 @@ import { firebaseConfig } from "./firebase-config.js";
 import { AREAS } from "./areas.js";
 import { reportar } from "./reportar.js";
 import { activarAmpliacion } from "./ampliar.js";
+import { transicion, nombrar } from "./transiciones.js";
 import { cargarIndice as leerIndice, cargarTemas as leerTemas, armarCatalogo as catalogoDe } from "./catalogo.js";
 import {
   MAX_COLUMNAS, MAX_COMPARAR, valores, respuestaDe, normal, figurasDe, proponerGrupos,
@@ -998,18 +999,49 @@ function empezarPartida() {
 }
 
 // ------------------------------------------------------------------ la partida
+const VISTAS = {
+  tablero: () => vistaTablero(), apuesta: () => vistaApuesta(), pista: () => vistaPista(), diapos: () => vistaDiapos(),
+  "final-intro": () => vistaFinalIntro(), "final-pista": () => vistaPista(), "final-juicio": () => vistaFinalJuicio(),
+  resultado: () => vistaResultado(),
+};
+let dibujando = false;
+
+// Cada cambio de pantalla de la partida pasa por una transición (app/transiciones.js) que dice qué pasó: la casilla
+// crece hasta ser su caso y, al terminar las diapositivas, el caso vuelve a encogerse en su casilla; la pista y las
+// diapositivas pasan de lado, como láminas; el resto, con el barrido de un apartado nuevo. Un redibujo sin cambio de
+// pantalla (el marcador) no se anima.
 function mostrar() {
-  app.classList.remove("con-editor");
-  cerrarDialogo();
-  cabecera();
-  const vistas = {
-    tablero: vistaTablero, apuesta: vistaApuesta, pista: vistaPista, diapos: vistaDiapos,
-    "final-intro": vistaFinalIntro, "final-pista": vistaPista, "final-juicio": vistaFinalJuicio, resultado: vistaResultado,
-  };
-  (vistas[juego.fase] || vistaTablero)();
   const clave = `${juego.fase}:${juego.abierta}:${juego.diapo}`;
-  if (clave !== vistaPrevia) window.scrollTo({ top: 0 });
+  const previa = vistaPrevia;
   vistaPrevia = clave;
+  const dibujar = () => {
+    dibujando = true;
+    try {
+      app.classList.remove("con-editor");
+      cerrarDialogo();
+      cabecera();
+      (VISTAS[juego.fase] || VISTAS.tablero)();
+    } finally { dibujando = false; }
+    if (clave !== previa) window.scrollTo({ top: 0 });
+  };
+  // Sin pantalla anterior, sin cambio, o un redibujo desde dentro de una vista (un caso que ya no está): sin transición.
+  if (!previa || clave === previa || dibujando) return dibujar();
+  const [faseAntes, abiertaAntes, diapoAntes] = previa.split(":");
+  const celda = (c) => app.querySelector(`.tb-celda[data-clave="${CSS.escape(c)}"]`);
+  if (faseAntes === "tablero" && juego.abierta && ["pista", "apuesta"].includes(juego.fase)) {
+    const abierta = juego.abierta;
+    return transicion(dibujar, { tipo: "casilla", antes: () => nombrar(celda(abierta), "casilla"), despues: () => nombrar(app, "casilla") });
+  }
+  if (faseAntes === "diapos" && juego.fase === "tablero" && abiertaAntes && abiertaAntes !== "null") {
+    return transicion(dibujar, { tipo: "casilla", sentido: "atras", antes: () => nombrar(app, "casilla"), despues: () => nombrar(celda(abiertaAntes), "casilla") });
+  }
+  if (faseAntes === "diapos" && juego.fase === "diapos") {
+    return transicion(dibujar, { tipo: "lamina", sentido: juego.diapo < Number(diapoAntes) ? "atras" : "adelante" });
+  }
+  if ((faseAntes === "apuesta" && juego.fase === "pista") || (/pista$/.test(faseAntes) && juego.fase === "diapos")) {
+    return transicion(dibujar, { tipo: "lamina" });
+  }
+  return transicion(dibujar, { tipo: "fase" });
 }
 
 function posicion(clave) {
@@ -1081,7 +1113,7 @@ function vistaTablero() {
       const valor = config.valores[r];
       if (!clave) celdas.push(`<div class="tb-celda vacia"></div>`);
       else if (!catalogo.has(clave)) celdas.push(`<div class="tb-celda falta" title="Este caso ya no está publicado">—</div>`);
-      else if (juego.usadas[clave]) celdas.push(`<div class="tb-celda usada" aria-label="${esc(col.nombre)}, ${valor}: jugada"></div>`);
+      else if (juego.usadas[clave]) celdas.push(`<div class="tb-celda usada" data-clave="${esc(clave)}" aria-label="${esc(col.nombre)}, ${valor}: jugada"></div>`);
       else celdas.push(`<button class="tb-celda" data-clave="${esc(clave)}" aria-label="${esc(col.nombre)}, ${valor}">${valor}</button>`);
     }
   }

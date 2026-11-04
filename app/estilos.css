@@ -1673,6 +1673,106 @@ body.proyector .lec-r { padding: 16px 20px; }
 @media (hover: none) {
   .ctrl .teclas, .tabu-juego kbd, .tb-anuncio kbd, .ctrl kbd { display: none; }
 }
+/* ------------------------------------------------------------------ transiciones
+   Entre páginas lo hace el navegador (View Transitions entre documentos: Chrome y Edge 126+, Safari 18.2+; donde no
+   existe, como el Chrome 109 de Windows 7 o Firefox, la página nueva entra con la misma animación en CSS: ver
+   data-entrada, que pone el <head>). Dentro de una página, app/transiciones.js. Reglas: la cabecera no se mueve (es el
+   ancla: siempre se sabe dónde se está), cada movimiento se parece a lo que pasa, todo dura menos de 0,4 s y termina
+   antes de que se empiece a leer, y con «Animaciones: no» nada de esto corre. */
+@view-transition { navigation: auto; }
+header.bar { view-transition-name: cabecera; }
+::view-transition-group(cabecera) { animation-duration: .3s; }
+::view-transition-old(cabecera), ::view-transition-new(cabecera) { animation-duration: .18s; }
+
+/* De una página a otra: la página nueva aparece de arriba abajo con un borde suave, como un corte que se adquiere; al
+   volver con «atrás», de abajo arriba. La vieja se apaga rápido. */
+@property --barrido { syntax: "<percentage>"; inherits: false; initial-value: 115%; }
+:root:not([data-transicion])::view-transition-old(root) { animation: .16s ease-in both vt-apagar; }
+:root:not([data-transicion])::view-transition-new(root) {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(var(--barrido) - 14%), transparent var(--barrido));
+  mask-image: linear-gradient(to bottom, #000 calc(var(--barrido) - 14%), transparent var(--barrido));
+  animation: .34s cubic-bezier(.2, .7, .2, 1) both vt-barrer;
+}
+:root[data-sentido="atras"]:not([data-transicion])::view-transition-new(root) {
+  -webkit-mask-image: linear-gradient(to top, #000 calc(var(--barrido) - 14%), transparent var(--barrido));
+  mask-image: linear-gradient(to top, #000 calc(var(--barrido) - 14%), transparent var(--barrido));
+}
+@keyframes vt-barrer { from { --barrido: 0%; } to { --barrido: 115%; } }
+@keyframes vt-apagar { to { opacity: 0; } }
+@keyframes vt-encender { from { opacity: 0; } }
+/* dentro de una página, lo que no tiene nombre (el resto de la vista) solo cambia, casi sin fundido */
+:root[data-transicion]::view-transition-old(root), :root[data-transicion]::view-transition-new(root) { animation-duration: .12s; }
+
+/* De un caso al siguiente: como pasar al corte siguiente de una serie. El caso de antes se aleja y se apaga, el nuevo
+   llega de un poco más cerca; hacia atrás, al revés. El viejo se va antes de que llegue el nuevo (no se superponen
+   dos textos), como el parpadeo al cambiar de corte. El número del caso gira como el contador de cortes del visor, la
+   barra de avance crece y los botones se quedan donde están. */
+:root[data-transicion="caso"] #app .stage, :root[data-transicion="caso"] #app.hoja-transicion { view-transition-name: caso; }
+:root[data-transicion="caso"] #app .qnum { view-transition-name: contador; }
+:root[data-transicion] #app .avance { view-transition-name: avance; }
+:root[data-transicion] #app > .ctrl { view-transition-name: controles; }
+::view-transition-group(caso) { animation-duration: .26s; animation-timing-function: cubic-bezier(.2, .7, .2, 1); }
+::view-transition-old(caso) { animation: .1s ease-in both vt-alejarse; }
+::view-transition-new(caso) { animation: .22s cubic-bezier(.2, .7, .2, 1) .07s both vt-acercarse; }
+:root[data-sentido="atras"]::view-transition-old(caso) { animation-name: vt-alejarse-atras; }
+:root[data-sentido="atras"]::view-transition-new(caso) { animation-name: vt-acercarse-atras; }
+@keyframes vt-alejarse { to { opacity: 0; transform: scale(.975); } }
+@keyframes vt-acercarse { from { opacity: 0; transform: scale(1.025); } }
+@keyframes vt-alejarse-atras { to { opacity: 0; transform: scale(1.025); } }
+@keyframes vt-acercarse-atras { from { opacity: 0; transform: scale(.975); } }
+::view-transition-old(contador) { animation: .18s ease-in both vt-contador-sale; }
+::view-transition-new(contador) { animation: .24s cubic-bezier(.2, .7, .2, 1) both vt-contador-entra; }
+:root[data-sentido="atras"]::view-transition-old(contador) { animation-name: vt-contador-sale-atras; }
+:root[data-sentido="atras"]::view-transition-new(contador) { animation-name: vt-contador-entra-atras; }
+@keyframes vt-contador-sale { to { opacity: 0; transform: translateY(-55%); } }
+@keyframes vt-contador-entra { from { opacity: 0; transform: translateY(55%); } }
+@keyframes vt-contador-sale-atras { to { opacity: 0; transform: translateY(55%); } }
+@keyframes vt-contador-entra-atras { from { opacity: 0; transform: translateY(-55%); } }
+::view-transition-group(avance), ::view-transition-group(controles) { animation-duration: .26s; animation-timing-function: cubic-bezier(.2, .7, .2, 1); }
+::view-transition-old(controles), ::view-transition-new(controles) { animation-duration: .12s; }
+
+/* Pasar la página (la lectura) o la diapositiva (el tablero): de lado, como en el libro de casos. */
+:root[data-transicion="lamina"] #app { view-transition-name: lamina; }
+::view-transition-old(lamina) { animation: .12s ease-in both vt-lamina-sale; }
+::view-transition-new(lamina) { animation: .24s cubic-bezier(.2, .7, .2, 1) .08s both vt-lamina-entra; }
+:root[data-sentido="atras"]::view-transition-old(lamina) { animation-name: vt-lamina-sale-atras; }
+:root[data-sentido="atras"]::view-transition-new(lamina) { animation-name: vt-lamina-entra-atras; }
+@keyframes vt-lamina-sale { to { opacity: 0; transform: translateX(-3.5%); } }
+@keyframes vt-lamina-entra { from { opacity: 0; transform: translateX(3.5%); } }
+@keyframes vt-lamina-sale-atras { to { opacity: 0; transform: translateX(3.5%); } }
+@keyframes vt-lamina-entra-atras { from { opacity: 0; transform: translateX(-3.5%); } }
+
+/* La casilla del tablero crece hasta ser su caso y, al terminar, el caso vuelve a encogerse en su casilla: así se ve
+   de dónde salió y adónde volvió. El nombre lo ponen app/transiciones.js y app/tablero-local.js en el momento. */
+::view-transition-group(casilla) { animation-duration: .38s; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+::view-transition-old(casilla) { animation: .16s ease-out both vt-apagar; }
+::view-transition-new(casilla) { animation: .3s ease-out .08s both vt-encender; }
+/* al volver, el caso se ve encogerse hasta la casilla y recién al final cede su lugar a la casilla jugada */
+:root[data-sentido="atras"]::view-transition-old(casilla) { animation: .38s ease-in both vt-encoger; }
+:root[data-sentido="atras"]::view-transition-new(casilla) { animation: .16s ease-out .24s both vt-encender; }
+@keyframes vt-encoger { 0%, 65% { opacity: 1; } to { opacity: 0; } }
+
+/* Lo mismo sin View Transitions, y en la sala, el Tabú y el estudio (que se redibujan por su cuenta): solo la entrada
+   de lo nuevo (entrada() de app/transiciones.js). */
+:root:not([data-movimiento="no"]) .entra-fase {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(var(--barrido) - 14%), transparent var(--barrido));
+  mask-image: linear-gradient(to bottom, #000 calc(var(--barrido) - 14%), transparent var(--barrido));
+  animation: .32s cubic-bezier(.2, .7, .2, 1) both vt-barrer;
+}
+:root:not([data-movimiento="no"]) .entra-caso { animation: .26s cubic-bezier(.2, .7, .2, 1) both vt-acercarse; }
+:root:not([data-movimiento="no"]) .entra-caso.atras { animation-name: vt-acercarse-atras; }
+:root:not([data-movimiento="no"]) .entra-lamina { animation: .28s cubic-bezier(.2, .7, .2, 1) both vt-lamina-entra; }
+:root:not([data-movimiento="no"]) .entra-lamina.atras { animation-name: vt-lamina-entra-atras; }
+:root:not([data-movimiento="no"]) .entra-casilla { animation: .3s cubic-bezier(.2, .8, .2, 1) both vt-crecer; }
+@keyframes vt-crecer { from { opacity: 0; transform: scale(.94); } }
+/* La página nueva, en un navegador sin transiciones entre páginas (la marca el <head>): el contenido entra con el
+   barrido y la cabecera queda quieta, como con la transición de verdad. */
+:root[data-entrada="pagina"]:not([data-movimiento="no"]) .wrap > main {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(var(--barrido) - 14%), transparent var(--barrido));
+  mask-image: linear-gradient(to bottom, #000 calc(var(--barrido) - 14%), transparent var(--barrido));
+  animation: .34s cubic-bezier(.2, .7, .2, 1) both vt-barrer;
+}
+
 /* «Animaciones: no» (app/movimiento.js): nada se mueve y todo queda en su estado final. Lo pone el botón de cada aparato
    o, si nadie eligió, «reducir movimiento» del sistema. Sin el atributo (un navegador que no deja leer localStorage),
    vale el sistema. */
@@ -1690,6 +1790,9 @@ body.proyector .lec-r { padding: 16px 20px; }
 :root[data-movimiento="no"] .flota { bottom: 18vh; }
 /* sin animación, el corazón perdido se ve vacío de una vez */
 :root[data-movimiento="no"] .vida.rota::after { display: none; }
+/* y las transiciones de View Transitions, que no son elementos y el * de arriba no alcanza */
+:root[data-movimiento="no"]::view-transition-group(*), :root[data-movimiento="no"]::view-transition-old(*),
+:root[data-movimiento="no"]::view-transition-new(*) { animation: none !important; }
 @media print {
   .fondo-vivo { display: none; }
 }
