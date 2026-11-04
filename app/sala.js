@@ -914,6 +914,7 @@ function efectosFin() {
     setTimeout(() => { sonar("fanfarria"); captacion({ foco: document.querySelector(".sv-ganador") }); }, 300);
     return;
   }
+  if (!enPodio().length) return;   // «Nadie sumó puntos»: no hay a quién festejar
   setTimeout(() => sonar("puesto"), PODIO_TIEMPOS[0] * 1000);
   setTimeout(() => sonar("puesto"), PODIO_TIEMPOS[1] * 1000);
   setTimeout(() => { sonar("fanfarria"); captacion({ foco: document.querySelector(".escalon.e1 .escalon-quien") }); }, PODIO_TIEMPOS[2] * 1000);
