@@ -23,6 +23,7 @@ import {
 } from "./instrucciones-ia.js";
 import { crearZip, descargarArchivo, bytesDeDataURL } from "./zip.js";
 import { indiceDePaquete } from "./cuestionario.js";
+import { entrada } from "./transiciones.js";
 import { activarAmpliacion } from "./ampliar.js";
 import { comprimir, abrirZip } from "./importar.js";
 import {
@@ -1561,12 +1562,21 @@ function lecturaVerificable(t, l) {
 // ------------------------------------------------------------------ acciones del editor
 function enlazarEditor(t) {
   const id = t.id;
+  // Cambiar de paso: el nuevo entra de lado, hacia adelante o hacia atrás según el orden de los pasos.
+  const irAPaso = (nuevo) => {
+    const orden = [...app.querySelectorAll("[data-paso]")].map((b) => b.dataset.paso);
+    const sentido = orden.indexOf(nuevo) < orden.indexOf(paso) ? "atras" : "adelante";
+    const cambia = nuevo !== paso;
+    paso = nuevo;
+    dibujar();
+    if (cambia) entrada(app, { tipo: "lamina", sentido });
+  };
   app.querySelectorAll("[data-paso]").forEach((b) => {
-    b.onclick = () => { paso = b.dataset.paso; editando = null; editandoLectura = null; dibujar(); };
+    b.onclick = () => { editando = null; editandoLectura = null; irAPaso(b.dataset.paso); };
   });
-  $("#ir-imagenes") && ($("#ir-imagenes").onclick = () => { paso = "imagenes"; dibujar(); });
-  $("#ir-casos") && ($("#ir-casos").onclick = () => { paso = "casos"; dibujar(); });
-  $("#ir-publicar") && ($("#ir-publicar").onclick = () => { paso = "publicar"; dibujar(); });
+  $("#ir-imagenes") && ($("#ir-imagenes").onclick = () => irAPaso("imagenes"));
+  $("#ir-casos") && ($("#ir-casos").onclick = () => irAPaso("casos"));
+  $("#ir-publicar") && ($("#ir-publicar").onclick = () => irAPaso("publicar"));
 
   if (paso === "fuente") {
     $("#buscar").onclick = () => buscarDoi(id);

@@ -40,11 +40,13 @@ app/catalogo.js             temas publicados y sus casos para los juegos de vari
 app/cuestionario.js         cuestionarios armados por segmento, área o búsqueda: criterio, índice de casos y filtro
 app/plantilla-tablero.js    un tablero ya armado (plantilla): guardar, enlace, instrucciones para la IA y comprobación
 app/tabu-logica.js          lógica del Tabú (qué casos son carta, palabras prohibidas, mazo), sin pantalla
-app/marca.svg               logo y favicon
-app/fuentes/                IBM Plex Sans y Mono (licencia OFL), alojadas en el sitio y no en Google Fonts
+app/marca.svg               ícono y favicon: la Q del tomógrafo (anillo del gantry y mesa)
+app/marca-texto.svg         logotipo «RadQuiz» con esa Q; los dos los dibuja tools/dibujar_marca
+app/fuentes/                Atkinson Hyperlegible Next y Mono (licencia OFL), alojadas en el sitio y no en Google Fonts
 database.rules.json         reglas de seguridad de la sala en vivo (Firebase Realtime Database)
 firebase.json, .firebaserc  despliegue de reglas y acceso anónimo con la CLI de Firebase
 tools/construir_sitio       arma _site/ con solo los casos publicados
+tools/dibujar_marca         rehace app/marca.svg y app/marca-texto.svg (necesita fonttools y uharfbuzz)
 ```
 
 `referencia/` (prototipo y respaldo del piloto) queda solo en la computadora del autor: no se sube.
@@ -273,8 +275,16 @@ Sin secreto los workflows avisan y no fallan, y queda el camino a mano: `tools/d
 
 - `app/efectos.js`: sonidos suaves sintetizados con WebAudio (notas de seno y triángulo, como marimba o campanita, a
   volumen bajo; sin archivos), solo en el proyector y con botón «Sonido»
-  (`localStorage` `radquiz.sonido`); vibración en el celular (Android) y confeti en un canvas. Con «reducir
-  movimiento» no hay confeti ni animaciones.
+  (`localStorage` `radquiz.sonido`); vibración en el celular (Android) y la captación del final en un canvas
+  (`captacion()`, cuentas que se acumulan alrededor del ganador, como en una gammagrafía).
+- `app/movimiento.js`: el botón «Animaciones», de cada aparato (`localStorage` `radquiz.movimiento`, `si`/`no`; sin
+  elección vale «reducir movimiento» del sistema). Pone `<html data-movimiento>`; cada página lo pone antes en el
+  `<head>` con el mismo criterio. Con `no`, `app/estilos.css` apaga todo y el código que anima con JavaScript pregunta
+  `movimientoActivo()`. Animaciones propias: adquisición (lobby), marcar el hallazgo (revelado y práctica),
+  reconstrucción (podio) y captación (final).
+- `app/transiciones.js`: las transiciones dentro de una página. `transicion()` (View Transitions, con respaldo en CSS)
+  para la práctica, la lectura y el tablero; `entrada()` (solo la entrada, en el momento) para la sala, el Tabú y el
+  estudio. Entre páginas lo hace el navegador con `@view-transition` (`app/estilos.css`, sección «transiciones»).
 - Revelado con suspenso: `.suspenso` en `#app` y `--pasado`, así la animación sigue donde iba si la pantalla se
   redibuja. Podio del final con `PODIO_TIEMPOS`.
 - `app/premios.js` (sin pantalla): racha ×1,5 desde el 3.º acierto seguido, bono de 200 a quien acierta solo (con 3 o

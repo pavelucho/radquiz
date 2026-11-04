@@ -16,6 +16,7 @@ import { criterioDe, hayCriterio, consultaDe, nombreCriterio, indicePorRuta, tem
 import { reportar } from "./reportar.js";
 import { activarAmpliacion } from "./ampliar.js";
 import { plegarAjustes } from "./ajustes.js";
+import { transicion } from "./transiciones.js";
 import {
   hayAlmacenamiento, huella, leerAvance, guardarAvance, borrarAvance, leerModo, guardarModo, estadoDe, anotar, contar,
 } from "./avance.js";
@@ -156,10 +157,13 @@ function panelRevision(caso) {
   </section>`;
 }
 
+// El caso que se acaba de responder: solo en ese dibujo se marca la correcta con el trazo (no al volver a él).
+let recienRespondido = null;
+
 // Con alternativas: los botones A–E y, al responder, la correcta en verde y la elegida en rojo.
 function bloqueAlternativas(caso, resp) {
   const indices = ordenDe(caso);
-  return `<div class="opts">${indices.map((original, pos) => {
+  return `<div class="opts ${resp && caso.id === recienRespondido ? "marcando" : ""}">${indices.map((original, pos) => {
     let clase = "";
     if (resp) clase = original === caso.correcta ? "right" : "wrong";
     if (resp && original === resp.elegida) clase += " mine";
@@ -269,7 +273,7 @@ function vistaCaso() {
   const botonReporte = $("#reportar");
   if (botonReporte) botonReporte.onclick = () => reportar(caso._o.ruta, caso._id, botonReporte);
   $("#anterior").onclick = () => ir(actual - 1);
-  $("#siguiente").onclick = () => (ultima ? resultado() : ir(actual + 1));
+  $("#siguiente").onclick = () => (ultima ? transicion(resultado, { tipo: "fase" }) : ir(actual + 1));
   marcador();
   resumirAjustes();
   precargar(casos[actual + 1]);
@@ -289,7 +293,9 @@ function responder(original) {
   respuestas.set(caso.id, { m: "alt", elegida: original });
   anotarCaso(caso, { m: "alt", r: huella(caso.opciones[original]) });
   guardar();
+  recienRespondido = caso.id;
   vistaCaso();
+  recienRespondido = null;
   enfocarSiguiente();
 }
 
@@ -317,12 +323,14 @@ function calificar(ok) {
   enfocarSiguiente();
 }
 
+// De un caso a otro, como pasar al corte siguiente de la serie (app/transiciones.js): hacia adelante o hacia atrás.
 function ir(indice) {
-  actual = Math.max(0, Math.min(casos.length - 1, indice));
+  const destino = Math.max(0, Math.min(casos.length - 1, indice));
+  const sentido = destino < actual ? "atras" : "adelante";
+  actual = destino;
   retomada = false;
   guardar();
-  vistaCaso();
-  window.scrollTo({ top: 0 });
+  transicion(() => { vistaCaso(); window.scrollTo({ top: 0 }); }, { tipo: "caso", sentido });
 }
 
 function borrarMiAvance() {

@@ -10,6 +10,7 @@ import { $, esc, md, credito, barajar, NIVELES, nivelDe } from "./comun.js";
 import { cargarIndice, cargarTemas, armarCatalogo } from "./catalogo.js";
 import { reportar } from "./reportar.js";
 import { activarAmpliacion } from "./ampliar.js";
+import { entrada } from "./transiciones.js";
 import {
   PUNTOS, TIEMPOS, PASES, SIN_LIMITE, respuesta, figurasCarta, prohibidas, armarMazo, descripcion, sacar,
   pasesLibres, turnoEn,
@@ -217,6 +218,11 @@ async function armar(b) {
 }
 
 // ------------------------------------------------------------------ la partida
+// Qué se vio la última vez: la fase y, en el turno, la carta de arriba. Una carta nueva entra como el corte siguiente
+// de una serie; una pantalla nueva (otro turno, el repaso, el resultado), con el barrido (app/transiciones.js). Va
+// en el momento y no con View Transitions: el reloj del turno no puede esperar un cuadro.
+let pantallaPrevia = "";
+
 function mostrar() {
   clearInterval(reloj);
   cabecera();
@@ -224,6 +230,10 @@ function mostrar() {
   (vistas[juego.fase] || vistaListo)();
   mantenerEncendida(juego.fase === "turno" && !juego.pausa);
   window.scrollTo({ top: 0 });
+  const pantalla = `${juego.fase}:${juego.fase === "turno" ? juego.mazo[0] : ""}`;
+  const [faseAntes] = pantallaPrevia.split(":");
+  if (pantallaPrevia && pantalla !== pantallaPrevia) entrada(app, { tipo: faseAntes === juego.fase ? "caso" : "fase" });
+  pantallaPrevia = pantalla;
 }
 
 function marcador() {

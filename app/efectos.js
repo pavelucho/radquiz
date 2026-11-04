@@ -1,7 +1,10 @@
-// RadQuiz — sonido, vibración y confeti para la sala en vivo. Los sonidos se sintetizan con WebAudio: notas suaves de
+// RadQuiz — sonido, vibración y la captación del final para la sala en vivo. Los sonidos se sintetizan con WebAudio: notas suaves de
 // seno y triángulo, como una marimba o una campanita, a volumen bajo (los primeros, de onda cuadrada y con un redoble
 // de ruido, resultaban estruendosos). No hay archivos que descargar por la red del hospital. Suenan en el
-// proyector; el celular vibra (solo en Android: iPhone no deja). Con «reducir movimiento», no hay confeti.
+// proyector; el celular vibra (solo en Android: iPhone no deja). Con «Animaciones: no» (app/movimiento.js), no hay
+// captación: el sonido tiene su propio botón.
+
+import { movimientoActivo } from "./movimiento.js";
 
 const CLAVE = "radquiz.sonido";
 let ctx = null;
@@ -89,53 +92,52 @@ export function vibrar(patron) {
   try { if (navigator.vibrate) navigator.vibrate(patron); } catch { /* sin vibración */ }
 }
 
-const sinMovimiento = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-// Confeti en un canvas encima de todo, que se borra solo. Los colores son los de las letras A–E y el de la marca.
-export function confeti({ duracion = 4500, cantidad = 160 } = {}) {
-  if (sinMovimiento()) return;
+// Captación: al final, alrededor del ganador se acumulan cuentas como en una gammagrafía. Cada cuadro suma puntitos
+// al azar, la mayoría alrededor del foco (una campana de Gauss) y unos pocos sueltos por toda la pantalla, como el
+// fondo de la cámara gamma; donde caen muchos, el amarillo se va a blanco, como en la escala «hot iron». Se suman sin
+// borrar (modo «lighter»), así que el foco «capta» de a poco; después todo se desvanece. Sin destellos: el brillo
+// sube despacio y en puntos chicos. Es el reemplazo propio del confeti.
+export function captacion({ foco = null, duracion = 2600, intensidad = 1 } = {}) {
+  if (!movimientoActivo()) return;
   const lienzo = document.createElement("canvas");
-  lienzo.className = "confeti";
+  lienzo.className = "captacion";
   lienzo.setAttribute("aria-hidden", "true");
   document.body.append(lienzo);
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const ajustar = () => {
-    lienzo.width = innerWidth * dpr;
-    lienzo.height = innerHeight * dpr;
-  };
-  ajustar();
+  const ancho = innerWidth, alto = innerHeight;
+  lienzo.width = Math.round(ancho * dpr);
+  lienzo.height = Math.round(alto * dpr);
   const g = lienzo.getContext("2d");
-  const colores = ["#5b9dff", "#f5a24f", "#3fcab6", "#b48cff", "#ff7d93", "#f2c14e"];
-  const piezas = Array.from({ length: cantidad }, () => ({
-    x: Math.random() * innerWidth,
-    y: -20 - Math.random() * innerHeight * 0.6,
-    vx: (Math.random() - 0.5) * 2.4,
-    vy: 1.5 + Math.random() * 3,
-    giro: Math.random() * Math.PI,
-    vgiro: (Math.random() - 0.5) * 0.25,
-    lado: 5 + Math.random() * 6,
-    color: colores[Math.floor(Math.random() * colores.length)],
-  }));
+  if (!g) { lienzo.remove(); return; }
+  g.globalCompositeOperation = "lighter";
+  // El foco: el centro del elemento (el ganador), o un poco arriba del centro de la pantalla.
+  let cx = ancho / 2, cy = alto * 0.42;
+  const caja = foco?.getBoundingClientRect?.();
+  if (caja && caja.width) { cx = caja.left + caja.width / 2; cy = caja.top + caja.height / 2; }
+  const sx = Math.min(ancho, alto) * 0.16, sy = sx * 0.8;
+  const lado = Math.max(1.5, 2 * dpr);
+  const gauss = () => {   // Box-Muller
+    const u = 1 - Math.random(), v = Math.random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  };
+  const porCuadro = Math.round(240 * intensidad * Math.min(1.6, (ancho * alto) / (1280 * 800)));
   const inicio = performance.now();
   const cuadro = (ahora) => {
     const t = ahora - inicio;
-    g.setTransform(dpr, 0, 0, dpr, 0, 0);
-    g.clearRect(0, 0, innerWidth, innerHeight);
-    g.globalAlpha = t > duracion - 800 ? Math.max(0, (duracion - t) / 800) : 1;
-    for (const p of piezas) {
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vy += 0.03;
-      p.giro += p.vgiro;
-      g.save();
-      g.translate(p.x, p.y);
-      g.rotate(p.giro);
-      g.fillStyle = p.color;
-      g.fillRect(-p.lado / 2, -p.lado / 4, p.lado, p.lado / 2);
-      g.restore();
+    // al principio llegan pocas cuentas y después más, como una adquisición que arranca
+    const n = Math.round(porCuadro * Math.min(1, 0.25 + t / 900));
+    g.fillStyle = "rgba(242, 193, 78, .2)";
+    for (let i = 0; i < n; i++) {
+      const x = cx + gauss() * sx, y = cy + gauss() * sy;
+      g.fillRect(Math.round(x * dpr), Math.round(y * dpr), lado, lado);
     }
+    g.fillStyle = "rgba(244, 240, 231, .16)";
+    for (let i = 0; i < n * 0.12; i++) g.fillRect(Math.round(Math.random() * ancho * dpr), Math.round(Math.random() * alto * dpr), lado, lado);
     if (t < duracion) requestAnimationFrame(cuadro);
-    else lienzo.remove();
+    else {
+      lienzo.classList.add("se-va");
+      setTimeout(() => lienzo.remove(), 1300);
+    }
   };
   requestAnimationFrame(cuadro);
 }

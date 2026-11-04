@@ -1,4 +1,8 @@
-Copyright © 2017 IBM Corp. with Reserved Font Name "Plex"
+Atkinson Hyperlegible Next: Copyright 2020-2024 The Atkinson Hyperlegible Next Project Authors
+(https://github.com/googlefonts/atkinson-hyperlegible-next)
+Atkinson Hyperlegible Mono: Copyright 2020-2024 The Atkinson Hyperlegible Mono Project Authors
+(https://github.com/googlefonts/atkinson-hyperlegible-next-mono)
+Diseñadas por Applied Design Works para el Braille Institute of America. Versión 2.001, tomada de Google Fonts.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 

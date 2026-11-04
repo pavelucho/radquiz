@@ -4,19 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sala en vivo · RadQuiz</title>
-<meta name="theme-color" content="#0b0f14">
+<meta name="theme-color" content="#0c0b09">
+<script>/* Animaciones: la elección de este aparato o, sin ella, la del sistema (app/movimiento.js). Va aquí para que nada empiece a moverse antes de saberlo. También decide la transición entre páginas (app/estilos.css, «transiciones»): sin animaciones no hay; al volver con «atrás» va al revés; y en un navegador sin transiciones entre páginas, el contenido entra con la misma animación en CSS. */
+try{var r=document.documentElement,m=localStorage.getItem("radquiz.movimiento");if(m!=="si"&&m!=="no")m=matchMedia("(prefers-reduced-motion: reduce)").matches?"no":"si";r.dataset.movimiento=m;addEventListener("pageswap",function(e){if(e.viewTransition&&r.dataset.movimiento==="no")e.viewTransition.skipTransition()});addEventListener("pagereveal",function(e){var t=e.viewTransition,a=window.navigation&&navigation.activation;if(!t)return;if(r.dataset.movimiento==="no")return t.skipTransition();if(a&&a.navigationType==="traverse"&&a.from&&a.entry&&a.entry.index<a.from.index){r.dataset.sentido="atras";t.finished.finally(function(){delete r.dataset.sentido})}});if(m==="si"&&!("CSSViewTransitionRule" in window)){r.dataset.entrada="pagina";setTimeout(function(){delete r.dataset.entrada},800)}}catch(e){}</script>
 <link rel="icon" href="app/marca.svg" type="image/svg+xml">
-<link rel="preload" href="app/fuentes/plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="app/fuentes/atkinson-next.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="app/estilos.css">
 </head>
 <body>
 <div class="wrap">
   <header class="bar">
-    <a class="brand" href="./"><img class="logo" src="app/marca.svg" alt="" width="30" height="30">RadQuiz <small id="subtitulo">Sala en vivo</small></a>
+    <a class="brand" href="./"><img class="logotipo" src="app/marca-texto.svg" alt="RadQuiz" width="110" height="22"><small id="subtitulo">Sala en vivo</small></a>
     <span class="spacer"></span>
     <div class="herramientas">
       <button type="button" id="qrMini" class="qr-mini" hidden aria-haspopup="dialog"></button>
       <button type="button" id="sonido" class="sonido" hidden aria-pressed="true">Sonido</button>
+      <button type="button" id="movimiento" class="sonido" hidden aria-pressed="true">Animaciones</button>
       <span class="chip" id="rol">Conectando…</span>
       <span class="chip" id="conteo" hidden></span>
     </div>
@@ -24,6 +27,7 @@
   <main id="app" class="stack" aria-live="polite"><p class="muted">Conectando…</p></main>
 </div>
 <div class="zoom zoom-qr" id="zoomQR" role="dialog" aria-label="Cómo entrar a la sala" hidden></div>
+<script type="module" src="app/movimiento.js"></script>
 <script type="module" src="app/sala.js"></script>
 </body>
 </html>

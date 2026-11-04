@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+"""Dibuja la marca de RadQuiz: app/marca.svg (ícono y favicon) y app/marca-texto.svg (logotipo).
+
+Uso:
+    tools/dibujar_marca
+
+La marca es la Q del tomógrafo: el anillo amarillo del gantry —que es también el círculo con que se marca un
+hallazgo— y la mesa que entra en diagonal, como se ve el equipo desde la sala, que hace de cola de la Q. El
+logotipo es «RadQuiz» en Atkinson Hyperlegible Next, la tipografía de toda la web, pasada a contornos (así se ve
+igual aunque la fuente no haya cargado) y con esa Q en lugar de la de la fuente. El ícono y la Q del logotipo usan
+la misma geometría (MESA_DESDE, MESA_HASTA).
+
+A diferencia de tools/validar, necesita dos paquetes de fuera de la biblioteca estándar:
+    pip install fonttools brotli uharfbuzz
+Solo hace falta para cambiar la marca; la web usa los .svg ya hechos.
+"""
+import io
+import sys
+from pathlib import Path
+
+try:
+    import uharfbuzz as hb
+    from fontTools.pens.recordingPen import RecordingPen
+    from fontTools.pens.svgPathPen import SVGPathPen
+    from fontTools.pens.transformPen import TransformPen
+    from fontTools.ttLib import TTFont
+    from fontTools.varLib import instancer
+except ImportError:
+    sys.exit("Falta instalar: pip install fonttools brotli uharfbuzz")
+
+RAIZ = Path(__file__).resolve().parent.parent
+FUENTE = RAIZ / "app/fuentes/atkinson-next.woff2"
+
+AMARILLO = "#f2c14e"     # --marca
+HUESO = "#f4f0e7"        # --tinta
+FONDO_ICONO = "#171614"  # --panel
+PESO = 750               # peso del logotipo (la fuente va de 200 a 800)
+
+# La mesa va de un punto dentro del anillo a uno fuera, abajo a la derecha, en múltiplos del radio medio del anillo
+# y medidos desde su centro (y hacia abajo). Con la mesa horizontal la letra se leía «e»; en diagonal se lee «Q».
+MESA_DESDE = (-0.02, 0.30)
+MESA_HASTA = (1.34, 1.10)
+
+
+def n(v):
+    return f"{v:.1f}".rstrip("0").rstrip(".")
+
+
+def icono():
+    cx, cy, radio_ext, trazo = 29, 30, 19.5, 7.4
+    r = radio_ext - trazo / 2
+    grosor, hueco = 6.2, 2.6
+    x0, y0 = cx + MESA_DESDE[0] * r, cy + MESA_DESDE[1] * r
+    x1, y1 = cx + MESA_HASTA[0] * r, cy + MESA_HASTA[1] * r
+    mesa = f"M{n(x0)} {n(y0)}L{n(x1)} {n(y1)}"
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- RadQuiz: la Q del tomógrafo. El anillo amarillo es el gantry (y el círculo con que se marca un hallazgo); la
+       barra clara, la mesa que entra al anillo: la cola de la Q. Lo dibuja tools/dibujar_marca. -->
+  <rect width="64" height="64" rx="15" fill="{FONDO_ICONO}"/>
+  <circle cx="{cx}" cy="{cy}" r="{n(r)}" fill="none" stroke="{AMARILLO}" stroke-width="{trazo}"/>
+  <path d="{mesa}" stroke="{FONDO_ICONO}" stroke-width="{n(grosor + 2 * hueco)}" stroke-linecap="round"/>
+  <path d="{mesa}" stroke="{HUESO}" stroke-width="{grosor}" stroke-linecap="round"/>
+</svg>
+"""
+
+
+def logotipo():
+    variable = TTFont(FUENTE)
+    variable.flavor = None
+    fija = instancer.instantiateVariableFont(variable, {"wght": PESO})
+    buf = io.BytesIO()
+    fija.save(buf)
+    datos = buf.getvalue()
+    fuente = TTFont(io.BytesIO(datos))
+    glifos = fuente.getGlyphSet()
+    orden = fuente.getGlyphOrder()
+    mayuscula = fuente["OS/2"].sCapHeight
+    em = fuente["head"].unitsPerEm
+    hbfuente = hb.Font(hb.Face(datos))
+
+    # el trazo del anillo, igual al asta de la H
+    pluma = RecordingPen()
+    glifos[fuente.getBestCmap()[ord("H")]].draw(pluma)
+    xs = sorted({round(a[0][0]) for op, a in pluma.value if op in ("lineTo", "moveTo")})
+    asta = (xs[1] - xs[0]) * 1.04
+
+    def texto(cadena, x):
+        b = hb.Buffer()
+        b.add_str(cadena)
+        b.guess_segment_properties()
+        hb.shape(hbfuente, b, {"kern": True})
+        partes = []
+        for info, pos in zip(b.glyph_infos, b.glyph_positions):
+            p = SVGPathPen(glifos, ntos=lambda v: f"{v:.0f}")
+            glifos[orden[info.codepoint]].draw(TransformPen(p, (1, 0, 0, -1, x + pos.x_offset, 0)))
+            partes.append(p.getCommands())
+            x += pos.x_advance
+        return "".join(partes), x
+
+    rad, x = texto("Rad", 0)
+    radio_ext = mayuscula * 0.52          # algo más que media mayúscula: lo redondo sobresale, como la O
+    r = radio_ext - asta / 2
+    qx, qy = x + 0.075 * em + radio_ext, -mayuscula / 2
+    grosor, hueco = asta * 0.86, asta * 0.34
+    x0, y0 = qx + MESA_DESDE[0] * r, qy + MESA_DESDE[1] * r
+    x1, y1 = qx + MESA_HASTA[0] * r, qy + MESA_HASTA[1] * r
+    uiz, fin = texto("uiz", max(x1 + grosor / 2, qx + radio_ext) + 0.045 * em)
+
+    izq, der = -20, fin + 20
+    arr, aba = -mayuscula - 0.11 * em, y1 + grosor / 2 + 20
+    caja = f"{izq:.0f} {arr:.0f} {der - izq:.0f} {aba - arr:.0f}"
+    region = f'x="{izq:.0f}" y="{arr:.0f}" width="{der - izq:.0f}" height="{aba - arr:.0f}"'
+    mesa = f"M{x0:.0f} {y0:.0f}L{x1:.0f} {y1:.0f}"
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="{caja}" role="img" aria-label="RadQuiz">
+<!-- RadQuiz en Atkinson Hyperlegible Next ({PESO}), en contornos (licencia OFL, app/fuentes/OFL.txt); la Q es el
+     anillo del gantry y la mesa, como en marca.svg. Lo dibuja tools/dibujar_marca. -->
+<defs><mask id="mesa" maskUnits="userSpaceOnUse" {region}><rect {region} fill="#fff"/><path d="{mesa}" stroke="#000" stroke-width="{grosor + 2 * hueco:.0f}" stroke-linecap="round"/></mask></defs>
+<path fill="{HUESO}" d="{rad}{uiz}"/>
+<circle cx="{qx:.0f}" cy="{qy:.0f}" r="{r:.0f}" fill="none" stroke="{AMARILLO}" stroke-width="{asta:.0f}" mask="url(#mesa)"/>
+<path d="{mesa}" stroke="{HUESO}" stroke-width="{grosor:.0f}" stroke-linecap="round"/>
+</svg>
+"""
+
+
+if __name__ == "__main__":
+    (RAIZ / "app/marca.svg").write_text(icono(), encoding="utf-8")
+    (RAIZ / "app/marca-texto.svg").write_text(logotipo(), encoding="utf-8")
+    print("Escribí app/marca.svg y app/marca-texto.svg.")

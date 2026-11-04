@@ -11,6 +11,8 @@
 // y no un canvas, porque las figuras vienen de Drive y el navegador no deja leer los píxeles de otro dominio. En
 // escritorio, el botón derecho ajusta la ventana sin activar el modo. Cada figura se abre siempre como es.
 
+import { movimientoActivo } from "./movimiento.js";
+
 const ACERCAR_TOQUE = 2.5;   // un toque sobre la figura ajustada la deja a 2,5 veces, centrada en el punto tocado
 const PASO = 1.5;            // botones + y −, y teclas + y −
 const MOVER = 80;            // flechas, en píxeles de pantalla
@@ -336,7 +338,7 @@ function devolver() {
 
 // Tras soltar un arrastre rápido la figura sigue un poco y se frena, hasta topar con un borde.
 function deslizar(vx, vy) {
-  if (Math.hypot(vx, vy) < 0.15) return;
+  if (!movimientoActivo() || Math.hypot(vx, vy) < 0.15) return;   // con «Animaciones: no», se queda donde se soltó
   let antes = performance.now();
   const paso = (ahora) => {
     const dt = Math.min(40, ahora - antes);
