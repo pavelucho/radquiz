@@ -181,7 +181,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   letra A–E tiene su color, y ✓/✗ acompañan al verde y al rojo. Los tres colores de texto pasan 4,5:1 sobre todas
   las superficies. Las tipografías se alojan en el sitio, no en Google Fonts (la red del hospital); licencia OFL en
   `app/fuentes/OFL.txt`.
-  Identidad nueva (2026-11-03, en la rama `claude/wonderful-bohr-in6bgj`, sin desplegar; pedido del autor: un diseño
+  Identidad nueva (2026-11-03, hecha en la rama `claude/wonderful-bohr-in6bgj`; desplegada el 2026-11-03; pedido del autor: un diseño
   único y reconocible que aterrice en el logo y la tipografía). Análisis con capturas, medidas y referencias:
   https://claude.ai/artifact/Po9XdunLW3aDd4gF3DbAM8 (privado del autor). Lo que cambió y por qué:
   - **Logo: la Q del tomógrafo.** El anillo amarillo del gantry (que es también el círculo con que se marca un
@@ -405,9 +405,13 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
     (el 4.º) salía dorada como el 1.º (el color iba por `:nth-child`, ahora por puesto, también en tablero y Tabú); en la
     portada, al escribir en el buscador el desplegable de segmentos tapaba el cuestionario armado y su «Practicar»; en la
     práctica, Enter sobre «Siguiente caso» (sin alternativas) revelaba la respuesta en vez de avanzar.
-  Probado en el navegador así; no en un aula ni en un celular real. Falta desplegar la web.
+  Probado en el navegador así; no en un aula ni en un celular real. Hecha en la rama `claude/festive-shannon-hs1g0y`,
+  junta con la de identidad, animaciones y transiciones y desplegada el 2026-11-03 (`96da191`). Al juntarlas: los colores
+  del puesto (`.p1`–`.p3`) pasaron a las fichas nuevas, y el proyector ya no festeja (puestos, fanfarria, captación)
+  cuando el podio dice «Nadie sumó puntos» (`efectosFin()`). Probado contra producción con presentador y un celular:
+  → empieza, pasa y termina; «Era la D: …» en el celular; sin aciertos no hay captación, con uno sí, en las dos pantallas.
 - Puntaje (2026-10-05): 900 por acierto + hasta 100 por rapidez (antes 500 + 500): pesa acertar, no el reflejo.
-- Animaciones (2026-11-04, en la rama `claude/wonderful-bohr-in6bgj`, sin desplegar; pedido del autor: poder
+- Animaciones (2026-11-04, en la rama `claude/wonderful-bohr-in6bgj`; desplegadas el 2026-11-03, hora de Lima; pedido del autor: poder
   activarlas o desactivarlas, como en Kahoot, pero con animaciones originales y según la evidencia). Kahoot deja
   controlar la música, el tiempo y el alto contraste, pero no se encontró un interruptor de movimiento.
   - **Interruptor por aparato** (`app/movimiento.js`, `localStorage` `radquiz.movimiento`): sin elección vale «reducir
@@ -436,7 +440,7 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
   las nueve páginas sin errores y sin desborde a 375 px, la práctica, y el lobby, el revelado y el podio en maquetas
   con el CSS y los módulos reales (sin Firebase en el entorno de prueba). No probado en una sala real ni en un aula;
   el botón del lobby del celular no se vio funcionando.
-- Transiciones (2026-11-04, misma rama, sin desplegar; pedido del autor: fluidez de un apartado a otro y de pregunta
+- Transiciones (2026-11-04, misma rama; desplegadas el 2026-11-03, hora de Lima; pedido del autor: fluidez de un apartado a otro y de pregunta
   a pregunta). Cada movimiento se parece a lo que pasa (principio de congruencia, Tversky et al. 2002) y muestra qué
   cambió (Heer y Robertson 2007); todas duran menos de 0,4 s y terminan antes de que se empiece a leer; la cabecera
   no se mueve (es el ancla); con «Animaciones: no» no corre ninguna.
@@ -529,7 +533,8 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
 1. **Poner el secreto de Firebase en GitHub.** Sin él, `reglas.yml` y `publicar.yml` terminan en verde pero solo
    avisan: ni las reglas ni la web se despliegan solas, y hay que hacerlo a mano (`tools/desplegar reglas`,
    `tools/desplegar web`) desde una terminal con la sesión de la CLI iniciada. Las reglas en línea están al día a
-   2026-10-10 (`estado/cierre` en `salas/` y margen de 8 s tras pasar la página en `lecturas_vivo/`); antes, 2026-10-09 (lecturas, `lecturas_vivo/`); antes, 2026-10-07 (`indice_casos`, salas de varios temas y `tableros/`) y la web a 2026-10-10 (sin desplegar: la ergonomía y los arreglos del 2026-11-03; desplegada con el código de `387041b`: cierre del caso, respuestas al límite, sala abierta, rescate sin riesgo; antes, `b2e5e31`: lo que quedaba de una sala, un caso o una tanda anterior; antes, `88f6547`, el celular olvida la sala anterior; antes, 2026-10-08, `881ad30`: panel de la casilla del tablero que se cierra; antes, portada reordenada; antes, títulos que no se salen de su cuadro, tableros guardados, armado con IA, buscador en desplegable y los temas archivados con la clasificación nueva). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
+   2026-10-10 (`estado/cierre` en `salas/` y margen de 8 s tras pasar la página en `lecturas_vivo/`); antes, 2026-10-09 (lecturas, `lecturas_vivo/`); antes, 2026-10-07 (`indice_casos`, salas de varios temas y `tableros/`) y la web a 2026-11-03 (desplegada con el código de `96da191`: ergonomía y arreglos, identidad nueva, animaciones y
+   transiciones, juntas desde sus ramas de la nube; antes, 2026-10-10, `387041b`: cierre del caso, respuestas al límite, sala abierta, rescate sin riesgo; antes, `b2e5e31`: lo que quedaba de una sala, un caso o una tanda anterior; antes, `88f6547`, el celular olvida la sala anterior; antes, 2026-10-08, `881ad30`: panel de la casilla del tablero que se cierra; antes, portada reordenada; antes, títulos que no se salen de su cuadro, tableros guardados, armado con IA, buscador en desplegable y los temas archivados con la clasificación nueva). Ojo: `tools/desplegar web` arma el sitio desde la carpeta de trabajo, con lo que haya
    sin commit; hay que desplegar con la carpeta limpia o desde una copia de `main` (`git worktree add … origin/main`).
    `tools/desplegar` es el mismo comando que corren los workflows. Necesita, en variables de entorno o en
    secretos: `FIREBASE_SERVICE_ACCOUNT` (JSON —tal cual o en base64— de una cuenta de servicio con los papeles
