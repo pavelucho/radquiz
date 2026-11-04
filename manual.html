@@ -6,6 +6,7 @@
 <title>Manual · RadQuiz</title>
 <meta name="description" content="Cómo jugar, presentar, crear y revisar cuestionarios en RadQuiz.">
 <meta name="theme-color" content="#0c0b09">
+<script>/* Animaciones: la elección de este aparato o, sin ella, la del sistema (app/movimiento.js). Va aquí para que nada empiece a moverse antes de saberlo. */try{var m=localStorage.getItem("radquiz.movimiento");if(m!=="si"&&m!=="no")m=matchMedia("(prefers-reduced-motion: reduce)").matches?"no":"si";document.documentElement.dataset.movimiento=m}catch(e){}</script>
 <link rel="icon" href="app/marca.svg" type="image/svg+xml">
 <link rel="preload" href="app/fuentes/atkinson-next.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="app/estilos.css">
@@ -88,7 +89,9 @@
           <b>reacciones</b> (¡Wow!, Jajaja, ¡Fuego!, Me encanta, ¡Lo sabía!, Me morí): la que toques sube flotando por el
           proyector con tu nombre. También se puede reaccionar en el ranking y en el final, una cada segundo y medio.</li>
         <li>Entre casos puede aparecer el ranking. Al final ves tu puesto y, si te tocó, tu <b>título</b>. Si quedas en el
-          podio, hay confeti; en Android, además, el celular vibra cuando aciertas o pierdes un corazón.</li>
+          podio, alrededor de tu nombre se juntan cuentas como en una gammagrafía; en Android, además, el celular vibra
+          cuando aciertas o pierdes un corazón. Si las animaciones te molestan, apágalas con <b>Animaciones</b> en la
+          pantalla de espera, antes de que empiece; si tu celular tiene «reducir movimiento», ya vienen apagadas.</li>
       </ol>
       <p class="caja">Si se corta la conexión o cierras el navegador, vuelve a abrir la misma página en el mismo celular:
         RadQuiz te devuelve a la sala. Si respondes cuando el tiempo ya terminó, la respuesta no se cuenta.</p>
@@ -212,7 +215,8 @@
           vio solo, el más rápido, la opción «trampa» que eligió mucha gente y quiénes van en racha. Después, la explicación: es el momento de discutir el caso. Toca la imagen
           para ampliarla.</li>
         <li>Sigue con <b>Siguiente caso</b>, o toca antes <b>Ver ranking</b> para mostrar los 5 primeros.</li>
-        <li>En el último caso toca <b>Terminar</b>: sube el podio (3.º, 2.º y 1.º, con fanfarria y confeti), y debajo
+        <li>En el último caso toca <b>Terminar</b>: sube el podio (3.º, 2.º y 1.º, con fanfarria; el nombre se aclara
+          como una imagen que se reconstruye y alrededor del ganador se juntan cuentas, como una captación), y debajo
           salen los <b>títulos</b> y el resto del ranking. Cada persona recibe como mucho un título: Impecable (no falló
           ni uno), Fénix (volvió de un rescate y llegó al final), Francotirador (la racha más larga), El Incidentaloma
           (acertó cuando nadie más acertó), Segunda lectura (acertó al menos dos más en la segunda mitad que en la
@@ -223,6 +227,13 @@
         al revelar y una campanita al marcar la correcta, y melodías cortas para la racha, el corazón perdido, la caída y
         el rescate. Se apaga con <b>Sonido</b>, en la cabecera; la
         elección queda guardada en esa computadora.</p>
+      <p>Las <b>animaciones</b> se apagan aparte, con <b>Animaciones</b>, también en la cabecera (y en el Tablero, el Tabú y
+        el pie de la portada). Son pocas y van solo fuera de la lectura del caso: quien entra al lobby aparece como un
+        corte que se adquiere, al revelar un trazo amarillo da la vuelta a la correcta (como cuando se encierra un
+        hallazgo) y el final tiene la captación. Mientras se lee un caso no se mueve nada más que el reloj. Apagadas, la
+        respuesta se ve de una vez, sin el suspenso de las barras. Cada aparato elige por su cuenta: lo que elijas en el
+        proyector no cambia los celulares, y quien tenga «reducir movimiento» en su sistema las tiene apagadas de
+        entrada.</p>
       <p>Al crear la sala puedes armar <b>equipos</b>: por año de residencia (R1, R2, R3, otros) o de 2 a 4 colores, que
         reciben un nombre al azar en cada sala («Los Hipointensos», «Gadolinio FC», «Escuadrón Gantry»…). Cada
         residente elige el suyo al entrar, el lobby los muestra por equipo, y el ranking y el final comparan el promedio de

@@ -154,10 +154,13 @@ function panelRevision(caso) {
   </section>`;
 }
 
+// El caso que se acaba de responder: solo en ese dibujo se marca la correcta con el trazo (no al volver a él).
+let recienRespondido = null;
+
 // Con alternativas: los botones A–E y, al responder, la correcta en verde y la elegida en rojo.
 function bloqueAlternativas(caso, resp) {
   const indices = ordenDe(caso);
-  return `<div class="opts">${indices.map((original, pos) => {
+  return `<div class="opts ${resp && caso.id === recienRespondido ? "marcando" : ""}">${indices.map((original, pos) => {
     let clase = "";
     if (resp) clase = original === caso.correcta ? "right" : "wrong";
     if (resp && original === resp.elegida) clase += " mine";
@@ -286,7 +289,9 @@ function responder(original) {
   respuestas.set(caso.id, { m: "alt", elegida: original });
   anotarCaso(caso, { m: "alt", r: huella(caso.opciones[original]) });
   guardar();
+  recienRespondido = caso.id;
   vistaCaso();
+  recienRespondido = null;
 }
 
 function revelar() {

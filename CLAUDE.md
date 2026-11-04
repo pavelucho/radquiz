@@ -383,6 +383,35 @@ JPG, lado mayor ≤ 1600 px, ≤ 250 KB, sin datos de pacientes. v1: solo open a
     (`sinRiesgo` en `cuentasRonda()`); probado en Node, no en una sala.
   - Tablero: empezar una partida desde un enlace o un tablero del grupo avisa si hay otra a medias guardada.
 - Puntaje (2026-10-05): 900 por acierto + hasta 100 por rapidez (antes 500 + 500): pesa acertar, no el reflejo.
+- Animaciones (2026-11-04, en la rama `claude/wonderful-bohr-in6bgj`, sin desplegar; pedido del autor: poder
+  activarlas o desactivarlas, como en Kahoot, pero con animaciones originales y según la evidencia). Kahoot deja
+  controlar la música, el tiempo y el alto contraste, pero no se encontró un interruptor de movimiento.
+  - **Interruptor por aparato** (`app/movimiento.js`, `localStorage` `radquiz.movimiento`): sin elección vale «reducir
+    movimiento» del sistema; una elección aquí gana sobre el sistema. `<html data-movimiento="si|no">`, puesto en el
+    `<head>` de las nueve páginas antes de pintar. El `@media (prefers-reduced-motion)` que apagaba todo pasó a
+    `:root[data-movimiento="no"]` (el media query queda solo para cuando no hay atributo). Botón «Animaciones: sí/no»
+    en la cabecera del presentador (junto a «Sonido»), en el lobby del celular (en su cabecera empujaba las opciones
+    hacia abajo), en el Tablero, el Tabú y el pie de la portada. Lo del proyector no cambia los celulares.
+  - **Criterio, de la evidencia**: lo que empieza a moverse se lleva la mirada (Abrams y Christ 2003) y los adornos
+    restan aprendizaje, más cuando el ritmo no lo pone quien aprende, como en la sala (detalles seductores,
+    Sundararajan y Adesope 2020, g ≈ −0,33): mientras se lee un caso solo se mueve el reloj; el último corazón late 4
+    veces y no sin parar. Las señales que llevan la vista a lo importante sí ayudan (Schneider et al. 2018): la
+    animación del revelado marca la correcta. Un momento breve de curiosidad antes de la respuesta favorece recordarla
+    (Gruber et al. 2014): se queda el suspenso de las barras (~2 s); sin animaciones, la respuesta sale de una vez y sin
+    redoble. El diseño agradable suma algo de motivación (Brom et al. 2018), por eso hay celebración al final. Sin
+    destellos, y todo se puede apagar (WCAG 2.2.2 y 2.3.3).
+  - **Animaciones propias**, cada una de un gesto de la radiología, todas bajo `:root:not([data-movimiento="no"])`:
+    *adquisición* (quien entra al lobby del presentador aparece de arriba abajo en 10 pasos bajo una línea de barrido;
+    `.pl.nuevo`, `vistosEnLobby` en `app/sala.js`); *marcar el hallazgo* (al revelar, y en la práctica solo al
+    responder —`recienRespondido`—, un trazo amarillo da la vuelta por dentro de la correcta y se desvanece; `@property
+    --giro` y una máscara cónica: va por dentro porque `.opt` recorta); *reconstrucción* (en el podio el nombre pasa de
+    borroso a nítido, como el espacio k que se llena); *captación* (`captacion()` en `app/efectos.js`, reemplaza al
+    confeti: cuentas que se suman alrededor del ganador hasta blanquearse, como en una gammagrafía, detrás del
+    contenido para no tapar el nombre). La inercia de la ampliación también se apaga.
+  Probado en el navegador: el interruptor (guardar, recargar, heredar en otra página, seguir al sistema y ganarle),
+  las nueve páginas sin errores y sin desborde a 375 px, la práctica, y el lobby, el revelado y el podio en maquetas
+  con el CSS y los módulos reales (sin Firebase en el entorno de prueba). No probado en una sala real ni en un aula;
+  el botón del lobby del celular no se vio funcionando.
 - Ambiente, rachas, avatares y equipos en la sala (2026-10-05), decididos con el autor como capas 1, 2 y 5 de una lista
   de ideas (las otras: eventos sorpresa como caso relámpago, duelo final y caso jefe; y comodines 50:50, escudo y doble
   o nada, para cuando el grupo pida más). Sonido suave en el proyector (`app/efectos.js`, botón «Sonido»: notas de seno y

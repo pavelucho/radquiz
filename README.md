@@ -274,8 +274,13 @@ Sin secreto los workflows avisan y no fallan, y queda el camino a mano: `tools/d
 
 - `app/efectos.js`: sonidos suaves sintetizados con WebAudio (notas de seno y triángulo, como marimba o campanita, a
   volumen bajo; sin archivos), solo en el proyector y con botón «Sonido»
-  (`localStorage` `radquiz.sonido`); vibración en el celular (Android) y confeti en un canvas. Con «reducir
-  movimiento» no hay confeti ni animaciones.
+  (`localStorage` `radquiz.sonido`); vibración en el celular (Android) y la captación del final en un canvas
+  (`captacion()`, cuentas que se acumulan alrededor del ganador, como en una gammagrafía).
+- `app/movimiento.js`: el botón «Animaciones», de cada aparato (`localStorage` `radquiz.movimiento`, `si`/`no`; sin
+  elección vale «reducir movimiento» del sistema). Pone `<html data-movimiento>`; cada página lo pone antes en el
+  `<head>` con el mismo criterio. Con `no`, `app/estilos.css` apaga todo y el código que anima con JavaScript pregunta
+  `movimientoActivo()`. Animaciones propias: adquisición (lobby), marcar el hallazgo (revelado y práctica),
+  reconstrucción (podio) y captación (final).
 - Revelado con suspenso: `.suspenso` en `#app` y `--pasado`, así la animación sigue donde iba si la pantalla se
   redibuja. Podio del final con `PODIO_TIEMPOS`.
 - `app/premios.js` (sin pantalla): racha ×1,5 desde el 3.º acierto seguido, bono de 200 a quien acierta solo (con 3 o

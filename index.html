@@ -6,6 +6,7 @@
 <title>RadQuiz · Casos radiológicos para residentes</title>
 <meta name="description" content="Casos radiológicos para residentes: práctica individual y sesiones en vivo desde el celular, sin cuentas.">
 <meta name="theme-color" content="#0c0b09">
+<script>/* Animaciones: la elección de este aparato o, sin ella, la del sistema (app/movimiento.js). Va aquí para que nada empiece a moverse antes de saberlo. */try{var m=localStorage.getItem("radquiz.movimiento");if(m!=="si"&&m!=="no")m=matchMedia("(prefers-reduced-motion: reduce)").matches?"no":"si";document.documentElement.dataset.movimiento=m}catch(e){}</script>
 <link rel="icon" href="app/marca.svg" type="image/svg+xml">
 <link rel="preload" href="app/fuentes/atkinson-next.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="app/estilos.css">
@@ -77,9 +78,10 @@
 
   <footer class="pie">
     <p>RadQuiz · Casos radiológicos para residentes. Cada imagen muestra su fuente y su licencia.</p>
-    <nav aria-label="Más"><a href="manual.html">Manual</a><a href="manual.html#privacidad">Privacidad y licencias</a><a href="estudio.html">Estudio para autores</a></nav>
+    <nav aria-label="Más"><a href="manual.html">Manual</a><a href="manual.html#privacidad">Privacidad y licencias</a><a href="estudio.html">Estudio para autores</a><button type="button" class="pie-boton" data-movimiento hidden aria-pressed="true">Animaciones</button></nav>
   </footer>
 </div>
+<script type="module" src="app/movimiento.js"></script>
 <script type="module" src="app/inicio.js"></script>
 </body>
 </html>

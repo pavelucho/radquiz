@@ -210,6 +210,10 @@ header.bar {
 .pie nav { display: flex; flex-wrap: wrap; gap: 6px 18px; }
 .pie a { color: var(--tinta-2); text-decoration: none; }
 .pie a:hover { color: var(--tinta); text-decoration: underline; text-decoration-color: var(--marca); }
+/* el interruptor de animaciones en el pie de la portada, con la misma cara que los enlaces de al lado */
+button.pie-boton { min-height: 0; padding: 0; font: inherit; color: var(--tinta-2); background: none; border: 0; border-radius: 0; }
+button.pie-boton:not(:disabled):hover { background: none; color: var(--tinta); text-decoration: underline; text-decoration-color: var(--marca); }
+button.pie-boton[aria-pressed="false"] { color: var(--mute); }
 main { min-width: 0; }
 .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .stack { display: grid; gap: 14px; align-content: start; }
@@ -437,7 +441,7 @@ blockquote { margin: 4px 0; padding: 8px 14px; font-size: var(--t-ui); color: va
   .ampliar-ventana { bottom: 8px; left: calc(50% - (var(--barra) + 24px) / 2); }
   .ampliar-ventana p { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .ampliar img.suave { transition: none; } }
+:root[data-movimiento="no"] .ampliar img.suave { transition: none; }
 .panel.dialogo, .panel.peligro { display: grid; gap: 14px; width: 100%; max-width: 580px; max-height: 88vh; overflow: auto; text-align: left; cursor: auto; }
 .panel.peligro { border-color: var(--mal-borde); }
 .panel.peligro h3 { color: var(--mal); }
@@ -908,7 +912,9 @@ button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
 /* botón de sonido del presentador, en la cabecera */
 .bar button.sonido { min-height: 32px; padding: 4px 11px; font-size: var(--t-s); font-weight: 500; }
 .bar button.sonido[aria-pressed="false"] { color: var(--mute); text-decoration: line-through; text-decoration-color: var(--linea-3); }
-.confeti { position: fixed; inset: 0; z-index: 60; width: 100vw; height: 100vh; pointer-events: none; }
+/* la captación del final (app/efectos.js) va detrás del contenido: brilla alrededor del ganador sin tapar su nombre */
+.captacion { position: fixed; inset: 0; z-index: -1; width: 100vw; height: 100vh; pointer-events: none; transition: opacity 1.2s ease-out; }
+.captacion.se-va { opacity: 0; }
 
 /* avatares de pixel art */
 .avatar { width: 24px; height: 24px; flex: none; image-rendering: pixelated; border-radius: 6px; background: var(--panel-3); padding: 2px; vertical-align: middle; }
@@ -993,6 +999,53 @@ button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
 }
 @keyframes apagar-opcion { from { opacity: 1; } }
 
+/* Animaciones propias de RadQuiz, cada una sacada de un gesto de la radiología (no de un concurso de la tele). Van solo
+   en transiciones y en la respuesta, nunca mientras se lee un caso: lo que empieza a moverse se lleva la mirada. Todas
+   están bajo :root:not([data-movimiento="no"]): con «Animaciones: no» ni siquiera existen y queda el estado final.
+
+   Marcar el hallazgo: al revelar, un trazo amarillo da la vuelta por dentro de la correcta, como el tubo alrededor del
+   gantry o la mano que encierra un hallazgo en la imagen, y se desvanece: queda el verde de «correcta». Es una señal
+   que lleva la vista a la respuesta, no un adorno. El giro es una propiedad registrada (@property); un navegador que
+   no la tenga muestra el trazo entero de una vez y lo desvanece igual. */
+@property --giro { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+:root:not([data-movimiento="no"]) .marcando .opt.right::before,
+:root:not([data-movimiento="no"]) .suspenso .opt.right::before {
+  content: ""; position: absolute; inset: 3px; z-index: 2; pointer-events: none;
+  border: 3px solid var(--marca); border-radius: 9px;
+  -webkit-mask: conic-gradient(from -30deg, #000 var(--giro), transparent 0);
+  mask: conic-gradient(from -30deg, #000 var(--giro), transparent 0);
+  animation: marcar-hallazgo 1.4s cubic-bezier(.45, .05, .35, 1) both;
+}
+:root:not([data-movimiento="no"]) .suspenso .opt.right::before { animation-delay: calc(var(--n) * .3s + .3s - var(--pasado, 0s)); }
+@keyframes marcar-hallazgo {
+  0% { --giro: 0deg; opacity: 1; }
+  48% { --giro: 360deg; opacity: 1; }
+  100% { --giro: 360deg; opacity: 0; }
+}
+
+/* Adquisición: quien entra a la sala aparece como un corte que se adquiere, de arriba abajo, en pasos, bajo la línea
+   de barrido. Diez pasos, como las diez filas de los avatares de pixel art. Solo la primera vez que aparece en el
+   lobby (la clase .nuevo la pone app/sala.js). */
+:root:not([data-movimiento="no"]) .pl.nuevo { position: relative; animation: adquirir .7s steps(10, end) both; }
+:root:not([data-movimiento="no"]) .pl.nuevo::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(var(--marca), var(--marca)) 0 0 / 100% 2px no-repeat;
+  box-shadow: none; animation: barrer-corte .7s linear both;
+}
+@keyframes adquirir { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes barrer-corte {
+  from { background-position: 0 0; opacity: 1; }
+  85% { opacity: 1; }
+  to { background-position: 0 100%; opacity: 0; }
+}
+
+/* Reconstrucción: en el podio, el nombre pasa de borroso a nítido, como una imagen de RM mientras se llena el espacio
+   k (primero lo grueso, después el detalle). Empieza un poco después de que sube su escalón. */
+:root:not([data-movimiento="no"]) .escalon:not(.vacio) .escalon-quien {
+  animation: reconstruir 1s ease-out both; animation-delay: calc(var(--espera, 0s) + .2s);
+}
+@keyframes reconstruir { from { filter: blur(10px); opacity: .2; } 60% { opacity: 1; } }
+
 /* podio del final: sube el 3.º, después el 2.º, y el 1.º al último */
 .podio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; gap: clamp(8px, 1.6vw, 20px); max-width: 760px; width: 100%; margin: 6px auto 4px; }
 .escalon { display: grid; gap: 10px; justify-items: center; text-align: center; animation: subir-podio .7s cubic-bezier(.2, .9, .3, 1.3) both; animation-delay: var(--espera, 0s); }
@@ -1037,7 +1090,8 @@ button.enlace:not(:disabled):hover { background: none; color: var(--marca-2); }
   content: ""; position: absolute; inset: 0; background: var(--i-corazon) center / contain no-repeat;
   animation: romper-corazon 1s ease-in .15s forwards;
 }
-.vida.late { animation: latir-corazon 1s steps(2, jump-none) infinite; }
+/* el último corazón late cuatro veces y se queda quieto: un aviso, no algo que se mueva mientras se lee el caso */
+.vida.late { animation: latir-corazon 1s steps(2, jump-none) 4; }
 @keyframes romper-corazon {
   0% { transform: scale(1); }
   18% { transform: scale(1.45); }
@@ -1619,16 +1673,23 @@ body.proyector .lec-r { padding: 16px 20px; }
 @media (hover: none) {
   .ctrl .teclas, .tabu-juego kbd, .tb-anuncio kbd, .ctrl kbd { display: none; }
 }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
-  /* el fondo de la portada queda quieto: sin el punto que da la vuelta ni la banda que baja */
-  .fv-orbita, .fv-barrido { display: none !important; }
-  .escalon { animation: none; }
-  /* sin animación, la reacción aparece quieta abajo y se va sola */
-  .flota { bottom: 18vh; }
-  /* sin animación, el corazón perdido se ve vacío de una vez */
-  .vida.rota::after { display: none; }
+/* «Animaciones: no» (app/movimiento.js): nada se mueve y todo queda en su estado final. Lo pone el botón de cada aparato
+   o, si nadie eligió, «reducir movimiento» del sistema. Sin el atributo (un navegador que no deja leer localStorage),
+   vale el sistema. */
+:root[data-movimiento="no"] *, :root[data-movimiento="no"] *::before, :root[data-movimiento="no"] *::after {
+  transition: none !important; animation: none !important; scroll-behavior: auto !important;
 }
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-movimiento]) *, :root:not([data-movimiento]) *::before, :root:not([data-movimiento]) *::after {
+    transition: none !important; animation: none !important; scroll-behavior: auto !important;
+  }
+}
+/* el fondo de la portada queda quieto: sin el punto que da la vuelta ni la banda que baja */
+:root[data-movimiento="no"] .fv-orbita, :root[data-movimiento="no"] .fv-barrido { display: none !important; }
+/* sin animación, la reacción aparece quieta abajo y se va sola */
+:root[data-movimiento="no"] .flota { bottom: 18vh; }
+/* sin animación, el corazón perdido se ve vacío de una vez */
+:root[data-movimiento="no"] .vida.rota::after { display: none; }
 @media print {
   .fondo-vivo { display: none; }
 }

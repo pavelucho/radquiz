@@ -30,7 +30,8 @@ import {
 } from "./avatares.js";
 import { fraseRevelado, mensajeEspera } from "./frases.js";
 import { barraReacciones, lanzarReaccion, esReaccion, PAUSA_REACCION } from "./reacciones.js";
-import { sonar, vibrar, confeti, prepararAudio, sonidoActivo, alternarSonido } from "./efectos.js";
+import { sonar, vibrar, captacion, prepararAudio, sonidoActivo, alternarSonido } from "./efectos.js";
+import { movimientoActivo, conectarBoton } from "./movimiento.js";
 
 const LETRAS = "ABCDE";
 const LETRAS_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -229,7 +230,10 @@ function encabezado() {
   const n = Object.keys(jugadores).length;
   $("#conteo").hidden = false;
   $("#conteo").textContent = `${n} en la sala`;
-  // El sonido es del proyector: solo el presentador tiene el botón.
+  // El sonido es del proyector: solo el presentador tiene el botón. Las animaciones son de cada aparato: el presentador
+  // las cambia aquí para el proyector, y cada celular en su lobby (en la cabecera del celular no cabe sin empujar las
+  // opciones hacia abajo).
+  $("#movimiento").hidden = !soyHost;
   const boton = $("#sonido");
   boton.hidden = !soyHost;
   boton.textContent = sonidoActivo() ? "Sonido: sí" : "Sonido: no";
@@ -857,9 +861,10 @@ function enRacha() {
 function efectosRevelado() {
   const indice = estado.indice;
   const caso = casoEn(indice);
-  const espera = duracionSuspenso();
+  // Con «Animaciones: no» la respuesta se ve de una vez: no hay suspenso que acompañar con el redoble.
+  const espera = movimientoActivo() ? duracionSuspenso() : 0;
   const sigueAqui = () => estado && estado.fase === "revelar" && estado.indice === indice;
-  sonar("redoble", espera);
+  if (espera) sonar("redoble", espera);
   setTimeout(() => {
     if (!sigueAqui()) return;
     sonar("golpe");
@@ -880,16 +885,17 @@ function efectosRevelado() {
   }, espera * 1000);
 }
 
-// El final: en la sala clásica el podio sube del 3.º al 1.º; en supervivencia, fanfarria directa.
+// El final: en la sala clásica el podio sube del 3.º al 1.º; en supervivencia, fanfarria directa. La captación se
+// junta sobre el ganador (el 1.º del podio, o el último en pie).
 const PODIO_TIEMPOS = [0.4, 1.6, 3];
 function efectosFin() {
   if (esSupervivencia(info)) {
-    setTimeout(() => { sonar("fanfarria"); confeti(); }, 300);
+    setTimeout(() => { sonar("fanfarria"); captacion({ foco: document.querySelector(".sv-ganador") }); }, 300);
     return;
   }
   setTimeout(() => sonar("puesto"), PODIO_TIEMPOS[0] * 1000);
   setTimeout(() => sonar("puesto"), PODIO_TIEMPOS[1] * 1000);
-  setTimeout(() => { sonar("fanfarria"); confeti(); }, PODIO_TIEMPOS[2] * 1000);
+  setTimeout(() => { sonar("fanfarria"); captacion({ foco: document.querySelector(".escalon.e1 .escalon-quien") }); }, PODIO_TIEMPOS[2] * 1000);
 }
 
 // El celular vibra con lo que le pasó a uno (solo Android). Cada cosa, una vez por caso.
@@ -993,18 +999,23 @@ function ampliarQR() {
 // La inicial de cada jugador, para el círculo de color de la lista.
 const inicial = (nombre) => ([...String(nombre || "?").trim()][0] || "?").toUpperCase();
 
+// Quienes ya se vieron en el lobby del presentador: el que aparece por primera vez entra con la «adquisición».
+const vistosEnLobby = new Set();
+
 function hostLobby() {
   const { base, enlace } = enlaceSala();
   const ids = Object.keys(jugadores);
   const equipos = equiposDe(info);
+  const chip = (id) => chipJugador(id, "", vistosEnLobby.has(id) ? "" : "nuevo");
   // Con equipos, cada uno en su columna; quien todavía no eligió, aparte.
-  const nombres = !equipos.length ? ids.map((id) => chipJugador(id)).join("")
+  const nombres = !equipos.length ? ids.map(chip).join("")
     : [...equipos, { id: "", nombre: "Sin equipo todavía", color: "var(--linea-3)" }].map((e) => {
       const miembros = ids.filter((id) => (jugadores[id].equipo || "") === e.id);
       if (!miembros.length) return "";
       return `<div class="equipo-lobby" style="--color:${e.color}"><h3>${esc(e.nombre)} <span class="src">${miembros.length}</span></h3>
-        <div class="players">${miembros.map((id) => chipJugador(id)).join("")}</div></div>`;
+        <div class="players">${miembros.map(chip).join("")}</div></div>`;
     }).join("");
+  ids.forEach((id) => vistosEnLobby.add(id));
   app.innerHTML = `<section class="lobby">
     <div class="panel">
       <p class="tema">Código de la sala</p>
@@ -1117,7 +1128,7 @@ function hostCaso() {
     </div>`;
   // El suspenso sigue donde iba aunque la pantalla se redibuje (llegan los puntajes, los eliminados…).
   const pasado = (Date.now() - reveladoEn) / 1000;
-  if (revelado && pasado < duracionSuspenso() + 1.5) {
+  if (revelado && movimientoActivo() && pasado < duracionSuspenso() + 1.5) {
     app.classList.add("suspenso");
     app.style.setProperty("--pasado", `${pasado}s`);
     app.style.setProperty("--n", String(orden.length));
@@ -1388,7 +1399,8 @@ function vistaJugador() {
     const equipos = equiposDe(info);
     app.innerHTML = `<section class="panel stack angosto">
       <span class="tema">Conectado como</span><div class="big nombre">${avatarImg(yo.avatar, "avatar grande")}${esc(yo.nombre)}</div>
-      <div class="row"><button type="button" id="otroApodo">${APODOS.includes(yo.nombre) ? "Otro apodo" : "Usar un apodo al azar"}</button></div>
+      <div class="row"><button type="button" id="otroApodo">${APODOS.includes(yo.nombre) ? "Otro apodo" : "Usar un apodo al azar"}</button>
+        <button type="button" id="animacionesCelular">Animaciones</button></div>
       ${equipos.length ? `<div class="grid-label" role="radiogroup" aria-labelledby="titulo-equipo"><span id="titulo-equipo">Tu equipo</span>
         <div class="elegir-equipo">${equipos.map((e) => `<button type="button" class="opcion-equipo ${yo.equipo === e.id ? "elegido" : ""}"
           data-equipo="${e.id}" role="radio" aria-checked="${yo.equipo === e.id}" style="--color:${e.color}">${esc(e.nombre)}</button>`).join("")}</div>
@@ -1404,6 +1416,7 @@ function vistaJugador() {
       <div class="row"><button id="salir">Salir de la sala</button></div></section>`;
     $("#salir").onclick = salir;
     $("#otroApodo").onclick = otroApodo;
+    conectarBoton($("#animacionesCelular"));
     app.querySelectorAll("[data-avatar]").forEach((b) => {
       b.onclick = () => {
         guardarAvatar(b.dataset.avatar);
@@ -1440,11 +1453,11 @@ function vistaJugador() {
   if (final && posicion >= 1 && posicion <= 3) festejar();
 }
 
-// Confeti y vibración en el celular de quien quedó en el podio (o llegó en pie), una sola vez.
+// Captación y vibración en el celular de quien quedó en el podio (o llegó en pie), una sola vez.
 function festejar() {
   if (efectosHechos.has("fin")) return;
   efectosHechos.add("fin");
-  confeti({ cantidad: 90 });
+  captacion({ intensidad: 0.6 });
   vibrar([80, 50, 80, 50, 240]);
 }
 
@@ -1606,6 +1619,7 @@ document.addEventListener("keydown", (e) => {
 });
 // El navegador solo deja sonar después de un toque: el primero del presentador habilita el audio.
 document.addEventListener("pointerdown", () => { if (soyHost) prepararAudio(); });
+conectarBoton($("#movimiento"), { mostrar: false });
 $("#sonido").onclick = () => {
   alternarSonido();
   if (info) encabezado();
